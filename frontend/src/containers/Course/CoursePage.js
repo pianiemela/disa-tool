@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Table, List, Grid, Button } from 'semantic-ui-react'
 
 import Task from './components/Task'
+import Matrix from './components/matrix/Matrix'
 
 const courseParts = {
   matriisit: { 
@@ -171,36 +172,7 @@ class CoursePage extends Component {
       <Grid>
         <Grid.Row>
           <Grid.Column>
-            <Table celled structured>
-              <Table.Header>
-                <Table.Row>
-                  <Table.HeaderCell rowSpan="2">Osio</Table.HeaderCell>
-                  <Table.HeaderCell colSpan="3" textAlign="center">Taitotasot</Table.HeaderCell>
-                </Table.Row>
-                <Table.Row>
-                  {skillLevels.map(level => (
-                    <Table.HeaderCell textAlign="right">{level}</Table.HeaderCell>
-                  ))}
-                </Table.Row>
-              </Table.Header>
-
-              <Table.Body>
-                {Object.keys(courseParts).map(part => (
-                  <Table.Row>
-                    <Table.Cell>{part}</Table.Cell>
-                    {skillLevels.map(level => (
-                      <Table.Cell>
-                        <List selection>
-                          {courseParts[part][level].map(skill => (
-                            <List.Item>{skill}</List.Item>
-                          ))}
-                        </List>
-                      </Table.Cell>
-                    ))}
-                  </Table.Row>
-                ))}
-              </Table.Body>
-            </Table>
+            <Matrix skillLevels={skillLevels} courseParts={courseParts} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
