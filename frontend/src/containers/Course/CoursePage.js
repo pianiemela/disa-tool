@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Table, List, Grid, Button } from 'semantic-ui-react'
 
+import Task from './components/Task'
+
 const courseParts = {
   matriisit: { 
     taso1: ['matriisien yhteenlasku', 'matriisien muodostus'],
@@ -159,23 +161,7 @@ class CoursePage extends Component {
     const taskSkills = task.skills.map(id => skills[id])
     console.log('taskSkill', taskSkills)
     return (
-      <Grid columns="equal">
-        <Grid.Row>
-          <Grid.Column>
-            <h3>{task.name}</h3>
-            <h4>{task.description}</h4>
-            <p>{task.info}</p>
-          </Grid.Column>
-        </Grid.Row>
-          {taskSkills.map(skill => (
-            <Grid.Row>
-              <Grid.Column textAlign="right">
-                <h3>{skill}</h3>
-                <input type="range" min={0} max={1} step={0.01} defaultValue={0.8} />
-              </Grid.Column>
-            </Grid.Row>
-          ))}
-      </Grid>
+      <Task task={task} taskSkills={taskSkills} />
     )
   }
 
