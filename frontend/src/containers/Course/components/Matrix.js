@@ -12,7 +12,7 @@ class Matrix extends Component {
           </Table.Row>
           <Table.Row>
             {this.props.skillLevels.map(level => (
-              <Table.HeaderCell textAlign="right">{level}</Table.HeaderCell>
+              <Table.HeaderCell key={level} textAlign="right">{level}</Table.HeaderCell>
             ))}
           </Table.Row>
         </Table.Header>
@@ -22,10 +22,10 @@ class Matrix extends Component {
             <Table.Row key={part}>
               <Table.Cell>{part}</Table.Cell>
               {this.props.skillLevels.map(level => (
-                <Table.Cell>
+                <Table.Cell key={level}>
                   <List selection>
                     {this.props.courseParts[part][level].map(skill => (
-                      <List.Item>{skill}</List.Item>
+                      <List.Item key={skill}>{skill}</List.Item>
                     ))}
                   </List>
                 </Table.Cell>
