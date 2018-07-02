@@ -7,3 +7,11 @@
 .task {
   width: 100%;
 }
+
+.skillSlider .numberInput {
+  width: 100px;
+}
+
+.skillSlider .rangeInput {
+  width: 300px;
+}
