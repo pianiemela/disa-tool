@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Table, List, Grid, Button } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
-import Task from './components/Task'
-import Matrix from './components/matrix/Matrix'
+import Matrix from './components/Matrix'
+import Tasklist from './components/tasks/Tasklist'
 
 const courseParts = {
   matriisit: { 
@@ -138,36 +138,14 @@ const skill = {
 }
 
 class CoursePage extends Component {
-  state = {
-    selectedTasks: []
-  }
-
-  addTask = (e, data) => {
-    const { selectedTasks } = this.state
-    const clickedTask = data.value
-    const taskIndex = selectedTasks.findIndex(task => task === clickedTask)
-    if (taskIndex !== -1) {
-      const newTasks = [...selectedTasks]
-      newTasks.splice(taskIndex, 1)
-      this.setState({ selectedTasks: newTasks })
-    } else {
-      this.setState({ selectedTasks: [...this.state.selectedTasks, data.value] })
+  constructor(props) {
+    super(props)
+    this.state = {
+      expanded: false
     }
   }
 
-  renderTask = (taskName) => {
-    console.log(tasks)
-    const task = tasks.find(t => t.name === taskName)
-    console.log(task)
-    const taskSkills = task.skills.map(id => skills[id])
-    console.log('taskSkill', taskSkills)
-    return (
-      <Task task={task} taskSkills={taskSkills} />
-    )
-  }
-
   render() {
-    console.log(this.state)
     return (
       <Grid>
         <Grid.Row>
@@ -176,14 +154,7 @@ class CoursePage extends Component {
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column width={3}>
-            <List selection>
-              {tasks.map(task => (
-                <List.Item as={Button} basic={this.state.selectedTasks.includes(task.name)} color="green" fluid onClick={this.addTask} value={task.name}>{task.name}</List.Item>
-              ))}
-            </List>
-          </Grid.Column>
-          {this.state.selectedTasks.map(task => this.renderTask(task))}
+          <Tasklist tasks={tasks} skills={skills} />
         </Grid.Row>
       </Grid>
     )

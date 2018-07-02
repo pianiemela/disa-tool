@@ -1,12 +1,25 @@
 import React, { Component } from 'react'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Button } from 'semantic-ui-react'
+import './tasks.css'
 
 class Task extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      expanded: false
+    }
   }
 
-  render() {
+  toggleExpanded = e => {
+    this.setState({
+      expanded: !this.state.expanded
+    })
+  }
+
+  renderExpanded() {
+    if (!this.state.expanded) {
+      return <div />
+    }
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -25,6 +38,15 @@ class Task extends Component {
             </Grid.Row>
           ))}
       </Grid>
+    )
+  }
+
+  render() {
+    return (
+      <div key={this.props.task.name} className="task">
+        <Button onClick={this.toggleExpanded} basic={!this.state.expanded} color="green" fluid>{this.props.task.name}</Button>
+        {this.renderExpanded()}
+      </div>
     )
   }
 }
