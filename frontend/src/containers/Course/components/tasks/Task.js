@@ -43,7 +43,7 @@ class Task extends Component {
 
   render() {
     return (
-      <div key={this.props.task.name} className="task">
+      <div className="task">
         <Button onClick={this.toggleExpanded} basic={!this.state.expanded} color="green" fluid>{this.props.task.name}</Button>
         {this.renderExpanded()}
       </div>

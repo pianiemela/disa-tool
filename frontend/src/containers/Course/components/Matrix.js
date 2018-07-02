@@ -19,7 +19,7 @@ class Matrix extends Component {
 
         <Table.Body>
           {Object.keys(this.props.courseParts).map(part => (
-            <Table.Row>
+            <Table.Row key={part}>
               <Table.Cell>{part}</Table.Cell>
               {this.props.skillLevels.map(level => (
                 <Table.Cell>
