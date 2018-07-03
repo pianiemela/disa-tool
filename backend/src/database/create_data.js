@@ -25,7 +25,6 @@ const run = async () => {
     await sequelize.sync({ force: true })
     console.log('forced')
     createCategories()
-    return null
 }
 
 run()
