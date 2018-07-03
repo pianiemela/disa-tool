@@ -3,12 +3,16 @@ import { connect } from 'react-redux'
 import './tasks.css'
 
 import { getTasksForCourse } from '../../services/tasks'
+import { getSkillsForCourse } from '../../services/skills'
 
 import Task from './Task'
 
 class Tasklist extends Component {
   componentWillMount() {
     this.props.getTasksForCourse({
+      courseId: 1
+    })
+    this.props.getSkillsForCourse({
       courseId: 1
     })
   }
@@ -32,7 +36,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getTasksForCourse: data => getTasksForCourse(data).then(action => dispatch(action))
+    getTasksForCourse: data => getTasksForCourse(data).then(action => dispatch(action)),
+    getSkillsForCourse: data => getSkillsForCourse(data).then(action => dispatch(action))
   }
 }
 
