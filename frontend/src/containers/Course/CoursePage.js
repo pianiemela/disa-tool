@@ -5,7 +5,7 @@ import asyncAction from '../../utils/asyncAction'
 
 import { getCourseData } from './services/course'
 
-import Matrix from './components/Matrix'
+import Matrix from './components/matrix/Matrix'
 import Tasklist from './components/tasks/Tasklist'
 
 class CoursePage extends Component {
@@ -27,7 +27,7 @@ class CoursePage extends Component {
       <Grid>
         <Grid.Row>
           <Grid.Column>
-            <Matrix />
+            <Matrix editing={this.state.editing} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>

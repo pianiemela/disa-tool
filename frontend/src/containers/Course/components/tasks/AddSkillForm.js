@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Button, Dropdown } from 'semantic-ui-react'
+import { Form, Button, Dropdown, Grid } from 'semantic-ui-react'
 import './tasks.css'
 
 import { addSkillToTask } from '../../services/tasks.js'
