@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Grid } from 'semantic-ui-react'
+import asyncAction from '../../utils/asyncAction'
+
+import { getCourseData } from './services/course'
 
 import Matrix from './components/Matrix'
 import Tasklist from './components/tasks/Tasklist'
@@ -56,6 +60,12 @@ class CoursePage extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.getCourseData({
+      courseId: 1
+    })
+  }
+
   render() {
     return (
       <Grid>
@@ -72,4 +82,10 @@ class CoursePage extends Component {
   }
 }
 
-export default CoursePage
+const mapDispatchToProps = dispatch => {
+  return {
+    getCourseData: asyncAction(getCourseData, dispatch)
+  }
+}
+
+export default connect(null, mapDispatchToProps)(CoursePage)

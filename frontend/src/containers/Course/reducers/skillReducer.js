@@ -4,7 +4,7 @@ const INITIAL_STATE = {
 
 const skillReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'SKILL_GET_FOR_COURSE':
+    case 'COURSE_GET_DATA':
       return {
         ...state,
         skills: action.response.data.skills
