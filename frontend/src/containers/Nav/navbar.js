@@ -14,6 +14,9 @@ class Nav extends Component {
             <Menu.Item name="Course" as={Link} to="/course">
               Kurssi
             </Menu.Item>
+            <Menu.Item name="SelfAssesment" as={Link} to="/selfAssesment">
+              Itsearvio
+            </Menu.Item>
           </Menu.Menu>
         </Menu>
       </nav>
