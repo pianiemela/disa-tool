@@ -138,13 +138,6 @@ const skill = {
 }
 
 class CoursePage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      expanded: false
-    }
-  }
-
   render() {
     return (
       <Grid>
