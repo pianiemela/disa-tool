@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './tasks.css'
+import asyncAction from '../../../../utils/asyncAction'
 
 import { getTasksForCourse } from '../../services/tasks'
 import { getSkillsForCourse } from '../../services/skills'
@@ -36,8 +37,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getTasksForCourse: data => getTasksForCourse(data).then(action => dispatch(action)),
-    getSkillsForCourse: data => getSkillsForCourse(data).then(action => dispatch(action))
+    getTasksForCourse: asyncAction(getTasksForCourse, dispatch),
+    getSkillsForCourse: asyncAction(getSkillsForCourse, dispatch)
   }
 }
 
