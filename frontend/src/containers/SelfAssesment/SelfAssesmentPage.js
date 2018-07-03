@@ -1,15 +1,20 @@
 import React, { Component } from 'react'
 import { Container, Button } from 'semantic-ui-react'
-import SelfAssesmentForm from './SelfAssesmentForm'
-import { getCourseParts } from './services/selfAssesmentActions'
+import SelfAssesmentForm from './Userform/SelfAssesmentForm'
+import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
+import { getCourseParts, getSelfAssesmentData } from './services/selfAssesmentActions'
 export class SelfAssesmentPage extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { courseParts: {} }
+        this.state = { courseParts: {}, mockUser: 'ope' }
     }
 
     componentWillMount() {
-        this.setState({ courseParts: getCourseParts() })
+        this.setState({ courseParts: getCourseParts(), courseAssesmentData: getSelfAssesmentData() })
+    }
+
+    renderTeacherView = () => {
+        return <SelfAssesmentCreateForm data={this.state.courseAssesmentData}></SelfAssesmentCreateForm>
     }
 
 
@@ -19,8 +24,11 @@ export class SelfAssesmentPage extends React.Component {
         return (
             <Container>
                 <div>
-                    <h2>Itsearvio</h2>
-                    <SelfAssesmentForm courseParts={courseParts}> </SelfAssesmentForm>
+                    {this.state.mockUser === 'ope' ?
+                        this.renderTeacherView()
+                        :
+                        <h2>Itsearvio</h2>
+                    }
                 </div>
             </Container>
         )
