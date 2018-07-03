@@ -20,7 +20,7 @@ class SkillSlider extends Component {
     return (
       <Grid.Row className="skillSlider">
         <Grid.Column textAlign="right">
-          <h3>{this.props.skill}</h3>
+          <h3>{this.props.skill.name}</h3>
           <Input className="numberInput" type="number" min={0} max={1} step={0.01} value={this.state.value} onChange={this.changeValue} />
           <Input className="RangeInput" type="range" min={0} max={1} step={0.01} value={this.state.value} onChange={this.changeValue} />
         </Grid.Column>

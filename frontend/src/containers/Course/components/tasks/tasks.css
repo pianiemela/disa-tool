@@ -15,3 +15,11 @@
 .skillSlider .rangeInput {
   width: 300px;
 }
+
+.skillDropdown {
+  max-width: 500px;
+}
+
+.addSkillForm {
+  margin-bottom: 10px;
+}
