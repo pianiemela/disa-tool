@@ -1,0 +1,25 @@
+.taskContainer {
+  margin: 0% 10% 0% 10%;
+  width: 100%;
+  text-align: center;
+}
+
+.task {
+  width: 100%;
+}
+
+.skillSlider .numberInput {
+  width: 100px;
+}
+
+.skillSlider .rangeInput {
+  width: 300px;
+}
+
+.skillDropdown {
+  max-width: 500px;
+}
+
+.addSkillForm {
+  margin-bottom: 10px;
+}

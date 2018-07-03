@@ -1,5 +1,5 @@
 const { sequelize } = require('./connection.js')
-const { Task } = require('/models.js')
+const { Task } = require('./models.js')
 
 
 const run = async () => {
