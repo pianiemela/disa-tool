@@ -148,13 +148,43 @@ const hardCodedSkills = [
   }
 ]
 
+const hardCodedCategories = {
+  matriisit: { 
+    1: ['matriisien yhteenlasku', 'matriisien muodostus'],
+    2: ['matriisien kertolasku', 'matriisien pyörittely'],
+    3: ['matriiseilla päteminen', 'matriisien heiluttelu', 'matriisien superlasku', 'supreme matriisimestari']
+   },
+  'vektorit ja muut': {
+    1: ['vektorien yhteenlasku', 'vektorien muodostus'],
+    2: ['vektorien kertolasku', 'pyörittely', 'vektorien 3D piirtely'],
+    3: ['vektorien äärimmäinen heiluttelu']
+  }
+}
+
+const hardCodedLevels = [
+  {
+    name: 'taso1',
+    id: 1
+  },
+  {
+     name: 'taso2',
+     id: 2
+  },
+  {
+     name: 'taso3',
+    id: 3
+  }
+]
+
 export const getCourseData = data => {
   const response = {
     message: '<getTasksForCourseSuccess>',
     data: {
       courseId: data.courseId,
       tasks: [...hardCodedTasks],
-      skills: [...hardCodedSkills]
+      skills: [...hardCodedSkills],
+      categories: { ...hardCodedCategories },
+      levels: [...hardCodedLevels]
     }
   }
   const action = {
