@@ -176,6 +176,33 @@ const hardCodedLevels = [
   }
 ]
 
+const hardCodedTypes = [
+  {
+    id: 1,
+    name: 'Viikko 1'
+  },
+  {
+    id: 2,
+    name: 'Viikko 2'
+  },
+  {
+    id: 3,
+    name: 'Viikko 3'
+  },
+  {
+    id: 4,
+    name: 'Viikko 4'
+  },
+  {
+    id: 5,
+    name: 'Viikko 5'
+  },
+  {
+    id: 6,
+    name: 'Viikko 6'
+  }
+]
+
 export const getCourseData = data => {
   const response = {
     message: '<getTasksForCourseSuccess>',
@@ -184,7 +211,8 @@ export const getCourseData = data => {
       tasks: [...hardCodedTasks],
       objectives: [...hardCodedObjectives],
       categories: { ...hardCodedCategories },
-      levels: [...hardCodedLevels]
+      levels: [...hardCodedLevels],
+      types: [...hardCodedTypes]
     }
   }
   const action = {
