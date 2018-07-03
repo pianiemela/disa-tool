@@ -2,6 +2,10 @@ import React, { Component } from 'react'
 import { CategoryFormAccordion } from './CategoryFormAccordion';
 import { ObjectiveFormAccordion } from './ObjectiveFormAccordion'
 import { Accordion, TransitionablePortaln, Icon, Button } from 'semantic-ui-react'
+import asyncAction from '../../../utils/asyncAction'
+import { connect } from 'react-redux'
+
+import { getSelfAssesmentData } from '../services/createForm'
 
 
 export class SelfAssesmentCreateForm extends React.Component {
@@ -11,8 +15,8 @@ export class SelfAssesmentCreateForm extends React.Component {
     }
 
     componentWillMount() {
-        console.log(`are we here`)
         console.log(this.props)
+        this.props.getSelfAssesmentData()
     }
 
     handleClick = (e, titleProps) => {
@@ -29,10 +33,10 @@ export class SelfAssesmentCreateForm extends React.Component {
 
     renderCategoryForm = () => {
         {
-
-            const { course_instance_objectives } = this.props.data.courseInstance
+            let course_instance_objectives = []
+            this.props.formData.courseInstance ? { course_instance_objectives } = this.props.formData.courseInstance
+                : course_instance_objectives = []
             const { active, selectedView } = this.state
-
             return course_instance_objectives.map(ciO =>
                 <CategoryFormAccordion key={ciO.id} active={active.includes(ciO.id)} handleClick={this.handleClick} props={ciO} />
             )
@@ -40,7 +44,9 @@ export class SelfAssesmentCreateForm extends React.Component {
     }
 
     renderObjectiveform = () => {
-        const { course_instance_objectives } = this.props.data.courseInstance
+        let course_instance_objectives = []
+        this.props.formData.courseInstance ? { course_instance_objectives } = this.props.formData.courseInstance
+            : course_instance_objectives = []
         const { active, selectedView } = this.state
 
         return course_instance_objectives.map(ciO =>
@@ -69,4 +75,17 @@ export class SelfAssesmentCreateForm extends React.Component {
     }
 }
 
-export default SelfAssesmentCreateForm
+const mapStateToProps = (state) => {
+    return {
+        formData: state.createForm.formData
+
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getSelfAssesmentData: asyncAction(getSelfAssesmentData, dispatch)
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentCreateForm)

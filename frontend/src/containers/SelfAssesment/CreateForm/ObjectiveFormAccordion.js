@@ -7,7 +7,6 @@ export class ObjectiveFormAccordion extends React.Component {
     }
 
     componentWillMount() {
-        console.log(`are we here`)
         console.log(this.props)
     }
 

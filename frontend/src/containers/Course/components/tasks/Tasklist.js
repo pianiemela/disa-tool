@@ -39,7 +39,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getTasksForCourse: asyncAction(getTasksForCourse, dispatch),
     getSkillsForCourse: asyncAction(getSkillsForCourse, dispatch)
+    }
   }
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Tasklist)

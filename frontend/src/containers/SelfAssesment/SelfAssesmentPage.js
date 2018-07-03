@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Container, Button } from 'semantic-ui-react'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
-import { getCourseParts, getSelfAssesmentData } from './services/selfAssesmentActions'
+import { getCourseParts, getSelfAssesmentData } from './services/createForm'
 export class SelfAssesmentPage extends React.Component {
     constructor(props) {
         super(props)
@@ -14,13 +14,12 @@ export class SelfAssesmentPage extends React.Component {
     }
 
     renderTeacherView = () => {
-        return <SelfAssesmentCreateForm data={this.state.courseAssesmentData}></SelfAssesmentCreateForm>
+        return<SelfAssesmentCreateForm data={this.state.courseAssesmentData}></SelfAssesmentCreateForm>
     }
 
 
     render() {
         const { courseParts } = this.state
-        console.log(courseParts)
         return (
             <Container>
                 <div>
