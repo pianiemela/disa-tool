@@ -215,7 +215,7 @@ class CoursePage extends Component {
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Tasklist tasks={tasks} skills={skills} editing={this.state.editing} />
+          <Tasklist editing={this.state.editing} />
         </Grid.Row>
       </Grid>
     )

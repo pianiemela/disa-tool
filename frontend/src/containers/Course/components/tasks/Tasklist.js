@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import './tasks.css'
 
 import Task from './Task'
@@ -13,4 +14,12 @@ class Tasklist extends Component {
   }
 }
 
-export default Tasklist
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    tasks: state.task.tasks,
+    skills: state.skill.skills
+  }
+}
+
+export default connect(mapStateToProps, null)(Tasklist)
