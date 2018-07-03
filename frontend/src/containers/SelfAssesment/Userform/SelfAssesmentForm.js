@@ -16,7 +16,7 @@ export class SelfAssesmentForm extends React.Component {
 
         return (
             <div>
-                <Grid columns={2}>
+                <Grid columns={2} divided>
                     {Object.keys(courseParts).map(formFieldData =>
                         <SelfAssesmentFormField formFieldData={formFieldData}></SelfAssesmentFormField>
                     )}

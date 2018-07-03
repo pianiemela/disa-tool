@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { SelfAssesmentForm } from './SelfAssesmentForm';
-import { Grid } from 'semantic-ui-react'
+import { Grid, Dropdown } from 'semantic-ui-react'
 
 
 export class SelfAssesmentFormField extends React.Component {
@@ -15,15 +15,25 @@ export class SelfAssesmentFormField extends React.Component {
     }
 
     render() {
+        const options = [
+            { text: 1, value: 1 }, { text: 2, value: 2 }
+        ]
+
         return (
-            <Grid.Row>
+            <Grid.Row style={{ border: 'solid', margin: "10px" }}>
                 <Grid.Column>
-                    <p>{this.props.formFieldData}</p>
+                    <h4>Osion nimi</h4>
+                    <h3>{this.props.formFieldData}</h3>
                 </Grid.Column>
                 <Grid.Column>
-                    <p>arvosana ja persustelut</p>
+                   Arvosana
+                        <span>
+                            <Dropdown style={{ padding: "5px" }} options={options} />
+                        </span>
+
                 </Grid.Column>
             </Grid.Row>
         )
     }
 }
+export default SelfAssesmentFormField
