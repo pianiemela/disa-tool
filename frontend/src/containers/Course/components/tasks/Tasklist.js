@@ -7,7 +7,7 @@ class Tasklist extends Component {
   render() {
     return (
       <div className="taskContainer">
-        {this.props.tasks.map(task => <Task key={task.name} task={task} skills={this.props.skills} />)}
+        {this.props.tasks.map(task => <Task key={task.name} task={task} skills={this.props.skills} editing={this.props.editing} />)}
       </div>
     )
   }

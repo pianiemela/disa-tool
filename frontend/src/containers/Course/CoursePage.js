@@ -199,6 +199,13 @@ const skill = {
 }
 
 class CoursePage extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      editing: false
+    }
+  }
+
   render() {
     return (
       <Grid>
@@ -208,7 +215,7 @@ class CoursePage extends Component {
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Tasklist tasks={tasks} skills={skills} />
+          <Tasklist tasks={tasks} skills={skills} editing={this.state.editing} />
         </Grid.Row>
       </Grid>
     )
