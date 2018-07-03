@@ -2,9 +2,17 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import './tasks.css'
 
+import { getTasksForCourse } from '../../services/tasks'
+
 import Task from './Task'
 
 class Tasklist extends Component {
+  componentWillMount() {
+    this.props.getTasksForCourse({
+      courseId: 1
+    })
+  }
+
   render() {
     return (
       <div className="taskContainer">
@@ -22,4 +30,10 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, null)(Tasklist)
+const mapDispatchToProps = dispatch => {
+  return {
+    getTasksForCourse: data => getTasksForCourse(data).then(action => dispatch(action))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Tasklist)
