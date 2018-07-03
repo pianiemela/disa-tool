@@ -62,7 +62,9 @@ const Objective = sequelize.define('objective', {
     eng_name: { type: Sequelize.STRING },
     fin_name: { type: Sequelize.STRING },
     swe_name: { type: Sequelize.STRING },
-    category_id: { type: Sequelize.BIGINT }
+    category_id: { type: Sequelize.BIGINT },
+    course_instance_id: { type: Sequelize.BIGINT },
+    skill_level_id: { type: Sequelize.BIGINT }
 },
 {
     tableName: 'objective',
@@ -146,17 +148,17 @@ const CourseInstance = sequelize.define('course_instance', {
     timestamps: true
 })
 
-const CourseInstanceObjective = sequelize.define('course_instance_objective', {
-    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
-    course_instance_id: { type: Sequelize.BIGINT },
-    objective_id: { type: Sequelize.BIGINT },
-    skill_level_id: { type: Sequelize.BIGINT }
-},
-{
-    tableName: 'course_instance_objective',
-    underscored: true,
-    timestamps: true
-})
+// const CourseInstanceObjective = sequelize.define('course_instance_objective', {
+//     id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+//     course_instance_id: { type: Sequelize.BIGINT },
+//     objective_id: { type: Sequelize.BIGINT },
+//     skill_level_id: { type: Sequelize.BIGINT }
+// },
+// {
+//     tableName: 'course_instance_objective',
+//     underscored: true,
+//     timestamps: true
+// })
 
 const Person = sequelize.define('person', {
     id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
@@ -239,11 +241,16 @@ const AssessmentResponse = sequelize.define('assessment_response', {
 Task.belongsToMany(Type, { through: TaskType })
 Type.belongsToMany(Task, { through: TaskType })
 
-Category.hasMany(Objective, { foreignKey: 'objective_id', targetKey: 'id' })
-Objective.belongsTo(Category, { foreignKey: 'objective_id', targetKey: 'id' })
+Category.hasMany(Objective, { foreignKey: 'category_id', targetKey: 'id' })
+Objective.belongsTo(Category, { foreignKey: 'category_id', targetKey: 'id' })
 
 Task.belongsToMany(Objective, { through: TaskObjective })
 Objective.belongsToMany(Task, { through: TaskObjective })
+
+SkillLevel.hasMany(Objective, { foreignKey: 'skill_level_id', targetKey: 'id' })
+Objective.belongsTo(SkillLevel, { foreignKey: 'skill_level_id', targetKey: 'id' })
+CourseInstance.hasMany(Objective, { foreignKey: 'course_instance_id', targetKey: 'id' })
+Objective.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
 SkillLevel.hasMany(Grade, { foreignKey: 'skill_level_id', targetKey: 'id' })
 Grade.belongsTo(SkillLevel, { foreignKey: 'skill_level_id', targetKey: 'id' })
@@ -256,12 +263,12 @@ Grade.hasOne(Grade, { foreignKey: 'prerequisite', targetKey: 'id' })
 Course.hasMany(CourseInstance, { foreignKey: 'course_id', targetKey: 'id' })
 CourseInstance.belongsTo(Course, { foreignKey: 'course_id', targetKey: 'id' })
 
-CourseInstance.belongsToMany(Objective, { through: CourseInstanceObjective })
-CourseInstance.belongsToMany(SkillLevel, { through: CourseInstanceObjective })
-Objective.belongsToMany(CourseInstance, { through: CourseInstanceObjective })
-Objective.belongsToMany(SkillLevel, { through: CourseInstanceObjective })
-SkillLevel.belongsToMany(CourseInstance, { through: CourseInstanceObjective })
-SkillLevel.belongsToMany(Objective, { through: CourseInstanceObjective })
+// CourseInstance.belongsToMany(Objective, { through: CourseInstanceObjective })
+// CourseInstance.belongsToMany(SkillLevel, { through: CourseInstanceObjective })
+// Objective.belongsToMany(CourseInstance, { through: CourseInstanceObjective })
+// Objective.belongsToMany(SkillLevel, { through: CourseInstanceObjective })
+// SkillLevel.belongsToMany(CourseInstance, { through: CourseInstanceObjective })
+// SkillLevel.belongsToMany(Objective, { through: CourseInstanceObjective })
 
 Person.hasMany(PersonRole, { foreignKey: 'person_id', targetKey: 'id' })
 PersonRole.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
@@ -293,7 +300,6 @@ module.exports = {
     Grade,
     Course,
     CourseInstance,
-    CourseInstanceObjective,
     Person,
     PersonRole,
     CoursePerson,
