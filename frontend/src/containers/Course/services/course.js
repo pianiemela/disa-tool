@@ -4,8 +4,8 @@ const hardCodedTasks = [
     name: 'laske matriisit yhteen',
     description: 'Tässä tehtävässä lasketaan matriiseja yhteen ja sen sellaista',
     info: 'http://www.wolframalpha.com',
-    maxmaxPoints: 1,
-    skills: [0, 1, 2]
+    maxPoints: 1,
+    objectives: [0, 1, 2]
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 2,
-    skills: [10, 12, 13]
+    objectives: [10, 12, 13]
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 4,
-    skills: [5, 6, 7]
+    objectives: [5, 6, 7]
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 1,
-    skills: [8]
+    objectives: [8]
   },
   {
     id: 5,
@@ -37,7 +37,7 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 2,
-    skills: [3, 4]
+    objectives: [3, 4]
   },
   {
     id: 6,
@@ -45,7 +45,7 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 4,
-    skills: [7, 8, 9]
+    objectives: [7, 8, 9]
   },
   {
     id: 7,
@@ -53,7 +53,7 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 3,
-    skills: [1, 2, 3]
+    objectives: [1, 2, 3]
   },
   {
     id: 8,
@@ -61,7 +61,7 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 4,
-    skills: [4, 5, 6, 10, 11, 12]
+    objectives: [4, 5, 6, 10, 11, 12]
   },
   {
     id: 9,
@@ -69,7 +69,7 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 1,
-    skills: [0, 5, 8]
+    objectives: [0, 5, 8]
   },
   {
     id: 10,
@@ -77,7 +77,7 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 1,
-    skills: [0, 4, 13]
+    objectives: [0, 4, 13]
   },
   {
     id: 11,
@@ -85,11 +85,11 @@ const hardCodedTasks = [
     description: 'Tämä on pitkä kuvaus tehtävästä, joka voi olla suoraan itse tehtävä, tai vain sen luonnehdintaa',
     info: 'http://www.wolframalpha.com',
     maxPoints: 1,
-    skills: [0, 2, 11]
+    objectives: [0, 2, 11]
   }
 ]
 
-const hardCodedSkills = [
+const hardCodedObjectives = [
   {
     name: 'matriisien yhteenlasku',
     id: 1
@@ -182,7 +182,7 @@ export const getCourseData = data => {
     data: {
       courseId: data.courseId,
       tasks: [...hardCodedTasks],
-      skills: [...hardCodedSkills],
+      objectives: [...hardCodedObjectives],
       categories: { ...hardCodedCategories },
       levels: [...hardCodedLevels]
     }

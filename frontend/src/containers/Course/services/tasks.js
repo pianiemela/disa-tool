@@ -1,6 +1,6 @@
-export const addSkillToTask = data => new Promise((resolve, reject) => {
+export const addObjectiveToTask = data => new Promise((resolve, reject) => {
   const response = {
-    message: '<addSkillToTaskSuccess>',
+    message: '<addObjectiveToTaskSuccess>',
     data
   }
   setTimeout(resolve, 100, response)

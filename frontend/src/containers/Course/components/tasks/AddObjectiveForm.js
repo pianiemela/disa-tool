@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { Form, Button, Dropdown, Grid } from 'semantic-ui-react'
 import './tasks.css'
 
-import { addSkillToTask } from '../../services/tasks.js'
+import { addObjectiveToTask } from '../../services/tasks.js'
 
-class AddSkillForm extends Component {
+class AddObjectiveForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
       expanded: false,
-      skillSelection: undefined
+      objectiveSelection: undefined
     }
   }
 
@@ -19,17 +19,17 @@ class AddSkillForm extends Component {
     })
   }
 
-  changeSkillSelection = (e, {value}) => {
+  changeObjectiveSelection = (e, {value}) => {
     this.setState({
-      skillSelection: value
+      objectiveSelection: value
     })
   }
 
-  addSkillSubmit = e => {
+  addObjectiveSubmit = e => {
     e.preventDefault()
-    addSkillToTask({
+    addObjectiveToTask({
       taskId: this.props.task,
-      skillId: this.state.skillSelection
+      objectiveId: this.state.objectiveSelection
     }).then(response => {
       console.log(response)
     })
@@ -40,10 +40,10 @@ class AddSkillForm extends Component {
 
   renderContent() {
     if (this.state.expanded) {
-      const options = this.props.skills.map(skill => {
+      const options = this.props.objectives.map(objective => {
         return {
-          value: skill.id,
-          text: skill.name
+          value: objective.id,
+          text: objective.name
         }
       })
       return (
@@ -52,7 +52,7 @@ class AddSkillForm extends Component {
           <div className="expandedContent">
             <Form.Field>
               <Button type="submit" icon={{ name:"add", color:"green" }} />
-              <Dropdown name="skill" className="skillDropdown" options={options} selection value={this.state.skillSelection} onChange={this.changeSkillSelection} />
+              <Dropdown name="objective" className="objectiveDropdown" options={options} selection value={this.state.objectiveSelection} onChange={this.changeObjectiveSelection} />
             </Form.Field>
           </div>
         </div>
@@ -70,7 +70,7 @@ class AddSkillForm extends Component {
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
-          <Form className="addSkillForm" onSubmit={this.addSkillSubmit}>
+          <Form className="addObjectiveForm" onSubmit={this.addObjectiveSubmit}>
             {this.renderContent()}
           </Form>
         </Grid.Column>
@@ -79,4 +79,4 @@ class AddSkillForm extends Component {
   }
 }
 
-export default AddSkillForm
+export default AddObjectiveForm

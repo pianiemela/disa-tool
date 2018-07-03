@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Table, List } from 'semantic-ui-react'
 
-import AddCategoryForm from './AddCategoryForm'
+import AddObjectiveForm from './AddObjectiveForm'
 
 class Matrix extends Component {
   render() {
@@ -21,17 +21,17 @@ class Matrix extends Component {
         </Table.Header>
 
         <Table.Body>
-          {Object.keys(this.props.categories).map(part => (
-            <Table.Row key={part}>
-              <Table.Cell>{part}</Table.Cell>
+          {Object.keys(this.props.categories).map(category => (
+            <Table.Row key={category}>
+              <Table.Cell>{category}</Table.Cell>
               {this.props.levels.map(level => (
                 <Table.Cell textAlign="center" key={level.id}>
                   <List selection>
-                    {this.props.categories[part][level.id].map(skill => (
-                      <List.Item key={skill}>{skill}</List.Item>
+                    {this.props.categories[category][level.id].map(objective => (
+                      <List.Item key={objective}>{objective}</List.Item>
                     ))}
                   </List>
-                  {this.props.editing ? (<AddCategoryForm />) : (<div />)}
+                  {this.props.editing ? (<AddObjectiveForm />) : (<div />)}
                 </Table.Cell>
               ))}
             </Table.Row>

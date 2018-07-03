@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { Grid, Button, Dropdown } from 'semantic-ui-react'
+import { Grid, Button } from 'semantic-ui-react'
 import './tasks.css'
 
-import SkillSlider from './SkillSlider'
-import AddSkillForm from './AddSkillForm'
+import ObjectiveSlider from './ObjectiveSlider'
+import AddObjectiveForm from './AddObjectiveForm'
 
 class Task extends Component {
   constructor(props) {
@@ -23,13 +23,13 @@ class Task extends Component {
     if (!this.state.expanded) {
       return <div />
     }
-    const includedSkills = []
-    const excludedSkills = []
-    this.props.skills.forEach(skill => {
-      if (this.props.task.skills.indexOf(skill.id) === -1) {
-        excludedSkills.push(skill)
+    const includedObjectives = []
+    const excludedObjectives = []
+    this.props.objectives.forEach(objective => {
+      if (this.props.task.objectives.indexOf(objective.id) === -1) {
+        excludedObjectives.push(objective)
       } else {
-        includedSkills.push(skill)
+        includedObjectives.push(objective)
       }
     })
     return (
@@ -41,10 +41,10 @@ class Task extends Component {
             <p>{this.props.task.info}</p>
           </Grid.Column>
         </Grid.Row>
-        {includedSkills.map(skill => (
-          <SkillSlider key={skill.name} skill={skill} />
+        {includedObjectives.map(objective => (
+          <ObjectiveSlider key={objective.name} objective={objective} />
         ))}
-        {this.props.editing ? (<AddSkillForm skills={excludedSkills} task={this.props.task.id} />) : (<div />)}
+        {this.props.editing ? (<AddObjectiveForm objectives={excludedObjectives} task={this.props.task.id} />) : (<div />)}
       </Grid>
     )
   }

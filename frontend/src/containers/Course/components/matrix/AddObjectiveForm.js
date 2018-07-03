@@ -4,9 +4,9 @@ import { Form, Button, Input } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 import './matrix.css'
 
-import { addCategory } from '../../services/categories'
+import { addObjective } from '../../services/objectives'
 
-class AddCategoryForm extends Component {
+class AddObjectiveForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -20,10 +20,10 @@ class AddCategoryForm extends Component {
     })
   }
 
-  addCategorySubmit = e => {
+  addObjectiveSubmit = e => {
     e.preventDefault()
-    this.props.addCategory({
-      name: e.target.category.value
+    this.props.addObjective({
+      name: e.target.objective.value
     })
     this.setState({
       expanded: false
@@ -37,7 +37,7 @@ class AddCategoryForm extends Component {
           <div className="expandedContent">
             <Form.Field inline>
               <Button type="submit" icon={{ name:"add", color:"green" }} />
-              <Input className="textInput" type="text" name="category" />
+              <Input className="textInput" type="text" name="objective" />
               <Button className="closeButton" icon={{ name: 'window minimize' }} type="button" onClick={this.toggleExpanded} />
             </Form.Field>
           </div>
@@ -54,7 +54,7 @@ class AddCategoryForm extends Component {
 
   render() {
     return (
-      <Form className="addSkillForm" onSubmit={this.addCategorySubmit}>
+      <Form className="addSkillForm" onSubmit={this.addObjectiveSubmit}>
         {this.renderContent()}
       </Form>
     )
@@ -63,8 +63,8 @@ class AddCategoryForm extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addCategory: asyncAction(addCategory, dispatch)
+    addObjective: asyncAction(addObjective, dispatch)
   }
 }
 
-export default connect(null, mapDispatchToProps)(AddCategoryForm)
+export default connect(null, mapDispatchToProps)(AddObjectiveForm)

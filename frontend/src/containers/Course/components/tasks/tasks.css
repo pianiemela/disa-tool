@@ -8,18 +8,18 @@
   width: 100%;
 }
 
-.skillSlider .numberInput {
+.objectiveSlider .numberInput {
   width: 100px;
 }
 
-.skillSlider .rangeInput {
+.objectiveSlider .rangeInput {
   width: 300px;
 }
 
-.skillDropdown {
+.objectiveDropdown {
   max-width: 500px;
 }
 
-.addSkillForm {
+.addObjectiveForm {
   margin-bottom: 10px;
 }

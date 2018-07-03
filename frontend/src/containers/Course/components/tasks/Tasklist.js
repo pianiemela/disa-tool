@@ -8,7 +8,7 @@ class Tasklist extends Component {
   render() {
     return (
       <div className="taskContainer">
-        {this.props.tasks.map(task => <Task key={task.name} task={task} skills={this.props.skills} editing={this.props.editing} />)}
+        {this.props.tasks.map(task => <Task key={task.name} task={task} objectives={this.props.objectives} editing={this.props.editing} />)}
       </div>
     )
   }
@@ -18,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...ownProps,
     tasks: state.task.tasks,
-    skills: state.skill.skills
+    objectives: state.objective.objectives
   }
 }
 
