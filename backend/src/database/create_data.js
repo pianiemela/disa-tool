@@ -1,5 +1,6 @@
 const { sequelize } = require('./connection.js')
 const categories = require('./seeds/categories.json')
+const skillLevels = require('./seeds/skill_levels.json')
 const { Task,
     TaskType,
     Category,
@@ -17,14 +18,17 @@ const { Task,
     AssessmentResponse } = require('./models.js')
 
 
-const createCategories = () => {
-    Category.bulkCreate(categories)
-}
+const createCategories = () => Category.bulkCreate(categories)
+
+const createSkillLevels = () => SkillLevel.bulkCreate(skillLevels)
 
 const run = async () => {
     await sequelize.sync({ force: true })
     console.log('forced')
-    createCategories()
+    await createCategories()
+    console.log('categories created')
+    await createSkillLevels()
+    console.log('skill levels created')
 }
 
 run()
