@@ -1,0 +1,12 @@
+[{
+    "id": 1,
+    "eng_name": "Tehtävä 1. (Tee voltti)",
+    "fin_name": "Tehtävä 1. (Tee voltti)",
+    "swe_name": "Tehtävä 1. (Tee voltti)",
+    "eng_description": "Tässä tehtävässä sinun tulee tehdä voltti, eli hypätä ja pyörähtää täysi kierros sivuttaisakselisi ympäri.",
+    "fin_description": "Tässä tehtävässä sinun tulee tehdä voltti, eli hypätä ja pyörähtää täysi kierros sivuttaisakselisi ympäri.",
+    "swe_description": "Tässä tehtävässä sinun tulee tehdä voltti, eli hypätä ja pyörähtää täysi kierros sivuttaisakselisi ympäri.",
+    "max_points": 3,
+    "info": "tehtäväsivu: https://fi.wikipedia.org/wiki/Voltti_(akrobatia)"
+}
+]

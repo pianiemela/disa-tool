@@ -716,5 +716,225 @@
     "category_id": 9,
     "course_instance_id": 1,
     "skill_level_id": 3
+},
+
+
+{
+    "id": 80,
+    "eng_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "fin_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "swe_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "category_id": 1,
+    "course_instance_id": 2,
+    "skill_level_id": 1
+},
+{
+    "id": 81,
+    "eng_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "fin_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "swe_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "category_id": 1,
+    "course_instance_id": 2,
+    "skill_level_id": 1
+},
+{
+    "id": 82,
+    "eng_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "fin_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "swe_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "category_id": 1,
+    "course_instance_id": 2,
+    "skill_level_id": 2
+},
+{
+    "id": 83,
+    "eng_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "fin_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "swe_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "category_id": 1,
+    "course_instance_id": 2,
+    "skill_level_id": 2
+},
+{
+    "id": 84,
+    "eng_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "fin_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "swe_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "category_id": 1,
+    "course_instance_id": 2,
+    "skill_level_id": 3
+},
+{
+    "id": 85,
+    "eng_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "fin_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "swe_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "category_id": 1,
+    "course_instance_id": 2,
+    "skill_level_id": 3
+},
+{
+    "id": 86,
+    "eng_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "fin_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "swe_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "category_id": 1,
+    "course_instance_id": 2,
+    "skill_level_id": 3
+},
+
+{
+    "id": 87,
+    "eng_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "fin_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "swe_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "category_id": 2,
+    "course_instance_id": 2,
+    "skill_level_id": 1
+},
+{
+    "id": 88,
+    "eng_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "fin_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "swe_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "category_id": 2,
+    "course_instance_id": 2,
+    "skill_level_id": 1
+},
+{
+    "id": 89,
+    "eng_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "fin_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "swe_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "category_id": 2,
+    "course_instance_id": 2,
+    "skill_level_id": 1
+},
+{
+    "id": 90,
+    "eng_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "fin_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "swe_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "category_id": 2,
+    "course_instance_id": 2,
+    "skill_level_id": 2
+},
+{
+    "id": 91,
+    "eng_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "fin_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "swe_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "category_id": 2,
+    "course_instance_id": 2,
+    "skill_level_id": 2
+},
+{
+    "id": 92,
+    "eng_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "fin_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "swe_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "category_id": 2,
+    "course_instance_id": 2,
+    "skill_level_id": 2
+},
+{
+    "id": 93,
+    "eng_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "fin_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "swe_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "category_id": 2,
+    "course_instance_id": 2,
+    "skill_level_id": 3
+},
+{
+    "id": 94,
+    "eng_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "fin_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "swe_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "category_id": 2,
+    "course_instance_id": 2,
+    "skill_level_id": 3
+},
+
+{
+    "id": 95,
+    "eng_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "fin_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "swe_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "category_id": 3,
+    "course_instance_id": 2,
+    "skill_level_id": 1
+},
+{
+    "id": 96,
+    "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "category_id": 3,
+    "course_instance_id": 2,
+    "skill_level_id": 1
+},
+{
+    "id": 97,
+    "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "category_id": 3,
+    "course_instance_id": 2,
+    "skill_level_id": 1
+},
+{
+    "id": 98,
+    "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "category_id": 3,
+    "course_instance_id": 2,
+    "skill_level_id": 2
+},
+{
+    "id": 99,
+    "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "category_id": 3,
+    "course_instance_id": 2,
+    "skill_level_id": 2
+},
+{
+    "id": 100,
+    "eng_name": "Osaan selvittää, onko vektorijono kanta",
+    "fin_name": "Osaan selvittää, onko vektorijono kanta",
+    "swe_name": "Osaan selvittää, onko vektorijono kanta",
+    "category_id": 3,
+    "course_instance_id": 2,
+    "skill_level_id": 2
+},
+{
+    "id": 101,
+    "eng_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "fin_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "swe_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "category_id": 3,
+    "course_instance_id": 2,
+    "skill_level_id": 2
+},
+{
+    "id": 102,
+    "eng_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "fin_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "swe_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "category_id": 3,
+    "course_instance_id": 2,
+    "skill_level_id": 3
+},
+{
+    "id": 103,
+    "eng_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "fin_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "swe_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "category_id": 3,
+    "course_instance_id": 2,
+    "skill_level_id": 3
 }
 ]
