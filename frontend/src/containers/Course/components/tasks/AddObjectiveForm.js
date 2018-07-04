@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Form, Button, Dropdown, Grid } from 'semantic-ui-react'
+import { Form, Button, Dropdown, Grid, Modal, Label } from 'semantic-ui-react'
 import './tasks.css'
 
 import { addObjectiveToTask } from '../../services/tasks.js'
@@ -13,9 +13,15 @@ class AddObjectiveForm extends Component {
     }
   }
 
-  toggleExpanded = e => {
+  expand = e => {
     this.setState({
-      expanded: !this.state.expanded
+      expanded: true
+    })
+  }
+
+  collapse = e => {
+    this.setState({
+      expanded: false
     })
   }
 
@@ -38,41 +44,37 @@ class AddObjectiveForm extends Component {
     })
   }
 
-  renderContent() {
+  render() {
+    let options = []
     if (this.state.expanded) {
-      const options = this.props.objectives.map(objective => {
+      options = this.props.objectives.map(objective => {
         return {
           value: objective.id,
           text: objective.name
         }
       })
-      return (
-        <div>
-          <Button icon={{ name: 'window minimize', size: 'large' }} type="button" onClick={this.toggleExpanded} />
-          <div className="expandedContent">
-            <Form.Field>
-              <Button type="submit" icon={{ name:"add", color:"green" }} />
-              <Dropdown name="objective" className="objectiveDropdown" options={options} selection value={this.state.objectiveSelection} onChange={this.changeObjectiveSelection} />
-            </Form.Field>
-          </div>
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <Button icon={{ name: 'add', size: 'large' }} type="button" onClick={this.toggleExpanded} />
-        </div>
-      )
     }
-  }
-
-  render() {
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
-          <Form className="addObjectiveForm" onSubmit={this.addObjectiveSubmit}>
-            {this.renderContent()}
-          </Form>
+          <div className="addObjectiveForm">
+            <Modal
+              trigger={<Button onClick={this.expand} icon={{ name: 'add' }} />}
+              open={this.state.expanded}
+              onClose={this.collapse}
+            >
+            <Modal.Header>placeholder data</Modal.Header>
+            <Modal.Content>
+              <Form onSubmit={this.addObjectiveSubmit}>
+                <Form.Field>
+                  <Label>objective</Label>
+                  <Dropdown name="objective" className="objectiveDropdown" options={options} selection value={this.state.objectiveSelection} onChange={this.changeObjectiveSelection} />
+                </Form.Field>
+                <Button type="submit">Tallenna</Button>
+              </Form>
+            </Modal.Content>
+            </Modal>
+          </div>
         </Grid.Column>
       </Grid.Row>
     )

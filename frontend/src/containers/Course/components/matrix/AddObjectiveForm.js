@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Form, Button, Input } from 'semantic-ui-react'
+import { Form, Button, Input, Modal, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 import './matrix.css'
 
@@ -14,49 +14,48 @@ class AddObjectiveForm extends Component {
     }
   }
 
-  toggleExpanded = e => {
+  expand = e => {
     this.setState({
-      expanded: !this.state.expanded
+      expanded: true
+    })
+  }
+
+  collapse = e => {
+    this.setState({
+      expanded: false
     })
   }
 
   addObjectiveSubmit = e => {
     e.preventDefault()
     this.props.addObjective({
-      name: e.target.objective.value
+      name: e.target.name.value
     })
     this.setState({
       expanded: false
     })
   }
 
-  renderContent() {
-    if (this.state.expanded) {
-      return (
-        <div>
-          <div className="expandedContent">
-            <Form.Field inline>
-              <Button type="submit" icon={{ name:"add", color:"green" }} />
-              <Input className="textInput" type="text" name="objective" />
-              <Button className="closeButton" icon={{ name: 'window minimize' }} type="button" onClick={this.toggleExpanded} />
-            </Form.Field>
-          </div>
-        </div>
-      )
-    } else {
-      return (
-        <div>
-          <Button className="openButton" icon={{ name: 'add' }} type="button" onClick={this.toggleExpanded} />
-        </div>
-      )
-    }
-  }
-
   render() {
     return (
-      <Form className="addSkillForm" onSubmit={this.addObjectiveSubmit}>
-        {this.renderContent()}
-      </Form>
+      <div className="addObjectiveForm">
+        <Modal
+          trigger={<Button onClick={this.expand} className="addObjectiveButton" icon={{ name: 'add' }} />}
+          open={this.state.expanded}
+          onClose={this.collapse}
+        >
+        <Modal.Header>placeholder data</Modal.Header>
+        <Modal.Content>
+          <Form onSubmit={this.addObjectiveSubmit}>
+            <Form.Field>
+              <Label>name</Label>
+              <Input name="name" type="text" fluid />
+            </Form.Field>
+            <Button type="submit">Tallenna</Button>
+          </Form>
+        </Modal.Content>
+        </Modal>
+      </div>
     )
   }
 }

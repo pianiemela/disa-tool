@@ -44,10 +44,16 @@ class CoursePage extends Component {
   }
 }
 
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps
+  }
+}
+
 const mapDispatchToProps = dispatch => {
   return {
     getCourseData: asyncAction(getCourseData, dispatch)
   }
 }
 
-export default connect(null, mapDispatchToProps)(CoursePage)
+export default connect(mapStateToProps, mapDispatchToProps)(CoursePage)
