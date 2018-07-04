@@ -8,8 +8,7 @@ const INITIAL_STATE = {
 const createFormReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'INIT_FORM_STRUCTURE':
-        console.log(action.data.parsedData.type)
-            return { ...state, [action.data.parsedData.type]: action.data.parsedData }
+            return { ...state, [action.data.type]: action.data }
         case 'GET_SELF_ASSESMENT_DATA':
             const { selfAssesmentData } = action.apiresponse.data
             return { ...state, courseData: selfAssesmentData }
