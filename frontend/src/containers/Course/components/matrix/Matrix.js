@@ -6,7 +6,6 @@ import AddObjectiveForm from './AddObjectiveForm'
 
 class Matrix extends Component {
   render() {
-    console.log(this.props.categories)
     return (
       <Table className="matrix" celled structured>
         <Table.Header>

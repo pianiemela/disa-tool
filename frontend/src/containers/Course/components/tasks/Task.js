@@ -23,7 +23,6 @@ class Task extends Component {
     if (!this.state.expanded) {
       return <div />
     }
-    const excludedObjectives = []
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -36,7 +35,7 @@ class Task extends Component {
         {this.props.task.objectives.map(objective => (
           <ObjectiveSlider key={objective.name} objective={objective} />
         ))}
-        {this.props.editing ? (<AddObjectiveForm objectives={excludedObjectives} task={this.props.task.id} />) : (<div />)}
+        {this.props.editing ? (<AddObjectiveForm objectiveIds={this.props.task.objectives.map(objective => objective.id)} taskId={this.props.task.id} />) : (<div />)}
       </Grid>
     )
   }

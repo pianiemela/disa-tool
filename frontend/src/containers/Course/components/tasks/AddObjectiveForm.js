@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { Form, Button, Dropdown, Grid, Modal, Label } from 'semantic-ui-react'
 import './tasks.css'
 
@@ -11,6 +12,10 @@ class AddObjectiveForm extends Component {
       expanded: false,
       objectiveSelection: undefined
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return this.state.expanded || nextState.expanded
   }
 
   expand = e => {
@@ -34,7 +39,7 @@ class AddObjectiveForm extends Component {
   addObjectiveSubmit = e => {
     e.preventDefault()
     addObjectiveToTask({
-      taskId: this.props.task,
+      taskId: this.props.taskId,
       objectiveId: this.state.objectiveSelection
     }).then(response => {
       console.log(response)
@@ -47,7 +52,11 @@ class AddObjectiveForm extends Component {
   render() {
     let options = []
     if (this.state.expanded) {
-      options = this.props.objectives.map(objective => {
+      const excluded = {}
+      this.props.objectiveIds.forEach(id => {
+        excluded[id] = true
+      })
+      options = this.props.objectives.filter(objective => !excluded[objective.id]).map(objective => {
         return {
           value: objective.id,
           text: objective.name
@@ -81,4 +90,11 @@ class AddObjectiveForm extends Component {
   }
 }
 
-export default AddObjectiveForm
+const mapStateToProps = (state, ownProps) => {
+  return {
+    ...ownProps,
+    objectives: state.objective.objectives
+  }
+}
+
+export default connect(mapStateToProps, null)(AddObjectiveForm)
