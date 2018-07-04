@@ -23,15 +23,7 @@ class Task extends Component {
     if (!this.state.expanded) {
       return <div />
     }
-    const includedObjectives = []
     const excludedObjectives = []
-    this.props.objectives.forEach(objective => {
-      if (this.props.task.objectives.indexOf(objective.id) === -1) {
-        excludedObjectives.push(objective)
-      } else {
-        includedObjectives.push(objective)
-      }
-    })
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -41,7 +33,7 @@ class Task extends Component {
             <p>{this.props.task.info}</p>
           </Grid.Column>
         </Grid.Row>
-        {includedObjectives.map(objective => (
+        {this.props.task.objectives.map(objective => (
           <ObjectiveSlider key={objective.name} objective={objective} />
         ))}
         {this.props.editing ? (<AddObjectiveForm objectives={excludedObjectives} task={this.props.task.id} />) : (<div />)}

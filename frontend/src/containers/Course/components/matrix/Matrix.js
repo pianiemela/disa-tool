@@ -6,6 +6,7 @@ import AddObjectiveForm from './AddObjectiveForm'
 
 class Matrix extends Component {
   render() {
+    console.log(this.props.categories)
     return (
       <Table className="matrix" celled structured>
         <Table.Header>
@@ -21,14 +22,14 @@ class Matrix extends Component {
         </Table.Header>
 
         <Table.Body>
-          {Object.keys(this.props.categories).map(category => (
-            <Table.Row key={category}>
-              <Table.Cell>{category}</Table.Cell>
-              {this.props.levels.map(level => (
+          {this.props.categories.map(category => (
+            <Table.Row key={category.id}>
+              <Table.Cell>{category.name}</Table.Cell>
+              {category.skill_levels.map(level => (
                 <Table.Cell textAlign="center" key={level.id}>
                   <List selection>
-                    {this.props.categories[category][level.id].map(objective => (
-                      <List.Item key={objective}>{objective}</List.Item>
+                    {level.objectives.map(objective => (
+                      <List.Item key={objective.id}>{objective.name}</List.Item>
                     ))}
                   </List>
                   {this.props.editing ? (<AddObjectiveForm />) : (<div />)}
