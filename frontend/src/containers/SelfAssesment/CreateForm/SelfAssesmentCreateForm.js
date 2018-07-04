@@ -60,23 +60,32 @@ export class SelfAssesmentCreateForm extends React.Component {
         this.setState({ created: true })
     }
 
-    render() {
-
+    renderCreateOrDraft = () => {
         const { selectedView } = this.state
         const category = 'category'
         const objectives = 'objectives'
 
-        console.log(this.props)
+        if (!this.state.created) {
+            return <Form onSubmit={this.createForm}>
+                <Form.Field>
+                    <Button type="button" value={category} active={category === selectedView} toggle onClick={this.toggleButton}>Itsearviolomake kategorioiden pohjalta</Button>
+                    <Button type="button" value={objectives} active={objectives === selectedView} toggle onClick={this.toggleButton}>Itsearviolomake tavoitteiden pohjalta</Button>
+                </Form.Field>
+                <Button style={{ marginLeft: '250px' }} type="submit">Luo</Button>
+            </Form>
+        } else {
+            return <SelfAssesmentForm justCreated={true} />
+        }
+
+    }
+
+    render() {
+
+
 
         return (
             <div>
-                <Form onSubmit={this.createForm}>
-                    <Form.Field>
-                        <Button type="button" value={category} active={category === selectedView} toggle onClick={this.toggleButton}>Itsearviolomake kategorioiden pohjalta</Button>
-                        <Button type="button" value={objectives} active={objectives === selectedView} toggle onClick={this.toggleButton}>Itsearviolomake tavoitteiden pohjalta</Button>
-                    </Form.Field>
-                    <Button style={{ marginLeft: '250px' }} type="submit">Luo</Button>
-                </Form>
+                {this.renderCreateOrDraft()}
             </div>
         )
     }
