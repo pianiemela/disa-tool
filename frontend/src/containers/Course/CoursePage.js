@@ -33,7 +33,7 @@ class CoursePage extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <Typelist editing={this.editing} />
+            <Typelist editing={this.state.editing} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>

@@ -9,6 +9,9 @@ const typeReducer = (state = INITIAL_STATE, action) => {
         ...state,
         types: action.response.data.types
       }
+    case 'TYPE_REMOVE':
+      console.log(action.response)
+      return state
     default:
       return state
   }
