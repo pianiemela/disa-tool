@@ -5,13 +5,15 @@ import objective from './containers/Course/reducers/objectiveReducer'
 import level from './containers/Course/reducers/levelReducer'
 import category from './containers/Course/reducers/categoryReducer'
 import type from './containers/Course/reducers/typeReducer'
+import createForm from './containers/SelfAssesment/reducers/createFormReducer'
 
 const reducer = combineReducers({
   task,
   objective,
   level,
   category,
-  type
+  type,
+  createForm
 })
 
 const store = createStore(reducer)
