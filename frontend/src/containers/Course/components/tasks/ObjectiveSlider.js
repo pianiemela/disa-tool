@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Grid, Input } from 'semantic-ui-react'
 import './tasks.css'
 
-class SkillSlider extends Component {
+class ObjectiveSlider extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -18,9 +18,9 @@ class SkillSlider extends Component {
 
   render() {
     return (
-      <Grid.Row className="skillSlider">
+      <Grid.Row className="objectiveSlider">
         <Grid.Column textAlign="right">
-          <h3>{this.props.skill.name}</h3>
+          <h3>{this.props.objective.name}</h3>
           <Input className="numberInput" type="number" min={0} max={1} step={0.01} value={this.state.value} onChange={this.changeValue} />
           <Input className="RangeInput" type="range" min={0} max={1} step={0.01} value={this.state.value} onChange={this.changeValue} />
         </Grid.Column>
@@ -29,4 +29,4 @@ class SkillSlider extends Component {
   }
 }
 
-export default SkillSlider
+export default ObjectiveSlider

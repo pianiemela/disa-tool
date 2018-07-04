@@ -1,17 +1,17 @@
 const INITIAL_STATE = {
-  tasks: []
+  levels: []
 }
 
-const taskReducer = (state = INITIAL_STATE, action) => {
+const levelReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'COURSE_GET_DATA':
       return {
         ...state,
-        tasks: action.response.data.tasks
+        levels: action.response.data.levels
       }
     default:
       return state
   }
 }
 
-export default taskReducer
+export default levelReducer

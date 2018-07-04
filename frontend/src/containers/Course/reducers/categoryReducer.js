@@ -1,17 +1,17 @@
 const INITIAL_STATE = {
-  tasks: []
+  categories: {}
 }
 
-const taskReducer = (state = INITIAL_STATE, action) => {
+const categoryReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'COURSE_GET_DATA':
       return {
         ...state,
-        tasks: action.response.data.tasks
+        categories: action.response.data.categories
       }
     default:
       return state
   }
 }
 
-export default taskReducer
+export default categoryReducer
