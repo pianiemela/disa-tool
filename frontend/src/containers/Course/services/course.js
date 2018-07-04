@@ -542,39 +542,48 @@ const hardCodedCategories = [
 const hardCodedTypes = [
   {
     "id": 1,
-    name: 'Viikko 1'
+    "name": 'Viikko 1',
+    "multiplier": 0.8
   },
   {
     "id": 2,
-    name: 'Viikko 2'
+    "name": 'Viikko 2',
+    "multiplier": 0.8
   },
   {
     "id": 3,
-    name: 'Viikko 3'
+    "name": 'Viikko 3',
+    "multiplier": 0.8
   },
   {
     "id": 4,
-    name: 'Viikko 4'
+    "name": 'Viikko 4',
+    "multiplier": 0.8
   },
   {
     "id": 5,
-    name: 'Viikko 5'
+    "name": 'Viikko 5',
+    "multiplier": 0.8
   },
   {
     "id": 6,
-    name: 'Viikko 6'
+    "name": 'Viikko 6',
+    "multiplier": 0.8
   },
   {
     "id": 7,
-    name: 'Sarja I'
+    "name": 'Sarja I',
+    "multiplier": 0.8
   },
   {
     "id": 8,
-    name: 'Sarja II'
+    "name": 'Sarja II',
+    "multiplier": 0.8
   },
   {
     "id": 9,
-    name: 'Sarja III'
+    "name": 'Sarja III',
+    "multiplier": 0.8
   }
 ]
 

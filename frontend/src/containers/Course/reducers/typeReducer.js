@@ -9,6 +9,23 @@ const typeReducer = (state = INITIAL_STATE, action) => {
         ...state,
         types: action.response.data.types
       }
+    case 'TYPE_CHANGE_MULTIPLIER':
+      const newTypes = [...state.types]
+      let i = 0
+      while (i < newTypes.length) {
+        if (newTypes[i].id === action.data.id) {
+          newTypes[i] = {
+            ...newTypes[i],
+            multiplier: action.data.multiplier
+          }
+          break
+        }
+        i++
+      }
+      return {
+        ...state,
+        types: newTypes
+      }
     case 'TYPE_REMOVE':
       console.log(action.response) // TODO: implement removing type.
       return state
