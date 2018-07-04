@@ -200,6 +200,18 @@ const hardCodedTypes = [
   {
     id: 6,
     name: 'Viikko 6'
+  },
+  {
+    id: 7,
+    name: 'Sarja I'
+  },
+  {
+    id: 8,
+    name: 'Sarja II'
+  },
+  {
+    id: 9,
+    name: 'Sarja III'
   }
 ]
 

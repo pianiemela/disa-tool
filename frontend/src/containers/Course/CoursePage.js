@@ -7,6 +7,7 @@ import { getCourseData } from './services/course'
 
 import Matrix from './components/matrix/Matrix'
 import Tasklist from './components/tasks/Tasklist'
+import Typelist from './components/types/Typelist';
 
 class CoursePage extends Component {
   constructor(props) {
@@ -28,6 +29,11 @@ class CoursePage extends Component {
         <Grid.Row>
           <Grid.Column>
             <Matrix editing={this.state.editing} />
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <Typelist editing={this.editing} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>

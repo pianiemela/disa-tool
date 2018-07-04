@@ -1,0 +1,30 @@
+.typelist {
+  margin: 0% 10% 0% 10%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.type {
+  width: 50%;
+  margin: 0px !important;
+  border-radius: 0px !important;
+  flex-shrink: 1;
+  display: flex;
+}
+
+.numberInput {
+  width: 100px;
+}
+
+.inputBlock {
+  display: inline-block;
+}
+
+.headerBlock {
+  display: inline-block;
+  flex-grow: 1;
+}
+
+.removeBlock {
+  display: inline-block;
+}
