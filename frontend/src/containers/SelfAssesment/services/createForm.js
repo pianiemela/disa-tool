@@ -54,7 +54,6 @@ export const getSelfAssesmentData = data => {
     }
 
     return new Promise((resolve, reject) => {
-        console.log(action)
         setTimeout(resolve, 100, action)
       })
 

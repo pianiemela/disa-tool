@@ -7,7 +7,6 @@ export class ObjectiveFormAccordion extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props)
     }
 
     render() {
@@ -22,10 +21,10 @@ export class ObjectiveFormAccordion extends React.Component {
                 </Accordion.Title>
 
                 <Accordion.Content active={active} >
-                <List ordered>
-                        {objectives.map(o => (
-                            <List.Item>{o}</List.Item>
-                        ))}
+                    <List ordered>
+                        {objectives.map((n, o) =>
+                            <List.Item key={o}>{n}</List.Item>
+                        )}
                     </List>
                 </Accordion.Content>
 
