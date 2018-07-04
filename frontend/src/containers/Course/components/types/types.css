@@ -4,14 +4,27 @@
   flex-wrap: wrap;
 }
 
-.type {
+.type, .addTypeForm {
   width: 50%;
+  flex-shrink: 1;
+}
+
+.type {
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   margin: 0px !important;
   border-radius: 0px !important;
-  flex-shrink: 1;
   display: flex;
+}
+
+.addTypeForm {
+  text-align: center;
+  margin-top: 7px;
+  flex-grow: 1;
+}
+
+.addTypeButton {
+  width: 200px;
 }
 
 .numberInput {

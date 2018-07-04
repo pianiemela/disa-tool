@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import './types.css'
 
 import Type from './Type'
+import AddTypeForm from './AddTypeForm'
 
 class Typelist extends Component {
   render() {
@@ -10,7 +11,11 @@ class Typelist extends Component {
       <div className="typelist">
           <div />{/* This div is here on purpose. The first element inside the parent div gets dispalced for css reasons. This is a sacrificial div to deal with that bug. */}
           {this.props.types.map(type => <Type key={type.id} type={type} editing={this.props.editing} />)}
-          {/* TODO: create add-type form. */}
+          {this.props.editing ? (
+            <AddTypeForm courseId={this.props.courseId} />
+          ) : (
+            <div />
+          )}
       </div>
     )
   }

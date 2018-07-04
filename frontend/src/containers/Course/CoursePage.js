@@ -19,7 +19,7 @@ class CoursePage extends Component {
 
   componentWillMount() {
     this.props.getCourseData({
-      courseId: 1
+      courseId: this.props.courseId
     })
   }
 
@@ -33,7 +33,7 @@ class CoursePage extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <Typelist editing={this.state.editing} />
+            <Typelist editing={this.state.editing} courseId={this.props.courseId} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
