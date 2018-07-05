@@ -35,7 +35,6 @@ module.exports = {
       "jsx-a11y/label-has-for": 0,
       "object-curly-newline": "off",
       "prefer-object-spread/prefer-object-spread": 2,
-      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
       "prefer-arrow-callback": 2,
       "babel/no-invalid-this": 2,
       "babel/semi": [
