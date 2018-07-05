@@ -33,7 +33,7 @@ class Task extends Component {
           </Grid.Column>
         </Grid.Row>
         {this.props.task.objectives.map(objective => (
-          <ObjectiveSlider key={objective.name} objective={objective} />
+          <ObjectiveSlider key={objective.name} objective={objective} taskId={this.props.task.id} />
         ))}
         {this.props.editing ? (<AddObjectiveForm objectiveIds={this.props.task.objectives.map(objective => objective.id)} taskId={this.props.task.id} />) : (<div />)}
       </Grid>
