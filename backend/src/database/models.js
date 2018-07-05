@@ -163,7 +163,8 @@ const CourseInstance = sequelize.define('course_instance', {
 const Person = sequelize.define('person', {
     id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
     studentnumber: { type: Sequelize.STRING },
-    name: { type: Sequelize.STRING }
+    name: { type: Sequelize.STRING },
+    role: { type: Sequelize.STRING }
 },
 {
     tableName: 'person',
@@ -171,16 +172,16 @@ const Person = sequelize.define('person', {
     timestamps: true
 })
 
-const PersonRole = sequelize.define('person_role', {
-    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
-    role: { type: Sequelize.STRING },
-    person_id: { type: Sequelize.BIGINT }
-},
-{
-    tableName: 'person_role',
-    underscored: true,
-    timestamps: true
-})
+// const PersonRole = sequelize.define('person_role', {
+//     id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+//     role: { type: Sequelize.STRING },
+//     person_id: { type: Sequelize.BIGINT }
+// },
+// {
+//     tableName: 'person_role',
+//     underscored: true,
+//     timestamps: true
+// })
 
 const CoursePerson = sequelize.define('course_person', {
     id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
@@ -270,8 +271,8 @@ CourseInstance.belongsTo(Course, { foreignKey: 'course_id', targetKey: 'id' })
 // SkillLevel.belongsToMany(CourseInstance, { through: CourseInstanceObjective })
 // SkillLevel.belongsToMany(Objective, { through: CourseInstanceObjective })
 
-Person.hasMany(PersonRole, { foreignKey: 'person_id', targetKey: 'id' })
-PersonRole.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
+// Person.hasMany(PersonRole, { foreignKey: 'person_id', targetKey: 'id' })
+// PersonRole.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
 
 Person.belongsToMany(CourseInstance, { through: CoursePerson })
 CourseInstance.belongsToMany(Person, { through: CoursePerson })
