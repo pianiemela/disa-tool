@@ -26,6 +26,8 @@ Then create the disa_db with the following one-liner:
 
 In both frontend and backend folders, run `npm install` and then `npm start` in separate terminal windows or separate tabs.
 
+Create a file called `.env` and add there this line `DB_URL=postgres://postgres@localhost:5432/disa_db`
+
 In the backend folder, run `node src/database/create_data.js`, after the script prints 'ALL DONE' you need to terminate it with ctrl+c.
 
 Now you should have the project up and running. If not, please blame me.
