@@ -2,12 +2,14 @@
     "id": 1,
     "eng_name": "Linis I kesä 2018",
     "fin_name": "Linis I kesä 2018",
-    "swe_name": "Linis I kesä 2018"
+    "swe_name": "Linis I kesä 2018",
+    "course_id": 1
 },
 {
     "id": 2,
     "eng_name": "Linis I syksy 2018",
     "fin_name": "Linis I syksy 2018",
-    "swe_name": "Linis I syksy 2018"
+    "swe_name": "Linis I syksy 2018",
+    "course_id": 1
 }
 ]
