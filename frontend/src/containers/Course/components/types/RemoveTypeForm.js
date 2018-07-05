@@ -6,17 +6,35 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { removeType } from '../../services/types'
 
+import ModalForm from '../../../../utils/components/ModalForm'
+
 class RemoveTypeForm extends Component {
   removeType = () => {
     this.props.removeType({
-      typeId: this.props.id
+      typeId: this.props.type.id
     })
   }
 
   render() {
     return (
       <div className="removeTypeForm">
-        <Button onClick={this.removeType} icon={{ name: 'delete' }} color="red" size="small" />
+        <ModalForm
+          header="placeholder text"
+          trigger={<Button icon={{ name: 'delete' }} color="red" size="small" />}
+          content={
+            <div>
+              <p>PLACEHOLDER: Remove {this.props.type.name}</p>
+              <div className="choiceContainer">
+                <Button color="red" onClick={this.removeType}>
+                  {'<delete>'}
+                </Button>
+                <Button>
+                  {'<cancel>'}
+                </Button>
+              </div>
+            </div>
+          }
+        />
       </div>
     )
   }
@@ -24,7 +42,10 @@ class RemoveTypeForm extends Component {
 
 RemoveTypeForm.propTypes = {
   removeType: PropTypes.func.isRequired,
-  id: PropTypes.number.isRequired
+  type: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
