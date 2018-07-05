@@ -6,8 +6,8 @@ import { getLanguage, saveLanguage } from '../../utils/utils'
 
 const languageOptions = [
   { key: 'fin', value: 'fin', text: 'Suomi' },
-  { key: 'swe', value: 'swe', text: 'Svenska' },
-  { key: 'eng', value: 'eng', text: 'English' }
+  { key: 'swe', value: 'swe', text: 'Svenska', disabled: true },
+  { key: 'eng', value: 'eng', text: 'English', disabled: true }
 ]
 
 class Nav extends Component {

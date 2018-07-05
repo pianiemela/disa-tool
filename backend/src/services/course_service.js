@@ -1,4 +1,4 @@
-const { Course, CourseInstance } = require('../database/models.js')
+const { Course, CourseInstance, Person } = require('../database/models.js')
 
 const getCourseInstancesOfCourse = (courseId, lang) => (
   CourseInstance.findAll({
@@ -7,6 +7,14 @@ const getCourseInstancesOfCourse = (courseId, lang) => (
   })
 )
 
+const getCoursesForPeson = personId => (
+  CourseInstance.findAll({ include: { model: Person, where: { id: personId } } })
+)
+
+const getCourses = () => Course.findAll()
+
 module.exports = {
-  getCourseInstancesOfCourse
+  getCourseInstancesOfCourse,
+  getCoursesForPeson,
+  getCourses
 }
