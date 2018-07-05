@@ -5,7 +5,7 @@ module.exports = {
   },
   rules: {
     quotes: ['warn', 'single'],
-    indent: ['warn', 4, { SwitchCase: 1 }],
+    indent: ['warn', 2, { SwitchCase: 1 }],
     semi: ['error', 'never'],
     'comma-dangle': ['warn', 'never'],
     'max-len': ['warn', 120],
