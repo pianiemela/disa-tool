@@ -1,29 +1,40 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Modal, Button } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeObjectiveFromTask } from '../../services/tasks'
 
+import ModalForm from '../../../../utils/components/ModalForm'
+
 class DetachObjectiveForm extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      expanded: false
+    this.header = 'placeholder text'
+    this.trigger = (extraProps) => {
+      const buttonProps = {
+        ...extraProps,
+        color: 'red',
+        icon: {
+          name: 'delete'
+        }
+      }
+      return React.createElement(Button, buttonProps, null)
     }
-  }
-
-  expand = () => {
-    this.setState({
-      expanded: true
-    })
-  }
-
-  collapse = () => {
-    this.setState({
-      expanded: false
-    })
+    this.content = (
+      <div>
+        <p>PLACEHOLDER: Remove {this.props.objective.name} from {this.props.task.name}</p>
+        <div className="choiceContainer">
+          <Button color="red" onClick={this.removeObjective}>
+            {'<delete>'}
+          </Button>
+          <Button>
+            {'<cancel>'}
+          </Button>
+        </div>
+      </div>
+    )
   }
 
   removeObjective = () => {
@@ -31,30 +42,16 @@ class DetachObjectiveForm extends Component {
       taskId: this.props.task.id,
       objectiveId: this.props.objective.id
     })
-    this.collapse()
   }
 
   render() {
     return (
       <div className="DetachObjectiveForm">
-        <Modal
-          trigger={<Button onClick={this.expand} color="red" icon={{ name: 'delete' }} />}
-          open={this.state.expanded}
-          onClose={this.collapse}
-        >
-          <Modal.Header>placeholder text</Modal.Header>
-          <p>{'<remove prompt>'} {this.props.objective.name} {'<from>'} {this.props.task.name}</p>
-          <Modal.Content>
-            <div className="choiceContainer">
-              <Button color="red" onClick={this.removeObjective}>
-                {'<delete>'}
-              </Button>
-              <Button onClick={this.collapse}>
-                {'<cancel>'}
-              </Button>
-            </div>
-          </Modal.Content>
-        </Modal>
+        <ModalForm
+          header={this.header}
+          trigger={this.trigger}
+          content={this.content}
+        />
       </div>
     )
   }
