@@ -16,11 +16,9 @@
 
 [Course| -id;-eng_name;-fin_name;-swe_name]
 
-[CourseInstance| -id;-eng_name;-fin_name;-swe_name;-course_id]
+[CourseInstance| -id;-eng_name;-fin_name;-swe_name;-active;-course_id]
 
-[Person| -id;-studentnumber;-name]
-
-[PersonRole| -id;-role;-perso]
+[Person| -id;-studentnumber;-name;-role]
 
 [CoursePerson| -id;-course_instance_id;-person_id;-role]
 
@@ -45,8 +43,6 @@
 
 [CourseInstance]1-*[Objective]
 [SkillLevel]1-*[Objective]
-
-[Person]1-*[PersonRole]
 
 [Person]1-*[CoursePerson]
 [CourseInstance]1-*[CoursePerson]
