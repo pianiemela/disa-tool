@@ -17,6 +17,7 @@ module.exports = {
         }
       ],
       "import/no-unresolved": 2,
+      "import/no-extraneous-dependencies": false,
       "react/jsx-no-bind": 2,
       "react/no-did-mount-set-state": 0,
       "react/prefer-stateless-function": 2,
