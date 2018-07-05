@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Grid } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
@@ -42,6 +43,10 @@ class CoursePage extends Component {
       </Grid>
     )
   }
+}
+
+CoursePage.propTypes = {
+  courseId: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

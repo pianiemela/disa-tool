@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './types.css'
 
@@ -18,6 +19,18 @@ const Typelist = props => (
     )}
   </div>
 )
+
+Typelist.propTypes = {
+  types: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number
+  })).isRequired,
+  editing: PropTypes.bool,
+  courseId: PropTypes.number.isRequired
+}
+
+Typelist.defaultProps = {
+  editing: false
+}
 
 const mapStateToProps = state => ({
   types: state.type.types

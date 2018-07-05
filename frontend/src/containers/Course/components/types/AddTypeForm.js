@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button, Modal, Form, Label, Input } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
@@ -59,12 +60,13 @@ class AddTypeForm extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps
-})
+AddTypeForm.propTypes = {
+  addType: PropTypes.func.isRequired,
+  courseId: PropTypes.number.isRequired
+}
 
 const mapDispatchToProps = dispatch => ({
   addType: asyncAction(addType, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddTypeForm)
+export default connect(null, mapDispatchToProps)(AddTypeForm)

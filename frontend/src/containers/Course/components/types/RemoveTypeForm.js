@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
@@ -19,6 +20,11 @@ class RemoveTypeForm extends Component {
       </div>
     )
   }
+}
+
+RemoveTypeForm.propTypes = {
+  removeType: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

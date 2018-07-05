@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Grid, Input } from 'semantic-ui-react'
 import './tasks.css'
@@ -25,6 +26,16 @@ class ObjectiveSlider extends Component {
       </Grid.Row>
     )
   }
+}
+
+ObjectiveSlider.propTypes = {
+  taskId: PropTypes.number.isRequired,
+  objective: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    multiplier: PropTypes.number.isRequired
+  }).isRequired,
+  changeTaskObjectiveMultiplier: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Input, Segment, Header } from 'semantic-ui-react'
 
@@ -36,6 +37,20 @@ class Type extends Component {
       </Segment>
     )
   }
+}
+
+Type.propTypes = {
+  type: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    multiplier: PropTypes.number
+  }).isRequired,
+  editing: PropTypes.bool,
+  changeTypeMultiplier: PropTypes.func.isRequired
+}
+
+Type.defaultProps = {
+  editing: false
 }
 
 const mapDispatchToProps = dispatch => ({

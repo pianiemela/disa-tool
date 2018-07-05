@@ -21,6 +21,7 @@
   "homepage": "https://github.com/UniversityOfHelsinkiCS/disa-tool#readme",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-redux": "^5.0.7",

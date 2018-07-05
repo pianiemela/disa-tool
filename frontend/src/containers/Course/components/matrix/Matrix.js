@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Table, List } from 'semantic-ui-react'
 
@@ -37,6 +38,24 @@ const Matrix = props => (
     </Table.Body>
   </Table>
 )
+
+Matrix.propTypes = {
+  levels: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string.isRequired
+  })).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string.isRequired,
+    skill_levels: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number,
+      objectives: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number,
+        name: PropTypes.string.isRequired
+      })).isRequired
+    })).isRequired
+  })).isRequired
+}
 
 const mapStateToProps = state => (
   {

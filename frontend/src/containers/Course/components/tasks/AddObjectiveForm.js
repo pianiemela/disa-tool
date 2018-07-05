@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Button, Dropdown, Grid, Modal, Label } from 'semantic-ui-react'
 import './tasks.css'
@@ -93,6 +94,15 @@ class AddObjectiveForm extends Component {
       </Grid.Row>
     )
   }
+}
+
+AddObjectiveForm.propTypes = {
+  objectiveIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  taskId: PropTypes.number.isRequired,
+  objectives: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string.isRequired
+  })).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => (

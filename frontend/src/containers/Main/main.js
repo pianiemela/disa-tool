@@ -10,7 +10,7 @@ class Main extends Component {
     return (
       <main>
         <Switch>
-          <Route exact path="/course" component={CoursePage} />
+          <Route exact path="/course" render={() => <CoursePage courseId={1} />} />
           <Route exact path="/selfAssesment" component={SelfAssesmentPage} />
           <Route component={LoginPage} />
         </Switch>

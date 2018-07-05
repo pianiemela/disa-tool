@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './tasks.css'
 
@@ -9,6 +10,17 @@ const Tasklist = props => (
     {props.tasks.map(task => <Task key={task.id} task={task} editing={props.editing} />)}
   </div>
 )
+
+Tasklist.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number
+  })).isRequired,
+  editing: PropTypes.bool
+}
+
+Tasklist.defaultProps = {
+  editing: false
+}
 
 const mapStateToProps = (state, ownProps) => {
   return {

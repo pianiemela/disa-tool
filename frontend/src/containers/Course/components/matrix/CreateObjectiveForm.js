@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Button, Input, Modal, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
@@ -58,6 +59,10 @@ class AddObjectiveForm extends Component {
         </div>
       )
     }
+}
+
+AddObjectiveForm.propTypes = {
+  addObjective: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => (

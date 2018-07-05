@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Grid, Button } from 'semantic-ui-react'
 import './tasks.css'
 
@@ -33,9 +34,16 @@ class Task extends Component {
           </Grid.Column>
         </Grid.Row>
         {this.props.task.objectives.map(objective => (
-          <ObjectiveSlider key={objective.name} objective={objective} taskId={this.props.task.id} />
+          <ObjectiveSlider key={objective.id} objective={objective} taskId={this.props.task.id} />
         ))}
-        {this.props.editing ? (<AddObjectiveForm objectiveIds={this.props.task.objectives.map(objective => objective.id)} taskId={this.props.task.id} />) : (<div />)}
+        {this.props.editing ? (
+          <AddObjectiveForm
+            objectiveIds={this.props.task.objectives.map(objective => objective.id)}
+            taskId={this.props.task.id}
+          />
+        ) : (
+          <div />
+        )}
       </Grid>
     )
   }
@@ -43,11 +51,34 @@ class Task extends Component {
   render() {
     return (
       <div className="task">
-        <Button onClick={this.toggleExpanded} basic={!this.state.expanded} fluid>{this.props.task.name}</Button>
+        <Button
+          onClick={this.toggleExpanded}
+          basic={!this.state.expanded}
+          fluid
+        >
+          {this.props.task.name}
+        </Button>
         {this.renderExpanded()}
       </div>
     )
   }
+}
+
+Task.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    info: PropTypes.string.isRequired,
+    objectives: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number
+    })).isRequired
+  }).isRequired,
+  editing: PropTypes.bool
+}
+
+Task.defaultProps = {
+  editing: false
 }
 
 export default Task
