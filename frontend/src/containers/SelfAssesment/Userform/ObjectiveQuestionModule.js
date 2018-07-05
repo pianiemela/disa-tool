@@ -36,14 +36,14 @@ class ObjectiveQuestionModule extends React.Component {
                         <Card.Header>{this.props.data.fin_name}</Card.Header>
                         <List>
                             {objectives.map(o =>
-                                <Grid columns={3}>
-                                    <Grid.Row>
+                                <Grid verticalAlign="middle" columns={3}>
+                                    <Grid.Row style={{padding: '20px'}}>
                                         <Grid.Column>
-                                            <List.Item style={{ padding: '20px' }} as="li">{o.fin_name}
+                                            <List.Item as="li">{o.fin_name}
                                             </List.Item>
                                         </Grid.Column>
                                         <Grid.Column>
-                                            <input style={{ marginTop: '25px' }} value={ratings[o.fin_name] ? ratings[o.fin_name] : 1} onChange={(e) => this.handleChange(e, o.fin_name)} type='range' min={0} max={2} />
+                                            <input style={{}} value={ratings[o.fin_name] ? ratings[o.fin_name] : 1} onChange={(e) => this.handleChange(e, o.fin_name)} type='range' min={0} max={2} />
                                         </Grid.Column>
                                         <Grid.Column>
                                             {answers[ratings[o.fin_name]]}
