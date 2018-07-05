@@ -1,4 +1,4 @@
-export const addObjective = data => {
+const addObjective = (data) => {
   const response = {
     message: '<addCObjectiveSuccess>',
     data: {
@@ -10,7 +10,11 @@ export const addObjective = data => {
     type: 'OBJECTIVE_CREATE',
     response
   }
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(resolve, 100, action)
   })
+}
+
+module.exports = {
+  addObjective
 }

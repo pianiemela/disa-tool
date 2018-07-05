@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
@@ -6,7 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { removeType } from '../../services/types'
 
 class RemoveTypeForm extends Component {
-  removeType = e => {
+  removeType = () => {
     this.props.removeType({
       typeId: this.props.id
     })
@@ -21,16 +22,17 @@ class RemoveTypeForm extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps
-  }
+RemoveTypeForm.propTypes = {
+  removeType: PropTypes.func.isRequired,
+  id: PropTypes.number.isRequired
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    removeType: asyncAction(removeType, dispatch)
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps
+})
+
+const mapDispatchToProps = dispatch => ({
+  removeType: asyncAction(removeType, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(RemoveTypeForm)

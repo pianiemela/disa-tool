@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Grid } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
@@ -7,7 +8,7 @@ import { getCourseData } from './services/course'
 
 import Matrix from './components/matrix/Matrix'
 import Tasklist from './components/tasks/Tasklist'
-import Typelist from './components/types/Typelist';
+import Typelist from './components/types/Typelist'
 
 class CoursePage extends Component {
   constructor(props) {
@@ -44,16 +45,17 @@ class CoursePage extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps
-  }
+CoursePage.propTypes = {
+  courseId: PropTypes.number.isRequired,
+  getCourseData: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getCourseData: asyncAction(getCourseData, dispatch)
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps
+})
+
+const mapDispatchToProps = dispatch => ({
+  getCourseData: asyncAction(getCourseData, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoursePage)

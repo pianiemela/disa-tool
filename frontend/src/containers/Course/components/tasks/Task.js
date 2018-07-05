@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Grid, Button } from 'semantic-ui-react'
 import './tasks.css'
 
@@ -13,7 +14,7 @@ class Task extends Component {
     }
   }
 
-  toggleExpanded = e => {
+  toggleExpanded = () => {
     this.setState({
       expanded: !this.state.expanded
     })
@@ -23,15 +24,6 @@ class Task extends Component {
     if (!this.state.expanded) {
       return <div />
     }
-    const includedObjectives = []
-    const excludedObjectives = []
-    this.props.objectives.forEach(objective => {
-      if (this.props.task.objectives.indexOf(objective.id) === -1) {
-        excludedObjectives.push(objective)
-      } else {
-        includedObjectives.push(objective)
-      }
-    })
     return (
       <Grid columns="equal">
         <Grid.Row>
@@ -41,10 +33,17 @@ class Task extends Component {
             <p>{this.props.task.info}</p>
           </Grid.Column>
         </Grid.Row>
-        {includedObjectives.map(objective => (
-          <ObjectiveSlider key={objective.name} objective={objective} />
+        {this.props.task.objectives.map(objective => (
+          <ObjectiveSlider key={objective.id} objective={objective} taskId={this.props.task.id} />
         ))}
-        {this.props.editing ? (<AddObjectiveForm objectives={excludedObjectives} task={this.props.task.id} />) : (<div />)}
+        {this.props.editing ? (
+          <AddObjectiveForm
+            objectiveIds={this.props.task.objectives.map(objective => objective.id)}
+            taskId={this.props.task.id}
+          />
+        ) : (
+          <div />
+        )}
       </Grid>
     )
   }
@@ -52,11 +51,34 @@ class Task extends Component {
   render() {
     return (
       <div className="task">
-        <Button onClick={this.toggleExpanded} basic={!this.state.expanded} fluid>{this.props.task.name}</Button>
+        <Button
+          onClick={this.toggleExpanded}
+          basic={!this.state.expanded}
+          fluid
+        >
+          {this.props.task.name}
+        </Button>
         {this.renderExpanded()}
       </div>
     )
   }
+}
+
+Task.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    info: PropTypes.string.isRequired,
+    objectives: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number
+    })).isRequired
+  }).isRequired,
+  editing: PropTypes.bool
+}
+
+Task.defaultProps = {
+  editing: false
 }
 
 export default Task

@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  categories: {}
+  categories: []
 }
 
 const categoryReducer = (state = INITIAL_STATE, action) => {
