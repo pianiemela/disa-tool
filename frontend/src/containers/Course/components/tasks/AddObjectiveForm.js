@@ -12,12 +12,33 @@ class AddObjectiveForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      options: [],
       objectiveSelection: undefined
     }
-    this.header = 'placeholder content'
-    this.trigger = (
-      <Button icon={{ name: 'add' }} />
-    )
+  }
+
+  prepareOptions = () => {
+    let options = []
+    const excluded = {}
+    this.props.objectiveIds.forEach((id) => {
+      excluded[id] = true
+    })
+    options = this.props.objectives
+      .filter(objective => !excluded[objective.id])
+      .map(objective => ({
+        key: objective.id,
+        value: objective.id,
+        text: objective.name
+      }))
+    if (options === []) {
+      options.push({
+        text: '<CannotAddMore>',
+        value: null
+      })
+    }
+    this.setState({
+      options
+    })
   }
 
   changeObjectiveSelection = (e, { value }) => {
@@ -37,24 +58,13 @@ class AddObjectiveForm extends Component {
   }
 
   render() {
-    let options = []
-    const excluded = {}
-    this.props.objectiveIds.forEach((id) => {
-      excluded[id] = true
-    })
-    options = this.props.objectives
-      .filter(objective => !excluded[objective.id])
-      .map(objective => ({
-        value: objective.id,
-        text: objective.name
-      }))
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
           <div className="addObjectiveForm">
             <ModalForm
-              header={this.header}
-              trigger={this.trigger}
+              header="placeholder content"
+              trigger={<Button icon={{ name: 'add' }} onClick={this.prepareOptions} />}
               content={
                 <div>
                   <Form.Field>
@@ -62,7 +72,7 @@ class AddObjectiveForm extends Component {
                     <Dropdown
                       name="objective"
                       className="objectiveDropdown"
-                      options={options}
+                      options={this.state.options}
                       selection
                       value={this.state.objectiveSelection}
                       onChange={this.changeObjectiveSelection}

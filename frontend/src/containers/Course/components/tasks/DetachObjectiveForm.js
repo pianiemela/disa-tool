@@ -9,27 +9,6 @@ import { removeObjectiveFromTask } from '../../services/tasks'
 import ModalForm from '../../../../utils/components/ModalForm'
 
 class DetachObjectiveForm extends Component {
-  constructor(props) {
-    super(props)
-    this.header = 'placeholder text'
-    this.trigger = (
-      <Button color="red" icon={{ name: 'delete' }} />
-    )
-    this.content = (
-      <div>
-        <p>PLACEHOLDER: Remove {this.props.objective.name} from {this.props.task.name}</p>
-        <div className="choiceContainer">
-          <Button color="red" onClick={this.removeObjective}>
-            {'<delete>'}
-          </Button>
-          <Button>
-            {'<cancel>'}
-          </Button>
-        </div>
-      </div>
-    )
-  }
-
   removeObjective = () => {
     this.props.removeObjectiveFromTask({
       taskId: this.props.task.id,
@@ -41,9 +20,21 @@ class DetachObjectiveForm extends Component {
     return (
       <div className="DetachObjectiveForm">
         <ModalForm
-          header={this.header}
-          trigger={this.trigger}
-          content={this.content}
+          header="placeholder text"
+          trigger={<Button color="red" icon={{ name: 'delete' }} />}
+          content={
+            <div>
+              <p>PLACEHOLDER: Remove {this.props.objective.name} from {this.props.task.name}</p>
+              <div className="choiceContainer">
+                <Button color="red" onClick={this.removeObjective}>
+                  {'<delete>'}
+                </Button>
+                <Button>
+                  {'<cancel>'}
+                </Button>
+              </div>
+            </div>
+          }
         />
       </div>
     )
