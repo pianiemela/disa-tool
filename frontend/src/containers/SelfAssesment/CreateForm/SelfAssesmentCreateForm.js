@@ -1,23 +1,25 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Grid } from 'semantic-ui-react'
 import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
 import asyncAction from '../../../utils/asyncAction'
-import { connect } from 'react-redux'
-import {
-  Form,
-  Button
-} from 'semantic-ui-react'
 
-import { getSelfAssesmentData } from '../services/createForm'
+import { getCourseData } from '../services/createForm'
+import { getAllSelfAssesments } from '../services/selfAssesment'
 import { createFormJSONStucture } from '../reducers/createFormReducer'
+import CategorySelection from './CategorySelection'
+import EditAssesmentSelection from './EditAssesmentSelection';
 
-export class SelfAssesmentCreateForm extends React.Component {
+class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { active: [], selectedView: '', createdForm: {} }
+    this.state = { active: [], selectedView: '', createdForm: {}, editForm: '' }
   }
 
   componentWillMount() {
-    this.props.getSelfAssesmentData()
+    this.props.getCourseData()
+    this.props.getAllSelfAssesments()
   }
 
   handleClick = (e, titleProps) => {
@@ -68,64 +70,77 @@ export class SelfAssesmentCreateForm extends React.Component {
           answers: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
         }))
     }
-    this.props.createFormJSONStucture(data)
     this.setState({ created: true, createdForm: data })
+  }
+
+  editValue = () => {
+
   }
 
   renderCreateOrDraft = () => {
     const { selectedView, createdForm } = this.state
-    const category = 'category'
-    const objectives = 'objectives'
-
     if (!this.state.created) {
       return (
-        <Form onSubmit={this.createForm}>
-          <Form.Field>
-            <Button
-              type='button'
-              value={category}
-              active={category === selectedView}
-              toggle
-              onClick={this.toggleButton}
-            >
-              Itsearviolomake kategorioiden pohjalta
-            </Button>
-            <Button
-              type='button'
-              value={objectives}
-              active={objectives === selectedView}
-              toggle
-              onClick={this.toggleButton}
-            >
-              Itsearviolomake tavoitteiden pohjalta
-            </Button>
-          </Form.Field>
-          <Button style={{ marginLeft: '250px' }} type='submit'>
-            Luo
-          </Button>
-        </Form>)
+        <Grid columns={2} divided>
+          <Grid.Row>
+            <Grid.Column>
+              <CategorySelection
+                selectedView={selectedView}
+                category="category"
+                objectives="objectives"
+                toggleButton={this.toggleButton}
+                createForm={this.createForm}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <EditAssesmentSelection
+                onChange={this.changeEditValue}
+                options={[{ text: 'mock', value: 1 }]}
+              />
+            </Grid.Column>
+          </Grid.Row>
+
+        </Grid>
+      )
     }
     return <SelfAssesmentForm justCreated={true} createdForm={createdForm} />
   }
 
   render() {
+    console.log(this.props)
     return <div>{this.renderCreateOrDraft()}</div>
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
+const mapStateToProps = state => (
+  {
     courseData: state.createForm.courseData,
     category: state.createForm.category,
-    objectives: state.createForm.objectives
+    objectives: state.createForm.objectives,
+    selfAssesments: state.createForm.selfAssesments
   }
-}
+)
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getSelfAssesmentData: asyncAction(getSelfAssesmentData, dispatch),
-    createFormJSONStucture: createFormJSONStucture(dispatch)
+const mapDispatchToProps = dispatch => (
+  {
+    getCourseData: asyncAction(getCourseData, dispatch),
+    createFormJSONStucture: createFormJSONStucture(dispatch),
+    getAllSelfAssesments: asyncAction(getAllSelfAssesments, dispatch)
   }
+)
+
+SelfAssesmentCreateForm.propTypes = {
+  getCourseData: PropTypes.func.isRequired,
+  getAllSelfAssesments: PropTypes.func.isRequired,
+  courseData: PropTypes.shape({
+    courseInstance: PropTypes.shape({
+      course_instance_objectives: PropTypes.array,
+      fin_name: PropTypes.string,
+      swe_name: PropTypes.string,
+      eng_name: PropTypes.string,
+      id: PropTypes.number
+    })
+  }).isRequired
 }
 
 export default connect(
