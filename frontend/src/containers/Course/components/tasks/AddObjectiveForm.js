@@ -57,10 +57,12 @@ class AddObjectiveForm extends Component {
       this.props.objectiveIds.forEach((id) => {
         excluded[id] = true
       })
-      options = this.props.objectives.filter(objective => !excluded[objective.id]).map(objective => ({
-        value: objective.id,
-        text: objective.name
-      }))
+      options = this.props.objectives
+        .filter(objective => !excluded[objective.id])
+        .map(objective => ({
+          value: objective.id,
+          text: objective.name
+        }))
     }
     return (
       <Grid.Row>

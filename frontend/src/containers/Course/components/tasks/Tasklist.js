@@ -22,11 +22,9 @@ Tasklist.defaultProps = {
   editing: false
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    tasks: state.task.tasks
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  tasks: state.task.tasks
+})
 
 export default connect(mapStateToProps, null)(Tasklist)

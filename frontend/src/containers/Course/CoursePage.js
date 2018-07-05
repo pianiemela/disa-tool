@@ -46,7 +46,8 @@ class CoursePage extends Component {
 }
 
 CoursePage.propTypes = {
-  courseId: PropTypes.number.isRequired
+  courseId: PropTypes.number.isRequired,
+  getCourseData: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

@@ -270,7 +270,7 @@ const hardCodedCategories = [
           },
           {
             id: 39,
-            name: 'Osaan tutkia, onko matriisi diagonalisoituva',
+            name: 'Osaan tutkia, onko matriisi diagonalisoituva'
           }
         ]
       }
