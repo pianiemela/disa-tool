@@ -1,5 +1,6 @@
-export const getCourseParts = (id) => {
-  return {
+import axios from 'axios'
+export const getCourseParts = () => (
+  {
     matriisit: {
       taso1: ['matriisien yhteenlasku', 'matriisien muodostus'],
       taso2: ['matriisien kertolasku', 'matriisien pyörittely'],
@@ -11,12 +12,12 @@ export const getCourseParts = (id) => {
       taso3: ['vektorien äärimmäinen heiluttelu']
     }
   }
-}
+)
 
 const selfAssesmentData = {
   courseInstance: {
     id: 1,
-    fin_name: 'Linis',
+    name: 'Linis',
     course_instance_objectives: [
       {
         id: 1,
@@ -38,7 +39,10 @@ const selfAssesmentData = {
 
   }
 }
-export const getCourseData = () => {
+
+export const getCourseData = async () => {
+  const response = await axios.get('api/categories?courseInstanceId=1')
+  console.log(response)
   const apiresponse = {
     message: 'success',
     data: {
@@ -54,9 +58,4 @@ export const getCourseData = () => {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, 100, action)
   })
-
 }
-
-
-
-

@@ -77,6 +77,13 @@ class SelfAssesmentCreateForm extends React.Component {
 
   }
 
+  createDropdownOptions = () => {
+    let options = []
+    this.props.selfAssesments.map(sA =>
+      options.push({ value: sA.id, text: sA.fin_name }))
+    return options
+  }
+
   renderCreateOrDraft = () => {
     const { selectedView, createdForm } = this.state
     if (!this.state.created) {
@@ -95,7 +102,7 @@ class SelfAssesmentCreateForm extends React.Component {
             <Grid.Column>
               <EditAssesmentSelection
                 onChange={this.changeEditValue}
-                options={[{ text: 'mock', value: 1 }]}
+                options={this.createDropdownOptions()}
               />
             </Grid.Column>
           </Grid.Row>
@@ -107,7 +114,7 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 
   render() {
-    console.log(this.props)
+    this.createDropdownOptions()
     return <div>{this.renderCreateOrDraft()}</div>
   }
 }
@@ -140,7 +147,8 @@ SelfAssesmentCreateForm.propTypes = {
       eng_name: PropTypes.string,
       id: PropTypes.number
     })
-  }).isRequired
+  }).isRequired,
+  selfAssesments: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 }
 
 export default connect(

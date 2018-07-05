@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  selfAssesments: {},
+  selfAssesments: [],
   courseData: {}
 }
 
@@ -13,7 +13,6 @@ const createFormReducer = (state = INITIAL_STATE, action) => {
       return { ...state, courseData: selfAssesmentData }
     }
     case 'GET_ALL_SELF_ASSESMENTS': {
-      console.log('are we here')
       const { existingSelfAssesments } = action.apiresponse.data
       return { ...state, selfAssesments: existingSelfAssesments }
     }
