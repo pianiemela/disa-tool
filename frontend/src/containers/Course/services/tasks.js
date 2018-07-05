@@ -1,11 +1,23 @@
-const addObjectiveToTask = data => new Promise((resolve) => {
+export const addObjectiveToTask = data => new Promise((resolve) => {
   const response = {
     message: '<addObjectiveToTaskSuccess>',
     data
   }
-  setTimeout(resolve, 100, response)
+  const action = {
+    type: 'TASK_ADD_OBJECTIVE',
+    response
+  }
+  setTimeout(resolve, 100, action)
 })
 
-module.exports = {
-  addObjectiveToTask
-}
+export const removeObjectiveFromTask = data => new Promise((resolve) => {
+  const response = {
+    message: '<removeObjectiveFromTaskSuccess>',
+    data
+  }
+  const action = {
+    type: 'TASK_REMOVE_OBJECTIVE',
+    response
+  }
+  setTimeout(resolve, 100, action)
+})

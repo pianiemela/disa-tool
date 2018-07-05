@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid, Input } from 'semantic-ui-react'
+import { Input } from 'semantic-ui-react'
 import './tasks.css'
 
 import { changeTaskObjectiveMultiplier } from '../../actions/tasks'
@@ -17,13 +17,11 @@ class ObjectiveSlider extends Component {
 
   render() {
     return (
-      <Grid.Row className="objectiveSlider">
-        <Grid.Column textAlign="right">
-          <h3>{this.props.objective.name}</h3>
-          <Input className="numberInput" type="number" min={0} max={1} step={0.01} value={this.props.objective.multiplier} onChange={this.changeValue} />
-          <Input className="RangeInput" type="range" min={0} max={1} step={0.01} value={this.props.objective.multiplier} onChange={this.changeValue} />
-        </Grid.Column>
-      </Grid.Row>
+      <div className="ObjectiveSlider">
+        <h3>{this.props.objective.name}</h3>
+        <Input className="numberInput" type="number" min={0} max={1} step={0.01} value={this.props.objective.multiplier} onChange={this.changeValue} />
+        <Input className="RangeInput" type="range" min={0} max={1} step={0.01} value={this.props.objective.multiplier} onChange={this.changeValue} />
+      </div>
     )
   }
 }

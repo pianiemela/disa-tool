@@ -5,6 +5,7 @@ import './tasks.css'
 
 import ObjectiveSlider from './ObjectiveSlider'
 import AddObjectiveForm from './AddObjectiveForm'
+import DetachObjectiveForm from './DetachObjectiveForm'
 
 class Task extends Component {
   constructor(props) {
@@ -34,7 +35,18 @@ class Task extends Component {
           </Grid.Column>
         </Grid.Row>
         {this.props.task.objectives.map(objective => (
-          <ObjectiveSlider key={objective.id} objective={objective} taskId={this.props.task.id} />
+          <Grid.Row key={objective.id}>
+            <Grid.Column textAlign="right">
+              <div className="objectiveBlock">
+                {this.props.editing ? (
+                  <DetachObjectiveForm task={this.props.task} objective={objective} />
+                ) : (
+                  <div />
+                )}
+                <ObjectiveSlider objective={objective} taskId={this.props.task.id} />
+              </div>
+            </Grid.Column>
+          </Grid.Row>
         ))}
         {this.props.editing ? (
           <AddObjectiveForm

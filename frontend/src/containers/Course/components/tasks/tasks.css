@@ -23,3 +23,12 @@
 .addObjectiveForm {
   margin-bottom: 10px;
 }
+
+.objectiveBlock {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.DetachObjectiveForm {
+  margin-right: 10px;
+}
