@@ -29,7 +29,11 @@ class ModalForm extends Component {
   }
 
   render() {
-    const trigger = <this.props.trigger onClick={this.expand} />
+    const trigger = (
+      <div onClick={this.expand}>
+        {this.props.trigger}
+      </div>
+    )
     return (
       <Modal trigger={trigger} open={this.state.expanded} onClose={this.collapse}>
         <Modal.Header>{this.props.header}</Modal.Header>
@@ -44,8 +48,11 @@ class ModalForm extends Component {
 }
 
 ModalForm.propTypes = {
-  trigger: PropTypes.func.isRequired,
-  header: PropTypes.string.isRequired,
+  trigger: PropTypes.element.isRequired,
+  header: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.string
+  ]).isRequired,
   content: PropTypes.element.isRequired,
   onSubmit: PropTypes.func
 }

@@ -12,16 +12,9 @@ class DetachObjectiveForm extends Component {
   constructor(props) {
     super(props)
     this.header = 'placeholder text'
-    this.trigger = (extraProps) => {
-      const buttonProps = {
-        ...extraProps,
-        color: 'red',
-        icon: {
-          name: 'delete'
-        }
-      }
-      return React.createElement(Button, buttonProps, null)
-    }
+    this.trigger = (
+      <Button color="red" icon={{ name: 'delete' }} />
+    )
     this.content = (
       <div>
         <p>PLACEHOLDER: Remove {this.props.objective.name} from {this.props.task.name}</p>

@@ -1,34 +1,23 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Form, Button, Dropdown, Grid, Modal, Label } from 'semantic-ui-react'
+import { Form, Button, Dropdown, Grid, Label } from 'semantic-ui-react'
 import './tasks.css'
 
 import { addObjectiveToTask } from '../../services/tasks'
+
+import ModalForm from '../../../../utils/components/ModalForm'
 
 class AddObjectiveForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      expanded: false,
       objectiveSelection: undefined
     }
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return this.state.expanded || nextState.expanded
-  }
-
-  expand = () => {
-    this.setState({
-      expanded: true
-    })
-  }
-
-  collapse = () => {
-    this.setState({
-      expanded: false
-    })
+    this.header = 'placeholder content'
+    this.trigger = (
+      <Button icon={{ name: 'add' }} />
+    )
   }
 
   changeObjectiveSelection = (e, { value }) => {
@@ -45,37 +34,29 @@ class AddObjectiveForm extends Component {
     }).then((response) => {
       console.log(response)
     })
-    this.setState({
-      expanded: false
-    })
   }
 
   render() {
     let options = []
-    if (this.state.expanded) {
-      const excluded = {}
-      this.props.objectiveIds.forEach((id) => {
-        excluded[id] = true
-      })
-      options = this.props.objectives
-        .filter(objective => !excluded[objective.id])
-        .map(objective => ({
-          value: objective.id,
-          text: objective.name
-        }))
-    }
+    const excluded = {}
+    this.props.objectiveIds.forEach((id) => {
+      excluded[id] = true
+    })
+    options = this.props.objectives
+      .filter(objective => !excluded[objective.id])
+      .map(objective => ({
+        value: objective.id,
+        text: objective.name
+      }))
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
           <div className="addObjectiveForm">
-            <Modal
-              trigger={<Button onClick={this.expand} icon={{ name: 'add' }} />}
-              open={this.state.expanded}
-              onClose={this.collapse}
-            >
-              <Modal.Header>placeholder data</Modal.Header>
-              <Modal.Content>
-                <Form onSubmit={this.addObjectiveSubmit}>
+            <ModalForm
+              header={this.header}
+              trigger={this.trigger}
+              content={
+                <div>
                   <Form.Field>
                     <Label>objective</Label>
                     <Dropdown
@@ -88,9 +69,10 @@ class AddObjectiveForm extends Component {
                     />
                   </Form.Field>
                   <Button type="submit">Tallenna</Button>
-                </Form>
-              </Modal.Content>
-            </Modal>
+                </div>
+              }
+              onSubmit={this.addObjectiveSubmit}
+            />
           </div>
         </Grid.Column>
       </Grid.Row>
