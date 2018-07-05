@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Table, List } from 'semantic-ui-react'
+import './matrix.css'
 
 import CreateObjectiveForm from './CreateObjectiveForm'
+import RemoveObjectiveForm from './RemoveObjectiveForm'
 
 const Matrix = props => (
   <Table className="matrix" celled structured>
@@ -27,7 +29,14 @@ const Matrix = props => (
             <Table.Cell textAlign="center" key={level.id}>
               <List selection>
                 {level.objectives.map(objective => (
-                  <List.Item key={objective.id}>{objective.name}</List.Item>
+                  <List.Item key={objective.id} className="objectiveListItem">
+                    {objective.name}
+                    {props.editing ? (
+                      <RemoveObjectiveForm objective={objective} />
+                    ) : (
+                      <div />
+                    )}
+                  </List.Item>
                 ))}
               </List>
               {props.editing ? (<CreateObjectiveForm />) : (<div />)}
