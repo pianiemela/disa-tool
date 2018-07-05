@@ -1,12 +1,9 @@
-import React, { Component } from 'react'
-import { SelfAssesmentFormField } from './SelfAssesmentFormField'
-import { Grid, Form } from 'semantic-ui-react'
-import { connect } from 'react-redux'
-
+import React from 'react'
+import { Form } from 'semantic-ui-react'
 import ObjectiveQuestionModule from './ObjectiveQuestionModule'
-import { CategoryQuestionModule } from './CategoryQuestionModule'
+import CategoryQuestionModule from './CategoryQuestionModule'
 
-export class SelfAssesmentForm extends React.Component {
+class SelfAssesmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
@@ -17,21 +14,28 @@ export class SelfAssesmentForm extends React.Component {
 
   renderEditableForm = () => {
     if (this.props.justCreated) {
-      if (this.props.createdForm.type === 'objectives') {
-        const { createdForm } = this.props
-        return (<div>
-          <h2>{createdForm.fin_name} tavoitelomake</h2>
+      const { createdForm } = this.props
+
+      if (createdForm.type === 'objectives') {
+        return (
+          <div>
+            <h2>{createdForm.fin_name} tavoitelomake</h2>
+            <Form>
+              {createdForm.questionModules.map(questionModules =>
+                <ObjectiveQuestionModule data={questionModules} edit={true} />)
+              }
+            </Form>
+          </div>)
+      }
+      return (
+        <div>
+          <h2>{createdForm.fin_name} kategorialomake</h2>
           <Form>
             {createdForm.questionModules.map(questionModules =>
-              <ObjectiveQuestionModule data={questionModules} edit={true}></ObjectiveQuestionModule>
-            )}
+              <CategoryQuestionModule data={questionModules} edit={true} />)
+            }
           </Form>
         </div>)
-      }
-      if (Object.keys(this.props.category).length !== 0) {
-        const { category } = this.props
-        return <h2>{category.fin_name} kategorialomake</h2>
-      }
     }
   }
   render() {
@@ -44,12 +48,4 @@ export class SelfAssesmentForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    category: state.createForm.category,
-    objectives: state.createForm.objectives
-
-  }
-}
-
-export default connect(mapStateToProps)(SelfAssesmentForm)
+export default SelfAssesmentForm
