@@ -5,19 +5,21 @@ import { Grid } from 'semantic-ui-react'
 import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
 import asyncAction from '../../../utils/asyncAction'
 
-import { getSelfAssesmentData } from '../services/createForm'
+import { getCourseData } from '../services/createForm'
+import { getAllSelfAssesments } from '../services/selfAssesment'
 import { createFormJSONStucture } from '../reducers/createFormReducer'
 import CategorySelection from './CategorySelection'
 import EditAssesmentSelection from './EditAssesmentSelection';
 
-export class SelfAssesmentCreateForm extends React.Component {
+class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = { active: [], selectedView: '', createdForm: {}, editForm: '' }
   }
 
   componentWillMount() {
-    this.props.getSelfAssesmentData()
+    this.props.getCourseData()
+    this.props.getAllSelfAssesments()
   }
 
   handleClick = (e, titleProps) => {
@@ -93,7 +95,7 @@ export class SelfAssesmentCreateForm extends React.Component {
             <Grid.Column>
               <EditAssesmentSelection
                 onChange={this.changeEditValue}
-                options={{ text: 'mock', value: '1' }}
+                options={[{ text: 'mock', value: 1 }]}
               />
             </Grid.Column>
           </Grid.Row>
@@ -113,19 +115,22 @@ const mapStateToProps = state => (
   {
     courseData: state.createForm.courseData,
     category: state.createForm.category,
-    objectives: state.createForm.objectives
+    objectives: state.createForm.objectives,
+    selfAssesments: state.createForm.selfAssesments
   }
 )
 
 const mapDispatchToProps = dispatch => (
   {
-    getSelfAssesmentData: asyncAction(getSelfAssesmentData, dispatch),
-    createFormJSONStucture: createFormJSONStucture(dispatch)
+    getCourseData: asyncAction(getCourseData, dispatch),
+    createFormJSONStucture: createFormJSONStucture(dispatch),
+    getAllSelfAssesments: asyncAction(getAllSelfAssesments, dispatch)
   }
 )
 
 SelfAssesmentCreateForm.propTypes = {
-  getSelfAssesmentData: PropTypes.func.isRequired,
+  getCourseData: PropTypes.func.isRequired,
+  getAllSelfAssesments: PropTypes.func.isRequired,
   courseData: PropTypes.shape({
     courseInstance: PropTypes.shape({
       course_instance_objectives: PropTypes.array,

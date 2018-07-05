@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Form } from 'semantic-ui-react'
 import ObjectiveQuestionModule from './ObjectiveQuestionModule'
 import CategoryQuestionModule from './CategoryQuestionModule'
@@ -7,9 +8,6 @@ class SelfAssesmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {}
-  }
-  componentDidMount() {
-    console.log(this.props)
   }
 
   renderEditableForm = () => {
@@ -37,6 +35,7 @@ class SelfAssesmentForm extends React.Component {
           </Form>
         </div>)
     }
+    return null
   }
   render() {
     return (
@@ -46,6 +45,16 @@ class SelfAssesmentForm extends React.Component {
       </div >
     )
   }
+}
+
+SelfAssesmentForm.defaultProps = {
+  justCreated: false,
+  createdForm: {}
+}
+
+SelfAssesmentForm.propTypes = {
+  justCreated: PropTypes.bool,
+  createdForm: PropTypes.shape()
 }
 
 export default SelfAssesmentForm

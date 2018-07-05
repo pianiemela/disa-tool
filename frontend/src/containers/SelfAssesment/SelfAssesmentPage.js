@@ -1,37 +1,36 @@
-import React, { Component } from 'react'
-import { Container, Button } from 'semantic-ui-react'
-import SelfAssesmentForm from './Userform/SelfAssesmentForm'
+import React from 'react'
+import { Container } from 'semantic-ui-react'
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
-import { getCourseParts, getSelfAssesmentData } from './services/createForm'
+import { getCourseData } from './services/createForm'
+
 export class SelfAssesmentPage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { courseParts: {}, mockUser: 'ope' }
-    }
+  constructor(props) {
+    super(props)
+    this.state = { mockUser: 'ope' }
+  }
 
-    componentWillMount() {
-        this.setState({ courseParts: getCourseParts(), courseAssesmentData: getSelfAssesmentData() })
-    }
+  componentWillMount() {
+    this.setState({ courseAssesmentData: getCourseData() })
+  }
 
-    renderTeacherView = () => {
-        return<SelfAssesmentCreateForm data={this.state.courseAssesmentData}></SelfAssesmentCreateForm>
-    }
+  renderTeacherView = () => (
+    <SelfAssesmentCreateForm data={this.state.courseAssesmentData} />
+  )
 
 
-    render() {
-        const { courseParts } = this.state
-        return (
-            <Container>
-                <div>
-                    {this.state.mockUser === 'ope' ?
-                        this.renderTeacherView()
-                        :
-                        <h2>Itsearvio</h2>
-                    }
-                </div>
-            </Container>
-        )
-    }
+  render() {
+    return (
+      <Container>
+        <div>
+          {this.state.mockUser === 'ope' ?
+            this.renderTeacherView()
+            :
+            <h2>Itsearvio</h2>
+          }
+        </div>
+      </Container>
+    )
+  }
 }
 
 export default SelfAssesmentPage

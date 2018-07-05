@@ -1,6 +1,6 @@
-import { Form, Card, List, Rating, Grid } from 'semantic-ui-react'
+import { Form, Card, List, Grid } from 'semantic-ui-react'
 import React from 'react'
-
+import PropTypes from 'prop-types'
 
 class ObjectiveQuestionModule extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class ObjectiveQuestionModule extends React.Component {
   }
 
   handleChange = (e, data) => {
-    let ratings = this.state.ratings
+    const { ratings } = this.state
     ratings[data] = e.target.value
     this.setState({ ratings })
 
@@ -40,7 +40,7 @@ class ObjectiveQuestionModule extends React.Component {
                       </List.Item>
                     </Grid.Column>
                     <Grid.Column>
-                      <input style={{}} value={ratings[o.fin_name] ? ratings[o.fin_name] : 1} onChange={(e) => this.handleChange(e, o.fin_name)} type='range' min={0} max={2} />
+                      <input style={{}} value={ratings[o.fin_name] ? ratings[o.fin_name] : 1} onChange={(e) => this.handleChange(e, o.fin_name)} type="range" min={0} max={2} />
                     </Grid.Column>
                     <Grid.Column>
                       {answers[ratings[o.fin_name]]}
@@ -54,6 +54,17 @@ class ObjectiveQuestionModule extends React.Component {
       </Form.Field >
     )
   }
+}
+ObjectiveQuestionModule.defaultProps = {
+  data: {
+    answers: [],
+    fin_name: 'Nothing'
+  }
+}
+ObjectiveQuestionModule.propTypes = {
+  data: PropTypes.shape({
+    answers: PropTypes.arrayOf()
+  })
 }
 
 export default ObjectiveQuestionModule
