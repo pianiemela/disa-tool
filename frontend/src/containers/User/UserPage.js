@@ -17,11 +17,11 @@ class UserPage extends Component {
     console.log(this.state)
     return (
       <div>
+        {this.props.user ? <h1>Hello {this.props.user.name}</h1> : <p>Hello bastard</p>}
         <Menu vertical tabular>
           {this.state.courses.map(course =>
             <Menu.Item key={course.id}>{course.name}</Menu.Item>)}
         </Menu>
-        <p>Hello user</p>
       </div>
     )
   }
