@@ -140,6 +140,7 @@ const CourseInstance = sequelize.define('course_instance', {
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
+  active: { type: Sequelize.BOOLEAN },
   course_id: { type: Sequelize.BIGINT }
 },
 {
