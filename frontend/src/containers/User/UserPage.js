@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { List, Menu } from 'semantic-ui-react'
-import { getJson } from '../../utils/utils'
+import { getJson, saveLanguage } from '../../utils/utils'
 
 const userCourses = [{
   id: 1,
@@ -32,7 +32,7 @@ class UserPage extends Component {
   state = {}
 
   componentDidMount = async () => {
-    getJson('/courses/1').then(res => console.log(res))
+    getJson('/courses/1?hello=world&hello=mama').then(res => console.log(res))
   }
 
   render() {
