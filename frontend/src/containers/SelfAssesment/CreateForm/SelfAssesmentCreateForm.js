@@ -77,6 +77,13 @@ class SelfAssesmentCreateForm extends React.Component {
 
   }
 
+  createDropdownOptions = () => {
+    let options = []
+    this.props.selfAssesments.map(sA =>
+      console.log(sA)
+    )
+  }
+
   renderCreateOrDraft = () => {
     const { selectedView, createdForm } = this.state
     if (!this.state.created) {
@@ -140,7 +147,8 @@ SelfAssesmentCreateForm.propTypes = {
       eng_name: PropTypes.string,
       id: PropTypes.number
     })
-  }).isRequired
+  }).isRequired,
+  selfAssesments: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 }
 
 export default connect(
