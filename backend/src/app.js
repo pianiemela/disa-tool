@@ -12,7 +12,7 @@ app.use(express.json())
 routes(app)
 
 app.listen(PORT, () => {
-    console.log(`DISA backend listening at ${PORT}`)
+  console.log(`DISA backend listening at ${PORT}`)
 })
 
 module.exports = app

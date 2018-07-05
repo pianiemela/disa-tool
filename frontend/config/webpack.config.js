@@ -1,10 +1,14 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
+const devPort = 8080
+const apiPort = 8000
+
 module.exports = {
+  mode: 'development',
   entry: ['babel-polyfill', './src/index.js'],
   output: {
-    path: path.join(__dirname, './dist'),
+    path: path.join(__dirname, './dist')
   },
   module: {
     rules: [
@@ -35,7 +39,11 @@ module.exports = {
     })
   ],
   devServer: {
-    historyApiFallback: true,
+    port: devPort,
+    proxy: {
+      '/api': `http://localhost:${apiPort}`
+    },
+    historyApiFallback: true
   },
   devtool: 'source-map'
 }

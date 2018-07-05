@@ -1,7 +1,10 @@
 const categories = require('./controllers/category_controller.js')
 const courses = require('./controllers/course_controller.js')
 
+const BASE_URL = '/api'
+
+
 module.exports = (app) => {
-    app.use('/categories', categories)
-    app.use('/courses', courses)
+  app.use(`${BASE_URL}/categories`, categories)
+  app.use(`${BASE_URL}/courses`, courses)
 }

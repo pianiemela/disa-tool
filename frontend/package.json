@@ -4,7 +4,7 @@
   "description": "Frontend for DISA tool",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development  --config ./config/webpack.config.js --hot",
+    "start": "webpack-dev-server --config ./config/webpack.config.js --hot",
     "test": "echo \"Error: no test specified\" && exit 1",
     "stats": "webpack --mode production --json --optimize-minimize > stats.json",
     "lint": "eslint --ext .js src || true"
@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/UniversityOfHelsinkiCS/disa-tool#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",

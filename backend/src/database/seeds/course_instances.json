@@ -3,6 +3,7 @@
     "eng_name": "Linis I kesä 2018",
     "fin_name": "Linis I kesä 2018",
     "swe_name": "Linis I kesä 2018",
+    "active": false,
     "course_id": 1
 },
 {
@@ -10,6 +11,15 @@
     "eng_name": "Linis I syksy 2018",
     "fin_name": "Linis I syksy 2018",
     "swe_name": "Linis I syksy 2018",
+    "active": true,
+    "course_id": 1
+},
+{
+    "id": 3,
+    "eng_name": "Linis I kevät 2019",
+    "fin_name": "Linis I kevät 2019",
+    "swe_name": "Linis I kevät 2019",
+    "active": false,
     "course_id": 1
 }
 ]
