@@ -302,7 +302,6 @@ module.exports = {
   Course,
   CourseInstance,
   Person,
-  PersonRole,
   CoursePerson,
   SelfAssessment,
   TaskResponse,
