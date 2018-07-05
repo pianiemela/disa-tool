@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Input } from 'semantic-ui-react'
-import './tasks.css'
 
 import { changeTaskObjectiveMultiplier } from '../../actions/tasks'
 

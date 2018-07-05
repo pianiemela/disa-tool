@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Button } from 'semantic-ui-react'
-import './tasks.css'
 
 import ObjectiveSlider from './ObjectiveSlider'
 import AddObjectiveForm from './AddObjectiveForm'

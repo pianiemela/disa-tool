@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Button, Input, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
-import './matrix.css'
 
 import { addObjective } from '../../services/objectives'
 
