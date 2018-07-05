@@ -5,12 +5,11 @@ const isLangCorrect = (lang) => {
   return true
 }
 
-const validateLang = (req, res, next) => {
+const validateLang = (req) => {
   if (isLangCorrect(req.query.lang)) {
-    next()
-  } else {
-    res.status(400).json({ error: 'Language not correctly specified' })
+    return req.query.lang
   }
+  return 'fin'
 }
 
 module.exports = {
