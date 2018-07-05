@@ -6,7 +6,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { removeType } from '../../services/types'
 
 class RemoveTypeForm extends Component {
-  removeType = e => {
+  removeType = () => {
     this.props.removeType({
       typeId: this.props.id
     })
@@ -21,16 +21,12 @@ class RemoveTypeForm extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
-    removeType: asyncAction(removeType, dispatch)
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  removeType: asyncAction(removeType, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(RemoveTypeForm)

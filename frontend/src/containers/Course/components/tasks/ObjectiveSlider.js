@@ -6,7 +6,7 @@ import './tasks.css'
 import { changeTaskObjectiveMultiplier } from '../../actions/tasks'
 
 class ObjectiveSlider extends Component {
-  changeValue = e => {
+  changeValue = (e) => {
     this.props.changeTaskObjectiveMultiplier({
       taskId: this.props.taskId,
       objectiveId: this.props.objective.id,
@@ -27,10 +27,8 @@ class ObjectiveSlider extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    changeTaskObjectiveMultiplier: changeTaskObjectiveMultiplier(dispatch)
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  changeTaskObjectiveMultiplier: changeTaskObjectiveMultiplier(dispatch)
+})
 
 export default connect(null, mapDispatchToProps)(ObjectiveSlider)

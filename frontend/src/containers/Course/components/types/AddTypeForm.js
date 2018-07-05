@@ -14,19 +14,19 @@ class AddTypeForm extends Component {
     }
   }
 
-  expand = e => {
+  expand = () => {
     this.setState({
       expanded: true
     })
   }
 
-  collapse = e => {
+  collapse = () => {
     this.setState({
       expanded: false
     })
   }
 
-  addTypeSubmit = e => {
+  addTypeSubmit = (e) => {
     e.preventDefault()
     this.props.addType({
       courseId: this.props.courseId,
@@ -43,32 +43,28 @@ class AddTypeForm extends Component {
           open={this.state.expanded}
           onClose={this.collapse}
         >
-        <Modal.Header>placeholder data</Modal.Header>
-        <Modal.Content>
-          <Form onSubmit={this.addTypeSubmit}>
-            <Form.Field>
-              <Label>name</Label>
-              <Input name="name" type="text" fluid />
-            </Form.Field>
-            <Button type="submit">Tallenna</Button>
-          </Form>
-        </Modal.Content>
+          <Modal.Header>placeholder data</Modal.Header>
+          <Modal.Content>
+            <Form onSubmit={this.addTypeSubmit}>
+              <Form.Field>
+                <Label>name</Label>
+                <Input name="name" type="text" fluid />
+              </Form.Field>
+              <Button type="submit">Tallenna</Button>
+            </Form>
+          </Modal.Content>
         </Modal>
       </div>
     )
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
-    addType: asyncAction(addType, dispatch)
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  addType: asyncAction(addType, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddTypeForm)

@@ -13,7 +13,7 @@ class Task extends Component {
     }
   }
 
-  toggleExpanded = e => {
+  toggleExpanded = () => {
     this.setState({
       expanded: !this.state.expanded
     })

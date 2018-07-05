@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Form, Button, Dropdown, Grid, Modal, Label } from 'semantic-ui-react'
 import './tasks.css'
 
-import { addObjectiveToTask } from '../../services/tasks.js'
+import { addObjectiveToTask } from '../../services/tasks'
 
 class AddObjectiveForm extends Component {
   constructor(props) {
@@ -18,30 +18,30 @@ class AddObjectiveForm extends Component {
     return this.state.expanded || nextState.expanded
   }
 
-  expand = e => {
+  expand = () => {
     this.setState({
       expanded: true
     })
   }
 
-  collapse = e => {
+  collapse = () => {
     this.setState({
       expanded: false
     })
   }
 
-  changeObjectiveSelection = (e, {value}) => {
+  changeObjectiveSelection = (e, { value }) => {
     this.setState({
       objectiveSelection: value
     })
   }
 
-  addObjectiveSubmit = e => {
+  addObjectiveSubmit = (e) => {
     e.preventDefault()
     addObjectiveToTask({
       taskId: this.props.taskId,
       objectiveId: this.state.objectiveSelection
-    }).then(response => {
+    }).then((response) => {
       console.log(response)
     })
     this.setState({
@@ -53,15 +53,13 @@ class AddObjectiveForm extends Component {
     let options = []
     if (this.state.expanded) {
       const excluded = {}
-      this.props.objectiveIds.forEach(id => {
+      this.props.objectiveIds.forEach((id) => {
         excluded[id] = true
       })
-      options = this.props.objectives.filter(objective => !excluded[objective.id]).map(objective => {
-        return {
-          value: objective.id,
-          text: objective.name
-        }
-      })
+      options = this.props.objectives.filter(objective => !excluded[objective.id]).map(objective => ({
+        value: objective.id,
+        text: objective.name
+      }))
     }
     return (
       <Grid.Row>
@@ -72,16 +70,23 @@ class AddObjectiveForm extends Component {
               open={this.state.expanded}
               onClose={this.collapse}
             >
-            <Modal.Header>placeholder data</Modal.Header>
-            <Modal.Content>
-              <Form onSubmit={this.addObjectiveSubmit}>
-                <Form.Field>
-                  <Label>objective</Label>
-                  <Dropdown name="objective" className="objectiveDropdown" options={options} selection value={this.state.objectiveSelection} onChange={this.changeObjectiveSelection} />
-                </Form.Field>
-                <Button type="submit">Tallenna</Button>
-              </Form>
-            </Modal.Content>
+              <Modal.Header>placeholder data</Modal.Header>
+              <Modal.Content>
+                <Form onSubmit={this.addObjectiveSubmit}>
+                  <Form.Field>
+                    <Label>objective</Label>
+                    <Dropdown
+                      name="objective"
+                      className="objectiveDropdown"
+                      options={options}
+                      selection
+                      value={this.state.objectiveSelection}
+                      onChange={this.changeObjectiveSelection}
+                    />
+                  </Form.Field>
+                  <Button type="submit">Tallenna</Button>
+                </Form>
+              </Modal.Content>
             </Modal>
           </div>
         </Grid.Column>
@@ -90,11 +95,11 @@ class AddObjectiveForm extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
+const mapStateToProps = (state, ownProps) => (
+  {
     ...ownProps,
     objectives: state.objective.objectives
   }
-}
+)
 
 export default connect(mapStateToProps, null)(AddObjectiveForm)

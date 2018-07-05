@@ -7,7 +7,7 @@ import { changeTypeMultiplier } from '../../actions/types'
 import RemoveTypeForm from './RemoveTypeForm'
 
 class Type extends Component {
-  changeMultiplier = e => {
+  changeMultiplier = (e) => {
     this.props.changeTypeMultiplier({
       id: this.props.type.id,
       multiplier: Number(e.target.value)
@@ -38,10 +38,8 @@ class Type extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    changeTypeMultiplier: changeTypeMultiplier(dispatch)
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  changeTypeMultiplier: changeTypeMultiplier(dispatch)
+})
 
 export default connect(null, mapDispatchToProps)(Type)

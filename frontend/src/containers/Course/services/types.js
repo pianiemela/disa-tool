@@ -1,4 +1,4 @@
-export const removeType = data => {
+export const removeType = (data) => {
   const response = {
     message: '<removeTypeSuccess>',
     data: {
@@ -9,12 +9,12 @@ export const removeType = data => {
     type: 'TYPE_REMOVE',
     response
   }
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(resolve, 100, action)
   })
 }
 
-export const addType = data => {
+export const addType = (data) => {
   const response = {
     message: '<addTypeSuccess>',
     data: {
@@ -27,7 +27,7 @@ export const addType = data => {
     type: 'TYPE_ADD_NEW',
     response
   }
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(resolve, 100, action)
   })
 }

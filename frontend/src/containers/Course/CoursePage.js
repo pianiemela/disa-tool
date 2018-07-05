@@ -7,7 +7,7 @@ import { getCourseData } from './services/course'
 
 import Matrix from './components/matrix/Matrix'
 import Tasklist from './components/tasks/Tasklist'
-import Typelist from './components/types/Typelist';
+import Typelist from './components/types/Typelist'
 
 class CoursePage extends Component {
   constructor(props) {
@@ -44,16 +44,12 @@ class CoursePage extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getCourseData: asyncAction(getCourseData, dispatch)
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  getCourseData: asyncAction(getCourseData, dispatch)
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoursePage)

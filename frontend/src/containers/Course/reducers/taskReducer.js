@@ -24,12 +24,12 @@ const taskReducer = (state = INITIAL_STATE, action) => {
               }
               break
             }
-            j++
+            j += 1
           }
           newTasks[i] = newTask
           break
         }
-        i++
+        i += 1
       }
       return {
         ...state,

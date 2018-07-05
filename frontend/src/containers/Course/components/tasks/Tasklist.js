@@ -1,18 +1,14 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import './tasks.css'
 
 import Task from './Task'
 
-class Tasklist extends Component {
-  render() {
-    return (
-      <div className="taskContainer">
-        {this.props.tasks.map(task => <Task key={task.id} task={task} editing={this.props.editing} />)}
-      </div>
-    )
-  }
-}
+const Tasklist = props => (
+  <div className="taskContainer">
+    {props.tasks.map(task => <Task key={task.id} task={task} editing={props.editing} />)}
+  </div>
+)
 
 const mapStateToProps = (state, ownProps) => {
   return {
