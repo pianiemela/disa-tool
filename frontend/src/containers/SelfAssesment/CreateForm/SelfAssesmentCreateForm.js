@@ -9,12 +9,12 @@ import { getCourseData } from '../services/createForm'
 import { getAllSelfAssesments } from '../services/selfAssesment'
 import { createFormJSONStucture } from '../reducers/createFormReducer'
 import CategorySelection from './CategorySelection'
-import EditAssesmentSelection from './EditAssesmentSelection';
+import EditAssesmentSelection from './EditAssesmentSelection'
 
 class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { active: [], selectedView: '', createdForm: {}, editForm: '' }
+    this.state = { active: [], selectedView: '', createdForm: {} }
   }
 
   componentWillMount() {
@@ -29,6 +29,10 @@ class SelfAssesmentCreateForm extends React.Component {
       ? (active = active.filter(i => i !== index))
       : active.concat(index)
     this.setState({ active: opened })
+  }
+
+  handleFormChange = (e) => {
+    console.log(e)
   }
 
   toggleButton = (e) => {
@@ -66,10 +70,6 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ created: true, createdForm: data })
   }
 
-  editValue = () => {
-
-  }
-
   createDropdownOptions = () => {
     let options = []
     this.props.selfAssesments.map(sA =>
@@ -103,7 +103,7 @@ class SelfAssesmentCreateForm extends React.Component {
         </Grid>
       )
     }
-    return <SelfAssesmentForm justCreated={true} createdForm={createdForm} />
+    return <SelfAssesmentForm handleFormChange={this.handleFormChange} edit={true} created={true} createdForm={createdForm} />
   }
 
   render() {

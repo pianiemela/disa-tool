@@ -11,8 +11,9 @@ class SelfAssesmentForm extends React.Component {
   }
 
   renderEditableForm = () => {
-    if (this.props.justCreated) {
-      const { createdForm } = this.props
+    if (this.props.created) {
+      const { createdForm, edit, handleFormChange } = this.props
+      console.log(this.props)
 
       if (createdForm.type === 'objectives') {
         return (
@@ -20,7 +21,7 @@ class SelfAssesmentForm extends React.Component {
             <h2>{createdForm.name} tavoitelomake</h2>
             <Form>
               {createdForm.questionModules.map(questionModules =>
-                <ObjectiveQuestionModule key={questionModules.id} data={questionModules} edit={true} />)
+                <ObjectiveQuestionModule key={questionModules.id} data={questionModules} edit={edit} handleFormChange={handleFormChange} />)
               }
             </Form>
           </div>)
@@ -30,7 +31,7 @@ class SelfAssesmentForm extends React.Component {
           <h2>{createdForm.name} kategorialomake</h2>
           <Form>
             {createdForm.questionModules.map(questionModules =>
-              <CategoryQuestionModule key={questionModules.id} data={questionModules} edit={true} />)
+              <CategoryQuestionModule key={questionModules.id} data={questionModules} edit={edit} handleFormChange={handleFormChange} />)
             }
           </Form>
         </div>)
