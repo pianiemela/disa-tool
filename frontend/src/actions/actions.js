@@ -7,9 +7,20 @@ export const getCategoriesForCourse = courseId => getJson(`/categories/${courseI
 export const getUser = () => getJson('/persons/user')
 
 export const getUserAction = () => async (dispatch) => {
-  const { data } = await getUser()
   dispatch({
-    type: 'GET_USER',
-    payload: data
+    type: 'GET_USER_ATTEMPT',
+    payload: ''
   })
+  try {
+    const { data } = await getUser()
+    dispatch({
+      type: 'GET_USER_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'GET_USER_FAILURE',
+      payload: e.response
+    })
+  }
 }

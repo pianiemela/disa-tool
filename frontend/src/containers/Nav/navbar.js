@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import { Menu, Dropdown } from 'semantic-ui-react'
 
 import { getLanguage, saveLanguage } from '../../utils/utils'
@@ -82,6 +83,26 @@ class Nav extends Component {
                 onChange={this.changeLanguage}
               />
             </Menu.Item>
+            {this.props.user ?
+              <Menu.Item
+                as={Link}
+                to="/logout"
+                name="logout"
+                active={activeItem === 'logout'}
+                onClick={this.handleClick}
+              >
+                Kirjaudu ulos
+              </Menu.Item> :
+              <Menu.Item
+                as={Link}
+                to="/login"
+                name="login"
+                active={activeItem === 'login'}
+                onClick={this.handleClick}
+              >
+                Kirjaudu sisään
+              </Menu.Item>
+            }
           </Menu.Menu>
         </Menu>
       </nav>
@@ -89,4 +110,8 @@ class Nav extends Component {
   }
 }
 
-export default withRouter(Nav)
+const mapStateToProps = state => ({
+  user: state.user
+})
+
+export default withRouter(connect(mapStateToProps, null)(Nav))

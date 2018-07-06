@@ -10,7 +10,8 @@ const Task = sequelize.define('task', {
   fin_description: { type: Sequelize.STRING(2000) },
   swe_description: { type: Sequelize.STRING(2000) },
   max_points: { type: Sequelize.DOUBLE },
-  info: { type: Sequelize.STRING }
+  info: { type: Sequelize.STRING },
+  course_instance_id: { type: Sequelize.BIGINT }
 },
 {
   tableName: 'task',
@@ -242,6 +243,9 @@ const AssessmentResponse = sequelize.define('assessment_response', {
 
 Task.belongsToMany(Type, { through: TaskType })
 Type.belongsToMany(Task, { through: TaskType })
+
+CourseInstance.hasMany(Task, { foreignKey: 'course_instance_id', targetKey: 'id' })
+Task.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
 Category.hasMany(Objective, { foreignKey: 'category_id', targetKey: 'id' })
 Objective.belongsTo(Category, { foreignKey: 'category_id', targetKey: 'id' })
