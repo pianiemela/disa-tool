@@ -22,21 +22,21 @@ class AddObjectiveForm extends Component {
     }
 
     render() {
-      const contentPrompt = `${[
+      const contentPrompt = [
         'Lisää uusi oppimistavoite kategoriaan',
-        this.props.category.name,
+        `"${this.props.category.name}"`,
         'tasolle',
-        this.props.level.name
-      ].join(' ')}.`
+        `"${this.props.level.name}"`
+      ].join(' ')
       return (
         <div className="addObjectiveForm">
           <ModalForm
-            header="placeholder text"
+            header="Luo uusi oppimistavoite"
             trigger={<Button onClick={this.expand} className="addObjectiveButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>
-                  {contentPrompt}
+                  {contentPrompt}.
                 </p>
                 <MultilingualField field="name" fieldDisplay="nimi" />
                 <Button type="submit">Tallenna</Button>
