@@ -58,3 +58,7 @@
 .TaskTypeName {
   font-size: 24px;
 }
+
+.addObjectiveToTaskButton {
+  width: 200px;
+}

@@ -49,7 +49,7 @@ class AddObjectiveForm extends Component {
   addObjectiveSubmit = (e) => {
     e.preventDefault()
     addObjectiveToTask({
-      taskId: this.props.taskId,
+      taskId: this.props.task.id,
       objectiveId: this.state.objectiveSelection
     }).then((response) => {
       console.log(response)
@@ -57,17 +57,25 @@ class AddObjectiveForm extends Component {
   }
 
   render() {
+    const contentPrompt = [
+      'Liitä oppimistavoite tehtävään',
+      `"${this.props.task.name}"`
+    ].join(' ')
+    const label = 'oppimistavoite'
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
           <div className="addObjectiveForm">
             <ModalForm
-              header="placeholder content"
-              trigger={<Button icon={{ name: 'add' }} onClick={this.prepareOptions} />}
+              header="Liitä oppimistavoite tehtävään"
+              trigger={<Button className="addObjectiveToTaskButton" icon={{ name: 'add' }} onClick={this.prepareOptions} />}
               content={
                 <div>
+                  <p>
+                    {contentPrompt}.
+                  </p>
                   <Form.Field>
-                    <Label>objective</Label>
+                    <Label>{label}</Label>
                     <Dropdown
                       name="objective"
                       className="objectiveDropdown"
@@ -75,9 +83,10 @@ class AddObjectiveForm extends Component {
                       selection
                       value={this.state.objectiveSelection}
                       onChange={this.changeObjectiveSelection}
+                      fluid
                     />
                   </Form.Field>
-                  <Button type="submit">Tallenna</Button>
+                  <Button type="submit" color="green">Tallenna</Button>
                 </div>
               }
               onSubmit={this.addObjectiveSubmit}
@@ -91,7 +100,10 @@ class AddObjectiveForm extends Component {
 
 AddObjectiveForm.propTypes = {
   objectiveIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-  taskId: PropTypes.number.isRequired,
+  task: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired,
   objectives: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string.isRequired
