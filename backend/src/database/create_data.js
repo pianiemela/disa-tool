@@ -4,6 +4,8 @@ const skillLevels = require('./seeds/skill_levels.json')
 const courses = require('./seeds/courses.json')
 const courseInstances = require('./seeds/course_instances.json')
 const objectives = require('./seeds/objectives.json')
+const persons = require('./seeds/persons.json')
+const coursePersons = require('./seeds/course_persons.json')
 const { Task,
   TaskType,
   Category,
@@ -26,9 +28,13 @@ const createSkillLevels = () => SkillLevel.bulkCreate(skillLevels)
 
 const createCourses = () => Course.bulkCreate(courses)
 
+const createPersons = () => Person.bulkCreate(persons)
+
 const createCourseInstances = () => CourseInstance.bulkCreate(courseInstances)
 
 const createObjectives = () => Objective.bulkCreate(objectives)
+
+const createCoursePersons = () => CoursePerson.bulkCreate(coursePersons)
 
 const run = async () => {
   await sequelize.sync({ force: true })
@@ -39,8 +45,12 @@ const run = async () => {
   console.log('skill levels created')
   await createCourses()
   console.log('courses created')
+  await createPersons()
+  console.log('persons created')
   await createCourseInstances()
   console.log('course instances created')
+  await createCoursePersons()
+  console.log('coursePersons created')
   await createObjectives()
   console.log('objectives created')
 
