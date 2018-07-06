@@ -52,8 +52,7 @@ const CategoryQuestionModule = (props) => {
           <Card.Header>{name}</Card.Header>
           <Grid verticalAlign="middle" columns={3}>
             <Grid.Row style={{ padding: '20px' }}>
-
-              <Grid.Column>
+              <Grid.Column width={10}>
                 <label> Arvioi osaamisesi asteikolla 1-5</label>
                 <Dropdown style={{ marginLeft: '20px' }} placeholder='Valitse arvosana' selection options={gradeOptions} />
               </Grid.Column>
