@@ -1,53 +1,39 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import { List, Menu } from 'semantic-ui-react'
-import { getUsersCourses } from '../../actions/actions'
-
-const userCourses = [{
-  id: 1,
-  eng_name: 'Linis I kesä 2018',
-  fin_name: 'Linis I kesä 2018',
-  swe_name: 'Linis I kesä 2018',
-  active: false,
-  course_id: 1
-},
-{
-  id: 2,
-  eng_name: 'Linis I syksy 2018',
-  fin_name: 'Linis I syksy 2018',
-  swe_name: 'Linis I syksy 2018',
-  active: true,
-  course_id: 1
-},
-{
-  id: 3,
-  eng_name: 'Linis I kevät 2019',
-  fin_name: 'Linis I kevät 2019',
-  swe_name: 'Linis I kevät 2019',
-  active: false,
-  course_id: 1
-}
-]
+import { getUsersCourses, getUserAction } from '../../actions/actions'
 
 class UserPage extends Component {
-  state = {}
+  state = {
+    courses: []
+  }
 
   componentDidMount = async () => {
-    console.log('gonna get it')
-    getUsersCourses().then(res => console.log(res))
+    this.props.dispatchGetUser()
+    getUsersCourses().then(res => this.setState({ courses: res.data }))
   }
 
   render() {
+    console.log(this.state)
     return (
       <div>
+        {this.props.user ? <h1>Hello {this.props.user.name}</h1> : <p>Hello bastard</p>}
         <Menu vertical tabular>
-          {userCourses.filter(course =>
-            !course.active).map(course =>
-              <Menu.Item>{course.fin_name}</Menu.Item>)}
+          {this.state.courses.map(course =>
+            <Menu.Item key={course.id}>{course.name}</Menu.Item>)}
         </Menu>
-        <p>Hello user</p>
       </div>
     )
   }
 }
 
-export default UserPage
+const mapDispatchToProps = dispatch => ({
+  dispatchGetUser: () =>
+    dispatch(getUserAction())
+})
+
+const mapStateToProps = state => ({
+  user: state.user
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage)

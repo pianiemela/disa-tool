@@ -1,3 +1,5 @@
+import { getJson } from '../../../utils/utils'
+
 export const getCourseParts = () => (
   {
     matriisit: {
@@ -38,17 +40,14 @@ const selfAssesmentData = {
 
   }
 }
-export const getCourseData = () => {
-  const apiresponse = {
-    message: 'success',
-    data: {
-      selfAssesmentData
-    }
-  }
+
+export const getCourseData = async () => {
+  const response = await getJson('/categories?courseInstanceId=1')
+  const { data } = response
 
   const action = {
     type: 'GET_SELF_ASSESMENT_DATA',
-    apiresponse
+    data
   }
 
   return new Promise((resolve, reject) => {

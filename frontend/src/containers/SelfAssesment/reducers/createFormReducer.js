@@ -9,8 +9,7 @@ const createFormReducer = (state = INITIAL_STATE, action) => {
     case 'INIT_FORM_STRUCTURE':
       return { ...state, [action.data.type]: action.data }
     case 'GET_SELF_ASSESMENT_DATA': {
-      const { selfAssesmentData } = action.apiresponse.data
-      return { ...state, courseData: selfAssesmentData }
+      return { ...state, courseData: action.data }
     }
     case 'GET_ALL_SELF_ASSESMENTS': {
       const { existingSelfAssesments } = action.apiresponse.data
