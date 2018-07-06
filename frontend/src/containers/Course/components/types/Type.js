@@ -23,7 +23,7 @@ class Type extends Component {
         </div>
         {this.props.editing ? (
           <div className="removeBlock">
-            <RemoveTypeForm id={this.props.type.id} />
+            <RemoveTypeForm type={this.props.type} />
           </div>
         ) : (
           <div />

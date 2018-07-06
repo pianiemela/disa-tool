@@ -4,28 +4,28 @@ import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
-import { removeType } from '../../services/types'
+import { removeTask } from '../../services/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class RemoveTypeForm extends Component {
-  removeType = () => {
-    this.props.removeType({
-      typeId: this.props.type.id
+class RemoveTaskForm extends Component {
+  removeTask = () => {
+    this.props.removeTask({
+      id: this.props.task.id
     })
   }
 
   render() {
     return (
-      <div className="removeTypeForm">
+      <div className="RemoveTaskForm">
         <ModalForm
-          header="placeholder text"
-          trigger={<Button icon={{ name: 'delete' }} color="red" size="small" />}
+          header="placeholder content"
+          trigger={<Button className="removeTaskButton" icon={{ name: 'remove' }} color="red" />}
           content={
             <div>
-              <p>PLACEHOLDER: Remove {this.props.type.name}</p>
+              <p>Remove {this.props.task.name}</p>
               <div className="choiceContainer">
-                <Button color="red" onClick={this.removeType}>
+                <Button color="red" onClick={this.removeTask}>
                   {'<delete>'}
                 </Button>
                 <Button>
@@ -40,20 +40,16 @@ class RemoveTypeForm extends Component {
   }
 }
 
-RemoveTypeForm.propTypes = {
-  removeType: PropTypes.func.isRequired,
-  type: PropTypes.shape({
+RemoveTaskForm.propTypes = {
+  task: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  removeTask: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps
-})
-
 const mapDispatchToProps = dispatch => ({
-  removeType: asyncAction(removeType, dispatch)
+  removeTask: asyncAction(removeTask, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemoveTypeForm)
+export default connect(null, mapDispatchToProps)(RemoveTaskForm)

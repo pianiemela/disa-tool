@@ -20,7 +20,10 @@ const objectiveReducer = (state = INITIAL_STATE, action) => {
       }
     }
     case 'OBJECTIVE_CREATE':
-      console.log(action.repsonse)
+      console.log(action.response)
+      return state
+    case 'OBJECTIVE_DELETE':
+      console.log(action.response)
       return state
     default:
       return state
