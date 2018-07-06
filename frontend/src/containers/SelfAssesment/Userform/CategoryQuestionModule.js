@@ -30,13 +30,13 @@ const CategoryQuestionModule = (props) => {
       value: 5
     }
   ]
-  const checkbox = edit ? <Checkbox onChange={() => handleChange(id, 'textfield')} label="Klikkaa tästä jos haluat perustelut mukaan" /> : null
+  const checkbox = edit ? <Checkbox defaultChecked={textFieldOn} onChange={() => handleChange(id, 'textfield')} label="Klikkaa tästä jos haluat perustelut mukaan" /> : null
 
 
   const textArea = () => {
     return (
       <Grid.Column width={10}>
-        <Form.TextArea
+        <Form.TextArea disabled={!textFieldOn}
           label="Perustelut arvosanalle"
           placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
         />

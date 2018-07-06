@@ -35,7 +35,6 @@ class SelfAssesmentCreateForm extends React.Component {
     const toChange = this.state.createdForm
     switch (type) {
       case 'textfield': {
-        console.log(`wut wut noniin tesktikenttä muuttuu`)
         toChange.questionModules = toChange.questionModules.map(o =>
           (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
         this.setState({ createdForm: toChange })
@@ -127,7 +126,7 @@ class SelfAssesmentCreateForm extends React.Component {
         </Grid>
       )
     }
-    return <SelfAssesmentForm handleChange={this.handleFormChange} edit={true} created={true} createdForm={createdForm} />
+    return <SelfAssesmentForm handleChange={this.handleFormChange} edit created createdForm={createdForm} />
   }
 
   render() {
