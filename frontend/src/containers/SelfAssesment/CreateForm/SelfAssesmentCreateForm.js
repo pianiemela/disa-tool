@@ -80,8 +80,8 @@ class SelfAssesmentCreateForm extends React.Component {
   createDropdownOptions = () => {
     let options = []
     this.props.selfAssesments.map(sA =>
-      console.log(sA)
-    )
+      options.push({ value: sA.id, text: sA.fin_name }))
+    return options
   }
 
   renderCreateOrDraft = () => {
@@ -102,7 +102,7 @@ class SelfAssesmentCreateForm extends React.Component {
             <Grid.Column>
               <EditAssesmentSelection
                 onChange={this.changeEditValue}
-                options={[{ text: 'mock', value: 1 }]}
+                options={this.createDropdownOptions()}
               />
             </Grid.Column>
           </Grid.Row>
@@ -114,7 +114,7 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 
   render() {
-    console.log(this.props)
+    this.createDropdownOptions()
     return <div>{this.renderCreateOrDraft()}</div>
   }
 }

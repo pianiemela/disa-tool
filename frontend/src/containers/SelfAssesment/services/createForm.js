@@ -1,5 +1,5 @@
-export const getCourseParts = (id) => {
-  return {
+export const getCourseParts = () => (
+  {
     matriisit: {
       taso1: ['matriisien yhteenlasku', 'matriisien muodostus'],
       taso2: ['matriisien kertolasku', 'matriisien pyörittely'],
@@ -11,12 +11,12 @@ export const getCourseParts = (id) => {
       taso3: ['vektorien äärimmäinen heiluttelu']
     }
   }
-}
+)
 
 const selfAssesmentData = {
   courseInstance: {
     id: 1,
-    fin_name: 'Linis',
+    name: 'Linis',
     course_instance_objectives: [
       {
         id: 1,
@@ -54,9 +54,4 @@ export const getCourseData = () => {
   return new Promise((resolve, reject) => {
     setTimeout(resolve, 100, action)
   })
-
 }
-
-
-
-
