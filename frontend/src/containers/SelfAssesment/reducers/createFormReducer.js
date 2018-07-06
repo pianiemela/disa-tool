@@ -1,6 +1,6 @@
 const INITIAL_STATE = {
   selfAssesments: [],
-  courseData: {}
+  courseData: []
 }
 
 

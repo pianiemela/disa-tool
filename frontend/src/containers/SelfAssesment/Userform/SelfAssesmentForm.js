@@ -17,20 +17,20 @@ class SelfAssesmentForm extends React.Component {
       if (createdForm.type === 'objectives') {
         return (
           <div>
-            <h2>{createdForm.fin_name} tavoitelomake</h2>
+            <h2>{createdForm.name} tavoitelomake</h2>
             <Form>
               {createdForm.questionModules.map(questionModules =>
-                <ObjectiveQuestionModule data={questionModules} edit={true} />)
+                <ObjectiveQuestionModule key={questionModules.id} data={questionModules} edit={true} />)
               }
             </Form>
           </div>)
       }
       return (
         <div>
-          <h2>{createdForm.fin_name} kategorialomake</h2>
+          <h2>{createdForm.name} kategorialomake</h2>
           <Form>
             {createdForm.questionModules.map(questionModules =>
-              <CategoryQuestionModule data={questionModules} edit={true} />)
+              <CategoryQuestionModule key={questionModules.id} data={questionModules} edit={true} />)
             }
           </Form>
         </div>)

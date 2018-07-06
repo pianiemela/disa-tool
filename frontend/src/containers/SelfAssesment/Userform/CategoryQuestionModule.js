@@ -3,13 +3,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const CategoryQuestionModule = (props) => {
-  const { fin_name } = props.data
-  console.log(props.data)
+  const { name } = props.data
   return (
     <Form.Field>
       <Card fluid>
         <Card.Content>
-          <Card.Header>{fin_name}</Card.Header>
+          <Card.Header>{name}</Card.Header>
           <Grid verticalAlign="middle" columns={2}>
             <Grid.Row style={{ padding: '20px' }}>
               <Grid.Column>
@@ -36,10 +35,8 @@ const CategoryQuestionModule = (props) => {
 
 CategoryQuestionModule.propTypes = {
   data: PropTypes.shape({
-    eng_name: PropTypes.string,
-    fin_name: PropTypes.string,
-    swe_name: PropTypes.string,
-    id: PropTypes.number
+    name: PropTypes.string,
+    id: PropTypes.string
   }).isRequired
 }
 

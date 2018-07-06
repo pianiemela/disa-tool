@@ -38,34 +38,27 @@ class SelfAssesmentCreateForm extends React.Component {
 
   createForm = () => {
     const data = {}
-    const { courseInstance } = this.props.courseData
-    data.fin_name = courseInstance.fin_name
-    data.swe_name = courseInstance.fin_name
-    data.eng_name = courseInstance.fin_name
+    const { courseData } = this.props
+    data.name = 'Linis'
     data.type = this.state.selectedView
 
     if (data.type === 'category') {
       data.questionModules = []
-      courseInstance.course_instance_objectives.map(ciO =>
+      courseData.map(ciO =>
         data.questionModules.push({
           id: ciO.id,
-          fin_name: ciO.category,
-          swe_name: ciO.category,
-          eng_name: ciO.category,
+          name: ciO.name,
           textFieldOn: true
         }))
     } else {
       data.questionModules = []
-      courseInstance.course_instance_objectives.map(ciO =>
+      courseData.map(ciO =>
         data.questionModules.push({
           id: ciO.id,
-          fin_name: ciO.category,
-          swe_name: ciO.category,
-          eng_name: ciO.category,
+          name: ciO.name,
           objectives: ciO.objectives.map(o => ({
-            fin_name: o,
-            swe_name: o,
-            eng_name: o
+            id: o.id,
+            name: o.name
           })),
           answers: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
         }))
@@ -139,15 +132,7 @@ const mapDispatchToProps = dispatch => (
 SelfAssesmentCreateForm.propTypes = {
   getCourseData: PropTypes.func.isRequired,
   getAllSelfAssesments: PropTypes.func.isRequired,
-  courseData: PropTypes.shape({
-    courseInstance: PropTypes.shape({
-      course_instance_objectives: PropTypes.array,
-      fin_name: PropTypes.string,
-      swe_name: PropTypes.string,
-      eng_name: PropTypes.string,
-      id: PropTypes.number
-    })
-  }).isRequired,
+  courseData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   selfAssesments: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 }
 
