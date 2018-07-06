@@ -29,17 +29,27 @@ const Matrix = props => (
             <Table.Cell textAlign="center" key={level.id}>
               <List selection>
                 {level.objectives.map(objective => (
-                  <List.Item key={objective.id} className="objectiveListItem">
-                    {objective.name}
-                    {props.editing ? (
-                      <RemoveObjectiveForm objective={objective} />
-                    ) : (
-                      <div />
-                    )}
+                  <List.Item key={objective.id}>
+                    <div className="objectiveListItem">
+                      <span>
+                        {objective.name}
+                      </span>
+                      <div className="objectiveBlock">
+                        {props.editing ? (
+                          <RemoveObjectiveForm objective={objective} />
+                        ) : (
+                          <div />
+                        )}
+                      </div>
+                    </div>
                   </List.Item>
                 ))}
               </List>
-              {props.editing ? (<CreateObjectiveForm />) : (<div />)}
+              {props.editing ? (
+                <CreateObjectiveForm levelId={level.id} category={category} />
+              ) : (
+                <div />
+              )}
             </Table.Cell>
           ))}
         </Table.Row>

@@ -7,6 +7,10 @@
   margin-right: 12px;
 }
 
-.RemoveObjectiveForm {
-  float: right;
+.objctiveListItem {
+  display: flex;
+}
+
+.objectiveBlock {
+  display: inline-block;
 }
