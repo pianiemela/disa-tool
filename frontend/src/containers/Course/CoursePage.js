@@ -29,7 +29,7 @@ class CoursePage extends Component {
       <Grid>
         <Grid.Row>
           <Grid.Column>
-            <Matrix editing={this.state.editing} />
+            <Matrix editing={this.state.editing} courseId={this.props.courseId} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>

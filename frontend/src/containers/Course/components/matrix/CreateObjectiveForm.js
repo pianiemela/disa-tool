@@ -12,9 +12,12 @@ import MultilingualField from '../../../../utils/components/MultilingualField'
 class AddObjectiveForm extends Component {
     addObjectiveSubmit = (e) => {
       this.props.addObjective({
-        name: e.target.name.value,
+        eng_name: e.target.eng_name.value,
+        fin_name: e.target.fin_name.value,
+        sve_name: e.target.sve_name.value,
         skillLevelId: this.props.level.id,
-        categoryId: this.props.category.id
+        categoryId: this.props.category.id,
+        courseId: this.props.courseId
       })
     }
 
@@ -55,7 +58,8 @@ AddObjectiveForm.propTypes = {
   category: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  courseId: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

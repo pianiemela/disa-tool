@@ -16,7 +16,9 @@ const Matrix = props => (
       </Table.Row>
       <Table.Row>
         {props.levels.map(level => (
-          <Table.HeaderCell key={level.id} textAlign="center">{level.name}</Table.HeaderCell>
+          <Table.HeaderCell key={level.id} textAlign="center">
+            {level.name}
+          </Table.HeaderCell>
         ))}
       </Table.Row>
     </Table.Header>
@@ -46,7 +48,11 @@ const Matrix = props => (
                 ))}
               </List>
               {props.editing ? (
-                <CreateObjectiveForm levelId={level.id} category={category} />
+                <CreateObjectiveForm
+                  levelId={level.id}
+                  category={category}
+                  courseId={props.courseId}
+                />
               ) : (
                 <div />
               )}
@@ -59,6 +65,7 @@ const Matrix = props => (
 )
 
 Matrix.propTypes = {
+  courseId: PropTypes.number.isRequired, // eslint-disable-line
   levels: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string.isRequired
