@@ -40,3 +40,20 @@
 .taskUncollapseable {
   display: flex;
 }
+
+.TaskTypelist {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.TaskType {
+  margin: 0px 10px 0px 10px;
+}
+
+.TaskTypeContainer {
+  display: flex;
+}
+
+.TaskTypeName {
+  font-size: 24px;
+}

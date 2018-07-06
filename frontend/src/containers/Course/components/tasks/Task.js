@@ -6,6 +6,7 @@ import ObjectiveSlider from './ObjectiveSlider'
 import AddObjectiveForm from './AddObjectiveForm'
 import DetachObjectiveForm from './DetachObjectiveForm'
 import RemoveTaskForm from './RemoveTaskForm'
+import TaskTypelist from './TaskTypelist'
 
 class Task extends Component {
   constructor(props) {
@@ -32,6 +33,11 @@ class Task extends Component {
             <h3>{this.props.task.name}</h3>
             <h4>{this.props.task.description}</h4>
             <p>{this.props.task.info}</p>
+          </Grid.Column>
+        </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <TaskTypelist types={this.props.task.types} task={{ id: this.props.task.id, name: this.props.task.name }} />
           </Grid.Column>
         </Grid.Row>
         {this.props.task.objectives.map(objective => (
@@ -91,7 +97,8 @@ Task.propTypes = {
     info: PropTypes.string.isRequired,
     objectives: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number
-    })).isRequired
+    })).isRequired,
+    types: PropTypes.arrayOf(PropTypes.object).isRequired
   }).isRequired,
   editing: PropTypes.bool
 }

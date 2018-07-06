@@ -42,6 +42,12 @@ const taskReducer = (state = INITIAL_STATE, action) => {
     case 'TASK_DELETE':
       console.log(action.response)
       return state
+    case 'TASK_ADD_TYPE':
+      console.log(action.response)
+      return state
+    case 'TASK_REMOVE_TYPE':
+      console.log(action.response)
+      return state
     default:
       return state
   }
