@@ -30,20 +30,25 @@ const CategoryQuestionModule = (props) => {
       value: 5
     }
   ]
-  const checkbox = edit ? <Checkbox defaultChecked={textFieldOn} onChange={() => handleChange(id, 'textfield')} label="Klikkaa tästä jos haluat perustelut mukaan" /> : null
+  const checkbox = edit ? (<Checkbox
+    defaultChecked={textFieldOn}
+    onChange={() => handleChange(id, 'textfield')}
+    label="Klikkaa tästä jos haluat perustelut mukaan"
+  />) : null
 
 
-  const textArea = () => {
-    return (
+  const textArea = () => (
+    (
       <Grid.Column width={10}>
-        <Form.TextArea disabled={!textFieldOn}
+        <Form.TextArea
+          disabled={!textFieldOn}
           label="Perustelut arvosanalle"
           placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
         />
         {checkbox}
       </Grid.Column>
     )
-  }
+  )
 
   return (
     <Form.Field>
@@ -54,7 +59,7 @@ const CategoryQuestionModule = (props) => {
             <Grid.Row style={{ padding: '20px' }}>
               <Grid.Column width={10}>
                 <label> Arvioi osaamisesi asteikolla 1-5</label>
-                <Dropdown style={{ marginLeft: '20px' }} placeholder='Valitse arvosana' selection options={gradeOptions} />
+                <Dropdown style={{ marginLeft: '20px' }} placeholder="Valitse arvosana" selection options={gradeOptions} />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row style={{ padding: '20px' }}>
@@ -77,7 +82,9 @@ CategoryQuestionModule.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string,
     id: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  edit: PropTypes.bool.isRequired,
+  handleChange: PropTypes.func.isRequired
 }
 
 export default CategoryQuestionModule

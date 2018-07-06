@@ -59,13 +59,15 @@ class SelfAssesmentForm extends React.Component {
 }
 
 SelfAssesmentForm.defaultProps = {
-  justCreated: false,
+  created: false,
   createdForm: {}
 }
 
 SelfAssesmentForm.propTypes = {
-  justCreated: PropTypes.bool,
-  createdForm: PropTypes.shape()
+  created: PropTypes.bool,
+  createdForm: PropTypes.shape(),
+  edit: PropTypes.bool.isRequired,
+  handleChange: PropTypes.func.isRequired
 }
 
 export default SelfAssesmentForm

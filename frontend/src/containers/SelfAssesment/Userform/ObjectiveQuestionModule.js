@@ -2,6 +2,7 @@ import { Form, Card, List, Grid } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 
+
 class ObjectiveQuestionModule extends React.Component {
   constructor(props) {
     super(props)
@@ -39,7 +40,14 @@ class ObjectiveQuestionModule extends React.Component {
                       </List.Item>
                     </Grid.Column>
                     <Grid.Column>
-                      <input style={{}} value={ratings[o.name] ? ratings[o.name] : 1} onChange={(e) => this.handleChange(e, o.name)} type="range" min={0} max={2} />
+                      <input
+                        style={{}}
+                        value={ratings[o.name] ? ratings[o.name] : 1}
+                        onChange={e => this.handleChange(e, o.name)}
+                        type="range"
+                        min={0}
+                        max={2}
+                      />
                     </Grid.Column>
                     <Grid.Column>
                       {answers[ratings[o.name]]}
@@ -63,7 +71,7 @@ ObjectiveQuestionModule.defaultProps = {
 }
 ObjectiveQuestionModule.propTypes = {
   data: PropTypes.shape({
-    answers: PropTypes.arrayOf(),
+    answers: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
     objectives: PropTypes.arrayOf(PropTypes.shape())
   })
