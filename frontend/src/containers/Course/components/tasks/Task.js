@@ -5,6 +5,7 @@ import { Grid, Button } from 'semantic-ui-react'
 import ObjectiveSlider from './ObjectiveSlider'
 import AddObjectiveForm from './AddObjectiveForm'
 import DetachObjectiveForm from './DetachObjectiveForm'
+import RemoveTaskForm from './RemoveTaskForm'
 
 class Task extends Component {
   constructor(props) {
@@ -62,13 +63,20 @@ class Task extends Component {
   render() {
     return (
       <div className="task">
-        <Button
-          onClick={this.toggleExpanded}
-          basic={!this.state.expanded}
-          fluid
-        >
-          {this.props.task.name}
-        </Button>
+        <div className="taskUncollapseable">
+          <Button
+            onClick={this.toggleExpanded}
+            basic={!this.state.expanded}
+            fluid
+          >
+            {this.props.task.name}
+          </Button>
+          {this.props.editing ? (
+            <RemoveTaskForm task={this.props.task} />
+          ) : (
+            <div />
+          )}
+        </div>
         {this.renderExpanded()}
       </div>
     )

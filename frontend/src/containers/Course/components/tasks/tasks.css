@@ -36,3 +36,7 @@
 .addTaskButton {
   width: 500px;
 }
+
+.taskUncollapseable {
+  display: flex;
+}

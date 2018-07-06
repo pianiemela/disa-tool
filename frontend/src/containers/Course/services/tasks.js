@@ -38,3 +38,19 @@ export const addTask = (data) => {
     setTimeout(resolve, 100, action)
   })
 }
+
+export const removeTask = (data) => {
+  const response = {
+    message: '<removeTaskSuccess>',
+    data: {
+      id: data.id
+    }
+  }
+  const action = {
+    type: 'TASK_DELETE',
+    response
+  }
+  return new Promise((resolve) => {
+    setTimeout(resolve, 100, action)
+  })
+}
