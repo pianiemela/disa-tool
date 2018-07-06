@@ -4,6 +4,7 @@ import { Form } from 'semantic-ui-react'
 import ObjectiveQuestionModule from './ObjectiveQuestionModule'
 import CategoryQuestionModule from './CategoryQuestionModule'
 
+
 class SelfAssesmentForm extends React.Component {
   constructor(props) {
     super(props)
@@ -12,8 +13,7 @@ class SelfAssesmentForm extends React.Component {
 
   renderEditableForm = () => {
     if (this.props.created) {
-      const { createdForm, edit, handleFormChange } = this.props
-      console.log(this.props)
+      const { createdForm, edit, handleChange } = this.props
 
       if (createdForm.type === 'objectives') {
         return (
@@ -21,7 +21,12 @@ class SelfAssesmentForm extends React.Component {
             <h2>{createdForm.name} tavoitelomake</h2>
             <Form>
               {createdForm.questionModules.map(questionModules =>
-                <ObjectiveQuestionModule key={questionModules.id} data={questionModules} edit={edit} handleFormChange={handleFormChange} />)
+                (<ObjectiveQuestionModule
+                  key={questionModules.id}
+                  data={questionModules}
+                  edit={edit}
+                  handleFormChange={handleChange}
+                />))
               }
             </Form>
           </div>)
@@ -31,7 +36,12 @@ class SelfAssesmentForm extends React.Component {
           <h2>{createdForm.name} kategorialomake</h2>
           <Form>
             {createdForm.questionModules.map(questionModules =>
-              <CategoryQuestionModule key={questionModules.id} data={questionModules} edit={edit} handleFormChange={handleFormChange} />)
+              (<CategoryQuestionModule
+                key={questionModules.id}
+                data={questionModules}
+                edit={edit}
+                handleChange={handleChange}
+              />))
             }
           </Form>
         </div>)

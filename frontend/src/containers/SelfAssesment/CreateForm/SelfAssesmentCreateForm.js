@@ -14,7 +14,7 @@ import EditAssesmentSelection from './EditAssesmentSelection'
 class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { active: [], selectedView: '', createdForm: {} }
+    this.state = { active: [], selectedView: '', createdForm: {}, created: false }
   }
 
   componentWillMount() {
@@ -31,8 +31,32 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ active: opened })
   }
 
-  handleFormChange = (e) => {
-    console.log(e)
+  handleFormChange = (id, type, upOrDown) => {
+    const toChange = this.state.createdForm
+    switch (type) {
+      case 'textfield': {
+        console.log(`wut wut noniin tesktikenttä muuttuu`)
+        toChange.questionModules = toChange.questionModules.map(o =>
+          (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
+        this.setState({ createdForm: toChange })
+        break
+      }
+      case 'changeOrder': {
+        const a = toChange.questionModules.findIndex(x => x.id === id)
+        const b = toChange.questionModules[a]
+        if (upOrDown === 'down' && a < toChange.questionModules.length - 1) {
+          toChange.questionModules[a] = toChange.questionModules[a + 1]
+          toChange.questionModules[a + 1] = b
+        } else if (upOrDown === 'up' && a > 0) {
+          toChange.questionModules[a] = toChange.questionModules[a - 1]
+          toChange.questionModules[a - 1] = b
+        }
+        this.setState({ createdForm: toChange })
+        break
+      }
+
+      default:
+    }
   }
 
   toggleButton = (e) => {
@@ -103,7 +127,7 @@ class SelfAssesmentCreateForm extends React.Component {
         </Grid>
       )
     }
-    return <SelfAssesmentForm handleFormChange={this.handleFormChange} edit={true} created={true} createdForm={createdForm} />
+    return <SelfAssesmentForm handleChange={this.handleFormChange} edit={true} created={true} createdForm={createdForm} />
   }
 
   render() {

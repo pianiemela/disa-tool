@@ -1,10 +1,12 @@
 import { Form, Card, Grid, Checkbox, Dropdown } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
+import UpOrDownToggle from './upDownToggle'
+
 
 const CategoryQuestionModule = (props) => {
-  const { name, edit } = props.data
-  console.log(props)
+  const { edit, handleChange } = props
+  const { name, textFieldOn, id } = props.data
 
   const gradeOptions = [
     {
@@ -26,29 +28,20 @@ const CategoryQuestionModule = (props) => {
     {
       text: '5',
       value: 5
-    },
-
+    }
   ]
+  const checkbox = edit ? <Checkbox onChange={() => handleChange(id, 'textfield')} label="Klikkaa tästä jos haluat perustelut mukaan" /> : null
+
 
   const textArea = () => {
-    if (props.edit) {
-      return (
-        <Grid.Column width={10}>
-          <Form.TextArea
-            label="Perustelut arvosanalle"
-            placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
-          />
-          <Checkbox label="Klikkaa tästä jos haluat persustelut mukaan" />
-        </Grid.Column>
-      )
-    } return (
+    return (
       <Grid.Column width={10}>
         <Form.TextArea
           label="Perustelut arvosanalle"
           placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
         />
+        {checkbox}
       </Grid.Column>
-
     )
   }
 
@@ -57,8 +50,9 @@ const CategoryQuestionModule = (props) => {
       <Card fluid>
         <Card.Content>
           <Card.Header>{name}</Card.Header>
-          <Grid verticalAlign="middle" columns={2}>
+          <Grid verticalAlign="middle" columns={3}>
             <Grid.Row style={{ padding: '20px' }}>
+
               <Grid.Column>
                 <label> Arvioi osaamisesi asteikolla 1-5</label>
                 <Dropdown style={{ marginLeft: '20px' }} placeholder='Valitse arvosana' selection options={gradeOptions} />
@@ -67,6 +61,9 @@ const CategoryQuestionModule = (props) => {
             <Grid.Row style={{ padding: '20px' }}>
               <Grid.Column width={10}>
                 {textArea()}
+              </Grid.Column>
+              <Grid.Column>
+                <UpOrDownToggle id={id} handleChange={handleChange} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
