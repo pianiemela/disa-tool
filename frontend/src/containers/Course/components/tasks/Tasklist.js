@@ -4,10 +4,16 @@ import { connect } from 'react-redux'
 import './tasks.css'
 
 import Task from './Task'
+import AddTaskForm from './AddTaskForm'
 
 const Tasklist = props => (
   <div className="taskContainer">
     {props.tasks.map(task => <Task key={task.id} task={task} editing={props.editing} />)}
+    {props.editing ? (
+      <AddTaskForm />
+    ) : (
+      <div />
+    )}
   </div>
 )
 

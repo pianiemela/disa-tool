@@ -32,3 +32,7 @@
 .DetachObjectiveForm {
   margin-right: 10px;
 }
+
+.addTaskButton {
+  width: 500px;
+}

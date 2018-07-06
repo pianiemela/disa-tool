@@ -30,7 +30,7 @@ class ModalForm extends Component {
 
   render() {
     const trigger = (
-      <div onClick={this.expand}>
+      <div style={{ margin: 'auto', display: 'inline-block' }} onClick={this.expand}>
         {this.props.trigger}
       </div>
     )
