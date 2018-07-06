@@ -4,28 +4,28 @@ import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
-import { removeType } from '../../services/types'
+import { removeObjective } from '../../services/objectives'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class RemoveTypeForm extends Component {
-  removeType = () => {
-    this.props.removeType({
-      typeId: this.props.type.id
+class RemoveObjectiveForm extends Component {
+  removeObjective = () => {
+    this.props.removeObjective({
+      id: this.props.objective.id
     })
   }
 
   render() {
     return (
-      <div className="removeTypeForm">
+      <div className="RemoveObjectiveForm">
         <ModalForm
           header="placeholder text"
-          trigger={<Button icon={{ name: 'delete' }} color="red" size="small" />}
+          trigger={<Button color="red" icon={{ name: 'delete' }} size="small" />}
           content={
             <div>
-              <p>PLACEHOLDER: Remove {this.props.type.name}</p>
+              <p>PLACEHOLDER: Remove {this.props.objective.name}</p>
               <div className="choiceContainer">
-                <Button color="red" onClick={this.removeType}>
+                <Button color="red" onClick={this.removeObjective}>
                   {'<delete>'}
                 </Button>
                 <Button>
@@ -35,25 +35,22 @@ class RemoveTypeForm extends Component {
             </div>
           }
         />
+
       </div>
     )
   }
 }
 
-RemoveTypeForm.propTypes = {
-  removeType: PropTypes.func.isRequired,
-  type: PropTypes.shape({
+RemoveObjectiveForm.propTypes = {
+  objective: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  removeObjective: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps
-})
-
 const mapDispatchToProps = dispatch => ({
-  removeType: asyncAction(removeType, dispatch)
+  removeObjective: asyncAction(removeObjective, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemoveTypeForm)
+export default connect(null, mapDispatchToProps)(RemoveObjectiveForm)

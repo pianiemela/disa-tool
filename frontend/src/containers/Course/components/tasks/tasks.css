@@ -23,3 +23,37 @@
 .addObjectiveForm {
   margin-bottom: 10px;
 }
+
+.objectiveBlock {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.DetachObjectiveForm {
+  margin-right: 10px;
+}
+
+.addTaskButton {
+  width: 500px;
+}
+
+.taskUncollapseable {
+  display: flex;
+}
+
+.TaskTypelist {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.TaskType {
+  margin: 0px 10px 0px 10px;
+}
+
+.TaskTypeContainer {
+  display: flex;
+}
+
+.TaskTypeName {
+  font-size: 24px;
+}

@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Button } from 'semantic-ui-react'
-import './tasks.css'
 
 import ObjectiveSlider from './ObjectiveSlider'
 import AddObjectiveForm from './AddObjectiveForm'
+import DetachObjectiveForm from './DetachObjectiveForm'
+import RemoveTaskForm from './RemoveTaskForm'
+import TaskTypelist from './TaskTypelist'
 
 class Task extends Component {
   constructor(props) {
@@ -33,8 +35,24 @@ class Task extends Component {
             <p>{this.props.task.info}</p>
           </Grid.Column>
         </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <TaskTypelist types={this.props.task.types} task={{ id: this.props.task.id, name: this.props.task.name }} />
+          </Grid.Column>
+        </Grid.Row>
         {this.props.task.objectives.map(objective => (
-          <ObjectiveSlider key={objective.id} objective={objective} taskId={this.props.task.id} />
+          <Grid.Row key={objective.id}>
+            <Grid.Column textAlign="right">
+              <div className="objectiveBlock">
+                {this.props.editing ? (
+                  <DetachObjectiveForm task={this.props.task} objective={objective} />
+                ) : (
+                  <div />
+                )}
+                <ObjectiveSlider objective={objective} taskId={this.props.task.id} />
+              </div>
+            </Grid.Column>
+          </Grid.Row>
         ))}
         {this.props.editing ? (
           <AddObjectiveForm
@@ -51,13 +69,20 @@ class Task extends Component {
   render() {
     return (
       <div className="task">
-        <Button
-          onClick={this.toggleExpanded}
-          basic={!this.state.expanded}
-          fluid
-        >
-          {this.props.task.name}
-        </Button>
+        <div className="taskUncollapseable">
+          <Button
+            onClick={this.toggleExpanded}
+            basic={!this.state.expanded}
+            fluid
+          >
+            {this.props.task.name}
+          </Button>
+          {this.props.editing ? (
+            <RemoveTaskForm task={this.props.task} />
+          ) : (
+            <div />
+          )}
+        </div>
         {this.renderExpanded()}
       </div>
     )
@@ -72,7 +97,8 @@ Task.propTypes = {
     info: PropTypes.string.isRequired,
     objectives: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number
-    })).isRequired
+    })).isRequired,
+    types: PropTypes.arrayOf(PropTypes.object).isRequired
   }).isRequired,
   editing: PropTypes.bool
 }

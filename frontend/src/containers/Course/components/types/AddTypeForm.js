@@ -1,60 +1,38 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Modal, Form, Label, Input } from 'semantic-ui-react'
+import { Button, Form, Label, Input } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
-import './types.css'
 
 import { addType } from '../../services/types'
 
+import ModalForm from '../../../../utils/components/ModalForm'
+
 class AddTypeForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      expanded: false
-    }
-  }
-
-  expand = () => {
-    this.setState({
-      expanded: true
-    })
-  }
-
-  collapse = () => {
-    this.setState({
-      expanded: false
-    })
-  }
-
   addTypeSubmit = (e) => {
-    e.preventDefault()
     this.props.addType({
       courseId: this.props.courseId,
       name: e.target.name.value
     })
-    this.collapse(null)
   }
 
   render() {
     return (
       <div className="addTypeForm">
-        <Modal
+        <ModalForm
+          header="placeholder data"
           trigger={<Button onClick={this.expand} className="addTypeButton" icon={{ name: 'add' }} />}
-          open={this.state.expanded}
-          onClose={this.collapse}
-        >
-          <Modal.Header>placeholder data</Modal.Header>
-          <Modal.Content>
-            <Form onSubmit={this.addTypeSubmit}>
+          content={
+            <div>
               <Form.Field>
                 <Label>name</Label>
                 <Input name="name" type="text" fluid />
               </Form.Field>
               <Button type="submit">Tallenna</Button>
-            </Form>
-          </Modal.Content>
-        </Modal>
+            </div>
+          }
+          onSubmit={this.addTypeSubmit}
+        />
       </div>
     )
   }

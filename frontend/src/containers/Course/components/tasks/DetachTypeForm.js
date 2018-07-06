@@ -4,26 +4,27 @@ import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
-import { removeType } from '../../services/types'
+import { removeTypeFromTask } from '../../services/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class RemoveTypeForm extends Component {
+class DetachTypeForm extends Component {
   removeType = () => {
-    this.props.removeType({
+    this.props.removeTypeFromTask({
+      taskId: this.props.task.id,
       typeId: this.props.type.id
     })
   }
 
   render() {
     return (
-      <div className="removeTypeForm">
+      <div className="DetachTypeForm">
         <ModalForm
           header="placeholder text"
-          trigger={<Button icon={{ name: 'delete' }} color="red" size="small" />}
+          trigger={<Button color="red" icon={{ name: 'delete' }} size="small" />}
           content={
             <div>
-              <p>PLACEHOLDER: Remove {this.props.type.name}</p>
+              <p>PLACEHOLDER: Remove {this.props.type.name} from {this.props.task.name}</p>
               <div className="choiceContainer">
                 <Button color="red" onClick={this.removeType}>
                   {'<delete>'}
@@ -40,20 +41,20 @@ class RemoveTypeForm extends Component {
   }
 }
 
-RemoveTypeForm.propTypes = {
-  removeType: PropTypes.func.isRequired,
+DetachTypeForm.propTypes = {
+  task: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired,
   type: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  removeTypeFromTask: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  ...ownProps
-})
-
 const mapDispatchToProps = dispatch => ({
-  removeType: asyncAction(removeType, dispatch)
+  removeTypeFromTask: asyncAction(removeTypeFromTask, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(RemoveTypeForm)
+export default connect(null, mapDispatchToProps)(DetachTypeForm)
