@@ -9,12 +9,12 @@ import { getCourseData } from '../services/createForm'
 import { getAllSelfAssesments } from '../services/selfAssesment'
 import { createFormJSONStucture } from '../reducers/createFormReducer'
 import CategorySelection from './CategorySelection'
-import EditAssesmentSelection from './EditAssesmentSelection';
+import EditAssesmentSelection from './EditAssesmentSelection'
 
 class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { active: [], selectedView: '', createdForm: {}, editForm: '' }
+    this.state = { active: [], selectedView: '', createdForm: {}, created: false }
   }
 
   componentWillMount() {
@@ -31,6 +31,34 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ active: opened })
   }
 
+  handleFormChange = (id, type, upOrDown) => {
+    const toChange = this.state.createdForm
+    switch (type) {
+      case 'textfield': {
+        console.log(`wut wut noniin tesktikenttä muuttuu`)
+        toChange.questionModules = toChange.questionModules.map(o =>
+          (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
+        this.setState({ createdForm: toChange })
+        break
+      }
+      case 'changeOrder': {
+        const a = toChange.questionModules.findIndex(x => x.id === id)
+        const b = toChange.questionModules[a]
+        if (upOrDown === 'down' && a < toChange.questionModules.length - 1) {
+          toChange.questionModules[a] = toChange.questionModules[a + 1]
+          toChange.questionModules[a + 1] = b
+        } else if (upOrDown === 'up' && a > 0) {
+          toChange.questionModules[a] = toChange.questionModules[a - 1]
+          toChange.questionModules[a - 1] = b
+        }
+        this.setState({ createdForm: toChange })
+        break
+      }
+
+      default:
+    }
+  }
+
   toggleButton = (e) => {
     const { value } = e.target
     this.setState({ selectedView: value })
@@ -38,43 +66,32 @@ class SelfAssesmentCreateForm extends React.Component {
 
   createForm = () => {
     const data = {}
-    const { courseInstance } = this.props.courseData
-    data.fin_name = courseInstance.fin_name
-    data.swe_name = courseInstance.fin_name
-    data.eng_name = courseInstance.fin_name
+    const { courseData } = this.props
+    data.name = 'Linis'
     data.type = this.state.selectedView
 
     if (data.type === 'category') {
       data.questionModules = []
-      courseInstance.course_instance_objectives.map(ciO =>
+      courseData.map(ciO =>
         data.questionModules.push({
           id: ciO.id,
-          fin_name: ciO.category,
-          swe_name: ciO.category,
-          eng_name: ciO.category,
+          name: ciO.name,
           textFieldOn: true
         }))
     } else {
       data.questionModules = []
-      courseInstance.course_instance_objectives.map(ciO =>
+      courseData.map(ciO =>
         data.questionModules.push({
           id: ciO.id,
-          fin_name: ciO.category,
-          swe_name: ciO.category,
-          eng_name: ciO.category,
+          name: ciO.name,
           objectives: ciO.objectives.map(o => ({
-            fin_name: o,
-            swe_name: o,
-            eng_name: o
+            id: o.id,
+            name: o.name
           })),
           answers: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
         }))
     }
     this.setState({ created: true, createdForm: data })
-  }
-
-  editValue = () => {
-
   }
 
   createDropdownOptions = () => {
@@ -110,7 +127,7 @@ class SelfAssesmentCreateForm extends React.Component {
         </Grid>
       )
     }
-    return <SelfAssesmentForm justCreated={true} createdForm={createdForm} />
+    return <SelfAssesmentForm handleChange={this.handleFormChange} edit={true} created={true} createdForm={createdForm} />
   }
 
   render() {
@@ -139,15 +156,7 @@ const mapDispatchToProps = dispatch => (
 SelfAssesmentCreateForm.propTypes = {
   getCourseData: PropTypes.func.isRequired,
   getAllSelfAssesments: PropTypes.func.isRequired,
-  courseData: PropTypes.shape({
-    courseInstance: PropTypes.shape({
-      course_instance_objectives: PropTypes.array,
-      fin_name: PropTypes.string,
-      swe_name: PropTypes.string,
-      eng_name: PropTypes.string,
-      id: PropTypes.number
-    })
-  }).isRequired,
+  courseData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   selfAssesments: PropTypes.arrayOf(PropTypes.shape({})).isRequired
 }
 
