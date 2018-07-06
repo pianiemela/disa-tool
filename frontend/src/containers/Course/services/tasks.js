@@ -26,8 +26,8 @@ export const addTask = (data) => {
   const response = {
     message: '<addTaskSuccess>',
     data: {
-      id: 2,
-      name: data.name
+      ...data,
+      id: 2
     }
   }
   const action = {

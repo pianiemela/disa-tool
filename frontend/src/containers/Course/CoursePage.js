@@ -38,7 +38,7 @@ class CoursePage extends Component {
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Tasklist editing={this.state.editing} />
+          <Tasklist editing={this.state.editing} courseId={this.props.courseId} />
         </Grid.Row>
       </Grid>
     )

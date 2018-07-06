@@ -10,7 +10,7 @@ const Tasklist = props => (
   <div className="taskContainer">
     {props.tasks.map(task => <Task key={task.id} task={task} editing={props.editing} />)}
     {props.editing ? (
-      <AddTaskForm />
+      <AddTaskForm courseId={props.courseId} />
     ) : (
       <div />
     )}
@@ -21,7 +21,8 @@ Tasklist.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number
   })).isRequired,
-  editing: PropTypes.bool
+  editing: PropTypes.bool,
+  courseId: PropTypes.number.isRequired
 }
 
 Tasklist.defaultProps = {
