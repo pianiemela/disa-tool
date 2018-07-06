@@ -58,10 +58,7 @@ export const removeTask = (data) => {
 export const addTypeToTask = (data) => {
   const response = {
     message: '<addTypeToTaskSuccess>',
-    data: {
-      id: 10,
-      name: data.name
-    }
+    data
   }
   const action = {
     type: 'TASK_ADD_TYPE',

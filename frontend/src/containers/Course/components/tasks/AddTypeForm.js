@@ -57,17 +57,25 @@ class AddTypeForm extends Component {
   }
 
   render() {
+    const contentPrompt = [
+      'Liitä tehtävätyyppi tehtävään',
+      `${this.props.task.name}`
+    ].join(' ')
+    const label = 'tehtävätyyppi'
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
           <div className="addTypeForm">
             <ModalForm
-              header="placeholder content"
+              header="Liitä tehtävätyyppi tehtävään"
               trigger={<Button icon={{ name: 'add' }} onClick={this.prepareOptions} />}
               content={
                 <div>
+                  <p>
+                    {contentPrompt}.
+                  </p>
                   <Form.Field>
-                    <Label>type</Label>
+                    <Label>{label}</Label>
                     <Dropdown
                       name="type"
                       className="typeDropdown"
@@ -75,9 +83,10 @@ class AddTypeForm extends Component {
                       selection
                       value={this.state.typeSelection}
                       onChange={this.changeTypeSelection}
+                      fluid
                     />
                   </Form.Field>
-                  <Button type="submit">Tallenna</Button>
+                  <Button type="submit" color="green">Tallenna</Button>
                 </div>
               }
               onSubmit={this.addTypeSubmit}
@@ -92,7 +101,8 @@ class AddTypeForm extends Component {
 AddTypeForm.propTypes = {
   typeIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   task: PropTypes.shape({
-    id: PropTypes.number.isRequired
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
   }).isRequired,
   types: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
