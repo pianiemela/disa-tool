@@ -23,9 +23,9 @@ class AddTypeForm extends Component {
     const contentPrompt = 'Lisää uusi tyyppi'
     const label = 'nimi'
     return (
-      <div className="Lisää uusi tyyppi">
+      <div className="addTypeForm">
         <ModalForm
-          header="placeholder data"
+          header="Lisää uusi tyyppi"
           trigger={<Button onClick={this.expand} className="addTypeButton" icon={{ name: 'add' }} />}
           content={
             <div>
