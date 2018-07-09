@@ -11,7 +11,7 @@ import Tasklist from './components/tasks/Tasklist'
 import Typelist from './components/types/Typelist'
 import CourseHeader from './components/header/CourseHeader'
 
-class CoursePage extends Component {
+export class CoursePage extends Component {
   componentWillMount() {
     this.props.getCourseData({
       courseId: this.props.courseId
@@ -23,27 +23,29 @@ class CoursePage extends Component {
       return <Loader active />
     }
     return (
-      <Grid>
-        <Grid.Row>
-          <CourseHeader editing={this.props.editing} courseName={this.props.course.name} />
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <Matrix editing={this.props.editing} courseId={this.props.course.id} />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <Typelist editing={this.props.editing} courseId={this.props.course.id} />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Tasklist editing={this.props.editing} courseId={this.props.course.id} />
-        </Grid.Row>
-        <Grid.Row>
-          <div />
-        </Grid.Row>
-      </Grid>
+      <div className="CoursePage">
+        <Grid>
+          <Grid.Row>
+            <CourseHeader editing={this.props.editing} courseName={this.props.course.name} />
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Matrix editing={this.props.editing} courseId={this.props.course.id} />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Typelist editing={this.props.editing} courseId={this.props.course.id} />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Tasklist editing={this.props.editing} courseId={this.props.course.id} />
+          </Grid.Row>
+          <Grid.Row>
+            <div />
+          </Grid.Row>
+        </Grid>
+      </div>
     )
   }
 }
