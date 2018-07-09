@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Button, Dropdown, Grid, Label } from 'semantic-ui-react'
+import asyncAction from '../../../../utils/asyncAction'
 
 import { addObjectiveToTask } from '../../services/tasks'
 
@@ -48,11 +49,9 @@ class AddObjectiveForm extends Component {
 
   addObjectiveSubmit = (e) => {
     e.preventDefault()
-    addObjectiveToTask({
+    this.props.addObjectiveToTask({
       taskId: this.props.task.id,
       objectiveId: this.state.objectiveSelection
-    }).then((response) => {
-      console.log(response)
     })
   }
 
@@ -107,7 +106,8 @@ AddObjectiveForm.propTypes = {
   objectives: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string.isRequired
-  })).isRequired
+  })).isRequired,
+  addObjectiveToTask: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => (
@@ -117,4 +117,8 @@ const mapStateToProps = (state, ownProps) => (
   }
 )
 
-export default connect(mapStateToProps, null)(AddObjectiveForm)
+const mapDispatchToProps = dispatch => ({
+  addObjectiveToTask: asyncAction(addObjectiveToTask, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddObjectiveForm)
