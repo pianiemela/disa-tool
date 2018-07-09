@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import './types.css'
 
 import Type from './Type'
-import AddTypeForm from './AddTypeForm'
+import CreateTypeForm from './CreateTypeForm'
 
 const Typelist = props => (
   <div className="typelist">
@@ -13,7 +13,7 @@ const Typelist = props => (
     This is a sacrificial div to deal with that bug. */}
     {props.types.map(type => <Type key={type.id} type={type} editing={props.editing} />)}
     {props.editing ? (
-      <AddTypeForm courseId={props.courseId} />
+      <CreateTypeForm courseId={props.courseId} />
     ) : (
       <div />
     )}

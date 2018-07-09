@@ -9,7 +9,7 @@ import { addType } from '../../services/types'
 import ModalForm from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
-class AddTypeForm extends Component {
+class CreateTypeForm extends Component {
   addTypeSubmit = (e) => {
     this.props.addType({
       courseId: this.props.courseId,
@@ -43,7 +43,7 @@ class AddTypeForm extends Component {
   }
 }
 
-AddTypeForm.propTypes = {
+CreateTypeForm.propTypes = {
   addType: PropTypes.func.isRequired,
   courseId: PropTypes.number.isRequired
 }
@@ -52,4 +52,4 @@ const mapDispatchToProps = dispatch => ({
   addType: asyncAction(addType, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(AddTypeForm)
+export default connect(null, mapDispatchToProps)(CreateTypeForm)
