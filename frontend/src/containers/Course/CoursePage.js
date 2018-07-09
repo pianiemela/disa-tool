@@ -41,9 +41,6 @@ export class CoursePage extends Component {
           <Grid.Row>
             <Tasklist editing={this.props.editing} courseId={this.props.course.id} />
           </Grid.Row>
-          <Grid.Row>
-            <div />
-          </Grid.Row>
         </Grid>
       </div>
     )

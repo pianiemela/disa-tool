@@ -5,18 +5,21 @@ import Matrix from '../../../containers/Course/components/matrix/Matrix'
 import Tasklist from '../../../containers/Course/components/tasks/Tasklist'
 import Typelist from '../../../containers/Course/components/types/Typelist'
 
+const mockFn = () => {}
+
+const createWrapper = () => shallow(<CoursePage
+  courseId={1}
+  course={{}}
+  editing={false}
+  loading={false}
+  getCourseData={mockFn}
+/>)
+
 describe('Course page', () => {
   let wrapper
-  const mockFn = () => {}
 
   beforeEach(() => {
-    wrapper = shallow(<CoursePage
-      courseId={1}
-      course={{}}
-      editing={false}
-      loading={false}
-      getCourseData={mockFn}
-    />)
+    wrapper = createWrapper()
   })
 
   it('renders', () => {
@@ -37,5 +40,19 @@ describe('Course page', () => {
 
   it('renders Typelist', () => {
     expect(wrapper.find(Typelist).exists()).toEqual(true)
+  })
+
+  describe('while loading', () => {
+    beforeEach(() => {
+      wrapper = createWrapper()
+      wrapper.setProps({
+        ...wrapper.props(),
+        loading: true
+      })
+    })
+
+    it('does not render', () => {
+      expect(wrapper.find('.CoursePage').exists()).toEqual(false)
+    })
   })
 })
