@@ -17,20 +17,28 @@ class DetachObjectiveForm extends Component {
   }
 
   render() {
+    const contentPrompt = [
+      'Poistetaanko oppimistavoite',
+      `"${this.props.objective.name}"`,
+      'tehtävästä',
+      `"${this.props.task.name}"`
+    ].join(' ')
     return (
       <div className="DetachObjectiveForm">
         <ModalForm
-          header="placeholder text"
+          header="Poista oppimistavoite tehtävästä"
           trigger={<Button color="red" icon={{ name: 'delete' }} />}
           content={
             <div>
-              <p>PLACEHOLDER: Remove {this.props.objective.name} from {this.props.task.name}</p>
+              <p>
+                {contentPrompt}?
+              </p>
               <div className="choiceContainer">
                 <Button color="red" onClick={this.removeObjective}>
-                  {'<delete>'}
+                  {'Poista'}
                 </Button>
                 <Button>
-                  {'<cancel>'}
+                  {'Peru'}
                 </Button>
               </div>
             </div>

@@ -17,20 +17,28 @@ class DetachTypeForm extends Component {
   }
 
   render() {
+    const contentPrompt = [
+      'Poistetaanko tyyppi',
+      `"${this.props.type.name}"`,
+      'tehtävästä',
+      `"${this.props.task.name}"`
+    ].join(' ')
     return (
       <div className="DetachTypeForm">
         <ModalForm
-          header="placeholder text"
+          header="Poista tyyppi tehtävästä"
           trigger={<Button color="red" icon={{ name: 'delete' }} size="small" />}
           content={
             <div>
-              <p>PLACEHOLDER: Remove {this.props.type.name} from {this.props.task.name}</p>
+              <p>
+                {contentPrompt}?
+              </p>
               <div className="choiceContainer">
                 <Button color="red" onClick={this.removeType}>
-                  {'<delete>'}
+                  {'Poista'}
                 </Button>
                 <Button>
-                  {'<cancel>'}
+                  {'Peru'}
                 </Button>
               </div>
             </div>
