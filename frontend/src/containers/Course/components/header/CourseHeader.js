@@ -6,7 +6,7 @@ import './header.css'
 
 import { setEditing } from '../../services/course'
 
-class CourseHeader extends Component {
+export class CourseHeader extends Component {
   setEditing = value => () => {
     this.props.setEditing({
       value
