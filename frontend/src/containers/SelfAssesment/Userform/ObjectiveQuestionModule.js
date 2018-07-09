@@ -25,7 +25,7 @@ class ObjectiveQuestionModule extends React.Component {
 
   render() {
     const { ratings } = this.state
-    const { objectives, answers, name } = this.props.data
+    const { objectives, options, name } = this.props.data
     return (
       <Form.Field>
         <Card fluid>
@@ -50,7 +50,7 @@ class ObjectiveQuestionModule extends React.Component {
                       />
                     </Grid.Column>
                     <Grid.Column>
-                      {answers[ratings[o.name]]}
+                      {options[ratings[o.name]]}
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
@@ -64,14 +64,14 @@ class ObjectiveQuestionModule extends React.Component {
 }
 ObjectiveQuestionModule.defaultProps = {
   data: {
-    answers: [],
+    options: [],
     name: 'Nothing',
     objectives: []
   }
 }
 ObjectiveQuestionModule.propTypes = {
   data: PropTypes.shape({
-    answers: PropTypes.arrayOf(PropTypes.string),
+    options: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
     objectives: PropTypes.arrayOf(PropTypes.shape())
   })

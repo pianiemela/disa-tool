@@ -5,7 +5,7 @@ import UpOrDownToggle from './upDownToggle'
 
 
 const CategoryQuestionModule = (props) => {
-  const { edit, handleChange } = props
+  const { edit, handleChange, final, textArea } = props
   const { name, textFieldOn, id } = props.data
 
   const gradeOptions = [
@@ -37,19 +37,6 @@ const CategoryQuestionModule = (props) => {
   />) : null
 
 
-  const textArea = () => (
-    (
-      <Grid.Column width={10}>
-        <Form.TextArea
-          disabled={!textFieldOn}
-          label="Perustelut arvosanalle"
-          placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
-        />
-        {checkbox}
-      </Grid.Column>
-    )
-  )
-
   return (
     <Form.Field>
       <Card fluid>
@@ -64,11 +51,15 @@ const CategoryQuestionModule = (props) => {
             </Grid.Row>
             <Grid.Row style={{ padding: '20px' }}>
               <Grid.Column width={10}>
-                {textArea()}
+                {textArea('Perustelut arvosanalle', 'Kirjoita perustelut valitsemallesi arvosanalle', textFieldOn, final ? null : checkbox)}
               </Grid.Column>
-              <Grid.Column>
-                <UpOrDownToggle id={id} handleChange={handleChange} />
-              </Grid.Column>
+              {final ?
+                null
+                :
+                <Grid.Column>
+                  <UpOrDownToggle id={id} handleChange={handleChange} />
+                </Grid.Column>
+              }
             </Grid.Row>
           </Grid>
         </Card.Content>

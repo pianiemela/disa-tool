@@ -14,7 +14,12 @@ import EditAssesmentSelection from './EditAssesmentSelection'
 class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { active: [], selectedView: '', createdForm: {}, created: false }
+    this.state = {
+      active: [],
+      selectedView: '',
+      createdForm: {},
+      created: false
+    }
   }
 
   componentWillMount() {
@@ -68,6 +73,17 @@ class SelfAssesmentCreateForm extends React.Component {
     const { courseData } = this.props
     data.name = 'Linis'
     data.type = this.state.selectedView
+    data.openQuestions = [{
+      id: 1,
+      name: 'Uskotko flat earth-teoriaan?'
+    }]
+    data.finalGrade = {
+      name: 'Anna itsellesi loppuarvosana kurssista',
+      eng_name: 'Give yourself a final grade for the course',
+      swe_name: 'Låta en final grad till själv, lmao ei näin :D',
+      textFieldOn: true,
+      id: (parseInt(courseData[courseData.length - 1].id) + 1).toString()
+    }
 
     if (data.type === 'category') {
       data.questionModules = []
@@ -87,14 +103,14 @@ class SelfAssesmentCreateForm extends React.Component {
             id: o.id,
             name: o.name
           })),
-          answers: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
+          options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
         }))
     }
     this.setState({ created: true, createdForm: data })
   }
 
   createDropdownOptions = () => {
-    let options = []
+    const options = []
     this.props.selfAssesments.map(sA =>
       options.push({ value: sA.id, text: sA.fin_name }))
     return options
@@ -122,11 +138,15 @@ class SelfAssesmentCreateForm extends React.Component {
               />
             </Grid.Column>
           </Grid.Row>
-
         </Grid>
       )
     }
-    return <SelfAssesmentForm handleChange={this.handleFormChange} edit created createdForm={createdForm} />
+    return (<SelfAssesmentForm
+      handleChange={this.handleFormChange}
+      edit
+      created
+      createdForm={createdForm}
+    />)
   }
 
   render() {

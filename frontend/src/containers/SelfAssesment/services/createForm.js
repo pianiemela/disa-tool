@@ -44,6 +44,7 @@ const selfAssesmentData = {
 export const getCourseData = async () => {
   const response = await getJson('/categories?courseInstanceId=1')
   const { data } = response
+  console.log(response)
 
   const action = {
     type: 'GET_SELF_ASSESMENT_DATA',
