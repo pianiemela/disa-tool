@@ -45,12 +45,8 @@ Type.propTypes = {
     name: PropTypes.string.isRequired,
     multiplier: PropTypes.number
   }).isRequired,
-  editing: PropTypes.bool,
+  editing: PropTypes.bool.isRequired,
   changeTypeMultiplier: PropTypes.func.isRequired
-}
-
-Type.defaultProps = {
-  editing: false
 }
 
 const mapDispatchToProps = dispatch => ({

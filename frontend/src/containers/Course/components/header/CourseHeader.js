@@ -36,12 +36,8 @@ export class CourseHeader extends Component {
 
 CourseHeader.propTypes = {
   courseName: PropTypes.string.isRequired,
-  editing: PropTypes.bool,
+  editing: PropTypes.bool.isRequired,
   setEditing: PropTypes.func.isRequired
-}
-
-CourseHeader.defaultProps = {
-  editing: false
 }
 
 const mapDispatchToProps = dispatch => ({
