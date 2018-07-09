@@ -1,34 +1,41 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Form, Button, Input, Label, Grid } from 'semantic-ui-react'
+import { Button, Grid } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { addTask } from '../../services/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
+import MultilingualField from '../../../../utils/components/MultilingualField'
 
 class AddTaskForm extends Component {
   addTaskSubmit = (e) => {
     this.props.addTask({
-      name: e.target.name.value
+      eng_name: e.target.eng_name.value,
+      fin_name: e.target.fin_name.value,
+      sve_name: e.target.sve_name.value,
+      courseId: this.props.courseId
     })
   }
 
   render() {
+    const contentPrompt = 'Lisää uusi tehtävä kurssille'
+    const label = 'tehtävä'
     return (
       <Grid.Row>
         <Grid.Column>
           <div className="AddTaskForm">
             <ModalForm
-              header="placeholder content"
+              header="Lisää uusi tehtävä"
               trigger={<Button className="addTaskButton" icon={{ name: 'add' }} />}
               content={
                 <div>
-                  <Form.Field>
-                    <Label>task</Label>
-                    <Input type="text" name="name" fluid />
-                  </Form.Field>
-                  <Button type="submit">Tallenna</Button>
+                  <p>
+                    {contentPrompt}.
+                  </p>
+                  <MultilingualField field="name" fieldDisplay={label} />
+                  <Button type="submit" color="green">Tallenna</Button>
                 </div>
               }
               onSubmit={this.addTaskSubmit}
@@ -38,6 +45,11 @@ class AddTaskForm extends Component {
       </Grid.Row>
     )
   }
+}
+
+AddTaskForm.propTypes = {
+  courseId: PropTypes.number.isRequired,
+  addTask: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

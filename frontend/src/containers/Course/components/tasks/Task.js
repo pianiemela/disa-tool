@@ -37,7 +37,7 @@ class Task extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <TaskTypelist types={this.props.task.types} task={{ id: this.props.task.id, name: this.props.task.name }} />
+            <TaskTypelist types={this.props.task.types} task={this.props.task} editing={this.props.editing} />
           </Grid.Column>
         </Grid.Row>
         {this.props.task.objectives.map(objective => (
@@ -57,7 +57,7 @@ class Task extends Component {
         {this.props.editing ? (
           <AddObjectiveForm
             objectiveIds={this.props.task.objectives.map(objective => objective.id)}
-            taskId={this.props.task.id}
+            task={this.props.task}
           />
         ) : (
           <div />

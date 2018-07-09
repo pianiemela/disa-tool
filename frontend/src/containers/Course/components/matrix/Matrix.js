@@ -16,7 +16,9 @@ const Matrix = props => (
       </Table.Row>
       <Table.Row>
         {props.levels.map(level => (
-          <Table.HeaderCell key={level.id} textAlign="center">{level.name}</Table.HeaderCell>
+          <Table.HeaderCell key={level.id} textAlign="center">
+            {level.name}
+          </Table.HeaderCell>
         ))}
       </Table.Row>
     </Table.Header>
@@ -29,17 +31,31 @@ const Matrix = props => (
             <Table.Cell textAlign="center" key={level.id}>
               <List selection>
                 {level.objectives.map(objective => (
-                  <List.Item key={objective.id} className="objectiveListItem">
-                    {objective.name}
-                    {props.editing ? (
-                      <RemoveObjectiveForm objective={objective} />
-                    ) : (
-                      <div />
-                    )}
+                  <List.Item key={objective.id}>
+                    <div className="objectiveListItem">
+                      <span>
+                        {objective.name}
+                      </span>
+                      <div className="objectiveBlock">
+                        {props.editing ? (
+                          <RemoveObjectiveForm objective={objective} />
+                        ) : (
+                          <div />
+                        )}
+                      </div>
+                    </div>
                   </List.Item>
                 ))}
               </List>
-              {props.editing ? (<CreateObjectiveForm />) : (<div />)}
+              {props.editing ? (
+                <CreateObjectiveForm
+                  levelId={level.id}
+                  category={category}
+                  courseId={props.courseId}
+                />
+              ) : (
+                <div />
+              )}
             </Table.Cell>
           ))}
         </Table.Row>
@@ -49,6 +65,7 @@ const Matrix = props => (
 )
 
 Matrix.propTypes = {
+  courseId: PropTypes.number.isRequired, // eslint-disable-line
   levels: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string.isRequired

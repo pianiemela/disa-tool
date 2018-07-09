@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Button, Dropdown, Grid, Label } from 'semantic-ui-react'
+import asyncAction from '../../../../utils/asyncAction'
 
 import { addObjectiveToTask } from '../../services/tasks'
 
@@ -48,26 +49,32 @@ class AddObjectiveForm extends Component {
 
   addObjectiveSubmit = (e) => {
     e.preventDefault()
-    addObjectiveToTask({
-      taskId: this.props.taskId,
+    this.props.addObjectiveToTask({
+      taskId: this.props.task.id,
       objectiveId: this.state.objectiveSelection
-    }).then((response) => {
-      console.log(response)
     })
   }
 
   render() {
+    const contentPrompt = [
+      'Liitä oppimistavoite tehtävään',
+      `"${this.props.task.name}"`
+    ].join(' ')
+    const label = 'oppimistavoite'
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
           <div className="addObjectiveForm">
             <ModalForm
-              header="placeholder content"
-              trigger={<Button icon={{ name: 'add' }} onClick={this.prepareOptions} />}
+              header="Liitä oppimistavoite tehtävään"
+              trigger={<Button className="addObjectiveToTaskButton" icon={{ name: 'add' }} onClick={this.prepareOptions} />}
               content={
                 <div>
+                  <p>
+                    {contentPrompt}.
+                  </p>
                   <Form.Field>
-                    <Label>objective</Label>
+                    <Label>{label}</Label>
                     <Dropdown
                       name="objective"
                       className="objectiveDropdown"
@@ -75,9 +82,10 @@ class AddObjectiveForm extends Component {
                       selection
                       value={this.state.objectiveSelection}
                       onChange={this.changeObjectiveSelection}
+                      fluid
                     />
                   </Form.Field>
-                  <Button type="submit">Tallenna</Button>
+                  <Button type="submit" color="green">Tallenna</Button>
                 </div>
               }
               onSubmit={this.addObjectiveSubmit}
@@ -91,11 +99,15 @@ class AddObjectiveForm extends Component {
 
 AddObjectiveForm.propTypes = {
   objectiveIds: PropTypes.arrayOf(PropTypes.number).isRequired,
-  taskId: PropTypes.number.isRequired,
+  task: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired,
   objectives: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string.isRequired
-  })).isRequired
+  })).isRequired,
+  addObjectiveToTask: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => (
@@ -105,4 +117,8 @@ const mapStateToProps = (state, ownProps) => (
   }
 )
 
-export default connect(mapStateToProps, null)(AddObjectiveForm)
+const mapDispatchToProps = dispatch => ({
+  addObjectiveToTask: asyncAction(addObjectiveToTask, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddObjectiveForm)

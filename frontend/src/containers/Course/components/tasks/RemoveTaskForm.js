@@ -16,20 +16,26 @@ class RemoveTaskForm extends Component {
   }
 
   render() {
+    const contentPrompt = [
+      'Poistetaanko tehtävä',
+      `"${this.props.task.name}"`
+    ].join(' ')
     return (
       <div className="RemoveTaskForm">
         <ModalForm
-          header="placeholder content"
+          header="Poista tehtävä"
           trigger={<Button className="removeTaskButton" icon={{ name: 'remove' }} color="red" />}
           content={
             <div>
-              <p>Remove {this.props.task.name}</p>
+              <p>
+                {contentPrompt}?
+              </p>
               <div className="choiceContainer">
                 <Button color="red" onClick={this.removeTask}>
-                  {'<delete>'}
+                  {'Poista'}
                 </Button>
                 <Button>
-                  {'<cancel>'}
+                  {'Peru'}
                 </Button>
               </div>
             </div>

@@ -29,9 +29,13 @@ class ModalForm extends Component {
   }
 
   render() {
+    const style = this.props.trigger.props.style || {}
+    // TODO: Apply trigger margin as margin in this div.
     const trigger = (
-      <div style={{ margin: 'auto', display: 'inline-block' }} onClick={this.expand}>
-        {this.props.trigger}
+      <div onClick={this.expand} style={{ margin: 'auto', display: 'inline-block' }}>
+        {React.cloneElement(this.props.trigger, {
+          style: { ...style, margin: '0px' } // We need to eliminate margin to make the div no larger than trigger.
+        })}
       </div>
     )
     return (

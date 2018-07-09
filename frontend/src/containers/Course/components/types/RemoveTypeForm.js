@@ -16,20 +16,26 @@ class RemoveTypeForm extends Component {
   }
 
   render() {
+    const contentPrompt = [
+      'Poistetaanko tyyppi',
+      `"${this.props.type.name}"`
+    ].join(' ')
     return (
       <div className="removeTypeForm">
         <ModalForm
-          header="placeholder text"
+          header="Poista tyyppi"
           trigger={<Button icon={{ name: 'delete' }} color="red" size="small" />}
           content={
             <div>
-              <p>PLACEHOLDER: Remove {this.props.type.name}</p>
+              <p>
+                {contentPrompt}?
+              </p>
               <div className="choiceContainer">
                 <Button color="red" onClick={this.removeType}>
-                  {'<delete>'}
+                  {'Poista'}
                 </Button>
                 <Button>
-                  {'<cancel>'}
+                  {'Peru'}
                 </Button>
               </div>
             </div>

@@ -602,11 +602,18 @@ const hardCodedLevels = [
   }
 ]
 
-const getCourseData = (data) => {
+const hardCodedCourse = {
+  name: 'Doot'
+}
+
+export const getCourseData = (data) => {
   const response = {
     message: '<getTasksForCourseSuccess>',
     data: {
-      courseId: data.courseId,
+      course: {
+        ...hardCodedCourse,
+        id: data.courseId
+      },
       tasks: [...hardCodedTasks],
       categories: [...hardCodedCategories],
       types: [...hardCodedTypes],
@@ -622,6 +629,9 @@ const getCourseData = (data) => {
   })
 }
 
-module.exports = {
-  getCourseData
+export const setEditing = dispatch => (data) => {
+  dispatch({
+    type: 'COURSE_SET_EDITING',
+    data
+  })
 }

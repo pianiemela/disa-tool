@@ -2,8 +2,8 @@ export const addObjective = (data) => {
   const response = {
     message: '<addCObjectiveSuccess>',
     data: {
-      id: 15,
-      name: data.name
+      ...data,
+      id: 15
     }
   }
   const action = {
