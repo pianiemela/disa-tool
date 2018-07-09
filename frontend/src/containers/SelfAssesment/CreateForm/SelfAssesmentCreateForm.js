@@ -17,7 +17,7 @@ class SelfAssesmentCreateForm extends React.Component {
     this.state = {
       active: [],
       selectedView: '',
-      createdForm: {},
+      formData: {},
       created: false
     }
   }
@@ -36,13 +36,13 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ active: opened })
   }
 
-  handleFormChange = (id, type, upOrDown) => {
-    const toChange = this.state.createdForm
+  handleFormChange = (id, type, upOrDown, questiondata) => {
+    const toChange = this.state.formData
     switch (type) {
       case 'textfield': {
         toChange.questionModules = toChange.questionModules.map(o =>
           (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
-        this.setState({ createdForm: toChange })
+        this.setState({ formData: toChange })
         break
       }
       case 'changeOrder': {
@@ -55,7 +55,12 @@ class SelfAssesmentCreateForm extends React.Component {
           toChange.questionModules[a] = toChange.questionModules[a - 1]
           toChange.questionModules[a - 1] = b
         }
-        this.setState({ createdForm: toChange })
+        this.setState({ formData: toChange })
+        break
+      }
+      case 'addQuestion': {
+        toChange.openQuestions = toChange.openQuestions.concat({ id: toChange.openQuestions[toChange.openQuestions.length - 1].id + 1, name: questiondata })
+        this.setState({ formData: toChange })
         break
       }
 
@@ -106,7 +111,7 @@ class SelfAssesmentCreateForm extends React.Component {
           options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
         }))
     }
-    this.setState({ created: true, createdForm: data })
+    this.setState({ created: true, formData: data })
   }
 
   createDropdownOptions = () => {
@@ -117,7 +122,7 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 
   renderCreateOrDraft = () => {
-    const { selectedView, createdForm } = this.state
+    const { selectedView, formData } = this.state
     if (!this.state.created) {
       return (
         <Grid columns={2} divided>
@@ -145,7 +150,7 @@ class SelfAssesmentCreateForm extends React.Component {
       handleChange={this.handleFormChange}
       edit
       created
-      createdForm={createdForm}
+      formData={formData}
     />)
   }
 
