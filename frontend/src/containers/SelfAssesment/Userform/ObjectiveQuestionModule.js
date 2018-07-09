@@ -2,6 +2,7 @@ import { Form, Card, List, Grid } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 
+
 class ObjectiveQuestionModule extends React.Component {
   constructor(props) {
     super(props)
@@ -11,7 +12,7 @@ class ObjectiveQuestionModule extends React.Component {
   componentDidMount() {
     const ratings = {}
     this.props.data.objectives.forEach((value) => {
-      ratings[value.fin_name] = 1
+      ratings[value.name] = 1
     })
     this.setState({ ratings })
   }
@@ -20,30 +21,36 @@ class ObjectiveQuestionModule extends React.Component {
     const { ratings } = this.state
     ratings[data] = e.target.value
     this.setState({ ratings })
-
   }
 
   render() {
     const { ratings } = this.state
-    const { objectives, answers, fin_name } = this.props.data
+    const { objectives, answers, name } = this.props.data
     return (
       <Form.Field>
         <Card fluid>
           <Card.Content>
-            <Card.Header>{fin_name}</Card.Header>
+            <Card.Header>{name}</Card.Header>
             <List>
               {objectives.map(o => (
-                <Grid verticalAlign="middle" columns={3}>
+                <Grid key={o.id} verticalAlign="middle" columns={3}>
                   <Grid.Row style={{ padding: '20px' }}>
                     <Grid.Column>
-                      <List.Item as="li">{o.fin_name}
+                      <List.Item as="li">{o.name}
                       </List.Item>
                     </Grid.Column>
                     <Grid.Column>
-                      <input style={{}} value={ratings[o.fin_name] ? ratings[o.fin_name] : 1} onChange={(e) => this.handleChange(e, o.fin_name)} type="range" min={0} max={2} />
+                      <input
+                        style={{}}
+                        value={ratings[o.name] ? ratings[o.name] : 1}
+                        onChange={e => this.handleChange(e, o.name)}
+                        type="range"
+                        min={0}
+                        max={2}
+                      />
                     </Grid.Column>
                     <Grid.Column>
-                      {answers[ratings[o.fin_name]]}
+                      {answers[ratings[o.name]]}
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>
@@ -58,12 +65,15 @@ class ObjectiveQuestionModule extends React.Component {
 ObjectiveQuestionModule.defaultProps = {
   data: {
     answers: [],
-    fin_name: 'Nothing'
+    name: 'Nothing',
+    objectives: []
   }
 }
 ObjectiveQuestionModule.propTypes = {
   data: PropTypes.shape({
-    answers: PropTypes.arrayOf()
+    answers: PropTypes.arrayOf(PropTypes.string),
+    name: PropTypes.string,
+    objectives: PropTypes.arrayOf(PropTypes.shape())
   })
 }
 

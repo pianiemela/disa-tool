@@ -7,7 +7,8 @@
     "fin_description": "Tässä tehtävässä sinun tulee tehdä voltti, eli hypätä ja pyörähtää täysi kierros sivuttaisakselisi ympäri.",
     "swe_description": "Tässä tehtävässä sinun tulee tehdä voltti, eli hypätä ja pyörähtää täysi kierros sivuttaisakselisi ympäri.",
     "max_points": 3,
-    "info": "tehtäväsivu: https://fi.wikipedia.org/wiki/Voltti_(akrobatia)"
+    "info": "tehtäväsivu: https://fi.wikipedia.org/wiki/Voltti_(akrobatia)",
+    "course_instance_id": 1
 },
 {
     "id": 1,
@@ -18,7 +19,8 @@
     "fin_description": "Jasminilla on taikamatto, jota voi ohjata vektorien (0,1,-3) sekä (-4,2,2) suuntaisesti eteen- tai taaksepäin. Jasmin lähtee Bagdadista, jonka koordinaatit ovat (0,0,0). Hän haluaa matkustaa naapurikaupunkiin, jonka koordinaatit ovat (8,-2,-10). Onnistuuko matka Jasminin taikamatolla? Ratkaisu: Kyllä, matka onnistuu. Huomaamme, että jos Jasmin kulkee Bagdadista kaksi kertaa vektorin (0,1,-3) verran ja sitten peruuttaa kaksi kertaa vektorin (-4,2,2) verran, hän päätyy naapurikaupunkiin, eli pisteeseen (8,-2,-10).",
     "swe_description": "Jasminilla on taikamatto, jota voi ohjata vektorien (0,1,-3) sekä (-4,2,2) suuntaisesti eteen- tai taaksepäin. Jasmin lähtee Bagdadista, jonka koordinaatit ovat (0,0,0). Hän haluaa matkustaa naapurikaupunkiin, jonka koordinaatit ovat (8,-2,-10). Onnistuuko matka Jasminin taikamatolla? Ratkaisu: Kyllä, matka onnistuu. Huomaamme, että jos Jasmin kulkee Bagdadista kaksi kertaa vektorin (0,1,-3) verran ja sitten peruuttaa kaksi kertaa vektorin (-4,2,2) verran, hän päätyy naapurikaupunkiin, eli pisteeseen (8,-2,-10).",
     "max_points": 1,
-    "info": "http://www.mv.helsinki.fi/jramo/lm1s17/Harjoitukset/harj01_lm1_s17.html"
+    "info": "http://www.mv.helsinki.fi/jramo/lm1s17/Harjoitukset/harj01_lm1_s17.html",
+    "course_instance_id": 1
 },
 {
     "id": 2,
@@ -29,7 +31,8 @@
     "fin_description": "Marty McFlyn leijulaudalla pystyy kulkemaan vektorien (1,-4) ja (2,2) suuntaisesti (eteen ja taaksepäin). Loun kahvila sijaitsee pisteessä (0,5). Mitä yhtälö (0,5)=(-1)(1,-4)+(1/2)(2,2) kertoo Martyn leijulaudan toiminnasta? Mitä vektorien edessä olevat kertoimet kuvaavat? Havainnollista a-kohdan yhtälöä kuvan avulla.",
     "swe_description": "Marty McFlyn leijulaudalla pystyy kulkemaan vektorien (1,-4) ja (2,2) suuntaisesti (eteen ja taaksepäin). Loun kahvila sijaitsee pisteessä (0,5). Mitä yhtälö (0,5)=(-1)(1,-4)+(1/2)(2,2) kertoo Martyn leijulaudan toiminnasta? Mitä vektorien edessä olevat kertoimet kuvaavat? Havainnollista a-kohdan yhtälöä kuvan avulla.",
     "max_points": 2,
-    "info": " http://www.mv.helsinki.fi/jramo/lm1s17/Harjoitukset/harj01_lm1_s17.html"
+    "info": " http://www.mv.helsinki.fi/jramo/lm1s17/Harjoitukset/harj01_lm1_s17.html",
+    "course_instance_id": 1
 },
 {
     "id": 3,
@@ -40,7 +43,8 @@
     "fin_description": "Piirrä kussakin tapauksessa kolmio, jonka sivuina ovat vektorit va, vb ja vc, jotka toteuttavat yhtälön va+vb+vc=nv va+vb-vc=nv va-vb-vc=nv. Tee kuvastasi selkeä ja havainnollinen. Perusteluja ei tarvita.",
     "swe_description": "Piirrä kussakin tapauksessa kolmio, jonka sivuina ovat vektorit va, vb ja vc, jotka toteuttavat yhtälön va+vb+vc=nv va+vb-vc=nv va-vb-vc=nv. Tee kuvastasi selkeä ja havainnollinen. Perusteluja ei tarvita.",
     "max_points": 2,
-    "info": "http://www.mv.helsinki.fi/jramo/lm1s17/Harjoitukset/harj01_lm1_s17.html"
+    "info": "http://www.mv.helsinki.fi/jramo/lm1s17/Harjoitukset/harj01_lm1_s17.html",
+    "course_instance_id": 1
 },
 {
     "id": 4,
@@ -51,6 +55,7 @@
     "fin_description": " Tehtävässä tutustutaan matriisikertolaskuun käytännön sovelluksen avulla.",
     "swe_description": " Tehtävässä tutustutaan matriisikertolaskuun käytännön sovelluksen avulla.",
     "max_points": 1,
-    "info": "https://geom.mathstat.helsinki.fi/moodle/mod/quiz/attempt.php?attempt=51463&cmid=19875&page=7"
+    "info": "https://geom.mathstat.helsinki.fi/moodle/mod/quiz/attempt.php?attempt=51463&cmid=19875&page=7",
+    "course_instance_id": 1
 }
 ]
