@@ -9,15 +9,9 @@ import { getCourseData } from './services/course'
 import Matrix from './components/matrix/Matrix'
 import Tasklist from './components/tasks/Tasklist'
 import Typelist from './components/types/Typelist'
+import CourseHeader from './components/header/CourseHeader'
 
 class CoursePage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      editing: true
-    }
-  }
-
   componentWillMount() {
     this.props.getCourseData({
       courseId: this.props.courseId
@@ -28,17 +22,23 @@ class CoursePage extends Component {
     return (
       <Grid>
         <Grid.Row>
+          <CourseHeader editing={this.props.editing} courseName={this.props.course.name} />
+        </Grid.Row>
+        <Grid.Row>
           <Grid.Column>
-            <Matrix editing={this.state.editing} courseId={this.props.courseId} />
+            <Matrix editing={this.props.editing} courseId={this.props.course.id} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <Typelist editing={this.state.editing} courseId={this.props.courseId} />
+            <Typelist editing={this.props.editing} courseId={this.props.course.id} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Tasklist editing={this.state.editing} courseId={this.props.courseId} />
+          <Tasklist editing={this.props.editing} courseId={this.props.course.id} />
+        </Grid.Row>
+        <Grid.Row>
+          <div />
         </Grid.Row>
       </Grid>
     )
@@ -46,12 +46,17 @@ class CoursePage extends Component {
 }
 
 CoursePage.propTypes = {
-  courseId: PropTypes.number.isRequired,
+  course: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
+  }).isRequired,
   getCourseData: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  ...ownProps
+  ...ownProps,
+  course: state.course.course,
+  editing: state.course.editing
 })
 
 const mapDispatchToProps = dispatch => ({

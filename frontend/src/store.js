@@ -7,6 +7,7 @@ import objective from './containers/Course/reducers/objectiveReducer'
 import level from './containers/Course/reducers/levelReducer'
 import category from './containers/Course/reducers/categoryReducer'
 import type from './containers/Course/reducers/typeReducer'
+import course from './containers/Course/reducers/courseReducer'
 import createForm from './containers/SelfAssesment/reducers/createFormReducer'
 import { userReducer } from './redux/user'
 
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   level,
   category,
   type,
+  course,
   createForm,
   user: userReducer
 })
