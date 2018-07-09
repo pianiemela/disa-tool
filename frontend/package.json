@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config ./config/webpack.config.js --hot",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "stats": "webpack --mode production --json --optimize-minimize > stats.json",
     "lint": "eslint --ext .js src || true"
   },
@@ -42,6 +42,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "css-loader": "^0.28.11",
+    "enzyme": "^3.3.0",
     "eslint": "^4.19.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-config-react-app": "^2.0.1",
@@ -54,6 +55,7 @@
     "eslint-plugin-react": "^7.7.0",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^23.3.0",
     "redux-devtools-extension": "^2.13.5",
     "style-loader": "^0.21.0",
     "webpack": "^4.12.0",
