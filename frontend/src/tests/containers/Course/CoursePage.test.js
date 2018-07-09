@@ -1,5 +1,5 @@
 import React from 'react'
-import { CoursePage } from './CoursePage'
+import { CoursePage } from '../../../containers/Course/CoursePage'
 
 describe('Course page', () => {
   let wrapper
