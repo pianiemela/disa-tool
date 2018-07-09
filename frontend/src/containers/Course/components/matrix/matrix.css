@@ -7,10 +7,15 @@
   margin-right: 12px;
 }
 
-.objctiveListItem {
+.objectiveListItem {
   display: flex;
 }
 
 .objectiveBlock {
   display: inline-block;
+  flex-grow: 1;
+}
+
+.objectiveBlock > span {
+  margin: auto;
 }

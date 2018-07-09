@@ -6,33 +6,35 @@ import './matrix.css'
 
 import MatrixCategory from './MatrixCategory'
 
-const Matrix = props => (
-  <Table className="matrix" celled structured>
-    <Table.Header>
-      <Table.Row>
-        <Table.HeaderCell rowSpan="2">Osio</Table.HeaderCell>
-        <Table.HeaderCell colSpan="3" textAlign="center">Taitotasot</Table.HeaderCell>
-      </Table.Row>
-      <Table.Row>
-        {props.levels.map(level => (
-          <Table.HeaderCell key={level.id} textAlign="center">
-            {level.name}
-          </Table.HeaderCell>
-        ))}
-      </Table.Row>
-    </Table.Header>
+export const Matrix = props => (
+  <div className="Matrix">
+    <Table celled structured>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell rowSpan="2">Osio</Table.HeaderCell>
+          <Table.HeaderCell colSpan="3" textAlign="center">Taitotasot</Table.HeaderCell>
+        </Table.Row>
+        <Table.Row>
+          {props.levels.map(level => (
+            <Table.HeaderCell key={level.id} textAlign="center">
+              {level.name}
+            </Table.HeaderCell>
+          ))}
+        </Table.Row>
+      </Table.Header>
 
-    <Table.Body>
-      {props.categories.map(category => (
-        <MatrixCategory
-          key={category.id}
-          category={category}
-          courseId={props.courseId}
-          editing={props.editing}
-        />
-      ))}
-    </Table.Body>
-  </Table>
+      <Table.Body>
+        {props.categories.map(category => (
+          <MatrixCategory
+            key={category.id}
+            category={category}
+            courseId={props.courseId}
+            editing={props.editing}
+          />
+        ))}
+      </Table.Body>
+    </Table>
+  </div>
 )
 
 Matrix.propTypes = {

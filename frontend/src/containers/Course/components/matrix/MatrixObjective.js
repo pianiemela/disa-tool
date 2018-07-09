@@ -5,10 +5,12 @@ import RemoveObjectiveForm from './RemoveObjectiveForm'
 
 const MatrixObjective = props => (
   <div className="objectiveListItem">
-    <span>
-      {props.objective.name}
-    </span>
     <div className="objectiveBlock">
+      <span>
+        {props.objective.name}
+      </span>
+    </div>
+    <div className="removeBlock">
       {props.editing ? (
         <RemoveObjectiveForm objective={props.objective} />
       ) : (
