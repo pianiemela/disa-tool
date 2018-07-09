@@ -1,34 +1,39 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Form, Label, Input } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { addType } from '../../services/types'
 
 import ModalForm from '../../../../utils/components/ModalForm'
+import MultilingualField from '../../../../utils/components/MultilingualField'
 
 class AddTypeForm extends Component {
   addTypeSubmit = (e) => {
     this.props.addType({
       courseId: this.props.courseId,
-      name: e.target.name.value
+      eng_name: e.target.eng_name.value,
+      fin_name: e.target.fin_name.value,
+      sve_name: e.target.sve_name.value
     })
   }
 
   render() {
+    const contentPrompt = 'Lisää uusi tyyppi'
+    const label = 'nimi'
     return (
-      <div className="addTypeForm">
+      <div className="Lisää uusi tyyppi">
         <ModalForm
           header="placeholder data"
           trigger={<Button onClick={this.expand} className="addTypeButton" icon={{ name: 'add' }} />}
           content={
             <div>
-              <Form.Field>
-                <Label>name</Label>
-                <Input name="name" type="text" fluid />
-              </Form.Field>
-              <Button type="submit">Tallenna</Button>
+              <p>
+                {contentPrompt}.
+              </p>
+              <MultilingualField field="name" fieldDisplay={label} />
+              <Button type="submit" color="green">Tallenna</Button>
             </div>
           }
           onSubmit={this.addTypeSubmit}

@@ -18,9 +18,8 @@ export const addType = (data) => {
   const response = {
     message: '<addTypeSuccess>',
     data: {
-      id: 10,
-      name: data.name,
-      courseId: data.courseId
+      ...data,
+      id: 10
     }
   }
   const action = {
