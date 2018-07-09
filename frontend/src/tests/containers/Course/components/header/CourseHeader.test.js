@@ -1,5 +1,6 @@
 import React from 'react'
 import { CourseHeader } from '../../../../../containers/Course/components/header/CourseHeader'
+import { findText } from '../../../../testUtils'
 
 const mockFn = () => {}
 const courseName = 'Test Course'
@@ -8,15 +9,6 @@ const createWrapper = () => shallow(<CourseHeader
   editing={false}
   setEditing={mockFn}
 />)
-
-const findText = (text, wrapper) => {
-  let found = 0
-  if (wrapper.text().includes(text)) found += 1
-  wrapper.children().forEach((child) => {
-    found += findText(text, child)
-  })
-  return found
-}
 
 describe('CourseHeader component', () => {
   let wrapper
