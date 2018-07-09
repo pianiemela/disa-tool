@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Table, List } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 import './matrix.css'
 
-import CreateObjectiveForm from './CreateObjectiveForm'
-import RemoveObjectiveForm from './RemoveObjectiveForm'
+import MatrixCategory from './MatrixCategory'
 
 const Matrix = props => (
   <Table className="matrix" celled structured>
@@ -25,40 +24,12 @@ const Matrix = props => (
 
     <Table.Body>
       {props.categories.map(category => (
-        <Table.Row key={category.id}>
-          <Table.Cell>{category.name}</Table.Cell>
-          {category.skill_levels.map(level => (
-            <Table.Cell textAlign="center" key={level.id}>
-              <List selection>
-                {level.objectives.map(objective => (
-                  <List.Item key={objective.id}>
-                    <div className="objectiveListItem">
-                      <span>
-                        {objective.name}
-                      </span>
-                      <div className="objectiveBlock">
-                        {props.editing ? (
-                          <RemoveObjectiveForm objective={objective} />
-                        ) : (
-                          <div />
-                        )}
-                      </div>
-                    </div>
-                  </List.Item>
-                ))}
-              </List>
-              {props.editing ? (
-                <CreateObjectiveForm
-                  levelId={level.id}
-                  category={category}
-                  courseId={props.courseId}
-                />
-              ) : (
-                <div />
-              )}
-            </Table.Cell>
-          ))}
-        </Table.Row>
+        <MatrixCategory
+          key={category.id}
+          category={category}
+          courseId={props.courseId}
+          editing={props.editing}
+        />
       ))}
     </Table.Body>
   </Table>
@@ -71,16 +42,9 @@ Matrix.propTypes = {
     name: PropTypes.string.isRequired
   })).isRequired,
   categories: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string.isRequired,
-    skill_levels: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number,
-      objectives: PropTypes.arrayOf(PropTypes.shape({
-        id: PropTypes.number,
-        name: PropTypes.string.isRequired
-      })).isRequired
-    })).isRequired
-  })).isRequired
+    id: PropTypes.number.isRequired
+  })).isRequired,
+  editing: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = state => (
