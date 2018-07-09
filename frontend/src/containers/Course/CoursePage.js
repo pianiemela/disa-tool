@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Loader } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
 import { getCourseData } from './services/course'
@@ -19,6 +19,9 @@ class CoursePage extends Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return <Loader active />
+    }
     return (
       <Grid>
         <Grid.Row>
@@ -47,16 +50,20 @@ class CoursePage extends Component {
 
 CoursePage.propTypes = {
   course: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
+    id: PropTypes.number,
+    name: PropTypes.string
   }).isRequired,
-  getCourseData: PropTypes.func.isRequired
+  getCourseData: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  courseId: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   course: state.course.course,
-  editing: state.course.editing
+  editing: state.course.editing,
+  loading: state.course.loading
 })
 
 const mapDispatchToProps = dispatch => ({

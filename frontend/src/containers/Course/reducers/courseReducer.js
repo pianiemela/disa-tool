@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   editing: false,
-  course: {}
+  course: {},
+  loading: true
 }
 
 const courseReducer = (state = INITIAL_STATE, action) => {
@@ -8,7 +9,8 @@ const courseReducer = (state = INITIAL_STATE, action) => {
     case 'COURSE_GET_DATA':
       return {
         ...state,
-        course: action.response.data.course
+        course: action.response.data.course,
+        loading: false
       }
     case 'COURSE_SET_EDITING':
       return {
