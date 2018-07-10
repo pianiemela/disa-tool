@@ -7,19 +7,17 @@ import Typelist from '../../../containers/Course/components/types/Typelist'
 
 const mockFn = () => {}
 
-const createWrapper = () => shallow(<CoursePage
-  courseId={1}
-  course={{}}
-  editing={false}
-  loading={false}
-  getCourseData={mockFn}
-/>)
-
 describe('Course page', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = createWrapper()
+    wrapper = shallow(<CoursePage
+      courseId={1}
+      course={{}}
+      editing={false}
+      loading={false}
+      getCourseData={mockFn}
+    />)
   })
 
   it('renders', () => {
@@ -44,7 +42,6 @@ describe('Course page', () => {
 
   describe('while loading', () => {
     beforeEach(() => {
-      wrapper = createWrapper()
       wrapper.setProps({
         ...wrapper.props(),
         loading: true

@@ -38,7 +38,7 @@ export const Matrix = props => (
 )
 
 Matrix.propTypes = {
-  courseId: PropTypes.number.isRequired, // eslint-disable-line
+  courseId: PropTypes.number.isRequired,
   levels: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string.isRequired
