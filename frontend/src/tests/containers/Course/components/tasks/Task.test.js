@@ -70,4 +70,28 @@ describe('Task component', () => {
       expect(wrapper.find(ObjectiveSlider).exists()).toEqual(false)
     })
   })
+
+  describe('when expanded', () => {
+    beforeEach(() => {
+      wrapper.setState({
+        expanded: true
+      })
+    })
+
+    it('renders task description.', () => {
+      expect(findText(task.description, wrapper)).toBeGreaterThan(0)
+    })
+
+    it('renders task info.', () => {
+      expect(findText(task.info, wrapper)).toBeGreaterThan(0)
+    })
+
+    it('renders TaskTypelist component.', () => {
+      expect(wrapper.find(TaskTypelist).exists()).toEqual(true)
+    })
+
+    it('renders an ObjectiveSlider component for each objective.', () => {
+      expect(wrapper.find(ObjectiveSlider).length).toEqual(task.objectives.length)
+    })
+  })
 })
