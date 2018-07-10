@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 const UpOrDownToggle = ({ id, handleChange }) => (
   (
     <div>
-      <Popup trigger={<Icon color="red" name="arrow circle down" size="big" onClick={() => handleChange(id, 'changeOrder', 'down')} />} content="Siirä kategoria alemmas" />
-      <Popup trigger={<Icon color="green" name="arrow circle up" size="big" onClick={() => handleChange(id, 'changeOrder', 'up')} />} content="Siirrä kategoria ylemmäs" />
+      <Popup trigger={<Icon color="red" name="arrow circle down" size="big" onClick={() => handleChange({ id, type: 'changeOrderDown' })} />} content="Siirä kategoria alemmas" />
+      <Popup trigger={<Icon color="green" name="arrow circle up" size="big" onClick={() => handleChange({ id, type: 'changeOrderUp' })} />} content="Siirrä kategoria ylemmäs" />
     </div >
   )
 )

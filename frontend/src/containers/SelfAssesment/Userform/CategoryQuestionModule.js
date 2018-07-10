@@ -32,7 +32,7 @@ const CategoryQuestionModule = (props) => {
   ]
   const checkbox = edit ? (<Checkbox
     defaultChecked={textFieldOn}
-    onChange={() => handleChange(id, 'textfield')}
+    onChange={() => handleChange({ id, type: 'textfield' })}
     label="Klikkaa tästä jos haluat perustelut mukaan"
   />) : null
 

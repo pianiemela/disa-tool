@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Card, Grid, Button, Input, Popup } from 'semantic-ui-react'
+import { Form, Card, Grid, Icon, Popup } from 'semantic-ui-react'
 
 
 const OpenQuestionModule = (props) => {
@@ -15,10 +15,22 @@ const OpenQuestionModule = (props) => {
             <Card.Header>
               Avoin kysymys: {name}
             </Card.Header>
-            <Grid verticalAlign="middle" columns={2}>
+            <Grid verticalAlign="middle" columns={3}>
               <Grid.Row>
                 <Grid.Column width={10}>
                   {textArea('Vastaa avoimeen kysymykseen', 'Kirjoita vastaus tähän', edit)}
+                </Grid.Column>
+                <Grid.Column>
+                  <Popup
+                    trigger={
+                      <Icon
+                        name="minus circle"
+                        size="big"
+                        color="red"
+                      />
+                    }
+                    content="Poista avoin kysymys tästä"
+                  />
                 </Grid.Column>
               </Grid.Row>
             </Grid>

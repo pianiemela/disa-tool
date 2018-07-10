@@ -36,8 +36,12 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ active: opened })
   }
 
-  handleFormChange = (id, type, upOrDown, questiondata) => {
+  handleFormChange = (formChange) => {
+    const { id, type, questionData } = formChange
     const toChange = this.state.formData
+    const a = toChange.questionModules.findIndex(x => x.id === id)
+    const b = toChange.questionModules[a]
+
     switch (type) {
       case 'textfield': {
         toChange.questionModules = toChange.questionModules.map(o =>
@@ -45,13 +49,16 @@ class SelfAssesmentCreateForm extends React.Component {
         this.setState({ formData: toChange })
         break
       }
-      case 'changeOrder': {
-        const a = toChange.questionModules.findIndex(x => x.id === id)
-        const b = toChange.questionModules[a]
-        if (upOrDown === 'down' && a < toChange.questionModules.length - 1) {
+      case 'changeOrderDown': {
+        if (a < toChange.questionModules.length - 1) {
           toChange.questionModules[a] = toChange.questionModules[a + 1]
           toChange.questionModules[a + 1] = b
-        } else if (upOrDown === 'up' && a > 0) {
+        }
+        this.setState({ formData: toChange })
+        break
+      }
+      case 'changeOrderUp': {
+        if (a > 0) {
           toChange.questionModules[a] = toChange.questionModules[a - 1]
           toChange.questionModules[a - 1] = b
         }
@@ -59,7 +66,7 @@ class SelfAssesmentCreateForm extends React.Component {
         break
       }
       case 'addQuestion': {
-        toChange.openQuestions = toChange.openQuestions.concat({ id: toChange.openQuestions[toChange.openQuestions.length - 1].id + 1, name: questiondata })
+        toChange.openQuestions = toChange.openQuestions.concat({ id: toChange.openQuestions[toChange.openQuestions.length - 1].id + 1, name: questionData })
         this.setState({ formData: toChange })
         break
       }
