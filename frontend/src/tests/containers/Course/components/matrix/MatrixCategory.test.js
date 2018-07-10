@@ -1,10 +1,24 @@
 import React from 'react'
 import { MatrixCategory } from '../../../../../containers/Course/components/matrix/MatrixCategory'
+import MatrixLevel from '../../../../../containers/Course/components/matrix/MatrixLevel'
 
 const category = {
   id: 1,
   name: 'Test Category',
-  skill_levels: []
+  skill_levels: [
+    {
+      id: 1,
+      objectives: []
+    },
+    {
+      id: 2,
+      objectives: []
+    },
+    {
+      id: 3,
+      objectives: []
+    }
+  ]
 }
 
 describe('MatrixCategory component', () => {
@@ -20,5 +34,9 @@ describe('MatrixCategory component', () => {
 
   it('renders.', () => {
     expect(wrapper.find('.MatrixCategory').exists()).toEqual(true)
+  })
+
+  it('renders a MatrixLevel component for each skill level.', () => {
+    expect(wrapper.find(MatrixLevel).length).toEqual(category.skill_levels.length)
   })
 })
