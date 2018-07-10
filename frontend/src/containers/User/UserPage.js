@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { shape, string, arrayOf, func } from 'prop-types'
 import { List, Menu, Grid, Item } from 'semantic-ui-react'
-import { getUsersCourses, getUserAction } from '../../actions/actions'
+import { getUsersCourses, getUserAction, getUserCoursesAction } from '../../actions/actions'
 
 class UserPage extends Component {
   state = {
@@ -12,6 +12,7 @@ class UserPage extends Component {
 
   componentDidMount = async () => {
     // this.props.dispatchGetUser()
+    this.props.dispatchGetUsercourses()
     getUsersCourses().then(res => this.setState({ courses: res.data }))
   }
 
@@ -76,11 +77,14 @@ class UserPage extends Component {
 
 const mapDispatchToProps = dispatch => ({
   dispatchGetUser: () =>
-    dispatch(getUserAction())
+    dispatch(getUserAction()),
+  dispatchGetUsercourses: () =>
+    dispatch(getUserCoursesAction())
 })
 
 const mapStateToProps = state => ({
-  user: state.user
+  user: state.user,
+  courses: state.courses
 })
 
 UserPage.propTypes = {

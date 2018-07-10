@@ -10,6 +10,7 @@ import type from './redux/type'
 import course from './redux/course'
 import createForm from './containers/SelfAssesment/reducers/createFormReducer'
 import { userReducer } from './redux/user'
+import { userCoursesReducer } from './redux/userCourses';
 
 const reducers = combineReducers({
   task,
@@ -19,7 +20,8 @@ const reducers = combineReducers({
   type,
   course,
   createForm,
-  user: userReducer
+  user: userReducer,
+  courses: userCoursesReducer
 })
 
 const store = process.env.NODE_ENV === 'development' ?
