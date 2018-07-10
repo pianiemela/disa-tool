@@ -68,7 +68,7 @@ class AddTypeForm extends Component {
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
-          <div className="addTypeForm">
+          <div className="AddTypeForm">
             <ModalForm
               header="Liitä tehtävätyyppi tehtävään"
               trigger={<Button icon={{ name: 'add' }} onClick={this.prepareOptions} />}

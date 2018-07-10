@@ -64,7 +64,7 @@ class AddObjectiveForm extends Component {
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
-          <div className="addObjectiveForm">
+          <div className="AddObjectiveForm">
             <ModalForm
               header="Liitä oppimistavoite tehtävään"
               trigger={<Button className="addObjectiveToTaskButton" icon={{ name: 'add' }} onClick={this.prepareOptions} />}
