@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import RemoveObjectiveForm from './RemoveObjectiveForm'
 
 const MatrixObjective = props => (
-  <div className="objectiveListItem">
+  <div className="MatrixObjective">
     <div className="objectiveBlock">
       <span>
         {props.objective.name}
