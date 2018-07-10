@@ -23,4 +23,12 @@ describe('ObjectiveSlider component', () => {
   it('renders.', () => {
     expect(wrapper.find('.ObjectiveSlider').exists()).toEqual(true)
   })
+
+  it('renders a number input with the correct value.', () => {
+    expect(wrapper.find('.numberInput').props().value).toEqual(objective.multiplier)
+  })
+
+  it('renders a range input with the correct value.', () => {
+    expect(wrapper.find('.rangeInput').props().value).toEqual(objective.multiplier)
+  })
 })
