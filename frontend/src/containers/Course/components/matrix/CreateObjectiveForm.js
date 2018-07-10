@@ -32,14 +32,14 @@ export class CreateObjectiveForm extends Component {
         <div className="CreateObjectiveForm">
           <ModalForm
             header="Luo uusi oppimistavoite"
-            trigger={<Button onClick={this.expand} className="addObjectiveButton" icon={{ name: 'add' }} />}
+            trigger={<Button className="addObjectiveButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>
                   {contentPrompt}.
                 </p>
                 <MultilingualField field="name" fieldDisplay="nimi" />
-                <Button type="submit">Tallenna</Button>
+                <Button type="submit" color="green">Tallenna</Button>
               </div>
             }
             onSubmit={this.addObjectiveSubmit}
