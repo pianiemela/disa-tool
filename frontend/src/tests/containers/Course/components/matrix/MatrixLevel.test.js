@@ -1,6 +1,7 @@
 import React from 'react'
 import MatrixLevel from '../../../../../containers/Course/components/matrix/MatrixLevel'
 import MatrixObjective from '../../../../../containers/Course/components/matrix/MatrixObjective'
+import CreateObjectiveForm from '../../../../../containers/Course/components/matrix/CreateObjectiveForm'
 
 const level = {
   id: 1,
@@ -39,5 +40,24 @@ describe('MatrixLevel component', () => {
 
   it('renders a MatrixObjective component for each objective.', () => {
     expect(wrapper.find(MatrixObjective).length).toEqual(level.objectives.length)
+  })
+
+  describe('when not editing', () => {
+    it('does not render a CreateObjectiveForm component.', () => {
+      expect(wrapper.find(CreateObjectiveForm).exists()).toEqual(false)
+    })
+  })
+
+  describe('when editing', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        editing: true
+      })
+    })
+
+    it('renders a CreateObjectiveForm component.', () => {
+      expect(wrapper.find(CreateObjectiveForm).exists()).toEqual(true)
+    })
   })
 })
