@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Grid, Button, Input } from 'semantic-ui-react'
 
 class AddOpenQuestion extends React.Component {
@@ -48,3 +49,7 @@ class AddOpenQuestion extends React.Component {
 }
 
 export default AddOpenQuestion
+
+AddOpenQuestion.propTypes = {
+  handleChange: PropTypes.func.isRequired
+}

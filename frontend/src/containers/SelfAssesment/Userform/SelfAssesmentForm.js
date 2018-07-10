@@ -7,8 +7,7 @@ import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
 import AddOpenQuestion from './FormParts/addOpenQuestion'
 
 import './selfAssesment.css'
-import CategorySection from './FormParts/Sections/CategorySection'
-
+import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection';
 
 const SelfAssesmentForm = (props) => {
   const textArea = (label, placeholder, textFieldOn, checkbox) => (
@@ -28,34 +27,26 @@ const SelfAssesmentForm = (props) => {
     (
       (type === 'category' ?
         <div>
-          <CategorySection
-            formData={formData}
+          <h2>{formData.name} kategorialomake</h2>
+
+          <SelfAssesmentSection
+            header="Kategoriaosio"
+            formData={formData.questionModules}
             edit={edit}
             handleChange={handleChange}
             textArea={textArea}
+            QuestionModule={CategoryQuestionModule}
           />
-          <Card fluid color="red" className="formCard">
-            <Card.Content>
-              <Card.Header className="cardHead">
-                Avoimet kysymykset
-              </Card.Header>
-              <Form>
-                {formData.openQuestions.map(openQuestion =>
-                  (<OpenQuestionModule
-                    key={openQuestion.id}
-                    data={openQuestion}
-                    edit={edit}
-                    handleChange={handleChange}
-                    textArea={textArea}
-                  />))}
 
-                <AddOpenQuestion
-                  handleChange={handleChange}
-                />
-              </Form>
-
-            </Card.Content>
-          </Card>
+          <SelfAssesmentSection
+            header="Avoimet kysymykset"
+            formData={formData.openQuestions}
+            edit={edit}
+            handleChange={handleChange}
+            textArea={textArea}
+            QuestionModule={OpenQuestionModule}
+            question
+          />
 
           <Card fluid color="red" className="formCard">
             <Card.Content>
@@ -102,6 +93,7 @@ const SelfAssesmentForm = (props) => {
   )
 
   const renderEditableForm = () => {
+    console.log(props)
     if (props.edit) {
       const { formData, edit, handleChange } = props
       return editForm(formData.type, formData, edit, handleChange)
