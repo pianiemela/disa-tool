@@ -68,7 +68,7 @@ class Task extends Component {
 
   render() {
     return (
-      <div className="task">
+      <div className="Task">
         <div className="taskUncollapseable">
           <Button
             onClick={this.toggleExpanded}
