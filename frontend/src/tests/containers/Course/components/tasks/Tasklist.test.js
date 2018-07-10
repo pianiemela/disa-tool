@@ -1,6 +1,7 @@
 import React from 'react'
 import { Tasklist } from '../../../../../containers/Course/components/tasks/Tasklist'
 import Task from '../../../../../containers/Course/components/tasks/Task'
+import AddTaskForm from '../../../../../containers/Course/components/tasks/AddTaskForm'
 
 const tasks = [
   {
@@ -40,5 +41,23 @@ describe('Tasklist component', () => {
 
   it('renders a Task component for each task.', () => {
     expect(wrapper.find(Task).length).toEqual(tasks.length)
+  })
+
+  describe('when not editing', () => {
+    it('does not render an AddTaskForm component.', () => {
+      expect(wrapper.find(AddTaskForm).exists()).toEqual(false)
+    })
+  })
+
+  describe('when editing', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        editing: true
+      })
+    })
+    it('renders an AddTaskForm component.', () => {
+      expect(wrapper.find(AddTaskForm).exists()).toEqual(true)
+    })
   })
 })
