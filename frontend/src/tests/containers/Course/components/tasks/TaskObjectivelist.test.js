@@ -1,6 +1,7 @@
 import React from 'react'
 import TaskObjectivelist from '../../../../../containers/Course/components/tasks/TaskObjectivelist'
 import TaskObjective from '../../../../../containers/Course/components/tasks/TaskObjective'
+import AddObjectiveForm from '../../../../../containers/Course/components/tasks/AddObjectiveForm'
 
 const task = {
   id: 1,
@@ -53,5 +54,24 @@ describe('TaskObjectivelist component', () => {
 
   it('renders a TaskObjective component for each objective.', () => {
     expect(wrapper.find(TaskObjective).length).toEqual(task.objectives.length)
+  })
+
+  describe('when not editing', () => {
+    it('does not render an AddObjectiveForm component.', () => {
+      expect(wrapper.find(AddObjectiveForm).exists()).toEqual(false)
+    })
+  })
+
+  describe('when editing', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        editing: true
+      })
+    })
+
+    it('renders an AddObjectiveForm component.', () => {
+      expect(wrapper.find(AddObjectiveForm).exists()).toEqual(true)
+    })
   })
 })
