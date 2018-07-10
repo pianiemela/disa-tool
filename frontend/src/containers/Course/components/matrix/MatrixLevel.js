@@ -6,7 +6,7 @@ import CreateObjectiveForm from './CreateObjectiveForm'
 import MatrixObjective from './MatrixObjective'
 
 const MatrixLevel = props => (
-  <Table.Cell textAlign="center" key={props.level.id}>
+  <Table.Cell textAlign="center" key={props.level.id} className="MatrixLevel">
     <List selection>
       {props.level.objectives.map(objective => (
         <List.Item key={objective.id}>
