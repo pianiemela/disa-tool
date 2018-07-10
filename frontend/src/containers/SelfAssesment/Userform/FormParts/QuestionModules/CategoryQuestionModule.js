@@ -1,7 +1,7 @@
 import { Form, Card, Grid, Checkbox, Dropdown } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
-import UpOrDownToggle from './upDownToggle'
+import UpOrDownToggle from '../upDownToggle'
 
 
 const CategoryQuestionModule = (props) => {

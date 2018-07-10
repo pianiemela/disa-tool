@@ -1,12 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import ObjectiveQuestionModule from './ObjectiveQuestionModule'
-import CategoryQuestionModule from './CategoryQuestionModule'
-import OpenQuestionModule from './OpenQuestionModule'
-import AddOpenQuestion from './addOpenQuestion'
-
 import { Form, Grid, Card } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
+import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
+import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
+import AddOpenQuestion from './FormParts/addOpenQuestion'
+
 import './selfAssesment.css'
+import CategorySection from './FormParts/Sections/CategorySection'
 
 
 const SelfAssesmentForm = (props) => {
@@ -27,25 +28,12 @@ const SelfAssesmentForm = (props) => {
     (
       (type === 'category' ?
         <div>
-          <h2>{formData.name} kategorialomake</h2>
-          <Card fluid color="red" className="formCard">
-            <Card.Content>
-              <Card.Header className="cardHead">
-                Kategoria-arviointi
-              </Card.Header>
-              <Form>
-                {formData.questionModules.map(questionModules =>
-                  (<CategoryQuestionModule
-                    key={questionModules.id}
-                    data={questionModules}
-                    edit={edit}
-                    handleChange={handleChange}
-                    textArea={textArea}
-                  />))}
-              </Form>
-            </Card.Content>
-          </Card>
-
+          <CategorySection
+            formData={formData}
+            edit={edit}
+            handleChange={handleChange}
+            textArea={textArea}
+          />
           <Card fluid color="red" className="formCard">
             <Card.Content>
               <Card.Header className="cardHead">
@@ -86,7 +74,7 @@ const SelfAssesmentForm = (props) => {
               </Form>
             </Card.Content>
           </Card>
-        </div>
+        </div >
         :
         <div>
           <h2>{formData.name} tavoitelomake</h2>
@@ -116,11 +104,7 @@ const SelfAssesmentForm = (props) => {
   const renderEditableForm = () => {
     if (props.edit) {
       const { formData, edit, handleChange } = props
-
-      if (formData.type === 'objectives') {
-        return editForm('objectives', formData, edit, handleChange)
-      }
-      return editForm('category', formData, edit, handleChange)
+      return editForm(formData.type, formData, edit, handleChange)
     }
     return null
   }
