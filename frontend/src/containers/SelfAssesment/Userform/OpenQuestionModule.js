@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Card, Grid, Icon, Popup } from 'semantic-ui-react'
+import { Form, Card, Grid, Icon, Popup, Modal } from 'semantic-ui-react'
 
 
 const OpenQuestionModule = (props) => {
