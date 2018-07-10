@@ -1,5 +1,6 @@
 import React from 'react'
 import { Tasklist } from '../../../../../containers/Course/components/tasks/Tasklist'
+import Task from '../../../../../containers/Course/components/tasks/Task'
 
 const tasks = [
   {
@@ -35,5 +36,9 @@ describe('Tasklist component', () => {
 
   it('renders.', () => {
     expect(wrapper.find('.Tasklist').exists()).toEqual(true)
+  })
+
+  it('renders a Task component for each task.', () => {
+    expect(wrapper.find(Task).length).toEqual(tasks.length)
   })
 })
