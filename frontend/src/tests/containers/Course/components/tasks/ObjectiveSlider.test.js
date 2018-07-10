@@ -6,6 +6,7 @@ const objective = {
   name: 'Test Objective',
   multiplier: 0.5
 }
+const taskId = 1
 
 describe('ObjectiveSlider component', () => {
   let wrapper
@@ -14,7 +15,7 @@ describe('ObjectiveSlider component', () => {
   beforeEach(() => {
     changeTaskObjectiveMultiplier = jest.fn()
     wrapper = shallow(<ObjectiveSlider
-      taskId={1}
+      taskId={taskId}
       objective={objective}
       changeTaskObjectiveMultiplier={changeTaskObjectiveMultiplier}
     />)
@@ -24,11 +25,53 @@ describe('ObjectiveSlider component', () => {
     expect(wrapper.find('.ObjectiveSlider').exists()).toEqual(true)
   })
 
-  it('renders a number input with the correct value.', () => {
-    expect(wrapper.find('.numberInput').props().value).toEqual(objective.multiplier)
+  describe('number input', () => {
+    let numberInput
+
+    beforeEach(() => {
+      numberInput = wrapper.find('.numberInput')
+    })
+
+    it('renders with the correct value.', () => {
+      expect(numberInput.props().value).toEqual(objective.multiplier)
+    })
+
+    it('calls changeTaskObjectiveMultiplier when value is changed.', () => {
+      numberInput.simulate('change', {
+        target: {
+          value: 0.4
+        }
+      })
+      expect(changeTaskObjectiveMultiplier).toHaveBeenCalledWith({
+        taskId,
+        objectiveId: objective.id,
+        multiplier: 0.4
+      })
+    })
   })
 
-  it('renders a range input with the correct value.', () => {
-    expect(wrapper.find('.rangeInput').props().value).toEqual(objective.multiplier)
+  describe('range input', () => {
+    let rangeInput
+
+    beforeEach(() => {
+      rangeInput = wrapper.find('.rangeInput')
+    })
+
+    it('renders with the correct value.', () => {
+      expect(rangeInput.props().value).toEqual(objective.multiplier)
+    })
+
+    it('calls changeTaskObjectiveMultiplier when value is changed.', () => {
+      rangeInput.simulate('change', {
+        target: {
+          value: 0.4
+        }
+      })
+      expect(changeTaskObjectiveMultiplier).toHaveBeenCalledWith({
+        taskId,
+        objectiveId: objective.id,
+        multiplier: 0.4
+      })
+    })
   })
 })
