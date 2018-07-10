@@ -10,7 +10,7 @@ const TaskObjectivelist = props => (
     {props.task.objectives.map(objective => (
       <Grid.Row key={objective.id}>
         <Grid.Column textAlign="right">
-          <TaskObjective task={props.task} objective={objective} />
+          <TaskObjective task={props.task} objective={objective} editing={props.editing} />
         </Grid.Column>
       </Grid.Row>
     ))}
