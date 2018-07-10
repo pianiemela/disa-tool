@@ -4,7 +4,7 @@ import { Form, Card, Grid, Icon, Popup } from 'semantic-ui-react'
 
 const OpenQuestionModule = (props) => {
 
-  const { edit, textArea } = props
+  const { edit, textArea, handleChange } = props
   const { id, name } = props.data
 
   return (
@@ -27,6 +27,7 @@ const OpenQuestionModule = (props) => {
                         name="minus circle"
                         size="big"
                         color="red"
+                        onClick={() => handleChange({ id, type: 'removeQuestion' })}
                       />
                     }
                     content="Poista avoin kysymys tästä"
