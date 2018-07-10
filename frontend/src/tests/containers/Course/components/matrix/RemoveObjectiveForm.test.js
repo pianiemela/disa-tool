@@ -22,4 +22,16 @@ describe('RemoveObjectiveForm component', () => {
   it('renders.', () => {
     expect(wrapper.find('.RemoveObjectiveForm').exists()).toEqual(true)
   })
+
+  describe('form content', () => {
+    let content
+
+    beforeEach(() => {
+      content = shallow(wrapper.find(ModalForm).props().content)
+    })
+
+    it('renders objective name.', () => {
+      expect(findText(objective.name, content)).toBeGreaterThan(0)
+    })
+  })
 })
