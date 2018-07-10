@@ -25,9 +25,8 @@ const SelfAssesmentForm = (props) => {
 
   const editForm = (type, formData, edit, handleChange) => (
     (
-      (type === 'category' ?
-        <div>
-          <h2>{formData.name} kategorialomake</h2>
+      <div>
+        {type === 'category' ?
 
           <SelfAssesmentSection
             header="Kategoriaosio"
@@ -37,16 +36,28 @@ const SelfAssesmentForm = (props) => {
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
           />
-
+          :
           <SelfAssesmentSection
-            header="Avoimet kysymykset"
-            formData={formData.openQuestions}
+            header="Tavoiteosio"
+            formData={formData.questionModules}
             edit={edit}
             handleChange={handleChange}
             textArea={textArea}
-            QuestionModule={OpenQuestionModule}
-            question
+            QuestionModule={ObjectiveQuestionModule}
           />
+        }
+
+        <SelfAssesmentSection
+          header="Avoimet kysymykset"
+          formData={formData.openQuestions}
+          edit={edit}
+          handleChange={handleChange}
+          textArea={textArea}
+          QuestionModule={OpenQuestionModule}
+          question
+        />
+
+        {type === 'category' ?
 
           <SelfAssesmentSection
             header="Loppuarvio"
@@ -55,32 +66,11 @@ const SelfAssesmentForm = (props) => {
             handleChange={handleChange}
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
-            final
           />
-        </div >
-        :
-        <div>
-          <h2>{formData.name} tavoitelomake</h2>
-          <Form>
-            {formData.questionModules.map(questionModules =>
-              (<ObjectiveQuestionModule
-                key={questionModules.id}
-                data={questionModules}
-                edit={edit}
-                handleFormChange={handleChange}
-              />))}
-
-            {formData.openQuestions.map(openQuestion =>
-              (<OpenQuestionModule
-                key={openQuestion.id}
-                data={openQuestion}
-                edit={edit}
-                handleChange={handleChange}
-                textArea={textArea}
-              />))}
-          </Form>
-        </div>
-      )
+          :
+          null
+        }
+      </div>
     )
   )
 
