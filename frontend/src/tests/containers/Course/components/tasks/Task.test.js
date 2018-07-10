@@ -1,7 +1,7 @@
 import React from 'react'
 import Task from '../../../../../containers/Course/components/tasks/Task'
 import TaskTypelist from '../../../../../containers/Course/components/tasks/TaskTypelist'
-import ObjectiveSlider from '../../../../../containers/Course/components/tasks/ObjectiveSlider'
+import TaskObjectivelist from '../../../../../containers/Course/components/tasks/TaskObjectivelist'
 import RemoveTaskForm from '../../../../../containers/Course/components/tasks/RemoveTaskForm'
 import { findText } from '../../../../testUtils'
 
@@ -86,8 +86,8 @@ describe('Task component', () => {
       expect(wrapper.find(TaskTypelist).exists()).toEqual(false)
     })
 
-    it('does not render any ObjectiveSlider components.', () => {
-      expect(wrapper.find(ObjectiveSlider).exists()).toEqual(false)
+    it('does not render a TaskObjectivelist component.', () => {
+      expect(wrapper.find(TaskObjectivelist).exists()).toEqual(false)
     })
   })
 
@@ -110,8 +110,8 @@ describe('Task component', () => {
       expect(wrapper.find(TaskTypelist).exists()).toEqual(true)
     })
 
-    it('renders an ObjectiveSlider component for each objective.', () => {
-      expect(wrapper.find(ObjectiveSlider).length).toEqual(task.objectives.length)
+    it('renders a TaskObjectivelist component.', () => {
+      expect(wrapper.find(TaskObjectivelist).exists()).toEqual(true)
     })
   })
 })
