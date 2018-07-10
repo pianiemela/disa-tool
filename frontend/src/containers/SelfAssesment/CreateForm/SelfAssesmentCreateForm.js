@@ -63,6 +63,11 @@ class SelfAssesmentCreateForm extends React.Component {
         this.setState({ formData: toChange })
         break
       }
+      case 'removeQuestion': {
+        toChange.openQuestions = toChange.openQuestions.filter(oQ => oQ.id !== id)
+        this.setState({ formData: toChange })
+        break
+      }
 
       default:
     }
