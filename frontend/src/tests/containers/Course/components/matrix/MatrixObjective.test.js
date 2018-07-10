@@ -1,5 +1,6 @@
 import React from 'react'
 import MatrixObjective from '../../../../../containers/Course/components/matrix/MatrixObjective'
+import { findText } from '../../../../testUtils'
 
 const objective = {
   id: 1,
@@ -18,5 +19,9 @@ describe('MatrixObjective component', () => {
 
   it('renders.', () => {
     expect(wrapper.find('.MatrixObjective').exists()).toEqual(true)
+  })
+
+  it('renders objective name', () => {
+    expect(findText(objective.name, wrapper)).toBeGreaterThan(0)
   })
 })
