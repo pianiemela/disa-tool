@@ -26,4 +26,27 @@ describe('TaskObjective component', () => {
   it('renders.', () => {
     expect(wrapper.find('.TaskObjective').exists()).toEqual(true)
   })
+
+  it('renders an ObjectiveSlider component.', () => {
+    expect(wrapper.find(ObjectiveSlider).exists()).toEqual(true)
+  })
+
+  describe('when not editing', () => {
+    it('does not render an DetachObjectiveForm component.', () => {
+      expect(wrapper.find(DetachObjectiveForm).exists()).toEqual(false)
+    })
+  })
+
+  describe('when editing', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        editing: true
+      })
+    })
+
+    it('renders an DetachObjectiveForm component.', () => {
+      expect(wrapper.find(DetachObjectiveForm).exists()).toEqual(true)
+    })
+  })
 })
