@@ -48,23 +48,15 @@ const SelfAssesmentForm = (props) => {
             question
           />
 
-          <Card fluid color="red" className="formCard">
-            <Card.Content>
-              <Card.Header className="cardHead">
-                Loppuarvio
-              </Card.Header>
-              <Form>
-                <CategoryQuestionModule
-                  key={formData.finalGrade.id}
-                  data={formData.finalGrade}
-                  edit={edit}
-                  handleChange={handleChange}
-                  textArea={textArea}
-                  final
-                />
-              </Form>
-            </Card.Content>
-          </Card>
+          <SelfAssesmentSection
+            header="Loppuarvio"
+            formData={formData.finalGrade}
+            edit={edit}
+            handleChange={handleChange}
+            textArea={textArea}
+            QuestionModule={CategoryQuestionModule}
+            final
+          />
         </div >
         :
         <div>

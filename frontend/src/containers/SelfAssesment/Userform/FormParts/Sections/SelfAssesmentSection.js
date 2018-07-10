@@ -1,10 +1,10 @@
 import React from 'react'
+import { Card, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import AddOpenQuestion from '../addOpenQuestion'
-import { Card, Form } from 'semantic-ui-react'
 
 const SelfAssesmentSection = (props) => {
-  const { question, formData, edit, handleChange, textArea, header, QuestionModule } = props
+  const { final, question, formData, edit, handleChange, textArea, header, QuestionModule } = props
   return (
     <div>
       <Card fluid color="red" className="formCard">
@@ -20,6 +20,7 @@ const SelfAssesmentSection = (props) => {
                 edit={edit}
                 handleChange={handleChange}
                 textArea={textArea}
+                final={final}
               />))}
 
             {question ?
@@ -40,7 +41,8 @@ const SelfAssesmentSection = (props) => {
 }
 
 SelfAssesmentSection.defaultProps = {
-  question: false
+  question: false,
+  final: false
 }
 
 SelfAssesmentSection.propTypes = {
@@ -53,7 +55,8 @@ SelfAssesmentSection.propTypes = {
   textArea: PropTypes.func.isRequired,
   question: PropTypes.bool,
   header: PropTypes.string.isRequired,
-  QuestionModule: PropTypes.func.isRequired
+  QuestionModule: PropTypes.func.isRequired,
+  final: PropTypes.bool
 }
 
 export default SelfAssesmentSection

@@ -104,13 +104,13 @@ class SelfAssesmentCreateForm extends React.Component {
     data.openQuestions = []
     const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1).toString()
 
-    data.finalGrade = {
+    data.finalGrade = [{
       name: 'Anna itsellesi loppuarvosana kurssista',
       eng_name: 'Give yourself a final grade for the course',
       swe_name: 'Låta en final grad till själv, lmao ei näin :D',
       textFieldOn: true,
       id
-    }
+    }]
     if (data.type === 'category') {
       data.questionModules = []
       courseData.map(ciO =>
