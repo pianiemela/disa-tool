@@ -1,5 +1,7 @@
 import React from 'react'
 import { Type } from '../../../../../containers/Course/components/types/Type'
+import RemoveTypeForm from '../../../../../containers/Course/components/types/RemoveTypeForm'
+import { findText } from '../../../../testUtils'
 
 const type = {
   id: 1,
@@ -22,6 +24,10 @@ describe('Type component', () => {
 
   it('renders.', () => {
     expect(wrapper.find('.Type').exists()).toEqual(true)
+  })
+
+  it('renders type name', () => {
+    expect(findText(type.name, wrapper)).toBeGreaterThan(0)
   })
 
   describe('number input', () => {
@@ -69,6 +75,24 @@ describe('Type component', () => {
         id: type.id,
         multiplier: 0.4
       })
+    })
+  })
+
+  describe('when not editing', () => {
+    it('does not render a RemoveTypeForm component.', () => {
+      expect(wrapper.find(RemoveTypeForm).exists()).toEqual(false)
+    })
+  })
+
+  describe('when editing', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        editing: true
+      })
+    })
+    it('renders a RemoveTypeForm component.', () => {
+      expect(wrapper.find(RemoveTypeForm).exists()).toEqual(true)
     })
   })
 })
