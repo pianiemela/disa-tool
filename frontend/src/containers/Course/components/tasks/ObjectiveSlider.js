@@ -5,7 +5,7 @@ import { Input } from 'semantic-ui-react'
 
 import { changeTaskObjectiveMultiplier } from '../../actions/tasks'
 
-class ObjectiveSlider extends Component {
+export class ObjectiveSlider extends Component {
   changeValue = (e) => {
     this.props.changeTaskObjectiveMultiplier({
       taskId: this.props.taskId,
