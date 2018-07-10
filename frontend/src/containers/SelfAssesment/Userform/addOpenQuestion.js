@@ -31,7 +31,7 @@ class AddOpenQuestion extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Button
-              onClick={() => { this.props.handleChange(null, 'addQuestion', null, this.state.questionData); this.clear() }}
+              onClick={() => { this.props.handleChange({ type: 'addQuestion', questionData: this.state.questionData }); this.clear() }}
               type="submit"
               circular
               name="plus"

@@ -1,17 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Grid } from 'semantic-ui-react'
 import ObjectiveQuestionModule from './ObjectiveQuestionModule'
 import CategoryQuestionModule from './CategoryQuestionModule'
 import OpenQuestionModule from './OpenQuestionModule'
 import AddOpenQuestion from './addOpenQuestion'
 
-import { Card } from 'semantic-ui-react'
+import { Form, Grid, Card } from 'semantic-ui-react'
 import './selfAssesment.css'
 
 
 const SelfAssesmentForm = (props) => {
-
   const textArea = (label, placeholder, textFieldOn, checkbox) => (
     (
       <Grid.Column width={10}>
