@@ -2,6 +2,7 @@ import React from 'react'
 import Task from '../../../../../containers/Course/components/tasks/Task'
 import TaskTypelist from '../../../../../containers/Course/components/tasks/TaskTypelist'
 import ObjectiveSlider from '../../../../../containers/Course/components/tasks/ObjectiveSlider'
+import RemoveTaskForm from '../../../../../containers/Course/components/tasks/RemoveTaskForm'
 import { findText } from '../../../../testUtils'
 
 const task = {
@@ -53,6 +54,25 @@ describe('Task component', () => {
     expect(wrapper.find('.Task').exists()).toEqual(true)
   })
 
+  describe('when not editing', () => {
+    it('does not render a RemoveTaskForm component.', () => {
+      expect(wrapper.find(RemoveTaskForm).exists()).toEqual(false)
+    })
+  })
+
+  describe('when editing', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        editing: true
+      })
+    })
+
+    it('renders a RemoveTaskForm component.', () => {
+      expect(wrapper.find(RemoveTaskForm).exists()).toEqual(true)
+    })
+  })
+
   describe('when collapsed', () => {
     it('does not render task description.', () => {
       expect(findText(task.description, wrapper)).toEqual(0)
@@ -62,11 +82,11 @@ describe('Task component', () => {
       expect(findText(task.info, wrapper)).toEqual(0)
     })
 
-    it('does not render TaskTypelist component.', () => {
+    it('does not render a TaskTypelist component.', () => {
       expect(wrapper.find(TaskTypelist).exists()).toEqual(false)
     })
 
-    it('does not render ObjectiveSlider components.', () => {
+    it('does not render any ObjectiveSlider components.', () => {
       expect(wrapper.find(ObjectiveSlider).exists()).toEqual(false)
     })
   })
@@ -86,7 +106,7 @@ describe('Task component', () => {
       expect(findText(task.info, wrapper)).toBeGreaterThan(0)
     })
 
-    it('renders TaskTypelist component.', () => {
+    it('renders a TaskTypelist component.', () => {
       expect(wrapper.find(TaskTypelist).exists()).toEqual(true)
     })
 
