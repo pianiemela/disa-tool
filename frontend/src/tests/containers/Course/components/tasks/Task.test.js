@@ -1,5 +1,8 @@
 import React from 'react'
 import Task from '../../../../../containers/Course/components/tasks/Task'
+import TaskTypelist from '../../../../../containers/Course/components/tasks/TaskTypelist'
+import ObjectiveSlider from '../../../../../containers/Course/components/tasks/ObjectiveSlider'
+import { findText } from '../../../../testUtils'
 
 const task = {
   id: 1,
@@ -48,5 +51,23 @@ describe('Task component', () => {
 
   it('renders.', () => {
     expect(wrapper.find('.Task').exists()).toEqual(true)
+  })
+
+  describe('when collapsed', () => {
+    it('does not render task description.', () => {
+      expect(findText(task.description, wrapper)).toEqual(0)
+    })
+
+    it('does not render task info.', () => {
+      expect(findText(task.info, wrapper)).toEqual(0)
+    })
+
+    it('does not render TaskTypelist component.', () => {
+      expect(wrapper.find(TaskTypelist).exists()).toEqual(false)
+    })
+
+    it('does not render ObjectiveSlider components.', () => {
+      expect(wrapper.find(ObjectiveSlider).exists()).toEqual(false)
+    })
   })
 })

@@ -37,7 +37,11 @@ class Task extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <TaskTypelist types={this.props.task.types} task={this.props.task} editing={this.props.editing} />
+            <TaskTypelist
+              types={this.props.task.types}
+              task={this.props.task}
+              editing={this.props.editing}
+            />
           </Grid.Column>
         </Grid.Row>
         {this.props.task.objectives.map(objective => (
