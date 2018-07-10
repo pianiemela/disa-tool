@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Button } from 'semantic-ui-react'
 
-import ObjectiveSlider from './ObjectiveSlider'
-import AddObjectiveForm from './AddObjectiveForm'
-import DetachObjectiveForm from './DetachObjectiveForm'
+import TaskObjectivelist from './TaskObjectivelist'
 import RemoveTaskForm from './RemoveTaskForm'
 import TaskTypelist from './TaskTypelist'
 
@@ -30,7 +28,6 @@ class Task extends Component {
       <Grid columns="equal">
         <Grid.Row>
           <Grid.Column>
-            <h3>{this.props.task.name}</h3>
             <h4>{this.props.task.description}</h4>
             <p>{this.props.task.info}</p>
           </Grid.Column>
@@ -44,28 +41,7 @@ class Task extends Component {
             />
           </Grid.Column>
         </Grid.Row>
-        {this.props.task.objectives.map(objective => (
-          <Grid.Row key={objective.id}>
-            <Grid.Column textAlign="right">
-              <div className="objectiveBlock">
-                {this.props.editing ? (
-                  <DetachObjectiveForm task={this.props.task} objective={objective} />
-                ) : (
-                  <div />
-                )}
-                <ObjectiveSlider objective={objective} taskId={this.props.task.id} />
-              </div>
-            </Grid.Column>
-          </Grid.Row>
-        ))}
-        {this.props.editing ? (
-          <AddObjectiveForm
-            objectiveIds={this.props.task.objectives.map(objective => objective.id)}
-            task={this.props.task}
-          />
-        ) : (
-          <div />
-        )}
+        <TaskObjectivelist task={this.props.task} editing={this.props.editing} />
       </Grid>
     )
   }

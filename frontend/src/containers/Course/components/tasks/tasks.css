@@ -21,12 +21,17 @@
 }
 
 .addObjectiveForm {
-  margin-bottom: 10px;
+  margin: 10px;
 }
 
-.objectiveBlock {
+.TaskObjective {
   display: flex;
   justify-content: flex-end;
+}
+
+.TaskObjectivelist {
+  width: 100%;
+  text-align: right;
 }
 
 .DetachObjectiveForm {
