@@ -68,7 +68,7 @@ const existingSelfAssesments = [
         {
           id: 1,
           name: 'Yhtälöryhmät',
-          answers: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
+          options: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
           objectives: [
             {
               id: 1,
@@ -103,7 +103,7 @@ const existingSelfAssesments = [
         {
           id: 2,
           name: 'Vektoriavaruudet',
-          answers: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
+          options: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
           objectives: [
             {
               id: 8,
@@ -143,7 +143,7 @@ const existingSelfAssesments = [
         {
           id: 3,
           name: 'Virittäminen ja vapaus',
-          answers: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
+          options: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
           objectives: [
             {
               id: 16,
@@ -186,7 +186,7 @@ const existingSelfAssesments = [
         {
           id: 4,
           name: 'Matriisit',
-          answers: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
+          options: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
           objectives: [
             {
               id: 29,
@@ -238,7 +238,7 @@ const existingSelfAssesments = [
         {
           id: 5,
           name: 'Geometria',
-          answers: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
+          options: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
           objectives: [
             {
               id: 40,
@@ -293,7 +293,7 @@ const existingSelfAssesments = [
         {
           id: 6,
           name: 'Matlab-tyyppisen ohjelman käyttäminen (MO)',
-          answers: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
+          options: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
           objectives: [
             {
               id: 52,
@@ -316,7 +316,7 @@ const existingSelfAssesments = [
         {
           id: 7,
           name: 'Matematiikan lukeminen ja kirjoittaminen (LK)',
-          answers: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
+          options: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
           objectives: [
             {
               id: 56,
@@ -360,7 +360,7 @@ const existingSelfAssesments = [
         {
           id: 8,
           name: 'Matemaattinen keskustelu',
-          answers: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
+          options: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
           objectives: [
             {
               id: 66,
@@ -395,7 +395,7 @@ const existingSelfAssesments = [
         {
           id: 9,
           name: 'Palautteen antaminen ja vastaanottaminen (PA)',
-          answers: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
+          options: ['Heikosti', 'Kohtalaisesti', 'Hyvin'],
           objectives: [
             {
               id: 73,

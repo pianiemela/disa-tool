@@ -14,7 +14,12 @@ import EditAssesmentSelection from './EditAssesmentSelection'
 class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { active: [], selectedView: '', createdForm: {}, created: false }
+    this.state = {
+      active: [],
+      selectedView: '',
+      formData: {},
+      created: false
+    }
   }
 
   componentWillMount() {
@@ -31,13 +36,13 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ active: opened })
   }
 
-  handleFormChange = (id, type, upOrDown) => {
-    const toChange = this.state.createdForm
+  handleFormChange = (id, type, upOrDown, questiondata) => {
+    const toChange = this.state.formData
     switch (type) {
       case 'textfield': {
         toChange.questionModules = toChange.questionModules.map(o =>
           (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
-        this.setState({ createdForm: toChange })
+        this.setState({ formData: toChange })
         break
       }
       case 'changeOrder': {
@@ -50,7 +55,12 @@ class SelfAssesmentCreateForm extends React.Component {
           toChange.questionModules[a] = toChange.questionModules[a - 1]
           toChange.questionModules[a - 1] = b
         }
-        this.setState({ createdForm: toChange })
+        this.setState({ formData: toChange })
+        break
+      }
+      case 'addQuestion': {
+        toChange.openQuestions = toChange.openQuestions.concat({ id: toChange.openQuestions[toChange.openQuestions.length - 1].id + 1, name: questiondata })
+        this.setState({ formData: toChange })
         break
       }
 
@@ -68,6 +78,17 @@ class SelfAssesmentCreateForm extends React.Component {
     const { courseData } = this.props
     data.name = 'Linis'
     data.type = this.state.selectedView
+    data.openQuestions = [{
+      id: 1,
+      name: 'Uskotko flat earth-teoriaan?'
+    }]
+    data.finalGrade = {
+      name: 'Anna itsellesi loppuarvosana kurssista',
+      eng_name: 'Give yourself a final grade for the course',
+      swe_name: 'Låta en final grad till själv, lmao ei näin :D',
+      textFieldOn: true,
+      id: (parseInt(courseData[courseData.length - 1].id) + 1).toString()
+    }
 
     if (data.type === 'category') {
       data.questionModules = []
@@ -87,21 +108,21 @@ class SelfAssesmentCreateForm extends React.Component {
             id: o.id,
             name: o.name
           })),
-          answers: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
+          options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
         }))
     }
-    this.setState({ created: true, createdForm: data })
+    this.setState({ created: true, formData: data })
   }
 
   createDropdownOptions = () => {
-    let options = []
+    const options = []
     this.props.selfAssesments.map(sA =>
       options.push({ value: sA.id, text: sA.fin_name }))
     return options
   }
 
   renderCreateOrDraft = () => {
-    const { selectedView, createdForm } = this.state
+    const { selectedView, formData } = this.state
     if (!this.state.created) {
       return (
         <Grid columns={2} divided>
@@ -122,11 +143,15 @@ class SelfAssesmentCreateForm extends React.Component {
               />
             </Grid.Column>
           </Grid.Row>
-
         </Grid>
       )
     }
-    return <SelfAssesmentForm handleChange={this.handleFormChange} edit created createdForm={createdForm} />
+    return (<SelfAssesmentForm
+      handleChange={this.handleFormChange}
+      edit
+      created
+      formData={formData}
+    />)
   }
 
   render() {
