@@ -68,6 +68,10 @@ const CategoryQuestionModule = (props) => {
   )
 }
 
+CategoryQuestionModule.defaultProps = {
+  final: false
+}
+
 
 CategoryQuestionModule.propTypes = {
   data: PropTypes.shape({
@@ -75,7 +79,9 @@ CategoryQuestionModule.propTypes = {
     id: PropTypes.string
   }).isRequired,
   edit: PropTypes.bool.isRequired,
-  handleChange: PropTypes.func.isRequired
+  handleChange: PropTypes.func.isRequired,
+  final: PropTypes.bool,
+  textArea: PropTypes.func.isRequired
 }
 
 export default CategoryQuestionModule

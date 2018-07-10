@@ -1,9 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Form, Card, Grid, Icon, Popup, Button } from 'semantic-ui-react'
 import ModalForm from '../../../utils/components/ModalForm'
 
 const OpenQuestionModule = (props) => {
-
   const { edit, textArea, handleChange } = props
   const { id, name } = props.data
 
@@ -53,7 +53,13 @@ const OpenQuestionModule = (props) => {
       </Card.Group>
     </Form.Field >
   )
+}
 
+OpenQuestionModule.propTypes = {
+  edit: PropTypes.bool.isRequired,
+  textArea: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  data: PropTypes.shape().isRequired
 }
 
 export default OpenQuestionModule
