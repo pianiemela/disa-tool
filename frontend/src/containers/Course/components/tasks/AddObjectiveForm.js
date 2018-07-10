@@ -8,7 +8,7 @@ import { addObjectiveToTask } from '../../services/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class AddObjectiveForm extends Component {
+export class AddObjectiveForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
