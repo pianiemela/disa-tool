@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Grid, Card } from 'semantic-ui-react'
+import { Form, Grid, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
@@ -70,6 +70,10 @@ const SelfAssesmentForm = (props) => {
           :
           null
         }
+        <Button positive style={{marginBottom: '25px' }}>
+          Tallenna lomake
+        </Button>
+
       </div>
     )
   )
