@@ -8,7 +8,7 @@ import { removeObjective } from '../../services/objectives'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class RemoveObjectiveForm extends Component {
+export class RemoveObjectiveForm extends Component {
   removeObjective = () => {
     this.props.removeObjective({
       id: this.props.objective.id

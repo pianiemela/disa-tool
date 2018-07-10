@@ -9,7 +9,7 @@ import { addObjective } from '../../services/objectives'
 import ModalForm from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
-class AddObjectiveForm extends Component {
+export class CreateObjectiveForm extends Component {
     addObjectiveSubmit = (e) => {
       this.props.addObjective({
         eng_name: e.target.eng_name.value,
@@ -29,17 +29,17 @@ class AddObjectiveForm extends Component {
         `"${this.props.level.name}"`
       ].join(' ')
       return (
-        <div className="addObjectiveForm">
+        <div className="CreateObjectiveForm">
           <ModalForm
             header="Luo uusi oppimistavoite"
-            trigger={<Button onClick={this.expand} className="addObjectiveButton" icon={{ name: 'add' }} />}
+            trigger={<Button className="addObjectiveButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>
                   {contentPrompt}.
                 </p>
                 <MultilingualField field="name" fieldDisplay="nimi" />
-                <Button type="submit">Tallenna</Button>
+                <Button type="submit" color="green">Tallenna</Button>
               </div>
             }
             onSubmit={this.addObjectiveSubmit}
@@ -49,7 +49,7 @@ class AddObjectiveForm extends Component {
     }
 }
 
-AddObjectiveForm.propTypes = {
+CreateObjectiveForm.propTypes = {
   addObjective: PropTypes.func.isRequired,
   level: PropTypes.shape({
     id: PropTypes.number.isRequired,
@@ -73,4 +73,4 @@ const mapDispatchToProps = dispatch => (
   }
 )
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddObjectiveForm)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateObjectiveForm)

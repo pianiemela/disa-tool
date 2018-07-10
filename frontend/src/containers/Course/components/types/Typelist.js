@@ -24,12 +24,8 @@ Typelist.propTypes = {
   types: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number
   })).isRequired,
-  editing: PropTypes.bool,
+  editing: PropTypes.bool.isRequired,
   courseId: PropTypes.number.isRequired
-}
-
-Typelist.defaultProps = {
-  editing: false
 }
 
 const mapStateToProps = state => ({

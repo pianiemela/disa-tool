@@ -27,11 +27,7 @@ TaskType.propTypes = {
     id: PropTypes.number,
     name: PropTypes.string
   }).isRequired,
-  editing: PropTypes.bool
-}
-
-TaskType.defaultProps = {
-  editing: false
+  editing: PropTypes.bool.isRequired
 }
 
 export default TaskType

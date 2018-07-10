@@ -3,22 +3,19 @@ import { Button } from 'semantic-ui-react'
 import { CourseHeader } from '../../../../../containers/Course/components/header/CourseHeader'
 import { findText } from '../../../../testUtils'
 
-let setEditing
 const courseName = 'Test Course'
-const createWrapper = () => {
-  setEditing = jest.fn()
-  return shallow(<CourseHeader
-    courseName={courseName}
-    editing={false}
-    setEditing={setEditing}
-  />)
-}
 
 describe('CourseHeader component', () => {
   let wrapper
+  let setEditing
 
   beforeEach(() => {
-    wrapper = createWrapper()
+    setEditing = jest.fn()
+    wrapper = shallow(<CourseHeader
+      courseName={courseName}
+      editing={false}
+      setEditing={setEditing}
+    />)
   })
 
   it('renders', () => {

@@ -21,12 +21,8 @@ Tasklist.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number
   })).isRequired,
-  editing: PropTypes.bool,
+  editing: PropTypes.bool.isRequired,
   courseId: PropTypes.number.isRequired
-}
-
-Tasklist.defaultProps = {
-  editing: false
 }
 
 const mapStateToProps = (state, ownProps) => ({

@@ -100,11 +100,7 @@ Task.propTypes = {
     })).isRequired,
     types: PropTypes.arrayOf(PropTypes.object).isRequired
   }).isRequired,
-  editing: PropTypes.bool
-}
-
-Task.defaultProps = {
-  editing: false
+  editing: PropTypes.bool.isRequired
 }
 
 export default Task
