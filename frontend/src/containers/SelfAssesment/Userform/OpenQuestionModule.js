@@ -1,6 +1,6 @@
 import React from 'react'
-import { Form, Card, Grid, Icon, Popup, Modal } from 'semantic-ui-react'
-
+import { Form, Card, Grid, Icon, Popup, Button } from 'semantic-ui-react'
+import ModalForm from '../../../utils/components/ModalForm'
 
 const OpenQuestionModule = (props) => {
 
@@ -21,16 +21,29 @@ const OpenQuestionModule = (props) => {
                   {textArea('Vastaa avoimeen kysymykseen', 'Kirjoita vastaus tähän', edit)}
                 </Grid.Column>
                 <Grid.Column>
-                  <Popup
+                  <ModalForm
+                    header="Poista avoin kysymys"
+                    content={
+                      <div>
+                        <p>Haluatko poistaa avoimen kysymyksen {name}?</p>
+                        <Button color="green" onClick={() => handleChange({ id, type: 'removeQuestion' })} type="submit">Ok</Button>
+                        <Button color="red">
+                          {'Peru'}
+                        </Button>
+                      </div>
+                    }
                     trigger={
-                      <Icon
-                        name="minus circle"
-                        size="big"
-                        color="red"
-                        onClick={() => handleChange({ id, type: 'removeQuestion' })}
+                      <Popup
+                        trigger={
+                          <Icon
+                            name="minus circle"
+                            size="big"
+                            color="red"
+                          />
+                        }
+                        content="Poista avoin kysymys tästä"
                       />
                     }
-                    content="Poista avoin kysymys tästä"
                   />
                 </Grid.Column>
               </Grid.Row>
