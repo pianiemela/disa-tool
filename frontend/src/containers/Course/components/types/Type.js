@@ -7,7 +7,7 @@ import { changeTypeMultiplier } from '../../actions/types'
 
 import RemoveTypeForm from './RemoveTypeForm'
 
-class Type extends Component {
+export class Type extends Component {
   changeMultiplier = (e) => {
     this.props.changeTypeMultiplier({
       id: this.props.type.id,
@@ -17,7 +17,7 @@ class Type extends Component {
 
   render() {
     return (
-      <Segment className="type">
+      <Segment className="Type">
         <div className="headerBlock">
           <Header className="typeHeader">{this.props.type.name}</Header>
         </div>

@@ -4,12 +4,12 @@
   flex-wrap: wrap;
 }
 
-.type, .addTypeForm {
+.Type, .addTypeForm {
   width: 50%;
   flex-shrink: 1;
 }
 
-.type {
+.Type {
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   margin: 0px !important;
