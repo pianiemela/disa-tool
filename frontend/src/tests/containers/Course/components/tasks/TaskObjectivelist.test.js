@@ -50,4 +50,8 @@ describe('TaskObjectivelist component', () => {
   it('renders', () => {
     expect(wrapper.find('.TaskObjectivelist').exists()).toEqual(true)
   })
+
+  it('renders a TaskObjective component for each objective.', () => {
+    expect(wrapper.find(TaskObjective).length).toEqual(task.objectives.length)
+  })
 })
