@@ -4,8 +4,8 @@ import { Table } from 'semantic-ui-react'
 
 import MatrixLevel from './MatrixLevel'
 
-const MatrixCategory = props => (
-  <Table.Row>
+export const MatrixCategory = props => (
+  <Table.Row className="MatrixCategory">
     <Table.Cell>{props.category.name}</Table.Cell>
     {props.category.skill_levels.map(level => (
       <MatrixLevel
