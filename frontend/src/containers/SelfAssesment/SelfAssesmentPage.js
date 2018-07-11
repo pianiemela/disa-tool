@@ -2,6 +2,7 @@ import React from 'react'
 import { Container } from 'semantic-ui-react'
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
+import { connect } from 'react-redux'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
@@ -14,7 +15,10 @@ export class SelfAssesmentPage extends React.Component {
   }
 
   renderTeacherView = () => (
-    <SelfAssesmentCreateForm data={this.state.courseAssesmentData} />
+    <SelfAssesmentCreateForm
+      courses={this.props.courses}
+      dropDownCourse={this.props.dropDownOptions}
+    />
   )
 
 
@@ -33,4 +37,19 @@ export class SelfAssesmentPage extends React.Component {
   }
 }
 
-export default SelfAssesmentPage
+const createOptions = (data) => {
+  console.log('aika generoida optionssit datasta', data)
+  const options = []
+  data.map(d =>
+    options.push({ value: d.id, text: d.name }))
+  return options
+}
+const mapStateToProps = state => (
+  {
+    courses: state.courses,
+    selfAssesments: state.selfAssesments,
+    dropDownOptions: createOptions(state.courses)
+  }
+)
+
+export default connect(mapStateToProps)(SelfAssesmentPage)

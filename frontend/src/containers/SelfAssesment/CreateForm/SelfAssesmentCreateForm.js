@@ -134,16 +134,9 @@ class SelfAssesmentCreateForm extends React.Component {
     }
     this.setState({ created: true, formData: data })
   }
-
-  createDropdownOptions = () => {
-    const options = []
-    this.props.selfAssesments.map(sA =>
-      options.push({ value: sA.id, text: sA.fin_name }))
-    return options
-  }
-
   renderCreateOrDraft = () => {
     const { selectedView, formData } = this.state
+    const { dropDownCourse, dropdownAssesments } = this.props
     if (!this.state.created) {
       return (
         <Grid columns={2} divided>
@@ -151,7 +144,7 @@ class SelfAssesmentCreateForm extends React.Component {
             <Grid.Column>
               <DropDownSelection
                 onChange={this.changeEditValue}
-                options={this.createDropdownOptions}
+                options={dropDownCourse}
                 placeholder="Valitse kurssi"
               />
 
@@ -167,7 +160,7 @@ class SelfAssesmentCreateForm extends React.Component {
             <Grid.Column>
               <DropDownSelection
                 onChange={this.changeEditValue}
-                options={this.createDropdownOptions()}
+                options={[]}
                 placeholder="Valitse muokattava itsearviointi"
                 modify
                 label="Muokkaa"
@@ -188,14 +181,15 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 
   render() {
-    this.createDropdownOptions()
+    console.log(this.props)
     return <div>{this.renderCreateOrDraft()}</div>
   }
 }
 
+
 const mapStateToProps = state => (
   {
-    selfAssesments: state.createForm.selfAssesments
+    selfAssesments: state.createForm.selfAssesments,
   }
 )
 
