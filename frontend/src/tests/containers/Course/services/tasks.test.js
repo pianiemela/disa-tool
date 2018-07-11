@@ -74,3 +74,35 @@ testService({
     }
   }
 })
+
+testService({
+  function: addTypeToTask,
+  type: 'TASK_ADD_TYPE',
+  data: {
+    typeId: 7,
+    taskId: 4
+  },
+  mockResponse: {
+    message: '<addTypeToTaskSuccess>',
+    data: {
+      typeId: 7,
+      taskId: 4
+    }
+  }
+})
+
+testService({
+  function: removeTypeFromTask,
+  type: 'TASK_REMOVE_TYPE',
+  data: {
+    typeId: 11,
+    taskId: 23
+  },
+  mockResponse: {
+    message: '<removeTypeFromTaskSuccess>',
+    data: {
+      typeId: 11,
+      taskId: 23
+    }
+  }
+})
