@@ -11,7 +11,7 @@ import ModalForm from '../../../../utils/components/ModalForm'
 export class RemoveTypeForm extends Component {
   removeType = () => {
     this.props.removeType({
-      typeId: this.props.type.id
+      id: this.props.type.id
     })
   }
 
