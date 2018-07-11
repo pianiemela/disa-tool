@@ -9,7 +9,7 @@ import { addTask } from '../../services/tasks'
 import ModalForm from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
-class AddTaskForm extends Component {
+export class AddTaskForm extends Component {
   addTaskSubmit = (e) => {
     this.props.addTask({
       eng_name: e.target.eng_name.value,

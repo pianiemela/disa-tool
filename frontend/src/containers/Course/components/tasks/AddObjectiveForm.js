@@ -17,6 +17,10 @@ export class AddObjectiveForm extends Component {
     }
   }
 
+  shouldComponentUpdate(newProps, newState) {
+    return newState.options.length > 0
+  }
+
   prepareOptions = () => {
     let options = []
     const excluded = {}
