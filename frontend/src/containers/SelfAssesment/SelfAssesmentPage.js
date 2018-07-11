@@ -38,7 +38,6 @@ export class SelfAssesmentPage extends React.Component {
 }
 
 const createOptions = (data) => {
-  console.log('aika generoida optionssit datasta', data)
   const options = []
   data.map(d =>
     options.push({ value: d.id, text: d.name }))
@@ -52,4 +51,13 @@ const mapStateToProps = state => (
   }
 )
 
-export default connect(mapStateToProps)(SelfAssesmentPage)
+const mapDispatchToProps = dispatch => (
+  {
+    getCourseData: asyncAction(getCourseData, dispatch)
+  }
+)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SelfAssesmentPage)

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Dropdown, Form, Button } from 'semantic-ui-react'
 const DropdownSelection = (props) => {
-  const { onChange, options, placeholder, modify, label, submit } = props
+  const { onChange, options, placeholder, submitButton, label, onSubmit } = props
   return (
     <Form style={{ paddingTop: '20px', paddingBottom: '20px' }}>
       <Form.Field>
@@ -14,11 +14,11 @@ const DropdownSelection = (props) => {
         />
       </Form.Field>
 
-      {modify ?
+      {submitButton ?
         <Form.Field style={{ paddingTop: '5px' }}>
           <Button
             size="tiny"
-            onClick={submit}
+            onClick={onSubmit}
           >  {label}
           </Button>
         </Form.Field>

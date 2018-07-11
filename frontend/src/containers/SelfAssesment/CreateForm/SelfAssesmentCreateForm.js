@@ -5,7 +5,6 @@ import { Grid, Form } from 'semantic-ui-react'
 import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
 import asyncAction from '../../../utils/asyncAction'
 
-import { getCourseData } from '../services/createForm'
 import { getAllSelfAssesments } from '../services/selfAssesment'
 import { createFormJSONStucture } from '../reducers/createFormReducer'
 import CategorySelection from './CategorySelection'
@@ -18,13 +17,12 @@ class SelfAssesmentCreateForm extends React.Component {
       active: [],
       selectedView: '',
       formData: {},
-      created: false
+      created: false,
+      dropdownValue: ''
     }
   }
 
   componentWillMount() {
-    this.props.getCourseData()
-    this.props.getAllSelfAssesments()
   }
 
   handleClick = (e, titleProps) => {
@@ -34,6 +32,10 @@ class SelfAssesmentCreateForm extends React.Component {
       ? (active = active.filter(i => i !== index))
       : active.concat(index)
     this.setState({ active: opened })
+  }
+
+  handleDropdownChange = (e, { value }) => {
+    this.setState({ dropdownValue: value })
   }
 
   handleFormChange = (formChange) => {
@@ -143,7 +145,7 @@ class SelfAssesmentCreateForm extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <DropDownSelection
-                onChange={this.changeEditValue}
+                onChange={this.handleDropdownChange}
                 options={dropDownCourse}
                 placeholder="Valitse kurssi"
               />
@@ -159,12 +161,12 @@ class SelfAssesmentCreateForm extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <DropDownSelection
-                onChange={this.changeEditValue}
+                onChange={this.handleDropdownChange}
                 options={[]}
                 placeholder="Valitse muokattava itsearviointi"
-                modify
+                submitButton
                 label="Muokkaa"
-                submit={this.changeEditValue}
+                onSubmit={this.changeEditValue}
               />
 
             </Grid.Column>
@@ -195,7 +197,6 @@ const mapStateToProps = state => (
 
 const mapDispatchToProps = dispatch => (
   {
-    getCourseData: asyncAction(getCourseData, dispatch),
     createFormJSONStucture: createFormJSONStucture(dispatch),
     getAllSelfAssesments: asyncAction(getAllSelfAssesments, dispatch)
   }
