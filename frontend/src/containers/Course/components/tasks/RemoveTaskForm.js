@@ -8,7 +8,7 @@ import { removeTask } from '../../services/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class RemoveTaskForm extends Component {
+export class RemoveTaskForm extends Component {
   removeTask = () => {
     this.props.removeTask({
       id: this.props.task.id
