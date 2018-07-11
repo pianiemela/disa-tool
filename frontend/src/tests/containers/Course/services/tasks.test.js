@@ -9,7 +9,7 @@ import {
 import { testService } from '../../../testUtils'
 
 testService({
-  function: addTask,
+  func: addTask,
   type: 'TASK_CREATE',
   data: {
     eng_name: 'doot',
@@ -30,7 +30,7 @@ testService({
 })
 
 testService({
-  function: removeTask,
+  func: removeTask,
   type: 'TASK_DELETE',
   data: {
     id: 3
@@ -44,7 +44,7 @@ testService({
 })
 
 testService({
-  function: addObjectiveToTask,
+  func: addObjectiveToTask,
   type: 'TASK_ADD_OBJECTIVE',
   data: {
     taskId: 7,
@@ -60,7 +60,7 @@ testService({
 })
 
 testService({
-  function: removeObjectiveFromTask,
+  func: removeObjectiveFromTask,
   type: 'TASK_REMOVE_OBJECTIVE',
   data: {
     taskId: 11,
@@ -76,7 +76,7 @@ testService({
 })
 
 testService({
-  function: addTypeToTask,
+  func: addTypeToTask,
   type: 'TASK_ADD_TYPE',
   data: {
     typeId: 7,
@@ -92,7 +92,7 @@ testService({
 })
 
 testService({
-  function: removeTypeFromTask,
+  func: removeTypeFromTask,
   type: 'TASK_REMOVE_TYPE',
   data: {
     typeId: 11,

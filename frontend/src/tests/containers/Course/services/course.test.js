@@ -9,7 +9,7 @@ import {
 import { testService } from '../../../testUtils'
 
 testService({
-  function: getCourseData,
+  func: getCourseData,
   type: 'COURSE_GET_DATA',
   data: {
     courseId: 1

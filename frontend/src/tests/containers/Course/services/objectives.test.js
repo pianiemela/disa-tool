@@ -2,7 +2,7 @@ import { addObjective, removeObjective } from '../../../../containers/Course/ser
 import { testService } from '../../../testUtils'
 
 testService({
-  function: addObjective,
+  func: addObjective,
   type: 'OBJECTIVE_CREATE',
   data: {
     eng_name: 'doot',
@@ -27,7 +27,7 @@ testService({
 })
 
 testService({
-  function: removeObjective,
+  func: removeObjective,
   type: 'OBJECTIVE_DELETE',
   data: {
     id: 1

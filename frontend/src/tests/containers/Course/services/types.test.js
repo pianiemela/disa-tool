@@ -2,7 +2,7 @@ import { addType, removeType } from '../../../../containers/Course/services/type
 import { testService } from '../../../testUtils'
 
 testService({
-  function: addType,
+  func: addType,
   type: 'TYPE_CREATE',
   data: {
     eng_name: 'doot',
@@ -23,7 +23,7 @@ testService({
 })
 
 testService({
-  function: removeType,
+  func: removeType,
   type: 'TYPE_DELETE',
   data: {
     id: 15
