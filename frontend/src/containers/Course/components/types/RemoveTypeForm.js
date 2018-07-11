@@ -8,10 +8,10 @@ import { removeType } from '../../services/types'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class RemoveTypeForm extends Component {
+export class RemoveTypeForm extends Component {
   removeType = () => {
     this.props.removeType({
-      typeId: this.props.type.id
+      id: this.props.type.id
     })
   }
 
@@ -21,7 +21,7 @@ class RemoveTypeForm extends Component {
       `"${this.props.type.name}"`
     ].join(' ')
     return (
-      <div className="removeTypeForm">
+      <div className="RemoveTypeForm">
         <ModalForm
           header="Poista tyyppi"
           trigger={<Button icon={{ name: 'delete' }} color="red" size="small" />}

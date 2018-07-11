@@ -1,15 +1,15 @@
-.typelist {
+.Typelist {
   margin: 0% 10% 0% 10%;
   display: flex;
   flex-wrap: wrap;
 }
 
-.type, .addTypeForm {
+.Type, .addTypeForm {
   width: 50%;
   flex-shrink: 1;
 }
 
-.type {
+.Type {
   padding-top: 5px !important;
   padding-bottom: 5px !important;
   margin: 0px !important;
@@ -17,7 +17,7 @@
   display: flex;
 }
 
-.addTypeForm {
+.CreateTypeForm {
   text-align: center;
   margin-top: 7px;
   flex-grow: 1;

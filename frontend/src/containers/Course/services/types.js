@@ -2,11 +2,11 @@ export const removeType = (data) => {
   const response = {
     message: '<removeTypeSuccess>',
     data: {
-      id: data.typeId
+      id: data.id
     }
   }
   const action = {
-    type: 'TYPE_REMOVE',
+    type: 'TYPE_DELETE',
     response
   }
   return new Promise((resolve) => {
@@ -23,7 +23,7 @@ export const addType = (data) => {
     }
   }
   const action = {
-    type: 'TYPE_ADD_NEW',
+    type: 'TYPE_CREATE',
     response
   }
   return new Promise((resolve) => {

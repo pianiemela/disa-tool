@@ -6,8 +6,8 @@ import './tasks.css'
 import Task from './Task'
 import AddTaskForm from './AddTaskForm'
 
-const Tasklist = props => (
-  <div className="taskContainer">
+export const Tasklist = props => (
+  <div className="Tasklist">
     {props.tasks.map(task => <Task key={task.id} task={task} editing={props.editing} />)}
     {props.editing ? (
       <AddTaskForm courseId={props.courseId} />

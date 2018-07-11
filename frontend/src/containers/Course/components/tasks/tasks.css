@@ -1,10 +1,10 @@
-.taskContainer {
+.Tasklist {
   margin: 0% 10% 0% 10%;
   width: 100%;
   text-align: center;
 }
 
-.task {
+.Task {
   width: 100%;
 }
 
@@ -20,13 +20,18 @@
   max-width: 500px;
 }
 
-.addObjectiveForm {
-  margin-bottom: 10px;
+.AddObjectiveForm {
+  margin: 10px;
 }
 
-.objectiveBlock {
+.TaskObjective {
   display: flex;
   justify-content: flex-end;
+}
+
+.TaskObjectivelist {
+  width: 100%;
+  text-align: right;
 }
 
 .DetachObjectiveForm {

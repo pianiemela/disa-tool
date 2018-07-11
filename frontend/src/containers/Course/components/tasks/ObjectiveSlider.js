@@ -5,7 +5,7 @@ import { Input } from 'semantic-ui-react'
 
 import { changeTaskObjectiveMultiplier } from '../../actions/tasks'
 
-class ObjectiveSlider extends Component {
+export class ObjectiveSlider extends Component {
   changeValue = (e) => {
     this.props.changeTaskObjectiveMultiplier({
       taskId: this.props.taskId,
@@ -19,7 +19,7 @@ class ObjectiveSlider extends Component {
       <div className="ObjectiveSlider">
         <h3>{this.props.objective.name}</h3>
         <Input className="numberInput" type="number" min={0} max={1} step={0.01} value={this.props.objective.multiplier} onChange={this.changeValue} />
-        <Input className="RangeInput" type="range" min={0} max={1} step={0.01} value={this.props.objective.multiplier} onChange={this.changeValue} />
+        <Input className="rangeInput" type="range" min={0} max={1} step={0.01} value={this.props.objective.multiplier} onChange={this.changeValue} />
       </div>
     )
   }

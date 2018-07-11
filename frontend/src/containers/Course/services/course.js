@@ -1,4 +1,4 @@
-const hardCodedTasks = [
+export const hardCodedTasks = [
   {
     id: 1,
     name: 'Tehtävä 1. (Tee voltti)',
@@ -35,7 +35,7 @@ const hardCodedTasks = [
   }
 ]
 
-const hardCodedCategories = [
+export const hardCodedCategories = [
   {
     id: 1,
     name: 'Yhtälöryhmät',
@@ -539,7 +539,7 @@ const hardCodedCategories = [
   }
 ]
 
-const hardCodedTypes = [
+export const hardCodedTypes = [
   {
     id: 1,
     name: 'Viikko 1',
@@ -587,7 +587,7 @@ const hardCodedTypes = [
   }
 ]
 
-const hardCodedLevels = [
+export const hardCodedLevels = [
   {
     id: 1,
     name: '1-2'
@@ -602,13 +602,13 @@ const hardCodedLevels = [
   }
 ]
 
-const hardCodedCourse = {
-  name: 'Doot'
+export const hardCodedCourse = {
+  name: 'Lineaarialgebra ja matriisilaskenta I'
 }
 
 export const getCourseData = (data) => {
   const response = {
-    message: '<getTasksForCourseSuccess>',
+    message: '<getDataForCourseSuccess>',
     data: {
       course: {
         ...hardCodedCourse,
@@ -626,12 +626,5 @@ export const getCourseData = (data) => {
   }
   return new Promise((resolve) => {
     setTimeout(resolve, 100, action)
-  })
-}
-
-export const setEditing = dispatch => (data) => {
-  dispatch({
-    type: 'COURSE_SET_EDITING',
-    data
   })
 }

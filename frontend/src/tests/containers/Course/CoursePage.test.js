@@ -1,9 +1,9 @@
 import React from 'react'
-import { CoursePage } from '../../../containers/Course/CoursePage'
 import CourseHeader from '../../../containers/Course/components/header/CourseHeader'
 import Matrix from '../../../containers/Course/components/matrix/Matrix'
 import Tasklist from '../../../containers/Course/components/tasks/Tasklist'
 import Typelist from '../../../containers/Course/components/types/Typelist'
+import { CoursePage } from '../../../containers/Course/CoursePage'
 
 const mockFn = () => {}
 

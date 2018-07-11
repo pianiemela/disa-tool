@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Segment, Header, Button, Icon } from 'semantic-ui-react'
 import './header.css'
 
-import { setEditing } from '../../services/course'
+import { setEditing } from '../../actions/course'
 
 export class CourseHeader extends Component {
   setEditing = value => () => {
@@ -25,7 +25,7 @@ export class CourseHeader extends Component {
           <div className="editBlock">
             <Button onClick={this.setEditing(!this.props.editing)}>
               <Icon name="cog" />
-              <span>{this.props.editing ? 'Quit editing' : 'Edit'}</span>
+              <span>{this.props.editing ? 'Lopeta muokkaaminen' : 'Muokkaa'}</span>
             </Button>
           </div>
         </Segment>

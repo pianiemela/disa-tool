@@ -19,6 +19,7 @@ module.exports = {
       ],
       "import/no-unresolved": 2,
       "import/no-extraneous-dependencies": 0,
+      "import/no-named-as-default": 0,
       "react/jsx-no-bind": 2,
       "react/no-did-mount-set-state": 0,
       "react/prefer-stateless-function": 2,
@@ -53,5 +54,8 @@ module.exports = {
       "import",
       "prefer-object-spread",
       "babel"
-    ]
+    ],
+    "globals": {
+      "shallow": false
+    }
   }

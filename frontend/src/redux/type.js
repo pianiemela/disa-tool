@@ -27,10 +27,10 @@ const typeReducer = (state = INITIAL_STATE, action) => {
         types: newTypes
       }
     }
-    case 'TYPE_REMOVE':
+    case 'TYPE_DELETE':
       console.log(action.response) // TODO: implement removing type.
       return state
-    case 'TYPE_ADD_NEW':
+    case 'TYPE_CREATE':
       console.log(action.response) // TODO: implement adding new type.
       return state
     default:

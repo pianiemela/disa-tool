@@ -11,15 +11,14 @@ const level = {
   id: 5,
   name: 'Test Level'
 }
+const mockFn = () => {}
 
 describe('CreateObjectiveForm component', () => {
   let wrapper
-  let addObjective
 
   beforeEach(() => {
-    addObjective = jest.fn()
     wrapper = shallow(<CreateObjectiveForm
-      addObjective={addObjective}
+      addObjective={mockFn}
       category={category}
       level={level}
       courseId={1}

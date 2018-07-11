@@ -8,13 +8,17 @@ import { addObjectiveToTask } from '../../services/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class AddObjectiveForm extends Component {
+export class AddObjectiveForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
       options: [],
       objectiveSelection: undefined
     }
+  }
+
+  shouldComponentUpdate(newProps, newState) {
+    return newState.options.length > 0
   }
 
   prepareOptions = () => {
@@ -64,7 +68,7 @@ class AddObjectiveForm extends Component {
     return (
       <Grid.Row>
         <Grid.Column textAlign="right">
-          <div className="addObjectiveForm">
+          <div className="AddObjectiveForm">
             <ModalForm
               header="Liitä oppimistavoite tehtävään"
               trigger={<Button className="addObjectiveToTaskButton" icon={{ name: 'add' }} onClick={this.prepareOptions} />}
