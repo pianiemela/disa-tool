@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Segment, Header, Button, Icon } from 'semantic-ui-react'
 import './header.css'
 
-import { setEditing } from '../../services/course'
+import { setEditing } from '../../actions/course'
 
 export class CourseHeader extends Component {
   setEditing = value => () => {

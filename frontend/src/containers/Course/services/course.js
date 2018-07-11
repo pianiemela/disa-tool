@@ -606,7 +606,7 @@ const hardCodedCourse = {
   name: 'Lineaarialgebra ja matriisilaskenta I'
 }
 
-export const getCourseData = (data) => {
+const getCourseData = (data) => {
   const response = {
     message: '<getTasksForCourseSuccess>',
     data: {
@@ -629,9 +629,6 @@ export const getCourseData = (data) => {
   })
 }
 
-export const setEditing = dispatch => (data) => {
-  dispatch({
-    type: 'COURSE_SET_EDITING',
-    data
-  })
+module.exports = {
+  getCourseData
 }
