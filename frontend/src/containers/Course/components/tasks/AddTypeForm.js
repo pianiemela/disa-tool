@@ -8,7 +8,7 @@ import { addTypeToTask } from '../../services/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class AddTypeForm extends Component {
+export class AddTypeForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
