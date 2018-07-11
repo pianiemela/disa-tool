@@ -3,40 +3,39 @@ import { Button, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 const CategorySelection = (props) => {
-  const { selectedView, category, objectives, toggleButton, createForm } = props
+  const { selectedView, category, objectives, toggleButton } = props
   return (
-    <Form
-      onSubmit={createForm}
-      style={{ padding: '20px' }}
-    >
+    <div>
       <Form.Field>
-        <div>
-          <Button
-            size="tiny"
-            type="button"
-            value={category}
-            active={category === selectedView}
-            toggle
-            onClick={toggleButton}
-          >
-            Itsearviolomake kategorioiden pohjalta
-          </Button>
-          <Button
-            size="tiny"
-            type="button"
-            value={objectives}
-            active={objectives === selectedView}
-            toggle
-            onClick={toggleButton}
-          >
-            Itsearviolomake tavoitteiden pohjalta
-          </Button>
-        </div>
+        <Button
+          size="tiny"
+          type="button"
+          value={category}
+          active={category === selectedView}
+          toggle
+          onClick={toggleButton}
+        >
+          Itsearviolomake kategorioiden pohjalta
+        </Button>
+        <Button
+          size="tiny"
+          type="button"
+          value={objectives}
+          active={objectives === selectedView}
+          toggle
+          onClick={toggleButton}
+        >
+          Itsearviolomake tavoitteiden pohjalta
+        </Button>
       </Form.Field>
-      <Form.Button style={{}} type="submit">
-        Luo
-      </Form.Button>
-    </Form>)
+      <Form.Field>
+        <Button style={{ marginTop: '25px', marginLeft: '220px' }} type="submit">
+          Luo
+        </Button>
+      </Form.Field>
+
+    </div>
+  )
 }
 
 CategorySelection.propTypes = {

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid } from 'semantic-ui-react'
+import { Grid, Form } from 'semantic-ui-react'
 import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
 import asyncAction from '../../../utils/asyncAction'
 
@@ -9,7 +9,7 @@ import { getCourseData } from '../services/createForm'
 import { getAllSelfAssesments } from '../services/selfAssesment'
 import { createFormJSONStucture } from '../reducers/createFormReducer'
 import CategorySelection from './CategorySelection'
-import EditAssesmentSelection from './EditAssesmentSelection'
+import DropDownSelection from './DropDownSelection'
 
 class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
@@ -149,6 +149,12 @@ class SelfAssesmentCreateForm extends React.Component {
         <Grid columns={2} divided>
           <Grid.Row>
             <Grid.Column>
+              <DropDownSelection
+                onChange={this.changeEditValue}
+                options={this.createDropdownOptions}
+                placeholder="Valitse kurssi"
+              />
+
               <CategorySelection
                 selectedView={selectedView}
                 category="category"
@@ -156,12 +162,18 @@ class SelfAssesmentCreateForm extends React.Component {
                 toggleButton={this.toggleButton}
                 createForm={this.createForm}
               />
+
             </Grid.Column>
             <Grid.Column>
-              <EditAssesmentSelection
+              <DropDownSelection
                 onChange={this.changeEditValue}
                 options={this.createDropdownOptions()}
+                placeholder="Valitse muokattava itsearviointi"
+                modify
+                label="Muokkaa"
+                submit={this.changeEditValue}
               />
+
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -183,9 +195,6 @@ class SelfAssesmentCreateForm extends React.Component {
 
 const mapStateToProps = state => (
   {
-    courseData: state.createForm.courseData,
-    category: state.createForm.category,
-    objectives: state.createForm.objectives,
     selfAssesments: state.createForm.selfAssesments
   }
 )
