@@ -1,13 +1,13 @@
 import React from 'react'
+import { Form, Grid, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import ObjectiveQuestionModule from './ObjectiveQuestionModule'
-import CategoryQuestionModule from './CategoryQuestionModule'
-import OpenQuestionModule from './OpenQuestionModule'
-import AddOpenQuestion from './addOpenQuestion'
+import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
+import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
+import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
+import AddOpenQuestion from './FormParts/addOpenQuestion'
 
-import { Form, Grid, Card } from 'semantic-ui-react'
 import './selfAssesment.css'
-
+import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection';
 
 const SelfAssesmentForm = (props) => {
   const textArea = (label, placeholder, textFieldOn, checkbox) => (
@@ -25,102 +25,64 @@ const SelfAssesmentForm = (props) => {
 
   const editForm = (type, formData, edit, handleChange) => (
     (
-      (type === 'category' ?
-        <div>
-          <h2>{formData.name} kategorialomake</h2>
-          <Card fluid color="red" className="formCard">
-            <Card.Content>
-              <Card.Header className="cardHead">
-                Kategoria-arviointi
-              </Card.Header>
-              <Form>
-                {formData.questionModules.map(questionModules =>
-                  (<CategoryQuestionModule
-                    key={questionModules.id}
-                    data={questionModules}
-                    edit={edit}
-                    handleChange={handleChange}
-                    textArea={textArea}
-                  />))}
-              </Form>
-            </Card.Content>
-          </Card>
+      <div>
+        {type === 'category' ?
 
-          <Card fluid color="red" className="formCard">
-            <Card.Content>
-              <Card.Header className="cardHead">
-                Avoimet kysymykset
-              </Card.Header>
-              <Form>
-                {formData.openQuestions.map(openQuestion =>
-                  (<OpenQuestionModule
-                    key={openQuestion.id}
-                    data={openQuestion}
-                    edit={edit}
-                    handleChange={handleChange}
-                    textArea={textArea}
-                  />))}
+          <SelfAssesmentSection
+            header="Kategoriaosio"
+            formData={formData.questionModules}
+            edit={edit}
+            handleChange={handleChange}
+            textArea={textArea}
+            QuestionModule={CategoryQuestionModule}
+          />
+          :
+          <SelfAssesmentSection
+            header="Tavoiteosio"
+            formData={formData.questionModules}
+            edit={edit}
+            handleChange={handleChange}
+            textArea={textArea}
+            QuestionModule={ObjectiveQuestionModule}
+          />
+        }
 
-                <AddOpenQuestion
-                  handleChange={handleChange}
-                />
-              </Form>
+        <SelfAssesmentSection
+          header="Avoimet kysymykset"
+          formData={formData.openQuestions}
+          edit={edit}
+          handleChange={handleChange}
+          textArea={textArea}
+          QuestionModule={OpenQuestionModule}
+          question
+        />
 
-            </Card.Content>
-          </Card>
+        {type === 'category' ?
 
-          <Card fluid color="red" className="formCard">
-            <Card.Content>
-              <Card.Header className="cardHead">
-                Loppuarvio
-              </Card.Header>
-              <Form>
-                <CategoryQuestionModule
-                  key={formData.finalGrade.id}
-                  data={formData.finalGrade}
-                  edit={edit}
-                  handleChange={handleChange}
-                  textArea={textArea}
-                  final
-                />
-              </Form>
-            </Card.Content>
-          </Card>
-        </div>
-        :
-        <div>
-          <h2>{formData.name} tavoitelomake</h2>
-          <Form>
-            {formData.questionModules.map(questionModules =>
-              (<ObjectiveQuestionModule
-                key={questionModules.id}
-                data={questionModules}
-                edit={edit}
-                handleFormChange={handleChange}
-              />))}
+          <SelfAssesmentSection
+            header="Loppuarvio"
+            formData={formData.finalGrade}
+            edit={edit}
+            handleChange={handleChange}
+            textArea={textArea}
+            QuestionModule={CategoryQuestionModule}
+          />
+          :
+          null
+        }
+        <Button positive style={{marginBottom: '25px' }}>
+          Tallenna lomake
+        </Button>
 
-            {formData.openQuestions.map(openQuestion =>
-              (<OpenQuestionModule
-                key={openQuestion.id}
-                data={openQuestion}
-                edit={edit}
-                handleChange={handleChange}
-                textArea={textArea}
-              />))}
-          </Form>
-        </div>
-      )
+      </div>
     )
   )
 
   const renderEditableForm = () => {
+    console.log(props)
     if (props.edit) {
       const { formData, edit, handleChange } = props
-
-      if (formData.type === 'objectives') {
-        return editForm('objectives', formData, edit, handleChange)
-      }
-      return editForm('category', formData, edit, handleChange)
+      return editForm(formData.type, formData, edit, handleChange)
     }
     return null
   }

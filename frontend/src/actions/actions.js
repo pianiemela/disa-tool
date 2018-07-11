@@ -24,3 +24,22 @@ export const getUserAction = () => async (dispatch) => {
     })
   }
 }
+
+export const getUserCoursesAction = () => async (dispatch) => {
+  dispatch({
+    type: 'GET_USER_COURSES_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await getUsersCourses()
+    dispatch({
+      type: 'GET_USER_COURSES_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'GET_USER_COURSES_FAILURE',
+      payload: e.response
+    })
+  }
+}
