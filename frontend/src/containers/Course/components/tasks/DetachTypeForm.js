@@ -8,7 +8,7 @@ import { removeTypeFromTask } from '../../services/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class DetachTypeForm extends Component {
+export class DetachTypeForm extends Component {
   removeType = () => {
     this.props.removeTypeFromTask({
       taskId: this.props.task.id,
