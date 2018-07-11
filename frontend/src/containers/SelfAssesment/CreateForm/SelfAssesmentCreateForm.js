@@ -37,66 +37,13 @@ class SelfAssesmentCreateForm extends React.Component {
     this.props.createForm(this.state.dropDownValue, this.state.selectedView)
   }
 
-  handleFormChange = (formChange) => {
-    const { id, type, questionData } = formChange
-    const toChange = this.state.formData
-    const a = toChange.questionModules.findIndex(x => x.id === id)
-    const b = toChange.questionModules[a]
 
-    switch (type) {
-      case 'textfield': {
-        toChange.questionModules = toChange.questionModules.map(o =>
-          (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
-        this.setState({ formData: toChange })
-        break
-      }
-      case 'changeOrderDown': {
-        if (a < toChange.questionModules.length - 1) {
-          toChange.questionModules[a] = toChange.questionModules[a + 1]
-          toChange.questionModules[a + 1] = b
-        }
-        this.setState({ formData: toChange })
-        break
-      }
-      case 'changeOrderUp': {
-        if (a > 0) {
-          toChange.questionModules[a] = toChange.questionModules[a - 1]
-          toChange.questionModules[a - 1] = b
-        }
-        this.setState({ formData: toChange })
-        break
-      }
-      case 'addQuestion': {
-        if (toChange.openQuestions.length > 0) {
-          toChange.openQuestions = toChange.openQuestions.concat({
-            id: toChange.openQuestions[toChange.openQuestions.length - 1].id + 1,
-            name: questionData
-          })
-        } else {
-          toChange.openQuestions = toChange.openQuestions.concat({
-            id: (parseInt(toChange.finalGrade.id) + 1).toString(),
-            name: questionData
-          })
-        }
-        this.setState({ formData: toChange })
-        break
-      }
-      case 'removeQuestion': {
-        toChange.openQuestions = toChange.openQuestions.filter(oQ => oQ.id !== id)
-        this.setState({ formData: toChange })
-        break
-      }
-
-      default:
-    }
-  }
 
   toggleButton = (e) => {
     const { value } = e.target
     this.setState({ selectedView: value })
   }
-
-
+  
   renderCreateOrDraft = () => {
     const { selectedView, formData } = this.state
     const { dropDownCourse, dropdownAssesments } = this.props
@@ -148,11 +95,10 @@ class SelfAssesmentCreateForm extends React.Component {
 }
 
 
-const mapStateToProps = state => (
-  {
-    selfAssesments: state.createForm.selfAssesments,
-  }
-)
+// const mapStateToProps = state => (
+//   {
+//   }
+// )
 
 const mapDispatchToProps = dispatch => (
   {
@@ -169,6 +115,5 @@ SelfAssesmentCreateForm.propTypes = {
 }
 
 export default connect(
-  mapStateToProps,
   mapDispatchToProps
 )(SelfAssesmentCreateForm)

@@ -4,7 +4,9 @@ import { connect } from 'react-redux'
 
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
-import SelfAssesmentForm from './Userform/SelfAssesmentForm';
+import SelfAssesmentForm from './Userform/SelfAssesmentForm'
+
+import { initCreateForm } from '../../actions/actions'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
@@ -18,41 +20,8 @@ export class SelfAssesmentPage extends React.Component {
 
   createForm = async (courseId, type) => {
     const courseData = await getCourseData(courseId)
-    const data = {}
-    data.name = 'Linis'
-    data.type = type
-    data.openQuestions = []
-    const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1).toString()
-
-    data.finalGrade = [{
-      name: 'Anna itsellesi loppuarvosana kurssista',
-      eng_name: 'Give yourself a final grade for the course',
-      swe_name: 'Låta en final grad till själv, lmao ei näin :D',
-      textFieldOn: true,
-      id
-    }]
-    if (data.type === 'category') {
-      data.questionModules = []
-      courseData.map(ciO =>
-        data.questionModules.push({
-          id: ciO.id,
-          name: ciO.name,
-          textFieldOn: true
-        }))
-    } else {
-      data.questionModules = []
-      courseData.map(ciO =>
-        data.questionModules.push({
-          id: ciO.id,
-          name: ciO.name,
-          objectives: ciO.objectives.map(o => ({
-            id: o.id,
-            name: o.name
-          })),
-          options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
-        }))
-    }
-    this.setState({ created: true, formData: data })
+    this.props.dispatchCreateForm({ courseData, type })
+    this.setState({ created: true })
   }
 
   handleFormChange = (formChange) => {
@@ -121,7 +90,6 @@ export class SelfAssesmentPage extends React.Component {
 
 
   render() {
-    console.log(this.state)
     return (
       <Container>
         <div>
@@ -129,10 +97,9 @@ export class SelfAssesmentPage extends React.Component {
             this.renderTeacherView()
             :
             <SelfAssesmentForm
-              handleChange={this.handleFormChange}
               edit
               created
-              formData={this.state.formData}
+              formData={this.props.formdata}
             />
           }
         </div>
@@ -151,8 +118,14 @@ const mapStateToProps = state => (
   {
     courses: state.courses,
     selfAssesments: state.selfAssesments,
-    dropDownOptions: createOptions(state.courses)
+    dropDownOptions: createOptions(state.courses),
+    formdata: state.selfAssesmentCreate
   }
 )
 
-export default connect(mapStateToProps)(SelfAssesmentPage)
+const mapDispatchToProps = dispatch => ({
+  dispatchCreateForm: data =>
+    dispatch(initCreateForm(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentPage)

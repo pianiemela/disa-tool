@@ -70,7 +70,7 @@ const SelfAssesmentForm = (props) => {
           :
           null
         }
-        <Button positive style={{marginBottom: '25px' }}>
+        <Button positive style={{ marginBottom: '25px' }}>
           Tallenna lomake
         </Button>
 
@@ -79,7 +79,6 @@ const SelfAssesmentForm = (props) => {
   )
 
   const renderEditableForm = () => {
-    console.log(props)
     if (props.edit) {
       const { formData, edit, handleChange } = props
       return editForm(formData.type, formData, edit, handleChange)

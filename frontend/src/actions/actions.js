@@ -43,3 +43,17 @@ export const getUserCoursesAction = () => async (dispatch) => {
     })
   }
 }
+
+export const toggleTextField = id => (dispatch) => {
+  dispatch({
+    type: 'TOGGLE_TEXT_FIELD',
+    payload: id
+  })
+}
+
+export const initCreateForm = data => (dispatch) => {
+  dispatch({
+    type: 'INIT_FORM',
+    payload: data
+  })
+}
