@@ -16,13 +16,8 @@ class SelfAssesmentCreateForm extends React.Component {
     this.state = {
       active: [],
       selectedView: '',
-      formData: {},
-      created: false,
-      dropdownValue: ''
+      dropDownValue: ''
     }
-  }
-
-  componentWillMount() {
   }
 
   handleClick = (e, titleProps) => {
@@ -35,7 +30,11 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 
   handleDropdownChange = (e, { value }) => {
-    this.setState({ dropdownValue: value })
+    this.setState({ dropDownValue: value })
+  }
+
+  sendFormId = () => {
+    this.props.createForm(this.state.dropDownValue, this.state.selectedView)
   }
 
   handleFormChange = (formChange) => {
@@ -79,7 +78,6 @@ class SelfAssesmentCreateForm extends React.Component {
             name: questionData
           })
         }
-        console.log(toChange)
         this.setState({ formData: toChange })
         break
       }
@@ -98,44 +96,7 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ selectedView: value })
   }
 
-  createForm = () => {
-    const data = {}
-    const { courseData } = this.props
-    data.name = 'Linis'
-    data.type = this.state.selectedView
-    data.openQuestions = []
-    const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1).toString()
 
-    data.finalGrade = [{
-      name: 'Anna itsellesi loppuarvosana kurssista',
-      eng_name: 'Give yourself a final grade for the course',
-      swe_name: 'Låta en final grad till själv, lmao ei näin :D',
-      textFieldOn: true,
-      id
-    }]
-    if (data.type === 'category') {
-      data.questionModules = []
-      courseData.map(ciO =>
-        data.questionModules.push({
-          id: ciO.id,
-          name: ciO.name,
-          textFieldOn: true
-        }))
-    } else {
-      data.questionModules = []
-      courseData.map(ciO =>
-        data.questionModules.push({
-          id: ciO.id,
-          name: ciO.name,
-          objectives: ciO.objectives.map(o => ({
-            id: o.id,
-            name: o.name
-          })),
-          options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
-        }))
-    }
-    this.setState({ created: true, formData: data })
-  }
   renderCreateOrDraft = () => {
     const { selectedView, formData } = this.state
     const { dropDownCourse, dropdownAssesments } = this.props
@@ -145,9 +106,9 @@ class SelfAssesmentCreateForm extends React.Component {
           <Grid.Row>
             <Grid.Column>
               <DropDownSelection
-                onChange={this.handleDropdownChange}
                 options={dropDownCourse}
                 placeholder="Valitse kurssi"
+                handleChange={this.handleDropdownChange}
               />
 
               <CategorySelection
@@ -155,13 +116,12 @@ class SelfAssesmentCreateForm extends React.Component {
                 category="category"
                 objectives="objectives"
                 toggleButton={this.toggleButton}
-                createForm={this.createForm}
+                sendFormId={this.sendFormId}
               />
 
             </Grid.Column>
             <Grid.Column>
               <DropDownSelection
-                onChange={this.handleDropdownChange}
                 options={[]}
                 placeholder="Valitse muokattava itsearviointi"
                 submitButton
@@ -183,7 +143,6 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 
   render() {
-    console.log(this.props)
     return <div>{this.renderCreateOrDraft()}</div>
   }
 }

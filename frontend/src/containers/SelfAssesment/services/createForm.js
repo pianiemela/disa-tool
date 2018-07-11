@@ -41,17 +41,8 @@ const selfAssesmentData = {
   }
 }
 
-export const getCourseData = async () => {
-  const response = await getJson('/categories?courseInstanceId=1')
+export const getCourseData = async (id) => {
+  const response = await getJson('/categories', { courseInstanceId: id })
   const { data } = response
-  console.log(response)
-
-  const action = {
-    type: 'GET_SELF_ASSESMENT_DATA',
-    data
-  }
-
-  return new Promise((resolve, reject) => {
-    setTimeout(resolve, 100, action)
-  })
+  return data
 }

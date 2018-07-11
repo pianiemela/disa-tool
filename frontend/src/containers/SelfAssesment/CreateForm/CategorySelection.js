@@ -3,7 +3,7 @@ import { Button, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 const CategorySelection = (props) => {
-  const { selectedView, category, objectives, toggleButton } = props
+  const { sendFormId, selectedView, category, objectives, toggleButton } = props
   return (
     <div>
       <Form.Field>
@@ -29,7 +29,11 @@ const CategorySelection = (props) => {
         </Button>
       </Form.Field>
       <Form.Field>
-        <Button style={{ marginTop: '25px', marginLeft: '220px' }} type="submit">
+        <Button
+          style={{ marginTop: '25px', marginLeft: '220px' }}
+          type="submit"
+          onClick={sendFormId}
+        >
           Luo
         </Button>
       </Form.Field>

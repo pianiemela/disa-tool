@@ -1,15 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Dropdown, Form, Button } from 'semantic-ui-react'
+
 const DropdownSelection = (props) => {
-  const { onChange, options, placeholder, submitButton, label, onSubmit } = props
+
+  const { options, placeholder, submitButton, label, onSubmit, handleChange } = props
   return (
     <Form style={{ paddingTop: '20px', paddingBottom: '20px' }}>
       <Form.Field>
         <Dropdown
           selection
           placeholder={placeholder}
-          onChange={onChange}
+          onChange={handleChange}
           options={options}
         />
       </Form.Field>
@@ -28,6 +30,7 @@ const DropdownSelection = (props) => {
     </Form>
   )
 }
+
 DropdownSelection.propTypes = {
   onChange: PropTypes.func,
   options: PropTypes.arrayOf(PropTypes.shape({
@@ -35,6 +38,7 @@ DropdownSelection.propTypes = {
     value: PropTypes.number
   }))
 }
+
 
 DropdownSelection.defaultProps = {
   options: [],
