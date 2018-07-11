@@ -8,7 +8,7 @@ import { removeObjectiveFromTask } from '../../services/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
 
-class DetachObjectiveForm extends Component {
+export class DetachObjectiveForm extends Component {
   removeObjective = () => {
     this.props.removeObjectiveFromTask({
       taskId: this.props.task.id,
