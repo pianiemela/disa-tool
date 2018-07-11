@@ -9,7 +9,7 @@ import { addType } from '../../services/types'
 import ModalForm from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
-class CreateTypeForm extends Component {
+export class CreateTypeForm extends Component {
   addTypeSubmit = (e) => {
     this.props.addType({
       courseId: this.props.courseId,
@@ -23,7 +23,7 @@ class CreateTypeForm extends Component {
     const contentPrompt = 'Lisää uusi tyyppi'
     const label = 'nimi'
     return (
-      <div className="addTypeForm">
+      <div className="CreateTypeForm">
         <ModalForm
           header="Lisää uusi tyyppi"
           trigger={<Button onClick={this.expand} className="addTypeButton" icon={{ name: 'add' }} />}
