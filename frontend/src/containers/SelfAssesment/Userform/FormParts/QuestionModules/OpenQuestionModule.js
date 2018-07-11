@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Form, Card, Grid, Icon, Popup, Button } from 'semantic-ui-react'
 import ModalForm from '../../../../../utils/components/ModalForm'
+import { removeOpenQuestion } from '../../../../../actions/actions'
 
 const OpenQuestionModule = (props) => {
-  const { edit, textArea, handleChange } = props
+  const { edit, textArea } = props
   const { id, name } = props.data
 
   return (
@@ -26,7 +28,7 @@ const OpenQuestionModule = (props) => {
                     content={
                       <div>
                         <p>Haluatko poistaa avoimen kysymyksen {name}?</p>
-                        <Button color="green" onClick={() => handleChange({ id, type: 'removeQuestion' })} type="submit">Ok</Button>
+                        <Button color="green" onClick={() => props.dispatchRemoveOpenQuestion(id)} type="submit">Ok</Button>
                         <Button color="red">
                           {'Peru'}
                         </Button>
@@ -58,8 +60,13 @@ const OpenQuestionModule = (props) => {
 OpenQuestionModule.propTypes = {
   edit: PropTypes.bool.isRequired,
   textArea: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired,
+  dispatchRemoveOpenQuestion: PropTypes.func.isRequired,
   data: PropTypes.shape().isRequired
 }
 
-export default OpenQuestionModule
+const mapDispatchToProps = dispatch => ({
+  dispatchRemoveOpenQuestion: id =>
+    dispatch(removeOpenQuestion(id))
+})
+
+export default connect(null, mapDispatchToProps)(OpenQuestionModule)

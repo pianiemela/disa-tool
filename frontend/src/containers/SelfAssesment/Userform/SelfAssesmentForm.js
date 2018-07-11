@@ -4,10 +4,9 @@ import PropTypes from 'prop-types'
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
 import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
-import AddOpenQuestion from './FormParts/addOpenQuestion'
 
 import './selfAssesment.css'
-import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection';
+import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 
 const SelfAssesmentForm = (props) => {
   const textArea = (label, placeholder, textFieldOn, checkbox) => (

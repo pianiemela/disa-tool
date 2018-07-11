@@ -57,3 +57,31 @@ export const initCreateForm = data => (dispatch) => {
     payload: data
   })
 }
+
+export const toggleUp = id => (dispatch) => {
+  dispatch({
+    type: 'TOGGLE_UP',
+    payload: id
+  })
+}
+
+export const toggleDown = id => (dispatch) => {
+  dispatch({
+    type: 'TOGGLE_DOWN',
+    payload: id
+  })
+}
+
+export const addOpenQuestion = questionData => (dispatch) => {
+  dispatch({
+    type: 'ADD_OPEN_QUESTION',
+    payload: questionData
+  })
+}
+
+export const removeOpenQuestion = id => (dispatch) => {
+  dispatch({
+    type: 'REMOVE_OPEN_QUESTION',
+    payload: id
+  })
+}
