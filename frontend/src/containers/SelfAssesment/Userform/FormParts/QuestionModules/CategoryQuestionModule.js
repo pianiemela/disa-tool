@@ -7,7 +7,7 @@ import { toggleTextField } from '../../../../../actions/actions'
 
 
 const CategoryQuestionModule = (props) => {
-  const { edit, handleChange, final, textArea } = props
+  const { edit, final, textArea } = props
   const { name, textFieldOn, id } = props.data
 
   const gradeOptions = [
@@ -59,7 +59,7 @@ const CategoryQuestionModule = (props) => {
                 null
                 :
                 <Grid.Column>
-                  <UpOrDownToggle id={id} handleChange={handleChange} />
+                  <UpOrDownToggle id={id} />
                 </Grid.Column>
               }
             </Grid.Row>
@@ -81,9 +81,9 @@ CategoryQuestionModule.propTypes = {
     id: PropTypes.string
   }).isRequired,
   edit: PropTypes.bool.isRequired,
-  handleChange: PropTypes.func.isRequired,
   final: PropTypes.bool,
-  textArea: PropTypes.func.isRequired
+  textArea: PropTypes.func.isRequired,
+  dispatchTextFieldOnOff: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

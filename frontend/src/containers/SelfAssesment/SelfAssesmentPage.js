@@ -1,6 +1,7 @@
 import React from 'react'
 import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
@@ -41,7 +42,7 @@ export class SelfAssesmentPage extends React.Component {
             <SelfAssesmentForm
               edit
               created
-              formData={this.props.formdata}
+              formData={this.props.formData}
             />
           }
         </div>
@@ -61,7 +62,7 @@ const mapStateToProps = state => (
     courses: state.courses,
     selfAssesments: state.selfAssesments,
     dropDownOptions: createOptions(state.courses),
-    formdata: state.selfAssesmentCreate,
+    formData: state.selfAssesmentCreate
   }
 )
 
@@ -69,5 +70,17 @@ const mapDispatchToProps = dispatch => ({
   dispatchCreateForm: data =>
     dispatch(initCreateForm(data))
 })
+
+SelfAssesmentForm.defaultProps = {
+  formData: {} || []
+}
+
+SelfAssesmentPage.propTypes = {
+  dropDownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()), PropTypes.shape()]).isRequired,
+  dispatchCreateForm: PropTypes.func.isRequired,
+  courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
+}
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentPage)

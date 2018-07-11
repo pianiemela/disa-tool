@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import AddOpenQuestion from '../addOpenQuestion'
 
 const SelfAssesmentSection = (props) => {
-  const { final, question, formData, edit, handleChange, textArea, header, QuestionModule } = props
+  const { final, question, formData, edit, textArea, header, QuestionModule } = props
   return (
     <div>
       <Card fluid color="red" className="formCard">
@@ -18,15 +18,12 @@ const SelfAssesmentSection = (props) => {
                 key={questionModules.id}
                 data={questionModules}
                 edit={edit}
-                handleChange={handleChange}
                 textArea={textArea}
                 final={final}
               />))}
 
             {question ?
-              <AddOpenQuestion
-                handleChange={handleChange}
-              />
+              <AddOpenQuestion />
               :
               null
             }
@@ -51,7 +48,6 @@ SelfAssesmentSection.propTypes = {
     PropTypes.arrayOf(PropTypes.shape())
   ]).isRequired,
   edit: PropTypes.bool.isRequired,
-  handleChange: PropTypes.func.isRequired,
   textArea: PropTypes.func.isRequired,
   question: PropTypes.bool,
   header: PropTypes.string.isRequired,

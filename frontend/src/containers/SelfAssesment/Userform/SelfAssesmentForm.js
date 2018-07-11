@@ -22,7 +22,7 @@ const SelfAssesmentForm = (props) => {
     )
   )
 
-  const editForm = (type, formData, edit, handleChange) => (
+  const editForm = (type, formData, edit) => (
     (
       <div>
         {type === 'category' ?
@@ -31,7 +31,6 @@ const SelfAssesmentForm = (props) => {
             header="Kategoriaosio"
             formData={formData.questionModules}
             edit={edit}
-            handleChange={handleChange}
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
           />
@@ -40,7 +39,6 @@ const SelfAssesmentForm = (props) => {
             header="Tavoiteosio"
             formData={formData.questionModules}
             edit={edit}
-            handleChange={handleChange}
             textArea={textArea}
             QuestionModule={ObjectiveQuestionModule}
           />
@@ -50,7 +48,6 @@ const SelfAssesmentForm = (props) => {
           header="Avoimet kysymykset"
           formData={formData.openQuestions}
           edit={edit}
-          handleChange={handleChange}
           textArea={textArea}
           QuestionModule={OpenQuestionModule}
           question
@@ -62,7 +59,6 @@ const SelfAssesmentForm = (props) => {
             header="Loppuarvio"
             formData={formData.finalGrade}
             edit={edit}
-            handleChange={handleChange}
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
           />
@@ -100,8 +96,7 @@ SelfAssesmentForm.defaultProps = {
 
 SelfAssesmentForm.propTypes = {
   formData: PropTypes.shape(),
-  edit: PropTypes.bool.isRequired,
-  handleChange: PropTypes.func.isRequired
+  edit: PropTypes.bool.isRequired
 }
 
 export default SelfAssesmentForm

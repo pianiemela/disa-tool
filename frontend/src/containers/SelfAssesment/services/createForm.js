@@ -15,34 +15,9 @@ export const getCourseParts = () => (
   }
 )
 
-const selfAssesmentData = {
-  courseInstance: {
-    id: 1,
-    name: 'Linis',
-    course_instance_objectives: [
-      {
-        id: 1,
-        category: 'matriisit',
-        objectives: ['matriisien yhteenlasku', 'matriisien muodostus',
-          'matriisien kertolasku', 'matriisien pyörittely',
-          'matriiseilla päteminen', 'matriisien heiluttelu', 'matriisien superlasku', 'supreme matriisimestari']
-      },
-      {
-        id: 2,
-        category: 'vektorit ja muut',
-        objectives: [
-          'vektorien yhteenlasku', 'vektorien muodostus',
-          'vektorien kertolasku', 'pyörittely', 'vektorien 3D piirtely',
-          'vektorien äärimmäinen heiluttelu']
-      }
-
-    ]
-
-  }
-}
-
 export const getCourseData = async (id) => {
   const response = await getJson('/categories', { courseInstanceId: id })
   const { data } = response
   return data
 }
+

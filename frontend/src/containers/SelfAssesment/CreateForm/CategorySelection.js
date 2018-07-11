@@ -47,7 +47,8 @@ CategorySelection.propTypes = {
   category: PropTypes.string.isRequired,
   objectives: PropTypes.string.isRequired,
   toggleButton: PropTypes.func.isRequired,
-  createForm: PropTypes.func.isRequired
+  sendFormId: PropTypes.func.isRequired
 }
 
 export default CategorySelection
+

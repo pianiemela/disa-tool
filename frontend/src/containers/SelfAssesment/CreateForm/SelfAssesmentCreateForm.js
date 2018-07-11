@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid, Form } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
 import asyncAction from '../../../utils/asyncAction'
 
@@ -37,13 +37,11 @@ class SelfAssesmentCreateForm extends React.Component {
     this.props.createForm(this.state.dropDownValue, this.state.selectedView)
   }
 
-
-
   toggleButton = (e) => {
     const { value } = e.target
     this.setState({ selectedView: value })
   }
-  
+
   renderCreateOrDraft = () => {
     const { selectedView, formData } = this.state
     const { dropDownCourse, dropdownAssesments } = this.props
@@ -94,12 +92,6 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 }
 
-
-// const mapStateToProps = state => (
-//   {
-//   }
-// )
-
 const mapDispatchToProps = dispatch => (
   {
     createFormJSONStucture: createFormJSONStucture(dispatch),
@@ -108,12 +100,13 @@ const mapDispatchToProps = dispatch => (
 )
 
 SelfAssesmentCreateForm.propTypes = {
-  getCourseData: PropTypes.func.isRequired,
-  getAllSelfAssesments: PropTypes.func.isRequired,
-  courseData: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  selfAssesments: PropTypes.arrayOf(PropTypes.shape({})).isRequired
+  dropDownCourse: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  dropdownAssesments: PropTypes.arrayOf(PropTypes.shape()),
+  createForm: PropTypes.func.isRequired
 }
 
-export default connect(
-  mapDispatchToProps
-)(SelfAssesmentCreateForm)
+SelfAssesmentCreateForm.defaultProps = {
+  dropdownAssesments: []
+}
+
+export default connect(mapDispatchToProps)(SelfAssesmentCreateForm)
