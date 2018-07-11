@@ -25,7 +25,7 @@ export class CourseHeader extends Component {
           <div className="editBlock">
             <Button onClick={this.setEditing(!this.props.editing)}>
               <Icon name="cog" />
-              <span>{this.props.editing ? 'Quit editing' : 'Edit'}</span>
+              <span>{this.props.editing ? 'Lopeta muokkaaminen' : 'Muokkaa'}</span>
             </Button>
           </div>
         </Segment>

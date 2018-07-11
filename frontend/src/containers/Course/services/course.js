@@ -603,7 +603,7 @@ const hardCodedLevels = [
 ]
 
 const hardCodedCourse = {
-  name: 'Doot'
+  name: 'Lineaarialgebra ja matriisilaskenta I'
 }
 
 export const getCourseData = (data) => {
