@@ -42,3 +42,35 @@ testService({
     }
   }
 })
+
+testService({
+  function: addObjectiveToTask,
+  type: 'TASK_ADD_OBJECTIVE',
+  data: {
+    taskId: 7,
+    objectiveId: 4
+  },
+  mockResponse: {
+    message: '<addObjectiveToTaskSuccess>',
+    data: {
+      taskId: 7,
+      objectiveId: 4
+    }
+  }
+})
+
+testService({
+  function: removeObjectiveFromTask,
+  type: 'TASK_REMOVE_OBJECTIVE',
+  data: {
+    taskId: 11,
+    objectiveId: 23
+  },
+  mockResponse: {
+    message: '<removeObjectiveFromTaskSuccess>',
+    data: {
+      taskId: 11,
+      objectiveId: 23
+    }
+  }
+})
