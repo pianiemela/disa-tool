@@ -62,4 +62,31 @@ describe('AddObjectiveForm component', () => {
       expect(typeof wrapper.find(ModalForm).props().onSubmit).toEqual('function')
     })
   })
+
+  describe('state', () => {
+    it('starts with empty options.', () => {
+      expect(wrapper.state().options).toEqual([])
+    })
+
+    describe('when expanded', () => {
+      beforeEach(() => {
+        wrapper.find(ModalForm).props().trigger.props.onClick()
+      })
+
+      it('has remaining objectives as options.', () => {
+        expect(wrapper.state().options).toEqual([
+          {
+            key: 2,
+            value: 2,
+            text: '2'
+          },
+          {
+            key: 4,
+            value: 4,
+            text: '4'
+          }
+        ])
+      })
+    })
+  })
 })
