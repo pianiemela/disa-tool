@@ -1,6 +1,6 @@
-import asyncAction from '../utils/asyncAction'
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
+import asyncAction from '../utils/asyncAction'
 
 export const findText = (text, wrapper) => {
   let found = 0

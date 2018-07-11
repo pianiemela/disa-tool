@@ -10,7 +10,7 @@ import type from './redux/type'
 import course from './redux/course'
 import createForm from './containers/SelfAssesment/reducers/createFormReducer'
 import { userReducer } from './redux/user'
-import { userCoursesReducer } from './redux/userCourses';
+import { userCoursesReducer } from './redux/userCourses'
 
 const reducers = combineReducers({
   task,
