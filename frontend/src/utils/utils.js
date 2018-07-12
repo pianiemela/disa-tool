@@ -38,12 +38,12 @@ export const saveLanguage = (lang) => {
   }
 }).then(res => saveToken(res.data.token)).catch(e => console.log(e)) */
 
-export const getJson = path => axios.get(`${BASE_PATH}${path}`, {
+export const getJson = (path, params) => axios.get(`${BASE_PATH}${path}`, {
   headers: {
     credentials: 'same-origin',
     'x-access-token': getToken()
   },
-  params: { lang: getLanguage() }
+  params: { ...params, lang: getLanguage() }
 })
 
 export const postJson = (path, data) => axios.post(`${BASE_PATH}${path}`, data, {

@@ -43,3 +43,45 @@ export const getUserCoursesAction = () => async (dispatch) => {
     })
   }
 }
+
+export const toggleTextField = id => (dispatch) => {
+  dispatch({
+    type: 'TOGGLE_TEXT_FIELD',
+    payload: id
+  })
+}
+
+export const initCreateForm = data => (dispatch) => {
+  dispatch({
+    type: 'INIT_FORM',
+    payload: data
+  })
+}
+
+export const toggleUp = id => (dispatch) => {
+  dispatch({
+    type: 'TOGGLE_UP',
+    payload: id
+  })
+}
+
+export const toggleDown = id => (dispatch) => {
+  dispatch({
+    type: 'TOGGLE_DOWN',
+    payload: id
+  })
+}
+
+export const addOpenQuestion = questionData => (dispatch) => {
+  dispatch({
+    type: 'ADD_OPEN_QUESTION',
+    payload: questionData
+  })
+}
+
+export const removeOpenQuestion = id => (dispatch) => {
+  dispatch({
+    type: 'REMOVE_OPEN_QUESTION',
+    payload: id
+  })
+}

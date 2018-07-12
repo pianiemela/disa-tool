@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Button, Input } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { addOpenQuestion } from '../../../../actions/actions'
 
 class AddOpenQuestion extends React.Component {
   constructor(props) {
@@ -32,7 +34,9 @@ class AddOpenQuestion extends React.Component {
           </Grid.Column>
           <Grid.Column>
             <Button
-              onClick={() => { this.props.handleChange({ type: 'addQuestion', questionData: this.state.questionData }); this.clear() }}
+              onClick={() => {
+                this.props.dispatchAddOpenQuestion(this.state.questionData); this.clear()
+              }}
               type="submit"
               circular
               name="plus"
@@ -47,9 +51,13 @@ class AddOpenQuestion extends React.Component {
     )
   }
 }
-
-export default AddOpenQuestion
+const mapDispatchToProps = dispatch => ({
+  dispatchAddOpenQuestion: questionData =>
+    dispatch(addOpenQuestion(questionData))
+})
 
 AddOpenQuestion.propTypes = {
-  handleChange: PropTypes.func.isRequired
+  dispatchAddOpenQuestion: PropTypes.func.isRequired
 }
+
+export default connect(null, mapDispatchToProps)(AddOpenQuestion)

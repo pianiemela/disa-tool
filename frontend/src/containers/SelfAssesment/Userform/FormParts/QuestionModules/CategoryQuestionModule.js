@@ -1,11 +1,13 @@
 import { Form, Card, Grid, Checkbox, Dropdown } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import UpOrDownToggle from '../upDownToggle'
+import { toggleTextField } from '../../../../../actions/actions'
 
 
 const CategoryQuestionModule = (props) => {
-  const { edit, handleChange, final, textArea } = props
+  const { edit, final, textArea } = props
   const { name, textFieldOn, id } = props.data
 
   const gradeOptions = [
@@ -32,7 +34,7 @@ const CategoryQuestionModule = (props) => {
   ]
   const checkbox = edit ? (<Checkbox
     defaultChecked={textFieldOn}
-    onChange={() => handleChange({ id, type: 'textfield' })}
+    onChange={() => props.dispatchTextFieldOnOff(id)}
     label="Klikkaa tästä jos haluat perustelut mukaan"
   />) : null
 
@@ -57,7 +59,7 @@ const CategoryQuestionModule = (props) => {
                 null
                 :
                 <Grid.Column>
-                  <UpOrDownToggle id={id} handleChange={handleChange} />
+                  <UpOrDownToggle id={id} />
                 </Grid.Column>
               }
             </Grid.Row>
@@ -79,9 +81,14 @@ CategoryQuestionModule.propTypes = {
     id: PropTypes.string
   }).isRequired,
   edit: PropTypes.bool.isRequired,
-  handleChange: PropTypes.func.isRequired,
   final: PropTypes.bool,
-  textArea: PropTypes.func.isRequired
+  textArea: PropTypes.func.isRequired,
+  dispatchTextFieldOnOff: PropTypes.func.isRequired
 }
 
-export default CategoryQuestionModule
+const mapDispatchToProps = dispatch => ({
+  dispatchTextFieldOnOff: id =>
+    dispatch(toggleTextField(id))
+})
+
+export default connect(null, mapDispatchToProps)(CategoryQuestionModule)
