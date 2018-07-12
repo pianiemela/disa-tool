@@ -1,0 +1,4482 @@
+[
+    {
+        "id": 1,
+        "multiplier": 0.18,
+        "modified": false,
+        "task_id": 6,
+        "objective_id": 1
+    },
+    {
+        "id": 2,
+        "multiplier": 0.52,
+        "modified": false,
+        "task_id": 6,
+        "objective_id": 2
+    },
+    {
+        "id": 3,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 6,
+        "objective_id": 3
+    },
+    {
+        "id": 4,
+        "multiplier": 0.1,
+        "modified": false,
+        "task_id": 6,
+        "objective_id": 4
+    },
+    {
+        "id": 5,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 7,
+        "objective_id": 5
+    },
+    {
+        "id": 6,
+        "multiplier": 0.75,
+        "modified": false,
+        "task_id": 7,
+        "objective_id": 6
+    },
+    {
+        "id": 7,
+        "multiplier": 0.95,
+        "modified": false,
+        "task_id": 7,
+        "objective_id": 7
+    },
+    {
+        "id": 8,
+        "multiplier": 0.99,
+        "modified": false,
+        "task_id": 7,
+        "objective_id": 8
+    },
+    {
+        "id": 9,
+        "multiplier": 0.26,
+        "modified": false,
+        "task_id": 8,
+        "objective_id": 9
+    },
+    {
+        "id": 10,
+        "multiplier": 0.02,
+        "modified": false,
+        "task_id": 8,
+        "objective_id": 10
+    },
+    {
+        "id": 11,
+        "multiplier": 0.36,
+        "modified": false,
+        "task_id": 8,
+        "objective_id": 11
+    },
+    {
+        "id": 12,
+        "multiplier": 0.37,
+        "modified": false,
+        "task_id": 8,
+        "objective_id": 12
+    },
+    {
+        "id": 13,
+        "multiplier": 0.09,
+        "modified": false,
+        "task_id": 9,
+        "objective_id": 13
+    },
+    {
+        "id": 14,
+        "multiplier": 0.8,
+        "modified": false,
+        "task_id": 9,
+        "objective_id": 14
+    },
+    {
+        "id": 15,
+        "multiplier": 0.18,
+        "modified": false,
+        "task_id": 9,
+        "objective_id": 15
+    },
+    {
+        "id": 16,
+        "multiplier": 0.54,
+        "modified": false,
+        "task_id": 9,
+        "objective_id": 16
+    },
+    {
+        "id": 17,
+        "multiplier": 0.48,
+        "modified": false,
+        "task_id": 10,
+        "objective_id": 17
+    },
+    {
+        "id": 18,
+        "multiplier": 0.94,
+        "modified": false,
+        "task_id": 10,
+        "objective_id": 18
+    },
+    {
+        "id": 19,
+        "multiplier": 0.16,
+        "modified": false,
+        "task_id": 10,
+        "objective_id": 19
+    },
+    {
+        "id": 20,
+        "multiplier": 0.33,
+        "modified": false,
+        "task_id": 10,
+        "objective_id": 20
+    },
+    {
+        "id": 21,
+        "multiplier": 0.41,
+        "modified": false,
+        "task_id": 11,
+        "objective_id": 21
+    },
+    {
+        "id": 22,
+        "multiplier": 0.82,
+        "modified": false,
+        "task_id": 11,
+        "objective_id": 22
+    },
+    {
+        "id": 23,
+        "multiplier": 0.18,
+        "modified": false,
+        "task_id": 11,
+        "objective_id": 23
+    },
+    {
+        "id": 24,
+        "multiplier": 0.32,
+        "modified": false,
+        "task_id": 11,
+        "objective_id": 24
+    },
+    {
+        "id": 25,
+        "multiplier": 0.15,
+        "modified": false,
+        "task_id": 12,
+        "objective_id": 25
+    },
+    {
+        "id": 26,
+        "multiplier": 0.24,
+        "modified": false,
+        "task_id": 12,
+        "objective_id": 26
+    },
+    {
+        "id": 27,
+        "multiplier": 0.14,
+        "modified": false,
+        "task_id": 12,
+        "objective_id": 27
+    },
+    {
+        "id": 28,
+        "multiplier": 0.39,
+        "modified": false,
+        "task_id": 12,
+        "objective_id": 28
+    },
+    {
+        "id": 29,
+        "multiplier": 0.16,
+        "modified": false,
+        "task_id": 13,
+        "objective_id": 29
+    },
+    {
+        "id": 30,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 13,
+        "objective_id": 30
+    },
+    {
+        "id": 31,
+        "multiplier": 0.13,
+        "modified": false,
+        "task_id": 13,
+        "objective_id": 31
+    },
+    {
+        "id": 32,
+        "multiplier": 0.76,
+        "modified": false,
+        "task_id": 13,
+        "objective_id": 32
+    },
+    {
+        "id": 33,
+        "multiplier": 0.64,
+        "modified": false,
+        "task_id": 14,
+        "objective_id": 33
+    },
+    {
+        "id": 34,
+        "multiplier": 0.72,
+        "modified": false,
+        "task_id": 14,
+        "objective_id": 34
+    },
+    {
+        "id": 35,
+        "multiplier": 0.42,
+        "modified": false,
+        "task_id": 14,
+        "objective_id": 35
+    },
+    {
+        "id": 36,
+        "multiplier": 0.13,
+        "modified": false,
+        "task_id": 14,
+        "objective_id": 36
+    },
+    {
+        "id": 37,
+        "multiplier": 0.03,
+        "modified": false,
+        "task_id": 15,
+        "objective_id": 37
+    },
+    {
+        "id": 38,
+        "multiplier": 0.04,
+        "modified": false,
+        "task_id": 15,
+        "objective_id": 38
+    },
+    {
+        "id": 39,
+        "multiplier": 0.14,
+        "modified": false,
+        "task_id": 15,
+        "objective_id": 39
+    },
+    {
+        "id": 40,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 15,
+        "objective_id": 40
+    },
+    {
+        "id": 41,
+        "multiplier": 0.02,
+        "modified": false,
+        "task_id": 16,
+        "objective_id": 41
+    },
+    {
+        "id": 42,
+        "multiplier": 0.53,
+        "modified": false,
+        "task_id": 16,
+        "objective_id": 42
+    },
+    {
+        "id": 43,
+        "multiplier": 0.77,
+        "modified": false,
+        "task_id": 16,
+        "objective_id": 43
+    },
+    {
+        "id": 44,
+        "multiplier": 0.98,
+        "modified": false,
+        "task_id": 16,
+        "objective_id": 44
+    },
+    {
+        "id": 45,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 17,
+        "objective_id": 45
+    },
+    {
+        "id": 46,
+        "multiplier": 0.61,
+        "modified": false,
+        "task_id": 17,
+        "objective_id": 46
+    },
+    {
+        "id": 47,
+        "multiplier": 0.27,
+        "modified": false,
+        "task_id": 17,
+        "objective_id": 47
+    },
+    {
+        "id": 48,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 17,
+        "objective_id": 48
+    },
+    {
+        "id": 49,
+        "multiplier": 0.05,
+        "modified": false,
+        "task_id": 18,
+        "objective_id": 49
+    },
+    {
+        "id": 50,
+        "multiplier": 0.83,
+        "modified": false,
+        "task_id": 18,
+        "objective_id": 50
+    },
+    {
+        "id": 51,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 18,
+        "objective_id": 51
+    },
+    {
+        "id": 52,
+        "multiplier": 0.08,
+        "modified": false,
+        "task_id": 18,
+        "objective_id": 52
+    },
+    {
+        "id": 53,
+        "multiplier": 0.06,
+        "modified": false,
+        "task_id": 19,
+        "objective_id": 53
+    },
+    {
+        "id": 54,
+        "multiplier": 0.18,
+        "modified": false,
+        "task_id": 19,
+        "objective_id": 54
+    },
+    {
+        "id": 55,
+        "multiplier": 0.12,
+        "modified": false,
+        "task_id": 19,
+        "objective_id": 55
+    },
+    {
+        "id": 56,
+        "multiplier": 0.26,
+        "modified": false,
+        "task_id": 19,
+        "objective_id": 56
+    },
+    {
+        "id": 57,
+        "multiplier": 0.36,
+        "modified": false,
+        "task_id": 20,
+        "objective_id": 57
+    },
+    {
+        "id": 58,
+        "multiplier": 0.22,
+        "modified": false,
+        "task_id": 20,
+        "objective_id": 58
+    },
+    {
+        "id": 59,
+        "multiplier": 0.21,
+        "modified": false,
+        "task_id": 20,
+        "objective_id": 59
+    },
+    {
+        "id": 60,
+        "multiplier": 0.99,
+        "modified": false,
+        "task_id": 20,
+        "objective_id": 60
+    },
+    {
+        "id": 61,
+        "multiplier": 0.77,
+        "modified": false,
+        "task_id": 21,
+        "objective_id": 61
+    },
+    {
+        "id": 62,
+        "multiplier": 0.53,
+        "modified": false,
+        "task_id": 21,
+        "objective_id": 62
+    },
+    {
+        "id": 63,
+        "multiplier": 0.74,
+        "modified": false,
+        "task_id": 21,
+        "objective_id": 63
+    },
+    {
+        "id": 64,
+        "multiplier": 0.89,
+        "modified": false,
+        "task_id": 21,
+        "objective_id": 64
+    },
+    {
+        "id": 65,
+        "multiplier": 0.59,
+        "modified": false,
+        "task_id": 22,
+        "objective_id": 65
+    },
+    {
+        "id": 66,
+        "multiplier": 0.78,
+        "modified": false,
+        "task_id": 22,
+        "objective_id": 66
+    },
+    {
+        "id": 67,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 22,
+        "objective_id": 67
+    },
+    {
+        "id": 68,
+        "multiplier": 0.82,
+        "modified": false,
+        "task_id": 22,
+        "objective_id": 68
+    },
+    {
+        "id": 69,
+        "multiplier": 0.78,
+        "modified": false,
+        "task_id": 23,
+        "objective_id": 69
+    },
+    {
+        "id": 70,
+        "multiplier": 0.5,
+        "modified": false,
+        "task_id": 23,
+        "objective_id": 70
+    },
+    {
+        "id": 71,
+        "multiplier": 0.16,
+        "modified": false,
+        "task_id": 23,
+        "objective_id": 71
+    },
+    {
+        "id": 72,
+        "multiplier": 0.81,
+        "modified": false,
+        "task_id": 23,
+        "objective_id": 72
+    },
+    {
+        "id": 73,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 24,
+        "objective_id": 73
+    },
+    {
+        "id": 74,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 24,
+        "objective_id": 74
+    },
+    {
+        "id": 75,
+        "multiplier": 0.48,
+        "modified": false,
+        "task_id": 24,
+        "objective_id": 75
+    },
+    {
+        "id": 76,
+        "multiplier": 0.02,
+        "modified": false,
+        "task_id": 24,
+        "objective_id": 76
+    },
+    {
+        "id": 77,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 25,
+        "objective_id": 77
+    },
+    {
+        "id": 78,
+        "multiplier": 0.13,
+        "modified": false,
+        "task_id": 25,
+        "objective_id": 78
+    },
+    {
+        "id": 79,
+        "multiplier": 0.59,
+        "modified": false,
+        "task_id": 25,
+        "objective_id": 79
+    },
+    {
+        "id": 80,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 25,
+        "objective_id": 1
+    },
+    {
+        "id": 81,
+        "multiplier": 0.16,
+        "modified": false,
+        "task_id": 27,
+        "objective_id": 80
+    },
+    {
+        "id": 82,
+        "multiplier": 0.05,
+        "modified": false,
+        "task_id": 27,
+        "objective_id": 81
+    },
+    {
+        "id": 83,
+        "multiplier": 0.1,
+        "modified": false,
+        "task_id": 27,
+        "objective_id": 82
+    },
+    {
+        "id": 84,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 27,
+        "objective_id": 83
+    },
+    {
+        "id": 85,
+        "multiplier": 0.98,
+        "modified": false,
+        "task_id": 28,
+        "objective_id": 84
+    },
+    {
+        "id": 86,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 28,
+        "objective_id": 85
+    },
+    {
+        "id": 87,
+        "multiplier": 0.08,
+        "modified": false,
+        "task_id": 28,
+        "objective_id": 86
+    },
+    {
+        "id": 88,
+        "multiplier": 0.54,
+        "modified": false,
+        "task_id": 28,
+        "objective_id": 87
+    },
+    {
+        "id": 89,
+        "multiplier": 0.79,
+        "modified": false,
+        "task_id": 29,
+        "objective_id": 88
+    },
+    {
+        "id": 90,
+        "multiplier": 0.8,
+        "modified": false,
+        "task_id": 29,
+        "objective_id": 89
+    },
+    {
+        "id": 91,
+        "multiplier": 0.81,
+        "modified": false,
+        "task_id": 29,
+        "objective_id": 90
+    },
+    {
+        "id": 92,
+        "multiplier": 0.85,
+        "modified": false,
+        "task_id": 29,
+        "objective_id": 91
+    },
+    {
+        "id": 93,
+        "multiplier": 0.87,
+        "modified": false,
+        "task_id": 30,
+        "objective_id": 92
+    },
+    {
+        "id": 94,
+        "multiplier": 0.66,
+        "modified": false,
+        "task_id": 30,
+        "objective_id": 93
+    },
+    {
+        "id": 95,
+        "multiplier": 0.63,
+        "modified": false,
+        "task_id": 30,
+        "objective_id": 94
+    },
+    {
+        "id": 96,
+        "multiplier": 0.88,
+        "modified": false,
+        "task_id": 30,
+        "objective_id": 95
+    },
+    {
+        "id": 97,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 31,
+        "objective_id": 96
+    },
+    {
+        "id": 98,
+        "multiplier": 0.96,
+        "modified": false,
+        "task_id": 31,
+        "objective_id": 97
+    },
+    {
+        "id": 99,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 31,
+        "objective_id": 98
+    },
+    {
+        "id": 100,
+        "multiplier": 0.89,
+        "modified": false,
+        "task_id": 31,
+        "objective_id": 99
+    },
+    {
+        "id": 101,
+        "multiplier": 0.99,
+        "modified": false,
+        "task_id": 32,
+        "objective_id": 100
+    },
+    {
+        "id": 102,
+        "multiplier": 0.53,
+        "modified": false,
+        "task_id": 32,
+        "objective_id": 101
+    },
+    {
+        "id": 103,
+        "multiplier": 0.67,
+        "modified": false,
+        "task_id": 32,
+        "objective_id": 102
+    },
+    {
+        "id": 104,
+        "multiplier": 0.51,
+        "modified": false,
+        "task_id": 32,
+        "objective_id": 103
+    },
+    {
+        "id": 105,
+        "multiplier": 0.48,
+        "modified": false,
+        "task_id": 33,
+        "objective_id": 104
+    },
+    {
+        "id": 106,
+        "multiplier": 0.72,
+        "modified": false,
+        "task_id": 33,
+        "objective_id": 105
+    },
+    {
+        "id": 107,
+        "multiplier": 0.55,
+        "modified": false,
+        "task_id": 33,
+        "objective_id": 106
+    },
+    {
+        "id": 108,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 33,
+        "objective_id": 107
+    },
+    {
+        "id": 109,
+        "multiplier": 0.08,
+        "modified": false,
+        "task_id": 34,
+        "objective_id": 108
+    },
+    {
+        "id": 110,
+        "multiplier": 0.2,
+        "modified": false,
+        "task_id": 34,
+        "objective_id": 109
+    },
+    {
+        "id": 111,
+        "multiplier": 0.64,
+        "modified": false,
+        "task_id": 34,
+        "objective_id": 110
+    },
+    {
+        "id": 112,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 34,
+        "objective_id": 111
+    },
+    {
+        "id": 113,
+        "multiplier": 0.4,
+        "modified": false,
+        "task_id": 35,
+        "objective_id": 112
+    },
+    {
+        "id": 114,
+        "multiplier": 0.39,
+        "modified": false,
+        "task_id": 35,
+        "objective_id": 113
+    },
+    {
+        "id": 115,
+        "multiplier": 0.98,
+        "modified": false,
+        "task_id": 35,
+        "objective_id": 114
+    },
+    {
+        "id": 116,
+        "multiplier": 0.76,
+        "modified": false,
+        "task_id": 35,
+        "objective_id": 115
+    },
+    {
+        "id": 117,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 36,
+        "objective_id": 116
+    },
+    {
+        "id": 118,
+        "multiplier": 0.29,
+        "modified": false,
+        "task_id": 36,
+        "objective_id": 117
+    },
+    {
+        "id": 119,
+        "multiplier": 0.24,
+        "modified": false,
+        "task_id": 36,
+        "objective_id": 118
+    },
+    {
+        "id": 120,
+        "multiplier": 0.77,
+        "modified": false,
+        "task_id": 36,
+        "objective_id": 119
+    },
+    {
+        "id": 121,
+        "multiplier": 0.21,
+        "modified": false,
+        "task_id": 37,
+        "objective_id": 120
+    },
+    {
+        "id": 122,
+        "multiplier": 0.78,
+        "modified": false,
+        "task_id": 37,
+        "objective_id": 121
+    },
+    {
+        "id": 123,
+        "multiplier": 0.31,
+        "modified": false,
+        "task_id": 37,
+        "objective_id": 122
+    },
+    {
+        "id": 124,
+        "multiplier": 0.32,
+        "modified": false,
+        "task_id": 37,
+        "objective_id": 123
+    },
+    {
+        "id": 125,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 38,
+        "objective_id": 124
+    },
+    {
+        "id": 126,
+        "multiplier": 0.66,
+        "modified": false,
+        "task_id": 38,
+        "objective_id": 125
+    },
+    {
+        "id": 127,
+        "multiplier": 0.23,
+        "modified": false,
+        "task_id": 38,
+        "objective_id": 126
+    },
+    {
+        "id": 128,
+        "multiplier": 0.44,
+        "modified": false,
+        "task_id": 38,
+        "objective_id": 127
+    },
+    {
+        "id": 129,
+        "multiplier": 0.19,
+        "modified": false,
+        "task_id": 39,
+        "objective_id": 128
+    },
+    {
+        "id": 130,
+        "multiplier": 0.03,
+        "modified": false,
+        "task_id": 39,
+        "objective_id": 129
+    },
+    {
+        "id": 131,
+        "multiplier": 0.2,
+        "modified": false,
+        "task_id": 39,
+        "objective_id": 130
+    },
+    {
+        "id": 132,
+        "multiplier": 0.45,
+        "modified": false,
+        "task_id": 39,
+        "objective_id": 131
+    },
+    {
+        "id": 133,
+        "multiplier": 0.52,
+        "modified": false,
+        "task_id": 40,
+        "objective_id": 132
+    },
+    {
+        "id": 134,
+        "multiplier": 0.14,
+        "modified": false,
+        "task_id": 40,
+        "objective_id": 133
+    },
+    {
+        "id": 135,
+        "multiplier": 0.11,
+        "modified": false,
+        "task_id": 40,
+        "objective_id": 134
+    },
+    {
+        "id": 136,
+        "multiplier": 0.97,
+        "modified": false,
+        "task_id": 40,
+        "objective_id": 135
+    },
+    {
+        "id": 137,
+        "multiplier": 0.7,
+        "modified": false,
+        "task_id": 41,
+        "objective_id": 136
+    },
+    {
+        "id": 138,
+        "multiplier": 0.81,
+        "modified": false,
+        "task_id": 41,
+        "objective_id": 137
+    },
+    {
+        "id": 139,
+        "multiplier": 0.23,
+        "modified": false,
+        "task_id": 41,
+        "objective_id": 138
+    },
+    {
+        "id": 140,
+        "multiplier": 0.63,
+        "modified": false,
+        "task_id": 41,
+        "objective_id": 139
+    },
+    {
+        "id": 141,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 42,
+        "objective_id": 140
+    },
+    {
+        "id": 142,
+        "multiplier": 0.1,
+        "modified": false,
+        "task_id": 42,
+        "objective_id": 141
+    },
+    {
+        "id": 143,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 42,
+        "objective_id": 142
+    },
+    {
+        "id": 144,
+        "multiplier": 0.84,
+        "modified": false,
+        "task_id": 42,
+        "objective_id": 143
+    },
+    {
+        "id": 145,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 43,
+        "objective_id": 144
+    },
+    {
+        "id": 146,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 43,
+        "objective_id": 145
+    },
+    {
+        "id": 147,
+        "multiplier": 0.31,
+        "modified": false,
+        "task_id": 43,
+        "objective_id": 146
+    },
+    {
+        "id": 148,
+        "multiplier": 0.29,
+        "modified": false,
+        "task_id": 43,
+        "objective_id": 147
+    },
+    {
+        "id": 149,
+        "multiplier": 0.15,
+        "modified": false,
+        "task_id": 44,
+        "objective_id": 148
+    },
+    {
+        "id": 150,
+        "multiplier": 0.36,
+        "modified": false,
+        "task_id": 44,
+        "objective_id": 149
+    },
+    {
+        "id": 151,
+        "multiplier": 0.59,
+        "modified": false,
+        "task_id": 44,
+        "objective_id": 150
+    },
+    {
+        "id": 152,
+        "multiplier": 0.81,
+        "modified": false,
+        "task_id": 44,
+        "objective_id": 151
+    },
+    {
+        "id": 153,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 45,
+        "objective_id": 152
+    },
+    {
+        "id": 154,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 45,
+        "objective_id": 153
+    },
+    {
+        "id": 155,
+        "multiplier": 0.25,
+        "modified": false,
+        "task_id": 45,
+        "objective_id": 154
+    },
+    {
+        "id": 156,
+        "multiplier": 0.04,
+        "modified": false,
+        "task_id": 45,
+        "objective_id": 155
+    },
+    {
+        "id": 157,
+        "multiplier": 0.07,
+        "modified": false,
+        "task_id": 46,
+        "objective_id": 156
+    },
+    {
+        "id": 158,
+        "multiplier": 0.3,
+        "modified": false,
+        "task_id": 46,
+        "objective_id": 157
+    },
+    {
+        "id": 159,
+        "multiplier": 0.63,
+        "modified": false,
+        "task_id": 46,
+        "objective_id": 158
+    },
+    {
+        "id": 160,
+        "multiplier": 0.05,
+        "modified": false,
+        "task_id": 46,
+        "objective_id": 80
+    },
+    {
+        "id": 161,
+        "multiplier": 0.35,
+        "modified": false,
+        "task_id": 48,
+        "objective_id": 159
+    },
+    {
+        "id": 162,
+        "multiplier": 0.42,
+        "modified": false,
+        "task_id": 48,
+        "objective_id": 160
+    },
+    {
+        "id": 163,
+        "multiplier": 0.14,
+        "modified": false,
+        "task_id": 48,
+        "objective_id": 161
+    },
+    {
+        "id": 164,
+        "multiplier": 0.99,
+        "modified": false,
+        "task_id": 48,
+        "objective_id": 162
+    },
+    {
+        "id": 165,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 49,
+        "objective_id": 163
+    },
+    {
+        "id": 166,
+        "multiplier": 0.72,
+        "modified": false,
+        "task_id": 49,
+        "objective_id": 164
+    },
+    {
+        "id": 167,
+        "multiplier": 0.11,
+        "modified": false,
+        "task_id": 49,
+        "objective_id": 165
+    },
+    {
+        "id": 168,
+        "multiplier": 0.47,
+        "modified": false,
+        "task_id": 49,
+        "objective_id": 166
+    },
+    {
+        "id": 169,
+        "multiplier": 0.39,
+        "modified": false,
+        "task_id": 50,
+        "objective_id": 167
+    },
+    {
+        "id": 170,
+        "multiplier": 0.91,
+        "modified": false,
+        "task_id": 50,
+        "objective_id": 168
+    },
+    {
+        "id": 171,
+        "multiplier": 0.41,
+        "modified": false,
+        "task_id": 50,
+        "objective_id": 169
+    },
+    {
+        "id": 172,
+        "multiplier": 0.59,
+        "modified": false,
+        "task_id": 50,
+        "objective_id": 170
+    },
+    {
+        "id": 173,
+        "multiplier": 0.41,
+        "modified": false,
+        "task_id": 51,
+        "objective_id": 171
+    },
+    {
+        "id": 174,
+        "multiplier": 0.29,
+        "modified": false,
+        "task_id": 51,
+        "objective_id": 172
+    },
+    {
+        "id": 175,
+        "multiplier": 0.36,
+        "modified": false,
+        "task_id": 51,
+        "objective_id": 173
+    },
+    {
+        "id": 176,
+        "multiplier": 0.17,
+        "modified": false,
+        "task_id": 51,
+        "objective_id": 174
+    },
+    {
+        "id": 177,
+        "multiplier": 0.22,
+        "modified": false,
+        "task_id": 52,
+        "objective_id": 175
+    },
+    {
+        "id": 178,
+        "multiplier": 0.87,
+        "modified": false,
+        "task_id": 52,
+        "objective_id": 176
+    },
+    {
+        "id": 179,
+        "multiplier": 0.27,
+        "modified": false,
+        "task_id": 52,
+        "objective_id": 177
+    },
+    {
+        "id": 180,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 52,
+        "objective_id": 178
+    },
+    {
+        "id": 181,
+        "multiplier": 0.82,
+        "modified": false,
+        "task_id": 53,
+        "objective_id": 179
+    },
+    {
+        "id": 182,
+        "multiplier": 0.71,
+        "modified": false,
+        "task_id": 53,
+        "objective_id": 180
+    },
+    {
+        "id": 183,
+        "multiplier": 0.06,
+        "modified": false,
+        "task_id": 53,
+        "objective_id": 181
+    },
+    {
+        "id": 184,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 53,
+        "objective_id": 182
+    },
+    {
+        "id": 185,
+        "multiplier": 0.11,
+        "modified": false,
+        "task_id": 54,
+        "objective_id": 183
+    },
+    {
+        "id": 186,
+        "multiplier": 0.2,
+        "modified": false,
+        "task_id": 54,
+        "objective_id": 184
+    },
+    {
+        "id": 187,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 54,
+        "objective_id": 185
+    },
+    {
+        "id": 188,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 54,
+        "objective_id": 186
+    },
+    {
+        "id": 189,
+        "multiplier": 0.81,
+        "modified": false,
+        "task_id": 55,
+        "objective_id": 187
+    },
+    {
+        "id": 190,
+        "multiplier": 0.92,
+        "modified": false,
+        "task_id": 55,
+        "objective_id": 188
+    },
+    {
+        "id": 191,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 55,
+        "objective_id": 189
+    },
+    {
+        "id": 192,
+        "multiplier": 0.89,
+        "modified": false,
+        "task_id": 55,
+        "objective_id": 190
+    },
+    {
+        "id": 193,
+        "multiplier": 0.5,
+        "modified": false,
+        "task_id": 56,
+        "objective_id": 191
+    },
+    {
+        "id": 194,
+        "multiplier": 0.31,
+        "modified": false,
+        "task_id": 56,
+        "objective_id": 192
+    },
+    {
+        "id": 195,
+        "multiplier": 0.19,
+        "modified": false,
+        "task_id": 56,
+        "objective_id": 193
+    },
+    {
+        "id": 196,
+        "multiplier": 0.27,
+        "modified": false,
+        "task_id": 56,
+        "objective_id": 194
+    },
+    {
+        "id": 197,
+        "multiplier": 0.67,
+        "modified": false,
+        "task_id": 57,
+        "objective_id": 195
+    },
+    {
+        "id": 198,
+        "multiplier": 0.79,
+        "modified": false,
+        "task_id": 57,
+        "objective_id": 196
+    },
+    {
+        "id": 199,
+        "multiplier": 0.35,
+        "modified": false,
+        "task_id": 57,
+        "objective_id": 197
+    },
+    {
+        "id": 200,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 57,
+        "objective_id": 198
+    },
+    {
+        "id": 201,
+        "multiplier": 0,
+        "modified": false,
+        "task_id": 58,
+        "objective_id": 199
+    },
+    {
+        "id": 202,
+        "multiplier": 0.75,
+        "modified": false,
+        "task_id": 58,
+        "objective_id": 200
+    },
+    {
+        "id": 203,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 58,
+        "objective_id": 201
+    },
+    {
+        "id": 204,
+        "multiplier": 0.26,
+        "modified": false,
+        "task_id": 58,
+        "objective_id": 202
+    },
+    {
+        "id": 205,
+        "multiplier": 0.9,
+        "modified": false,
+        "task_id": 59,
+        "objective_id": 203
+    },
+    {
+        "id": 206,
+        "multiplier": 0.82,
+        "modified": false,
+        "task_id": 59,
+        "objective_id": 204
+    },
+    {
+        "id": 207,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 59,
+        "objective_id": 205
+    },
+    {
+        "id": 208,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 59,
+        "objective_id": 206
+    },
+    {
+        "id": 209,
+        "multiplier": 0.94,
+        "modified": false,
+        "task_id": 60,
+        "objective_id": 207
+    },
+    {
+        "id": 210,
+        "multiplier": 0.96,
+        "modified": false,
+        "task_id": 60,
+        "objective_id": 208
+    },
+    {
+        "id": 211,
+        "multiplier": 0.25,
+        "modified": false,
+        "task_id": 60,
+        "objective_id": 209
+    },
+    {
+        "id": 212,
+        "multiplier": 0.91,
+        "modified": false,
+        "task_id": 60,
+        "objective_id": 210
+    },
+    {
+        "id": 213,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 61,
+        "objective_id": 211
+    },
+    {
+        "id": 214,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 61,
+        "objective_id": 212
+    },
+    {
+        "id": 215,
+        "multiplier": 0.84,
+        "modified": false,
+        "task_id": 61,
+        "objective_id": 213
+    },
+    {
+        "id": 216,
+        "multiplier": 0.15,
+        "modified": false,
+        "task_id": 61,
+        "objective_id": 214
+    },
+    {
+        "id": 217,
+        "multiplier": 0.03,
+        "modified": false,
+        "task_id": 62,
+        "objective_id": 215
+    },
+    {
+        "id": 218,
+        "multiplier": 0.14,
+        "modified": false,
+        "task_id": 62,
+        "objective_id": 216
+    },
+    {
+        "id": 219,
+        "multiplier": 0.55,
+        "modified": false,
+        "task_id": 62,
+        "objective_id": 217
+    },
+    {
+        "id": 220,
+        "multiplier": 0.96,
+        "modified": false,
+        "task_id": 62,
+        "objective_id": 218
+    },
+    {
+        "id": 221,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 63,
+        "objective_id": 219
+    },
+    {
+        "id": 222,
+        "multiplier": 0.03,
+        "modified": false,
+        "task_id": 63,
+        "objective_id": 220
+    },
+    {
+        "id": 223,
+        "multiplier": 0.95,
+        "modified": false,
+        "task_id": 63,
+        "objective_id": 221
+    },
+    {
+        "id": 224,
+        "multiplier": 0.05,
+        "modified": false,
+        "task_id": 63,
+        "objective_id": 222
+    },
+    {
+        "id": 225,
+        "multiplier": 0.04,
+        "modified": false,
+        "task_id": 64,
+        "objective_id": 223
+    },
+    {
+        "id": 226,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 64,
+        "objective_id": 224
+    },
+    {
+        "id": 227,
+        "multiplier": 0.55,
+        "modified": false,
+        "task_id": 64,
+        "objective_id": 225
+    },
+    {
+        "id": 228,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 64,
+        "objective_id": 226
+    },
+    {
+        "id": 229,
+        "multiplier": 0.1,
+        "modified": false,
+        "task_id": 65,
+        "objective_id": 227
+    },
+    {
+        "id": 230,
+        "multiplier": 0.7,
+        "modified": false,
+        "task_id": 65,
+        "objective_id": 228
+    },
+    {
+        "id": 231,
+        "multiplier": 0.32,
+        "modified": false,
+        "task_id": 65,
+        "objective_id": 229
+    },
+    {
+        "id": 232,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 65,
+        "objective_id": 230
+    },
+    {
+        "id": 233,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 66,
+        "objective_id": 231
+    },
+    {
+        "id": 234,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 66,
+        "objective_id": 232
+    },
+    {
+        "id": 235,
+        "multiplier": 0.86,
+        "modified": false,
+        "task_id": 66,
+        "objective_id": 233
+    },
+    {
+        "id": 236,
+        "multiplier": 0.58,
+        "modified": false,
+        "task_id": 66,
+        "objective_id": 234
+    },
+    {
+        "id": 237,
+        "multiplier": 0.51,
+        "modified": false,
+        "task_id": 67,
+        "objective_id": 235
+    },
+    {
+        "id": 238,
+        "multiplier": 0.94,
+        "modified": false,
+        "task_id": 67,
+        "objective_id": 236
+    },
+    {
+        "id": 239,
+        "multiplier": 0.36,
+        "modified": false,
+        "task_id": 67,
+        "objective_id": 237
+    },
+    {
+        "id": 240,
+        "multiplier": 0.12,
+        "modified": false,
+        "task_id": 67,
+        "objective_id": 159
+    },
+    {
+        "id": 241,
+        "multiplier": 0.21,
+        "modified": false,
+        "task_id": 69,
+        "objective_id": 238
+    },
+    {
+        "id": 242,
+        "multiplier": 0.32,
+        "modified": false,
+        "task_id": 69,
+        "objective_id": 239
+    },
+    {
+        "id": 243,
+        "multiplier": 0.34,
+        "modified": false,
+        "task_id": 69,
+        "objective_id": 240
+    },
+    {
+        "id": 244,
+        "multiplier": 0.42,
+        "modified": false,
+        "task_id": 69,
+        "objective_id": 241
+    },
+    {
+        "id": 245,
+        "multiplier": 0.26,
+        "modified": false,
+        "task_id": 70,
+        "objective_id": 242
+    },
+    {
+        "id": 246,
+        "multiplier": 0.52,
+        "modified": false,
+        "task_id": 70,
+        "objective_id": 243
+    },
+    {
+        "id": 247,
+        "multiplier": 0.71,
+        "modified": false,
+        "task_id": 70,
+        "objective_id": 244
+    },
+    {
+        "id": 248,
+        "multiplier": 0.78,
+        "modified": false,
+        "task_id": 70,
+        "objective_id": 245
+    },
+    {
+        "id": 249,
+        "multiplier": 0.58,
+        "modified": false,
+        "task_id": 71,
+        "objective_id": 246
+    },
+    {
+        "id": 250,
+        "multiplier": 0.47,
+        "modified": false,
+        "task_id": 71,
+        "objective_id": 247
+    },
+    {
+        "id": 251,
+        "multiplier": 0.29,
+        "modified": false,
+        "task_id": 71,
+        "objective_id": 248
+    },
+    {
+        "id": 252,
+        "multiplier": 0.8,
+        "modified": false,
+        "task_id": 71,
+        "objective_id": 249
+    },
+    {
+        "id": 253,
+        "multiplier": 0.51,
+        "modified": false,
+        "task_id": 72,
+        "objective_id": 250
+    },
+    {
+        "id": 254,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 72,
+        "objective_id": 251
+    },
+    {
+        "id": 255,
+        "multiplier": 0.15,
+        "modified": false,
+        "task_id": 72,
+        "objective_id": 252
+    },
+    {
+        "id": 256,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 72,
+        "objective_id": 253
+    },
+    {
+        "id": 257,
+        "multiplier": 0.15,
+        "modified": false,
+        "task_id": 73,
+        "objective_id": 254
+    },
+    {
+        "id": 258,
+        "multiplier": 0.29,
+        "modified": false,
+        "task_id": 73,
+        "objective_id": 255
+    },
+    {
+        "id": 259,
+        "multiplier": 0.83,
+        "modified": false,
+        "task_id": 73,
+        "objective_id": 256
+    },
+    {
+        "id": 260,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 73,
+        "objective_id": 257
+    },
+    {
+        "id": 261,
+        "multiplier": 0.44,
+        "modified": false,
+        "task_id": 74,
+        "objective_id": 258
+    },
+    {
+        "id": 262,
+        "multiplier": 0.82,
+        "modified": false,
+        "task_id": 74,
+        "objective_id": 259
+    },
+    {
+        "id": 263,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 74,
+        "objective_id": 260
+    },
+    {
+        "id": 264,
+        "multiplier": 0.87,
+        "modified": false,
+        "task_id": 74,
+        "objective_id": 261
+    },
+    {
+        "id": 265,
+        "multiplier": 0.96,
+        "modified": false,
+        "task_id": 75,
+        "objective_id": 262
+    },
+    {
+        "id": 266,
+        "multiplier": 0.08,
+        "modified": false,
+        "task_id": 75,
+        "objective_id": 263
+    },
+    {
+        "id": 267,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 75,
+        "objective_id": 264
+    },
+    {
+        "id": 268,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 75,
+        "objective_id": 265
+    },
+    {
+        "id": 269,
+        "multiplier": 0.26,
+        "modified": false,
+        "task_id": 76,
+        "objective_id": 266
+    },
+    {
+        "id": 270,
+        "multiplier": 0.25,
+        "modified": false,
+        "task_id": 76,
+        "objective_id": 267
+    },
+    {
+        "id": 271,
+        "multiplier": 0.04,
+        "modified": false,
+        "task_id": 76,
+        "objective_id": 268
+    },
+    {
+        "id": 272,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 76,
+        "objective_id": 269
+    },
+    {
+        "id": 273,
+        "multiplier": 0.64,
+        "modified": false,
+        "task_id": 77,
+        "objective_id": 270
+    },
+    {
+        "id": 274,
+        "multiplier": 0.44,
+        "modified": false,
+        "task_id": 77,
+        "objective_id": 271
+    },
+    {
+        "id": 275,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 77,
+        "objective_id": 272
+    },
+    {
+        "id": 276,
+        "multiplier": 0.98,
+        "modified": false,
+        "task_id": 77,
+        "objective_id": 273
+    },
+    {
+        "id": 277,
+        "multiplier": 0.9,
+        "modified": false,
+        "task_id": 78,
+        "objective_id": 274
+    },
+    {
+        "id": 278,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 78,
+        "objective_id": 275
+    },
+    {
+        "id": 279,
+        "multiplier": 0.21,
+        "modified": false,
+        "task_id": 78,
+        "objective_id": 276
+    },
+    {
+        "id": 280,
+        "multiplier": 0.24,
+        "modified": false,
+        "task_id": 78,
+        "objective_id": 277
+    },
+    {
+        "id": 281,
+        "multiplier": 0,
+        "modified": false,
+        "task_id": 79,
+        "objective_id": 278
+    },
+    {
+        "id": 282,
+        "multiplier": 0.53,
+        "modified": false,
+        "task_id": 79,
+        "objective_id": 279
+    },
+    {
+        "id": 283,
+        "multiplier": 0.04,
+        "modified": false,
+        "task_id": 79,
+        "objective_id": 280
+    },
+    {
+        "id": 284,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 79,
+        "objective_id": 281
+    },
+    {
+        "id": 285,
+        "multiplier": 0.24,
+        "modified": false,
+        "task_id": 80,
+        "objective_id": 282
+    },
+    {
+        "id": 286,
+        "multiplier": 0.71,
+        "modified": false,
+        "task_id": 80,
+        "objective_id": 283
+    },
+    {
+        "id": 287,
+        "multiplier": 0.39,
+        "modified": false,
+        "task_id": 80,
+        "objective_id": 284
+    },
+    {
+        "id": 288,
+        "multiplier": 0.54,
+        "modified": false,
+        "task_id": 80,
+        "objective_id": 285
+    },
+    {
+        "id": 289,
+        "multiplier": 0.4,
+        "modified": false,
+        "task_id": 81,
+        "objective_id": 286
+    },
+    {
+        "id": 290,
+        "multiplier": 0.53,
+        "modified": false,
+        "task_id": 81,
+        "objective_id": 287
+    },
+    {
+        "id": 291,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 81,
+        "objective_id": 288
+    },
+    {
+        "id": 292,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 81,
+        "objective_id": 289
+    },
+    {
+        "id": 293,
+        "multiplier": 0.85,
+        "modified": false,
+        "task_id": 82,
+        "objective_id": 290
+    },
+    {
+        "id": 294,
+        "multiplier": 0.91,
+        "modified": false,
+        "task_id": 82,
+        "objective_id": 291
+    },
+    {
+        "id": 295,
+        "multiplier": 0.5,
+        "modified": false,
+        "task_id": 82,
+        "objective_id": 292
+    },
+    {
+        "id": 296,
+        "multiplier": 0.55,
+        "modified": false,
+        "task_id": 82,
+        "objective_id": 293
+    },
+    {
+        "id": 297,
+        "multiplier": 0.06,
+        "modified": false,
+        "task_id": 83,
+        "objective_id": 294
+    },
+    {
+        "id": 298,
+        "multiplier": 0.53,
+        "modified": false,
+        "task_id": 83,
+        "objective_id": 295
+    },
+    {
+        "id": 299,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 83,
+        "objective_id": 296
+    },
+    {
+        "id": 300,
+        "multiplier": 0.9,
+        "modified": false,
+        "task_id": 83,
+        "objective_id": 297
+    },
+    {
+        "id": 301,
+        "multiplier": 0.24,
+        "modified": false,
+        "task_id": 84,
+        "objective_id": 298
+    },
+    {
+        "id": 302,
+        "multiplier": 0.08,
+        "modified": false,
+        "task_id": 84,
+        "objective_id": 299
+    },
+    {
+        "id": 303,
+        "multiplier": 0.32,
+        "modified": false,
+        "task_id": 84,
+        "objective_id": 300
+    },
+    {
+        "id": 304,
+        "multiplier": 0.51,
+        "modified": false,
+        "task_id": 84,
+        "objective_id": 301
+    },
+    {
+        "id": 305,
+        "multiplier": 0.22,
+        "modified": false,
+        "task_id": 85,
+        "objective_id": 302
+    },
+    {
+        "id": 306,
+        "multiplier": 0.55,
+        "modified": false,
+        "task_id": 85,
+        "objective_id": 303
+    },
+    {
+        "id": 307,
+        "multiplier": 0.32,
+        "modified": false,
+        "task_id": 85,
+        "objective_id": 304
+    },
+    {
+        "id": 308,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 85,
+        "objective_id": 305
+    },
+    {
+        "id": 309,
+        "multiplier": 0.24,
+        "modified": false,
+        "task_id": 86,
+        "objective_id": 306
+    },
+    {
+        "id": 310,
+        "multiplier": 0.36,
+        "modified": false,
+        "task_id": 86,
+        "objective_id": 307
+    },
+    {
+        "id": 311,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 86,
+        "objective_id": 308
+    },
+    {
+        "id": 312,
+        "multiplier": 0.03,
+        "modified": false,
+        "task_id": 86,
+        "objective_id": 309
+    },
+    {
+        "id": 313,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 87,
+        "objective_id": 310
+    },
+    {
+        "id": 314,
+        "multiplier": 0.44,
+        "modified": false,
+        "task_id": 87,
+        "objective_id": 311
+    },
+    {
+        "id": 315,
+        "multiplier": 0.11,
+        "modified": false,
+        "task_id": 87,
+        "objective_id": 312
+    },
+    {
+        "id": 316,
+        "multiplier": 0.99,
+        "modified": false,
+        "task_id": 87,
+        "objective_id": 313
+    },
+    {
+        "id": 317,
+        "multiplier": 0.56,
+        "modified": false,
+        "task_id": 88,
+        "objective_id": 314
+    },
+    {
+        "id": 318,
+        "multiplier": 0.2,
+        "modified": false,
+        "task_id": 88,
+        "objective_id": 315
+    },
+    {
+        "id": 319,
+        "multiplier": 0.64,
+        "modified": false,
+        "task_id": 88,
+        "objective_id": 316
+    },
+    {
+        "id": 320,
+        "multiplier": 0.65,
+        "modified": false,
+        "task_id": 88,
+        "objective_id": 238
+    },
+    {
+        "id": 321,
+        "multiplier": 0.15,
+        "modified": false,
+        "task_id": 90,
+        "objective_id": 317
+    },
+    {
+        "id": 322,
+        "multiplier": 0.77,
+        "modified": false,
+        "task_id": 90,
+        "objective_id": 318
+    },
+    {
+        "id": 323,
+        "multiplier": 0.31,
+        "modified": false,
+        "task_id": 90,
+        "objective_id": 319
+    },
+    {
+        "id": 324,
+        "multiplier": 0.31,
+        "modified": false,
+        "task_id": 90,
+        "objective_id": 320
+    },
+    {
+        "id": 325,
+        "multiplier": 0.88,
+        "modified": false,
+        "task_id": 91,
+        "objective_id": 321
+    },
+    {
+        "id": 326,
+        "multiplier": 0.14,
+        "modified": false,
+        "task_id": 91,
+        "objective_id": 322
+    },
+    {
+        "id": 327,
+        "multiplier": 0.72,
+        "modified": false,
+        "task_id": 91,
+        "objective_id": 323
+    },
+    {
+        "id": 328,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 91,
+        "objective_id": 324
+    },
+    {
+        "id": 329,
+        "multiplier": 0.54,
+        "modified": false,
+        "task_id": 92,
+        "objective_id": 325
+    },
+    {
+        "id": 330,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 92,
+        "objective_id": 326
+    },
+    {
+        "id": 331,
+        "multiplier": 0.63,
+        "modified": false,
+        "task_id": 92,
+        "objective_id": 327
+    },
+    {
+        "id": 332,
+        "multiplier": 0.22,
+        "modified": false,
+        "task_id": 92,
+        "objective_id": 328
+    },
+    {
+        "id": 333,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 93,
+        "objective_id": 329
+    },
+    {
+        "id": 334,
+        "multiplier": 0.12,
+        "modified": false,
+        "task_id": 93,
+        "objective_id": 330
+    },
+    {
+        "id": 335,
+        "multiplier": 0.58,
+        "modified": false,
+        "task_id": 93,
+        "objective_id": 331
+    },
+    {
+        "id": 336,
+        "multiplier": 0.97,
+        "modified": false,
+        "task_id": 93,
+        "objective_id": 332
+    },
+    {
+        "id": 337,
+        "multiplier": 0.45,
+        "modified": false,
+        "task_id": 94,
+        "objective_id": 333
+    },
+    {
+        "id": 338,
+        "multiplier": 0.86,
+        "modified": false,
+        "task_id": 94,
+        "objective_id": 334
+    },
+    {
+        "id": 339,
+        "multiplier": 0.21,
+        "modified": false,
+        "task_id": 94,
+        "objective_id": 335
+    },
+    {
+        "id": 340,
+        "multiplier": 1,
+        "modified": false,
+        "task_id": 94,
+        "objective_id": 336
+    },
+    {
+        "id": 341,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 95,
+        "objective_id": 337
+    },
+    {
+        "id": 342,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 95,
+        "objective_id": 338
+    },
+    {
+        "id": 343,
+        "multiplier": 0.48,
+        "modified": false,
+        "task_id": 95,
+        "objective_id": 339
+    },
+    {
+        "id": 344,
+        "multiplier": 0.79,
+        "modified": false,
+        "task_id": 95,
+        "objective_id": 340
+    },
+    {
+        "id": 345,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 96,
+        "objective_id": 341
+    },
+    {
+        "id": 346,
+        "multiplier": 0.94,
+        "modified": false,
+        "task_id": 96,
+        "objective_id": 342
+    },
+    {
+        "id": 347,
+        "multiplier": 0.32,
+        "modified": false,
+        "task_id": 96,
+        "objective_id": 343
+    },
+    {
+        "id": 348,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 96,
+        "objective_id": 344
+    },
+    {
+        "id": 349,
+        "multiplier": 0.9,
+        "modified": false,
+        "task_id": 97,
+        "objective_id": 345
+    },
+    {
+        "id": 350,
+        "multiplier": 0.91,
+        "modified": false,
+        "task_id": 97,
+        "objective_id": 346
+    },
+    {
+        "id": 351,
+        "multiplier": 0.02,
+        "modified": false,
+        "task_id": 97,
+        "objective_id": 347
+    },
+    {
+        "id": 352,
+        "multiplier": 0.65,
+        "modified": false,
+        "task_id": 97,
+        "objective_id": 348
+    },
+    {
+        "id": 353,
+        "multiplier": 0.04,
+        "modified": false,
+        "task_id": 98,
+        "objective_id": 349
+    },
+    {
+        "id": 354,
+        "multiplier": 0.79,
+        "modified": false,
+        "task_id": 98,
+        "objective_id": 350
+    },
+    {
+        "id": 355,
+        "multiplier": 0.83,
+        "modified": false,
+        "task_id": 98,
+        "objective_id": 351
+    },
+    {
+        "id": 356,
+        "multiplier": 0.29,
+        "modified": false,
+        "task_id": 98,
+        "objective_id": 352
+    },
+    {
+        "id": 357,
+        "multiplier": 0.58,
+        "modified": false,
+        "task_id": 99,
+        "objective_id": 353
+    },
+    {
+        "id": 358,
+        "multiplier": 0.97,
+        "modified": false,
+        "task_id": 99,
+        "objective_id": 354
+    },
+    {
+        "id": 359,
+        "multiplier": 0.37,
+        "modified": false,
+        "task_id": 99,
+        "objective_id": 355
+    },
+    {
+        "id": 360,
+        "multiplier": 0.56,
+        "modified": false,
+        "task_id": 99,
+        "objective_id": 356
+    },
+    {
+        "id": 361,
+        "multiplier": 0.59,
+        "modified": false,
+        "task_id": 100,
+        "objective_id": 357
+    },
+    {
+        "id": 362,
+        "multiplier": 0.5,
+        "modified": false,
+        "task_id": 100,
+        "objective_id": 358
+    },
+    {
+        "id": 363,
+        "multiplier": 0.97,
+        "modified": false,
+        "task_id": 100,
+        "objective_id": 359
+    },
+    {
+        "id": 364,
+        "multiplier": 0.97,
+        "modified": false,
+        "task_id": 100,
+        "objective_id": 360
+    },
+    {
+        "id": 365,
+        "multiplier": 0.31,
+        "modified": false,
+        "task_id": 101,
+        "objective_id": 361
+    },
+    {
+        "id": 366,
+        "multiplier": 0.85,
+        "modified": false,
+        "task_id": 101,
+        "objective_id": 362
+    },
+    {
+        "id": 367,
+        "multiplier": 0.85,
+        "modified": false,
+        "task_id": 101,
+        "objective_id": 363
+    },
+    {
+        "id": 368,
+        "multiplier": 0.85,
+        "modified": false,
+        "task_id": 101,
+        "objective_id": 364
+    },
+    {
+        "id": 369,
+        "multiplier": 0.86,
+        "modified": false,
+        "task_id": 102,
+        "objective_id": 365
+    },
+    {
+        "id": 370,
+        "multiplier": 0.61,
+        "modified": false,
+        "task_id": 102,
+        "objective_id": 366
+    },
+    {
+        "id": 371,
+        "multiplier": 0.09,
+        "modified": false,
+        "task_id": 102,
+        "objective_id": 367
+    },
+    {
+        "id": 372,
+        "multiplier": 0.63,
+        "modified": false,
+        "task_id": 102,
+        "objective_id": 368
+    },
+    {
+        "id": 373,
+        "multiplier": 0.52,
+        "modified": false,
+        "task_id": 103,
+        "objective_id": 369
+    },
+    {
+        "id": 374,
+        "multiplier": 0.12,
+        "modified": false,
+        "task_id": 103,
+        "objective_id": 370
+    },
+    {
+        "id": 375,
+        "multiplier": 0.45,
+        "modified": false,
+        "task_id": 103,
+        "objective_id": 371
+    },
+    {
+        "id": 376,
+        "multiplier": 0.37,
+        "modified": false,
+        "task_id": 103,
+        "objective_id": 372
+    },
+    {
+        "id": 377,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 104,
+        "objective_id": 373
+    },
+    {
+        "id": 378,
+        "multiplier": 0.1,
+        "modified": false,
+        "task_id": 104,
+        "objective_id": 374
+    },
+    {
+        "id": 379,
+        "multiplier": 0.87,
+        "modified": false,
+        "task_id": 104,
+        "objective_id": 375
+    },
+    {
+        "id": 380,
+        "multiplier": 0.7,
+        "modified": false,
+        "task_id": 104,
+        "objective_id": 376
+    },
+    {
+        "id": 381,
+        "multiplier": 0.24,
+        "modified": false,
+        "task_id": 105,
+        "objective_id": 377
+    },
+    {
+        "id": 382,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 105,
+        "objective_id": 378
+    },
+    {
+        "id": 383,
+        "multiplier": 0.42,
+        "modified": false,
+        "task_id": 105,
+        "objective_id": 379
+    },
+    {
+        "id": 384,
+        "multiplier": 0.33,
+        "modified": false,
+        "task_id": 105,
+        "objective_id": 380
+    },
+    {
+        "id": 385,
+        "multiplier": 0.72,
+        "modified": false,
+        "task_id": 106,
+        "objective_id": 381
+    },
+    {
+        "id": 386,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 106,
+        "objective_id": 382
+    },
+    {
+        "id": 387,
+        "multiplier": 0.56,
+        "modified": false,
+        "task_id": 106,
+        "objective_id": 383
+    },
+    {
+        "id": 388,
+        "multiplier": 0.8,
+        "modified": false,
+        "task_id": 106,
+        "objective_id": 384
+    },
+    {
+        "id": 389,
+        "multiplier": 0.72,
+        "modified": false,
+        "task_id": 107,
+        "objective_id": 385
+    },
+    {
+        "id": 390,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 107,
+        "objective_id": 386
+    },
+    {
+        "id": 391,
+        "multiplier": 0.34,
+        "modified": false,
+        "task_id": 107,
+        "objective_id": 387
+    },
+    {
+        "id": 392,
+        "multiplier": 0.33,
+        "modified": false,
+        "task_id": 107,
+        "objective_id": 388
+    },
+    {
+        "id": 393,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 108,
+        "objective_id": 389
+    },
+    {
+        "id": 394,
+        "multiplier": 0.05,
+        "modified": false,
+        "task_id": 108,
+        "objective_id": 390
+    },
+    {
+        "id": 395,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 108,
+        "objective_id": 391
+    },
+    {
+        "id": 396,
+        "multiplier": 0.84,
+        "modified": false,
+        "task_id": 108,
+        "objective_id": 392
+    },
+    {
+        "id": 397,
+        "multiplier": 0.91,
+        "modified": false,
+        "task_id": 109,
+        "objective_id": 393
+    },
+    {
+        "id": 398,
+        "multiplier": 0.86,
+        "modified": false,
+        "task_id": 109,
+        "objective_id": 394
+    },
+    {
+        "id": 399,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 109,
+        "objective_id": 395
+    },
+    {
+        "id": 400,
+        "multiplier": 0.13,
+        "modified": false,
+        "task_id": 109,
+        "objective_id": 317
+    },
+    {
+        "id": 401,
+        "multiplier": 0.44,
+        "modified": false,
+        "task_id": 111,
+        "objective_id": 396
+    },
+    {
+        "id": 402,
+        "multiplier": 0.34,
+        "modified": false,
+        "task_id": 111,
+        "objective_id": 397
+    },
+    {
+        "id": 403,
+        "multiplier": 0.18,
+        "modified": false,
+        "task_id": 111,
+        "objective_id": 398
+    },
+    {
+        "id": 404,
+        "multiplier": 0.63,
+        "modified": false,
+        "task_id": 111,
+        "objective_id": 399
+    },
+    {
+        "id": 405,
+        "multiplier": 0.87,
+        "modified": false,
+        "task_id": 112,
+        "objective_id": 400
+    },
+    {
+        "id": 406,
+        "multiplier": 0.08,
+        "modified": false,
+        "task_id": 112,
+        "objective_id": 401
+    },
+    {
+        "id": 407,
+        "multiplier": 0.51,
+        "modified": false,
+        "task_id": 112,
+        "objective_id": 402
+    },
+    {
+        "id": 408,
+        "multiplier": 0.02,
+        "modified": false,
+        "task_id": 112,
+        "objective_id": 403
+    },
+    {
+        "id": 409,
+        "multiplier": 0.51,
+        "modified": false,
+        "task_id": 113,
+        "objective_id": 404
+    },
+    {
+        "id": 410,
+        "multiplier": 0.39,
+        "modified": false,
+        "task_id": 113,
+        "objective_id": 405
+    },
+    {
+        "id": 411,
+        "multiplier": 0.77,
+        "modified": false,
+        "task_id": 113,
+        "objective_id": 406
+    },
+    {
+        "id": 412,
+        "multiplier": 0.02,
+        "modified": false,
+        "task_id": 113,
+        "objective_id": 407
+    },
+    {
+        "id": 413,
+        "multiplier": 0.87,
+        "modified": false,
+        "task_id": 114,
+        "objective_id": 408
+    },
+    {
+        "id": 414,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 114,
+        "objective_id": 409
+    },
+    {
+        "id": 415,
+        "multiplier": 0.83,
+        "modified": false,
+        "task_id": 114,
+        "objective_id": 410
+    },
+    {
+        "id": 416,
+        "multiplier": 0.23,
+        "modified": false,
+        "task_id": 114,
+        "objective_id": 411
+    },
+    {
+        "id": 417,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 115,
+        "objective_id": 412
+    },
+    {
+        "id": 418,
+        "multiplier": 0.06,
+        "modified": false,
+        "task_id": 115,
+        "objective_id": 413
+    },
+    {
+        "id": 419,
+        "multiplier": 0.23,
+        "modified": false,
+        "task_id": 115,
+        "objective_id": 414
+    },
+    {
+        "id": 420,
+        "multiplier": 0.2,
+        "modified": false,
+        "task_id": 115,
+        "objective_id": 415
+    },
+    {
+        "id": 421,
+        "multiplier": 0.42,
+        "modified": false,
+        "task_id": 116,
+        "objective_id": 416
+    },
+    {
+        "id": 422,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 116,
+        "objective_id": 417
+    },
+    {
+        "id": 423,
+        "multiplier": 0.9,
+        "modified": false,
+        "task_id": 116,
+        "objective_id": 418
+    },
+    {
+        "id": 424,
+        "multiplier": 0.02,
+        "modified": false,
+        "task_id": 116,
+        "objective_id": 419
+    },
+    {
+        "id": 425,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 117,
+        "objective_id": 420
+    },
+    {
+        "id": 426,
+        "multiplier": 0.18,
+        "modified": false,
+        "task_id": 117,
+        "objective_id": 421
+    },
+    {
+        "id": 427,
+        "multiplier": 0.15,
+        "modified": false,
+        "task_id": 117,
+        "objective_id": 422
+    },
+    {
+        "id": 428,
+        "multiplier": 0.16,
+        "modified": false,
+        "task_id": 117,
+        "objective_id": 423
+    },
+    {
+        "id": 429,
+        "multiplier": 0.76,
+        "modified": false,
+        "task_id": 118,
+        "objective_id": 424
+    },
+    {
+        "id": 430,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 118,
+        "objective_id": 425
+    },
+    {
+        "id": 431,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 118,
+        "objective_id": 426
+    },
+    {
+        "id": 432,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 118,
+        "objective_id": 427
+    },
+    {
+        "id": 433,
+        "multiplier": 0.24,
+        "modified": false,
+        "task_id": 119,
+        "objective_id": 428
+    },
+    {
+        "id": 434,
+        "multiplier": 0.83,
+        "modified": false,
+        "task_id": 119,
+        "objective_id": 429
+    },
+    {
+        "id": 435,
+        "multiplier": 0.09,
+        "modified": false,
+        "task_id": 119,
+        "objective_id": 430
+    },
+    {
+        "id": 436,
+        "multiplier": 0.64,
+        "modified": false,
+        "task_id": 119,
+        "objective_id": 431
+    },
+    {
+        "id": 437,
+        "multiplier": 0.44,
+        "modified": false,
+        "task_id": 120,
+        "objective_id": 432
+    },
+    {
+        "id": 438,
+        "multiplier": 0.38,
+        "modified": false,
+        "task_id": 120,
+        "objective_id": 433
+    },
+    {
+        "id": 439,
+        "multiplier": 0.38,
+        "modified": false,
+        "task_id": 120,
+        "objective_id": 434
+    },
+    {
+        "id": 440,
+        "multiplier": 0.67,
+        "modified": false,
+        "task_id": 120,
+        "objective_id": 435
+    },
+    {
+        "id": 441,
+        "multiplier": 0.19,
+        "modified": false,
+        "task_id": 121,
+        "objective_id": 436
+    },
+    {
+        "id": 442,
+        "multiplier": 0.26,
+        "modified": false,
+        "task_id": 121,
+        "objective_id": 437
+    },
+    {
+        "id": 443,
+        "multiplier": 0.04,
+        "modified": false,
+        "task_id": 121,
+        "objective_id": 438
+    },
+    {
+        "id": 444,
+        "multiplier": 0.83,
+        "modified": false,
+        "task_id": 121,
+        "objective_id": 439
+    },
+    {
+        "id": 445,
+        "multiplier": 0.38,
+        "modified": false,
+        "task_id": 122,
+        "objective_id": 440
+    },
+    {
+        "id": 446,
+        "multiplier": 0.58,
+        "modified": false,
+        "task_id": 122,
+        "objective_id": 441
+    },
+    {
+        "id": 447,
+        "multiplier": 0.13,
+        "modified": false,
+        "task_id": 122,
+        "objective_id": 442
+    },
+    {
+        "id": 448,
+        "multiplier": 0.33,
+        "modified": false,
+        "task_id": 122,
+        "objective_id": 443
+    },
+    {
+        "id": 449,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 123,
+        "objective_id": 444
+    },
+    {
+        "id": 450,
+        "multiplier": 0.78,
+        "modified": false,
+        "task_id": 123,
+        "objective_id": 445
+    },
+    {
+        "id": 451,
+        "multiplier": 0.94,
+        "modified": false,
+        "task_id": 123,
+        "objective_id": 446
+    },
+    {
+        "id": 452,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 123,
+        "objective_id": 447
+    },
+    {
+        "id": 453,
+        "multiplier": 0.13,
+        "modified": false,
+        "task_id": 124,
+        "objective_id": 448
+    },
+    {
+        "id": 454,
+        "multiplier": 0.98,
+        "modified": false,
+        "task_id": 124,
+        "objective_id": 449
+    },
+    {
+        "id": 455,
+        "multiplier": 0.19,
+        "modified": false,
+        "task_id": 124,
+        "objective_id": 450
+    },
+    {
+        "id": 456,
+        "multiplier": 0.67,
+        "modified": false,
+        "task_id": 124,
+        "objective_id": 451
+    },
+    {
+        "id": 457,
+        "multiplier": 0.51,
+        "modified": false,
+        "task_id": 125,
+        "objective_id": 452
+    },
+    {
+        "id": 458,
+        "multiplier": 0.48,
+        "modified": false,
+        "task_id": 125,
+        "objective_id": 453
+    },
+    {
+        "id": 459,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 125,
+        "objective_id": 454
+    },
+    {
+        "id": 460,
+        "multiplier": 0.78,
+        "modified": false,
+        "task_id": 125,
+        "objective_id": 455
+    },
+    {
+        "id": 461,
+        "multiplier": 0.79,
+        "modified": false,
+        "task_id": 126,
+        "objective_id": 456
+    },
+    {
+        "id": 462,
+        "multiplier": 0.21,
+        "modified": false,
+        "task_id": 126,
+        "objective_id": 457
+    },
+    {
+        "id": 463,
+        "multiplier": 0.52,
+        "modified": false,
+        "task_id": 126,
+        "objective_id": 458
+    },
+    {
+        "id": 464,
+        "multiplier": 0.23,
+        "modified": false,
+        "task_id": 126,
+        "objective_id": 459
+    },
+    {
+        "id": 465,
+        "multiplier": 0.26,
+        "modified": false,
+        "task_id": 127,
+        "objective_id": 460
+    },
+    {
+        "id": 466,
+        "multiplier": 0.33,
+        "modified": false,
+        "task_id": 127,
+        "objective_id": 461
+    },
+    {
+        "id": 467,
+        "multiplier": 0.19,
+        "modified": false,
+        "task_id": 127,
+        "objective_id": 462
+    },
+    {
+        "id": 468,
+        "multiplier": 0.15,
+        "modified": false,
+        "task_id": 127,
+        "objective_id": 463
+    },
+    {
+        "id": 469,
+        "multiplier": 1,
+        "modified": false,
+        "task_id": 128,
+        "objective_id": 464
+    },
+    {
+        "id": 470,
+        "multiplier": 0.87,
+        "modified": false,
+        "task_id": 128,
+        "objective_id": 465
+    },
+    {
+        "id": 471,
+        "multiplier": 0.56,
+        "modified": false,
+        "task_id": 128,
+        "objective_id": 466
+    },
+    {
+        "id": 472,
+        "multiplier": 0.11,
+        "modified": false,
+        "task_id": 128,
+        "objective_id": 467
+    },
+    {
+        "id": 473,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 129,
+        "objective_id": 468
+    },
+    {
+        "id": 474,
+        "multiplier": 0.67,
+        "modified": false,
+        "task_id": 129,
+        "objective_id": 469
+    },
+    {
+        "id": 475,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 129,
+        "objective_id": 470
+    },
+    {
+        "id": 476,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 129,
+        "objective_id": 471
+    },
+    {
+        "id": 477,
+        "multiplier": 0.53,
+        "modified": false,
+        "task_id": 130,
+        "objective_id": 472
+    },
+    {
+        "id": 478,
+        "multiplier": 0.19,
+        "modified": false,
+        "task_id": 130,
+        "objective_id": 473
+    },
+    {
+        "id": 479,
+        "multiplier": 0.67,
+        "modified": false,
+        "task_id": 130,
+        "objective_id": 474
+    },
+    {
+        "id": 480,
+        "multiplier": 0.22,
+        "modified": false,
+        "task_id": 130,
+        "objective_id": 396
+    },
+    {
+        "id": 481,
+        "multiplier": 0.34,
+        "modified": false,
+        "task_id": 132,
+        "objective_id": 475
+    },
+    {
+        "id": 482,
+        "multiplier": 0.42,
+        "modified": false,
+        "task_id": 132,
+        "objective_id": 476
+    },
+    {
+        "id": 483,
+        "multiplier": 0.06,
+        "modified": false,
+        "task_id": 132,
+        "objective_id": 477
+    },
+    {
+        "id": 484,
+        "multiplier": 0.08,
+        "modified": false,
+        "task_id": 132,
+        "objective_id": 478
+    },
+    {
+        "id": 485,
+        "multiplier": 0.14,
+        "modified": false,
+        "task_id": 133,
+        "objective_id": 479
+    },
+    {
+        "id": 486,
+        "multiplier": 0.59,
+        "modified": false,
+        "task_id": 133,
+        "objective_id": 480
+    },
+    {
+        "id": 487,
+        "multiplier": 0.56,
+        "modified": false,
+        "task_id": 133,
+        "objective_id": 481
+    },
+    {
+        "id": 488,
+        "multiplier": 0.31,
+        "modified": false,
+        "task_id": 133,
+        "objective_id": 482
+    },
+    {
+        "id": 489,
+        "multiplier": 0.99,
+        "modified": false,
+        "task_id": 134,
+        "objective_id": 483
+    },
+    {
+        "id": 490,
+        "multiplier": 0.86,
+        "modified": false,
+        "task_id": 134,
+        "objective_id": 484
+    },
+    {
+        "id": 491,
+        "multiplier": 0.18,
+        "modified": false,
+        "task_id": 134,
+        "objective_id": 485
+    },
+    {
+        "id": 492,
+        "multiplier": 0.41,
+        "modified": false,
+        "task_id": 134,
+        "objective_id": 486
+    },
+    {
+        "id": 493,
+        "multiplier": 0.44,
+        "modified": false,
+        "task_id": 135,
+        "objective_id": 487
+    },
+    {
+        "id": 494,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 135,
+        "objective_id": 488
+    },
+    {
+        "id": 495,
+        "multiplier": 0.03,
+        "modified": false,
+        "task_id": 135,
+        "objective_id": 489
+    },
+    {
+        "id": 496,
+        "multiplier": 0.35,
+        "modified": false,
+        "task_id": 135,
+        "objective_id": 490
+    },
+    {
+        "id": 497,
+        "multiplier": 0.02,
+        "modified": false,
+        "task_id": 136,
+        "objective_id": 491
+    },
+    {
+        "id": 498,
+        "multiplier": 0.57,
+        "modified": false,
+        "task_id": 136,
+        "objective_id": 492
+    },
+    {
+        "id": 499,
+        "multiplier": 0.67,
+        "modified": false,
+        "task_id": 136,
+        "objective_id": 493
+    },
+    {
+        "id": 500,
+        "multiplier": 0.84,
+        "modified": false,
+        "task_id": 136,
+        "objective_id": 494
+    },
+    {
+        "id": 501,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 137,
+        "objective_id": 495
+    },
+    {
+        "id": 502,
+        "multiplier": 0.33,
+        "modified": false,
+        "task_id": 137,
+        "objective_id": 496
+    },
+    {
+        "id": 503,
+        "multiplier": 0.51,
+        "modified": false,
+        "task_id": 137,
+        "objective_id": 497
+    },
+    {
+        "id": 504,
+        "multiplier": 0.52,
+        "modified": false,
+        "task_id": 137,
+        "objective_id": 498
+    },
+    {
+        "id": 505,
+        "multiplier": 0.1,
+        "modified": false,
+        "task_id": 138,
+        "objective_id": 499
+    },
+    {
+        "id": 506,
+        "multiplier": 0.74,
+        "modified": false,
+        "task_id": 138,
+        "objective_id": 500
+    },
+    {
+        "id": 507,
+        "multiplier": 0.99,
+        "modified": false,
+        "task_id": 138,
+        "objective_id": 501
+    },
+    {
+        "id": 508,
+        "multiplier": 0.64,
+        "modified": false,
+        "task_id": 138,
+        "objective_id": 502
+    },
+    {
+        "id": 509,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 139,
+        "objective_id": 503
+    },
+    {
+        "id": 510,
+        "multiplier": 0.21,
+        "modified": false,
+        "task_id": 139,
+        "objective_id": 504
+    },
+    {
+        "id": 511,
+        "multiplier": 0.95,
+        "modified": false,
+        "task_id": 139,
+        "objective_id": 505
+    },
+    {
+        "id": 512,
+        "multiplier": 0.9,
+        "modified": false,
+        "task_id": 139,
+        "objective_id": 506
+    },
+    {
+        "id": 513,
+        "multiplier": 0.64,
+        "modified": false,
+        "task_id": 140,
+        "objective_id": 507
+    },
+    {
+        "id": 514,
+        "multiplier": 0.11,
+        "modified": false,
+        "task_id": 140,
+        "objective_id": 508
+    },
+    {
+        "id": 515,
+        "multiplier": 0.66,
+        "modified": false,
+        "task_id": 140,
+        "objective_id": 509
+    },
+    {
+        "id": 516,
+        "multiplier": 0.76,
+        "modified": false,
+        "task_id": 140,
+        "objective_id": 510
+    },
+    {
+        "id": 517,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 141,
+        "objective_id": 511
+    },
+    {
+        "id": 518,
+        "multiplier": 0.18,
+        "modified": false,
+        "task_id": 141,
+        "objective_id": 512
+    },
+    {
+        "id": 519,
+        "multiplier": 0.53,
+        "modified": false,
+        "task_id": 141,
+        "objective_id": 513
+    },
+    {
+        "id": 520,
+        "multiplier": 0.84,
+        "modified": false,
+        "task_id": 141,
+        "objective_id": 514
+    },
+    {
+        "id": 521,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 142,
+        "objective_id": 515
+    },
+    {
+        "id": 522,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 142,
+        "objective_id": 516
+    },
+    {
+        "id": 523,
+        "multiplier": 0.3,
+        "modified": false,
+        "task_id": 142,
+        "objective_id": 517
+    },
+    {
+        "id": 524,
+        "multiplier": 0.58,
+        "modified": false,
+        "task_id": 142,
+        "objective_id": 518
+    },
+    {
+        "id": 525,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 143,
+        "objective_id": 519
+    },
+    {
+        "id": 526,
+        "multiplier": 0.22,
+        "modified": false,
+        "task_id": 143,
+        "objective_id": 520
+    },
+    {
+        "id": 527,
+        "multiplier": 0.13,
+        "modified": false,
+        "task_id": 143,
+        "objective_id": 521
+    },
+    {
+        "id": 528,
+        "multiplier": 0.73,
+        "modified": false,
+        "task_id": 143,
+        "objective_id": 522
+    },
+    {
+        "id": 529,
+        "multiplier": 0.66,
+        "modified": false,
+        "task_id": 144,
+        "objective_id": 523
+    },
+    {
+        "id": 530,
+        "multiplier": 0.57,
+        "modified": false,
+        "task_id": 144,
+        "objective_id": 524
+    },
+    {
+        "id": 531,
+        "multiplier": 0.65,
+        "modified": false,
+        "task_id": 144,
+        "objective_id": 525
+    },
+    {
+        "id": 532,
+        "multiplier": 0.27,
+        "modified": false,
+        "task_id": 144,
+        "objective_id": 526
+    },
+    {
+        "id": 533,
+        "multiplier": 0.5,
+        "modified": false,
+        "task_id": 145,
+        "objective_id": 527
+    },
+    {
+        "id": 534,
+        "multiplier": 1,
+        "modified": false,
+        "task_id": 145,
+        "objective_id": 528
+    },
+    {
+        "id": 535,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 145,
+        "objective_id": 529
+    },
+    {
+        "id": 536,
+        "multiplier": 0.07,
+        "modified": false,
+        "task_id": 145,
+        "objective_id": 530
+    },
+    {
+        "id": 537,
+        "multiplier": 0.63,
+        "modified": false,
+        "task_id": 146,
+        "objective_id": 531
+    },
+    {
+        "id": 538,
+        "multiplier": 0.7,
+        "modified": false,
+        "task_id": 146,
+        "objective_id": 532
+    },
+    {
+        "id": 539,
+        "multiplier": 0.45,
+        "modified": false,
+        "task_id": 146,
+        "objective_id": 533
+    },
+    {
+        "id": 540,
+        "multiplier": 0.74,
+        "modified": false,
+        "task_id": 146,
+        "objective_id": 534
+    },
+    {
+        "id": 541,
+        "multiplier": 0.72,
+        "modified": false,
+        "task_id": 147,
+        "objective_id": 535
+    },
+    {
+        "id": 542,
+        "multiplier": 1,
+        "modified": false,
+        "task_id": 147,
+        "objective_id": 536
+    },
+    {
+        "id": 543,
+        "multiplier": 0.64,
+        "modified": false,
+        "task_id": 147,
+        "objective_id": 537
+    },
+    {
+        "id": 544,
+        "multiplier": 0.63,
+        "modified": false,
+        "task_id": 147,
+        "objective_id": 538
+    },
+    {
+        "id": 545,
+        "multiplier": 0.77,
+        "modified": false,
+        "task_id": 148,
+        "objective_id": 539
+    },
+    {
+        "id": 546,
+        "multiplier": 0.42,
+        "modified": false,
+        "task_id": 148,
+        "objective_id": 540
+    },
+    {
+        "id": 547,
+        "multiplier": 0.57,
+        "modified": false,
+        "task_id": 148,
+        "objective_id": 541
+    },
+    {
+        "id": 548,
+        "multiplier": 0.86,
+        "modified": false,
+        "task_id": 148,
+        "objective_id": 542
+    },
+    {
+        "id": 549,
+        "multiplier": 0.15,
+        "modified": false,
+        "task_id": 149,
+        "objective_id": 543
+    },
+    {
+        "id": 550,
+        "multiplier": 0.2,
+        "modified": false,
+        "task_id": 149,
+        "objective_id": 544
+    },
+    {
+        "id": 551,
+        "multiplier": 0.32,
+        "modified": false,
+        "task_id": 149,
+        "objective_id": 545
+    },
+    {
+        "id": 552,
+        "multiplier": 0.86,
+        "modified": false,
+        "task_id": 149,
+        "objective_id": 546
+    },
+    {
+        "id": 553,
+        "multiplier": 0.74,
+        "modified": false,
+        "task_id": 150,
+        "objective_id": 547
+    },
+    {
+        "id": 554,
+        "multiplier": 0.09,
+        "modified": false,
+        "task_id": 150,
+        "objective_id": 548
+    },
+    {
+        "id": 555,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 150,
+        "objective_id": 549
+    },
+    {
+        "id": 556,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 150,
+        "objective_id": 550
+    },
+    {
+        "id": 557,
+        "multiplier": 0.66,
+        "modified": false,
+        "task_id": 151,
+        "objective_id": 551
+    },
+    {
+        "id": 558,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 151,
+        "objective_id": 552
+    },
+    {
+        "id": 559,
+        "multiplier": 0.8,
+        "modified": false,
+        "task_id": 151,
+        "objective_id": 553
+    },
+    {
+        "id": 560,
+        "multiplier": 0.21,
+        "modified": false,
+        "task_id": 151,
+        "objective_id": 475
+    },
+    {
+        "id": 561,
+        "multiplier": 0.76,
+        "modified": false,
+        "task_id": 153,
+        "objective_id": 554
+    },
+    {
+        "id": 562,
+        "multiplier": 0.76,
+        "modified": false,
+        "task_id": 153,
+        "objective_id": 555
+    },
+    {
+        "id": 563,
+        "multiplier": 0.65,
+        "modified": false,
+        "task_id": 153,
+        "objective_id": 556
+    },
+    {
+        "id": 564,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 153,
+        "objective_id": 557
+    },
+    {
+        "id": 565,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 154,
+        "objective_id": 558
+    },
+    {
+        "id": 566,
+        "multiplier": 1,
+        "modified": false,
+        "task_id": 154,
+        "objective_id": 559
+    },
+    {
+        "id": 567,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 154,
+        "objective_id": 560
+    },
+    {
+        "id": 568,
+        "multiplier": 0.46,
+        "modified": false,
+        "task_id": 154,
+        "objective_id": 561
+    },
+    {
+        "id": 569,
+        "multiplier": 0.11,
+        "modified": false,
+        "task_id": 155,
+        "objective_id": 562
+    },
+    {
+        "id": 570,
+        "multiplier": 0.98,
+        "modified": false,
+        "task_id": 155,
+        "objective_id": 563
+    },
+    {
+        "id": 571,
+        "multiplier": 0.56,
+        "modified": false,
+        "task_id": 155,
+        "objective_id": 564
+    },
+    {
+        "id": 572,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 155,
+        "objective_id": 565
+    },
+    {
+        "id": 573,
+        "multiplier": 0.67,
+        "modified": false,
+        "task_id": 156,
+        "objective_id": 566
+    },
+    {
+        "id": 574,
+        "multiplier": 0.5,
+        "modified": false,
+        "task_id": 156,
+        "objective_id": 567
+    },
+    {
+        "id": 575,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 156,
+        "objective_id": 568
+    },
+    {
+        "id": 576,
+        "multiplier": 0.89,
+        "modified": false,
+        "task_id": 156,
+        "objective_id": 569
+    },
+    {
+        "id": 577,
+        "multiplier": 0.7,
+        "modified": false,
+        "task_id": 157,
+        "objective_id": 570
+    },
+    {
+        "id": 578,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 157,
+        "objective_id": 571
+    },
+    {
+        "id": 579,
+        "multiplier": 0.42,
+        "modified": false,
+        "task_id": 157,
+        "objective_id": 572
+    },
+    {
+        "id": 580,
+        "multiplier": 0.41,
+        "modified": false,
+        "task_id": 157,
+        "objective_id": 573
+    },
+    {
+        "id": 581,
+        "multiplier": 0.52,
+        "modified": false,
+        "task_id": 158,
+        "objective_id": 574
+    },
+    {
+        "id": 582,
+        "multiplier": 0.19,
+        "modified": false,
+        "task_id": 158,
+        "objective_id": 575
+    },
+    {
+        "id": 583,
+        "multiplier": 0.52,
+        "modified": false,
+        "task_id": 158,
+        "objective_id": 576
+    },
+    {
+        "id": 584,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 158,
+        "objective_id": 577
+    },
+    {
+        "id": 585,
+        "multiplier": 0.57,
+        "modified": false,
+        "task_id": 159,
+        "objective_id": 578
+    },
+    {
+        "id": 586,
+        "multiplier": 0.86,
+        "modified": false,
+        "task_id": 159,
+        "objective_id": 579
+    },
+    {
+        "id": 587,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 159,
+        "objective_id": 580
+    },
+    {
+        "id": 588,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 159,
+        "objective_id": 581
+    },
+    {
+        "id": 589,
+        "multiplier": 0.01,
+        "modified": false,
+        "task_id": 160,
+        "objective_id": 582
+    },
+    {
+        "id": 590,
+        "multiplier": 0.71,
+        "modified": false,
+        "task_id": 160,
+        "objective_id": 583
+    },
+    {
+        "id": 591,
+        "multiplier": 0.98,
+        "modified": false,
+        "task_id": 160,
+        "objective_id": 584
+    },
+    {
+        "id": 592,
+        "multiplier": 0.59,
+        "modified": false,
+        "task_id": 160,
+        "objective_id": 585
+    },
+    {
+        "id": 593,
+        "multiplier": 0.02,
+        "modified": false,
+        "task_id": 161,
+        "objective_id": 586
+    },
+    {
+        "id": 594,
+        "multiplier": 0.32,
+        "modified": false,
+        "task_id": 161,
+        "objective_id": 587
+    },
+    {
+        "id": 595,
+        "multiplier": 0.94,
+        "modified": false,
+        "task_id": 161,
+        "objective_id": 588
+    },
+    {
+        "id": 596,
+        "multiplier": 0.76,
+        "modified": false,
+        "task_id": 161,
+        "objective_id": 589
+    },
+    {
+        "id": 597,
+        "multiplier": 0.88,
+        "modified": false,
+        "task_id": 162,
+        "objective_id": 590
+    },
+    {
+        "id": 598,
+        "multiplier": 0.52,
+        "modified": false,
+        "task_id": 162,
+        "objective_id": 591
+    },
+    {
+        "id": 599,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 162,
+        "objective_id": 592
+    },
+    {
+        "id": 600,
+        "multiplier": 0.28,
+        "modified": false,
+        "task_id": 162,
+        "objective_id": 593
+    },
+    {
+        "id": 601,
+        "multiplier": 0.1,
+        "modified": false,
+        "task_id": 163,
+        "objective_id": 594
+    },
+    {
+        "id": 602,
+        "multiplier": 0.45,
+        "modified": false,
+        "task_id": 163,
+        "objective_id": 595
+    },
+    {
+        "id": 603,
+        "multiplier": 0.57,
+        "modified": false,
+        "task_id": 163,
+        "objective_id": 596
+    },
+    {
+        "id": 604,
+        "multiplier": 0.34,
+        "modified": false,
+        "task_id": 163,
+        "objective_id": 597
+    },
+    {
+        "id": 605,
+        "multiplier": 0.08,
+        "modified": false,
+        "task_id": 164,
+        "objective_id": 598
+    },
+    {
+        "id": 606,
+        "multiplier": 0.97,
+        "modified": false,
+        "task_id": 164,
+        "objective_id": 599
+    },
+    {
+        "id": 607,
+        "multiplier": 0.03,
+        "modified": false,
+        "task_id": 164,
+        "objective_id": 600
+    },
+    {
+        "id": 608,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 164,
+        "objective_id": 601
+    },
+    {
+        "id": 609,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 165,
+        "objective_id": 602
+    },
+    {
+        "id": 610,
+        "multiplier": 0.95,
+        "modified": false,
+        "task_id": 165,
+        "objective_id": 603
+    },
+    {
+        "id": 611,
+        "multiplier": 0.98,
+        "modified": false,
+        "task_id": 165,
+        "objective_id": 604
+    },
+    {
+        "id": 612,
+        "multiplier": 0.45,
+        "modified": false,
+        "task_id": 165,
+        "objective_id": 605
+    },
+    {
+        "id": 613,
+        "multiplier": 0.45,
+        "modified": false,
+        "task_id": 166,
+        "objective_id": 606
+    },
+    {
+        "id": 614,
+        "multiplier": 0.97,
+        "modified": false,
+        "task_id": 166,
+        "objective_id": 607
+    },
+    {
+        "id": 615,
+        "multiplier": 0.35,
+        "modified": false,
+        "task_id": 166,
+        "objective_id": 608
+    },
+    {
+        "id": 616,
+        "multiplier": 0.69,
+        "modified": false,
+        "task_id": 166,
+        "objective_id": 609
+    },
+    {
+        "id": 617,
+        "multiplier": 0.91,
+        "modified": false,
+        "task_id": 167,
+        "objective_id": 610
+    },
+    {
+        "id": 618,
+        "multiplier": 0.93,
+        "modified": false,
+        "task_id": 167,
+        "objective_id": 611
+    },
+    {
+        "id": 619,
+        "multiplier": 0.77,
+        "modified": false,
+        "task_id": 167,
+        "objective_id": 612
+    },
+    {
+        "id": 620,
+        "multiplier": 0.62,
+        "modified": false,
+        "task_id": 167,
+        "objective_id": 613
+    },
+    {
+        "id": 621,
+        "multiplier": 0.7,
+        "modified": false,
+        "task_id": 168,
+        "objective_id": 614
+    },
+    {
+        "id": 622,
+        "multiplier": 0.13,
+        "modified": false,
+        "task_id": 168,
+        "objective_id": 615
+    },
+    {
+        "id": 623,
+        "multiplier": 0.8,
+        "modified": false,
+        "task_id": 168,
+        "objective_id": 616
+    },
+    {
+        "id": 624,
+        "multiplier": 0.72,
+        "modified": false,
+        "task_id": 168,
+        "objective_id": 617
+    },
+    {
+        "id": 625,
+        "multiplier": 0.76,
+        "modified": false,
+        "task_id": 169,
+        "objective_id": 618
+    },
+    {
+        "id": 626,
+        "multiplier": 0.68,
+        "modified": false,
+        "task_id": 169,
+        "objective_id": 619
+    },
+    {
+        "id": 627,
+        "multiplier": 0.34,
+        "modified": false,
+        "task_id": 169,
+        "objective_id": 620
+    },
+    {
+        "id": 628,
+        "multiplier": 0.05,
+        "modified": false,
+        "task_id": 169,
+        "objective_id": 621
+    },
+    {
+        "id": 629,
+        "multiplier": 0.75,
+        "modified": false,
+        "task_id": 170,
+        "objective_id": 622
+    },
+    {
+        "id": 630,
+        "multiplier": 0.51,
+        "modified": false,
+        "task_id": 170,
+        "objective_id": 623
+    },
+    {
+        "id": 631,
+        "multiplier": 0.43,
+        "modified": false,
+        "task_id": 170,
+        "objective_id": 624
+    },
+    {
+        "id": 632,
+        "multiplier": 0.91,
+        "modified": false,
+        "task_id": 170,
+        "objective_id": 625
+    },
+    {
+        "id": 633,
+        "multiplier": 0.87,
+        "modified": false,
+        "task_id": 171,
+        "objective_id": 626
+    },
+    {
+        "id": 634,
+        "multiplier": 0.03,
+        "modified": false,
+        "task_id": 171,
+        "objective_id": 627
+    },
+    {
+        "id": 635,
+        "multiplier": 0.12,
+        "modified": false,
+        "task_id": 171,
+        "objective_id": 628
+    },
+    {
+        "id": 636,
+        "multiplier": 0.49,
+        "modified": false,
+        "task_id": 171,
+        "objective_id": 629
+    },
+    {
+        "id": 637,
+        "multiplier": 0.59,
+        "modified": false,
+        "task_id": 172,
+        "objective_id": 630
+    },
+    {
+        "id": 638,
+        "multiplier": 0.6,
+        "modified": false,
+        "task_id": 172,
+        "objective_id": 631
+    },
+    {
+        "id": 639,
+        "multiplier": 0.59,
+        "modified": false,
+        "task_id": 172,
+        "objective_id": 632
+    },
+    {
+        "id": 640,
+        "multiplier": 0.41,
+        "modified": false,
+        "task_id": 172,
+        "objective_id": 554
+    }
+]

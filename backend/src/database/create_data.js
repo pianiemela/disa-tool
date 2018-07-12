@@ -4,10 +4,13 @@ const skillLevels = require('./seeds/skill_levels.json')
 const courses = require('./seeds/courses.json')
 const courseInstances = require('./seeds/course_instances.json')
 const objectives = require('./seeds/objectives.json')
+const newObjectives = require('./seeds/objectives_new.json')
 const persons = require('./seeds/persons.json')
 const coursePersons = require('./seeds/course_persons.json')
 const tasks = require('./seeds/tasks.json')
+const newTasks = require('./seeds/tasks_new.json')
 const taskResponses = require('./seeds/task_responses.json')
+const taskObjectives = require('./seeds/task_objectives.json')
 const { Task,
   TaskType,
   Category,
@@ -34,13 +37,16 @@ const createPersons = () => Person.bulkCreate(persons)
 
 const createCourseInstances = () => CourseInstance.bulkCreate(courseInstances)
 
-const createObjectives = () => Objective.bulkCreate(objectives)
+const createObjectives = () => Objective.bulkCreate(newObjectives)
 
 const createCoursePersons = () => CoursePerson.bulkCreate(coursePersons)
 
-const createTasks = () => Task.bulkCreate(tasks)
+const createTasks = () => Task.bulkCreate(newTasks)
+
+const createTaskObjectives = () => TaskObjective.bulkCreate(taskObjectives)
 
 const createTaskResponses = () => TaskResponse.bulkCreate(taskResponses)
+
 
 const run = async () => {
   await sequelize.sync({ force: true })
@@ -61,9 +67,10 @@ const run = async () => {
   console.log('objectives created')
   await createTasks()
   console.log('tasks created')
+  await createTaskObjectives()
+  console.log(`task objectives created`)
   await createTaskResponses()
   console.log('task responses created')
-
   console.log('ALL DONE')
 }
 
