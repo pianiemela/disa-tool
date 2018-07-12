@@ -5,12 +5,12 @@ const courses = require('./seeds/courses.json')
 const courseInstances = require('./seeds/course_instances.json')
 const objectives = require('./seeds/objectives.json')
 const newObjectives = require('./seeds/objectives_new.json')
-const persons = require('./seeds/persons.json')
-const coursePersons = require('./seeds/course_persons.json')
-const tasks = require('./seeds/tasks.json')
+// const persons = require('./seeds/persons.json')
+// const coursePersons = require('./seeds/course_persons.json')
+// const tasks = require('./seeds/tasks.json')
 const newTasks = require('./seeds/tasks_new.json')
 const taskResponses = require('./seeds/task_responses.json')
-const taskObjectives = require('./seeds/task_objectives.json')
+// const taskObjectives = require('./seeds/task_objectives.json')
 const { Task,
   TaskType,
   Category,
@@ -26,6 +26,18 @@ const { Task,
   TaskResponse,
   AssessmentResponse } = require('./models.js')
 
+const {
+  getStudentsAndTeachers,
+  getCoursePersons,
+  getCourseTasks,
+  getTaskObjectives
+} = require('./seeds/fakerData')
+
+
+const persons = getStudentsAndTeachers()
+const coursePersons = getCoursePersons(persons)
+const tasks = getCourseTasks()
+const taskObjectives = getTaskObjectives(tasks, newObjectives)
 
 const createCategories = () => Category.bulkCreate(categories)
 
@@ -41,7 +53,7 @@ const createObjectives = () => Objective.bulkCreate(newObjectives)
 
 const createCoursePersons = () => CoursePerson.bulkCreate(coursePersons)
 
-const createTasks = () => Task.bulkCreate(newTasks)
+const createTasks = () => Task.bulkCreate(tasks)
 
 const createTaskObjectives = () => TaskObjective.bulkCreate(taskObjectives)
 
