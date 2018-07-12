@@ -27,7 +27,8 @@ const Type = sequelize.define('type', {
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
-  multiplier: { type: Sequelize.DOUBLE }
+  multiplier: { type: Sequelize.DOUBLE },
+  course_instance_id: { type: Sequelize.BIGINT }
 },
 {
   tableName: 'type',
@@ -294,6 +295,9 @@ Person.hasMany(AssessmentResponse, { foreignKey: 'person_id', targetKey: 'id' })
 SelfAssessment.hasMany(AssessmentResponse, { foreignKey: 'self_assessment_id', targetKey: 'id' })
 AssessmentResponse.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
 AssessmentResponse.belongsTo(SelfAssessment, { foreignKey: 'self_assessment_id', targetKey: 'id' })
+
+CourseInstance.hasMany(Type, { foreignKey: 'course_instance_id', targetKey: 'id' })
+Type.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
 module.exports = {
   Task,
