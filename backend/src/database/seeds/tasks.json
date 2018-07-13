@@ -1,6 +1,5 @@
 [
     {
-        "id": 5,
         "eng_name": "Tehtävä 1. (Tee voltti)",
         "fin_name": "Tehtävä 1. (Tee voltti)",
         "swe_name": "Tehtävä 1. (Tee voltti)",
@@ -20,11 +19,9 @@
         "swe_description": "Jasminilla on taikamatto, jota voi ohjata vektorien (0,1,-3) sekä (-4,2,2) suuntaisesti eteen- tai taaksepäin. Jasmin lähtee Bagdadista, jonka koordinaatit ovat (0,0,0). Hän haluaa matkustaa naapurikaupunkiin, jonka koordinaatit ovat (8,-2,-10). Onnistuuko matka Jasminin taikamatolla? Ratkaisu: Kyllä, matka onnistuu. Huomaamme, että jos Jasmin kulkee Bagdadista kaksi kertaa vektorin (0,1,-3) verran ja sitten peruuttaa kaksi kertaa vektorin (-4,2,2) verran, hän päätyy naapurikaupunkiin, eli pisteeseen (8,-2,-10).",
         "max_points": 1,
         "info": "http://www.mv.helsinki.fi/jramo/lm1s17/Harjoitukset/harj01_lm1_s17.html",
-        "course_instance_id": 1,
-        "id": 1
+        "course_instance_id": 1
     },
     {
-        "id": 2,
         "eng_name": "Pääseekö laudalla kahvilaan",
         "fin_name": "Pääseekö laudalla kahvilaan",
         "swe_name": "Pääseekö laudalla kahvilaan",
@@ -36,7 +33,6 @@
         "course_instance_id": 1
     },
     {
-        "id": 3,
         "eng_name": "Piirrä kolmio",
         "fin_name": "Piirrä kolmio",
         "swe_name": "Piirrä kolmio",
@@ -48,7 +44,6 @@
         "course_instance_id": 1
     },
     {
-        "id": 4,
         "eng_name": "Matriisikertolasku ruokakaupassa",
         "fin_name": "Matriisikertolasku ruokakaupassa",
         "swe_name": "Matriisikertolasku ruokakaupassa",

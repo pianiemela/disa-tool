@@ -1,53 +1,44 @@
 [{
-    "id": 1,
     "eng_name": "Yhtälöryhmät",
     "fin_name": "Yhtälöryhmät",
     "swe_name": "Yhtälöryhmät"
 },
 {
-    "id": 2,
     "eng_name": "Vektoriavaruudet",
     "fin_name": "Vektoriavaruudet",
     "swe_name": "Vektoriavaruudet"
 },
 {
-    "id": 3,
     "eng_name": "Virittäminen ja vapaus",
     "fin_name": "Virittäminen ja vapaus",
     "swe_name": "Virittäminen ja vapaus"
 },
 {
-    "id": 4,
     "eng_name": "Matriisit",
     "fin_name": "Matriisit",
     "swe_name": "Matriisit"
 },
 {
-    "id": 5,
     "eng_name": "Geometria",
     "fin_name": "Geometria",
     "swe_name": "Geometria"
 },
 {
-    "id": 6,
     "eng_name": "Matlab-tyyppisen ohjelman käyttäminen",
     "fin_name": "Matlab-tyyppisen ohjelman käyttäminen",
     "swe_name": "Matlab-tyyppisen ohjelman käyttäminen"
 },
 {
-    "id": 7,
     "eng_name": "Matematiikan lukeminen ja kirjoittaminen",
     "fin_name": "Matematiikan lukeminen ja kirjoittaminen",
     "swe_name": "Matematiikan lukeminen ja kirjoittaminen"
 },
 {
-    "id": 8,
     "eng_name": "Matemaattinen keskustelu",
     "fin_name": "Matemaattinen keskustelu",
     "swe_name": "Matemaattinen keskustelu"
 },
 {
-    "id": 9,
     "eng_name": "Palautteen antaminen ja vastaanottaminen",
     "fin_name": "Palautteen antaminen ja vastaanottaminen",
     "swe_name": "Palautteen antaminen ja vastaanottaminen"
