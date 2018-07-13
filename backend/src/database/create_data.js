@@ -68,7 +68,7 @@ const run = async () => {
   const createdPersons = await createPersons(getStudentsAndTeachers())
   console.log('persons created')
   const createdCourseInstances = await createCourseInstances()
-  console.log('course instances created') 
+  console.log('course instances created')
   const createdCoursePersons = await createCoursePersons(getCoursePersons(createdPersons, createdCourseInstances))
   console.log('coursePersons created')
   const createdObjectives = await createObjectives()
