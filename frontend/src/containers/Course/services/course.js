@@ -1,3 +1,5 @@
+import { getJson } from '../../../utils/utils'
+
 export const hardCodedTasks = [
   {
     id: 1,
@@ -606,25 +608,10 @@ export const hardCodedCourse = {
   name: 'Lineaarialgebra ja matriisilaskenta I'
 }
 
-export const getCourseData = (data) => {
-  const response = {
-    message: '<getDataForCourseSuccess>',
-    data: {
-      course: {
-        ...hardCodedCourse,
-        id: data.courseId
-      },
-      tasks: [...hardCodedTasks],
-      categories: [...hardCodedCategories],
-      types: [...hardCodedTypes],
-      levels: [...hardCodedLevels]
-    }
-  }
-  const action = {
-    type: 'COURSE_GET_DATA',
-    response
-  }
-  return new Promise((resolve) => {
-    setTimeout(resolve, 100, action)
-  })
-}
+export const getCourseData = data => new Promise((resolve) => {
+  getJson(`/course-instances/data/${data.courseId}`).then(response =>
+    resolve({
+      type: 'COURSE_GET_DATA',
+      response: response.data
+    }))
+})

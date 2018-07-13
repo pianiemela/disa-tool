@@ -14,3 +14,20 @@ const EnzymeAdapter = require('enzyme-adapter-react-16')
 
 // This sets up the adapter to be used by Enzyme
 Enzyme.configure({ adapter: new EnzymeAdapter() })
+
+const localStorageMock = () => {
+  let store = {}
+  return {
+    getItem: key => store[key],
+    setItem: (key, value) => {
+      store[key] = value.toString()
+    },
+    clear: () => {
+      store = {}
+    },
+    removeItem: (key) => {
+      delete store[key]
+    }
+  }
+}
+Object.defineProperty(window, 'localStorage', { value: localStorageMock() })

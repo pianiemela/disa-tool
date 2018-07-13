@@ -4,7 +4,10 @@ const courseInstanceService = require('../services/course_instance_service.js')
 
 router.get('/data/:courseInstanceId', async (req, res) => {
   const data = await courseInstanceService.getCourseInstanceData(req.params.courseInstanceId, 'fin')
-  res.status(200).send(data)
+  res.status(200).json({
+    message: '<getDataForCourseSuccess>',
+    data
+  })
 })
 
 module.exports = router
