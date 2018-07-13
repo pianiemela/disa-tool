@@ -4,7 +4,7 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
   const name = [`${lang}_name`, 'name']
   const description = [`${lang}_description`, 'description']
 
-  const value = (await CourseInstance.findOne({
+  let value = (await CourseInstance.findOne({
     where: {
       id: courseInstanceId
     },
@@ -51,7 +51,23 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
     ]
   })).toJSON()
 
-  return mapCourse(mapObjectives(value))
+  value = mapCourse(value)
+  value = mapObjectives(value)
+  value = mapTaskObjectives(value)
+  return value
+}
+
+const mapTaskObjectives = (value) => {
+  const returnValue = { ...value }
+  returnValue.tasks = returnValue.tasks.map(task => ({
+    ...task,
+    objectives: task.objectives.map((objective) => {
+      const returnObjective = { ...objective, multiplier: objective.task_objective.multiplier }
+      delete returnObjective.task_objective
+      return returnObjective
+    })
+  }))
+  return returnValue
 }
 
 const mapCourse = (value) => {
