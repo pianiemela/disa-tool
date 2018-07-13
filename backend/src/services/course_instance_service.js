@@ -1,4 +1,4 @@
-const { CourseInstance, Objective, Category, Task, SkillLevel, Type } = require('../database/models.js')
+const { CourseInstance, Objective, Category, Task, SkillLevel, Type, TaskObjective, TaskType } = require('../database/models.js')
 
 const getCourseInstanceData = async (courseInstanceId, lang) => {
   const name = [`${lang}_name`, 'name']
@@ -29,17 +29,21 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
         attributes: ['id', name, 'info', description],
         include: [
           {
-            model: Objective,
-            attributes: ['id', name],
-            through: {
-              attributes: ['multiplier']
+            model: TaskObjective,
+            attributes: ['task_id', 'multiplier'],
+            separate: true,
+            include: {
+              model: Objective,
+              attributes: ['id', name]
             }
           },
           {
-            model: Type,
-            attributes: ['id', name],
-            through: {
-              attributes: []
+            model: TaskType,
+            attributes: ['task_id'],
+            separate: true,
+            include: {
+              model: Type,
+              attributes: ['id', name]
             }
           }
         ]
@@ -53,19 +57,21 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
 
   value = mapCourse(value)
   value = mapObjectives(value)
-  value = mapTaskObjectives(value)
+  value = mapTasks(value)
   return value
 }
 
-const mapTaskObjectives = (value) => {
+const mapTasks = (value) => {
   const returnValue = { ...value }
   returnValue.tasks = returnValue.tasks.map(task => ({
     ...task,
-    objectives: task.objectives.map((objective) => {
-      const returnObjective = { ...objective, multiplier: objective.task_objective.multiplier }
-      delete returnObjective.task_objective
-      return returnObjective
-    })
+    objectives: task.task_objectives.map(taskObjective => ({
+      ...taskObjective.objective,
+      multiplier: taskObjective.multiplier
+    })),
+    task_objectives: undefined,
+    types: task.task_types.map(taskType => taskType.type),
+    task_types: undefined
   }))
   return returnValue
 }

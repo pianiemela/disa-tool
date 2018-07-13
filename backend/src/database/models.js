@@ -244,6 +244,11 @@ const AssessmentResponse = sequelize.define('assessment_response', {
 
 Task.belongsToMany(Type, { through: TaskType })
 Type.belongsToMany(Task, { through: TaskType })
+// Redundancy here affords us flexibility in using joins or subqueries.
+Task.hasMany(TaskType, { foreignKey: 'task_id', targetKey: 'id' })
+Type.hasMany(TaskType, { foreignKey: 'type_id', targetKey: 'id' })
+TaskType.belongsTo(Task, { foreignKey: 'task_id', targetKey: 'id' })
+TaskType.belongsTo(Type, { foreignKey: 'type_id', targetKey: 'id' })
 
 CourseInstance.hasMany(Task, { foreignKey: 'course_instance_id', targetKey: 'id' })
 Task.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
@@ -253,6 +258,12 @@ Objective.belongsTo(Category, { foreignKey: 'category_id', targetKey: 'id' })
 
 Task.belongsToMany(Objective, { through: TaskObjective })
 Objective.belongsToMany(Task, { through: TaskObjective })
+// Redundancy here affords us flexibility in using joins or subqueries.
+Task.hasMany(TaskObjective, { foreignKey: 'task_id', targetKey: 'id' })
+Objective.hasMany(TaskObjective, { foreignKey: 'objective_id', targetKey: 'id' })
+TaskObjective.belongsTo(Task, { foreignKey: 'task_id', targetKey: 'id' })
+TaskObjective.belongsTo(Objective, { foreignKey: 'objective_id', targetKey: 'id' })
+
 
 SkillLevel.hasMany(Objective, { foreignKey: 'skill_level_id', targetKey: 'id' })
 Objective.belongsTo(SkillLevel, { foreignKey: 'skill_level_id', targetKey: 'id' })
