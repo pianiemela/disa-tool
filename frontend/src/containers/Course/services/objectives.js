@@ -1,3 +1,5 @@
+import { deleteCall } from '../../../utils/utils'
+
 export const addObjective = (data) => {
   const response = {
     message: '<addCObjectiveSuccess>',
@@ -15,18 +17,9 @@ export const addObjective = (data) => {
   })
 }
 
-export const removeObjective = (data) => {
-  const response = {
-    message: '<removeObjectiveSuccess>',
-    data: {
-      id: data.id
-    }
-  }
-  const action = {
+export const removeObjective = data => new Promise((resolve) => {
+  deleteCall(`/objectives/${data.id}`).then(response => resolve({
     type: 'OBJECTIVE_DELETE',
     response
-  }
-  return new Promise((resolve) => {
-    setTimeout(resolve, 100, action)
-  })
-}
+  }))
+})

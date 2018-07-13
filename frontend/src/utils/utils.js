@@ -52,3 +52,13 @@ export const postJson = (path, data) => axios.post(`${BASE_PATH}${path}`, data, 
     'x-access-token': getToken()
   }
 })
+
+export const deleteCall = path => axios.delete(`${BASE_PATH}${path}`, {
+  headers: {
+    credentials: 'same-origin',
+    'x-access-token': getToken()
+  },
+  params: {
+    lang: getLanguage()
+  }
+})
