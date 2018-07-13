@@ -5,6 +5,16 @@ const create = async (data) => {
   return value
 }
 
+const deleteObjective = async (id) => {
+  const value = await Objective.destroy({
+    where: {
+      id
+    }
+  })
+  return value
+}
+
 module.exports = {
-  create
+  create,
+  delete: deleteObjective
 }
