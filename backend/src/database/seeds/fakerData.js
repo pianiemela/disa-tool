@@ -137,8 +137,29 @@ const getTypes = (courseInstances) => {
       multiplier += increment
       taskId++
     }
+
+    taskId++
+    const sarja = "ABC"
+    const prefix = "Sarja "
+    let sarjaMultiplier = 0.2
+    for (let i = 0; i < 3; i++) {
+      types.push({
+        id: taskId,
+        eng_header: null,
+        fin_header: null,
+        swe_header: null,
+        eng_name: prefix + sarja.charAt(i),
+        swe_name: prefix + sarja.charAt(i),
+        fin_name: prefix + sarja.charAt(i),
+        multiplier: Math.round(sarjaMultiplier * 100) / 100,
+        course_instance_id: element.id
+      })
+      sarjaMultiplier += increment
+      taskId++
+    }
   }
   return types
+
 }
 
 
