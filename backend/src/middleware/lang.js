@@ -12,6 +12,7 @@ const validateLang = (req) => {
   return 'fin'
 }
 
-module.exports = {
-  validateLang
+module.exports = (req, res, next) => {
+  req.lang = validateLang(req)
+  next()
 }

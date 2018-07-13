@@ -1,5 +1,4 @@
 const router = require('express').Router()
-const { validateLang } = require('../middleware/validate.js')
 const { checkAuth } = require('../services/auth')
 
 router.get('/user', async (req, res) => {

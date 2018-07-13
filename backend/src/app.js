@@ -3,11 +3,15 @@ const express = require('express')
 
 const routes = require('./routes.js')
 
+const lang = require('./middleware/lang.js')
+
 const PORT = 8000
 const app = express()
 
 // app.use(cors())
 app.use(express.json())
+
+app.use(lang)
 
 routes(app)
 
