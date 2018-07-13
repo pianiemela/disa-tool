@@ -23,7 +23,9 @@ testService({
       courseId: 1,
       id: 15
     }
-  }
+  },
+  apiRoute: '/api/objectives/create',
+  apiMethod: 'post'
 })
 
 testService({
