@@ -29,7 +29,7 @@ const getTaskObjectives = (tasks, objectives) => {
 
 
         if (courseObjectives[taskIndex].course_instance_id !== obj.course_instance_id) {
-          console.log('CANT HAVE DIFFERENT COURSSE INSTANCES FOR OBJECTS AND TASK')
+          console.log('CANT HAVE DIFFERENT COURSE INSTANCES FOR OBJECTS AND TASK')
           break
         }
         taskIndex++
@@ -113,9 +113,39 @@ const getCoursePersons = (persons) => {
   return coursePersons
 }
 
+const getTypes = (courseInstances) => {
+  const types = []
+  let multiplier = 0.1
+  const increment = 0.15
+  let taskId = 1
+  for (let i = 0; i < courseInstances.length; i++) {
+    const element = courseInstances[i]
+    multiplier = 0.1
+    for (let i = 0; i < 7; i++) {
+      const week = `Viikko ${i + 1}`
+      types.push({
+        id: taskId,
+        eng_header: null,
+        fin_header: null,
+        swe_header: null,
+        eng_name: week,
+        swe_name: week,
+        fin_name: week,
+        multiplier: Math.round(multiplier * 100) / 100,
+        course_instance_id: element.id
+      })
+      multiplier += increment
+      taskId++
+    }
+  }
+  return types
+}
+
+
 module.exports = {
   getStudentsAndTeachers,
   getCoursePersons,
   getCourseTasks,
-  getTaskObjectives
+  getTaskObjectives,
+  getTypes
 }
