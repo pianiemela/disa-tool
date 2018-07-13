@@ -24,6 +24,9 @@ export const findText = (text, wrapper) => {
  */
 export const testService = (options) => {
   const { func, data, mockResponse, type, apiRoute, apiMethod = 'get', mockStatus = 200 } = options
+  if (apiRoute === undefined) {
+    console.warn('apiRoute was undefined. All routes will be considered valid and pass tests.')
+  }
   const apiMock = new MockAdapter(axios)
   switch (apiMethod) {
     case 'get':

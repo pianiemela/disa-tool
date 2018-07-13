@@ -626,5 +626,6 @@ testService({
       levels: hardCodedLevels
     },
     message: '<getDataForCourseSuccess>'
-  }
+  },
+  apiRoute: '/api/course-instances/data/1'
 })
