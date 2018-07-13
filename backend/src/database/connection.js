@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const conf = require('../../conf-backend.js')
+require('pg').defaults.parseInt8 = true
 
 require('pg').defaults.parseInt8 = true
 
