@@ -20,6 +20,6 @@ export const addObjective = (data) => {
 export const removeObjective = data => new Promise((resolve) => {
   deleteCall(`/objectives/${data.id}`).then(response => resolve({
     type: 'OBJECTIVE_DELETE',
-    response
+    response: response.data
   }))
 })

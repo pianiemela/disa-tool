@@ -34,8 +34,8 @@ testService({
   },
   mockResponse: {
     message: '<removeObjectiveSuccess>',
-    data: {
-      id: 1
-    }
-  }
+    deleted: 1
+  },
+  apiRoute: '/api/objectives/1',
+  apiMethod: 'delete'
 })
