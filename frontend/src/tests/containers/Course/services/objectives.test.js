@@ -8,21 +8,12 @@ testService({
     eng_name: 'doot',
     fin_name: 'dööt',
     sve_name: 'dååt',
-    skillLevelId: 3,
-    categoryId: 7,
-    courseId: 1
+    skill_level_id: 3,
+    category_id: 7,
+    course_instance_id: 1
   },
   mockResponse: {
-    message: '<addCObjectiveSuccess>',
-    data: {
-      eng_name: 'doot',
-      fin_name: 'dööt',
-      sve_name: 'dååt',
-      skillLevelId: 3,
-      categoryId: 7,
-      courseId: 1,
-      id: 15
-    }
+    message: '<addObjectiveSuccess>'
   },
   apiRoute: '/api/objectives/create',
   apiMethod: 'post'

@@ -18,7 +18,7 @@ export const findText = (text, wrapper) => {
  *  mockResponse,
  *  type,
  *  apiRoute,
- *  apiMethod (default get),
+ *  apiMethod (default 'get'),
  *  mockStatus (default 200)
  * }
  */
@@ -26,23 +26,6 @@ export const testService = (options) => {
   const { func, data, mockResponse, type, apiRoute, apiMethod = 'get', mockStatus = 200 } = options
   if (apiRoute === undefined) {
     console.warn('apiRoute was undefined. All routes will be considered valid and pass tests.')
-  }
-  const apiMock = new MockAdapter(axios)
-  switch (apiMethod) {
-    case 'get':
-      apiMock.onGet(apiRoute).reply(mockStatus, mockResponse)
-      break
-    case 'post':
-      apiMock.onPost(apiRoute).reply(mockStatus, mockResponse)
-      break
-    case 'put':
-      apiMock.onPut(apiRoute).reply(mockStatus, mockResponse)
-      break
-    case 'delete':
-      apiMock.onDelete(apiRoute).reply(mockStatus, mockResponse)
-      break
-    default:
-      console.warn('apiMethod was invalid, no api mock created.')
   }
 
   describe(`${func.name} func`, () => {
@@ -53,10 +36,32 @@ export const testService = (options) => {
     describe('dispatch', () => {
       let dispatch
       let withDispatch
+      let apiMock
 
       beforeEach(() => {
+        apiMock = new MockAdapter(axios)
+        switch (apiMethod) {
+          case 'get':
+            apiMock.onGet(apiRoute).reply(mockStatus, mockResponse)
+            break
+          case 'post':
+            apiMock.onPost(apiRoute).reply(mockStatus, mockResponse)
+            break
+          case 'put':
+            apiMock.onPut(apiRoute).reply(mockStatus, mockResponse)
+            break
+          case 'delete':
+            apiMock.onDelete(apiRoute).reply(mockStatus, mockResponse)
+            break
+          default:
+            console.warn('apiMethod was invalid, no api mock created.')
+        }
         dispatch = jest.fn()
         withDispatch = asyncAction(func, dispatch)
+      })
+
+      afterEach(() => {
+        apiMock.reset()
       })
 
       it('is called with correct action.', async () => {

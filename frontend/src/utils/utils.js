@@ -50,6 +50,9 @@ export const postJson = (path, data) => axios.post(`${BASE_PATH}${path}`, data, 
   headers: {
     credentials: 'same-origin',
     'x-access-token': getToken()
+  },
+  params: {
+    lang: getLanguage()
   }
 })
 
