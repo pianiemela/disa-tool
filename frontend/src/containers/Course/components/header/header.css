@@ -1,0 +1,21 @@
+.CourseHeader {
+  width: 100%;
+  text-align: center;
+}
+
+.headerContainer {
+  display: flex;
+  width: 100%;
+}
+
+.headerBlock {
+  display: inline-block;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.editBlock {
+  display: inline-block;
+  flex-grow: 0;
+  margin-right: 100px;
+}

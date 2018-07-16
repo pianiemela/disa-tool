@@ -1,90 +1,112 @@
-import React, { Component } from 'react'
-import { CategoryFormAccordion } from './CategoryFormAccordion';
-import { ObjectiveFormAccordion } from './ObjectiveFormAccordion'
-import { Accordion, TransitionablePortaln, Icon, Button } from 'semantic-ui-react'
-import asyncAction from '../../../utils/asyncAction'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Grid } from 'semantic-ui-react'
+import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
+import asyncAction from '../../../utils/asyncAction'
 
-import { getSelfAssesmentData } from '../services/createForm'
+import { getAllSelfAssesments } from '../services/selfAssesment'
+import { createFormJSONStucture } from '../reducers/createFormReducer'
+import CategorySelection from './CategorySelection'
+import DropDownSelection from './DropDownSelection'
 
-
-export class SelfAssesmentCreateForm extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { active: [], selectedView: '' }
+class SelfAssesmentCreateForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      active: [],
+      selectedView: '',
+      dropDownValue: ''
     }
+  }
 
-    componentWillMount() {
-        this.props.getSelfAssesmentData()
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps
+    let { active } = this.state
+    const opened = active.includes(index)
+      ? (active = active.filter(i => i !== index))
+      : active.concat(index)
+    this.setState({ active: opened })
+  }
+
+  handleDropdownChange = (e, { value }) => {
+    this.setState({ dropDownValue: value })
+  }
+
+  sendFormId = () => {
+    this.props.createForm(this.state.dropDownValue, this.state.selectedView)
+  }
+
+  toggleButton = (e) => {
+    const { value } = e.target
+    this.setState({ selectedView: value })
+  }
+
+  renderCreateOrDraft = () => {
+    const { selectedView, formData } = this.state
+    const { dropDownCourse, dropdownAssesments } = this.props
+    if (!this.state.created) {
+      return (
+        <Grid columns={2} divided>
+          <Grid.Row>
+            <Grid.Column>
+              <DropDownSelection
+                options={dropDownCourse}
+                placeholder="Valitse kurssi"
+                handleChange={this.handleDropdownChange}
+              />
+
+              <CategorySelection
+                selectedView={selectedView}
+                category="category"
+                objectives="objectives"
+                toggleButton={this.toggleButton}
+                sendFormId={this.sendFormId}
+              />
+
+            </Grid.Column>
+            <Grid.Column>
+              <DropDownSelection
+                options={[]}
+                placeholder="Valitse muokattava itsearviointi"
+                submitButton
+                label="Muokkaa"
+                onSubmit={this.changeEditValue}
+              />
+
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      )
     }
+    return (<SelfAssesmentForm
+      handleChange={this.handleFormChange}
+      edit
+      created
+      formData={formData}
+    />)
+  }
 
-    handleClick = (e, titleProps) => {
-        const { index } = titleProps
-        let { active } = this.state
-        const opened = active.includes(index) ? active = active.filter(i => i !== index) : active.concat(index)
-        this.setState({ active: opened })
-    }
-
-    toggleButton = (e) => {
-        const { value } = e.target
-        this.setState({ selectedView: value })
-    }
-
-    renderCategoryForm = () => {
-        {
-            let course_instance_objectives = []
-            this.props.formData.courseInstance ? { course_instance_objectives } = this.props.formData.courseInstance
-                : course_instance_objectives = []
-            const { active, selectedView } = this.state
-            return course_instance_objectives.map(ciO =>
-                <CategoryFormAccordion key={ciO.id} active={active.includes(ciO.id)} handleClick={this.handleClick} props={ciO} />
-            )
-        }
-    }
-
-    renderObjectiveform = () => {
-        let course_instance_objectives = []
-        this.props.formData.courseInstance ? { course_instance_objectives } = this.props.formData.courseInstance
-            : course_instance_objectives = []
-        const { active, selectedView } = this.state
-
-        return course_instance_objectives.map(ciO =>
-            <ObjectiveFormAccordion key={ciO.id} active={active.includes(ciO.id)} handleClick={this.handleClick} props={ciO} />
-        )
-    }
-
-    render() {
-
-        const { selectedView } = this.state
-        const category = 'category'
-        const objectives = 'objectives'
-
-        return (
-            <div>
-                <Button value={category} active={category === selectedView} toggle onClick={this.toggleButton}>Näytä itsearviolomake kategorioiden pohjalta</Button>
-                <Button value={objectives} active={objectives === selectedView} toggle onClick={this.toggleButton}>Näytä itsearviolomake tavoitteiden pohjalta</Button>
-                <Accordion styled exclusive={false} >
-                    {selectedView === 'category' ?
-                        this.renderCategoryForm() :
-                        this.renderObjectiveform()}
-                </Accordion>
-
-            </div>
-        )
-    }
+  render() {
+    return <div>{this.renderCreateOrDraft()}</div>
+  }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        formData: state.createForm.formData
+const mapDispatchToProps = dispatch => (
+  {
+    createFormJSONStucture: createFormJSONStucture(dispatch),
+    getAllSelfAssesments: asyncAction(getAllSelfAssesments, dispatch)
+  }
+)
 
-    }
+SelfAssesmentCreateForm.propTypes = {
+  dropDownCourse: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  dropdownAssesments: PropTypes.arrayOf(PropTypes.shape()),
+  createForm: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getSelfAssesmentData: asyncAction(getSelfAssesmentData, dispatch)
-    }
+SelfAssesmentCreateForm.defaultProps = {
+  dropdownAssesments: []
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentCreateForm)
+export default connect(mapDispatchToProps)(SelfAssesmentCreateForm)

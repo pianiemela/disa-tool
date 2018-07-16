@@ -1,0 +1,21 @@
+.addObjectiveButton {
+  width: 150px;
+  height: 30px;
+}
+
+.textInput {
+  margin-right: 12px;
+}
+
+.MatrixObjective {
+  display: flex;
+}
+
+.objectiveBlock {
+  display: inline-block;
+  flex-grow: 1;
+}
+
+.objectiveBlock > span {
+  margin: auto;
+}

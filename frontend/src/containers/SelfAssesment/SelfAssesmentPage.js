@@ -1,37 +1,89 @@
-import React, { Component } from 'react'
-import { Container, Button } from 'semantic-ui-react'
-import SelfAssesmentForm from './Userform/SelfAssesmentForm'
+import React from 'react'
+import { Container } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
-import { getCourseParts, getSelfAssesmentData } from './services/createForm'
+import { getCourseData } from './services/createForm'
+import SelfAssesmentForm from './Userform/SelfAssesmentForm'
+
+import { initCreateForm } from '../../actions/actions'
+
 export class SelfAssesmentPage extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { courseParts: {}, mockUser: 'ope' }
+  constructor(props) {
+    super(props)
+    this.state = {
+      mockUser: 'ope',
+      created: false
     }
+  }
 
-    componentWillMount() {
-        this.setState({ courseParts: getCourseParts(), courseAssesmentData: getSelfAssesmentData() })
-    }
+  createForm = async (courseId, type) => {
+    const courseData = await getCourseData(courseId)
+    const courseInfo = this.props.courses.find(cd => cd.id === courseId)
+    this.props.dispatchCreateForm({ courseData, type, courseInfo })
+    this.setState({ created: true })
+  }
 
-    renderTeacherView = () => {
-        return<SelfAssesmentCreateForm data={this.state.courseAssesmentData}></SelfAssesmentCreateForm>
-    }
+  renderTeacherView = () => (
+    <SelfAssesmentCreateForm
+      courses={this.props.courses}
+      dropDownCourse={this.props.dropDownOptions}
+      createForm={this.createForm}
+    />
+  )
 
-
-    render() {
-        const { courseParts } = this.state
-        return (
-            <Container>
-                <div>
-                    {this.state.mockUser === 'ope' ?
-                        this.renderTeacherView()
-                        :
-                        <h2>Itsearvio</h2>
-                    }
-                </div>
-            </Container>
-        )
-    }
+  render() {
+    const { formData } = this.props
+    
+    return (
+      <Container>
+        <div>
+          {!this.state.created && this.state.mockUser === 'ope' ?
+            this.renderTeacherView()
+            :
+            <SelfAssesmentForm
+              edit
+              created
+              formData={formData}
+            />
+          }
+        </div>
+      </Container>
+    )
+  }
 }
 
-export default SelfAssesmentPage
+const createOptions = (data) => {
+  const options = []
+  data.map(d =>
+    options.push({ value: d.id, text: d.name }))
+  return options
+}
+const mapStateToProps = state => (
+  {
+    courses: state.courses,
+    selfAssesments: state.selfAssesments,
+    dropDownOptions: createOptions(state.courses),
+    formData: state.selfAssesmentCreate
+  }
+)
+
+const mapDispatchToProps = dispatch => ({
+  dispatchCreateForm: data =>
+    dispatch(initCreateForm(data))
+})
+
+SelfAssesmentForm.defaultProps = {
+  formData: {} || []
+}
+
+SelfAssesmentPage.propTypes = {
+  dropDownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()), PropTypes.shape()]).isRequired,
+  dispatchCreateForm: PropTypes.func.isRequired,
+  courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentPage)

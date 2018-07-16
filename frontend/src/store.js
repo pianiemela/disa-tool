@@ -1,15 +1,31 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import thunk from 'redux-thunk'
 
-import task from './containers/Course/reducers/taskReducer'
-import skill from './containers/Course/reducers/skillReducer'
-import createForm from './containers/SelfAssesment/reducers/createFormReducer'
+import task from './redux/task'
+import objective from './redux/objective'
+import level from './redux/level'
+import category from './redux/category'
+import type from './redux/type'
+import course from './redux/course'
+import selfAssesmentCreate from './redux/selfAssesmentCreate'
+import { userReducer } from './redux/user'
+import { userCoursesReducer } from './redux/userCourses'
 
-const reducer = combineReducers({
+const reducers = combineReducers({
   task,
-  skill,
-  createForm
+  objective,
+  level,
+  category,
+  type,
+  course,
+  selfAssesmentCreate,
+  user: userReducer,
+  courses: userCoursesReducer
 })
 
-const store = createStore(reducer)
+const store = process.env.NODE_ENV === 'development' ?
+  createStore(reducers, composeWithDevTools(applyMiddleware(thunk))) :
+  createStore(reducers, applyMiddleware(thunk))
 
 export default store

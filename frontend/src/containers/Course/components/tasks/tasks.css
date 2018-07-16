@@ -1,25 +1,69 @@
-.taskContainer {
+.Tasklist {
   margin: 0% 10% 0% 10%;
   width: 100%;
   text-align: center;
 }
 
-.task {
+.Task {
   width: 100%;
 }
 
-.skillSlider .numberInput {
+.objectiveSlider .numberInput {
   width: 100px;
 }
 
-.skillSlider .rangeInput {
+.objectiveSlider .rangeInput {
   width: 300px;
 }
 
-.skillDropdown {
+.objectiveDropdown {
   max-width: 500px;
 }
 
-.addSkillForm {
-  margin-bottom: 10px;
+.AddObjectiveForm {
+  margin: 10px;
+}
+
+.TaskObjective {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.TaskObjectivelist {
+  width: 100%;
+  text-align: right;
+}
+
+.DetachObjectiveForm {
+  margin-right: 10px;
+}
+
+.addTaskButton {
+  width: 500px;
+}
+
+.taskUncollapseable {
+  display: flex;
+}
+
+.TaskTypelistContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.TaskType {
+  margin: 0px 10px 0px 10px;
+}
+
+.TaskTypeContainer {
+  display: flex;
+}
+
+.TaskTypeName {
+  font-size: 24px;
+}
+
+.addObjectiveToTaskButton {
+  width: 200px;
 }

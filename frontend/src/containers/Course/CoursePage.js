@@ -1,75 +1,72 @@
 import React, { Component } from 'react'
-import { Grid } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { Grid, Loader } from 'semantic-ui-react'
+import asyncAction from '../../utils/asyncAction'
 
-import Matrix from './components/Matrix'
+import { getCourseData } from './services/course'
+
+import Matrix from './components/matrix/Matrix'
 import Tasklist from './components/tasks/Tasklist'
+import Typelist from './components/types/Typelist'
+import CourseHeader from './components/header/CourseHeader'
 
-const courseParts = {
-  matriisit: { 
-    taso1: ['matriisien yhteenlasku', 'matriisien muodostus'],
-    taso2: ['matriisien kertolasku', 'matriisien pyörittely'],
-    taso3: ['matriiseilla päteminen', 'matriisien heiluttelu', 'matriisien superlasku', 'supreme matriisimestari']
-   },
-  'vektorit ja muut': {
-    taso1: ['vektorien yhteenlasku', 'vektorien muodostus'],
-    taso2: ['vektorien kertolasku', 'pyörittely', 'vektorien 3D piirtely'],
-    taso3: ['vektorien äärimmäinen heiluttelu']
-  }
-}
-
-const skillLevels = ['taso1', 'taso2', 'taso3']
-
-const assessmentForm = {
-  questions: [
-    {
-      question: 'Oletko nyt tyytyväinen?',
-      type: 'radio',
-      options: [1, 2, 3, 4],
-      skills: [0, 1, 2, 3, 4]
-    },
-    {
-      question: 'Kerro vähän tarkemmin',
-      type: 'open',
-      // options: [],
-      skills: [1, 2, 3]
-    }
-  ],
-  instant_feedback: false
-}
-
-const courseTask = {
-  courseInstance: 1,
-  task: 1,
-  available: false
-}
-
-const skill = {
-  name: 'matriisien yhteenlasku',
-
-}
-
-class CoursePage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      editing: false
-    }
+export class CoursePage extends Component {
+  componentWillMount() {
+    this.props.getCourseData({
+      courseId: this.props.courseId
+    })
   }
 
   render() {
+    if (this.props.loading) {
+      return <Loader active />
+    }
     return (
-      <Grid>
-        <Grid.Row>
-          <Grid.Column>
-            <Matrix skillLevels={skillLevels} courseParts={courseParts} />
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Tasklist editing={this.state.editing} />
-        </Grid.Row>
-      </Grid>
+      <div className="CoursePage">
+        <Grid>
+          <Grid.Row>
+            <CourseHeader editing={this.props.editing} courseName={this.props.course.name} />
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Matrix editing={this.props.editing} courseId={this.props.course.id} />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <Typelist editing={this.props.editing} courseId={this.props.course.id} />
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Tasklist editing={this.props.editing} courseId={this.props.course.id} />
+          </Grid.Row>
+        </Grid>
+      </div>
     )
   }
 }
 
-export default CoursePage
+CoursePage.propTypes = {
+  course: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string
+  }).isRequired,
+  getCourseData: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired,
+  loading: PropTypes.bool.isRequired,
+  courseId: PropTypes.number.isRequired
+}
+
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  course: state.course.course,
+  editing: state.course.editing,
+  loading: state.course.loading
+})
+
+const mapDispatchToProps = dispatch => ({
+  getCourseData: asyncAction(getCourseData, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(CoursePage)

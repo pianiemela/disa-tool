@@ -1,45 +1,33 @@
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import './tasks.css'
-import asyncAction from '../../../../utils/asyncAction'
-
-import { getTasksForCourse } from '../../services/tasks'
-import { getSkillsForCourse } from '../../services/skills'
 
 import Task from './Task'
+import AddTaskForm from './AddTaskForm'
 
-class Tasklist extends Component {
-  componentWillMount() {
-    this.props.getTasksForCourse({
-      courseId: 1
-    })
-    this.props.getSkillsForCourse({
-      courseId: 1
-    })
-  }
+export const Tasklist = props => (
+  <div className="Tasklist">
+    {props.tasks.map(task => <Task key={task.id} task={task} editing={props.editing} />)}
+    {props.editing ? (
+      <AddTaskForm courseId={props.courseId} />
+    ) : (
+      <div />
+    )}
+  </div>
+)
 
-  render() {
-    return (
-      <div className="taskContainer">
-        {this.props.tasks.map(task => <Task key={task.name} task={task} skills={this.props.skills} editing={this.props.editing} />)}
-      </div>
-    )
-  }
+Tasklist.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number
+  })).isRequired,
+  editing: PropTypes.bool.isRequired,
+  courseId: PropTypes.number.isRequired
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    ...ownProps,
-    tasks: state.task.tasks,
-    skills: state.skill.skills
-  }
-}
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  tasks: state.task.tasks
+})
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getTasksForCourse: asyncAction(getTasksForCourse, dispatch),
-    getSkillsForCourse: asyncAction(getSkillsForCourse, dispatch)
-    }
-  }
-
-export default connect(mapStateToProps, mapDispatchToProps)(Tasklist)
+export default connect(mapStateToProps, null)(Tasklist)
