@@ -5,7 +5,6 @@ import AddOpenQuestion from '../addOpenQuestion'
 
 const SelfAssesmentSection = (props) => {
   const { final, question, formData, edit, textArea, header, QuestionModule } = props
-  console.log(formData)
   return (
     <div>
       <Card fluid color="red" className="formCard">
@@ -31,8 +30,6 @@ const SelfAssesmentSection = (props) => {
           </Form>
         </Card.Content>
       </Card>
-
-
     </div>
 
   )

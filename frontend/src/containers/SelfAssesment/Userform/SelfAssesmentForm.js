@@ -61,6 +61,7 @@ const SelfAssesmentForm = (props) => {
             edit={edit}
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
+            final
           />
           :
           null
@@ -76,7 +77,6 @@ const SelfAssesmentForm = (props) => {
   const renderEditableForm = () => {
     if (props.edit) {
       const { formData, edit, handleChange } = props
-      console.log(formData)
       return editForm(formData.type, formData.structure, edit, handleChange)
     }
     return null

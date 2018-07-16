@@ -35,7 +35,6 @@ export class SelfAssesmentPage extends React.Component {
 
   render() {
     const { formData } = this.props
-    console.log(formData)
     
     return (
       <Container>
