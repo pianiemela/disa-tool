@@ -6,13 +6,19 @@ const initForm = (payload) => {
   const data = {}
   data.course_instance_id = courseInfo.id
   data.displayCoursename = courseInfo.name
-  data.eng_name = ''
-  data.fin_name = ''
-  data.swe_name = ''
+  data.formInfo = []
+  const { formInfo } = data
 
-  data.eng_instructions = ''
-  data.swe_instructions = ''
-  data.fin_instruction = ''
+  formInfo.push(
+    { id: 1, displayName: 'English name', value: 'Ruottia', type: 'eng_name' },
+    { id: 2, displayName: 'Finnish name', value: 'Soomea', type: 'fin_name' },
+    { id: 3, displayName: 'Swedish name', value: 'Enkalnti', type: 'swe_name' }
+  )
+  formInfo.push(
+    { id: 4, displayName: 'English instructions', value: 'ÖYGHH', type: 'eng_instructions' },
+    { id: 5, displayName: 'Swedish instructions', value: 'ÖYGHH ÖYGHH', type: 'swe_instructions' },
+    { id: 6, displayName: 'Finnish instructions', value: 'ÖYGHH ÖYGHH ÖYGHH', type: 'fin_instruction' }
+  )
 
   data.open = false
   data.active = false
@@ -116,6 +122,17 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
       return { ...state, structure: toChange }
     }
 
+    case 'CHANGE_TEXT_FIELD': {
+      console.log(`WE ARE HERE`)
+      console.log(action.payload)
+      const { type, value } = action.payload
+      let toChange = state.formInfo
+      const changedValue = toChange.find(t =>
+        t.type === type)
+      changedValue.value = value
+      toChange = toChange.map(inst => (inst.type === type ? changedValue : inst))
+      return { ...state, formInfo: toChange }
+    }
     default:
       return state
   }

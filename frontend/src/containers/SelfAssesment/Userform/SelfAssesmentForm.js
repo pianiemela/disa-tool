@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
 import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
-
+import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 
@@ -23,10 +23,17 @@ const SelfAssesmentForm = (props) => {
   )
 
   const editForm = (formData, edit) => {
-    const { structure, type, displayCoursename } = formData
+    const { structure, type, displayCoursename, formInfo } = formData
     return (
       <div>
         <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
+
+        <SelfAssesmentInfo
+          header="Yleistä tietoa itsearvioinnista"
+          textArea={textArea}
+          formData={formInfo}
+        />
+
         {type === 'category' ?
           <SelfAssesmentSection
             header="Kategoriaosio"

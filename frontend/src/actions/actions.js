@@ -85,3 +85,11 @@ export const removeOpenQuestion = id => (dispatch) => {
     payload: id
   })
 }
+
+export const changeTextField = (type, value) => (dispatch) => {
+  dispatch({
+    type: 'CHANGE_TEXT_FIELD',
+    payload: { type, value }
+
+  })
+}
