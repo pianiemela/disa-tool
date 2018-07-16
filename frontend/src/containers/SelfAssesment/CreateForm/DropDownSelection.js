@@ -33,7 +33,7 @@ const DropdownSelection = (props) => {
 DropdownSelection.propTypes = {
   options: PropTypes.arrayOf(PropTypes.shape({
     text: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.number
   })),
   placeholder: PropTypes.string.isRequired,
   submitButton: PropTypes.bool,

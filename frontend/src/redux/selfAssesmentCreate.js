@@ -2,14 +2,30 @@ const INITIAL_STATE = []
 
 
 const initForm = (payload) => {
-  const { courseData, type } = payload
+  const { courseData, type, courseInfo } = payload
   const data = {}
-  data.name = 'Linis'
-  data.type = type
-  data.openQuestions = []
-  const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1).toString()
+  data.course_instance_id = courseInfo.id
+  data.displayCoursename = courseInfo.name
+  data.eng_name = ''
+  data.fin_name = ''
+  data.swe_name = ''
 
-  data.finalGrade = [{
+  data.eng_instructions = ''
+  data.swe_instructions = ''
+  data.fin_instruction = ''
+
+  data.open = false
+  data.active = false
+
+  data.immediate_feedback = {}
+  data.type = type
+  data.structure = {}
+  const { structure } = data
+
+  structure.openQuestions = []
+  const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1)
+
+  structure.finalGrade = [{
     name: 'Anna itsellesi loppuarvosana kurssista',
     eng_name: 'Give yourself a final grade for the course',
     swe_name: 'Låta en final grad till själv, lmao ei näin :D',
@@ -17,17 +33,17 @@ const initForm = (payload) => {
     id
   }]
   if (data.type === 'category') {
-    data.questionModules = []
+    structure.questionModules = []
     courseData.map(ciO =>
-      data.questionModules.push({
+      structure.questionModules.push({
         id: ciO.id,
         name: ciO.name,
         textFieldOn: true
       }))
   } else {
-    data.questionModules = []
+    structure.questionModules = []
     courseData.map(ciO =>
-      data.questionModules.push({
+      structure.questionModules.push({
         id: ciO.id,
         name: ciO.name,
         objectives: ciO.objectives.map(o => ({
@@ -48,13 +64,13 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
     }
     case 'TOGGLE_TEXT_FIELD': {
       const id = action.payload
-      const toChange = state
+      const toChange = state.structure
       toChange.questionModules = toChange.questionModules.map(o =>
         (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
-      return { ...state, questionModules: toChange.questionModules }
+      return { ...state, structure: toChange }
     }
     case 'TOGGLE_DOWN': {
-      const toChange = state
+      const toChange = state.structure
       const id = action.payload
       const a = toChange.questionModules.findIndex(x => x.id === id)
       const b = toChange.questionModules[a]
@@ -62,10 +78,10 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
         toChange.questionModules[a] = toChange.questionModules[a + 1]
         toChange.questionModules[a + 1] = b
       }
-      return { ...state, questionModules: toChange.questionModules }
+      return { ...state, structure: toChange }
     }
     case 'TOGGLE_UP': {
-      const toChange = state
+      const toChange = state.structure
       const id = action.payload
       const a = toChange.questionModules.findIndex(x => x.id === id)
       const b = toChange.questionModules[a]
@@ -74,11 +90,11 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
         toChange.questionModules[a] = toChange.questionModules[a - 1]
         toChange.questionModules[a - 1] = b
       }
-      return { ...state, questionModules: toChange.questionModules }
+      return { ...state, structure: toChange }
     }
     case 'ADD_OPEN_QUESTION': {
       const questionData = action.payload
-      const toChange = state
+      const toChange = state.structure
       if (toChange.openQuestions.length > 0) {
         toChange.openQuestions = toChange.openQuestions.concat({
           id: toChange.openQuestions[toChange.openQuestions.length - 1].id + 1,
@@ -91,13 +107,13 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
           name: questionData
         })
       }
-      return { ...state, openQuestions: toChange.openQuestions }
+      return { ...state, structure: toChange }
     }
     case 'REMOVE_OPEN_QUESTION': {
       const id = action.payload
-      const toChange = state
+      const toChange = state.structure
       toChange.openQuestions = toChange.openQuestions.filter(oQ => oQ.id !== id)
-      return { ...state, openQuestions: toChange.openQuestions }
+      return { ...state, structure: toChange }
     }
 
     default:

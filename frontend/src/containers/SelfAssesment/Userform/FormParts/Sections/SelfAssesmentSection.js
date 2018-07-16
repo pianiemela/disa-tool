@@ -30,8 +30,6 @@ const SelfAssesmentSection = (props) => {
           </Form>
         </Card.Content>
       </Card>
-
-
     </div>
 
   )
