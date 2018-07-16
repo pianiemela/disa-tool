@@ -7,7 +7,7 @@ const messages = {
     success: {
       eng: '"Kurssin data haettu onnistuneesti." englanniksi.',
       fin: 'Kurssin data haettu onnistuneesti.',
-      sve: '"Kurssin data haettu onnistuneesti." ruotsiksi.'
+      swe: '"Kurssin data haettu onnistuneesti." ruotsiksi.'
     }
   }
 }

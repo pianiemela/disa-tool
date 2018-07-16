@@ -14,7 +14,7 @@ export class CreateObjectiveForm extends Component {
       this.props.addObjective({
         eng_name: e.target.eng_name.value,
         fin_name: e.target.fin_name.value,
-        sve_name: e.target.sve_name.value,
+        swe_name: e.target.swe_name.value,
         skill_level_id: this.props.level.id,
         category_id: this.props.category.id,
         course_instance_id: this.props.courseId

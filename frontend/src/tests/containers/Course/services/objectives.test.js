@@ -7,7 +7,7 @@ testService({
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
-    sve_name: 'dååt',
+    swe_name: 'dååt',
     skill_level_id: 3,
     category_id: 7,
     course_instance_id: 1

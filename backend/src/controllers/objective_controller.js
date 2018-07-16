@@ -7,14 +7,14 @@ const messages = {
     success: {
       eng: '"Oppimistavoite luotu onnistuneesti." englanniksi.',
       fin: 'Oppimistavoite luotu onnistuneesti.',
-      sve: '"Oppimistavoite luotu onnistuneesti." ruotsiksi.'
+      swe: '"Oppimistavoite luotu onnistuneesti." ruotsiksi.'
     }
   },
   delete: {
     success: {
       eng: '"Oppimistavoite poistettu onnistuneesti." englanniksi.',
       fin: 'Oppimistavoite poistettu onnistuneesti.',
-      sve: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
+      swe: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
     }
   }
 }
