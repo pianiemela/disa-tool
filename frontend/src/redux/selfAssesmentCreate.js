@@ -23,7 +23,7 @@ const initForm = (payload) => {
   const { structure } = data
 
   structure.openQuestions = []
-  const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1).toString()
+  const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1)
 
   structure.finalGrade = [{
     name: 'Anna itsellesi loppuarvosana kurssista',

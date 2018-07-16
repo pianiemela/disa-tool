@@ -34,7 +34,7 @@ const UpOrDownToggle = (props) => {
 }
 
 UpOrDownToggle.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   dispatchDown: PropTypes.func.isRequired,
   dispatchUp: PropTypes.func.isRequired
 }

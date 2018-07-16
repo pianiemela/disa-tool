@@ -78,7 +78,7 @@ CategoryQuestionModule.defaultProps = {
 CategoryQuestionModule.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string,
-    id: PropTypes.string
+    id: PropTypes.number
   }).isRequired,
   edit: PropTypes.bool.isRequired,
   final: PropTypes.bool,
