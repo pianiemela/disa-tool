@@ -3,7 +3,6 @@ const INITIAL_STATE = []
 
 const initForm = (payload) => {
   const { courseData, type, courseInfo } = payload
-  console.log(courseData, type, courseInfo)
   const data = {}
   data.course_instance_id = courseInfo.id
   data.displayCoursename = courseInfo.name
@@ -71,8 +70,7 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
       return { ...state, structure: toChange }
     }
     case 'TOGGLE_DOWN': {
-      console.log(action)
-      const toChange = state
+      const toChange = state.structure
       const id = action.payload
       const a = toChange.questionModules.findIndex(x => x.id === id)
       const b = toChange.questionModules[a]
@@ -80,10 +78,10 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
         toChange.questionModules[a] = toChange.questionModules[a + 1]
         toChange.questionModules[a + 1] = b
       }
-      return { ...state, questionModules: toChange.questionModules }
+      return { ...state, structure: toChange }
     }
     case 'TOGGLE_UP': {
-      const toChange = state
+      const toChange = state.structure
       const id = action.payload
       const a = toChange.questionModules.findIndex(x => x.id === id)
       const b = toChange.questionModules[a]
@@ -92,11 +90,11 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
         toChange.questionModules[a] = toChange.questionModules[a - 1]
         toChange.questionModules[a - 1] = b
       }
-      return { ...state, questionModules: toChange.questionModules }
+      return { ...state, structure: toChange }
     }
     case 'ADD_OPEN_QUESTION': {
       const questionData = action.payload
-      const toChange = state
+      const toChange = state.structure
       if (toChange.openQuestions.length > 0) {
         toChange.openQuestions = toChange.openQuestions.concat({
           id: toChange.openQuestions[toChange.openQuestions.length - 1].id + 1,
@@ -109,13 +107,13 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
           name: questionData
         })
       }
-      return { ...state, openQuestions: toChange.openQuestions }
+      return { ...state, structure: toChange }
     }
     case 'REMOVE_OPEN_QUESTION': {
       const id = action.payload
-      const toChange = state
+      const toChange = state.structure
       toChange.openQuestions = toChange.openQuestions.filter(oQ => oQ.id !== id)
-      return { ...state, openQuestions: toChange.openQuestions }
+      return { ...state, structure: toChange }
     }
 
     default:
