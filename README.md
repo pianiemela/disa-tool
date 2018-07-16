@@ -6,7 +6,7 @@ DISA-tool is web application designed to help the usage of digital self-assessme
 Clone the repository.
 
 Set up the database. You can use a docker container to run the postgres database.
-Make a `docker-compose.yml` file as follows
+Make a `docker-compose.yml` file as follows:
 ```
 version: '3'
 
