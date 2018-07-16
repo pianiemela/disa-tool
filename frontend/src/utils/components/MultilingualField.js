@@ -16,7 +16,7 @@ const MultilingualField = props => (
       </Form.Field>
       <Form.Field>
         <Label>svenska</Label>
-        <Input name={`sve_${props.field}`} type="text"fluid />
+        <Input name={`swe_${props.field}`} type="text"fluid />
       </Form.Field>
     </Segment>
   </Form.Field>

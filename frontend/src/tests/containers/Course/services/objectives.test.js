@@ -7,13 +7,19 @@ testService({
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
-    sve_name: 'dååt',
+    swe_name: 'dååt',
     skill_level_id: 3,
     category_id: 7,
     course_instance_id: 1
   },
   mockResponse: {
-    message: '<addObjectiveSuccess>'
+    message: '<addObjectiveSuccess>',
+    created: {
+      id: 15,
+      name: 'dööt',
+      skill_level_id: 3,
+      category_id: 7
+    }
   },
   apiRoute: '/api/objectives/create',
   apiMethod: 'post'
@@ -23,11 +29,15 @@ testService({
   func: removeObjective,
   type: 'OBJECTIVE_DELETE',
   data: {
-    id: 1
+    id: 15
   },
   mockResponse: {
     message: '<removeObjectiveSuccess>',
-    deleted: 1
+    deleted: {
+      id: 15,
+      skill_level_id: 3,
+      category_id: 7
+    }
   },
   apiRoute: '/api/objectives/1',
   apiMethod: 'delete'

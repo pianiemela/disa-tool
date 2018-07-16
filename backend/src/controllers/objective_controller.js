@@ -7,21 +7,21 @@ const messages = {
     success: {
       eng: '"Oppimistavoite luotu onnistuneesti." englanniksi.',
       fin: 'Oppimistavoite luotu onnistuneesti.',
-      sve: '"Oppimistavoite luotu onnistuneesti." ruotsiksi.'
+      swe: '"Oppimistavoite luotu onnistuneesti." ruotsiksi.'
     }
   },
   delete: {
     success: {
       eng: '"Oppimistavoite poistettu onnistuneesti." englanniksi.',
       fin: 'Oppimistavoite poistettu onnistuneesti.',
-      sve: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
+      swe: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
     }
   }
 }
 
 router.post('/create', async (req, res) => {
   // TODO validate
-  const created = await objectiveService.create(req.body)
+  const created = await objectiveService.create(req.body, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
     created

@@ -14,7 +14,7 @@ export class AddTaskForm extends Component {
     this.props.addTask({
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
-      sve_name: e.target.sve_name.value,
+      swe_name: e.target.swe_name.value,
       courseId: this.props.courseId
     })
   }

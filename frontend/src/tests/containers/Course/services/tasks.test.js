@@ -14,7 +14,7 @@ testService({
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
-    sve_name: 'dååt',
+    swe_name: 'dååt',
     courseId: 1
   },
   mockResponse: {
@@ -22,7 +22,7 @@ testService({
     data: {
       eng_name: 'doot',
       fin_name: 'dööt',
-      sve_name: 'dååt',
+      swe_name: 'dååt',
       courseId: 1,
       id: 2
     }
