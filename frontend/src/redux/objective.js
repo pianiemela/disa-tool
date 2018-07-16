@@ -19,9 +19,16 @@ const objectiveReducer = (state = INITIAL_STATE, action) => {
         objectives
       }
     }
-    case 'OBJECTIVE_CREATE':
-      console.log(action.response)
-      return state
+    case 'OBJECTIVE_CREATE': {
+      const newObjective = {
+        id: action.response.created.id,
+        name: action.response.created.name
+      }
+      return {
+        ...state,
+        objectives: [...state.objectives, newObjective]
+      }
+    }
     case 'OBJECTIVE_DELETE':
       console.log(action.response)
       return state
