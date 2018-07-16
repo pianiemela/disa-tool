@@ -63,3 +63,4 @@ typings/
 # docker-compose file
 docker-compose.yml
 disa_pgdata
+backend/dist/
