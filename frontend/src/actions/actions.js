@@ -1,10 +1,12 @@
-import { getJson } from '../utils/utils'
+import { getJson, postJson } from '../utils/utils'
 
 export const getUsersCourses = () => getJson('/courses/user')
 
 export const getCategoriesForCourse = courseId => getJson(`/categories/${courseId}`)
 
 export const getUser = () => getJson('/persons/user')
+
+export const createSelfAssesment = () => postJson('/selfassesment/create')
 
 export const getUserAction = () => async (dispatch) => {
   dispatch({
@@ -92,4 +94,25 @@ export const changeTextField = (type, value) => (dispatch) => {
     payload: { type, value }
 
   })
+}
+
+export const createForm = data => async (dispatch) => {
+  dispatch({
+    type: 'CREATE_SELF_ASSESMENT_ATTEMPT',
+    payload: ''
+  })
+
+  try {
+    const res = await createSelfAssesment(data)
+    dispatch({
+      type: 'CREATE_SELF_ASSESMENT_SUCCESS',
+      payload: res
+    })
+  } catch (error) {
+    dispatch({
+      type: 'CREATE_SELF_ASSESMENT_FAILURE',
+      payload: error
+
+    })
+  }
 }
