@@ -26,6 +26,6 @@ const reducers = combineReducers({
 
 const store = process.env.NODE_ENV === 'development' ?
   createStore(reducers, composeWithDevTools(applyMiddleware(thunk))) :
-  createStore(reducers)
+  createStore(reducers, applyMiddleware(thunk))
 
 export default store
