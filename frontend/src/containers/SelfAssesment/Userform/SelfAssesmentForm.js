@@ -22,14 +22,15 @@ const SelfAssesmentForm = (props) => {
     )
   )
 
-  const editForm = (type, formData, edit) => (
-    (
+  const editForm = (formData, edit) => {
+    const { structure, type, displayCoursename } = formData
+    return (
       <div>
+        <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
         {type === 'category' ?
-
           <SelfAssesmentSection
             header="Kategoriaosio"
-            formData={formData.questionModules}
+            formData={structure.questionModules}
             edit={edit}
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
@@ -37,7 +38,7 @@ const SelfAssesmentForm = (props) => {
           :
           <SelfAssesmentSection
             header="Tavoiteosio"
-            formData={formData.questionModules}
+            formData={structure.questionModules}
             edit={edit}
             textArea={textArea}
             QuestionModule={ObjectiveQuestionModule}
@@ -46,7 +47,7 @@ const SelfAssesmentForm = (props) => {
 
         <SelfAssesmentSection
           header="Avoimet kysymykset"
-          formData={formData.openQuestions}
+          formData={structure.openQuestions}
           edit={edit}
           textArea={textArea}
           QuestionModule={OpenQuestionModule}
@@ -57,7 +58,7 @@ const SelfAssesmentForm = (props) => {
 
           <SelfAssesmentSection
             header="Loppuarvio"
-            formData={formData.finalGrade}
+            formData={structure.finalGrade}
             edit={edit}
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
@@ -72,12 +73,12 @@ const SelfAssesmentForm = (props) => {
 
       </div>
     )
-  )
+  }
 
   const renderEditableForm = () => {
     if (props.edit) {
-      const { formData, edit, handleChange } = props
-      return editForm(formData.type, formData.structure, edit, handleChange)
+      const { formData, edit } = props
+      return editForm(formData, edit)
     }
     return null
   }
