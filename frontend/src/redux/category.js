@@ -24,6 +24,24 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
         categories: newCategories
       }
     }
+    case 'OBJECTIVE_DELETE': {
+      const newCategories = [...state.categories]
+      const categoryToChange = newCategories.find(category => category.id === action.response.deleted.category_id)
+      const newSkillLevels = [...categoryToChange.skill_levels]
+      const levelToChange = newSkillLevels.find(level => level.id === action.response.deleted.skill_level_id)
+      const newObjectives = [...levelToChange.objectives]
+      let index = 0
+      while (index < newObjectives.length) {
+        if (newObjectives[index].id === action.response.deleted.id) {
+          newObjectives.splice(index, 1)
+          break
+        }
+        index += 1
+      }
+      levelToChange.objectives = newObjectives
+      categoryToChange.skill_levels = newSkillLevels
+      return { ...state, categories: newCategories }
+    }
     default:
       return state
   }

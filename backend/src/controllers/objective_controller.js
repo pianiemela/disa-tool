@@ -21,16 +21,10 @@ const messages = {
 
 router.post('/create', async (req, res) => {
   // TODO validate
-  const created = (await objectiveService.create(req.body)).toJSON()
-  const name = created[`${req.lang}_name`]
+  const created = await objectiveService.create(req.body, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
-    created: {
-      id: created.id,
-      name,
-      category_id: created.category_id,
-      skill_level_id: created.skill_level_id
-    }
+    created
   })
 })
 

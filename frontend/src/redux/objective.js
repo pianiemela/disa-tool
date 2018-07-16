@@ -29,9 +29,18 @@ const objectiveReducer = (state = INITIAL_STATE, action) => {
         objectives: [...state.objectives, newObjective]
       }
     }
-    case 'OBJECTIVE_DELETE':
-      console.log(action.response)
-      return state
+    case 'OBJECTIVE_DELETE': {
+      const newObjectives = [...state.objectives]
+      let index = 0
+      while (index < newObjectives.length) {
+        if (newObjectives[index].id === action.response.deleted.id) {
+          newObjectives.splice(index, 1)
+          break
+        }
+        index += 1
+      }
+      return { ...state, objectives: newObjectives }
+    }
     default:
       return state
   }
