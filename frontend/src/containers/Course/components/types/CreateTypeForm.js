@@ -15,7 +15,7 @@ export class CreateTypeForm extends Component {
       courseId: this.props.courseId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
-      sve_name: e.target.sve_name.value
+      swe_name: e.target.swe_name.value
     })
   }
 
