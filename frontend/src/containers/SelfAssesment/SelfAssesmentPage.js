@@ -25,6 +25,11 @@ export class SelfAssesmentPage extends React.Component {
     this.setState({ created: true })
   }
 
+  handleSubmit = async () => {
+    const { formData } = this.props
+    console.log(formData)
+  }
+
   renderTeacherView = () => (
     <SelfAssesmentCreateForm
       courses={this.props.courses}
@@ -35,7 +40,7 @@ export class SelfAssesmentPage extends React.Component {
 
   render() {
     const { formData } = this.props
-    
+
     return (
       <Container>
         <div>
@@ -46,6 +51,7 @@ export class SelfAssesmentPage extends React.Component {
               edit
               created
               formData={formData}
+              handleSubmit={this.handleSubmit}
             />
           }
         </div>

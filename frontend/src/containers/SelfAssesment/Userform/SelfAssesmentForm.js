@@ -74,7 +74,12 @@ const SelfAssesmentForm = (props) => {
           :
           null
         }
-        <Button positive style={{ marginBottom: '25px' }}>
+        <Button
+          positive
+          style={{ marginBottom: '25px' }}
+          onClick={props.handleSubmit}
+        >
+
           Tallenna lomake
         </Button>
 
