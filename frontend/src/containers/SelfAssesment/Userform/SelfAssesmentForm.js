@@ -76,7 +76,8 @@ const SelfAssesmentForm = (props) => {
   const renderEditableForm = () => {
     if (props.edit) {
       const { formData, edit, handleChange } = props
-      return editForm(formData.type, formData, edit, handleChange)
+      console.log(formData)
+      return editForm(formData.type, formData.structure, edit, handleChange)
     }
     return null
   }

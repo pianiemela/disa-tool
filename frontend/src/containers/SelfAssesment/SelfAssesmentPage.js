@@ -20,7 +20,8 @@ export class SelfAssesmentPage extends React.Component {
 
   createForm = async (courseId, type) => {
     const courseData = await getCourseData(courseId)
-    this.props.dispatchCreateForm({ courseData, type })
+    const courseInfo = this.props.courses.find(cd => cd.id === courseId)
+    this.props.dispatchCreateForm({ courseData, type, courseInfo })
     this.setState({ created: true })
   }
 
@@ -33,6 +34,9 @@ export class SelfAssesmentPage extends React.Component {
   )
 
   render() {
+    const { formData } = this.props
+    console.log(formData)
+    
     return (
       <Container>
         <div>
@@ -42,7 +46,7 @@ export class SelfAssesmentPage extends React.Component {
             <SelfAssesmentForm
               edit
               created
-              formData={this.props.formData}
+              formData={formData}
             />
           }
         </div>

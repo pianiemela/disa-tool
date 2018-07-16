@@ -2,14 +2,31 @@ const INITIAL_STATE = []
 
 
 const initForm = (payload) => {
-  const { courseData, type } = payload
+  const { courseData, type, courseInfo } = payload
+  console.log(courseData, type, courseInfo)
   const data = {}
-  data.name = 'Linis'
+  data.course_instance_id = courseInfo.id
+  data.displayCoursename = courseInfo.name
+  data.eng_name = ''
+  data.fin_name = ''
+  data.swe_name = ''
+
+  data.eng_instructions = ''
+  data.swe_instructions = ''
+  data.fin_instruction = ''
+
+  data.open = false
+  data.active = false
+
+  data.immediate_feedback = {}
   data.type = type
-  data.openQuestions = []
+  data.structure = {}
+  const { structure } = data
+
+  structure.openQuestions = []
   const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1).toString()
 
-  data.finalGrade = [{
+  structure.finalGrade = [{
     name: 'Anna itsellesi loppuarvosana kurssista',
     eng_name: 'Give yourself a final grade for the course',
     swe_name: 'Låta en final grad till själv, lmao ei näin :D',
@@ -17,17 +34,17 @@ const initForm = (payload) => {
     id
   }]
   if (data.type === 'category') {
-    data.questionModules = []
+    structure.questionModules = []
     courseData.map(ciO =>
-      data.questionModules.push({
+      structure.questionModules.push({
         id: ciO.id,
         name: ciO.name,
         textFieldOn: true
       }))
   } else {
-    data.questionModules = []
+    structure.questionModules = []
     courseData.map(ciO =>
-      data.questionModules.push({
+      structure.questionModules.push({
         id: ciO.id,
         name: ciO.name,
         objectives: ciO.objectives.map(o => ({
@@ -48,12 +65,13 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
     }
     case 'TOGGLE_TEXT_FIELD': {
       const id = action.payload
-      const toChange = state
+      const toChange = state.structure
       toChange.questionModules = toChange.questionModules.map(o =>
         (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
-      return { ...state, questionModules: toChange.questionModules }
+      return { ...state, structure: toChange }
     }
     case 'TOGGLE_DOWN': {
+      console.log(action)
       const toChange = state
       const id = action.payload
       const a = toChange.questionModules.findIndex(x => x.id === id)
