@@ -17,13 +17,13 @@ const initForm = (payload) => {
   formInfo.push(
     { id: 4, displayName: 'English instructions', value: 'ÖYGHH', type: 'eng_instructions' },
     { id: 5, displayName: 'Swedish instructions', value: 'ÖYGHH ÖYGHH', type: 'swe_instructions' },
-    { id: 6, displayName: 'Finnish instructions', value: 'ÖYGHH ÖYGHH ÖYGHH', type: 'fin_instruction' }
+    { id: 6, displayName: 'Finnish instructions', value: 'ÖYGHH ÖYGHH ÖYGHH', type: 'fin_instructions' }
   )
 
   data.open = false
   data.active = false
 
-  data.immediate_feedback = {}
+  data.immediate_feedback = false
   data.type = type
   data.structure = {}
   const { structure } = data

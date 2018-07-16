@@ -7,7 +7,7 @@ import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 
-import { initCreateForm } from '../../actions/actions'
+import { initForm, createForm } from '../../actions/actions'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
@@ -21,12 +21,13 @@ export class SelfAssesmentPage extends React.Component {
   createForm = async (courseId, type) => {
     const courseData = await getCourseData(courseId)
     const courseInfo = this.props.courses.find(cd => cd.id === courseId)
-    this.props.dispatchCreateForm({ courseData, type, courseInfo })
+    this.props.dispatchInitForm({ courseData, type, courseInfo })
     this.setState({ created: true })
   }
 
   handleSubmit = async () => {
     const { formData } = this.props
+    this.props.dispatchCreateForm(formData)
     console.log(formData)
   }
 
@@ -76,8 +77,10 @@ const mapStateToProps = state => (
 )
 
 const mapDispatchToProps = dispatch => ({
+  dispatchInitForm: data =>
+    dispatch(initForm(data)),
   dispatchCreateForm: data =>
-    dispatch(initCreateForm(data))
+    dispatch(createForm(data))
 })
 
 SelfAssesmentForm.defaultProps = {

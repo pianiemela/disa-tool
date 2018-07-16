@@ -6,7 +6,7 @@ export const getCategoriesForCourse = courseId => getJson(`/categories/${courseI
 
 export const getUser = () => getJson('/persons/user')
 
-export const createSelfAssesment = () => postJson('/selfassesment/create')
+export const createSelfAssesment = data => postJson('/selfassesment/create', data)
 
 export const getUserAction = () => async (dispatch) => {
   dispatch({
@@ -53,7 +53,7 @@ export const toggleTextField = id => (dispatch) => {
   })
 }
 
-export const initCreateForm = data => (dispatch) => {
+export const initForm = data => (dispatch) => {
   dispatch({
     type: 'INIT_FORM',
     payload: data
