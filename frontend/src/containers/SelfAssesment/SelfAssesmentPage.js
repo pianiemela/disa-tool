@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from 'semantic-ui-react'
+import { Container, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -37,7 +37,7 @@ export class SelfAssesmentPage extends React.Component {
   renderTeacherView = () => (
     <SelfAssesmentCreateForm
       courses={this.props.courses}
-      dropDownCourse={this.props.dropDownOptions}
+      dropDownCourse={this.props.courseDropdownOptions}
       createForm={this.createForm}
     />
   )
@@ -72,7 +72,8 @@ const createOptions = (data) => {
 const mapStateToProps = state => (
   {
     courses: state.courses,
-    dropDownOptions: createOptions(state.courses),
+    courseDropdownOptions: createOptions(state.courses),
+    selfAssesmentDropdownOptons: createOptions(state.selfAssesmentCreate.userSelfAssesments),
     formData: state.selfAssesmentCreate.createForm,
     selfAssesments: state.selfAssesmentCreate.userSelfAssesments
   }
@@ -91,7 +92,8 @@ SelfAssesmentForm.defaultProps = {
 
 SelfAssesmentPage.propTypes = {
   dropDownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()), PropTypes.shape()]).isRequired,
+  formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()),
+  PropTypes.shape()]).isRequired,
   dispatchCreateForm: PropTypes.func.isRequired,
   courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
 }
