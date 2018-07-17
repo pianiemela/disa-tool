@@ -8,6 +8,14 @@ export const getToken = () => {
   return token
 }
 
+const getAuthorization = () => {
+  const token = getToken()
+  if (token) {
+    return `Bearer ${token}`
+  }
+  return null
+}
+
 export const getLanguage = () => {
   const language = localStorage.getItem('lang')
   // console.log(language)
@@ -35,7 +43,7 @@ export const saveLanguage = (lang) => {
 export const getJson = (path, params) => axios.get(`${BASE_PATH}${path}`, {
   headers: {
     credentials: 'same-origin',
-    Authorization: `Bearer ${getToken()}`
+    Authorization: getAuthorization()
   },
   params: { ...params, lang: getLanguage() }
 })
@@ -43,7 +51,7 @@ export const getJson = (path, params) => axios.get(`${BASE_PATH}${path}`, {
 export const postJson = (path, data) => axios.post(`${BASE_PATH}${path}`, data, {
   headers: {
     credentials: 'same-origin',
-    Authorization: `Bearer ${getToken()}`
+    Authorization: getAuthorization()
   },
   params: {
     lang: getLanguage()
@@ -53,7 +61,7 @@ export const postJson = (path, data) => axios.post(`${BASE_PATH}${path}`, data, 
 export const deleteCall = path => axios.delete(`${BASE_PATH}${path}`, {
   headers: {
     credentials: 'same-origin',
-    Authorization: `Bearer ${getToken()}`
+    Authorization: getAuthorization()
   },
   params: {
     lang: getLanguage()
