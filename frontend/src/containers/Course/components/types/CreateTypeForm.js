@@ -12,10 +12,11 @@ import MultilingualField from '../../../../utils/components/MultilingualField'
 export class CreateTypeForm extends Component {
   addTypeSubmit = (e) => {
     this.props.addType({
-      courseId: this.props.courseId,
+      course_instance_id: this.props.courseId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
-      swe_name: e.target.swe_name.value
+      swe_name: e.target.swe_name.value,
+      multiplier: 1.0
     })
   }
 
