@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_PATH = '/api'
+export const BASE_PATH = '/api'
 
 export const getToken = () => {
   const token = localStorage.getItem('token')
@@ -32,16 +32,10 @@ export const saveLanguage = (lang) => {
   }
 }
 
-/* export const login = data => axios.post(`${BASE_PATH}/login`, data, {
-  headers: {
-    credentials: 'same-origin'
-  }
-}).then(res => saveToken(res.data.token)).catch(e => console.log(e)) */
-
 export const getJson = (path, params) => axios.get(`${BASE_PATH}${path}`, {
   headers: {
     credentials: 'same-origin',
-    'x-access-token': getToken()
+    Authorization: `Bearer ${getToken()}`
   },
   params: { ...params, lang: getLanguage() }
 })
@@ -49,7 +43,7 @@ export const getJson = (path, params) => axios.get(`${BASE_PATH}${path}`, {
 export const postJson = (path, data) => axios.post(`${BASE_PATH}${path}`, data, {
   headers: {
     credentials: 'same-origin',
-    'x-access-token': getToken()
+    Authorization: `Bearer ${getToken()}`
   },
   params: {
     lang: getLanguage()
@@ -59,7 +53,7 @@ export const postJson = (path, data) => axios.post(`${BASE_PATH}${path}`, data, 
 export const deleteCall = path => axios.delete(`${BASE_PATH}${path}`, {
   headers: {
     credentials: 'same-origin',
-    'x-access-token': getToken()
+    Authorization: `Bearer ${getToken()}`
   },
   params: {
     lang: getLanguage()

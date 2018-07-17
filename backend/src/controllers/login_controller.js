@@ -20,7 +20,7 @@ router.post('', async (req, res) => {
       error: result.error
     })
   }
-  const token = signJWT(result.id)
+  const token = signJWT(result.logged_in)
   result.token = token
   res.status(200).json(result)
 })
