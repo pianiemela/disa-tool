@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
 import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
-
+import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 
@@ -22,14 +22,22 @@ const SelfAssesmentForm = (props) => {
     )
   )
 
-  const editForm = (type, formData, edit) => (
-    (
+  const editForm = (formData, edit) => {
+    const { structure, type, displayCoursename, formInfo } = formData
+    return (
       <div>
-        {type === 'category' ?
+        <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
 
+        <SelfAssesmentInfo
+          header="Yleistä tietoa itsearvioinnista"
+          textArea={textArea}
+          formData={formInfo}
+        />
+
+        {type === 'category' ?
           <SelfAssesmentSection
             header="Kategoriaosio"
-            formData={formData.questionModules}
+            formData={structure.questionModules}
             edit={edit}
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
@@ -37,7 +45,7 @@ const SelfAssesmentForm = (props) => {
           :
           <SelfAssesmentSection
             header="Tavoiteosio"
-            formData={formData.questionModules}
+            formData={structure.questionModules}
             edit={edit}
             textArea={textArea}
             QuestionModule={ObjectiveQuestionModule}
@@ -46,7 +54,7 @@ const SelfAssesmentForm = (props) => {
 
         <SelfAssesmentSection
           header="Avoimet kysymykset"
-          formData={formData.openQuestions}
+          formData={structure.openQuestions}
           edit={edit}
           textArea={textArea}
           QuestionModule={OpenQuestionModule}
@@ -57,7 +65,7 @@ const SelfAssesmentForm = (props) => {
 
           <SelfAssesmentSection
             header="Loppuarvio"
-            formData={formData.finalGrade}
+            formData={structure.finalGrade}
             edit={edit}
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
@@ -66,18 +74,23 @@ const SelfAssesmentForm = (props) => {
           :
           null
         }
-        <Button positive style={{ marginBottom: '25px' }}>
+        <Button
+          positive
+          style={{ marginBottom: '25px' }}
+          onClick={props.handleSubmit}
+        >
+
           Tallenna lomake
         </Button>
 
       </div>
     )
-  )
+  }
 
   const renderEditableForm = () => {
     if (props.edit) {
-      const { formData, edit, handleChange } = props
-      return editForm(formData.type, formData.structure, edit, handleChange)
+      const { formData, edit } = props
+      return editForm(formData, edit)
     }
     return null
   }
