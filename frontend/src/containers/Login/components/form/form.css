@@ -4,7 +4,11 @@
 }
 
 .blockForm {
-  display: inline-block;
   text-align: left;
+  width: 100%;
+}
+
+.formContainer {
+  display: inline-block;
   width: 768px;
 }

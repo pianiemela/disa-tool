@@ -9,7 +9,14 @@ describe('LoginForm component', () => {
   beforeEach(() => {
     login = jest.fn()
     wrapper = shallow(<LoginForm
-      login={login}
+      login={data => new Promise((resolve, reject) => {
+        login(data)
+        if (data.password === 'pass') {
+          resolve()
+        } else {
+          reject()
+        }
+      })}
     />)
   })
 
@@ -92,8 +99,8 @@ describe('LoginForm component', () => {
   })
 
   describe('form submit', () => {
-    it('calls prop login.', () => {
-      wrapper.find(Form).simulate('submit', {
+    it('calls prop login.', async () => {
+      await wrapper.find(Form).simulate('submit', {
         preventDefault: () => {},
         target: {
           username: {
@@ -108,6 +115,36 @@ describe('LoginForm component', () => {
         username: 'user',
         password: 'pass'
       })
+    })
+
+    it('redirects on success.', async () => {
+      await wrapper.find(Form).simulate('submit', {
+        preventDefault: () => {},
+        target: {
+          username: {
+            value: 'user'
+          },
+          password: {
+            value: 'pass'
+          }
+        }
+      })
+      expect(wrapper.state('redirect')).toEqual(true)
+    })
+
+    it('does not redirect on failure.', async () => {
+      await wrapper.find(Form).simulate('submit', {
+        preventDefault: () => {},
+        target: {
+          username: {
+            value: 'user'
+          },
+          password: {
+            value: 'wrong'
+          }
+        }
+      })
+      expect(wrapper.state('redirect')).toEqual(false)
     })
   })
 })

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { saveToken, BASE_PATH } from '../../../utils/utils'
 
-const login = dispatch => data => axios.post(`${BASE_PATH}/login`, data, {
+const login = dispatch => data => new Promise((resolve, reject) => axios.post(`${BASE_PATH}/login`, data, {
   headers: {
     credentials: 'same-origin'
   }
@@ -11,7 +11,11 @@ const login = dispatch => data => axios.post(`${BASE_PATH}/login`, data, {
     type: 'USER_LOGIN',
     response: res.data
   })
-}).catch(e => console.log(e))
+  resolve()
+}).catch((e) => {
+  console.log(e)
+  reject()
+}))
 
 module.exports = {
   login
