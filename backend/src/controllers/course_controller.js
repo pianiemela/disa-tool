@@ -4,7 +4,7 @@ const { checkAuth } = require('../services/auth')
 const courseService = require('../services/course_service.js')
 
 router.get('/', async (req, res) => {
-  const courses = await courseService.getCourses()
+  const courses = await courseService.getCourses(req.lang)
   res.status(200).json(courses)
 })
 
