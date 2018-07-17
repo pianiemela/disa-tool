@@ -1,10 +1,12 @@
 
 export const userReducer = (state = [], action) => {
   switch (action.type) {
-    case 'GET_USER_SUCCESS':
+    case 'USER_GET_SUCCESS':
       return action.payload
-    case 'GET_USER_FAILURE':
+    case 'USER_GET_FAILURE':
       return state
+    case 'USER_LOGIN':
+    return action.response.logged_in
     default:
       return state
   }
