@@ -7,7 +7,7 @@ import './form.css'
 import { login } from '../../services/login'
 
 
-class LoginForm extends Component {
+export class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -47,7 +47,14 @@ class LoginForm extends Component {
             <Label>password</Label>
             <Input className="passwordInput" name="password" type="password" onChange={this.changeField('password')} />
           </Form.Field>
-          <Button disabled={!Object.values(this.state.emptyFields).every(value => !value)} color={!Object.values(this.state.emptyFields).every(value => !value) ? undefined : 'green'}>Login</Button>
+          <Button
+            className="submitButton"
+            type="submit"
+            disabled={!Object.values(this.state.emptyFields).every(value => !value)}
+            color={!Object.values(this.state.emptyFields).every(value => !value) ? undefined : 'green'}
+          >
+            Login
+          </Button>
         </Form>
       </div>
     )

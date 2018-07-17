@@ -3,7 +3,7 @@ import React from 'react'
 import LoginForm from './components/form/LoginForm'
 
 const LoginPage = () => (
-  <div>
+  <div className="LoginPage">
     <h1>Kirjaudu sisään</h1>
     <LoginForm />
   </div>
