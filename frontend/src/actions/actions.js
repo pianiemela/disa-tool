@@ -12,18 +12,18 @@ export const createSelfAssesment = data => postJson('/selfassesment/create', dat
 
 export const getUserAction = () => async (dispatch) => {
   dispatch({
-    type: 'GET_USER_ATTEMPT',
+    type: 'USER_GET_ATTEMPT',
     payload: ''
   })
   try {
     const { data } = await getUser()
     dispatch({
-      type: 'GET_USER_SUCCESS',
+      type: 'USER_GET_SUCCESS',
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'GET_USER_FAILURE',
+      type: 'USER_GET_FAILURE',
       payload: e.response
     })
   }
@@ -50,18 +50,18 @@ export const getAllCoursesAction = () => async (dispatch) => {
 
 export const getUserCoursesAction = () => async (dispatch) => {
   dispatch({
-    type: 'GET_USER_COURSES_ATTEMPT',
+    type: 'USER_GET_COURSES_ATTEMPT',
     payload: ''
   })
   try {
     const { data } = await getUsersCourses()
     dispatch({
-      type: 'GET_USER_COURSES_SUCCESS',
+      type: 'USER_GET_COURSES_SUCCESS',
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'GET_USER_COURSES_FAILURE',
+      type: 'USER_GET_COURSES_FAILURE',
       payload: e.response
     })
   }

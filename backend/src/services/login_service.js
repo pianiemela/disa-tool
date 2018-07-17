@@ -87,8 +87,8 @@ const login = async (body, lang) => {
   }
 }
 
-const signJWT = (id) => {
-  const token = jwt.sign({ id }, process.env.SECRET)
+const signJWT = (user) => {
+  const token = jwt.sign({ user }, process.env.SECRET)
   return token
 }
 

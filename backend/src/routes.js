@@ -7,11 +7,13 @@ const objectives = require('./controllers/objective_controller.js')
 const selfAssesment = require('./controllers/selfAssesment_controller.js')
 const login = require('./controllers/login_controller.js')
 const validateLang = require('./middleware/lang.js')
+const auth = require('./middleware/token_auth.js')
 
 const BASE_URL = '/api'
 
 module.exports = (app) => {
   app.use(validateLang)
+  app.use(auth)
   app.use(`${BASE_URL}/categories`, categories)
   app.use(`${BASE_URL}/courses`, courses)
   app.use(`${BASE_URL}/persons`, persons)
