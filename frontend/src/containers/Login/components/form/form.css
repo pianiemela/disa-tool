@@ -1,0 +1,10 @@
+.LoginForm {
+  width: 100%;
+  text-align: center;
+}
+
+.blockForm {
+  display: inline-block;
+  text-align: left;
+  width: 768px;
+}
