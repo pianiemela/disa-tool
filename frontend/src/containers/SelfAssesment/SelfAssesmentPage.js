@@ -26,9 +26,12 @@ export class SelfAssesmentPage extends React.Component {
   }
 
   handleSubmit = async () => {
+    console.log('...SUBMITTING....')
     const { formData } = this.props
-    this.props.dispatchCreateForm(formData)
-    console.log(formData)
+    this.setState({ created: false })
+    await this.props.dispatchCreateForm(formData)
+
+
   }
 
   renderTeacherView = () => (
@@ -41,7 +44,6 @@ export class SelfAssesmentPage extends React.Component {
 
   render() {
     const { formData } = this.props
-
     return (
       <Container>
         <div>
@@ -70,9 +72,9 @@ const createOptions = (data) => {
 const mapStateToProps = state => (
   {
     courses: state.courses,
-    selfAssesments: state.selfAssesments,
     dropDownOptions: createOptions(state.courses),
-    formData: state.selfAssesmentCreate
+    formData: state.selfAssesmentCreate.createForm,
+    selfAssesments: state.selfAssesmentCreate.userSelfAssesments
   }
 )
 

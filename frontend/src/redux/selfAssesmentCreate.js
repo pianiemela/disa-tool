@@ -1,4 +1,7 @@
-const INITIAL_STATE = []
+const INITIAL_STATE = {
+  createForm: {},
+  userSelfAssesments: []
+}
 
 
 const initForm = (payload) => {
@@ -15,9 +18,9 @@ const initForm = (payload) => {
     { id: 3, displayName: 'Swedish name', value: 'Enkalnti', type: 'swe_name' }
   )
   formInfo.push(
-    { id: 4, displayName: 'English instructions', value: 'ÖYGHH', type: 'eng_instructions' },
-    { id: 5, displayName: 'Swedish instructions', value: 'ÖYGHH ÖYGHH', type: 'swe_instructions' },
-    { id: 6, displayName: 'Finnish instructions', value: 'ÖYGHH ÖYGHH ÖYGHH', type: 'fin_instructions' }
+    { id: 4, displayName: 'English instructions', value: 'Instructions', type: 'eng_instructions' },
+    { id: 5, displayName: 'Swedish instructions', value: 'anvisning', type: 'swe_instructions' },
+    { id: 6, displayName: 'Finnish instructions', value: 'Ohjeita', type: 'fin_instructions' }
   )
 
   data.open = false
@@ -66,72 +69,91 @@ export const selfAssesmentCreateReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'INIT_FORM': {
       const data = initForm(action.payload)
-      return data
+      return { ...state, createForm: data }
     }
     case 'TOGGLE_TEXT_FIELD': {
       const id = action.payload
-      const toChange = state.structure
-      toChange.questionModules = toChange.questionModules.map(o =>
+      const toChange = state.createForm
+      let { questionModules } = toChange.structure
+      questionModules = questionModules.map(o =>
         (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
-      return { ...state, structure: toChange }
+
+      toChange.structure.questionModules = questionModules
+      return { ...state, createForm: toChange }
     }
     case 'TOGGLE_DOWN': {
-      const toChange = state.structure
+      const toChange = state.createForm
       const id = action.payload
-      const a = toChange.questionModules.findIndex(x => x.id === id)
-      const b = toChange.questionModules[a]
-      if (a < toChange.questionModules.length - 1) {
-        toChange.questionModules[a] = toChange.questionModules[a + 1]
-        toChange.questionModules[a + 1] = b
+      const { questionModules } = toChange.structure
+      const a = questionModules.findIndex(x => x.id === id)
+      const b = questionModules[a]
+      if (a < questionModules.length - 1) {
+        questionModules[a] = questionModules[a + 1]
+        questionModules[a + 1] = b
       }
-      return { ...state, structure: toChange }
+      toChange.structure.questionModules = questionModules
+      return { ...state, createForm: toChange }
     }
     case 'TOGGLE_UP': {
-      const toChange = state.structure
+      const toChange = state.createForm
+      const { questionModules } = toChange.structure
+
       const id = action.payload
-      const a = toChange.questionModules.findIndex(x => x.id === id)
-      const b = toChange.questionModules[a]
+      const a = questionModules.findIndex(x => x.id === id)
+      const b = questionModules[a]
 
       if (a > 0) {
-        toChange.questionModules[a] = toChange.questionModules[a - 1]
-        toChange.questionModules[a - 1] = b
+        questionModules[a] = questionModules[a - 1]
+        questionModules[a - 1] = b
       }
-      return { ...state, structure: toChange }
+      toChange.structure.questinModules = questionModules
+
+      return { ...state, createForm: toChange }
     }
     case 'ADD_OPEN_QUESTION': {
       const questionData = action.payload
-      const toChange = state.structure
-      if (toChange.openQuestions.length > 0) {
-        toChange.openQuestions = toChange.openQuestions.concat({
-          id: toChange.openQuestions[toChange.openQuestions.length - 1].id + 1,
+      const toChange = state.createForm
+      let { openQuestions } = toChange.structure
+
+      if (openQuestions.length > 0) {
+        openQuestions = openQuestions.concat({
+          id: openQuestions[openQuestions.length - 1].id + 1,
           name: questionData
         })
       } else {
-        const id = (parseInt(toChange.finalGrade[0].id) + 1).toString()
-        toChange.openQuestions = toChange.openQuestions.concat({
+        const id = (parseInt(toChange.structure.finalGrade[0].id) + 1).toString()
+        openQuestions = openQuestions.concat({
           id,
           name: questionData
         })
       }
+      toChange.structure.openQuestions = openQuestions
       return { ...state, structure: toChange }
     }
     case 'REMOVE_OPEN_QUESTION': {
       const id = action.payload
-      const toChange = state.structure
-      toChange.openQuestions = toChange.openQuestions.filter(oQ => oQ.id !== id)
+      const toChange = state.createForm
+      toChange.structure.openQuestions = toChange.structure.openQuestions.filter(oQ => oQ.id !== id)
       return { ...state, structure: toChange }
     }
 
     case 'CHANGE_TEXT_FIELD': {
-      console.log(`WE ARE HERE`)
-      console.log(action.payload)
       const { type, value } = action.payload
-      let toChange = state.formInfo
-      const changedValue = toChange.find(t =>
+      const toChange = state.createForm
+      let { formInfo } = toChange
+      const changedValue = formInfo.find(t =>
         t.type === type)
       changedValue.value = value
-      toChange = toChange.map(inst => (inst.type === type ? changedValue : inst))
-      return { ...state, formInfo: toChange }
+      formInfo = formInfo.map(inst => (inst.type === type ? changedValue : inst))
+
+      toChange.formInfo = formInfo
+
+      return { ...state, createForm: toChange }
+    }
+
+    case 'CREATE_SELF_ASSESMENT_SUCCESS': {
+      const selfAssesments = state.userSelfAssesments.concat(action.payload.data.data)
+      return { ...state, createForm: [], userSelfAssesments: selfAssesments }
     }
     default:
       return state
