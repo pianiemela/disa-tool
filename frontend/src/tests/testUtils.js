@@ -33,7 +33,6 @@ export const testService = (options) => {
       expect(typeof func(data).then).toEqual('function')
     })
 
-    /* It's just broken. Another library needs to be used instead. mock adapter is broken at the moment.
     describe('dispatch', () => {
       let dispatch
       let withDispatch
@@ -41,22 +40,24 @@ export const testService = (options) => {
 
       beforeEach(() => {
         apiMock = new MockAdapter(axios)
+        let route
         switch (apiMethod) {
           case 'get':
-            apiMock.onGet(apiRoute).reply(mockStatus, mockResponse)
+            route = apiMock.onGet(apiRoute)
             break
           case 'post':
-            apiMock.onPost(apiRoute).reply(mockStatus, mockResponse)
+            route = apiMock.onPost(apiRoute)
             break
           case 'put':
-            apiMock.onPut(apiRoute).reply(mockStatus, mockResponse)
+            route = apiMock.onPut(apiRoute)
             break
           case 'delete':
-            apiMock.onDelete(apiRoute).reply(mockStatus, mockResponse)
+            route = apiMock.onDelete(apiRoute)
             break
           default:
             console.warn('apiMethod was invalid, no api mock created.')
         }
+        route.reply(mockStatus, mockResponse)
         dispatch = jest.fn()
         withDispatch = asyncAction(func, dispatch)
       })
@@ -73,6 +74,5 @@ export const testService = (options) => {
         })
       })
     })
-    */
   })
 }

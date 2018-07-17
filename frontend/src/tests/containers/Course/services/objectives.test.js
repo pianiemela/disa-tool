@@ -39,6 +39,6 @@ testService({
       category_id: 7
     }
   },
-  apiRoute: '/api/objectives/1',
+  apiRoute: '/api/objectives/15',
   apiMethod: 'delete'
 })
