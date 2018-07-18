@@ -2,11 +2,17 @@ import { getJson, postJson } from '../utils/utils'
 
 export const getUsersCourses = () => getJson('/courses/user')
 
+export const getCourses = () => getJson('/courses')
+
+export const getInstancesOfCourse = courseId => getJson(`/courses/instance/${courseId}`)
+
 export const getCategoriesForCourse = courseId => getJson(`/categories/${courseId}`)
 
 export const getUser = () => getJson('/persons/user')
 
 export const createSelfAssesment = data => postJson('/selfassesment/create', data)
+
+export const getSelfAssesments = data => getJson('/selfassesment/', data)
 
 export const getUserAction = () => async (dispatch) => {
   dispatch({
@@ -22,6 +28,25 @@ export const getUserAction = () => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: 'USER_GET_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
+export const getAllCoursesAction = () => async (dispatch) => {
+  dispatch({
+    type: 'GET_COURSES_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await getCourses()
+    dispatch({
+      type: 'GET_COURSES_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'GET_COURSES_FAILURE',
       payload: e.response
     })
   }
@@ -116,3 +141,24 @@ export const createForm = data => async (dispatch) => {
     })
   }
 }
+
+export const getUserSelfAssesments = user => async (dispatch) => {
+  dispatch({
+    type: 'GET_ALL_USER_SELFASSESMENTS_ATTEMPT',
+    payload: ''
+  })
+
+  try {
+    const res = await getSelfAssesments(user)
+    dispatch({
+      type: 'GET_ALL_USER_SELFASSESMENTS_SUCCESS',
+      payload: res.data
+    })
+  } catch (error) {
+    dispatch({
+      type: 'GET_ALL_USER_SELFASSESMENTS_FALURE',
+      payload: error
+    })
+  }
+}
+

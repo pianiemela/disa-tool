@@ -8,7 +8,7 @@ import level from './redux/level'
 import category from './redux/category'
 import type from './redux/type'
 import course from './redux/course'
-import selfAssesmentCreate from './redux/selfAssesmentCreate'
+import selfAssesment from './redux/selfAssesment'
 import { userReducer } from './redux/user'
 import { userCoursesReducer } from './redux/userCourses'
 
@@ -19,7 +19,7 @@ const reducers = combineReducers({
   category,
   type,
   course,
-  selfAssesmentCreate,
+  selfAssesment,
   user: userReducer,
   courses: userCoursesReducer
 })

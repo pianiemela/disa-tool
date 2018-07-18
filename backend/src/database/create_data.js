@@ -31,6 +31,9 @@ const {
   getCoursePersons
 } = require('./seeds/fakerData')
 
+const MAX_INSTANCES = 6
+
+const randBetween = (start, end) => Math.floor(Math.random() * (end - start) + start)
 
 const createCategories = () => Category.bulkCreate(categories, { returning: true }).map(db0 => db0.toJSON())
 
@@ -40,7 +43,27 @@ const createCourses = () => Course.bulkCreate(courses, { returning: true }).map(
 
 const createPersons = persons => Person.bulkCreate(persons, { returning: true }).map(db0 => db0.toJSON())
 
-const createCourseInstances = () => CourseInstance.bulkCreate(courseInstances, { returning: true }).map(db0 => db0.toJSON())
+const createCourseInstances = (listOfCourses, maxInstances) => {
+  const instances = []
+  listOfCourses.map((course) => {
+    let n = 0
+    // Hardcoded linis amount to three to match the amount of objectives in objective_new.json
+    course.eng_name === 'Lineaarialgebra ja matriisilaskenta I' ? n = 3 : n = randBetween(0, maxInstances)
+    for (let i = 0; i < n; i += 1) {
+      const semester = Math.random() >= 0.5 ? 'syksy' : 'kevät'
+      const name = `${course.fin_name} ${semester} ${2018 + i}`
+      instances.push({
+        fin_name: name,
+        eng_name: name,
+        swe_name: name,
+        active: Math.random() >= 0.5,
+        course_id: course.id
+      })
+    }
+  })
+  return CourseInstance.bulkCreate(instances, { returning: true })
+  // CourseInstance.bulkCreate(courseInstances, { returning: true }).map(db0 => db0.toJSON())
+}
 
 const createObjectives = () => Objective.bulkCreate(newObjectives, { returning: true }).map(db0 => db0.toJSON())
 
@@ -67,7 +90,8 @@ const run = async () => {
   console.log('courses created')
   const createdPersons = await createPersons(getStudentsAndTeachers())
   console.log('persons created')
-  const createdCourseInstances = await createCourseInstances()
+  const createdCourseInstances = await createCourseInstances(createdCourses, MAX_INSTANCES)
+  // console.log(createdCourseInstances)
   console.log('course instances created')
   const createdCoursePersons = await createCoursePersons(getCoursePersons(createdPersons, createdCourseInstances))
   console.log('coursePersons created')
@@ -81,6 +105,7 @@ const run = async () => {
   console.log('task responses created')
   const createdTypes = await createTypes(getTypes(createdCourseInstances))
   console.log('types created')
+  // console.log(createdTypes)
   await createTaskTypes(createdCourseInstances, createdTasks, createdTypes)
   console.log('task types created')
   console.log('ALL DONE')

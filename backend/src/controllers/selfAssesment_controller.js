@@ -8,13 +8,27 @@ router.post('/create', async (req, res) => {
   let createFormData = req.body
   const { formInfo } = req.body
   createFormData = destructureNamesAndInstructions(createFormData, formInfo)
-
   createFormData.structure = JSON.stringify(createFormData.structure)
-  const created = await selfAssesmentService.addSelfAssesment(createFormData)
-  
+  const data = await selfAssesmentService.addSelfAssesment(createFormData, req.lang)
+  data.structure = JSON.parse(data.structure)
+
   return res.status(200).json({
     message: 'it is done my friend',
-    created
+    data
+  })
+})
+
+router.get('/', async (req, res) => {
+  const user = await checkAuth(req)
+  const data = await selfAssesmentService.getUserSelfAssesments(user, req.lang)
+  //Parse structure to JS object
+  data.forEach((uSA) => {
+    const parsedStructure = uSA
+    parsedStructure.structure = JSON.parse(uSA.structure)
+    return parsedStructure
+  })
+  return res.status(200).json({
+    data
   })
 })
 

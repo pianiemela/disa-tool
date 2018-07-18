@@ -7,7 +7,7 @@ import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 
-import { initForm, createForm } from '../../actions/actions'
+import { initForm, createForm, getUserCoursesAction, getUserSelfAssesments } from '../../actions/actions'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
@@ -17,7 +17,10 @@ export class SelfAssesmentPage extends React.Component {
       created: false
     }
   }
-
+  async componentDidMount() {
+    this.props.dispatchGetUsercourses()
+    this.props.dispatchGetUserSelfAssesments()
+  }
   createForm = async (courseId, type) => {
     const courseData = await getCourseData(courseId)
     const courseInfo = this.props.courses.find(cd => cd.id === courseId)
@@ -27,21 +30,21 @@ export class SelfAssesmentPage extends React.Component {
 
   handleSubmit = async () => {
     const { formData } = this.props
-    this.props.dispatchCreateForm(formData)
-    console.log(formData)
+    this.setState({ created: false })
+    await this.props.dispatchCreateForm(formData)
   }
 
   renderTeacherView = () => (
     <SelfAssesmentCreateForm
       courses={this.props.courses}
-      dropDownCourse={this.props.dropDownOptions}
+      dropDownCourse={this.props.courseDropdownOptions}
+      dropdownAssesments={this.props.selfAssesmentDropdownOptions}
       createForm={this.createForm}
     />
   )
 
   render() {
     const { formData } = this.props
-
     return (
       <Container>
         <div>
@@ -69,10 +72,12 @@ const createOptions = (data) => {
 }
 const mapStateToProps = state => (
   {
+    user: state.user,
     courses: state.courses,
-    selfAssesments: state.selfAssesments,
-    dropDownOptions: createOptions(state.courses),
-    formData: state.selfAssesmentCreate
+    courseDropdownOptions: createOptions(state.courses),
+    selfAssesmentDropdownOptions: createOptions(state.selfAssesment.userSelfAssesments),
+    formData: state.selfAssesment.createForm,
+    selfAssesments: state.selfAssesment.userSelfAssesments
   }
 )
 
@@ -80,7 +85,12 @@ const mapDispatchToProps = dispatch => ({
   dispatchInitForm: data =>
     dispatch(initForm(data)),
   dispatchCreateForm: data =>
-    dispatch(createForm(data))
+    dispatch(createForm(data)),
+  dispatchGetUsercourses: () =>
+    dispatch(getUserCoursesAction()),
+  dispatchGetUserSelfAssesments: () =>
+    dispatch(getUserSelfAssesments())
+
 })
 
 SelfAssesmentForm.defaultProps = {
@@ -88,9 +98,12 @@ SelfAssesmentForm.defaultProps = {
 }
 
 SelfAssesmentPage.propTypes = {
-  dropDownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()), PropTypes.shape()]).isRequired,
+  courseDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  selfAssesmentDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()),
+  PropTypes.shape()]).isRequired,
   dispatchCreateForm: PropTypes.func.isRequired,
+  dispatchInitForm: PropTypes.func.isRequired,
   courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
 }
 

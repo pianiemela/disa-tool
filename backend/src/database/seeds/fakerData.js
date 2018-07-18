@@ -66,34 +66,68 @@ const getCourseTasks = (courseInstances) => {
 
 const getStudentsAndTeachers = () => {
   const persons = []
+  let number = 12457689
   for (let i = 1; i <= 400; i++) {
-    const number = faker.random.number({ min: 11111111, max: 99999999 }).toString()
-    const studentnumber = '0' + number
+    const studentnumber = '0' + number.toString()
     persons.push({
       studentnumber,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-      role: 'STUDENT'
+      role: 'Student'
     })
+    number++
   }
   for (let i = 401; i <= 420; i++) {
-    const number = faker.random.number({ min: 11111111, max: 99999999 }).toString()
-    const studentnumber = '0' + number
+    const studentnumber = '0' + number.toString()
     persons.push({
       studentnumber,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-      role: 'TEACHER'
+      role: 'Teacher'
     })
+    number++
   }
+// kurki test users
+  persons.push({
+    studentnumber: '012345678',
+    name: 'Teppo Testaaja',
+    role: 'Student'
+  })
+
+  persons.push({
+    studentnumber: '012345688',
+    name: 'Angela Merkel',
+    role: 'Student'
+  })
+
+  persons.push({
+    studentnumber: '012345609',
+    name: 'Kimg Jon-un',
+    role: 'Teacher'
+  })
+
+  persons.push({
+    studentnumber: '012345679',
+    name: 'Terhi Testaaja',
+    role: 'Teacher'
+  })
 
   return persons
 }
 
 const getCoursePersons = (persons) => {
   const coursePersons = []
-  for (let i = 0; i < persons.length; i++) {
+    //harcode linis for kurki test users
+  for (let i = 420; i < persons.length; i++) {
     const element = persons[i]
     coursePersons.push({
-      course_instance_id: Math.floor(Math.random() * 8) + 1,
+      course_instance_id: Math.floor(Math.random() * 3) + 1,
+      person_id: element.id,
+      role: element.role
+    })
+  }
+  for (let i = 0; i < 420; i++) {
+    const element = persons[i]
+    coursePersons.push({
+      course_instance_id: Math.floor(Math.random() * 37) + 1,
       person_id: element.id,
       role: element.role
     })

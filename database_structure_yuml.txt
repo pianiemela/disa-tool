@@ -16,7 +16,7 @@
 
 [Course| -id;-eng_name;-fin_name;-swe_name]
 
-[CourseInstance| -id;-eng_name;-fin_name;-swe_name;-course_id]
+[CourseInstance| -id;-eng_name;-fin_name;-swe_name;-active;-course_id]
 
 [Person| -id;-studentnumber;-name]
 
