@@ -11,9 +11,8 @@ class UserPage extends Component {
   }
 
   componentDidMount = async () => {
-    const user = await this.props.dispatchGetUser()
-    this.props.dispatchGetUsercourses(user)
-    this.props.dispatchGetUserSelfAssesments(user)
+    this.props.dispatchGetUsercourses(this.props.user)
+    this.props.dispatchGetUserSelfAssesments(this.props.user)
     // getUsersCourses().then(res => this.setState({ courses: res.data }))
   }
 
@@ -77,8 +76,6 @@ class UserPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  dispatchGetUser: () =>
-    dispatch(getUserAction()),
   dispatchGetUsercourses: user =>
     dispatch(getUserCoursesAction(user)),
   dispatchGetUserSelfAssesments: user =>

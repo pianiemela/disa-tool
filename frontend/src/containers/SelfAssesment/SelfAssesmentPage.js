@@ -36,7 +36,7 @@ export class SelfAssesmentPage extends React.Component {
     <SelfAssesmentCreateForm
       courses={this.props.courses}
       dropDownCourse={this.props.courseDropdownOptions}
-      dropDownAssesments={this.props.selfAssesmentDropdownOptions}
+      dropdownAssesments={this.props.selfAssesmentDropdownOptions}
       createForm={this.createForm}
     />
   )

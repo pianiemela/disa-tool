@@ -1,5 +1,4 @@
 import { getJson, postJson } from '../utils/utils'
-import { getAllSelfAssesments } from '../containers/SelfAssesment/services/selfAssesment';
 
 export const getUsersCourses = () => getJson('/courses/user')
 
@@ -127,10 +126,10 @@ export const getUserSelfAssesments = user => async (dispatch) => {
   })
 
   try {
-    const res = await getAllSelfAssesments(user)
+    const res = await getSelfAssesments(user)
     dispatch({
       type: 'GET_ALL_USER_SELFASSESMENTS_SUCCESS',
-      payload: res
+      payload: res.data
     })
   } catch (error) {
     dispatch({

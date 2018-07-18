@@ -20,15 +20,16 @@ router.post('/create', async (req, res) => {
 
 router.get('/', async (req, res) => {
   const user = await checkAuth(req)
-  const userSelfAssesments = await selfAssesmentService.getUserSelfAssesments(user, req.lang)
+  const data = await selfAssesmentService.getUserSelfAssesments(user, req.lang)
   //Parse structure to JS object
-  userSelfAssesments.forEach((uSA) => {
+  data.forEach((uSA) => {
     const parsedStructure = uSA
     parsedStructure.structure = JSON.parse(uSA.structure)
     return parsedStructure
   })
+  console.log(`are we here`)
   return res.status(200).json({
-    userSelfAssesments
+    data
   })
 })
 

@@ -13,6 +13,8 @@ const addSelfAssesment = async (data, lang) => {
 }
 
 const getUserSelfAssesments = async (user, lang) => {
+  const name = [`${lang}_name`, 'name']
+  const instructions = [`${lang}_instructions`, 'instructions']
 
 
 
@@ -33,7 +35,7 @@ const getUserSelfAssesments = async (user, lang) => {
   //   ]
   // })
 
-  const sA = await SelfAssessment.findAll({
+  const data = await SelfAssessment.findAll({
     attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
     include: [
       {
@@ -54,7 +56,7 @@ const getUserSelfAssesments = async (user, lang) => {
     ]
   })
 
-  return sA
+  return data
 
 }
 
