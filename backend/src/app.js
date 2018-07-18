@@ -5,9 +5,6 @@ const bodyParser = require('body-parser')
 
 const routes = require('./routes.js')
 
-const lang = require('./middleware/lang.js')
-const auth = require('./middleware/token_auth.js')
-
 const PORT = 8000
 const app = express()
 
@@ -15,9 +12,6 @@ const app = express()
 app.use(express.json())
 app.use(express.static('dist'))
 app.use(bodyParser.json())
-
-app.use(auth)
-app.use(lang)
 
 app.get('/ping', async (req, res) => {
   res.json({ data: 'pong' })

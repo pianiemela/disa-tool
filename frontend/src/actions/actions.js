@@ -2,6 +2,10 @@ import { getJson, postJson } from '../utils/utils'
 
 export const getUsersCourses = () => getJson('/courses/user')
 
+export const getCourses = () => getJson('/courses')
+
+export const getInstancesOfCourse = courseId => getJson(`/courses/instance/${courseId}`)
+
 export const getCategoriesForCourse = courseId => getJson(`/categories/${courseId}`)
 
 export const getUser = () => getJson('/persons/user')
@@ -24,6 +28,25 @@ export const getUserAction = () => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: 'USER_GET_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
+export const getAllCoursesAction = () => async (dispatch) => {
+  dispatch({
+    type: 'GET_COURSES_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await getCourses()
+    dispatch({
+      type: 'GET_COURSES_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'GET_COURSES_FAILURE',
       payload: e.response
     })
   }
