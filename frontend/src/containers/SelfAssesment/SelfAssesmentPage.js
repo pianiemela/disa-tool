@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container, Button } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
@@ -26,7 +26,6 @@ export class SelfAssesmentPage extends React.Component {
   }
 
   handleSubmit = async () => {
-    console.log('...SUBMITTING....')
     const { formData } = this.props
     this.setState({ created: false })
     await this.props.dispatchCreateForm(formData)
@@ -70,6 +69,7 @@ const createOptions = (data) => {
 }
 const mapStateToProps = state => (
   {
+    user: state.user,
     courses: state.courses,
     courseDropdownOptions: createOptions(state.courses),
     selfAssesmentDropdownOptions: createOptions(state.selfAssesment.userSelfAssesments),
@@ -90,10 +90,12 @@ SelfAssesmentForm.defaultProps = {
 }
 
 SelfAssesmentPage.propTypes = {
-  dropDownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  courseDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  selfAssesmentDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()),
   PropTypes.shape()]).isRequired,
   dispatchCreateForm: PropTypes.func.isRequired,
+  dispatchInitForm: PropTypes.func.isRequired,
   courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
 }
 

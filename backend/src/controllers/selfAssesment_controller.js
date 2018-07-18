@@ -27,7 +27,6 @@ router.get('/', async (req, res) => {
     parsedStructure.structure = JSON.parse(uSA.structure)
     return parsedStructure
   })
-  console.log(`are we here`)
   return res.status(200).json({
     data
   })

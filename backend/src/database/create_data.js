@@ -46,7 +46,9 @@ const createPersons = persons => Person.bulkCreate(persons, { returning: true })
 const createCourseInstances = (listOfCourses, maxInstances) => {
   const instances = []
   listOfCourses.map((course) => {
-    const n = randBetween(0, maxInstances)
+    let n = 0
+    // Hardcoded linis amount to three to match the amount of objectives in objective_new.json
+    course.eng_name === 'Lineaarialgebra ja matriisilaskenta I' ? n = 3 : n = randBetween(0, maxInstances)
     for (let i = 0; i < n; i += 1) {
       const semester = Math.random() >= 0.5 ? 'syksy' : 'kevät'
       const name = `${course.fin_name} ${semester} ${2018 + i}`
