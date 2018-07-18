@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { List, Grid } from 'semantic-ui-react'
+import { Menu, Grid, Dropdown } from 'semantic-ui-react'
 
 import { getCourses } from '../../actions/actions'
 
@@ -17,12 +17,12 @@ class CourseList extends Component {
 
   render() {
     return (
-      <Grid columns={1}>
-        <Grid.Column>
-          <List selection>
-            {this.state.courses.map(course => <List.Item>{course.name}</List.Item>)}
-          </List>
-        </Grid.Column>
+      <Grid columns={1} centered padded="vertically">
+        <Grid.Row>
+          <Grid.Column width={8}>
+            <Dropdown fluid search selection options={this.state.courses.map(course => ({ key: course.id, text: course.name, value: course.id }))} />
+          </Grid.Column>
+        </Grid.Row>
       </Grid>
     )
   }
