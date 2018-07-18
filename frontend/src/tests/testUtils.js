@@ -2,6 +2,8 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import asyncAction from '../utils/asyncAction'
 
+import { BASE_PATH } from '../utils/utils'
+
 export const findText = (text, wrapper) => {
   let found = 0
   if (wrapper.text().includes(text)) found += 1
@@ -24,8 +26,12 @@ export const findText = (text, wrapper) => {
  */
 export const testService = (options) => {
   const { func, data, mockResponse, type, apiRoute, apiMethod = 'get', mockStatus = 200 } = options
+  let path
   if (apiRoute === undefined) {
     console.warn('apiRoute was undefined. All routes will be considered valid and pass tests.')
+    path = apiRoute
+  } else {
+    path = `${BASE_PATH}${apiRoute}`
   }
 
   describe(`${func.name} func`, () => {
@@ -43,16 +49,16 @@ export const testService = (options) => {
         let route
         switch (apiMethod) {
           case 'get':
-            route = apiMock.onGet(apiRoute)
+            route = apiMock.onGet(path)
             break
           case 'post':
-            route = apiMock.onPost(apiRoute)
+            route = apiMock.onPost(path)
             break
           case 'put':
-            route = apiMock.onPut(apiRoute)
+            route = apiMock.onPut(path)
             break
           case 'delete':
-            route = apiMock.onDelete(apiRoute)
+            route = apiMock.onDelete(path)
             break
           default:
             console.warn('apiMethod was invalid, no api mock created.')

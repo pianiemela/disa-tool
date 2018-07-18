@@ -21,7 +21,7 @@ testService({
       category_id: 7
     }
   },
-  apiRoute: '/api/objectives/create',
+  apiRoute: '/objectives/create',
   apiMethod: 'post'
 })
 
@@ -39,6 +39,6 @@ testService({
       category_id: 7
     }
   },
-  apiRoute: '/api/objectives/15',
+  apiRoute: '/objectives/15',
   apiMethod: 'delete'
 })

@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const objectiveService = require('../services/objective_service.js')
+const typeService = require('../services/type_service.js')
 const { checkPrivilege } = require('../services/auth.js')
 const globalMessages = require('../messages/global_messages.js')
 
@@ -8,16 +8,16 @@ const messages = {
   ...globalMessages,
   create: {
     success: {
-      eng: '"Oppimistavoite luotu onnistuneesti." englanniksi.',
-      fin: 'Oppimistavoite luotu onnistuneesti.',
-      swe: '"Oppimistavoite luotu onnistuneesti." ruotsiksi.'
+      eng: '"Tyyppi luotu onnistuneesti." englanniksi.',
+      fin: 'Tyyppi luotu onnistuneesti.',
+      swe: '"Tyyppi luotu onnistuneesti." ruotsiksi.'
     }
   },
   delete: {
     success: {
-      eng: '"Oppimistavoite poistettu onnistuneesti." englanniksi.',
-      fin: 'Oppimistavoite poistettu onnistuneesti.',
-      swe: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
+      eng: '"Tyyppi poistettu onnistuneesti." englanniksi.',
+      fin: 'Tyyppi poistettu onnistuneesti.',
+      swe: '"Tyyppi poistettu onnistuneesti." ruotsiksi.'
     }
   }
 }
@@ -29,7 +29,7 @@ router.post('/create', async (req, res) => {
     })
     return
   }
-  const created = await objectiveService.create(req.body, req.lang)
+  const created = await typeService.create(req.body, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
     created
@@ -43,7 +43,7 @@ router.delete('/:id', async (req, res) => {
     })
     return
   }
-  const deleted = await objectiveService.delete(req.params.id)
+  const deleted = await typeService.delete(Number(req.params.id))
   res.status(200).json({
     message: messages.delete.success[req.lang],
     deleted
