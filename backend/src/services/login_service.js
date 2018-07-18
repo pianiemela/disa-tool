@@ -71,7 +71,7 @@ const login = async (body, lang) => {
     const loggedIn = {
       id: created.id,
       studentnumber: created.studentnumber,
-      name: created.studentnumber,
+      name: created.name,
       role: created.role
     }
     return {
