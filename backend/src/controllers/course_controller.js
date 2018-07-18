@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   res.status(200).json(courses)
 })
 
-router.get('/instace/:courseId', async (req, res) => {
+router.get('/instance/:courseId', async (req, res) => {
   const { courseId } = req.params
   const instances = await courseService.getCourseInstancesOfCourse(Number(courseId), req.lang)
   res.status(200).json(instances)
