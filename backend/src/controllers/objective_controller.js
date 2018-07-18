@@ -2,8 +2,10 @@ const router = require('express').Router()
 
 const objectiveService = require('../services/objective_service.js')
 const { checkPrivilege } = require('../services/auth.js')
+const globalMessages = require('../messages/global_messages.js')
 
 const messages = {
+  ...globalMessages,
   create: {
     success: {
       eng: '"Oppimistavoite luotu onnistuneesti." englanniksi.',
@@ -16,13 +18,6 @@ const messages = {
       eng: '"Oppimistavoite poistettu onnistuneesti." englanniksi.',
       fin: 'Oppimistavoite poistettu onnistuneesti.',
       swe: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
-    }
-  },
-  privilege: {
-    failure: {
-      eng: '"Pääsy estetty." englanniksi.',
-      fin: 'Pääsy estetty.',
-      swe: '"Pääsy estetty." ruotsiksi.'
     }
   }
 }
