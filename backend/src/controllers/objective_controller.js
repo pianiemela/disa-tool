@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const objectiveService = require('../services/objective_service.js')
+const { checkPrivilege } = require('../services/auth.js')
 
 const messages = {
   create: {
@@ -16,11 +17,23 @@ const messages = {
       fin: 'Oppimistavoite poistettu onnistuneesti.',
       swe: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
     }
+  },
+  privilege: {
+    failure: {
+      eng: '"Pääsy estetty." englanniksi.',
+      fin: 'Pääsy estetty.',
+      swe: '"Pääsy estetty." ruotsiksi.'
+    }
   }
 }
 
 router.post('/create', async (req, res) => {
-  // TODO validate
+  if (!checkPrivilege(req, ['logged_in', 'teacher_on_course'])) {
+    res.status(403).json({
+      error: messages.privilege.failure[req.lang]
+    })
+    return
+  }
   const created = await objectiveService.create(req.body, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
@@ -29,7 +42,12 @@ router.post('/create', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  // TODO validate
+  if (!checkPrivilege(req, ['logged_in', 'teacher_on_course'])) {
+    res.status(403).json({
+      error: messages.privilege.failure[req.lang]
+    })
+    return
+  }
   const deleted = await objectiveService.delete(req.params.id)
   res.status(200).json({
     message: messages.delete.success[req.lang],
