@@ -6,7 +6,6 @@ import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
 import asyncAction from '../../../utils/asyncAction'
 
 import { getAllSelfAssesments } from '../services/selfAssesment'
-import { createFormJSONStucture } from '../reducers/createFormReducer'
 import CategorySelection from './CategorySelection'
 import DropDownSelection from './DropDownSelection'
 
@@ -69,6 +68,7 @@ class SelfAssesmentCreateForm extends React.Component {
               <DropDownSelection
                 options={dropdownAssesments}
                 placeholder="Valitse muokattava itsearviointi"
+                handleChange={this.handleDropdownChange}
                 submitButton
                 label="Muokkaa"
                 onSubmit={this.changeEditValue}
@@ -79,6 +79,7 @@ class SelfAssesmentCreateForm extends React.Component {
         </Grid>
       )
     }
+
     return (<SelfAssesmentForm
       handleChange={this.handleFormChange}
       edit
@@ -87,17 +88,11 @@ class SelfAssesmentCreateForm extends React.Component {
     />)
   }
 
+
   render() {
     return <div>{this.renderCreateOrDraft()}</div>
   }
 }
-
-const mapDispatchToProps = dispatch => (
-  {
-    createFormJSONStucture: createFormJSONStucture(dispatch),
-    getAllSelfAssesments: asyncAction(getAllSelfAssesments, dispatch)
-  }
-)
 
 SelfAssesmentCreateForm.propTypes = {
   dropDownCourse: PropTypes.arrayOf(PropTypes.shape()).isRequired,
@@ -108,5 +103,4 @@ SelfAssesmentCreateForm.propTypes = {
 SelfAssesmentCreateForm.defaultProps = {
   dropdownAssesments: []
 }
-
-export default connect(mapDispatchToProps)(SelfAssesmentCreateForm)
+export default SelfAssesmentCreateForm

@@ -7,7 +7,7 @@ import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 
-import { initForm, createForm } from '../../actions/actions'
+import { initForm, createForm, getUserCoursesAction, getUserSelfAssesments } from '../../actions/actions'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
@@ -17,7 +17,10 @@ export class SelfAssesmentPage extends React.Component {
       created: false
     }
   }
-
+  async componentDidMount() {
+    this.props.dispatchGetUsercourses()
+    this.props.dispatchGetUserSelfAssesments()
+  }
   createForm = async (courseId, type) => {
     const courseData = await getCourseData(courseId)
     const courseInfo = this.props.courses.find(cd => cd.id === courseId)
@@ -82,7 +85,12 @@ const mapDispatchToProps = dispatch => ({
   dispatchInitForm: data =>
     dispatch(initForm(data)),
   dispatchCreateForm: data =>
-    dispatch(createForm(data))
+    dispatch(createForm(data)),
+  dispatchGetUsercourses: () =>
+    dispatch(getUserCoursesAction()),
+  dispatchGetUserSelfAssesments: () =>
+    dispatch(getUserSelfAssesments())
+
 })
 
 SelfAssesmentForm.defaultProps = {
