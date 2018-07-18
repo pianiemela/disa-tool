@@ -16,7 +16,7 @@ router.get('/instace/:courseId', async (req, res) => {
 
 router.get('/user', async (req, res) => {
   const user = await checkAuth(req)
-  const instances = await courseService.getCoursesForPeson(user.id, req.lang)
+  const instances = await courseService.getCoursesForPerson(user.id, req.lang)
   res.status(200).json(instances)
 })
 

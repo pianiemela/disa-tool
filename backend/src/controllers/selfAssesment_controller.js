@@ -9,7 +9,7 @@ router.post('/create', async (req, res) => {
   const { formInfo } = req.body
   createFormData = destructureNamesAndInstructions(createFormData, formInfo)
   createFormData.structure = JSON.stringify(createFormData.structure)
-  const data = await selfAssesmentService.addSelfAssesment(createFormData)
+  const data = await selfAssesmentService.addSelfAssesment(createFormData, req.lang)
   data.structure = JSON.parse(data.structure)
 
   return res.status(200).json({
@@ -20,7 +20,8 @@ router.post('/create', async (req, res) => {
 
 router.get('/', async (req, res) => {
   const user = await checkAuth(req)
-  let userSelfAssesments = await selfAssesmentService.getUserSelfAssesments(user)
+  const userSelfAssesments = await selfAssesmentService.getUserSelfAssesments(user, req.lang)
+  //Parse structure to JS object
   userSelfAssesments.forEach((uSA) => {
     const parsedStructure = uSA
     parsedStructure.structure = JSON.parse(uSA.structure)

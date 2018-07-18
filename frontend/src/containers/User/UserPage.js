@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { shape, string, arrayOf, func } from 'prop-types'
 import { List, Menu, Grid, Item } from 'semantic-ui-react'
-import { getUsersCourses, getUserAction, getUserCoursesAction } from '../../actions/actions'
+import { getUsersCourses, getUserAction, getUserCoursesAction, getUserSelfAssesments } from '../../actions/actions'
 
 class UserPage extends Component {
   state = {
@@ -11,9 +11,10 @@ class UserPage extends Component {
   }
 
   componentDidMount = async () => {
-    // this.props.dispatchGetUser()
-    this.props.dispatchGetUsercourses()
-    getUsersCourses().then(res => this.setState({ courses: res.data }))
+    const user = await this.props.dispatchGetUser()
+    this.props.dispatchGetUsercourses(user)
+    this.props.dispatchGetUserSelfAssesments(user)
+    // getUsersCourses().then(res => this.setState({ courses: res.data }))
   }
 
   handleClick = (e, { course }) => {
@@ -78,13 +79,16 @@ class UserPage extends Component {
 const mapDispatchToProps = dispatch => ({
   dispatchGetUser: () =>
     dispatch(getUserAction()),
-  dispatchGetUsercourses: () =>
-    dispatch(getUserCoursesAction())
+  dispatchGetUsercourses: user =>
+    dispatch(getUserCoursesAction(user)),
+  dispatchGetUserSelfAssesments: user =>
+    dispatch(getUserSelfAssesments(user))
 })
 
 const mapStateToProps = state => ({
   user: state.user,
-  courses: state.courses
+  courses: state.courses,
+  selfAssesments: state.selfAssesment.userSelfAssesments
 })
 
 UserPage.propTypes = {

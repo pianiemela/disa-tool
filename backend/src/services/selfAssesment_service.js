@@ -1,11 +1,21 @@
 const { SelfAssessment, Person, CoursePerson, CourseInstance } = require('../database/models.js')
 
-const addSelfAssesment = async (data) => {
+const addSelfAssesment = async (data, lang) => {
+  const name = [`${lang}_name`, 'name']
+  const instructions = [`${lang}_instructions`, 'instructions']
   const created = await SelfAssessment.create(data)
-  return created
+  const createWithLanAndInst = await SelfAssessment.findOne({
+    attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
+    where: { id: created.id }
+  })
+
+  return createWithLanAndInst
 }
 
-const getUserSelfAssesments = async (user) => {
+const getUserSelfAssesments = async (user, lang) => {
+
+
+
   // const selfAssesments = await Person.findOne({
   //   where: {
   //     id: user.id
@@ -24,7 +34,7 @@ const getUserSelfAssesments = async (user) => {
   // })
 
   const sA = await SelfAssessment.findAll({
-    attributes: { exclude: ['created_at', 'updated_at'] },
+    attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
     include: [
       {
         model: CourseInstance,
@@ -33,7 +43,6 @@ const getUserSelfAssesments = async (user) => {
         include: [
           {
             model: Person,
-            through: {},
             required: true,
             attributes: [],
             where: {

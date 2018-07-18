@@ -1,4 +1,5 @@
 import { getJson, postJson } from '../utils/utils'
+import { getAllSelfAssesments } from '../containers/SelfAssesment/services/selfAssesment';
 
 export const getUsersCourses = () => getJson('/courses/user')
 
@@ -7,6 +8,8 @@ export const getCategoriesForCourse = courseId => getJson(`/categories/${courseI
 export const getUser = () => getJson('/persons/user')
 
 export const createSelfAssesment = data => postJson('/selfassesment/create', data)
+
+export const getSelfAssesments = data => getJson('/selfassesment/', data)
 
 export const getUserAction = () => async (dispatch) => {
   dispatch({
@@ -116,3 +119,24 @@ export const createForm = data => async (dispatch) => {
     })
   }
 }
+
+export const getUserSelfAssesments = user => async (dispatch) => {
+  dispatch({
+    type: 'GET_ALL_USER_SELFASSESMENTS_ATTEMPT',
+    payload: ''
+  })
+
+  try {
+    const res = await getAllSelfAssesments(user)
+    dispatch({
+      type: 'GET_ALL_USER_SELFASSESMENTS_SUCCESS',
+      payload: res
+    })
+  } catch (error) {
+    dispatch({
+      type: 'GET_ALL_USER_SELFASSESMENTS_FALURE',
+      payload: error
+    })
+  }
+}
+

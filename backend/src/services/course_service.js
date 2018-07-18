@@ -9,7 +9,7 @@ const getCourseInstancesOfCourse = (courseId, lang) => (
   })
 )
 
-const getCoursesForPeson = (personId, lang) => (
+const getCoursesForPerson = (personId, lang) => (
   CourseInstance.findAll({
     include: { model: Person, where: { id: personId } },
     attributes: instanceAttributes(lang)
@@ -20,6 +20,6 @@ const getCourses = () => Course.findAll()
 
 module.exports = {
   getCourseInstancesOfCourse,
-  getCoursesForPeson,
+  getCoursesForPerson,
   getCourses
 }

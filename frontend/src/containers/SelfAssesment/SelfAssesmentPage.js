@@ -30,14 +30,13 @@ export class SelfAssesmentPage extends React.Component {
     const { formData } = this.props
     this.setState({ created: false })
     await this.props.dispatchCreateForm(formData)
-
-
   }
 
   renderTeacherView = () => (
     <SelfAssesmentCreateForm
       courses={this.props.courses}
       dropDownCourse={this.props.courseDropdownOptions}
+      dropDownAssesments={this.props.selfAssesmentDropdownOptions}
       createForm={this.createForm}
     />
   )
@@ -73,9 +72,9 @@ const mapStateToProps = state => (
   {
     courses: state.courses,
     courseDropdownOptions: createOptions(state.courses),
-    selfAssesmentDropdownOptons: createOptions(state.selfAssesmentCreate.userSelfAssesments),
-    formData: state.selfAssesmentCreate.createForm,
-    selfAssesments: state.selfAssesmentCreate.userSelfAssesments
+    selfAssesmentDropdownOptions: createOptions(state.selfAssesment.userSelfAssesments),
+    formData: state.selfAssesment.createForm,
+    selfAssesments: state.selfAssesment.userSelfAssesments
   }
 )
 

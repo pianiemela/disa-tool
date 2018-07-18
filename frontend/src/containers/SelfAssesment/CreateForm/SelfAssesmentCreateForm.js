@@ -67,7 +67,7 @@ class SelfAssesmentCreateForm extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <DropDownSelection
-                options={[]}
+                options={dropdownAssesments}
                 placeholder="Valitse muokattava itsearviointi"
                 submitButton
                 label="Muokkaa"
