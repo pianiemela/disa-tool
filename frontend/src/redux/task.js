@@ -2,6 +2,32 @@ const INITIAL_STATE = {
   tasks: []
 }
 
+const detach = (state, action, field) => {
+  const changes = []
+  action.response.deleted.task_ids.forEach((taskId) => {
+    changes[taskId] = true
+  })
+  const newTasks = state.tasks.map((task) => {
+    if (changes[task.id]) {
+      const newField = [...task[field]]
+      let index = 0
+      while (index < newField.length) {
+        if (newField[index].id === action.response.deleted.id) {
+          newField.splice(index, 1)
+          break
+        }
+        index += 1
+      }
+      return {
+        ...task,
+        [field]: newField
+      }
+    }
+    return task
+  })
+  return { ...state, tasks: newTasks }
+}
+
 const taskReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'COURSE_GET_DATA':
@@ -54,31 +80,10 @@ const taskReducer = (state = INITIAL_STATE, action) => {
     case 'TASK_REMOVE_OBJECTIVE':
       console.log(action.response)
       return state
-    case 'TYPE_DELETE': {
-      const changes = []
-      action.response.deleted.task_ids.forEach((taskId) => {
-        changes[taskId] = true
-      })
-      const newTasks = state.tasks.map((task) => {
-        if (changes[task.id]) {
-          const newTypes = [...task.types]
-          let index = 0
-          while (index < newTypes.length) {
-            if (newTypes[index].id === action.response.deleted.id) {
-              newTypes.splice(index, 1)
-              break
-            }
-            index += 1
-          }
-          return {
-            ...task,
-            types: newTypes
-          }
-        }
-        return task
-      })
-      return { ...state, tasks: newTasks }
-    }
+    case 'OBJECTIVE_DELETE':
+      return detach(state, action, 'objectives')
+    case 'TYPE_DELETE':
+      return detach(state, action, 'types')
     default:
       return state
   }

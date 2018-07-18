@@ -1,4 +1,4 @@
-const { Objective } = require('../database/models.js')
+const { Objective, TaskObjective } = require('../database/models.js')
 
 const create = async (data, lang) => {
   const value = (await Objective.create(data)).toJSON()
@@ -12,7 +12,12 @@ const create = async (data, lang) => {
 }
 
 const deleteObjective = async (id) => {
-  const instance = await Objective.findById(id)
+  const instance = await Objective.findById(id, {
+    include: {
+      model: TaskObjective,
+      attributes: ['task_id']
+    }
+  })
   const value = instance.toJSON()
   instance.destroy()
   Objective.destroy({
@@ -23,7 +28,8 @@ const deleteObjective = async (id) => {
   return {
     id: value.id,
     category_id: value.category_id,
-    skill_level_id: value.skill_level_id
+    skill_level_id: value.skill_level_id,
+    task_ids: value.task_objectives.map(taskObjective => taskObjective.task_id)
   }
 }
 
