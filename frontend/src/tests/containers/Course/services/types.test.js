@@ -18,7 +18,7 @@ testService({
     }
   },
   apiMethod: 'post',
-  apiRoute: '/api/types/create'
+  apiRoute: '/types/create'
 })
 
 testService({
@@ -38,5 +38,5 @@ testService({
     }
   },
   apiMethod: 'delete',
-  apiRoute: '/api/types/15'
+  apiRoute: '/types/15'
 })

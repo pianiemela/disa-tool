@@ -627,5 +627,5 @@ testService({
     },
     message: '<getDataForCourseSuccess>'
   },
-  apiRoute: '/api/course-instances/data/1'
+  apiRoute: '/course-instances/data/1'
 })
