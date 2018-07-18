@@ -54,6 +54,31 @@ const taskReducer = (state = INITIAL_STATE, action) => {
     case 'TASK_REMOVE_OBJECTIVE':
       console.log(action.response)
       return state
+    case 'TYPE_DELETE': {
+      const changes = []
+      action.response.deleted.task_ids.forEach((taskId) => {
+        changes[taskId] = true
+      })
+      const newTasks = state.tasks.map((task) => {
+        if (changes[task.id]) {
+          const newTypes = [...task.types]
+          let index = 0
+          while (index < newTypes.length) {
+            if (newTypes[index].id === action.response.deleted.id) {
+              newTypes.splice(index, 1)
+              break
+            }
+            index += 1
+          }
+          return {
+            ...task,
+            types: newTypes
+          }
+        }
+        return task
+      })
+      return { ...state, tasks: newTasks }
+    }
     default:
       return state
   }

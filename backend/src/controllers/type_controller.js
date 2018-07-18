@@ -30,7 +30,7 @@ router.post('/create', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   // TODO validate
-  const deleted = await typeService.delete(req.params.id)
+  const deleted = await typeService.delete(Number(req.params.id))
   res.status(200).json({
     message: messages.delete.success[req.lang],
     deleted
