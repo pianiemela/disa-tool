@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid } from 'semantic-ui-react'
+import { Grid, List } from 'semantic-ui-react'
 import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
 import asyncAction from '../../../utils/asyncAction'
 
@@ -15,7 +15,8 @@ class SelfAssesmentCreateForm extends React.Component {
     this.state = {
       active: [],
       selectedView: '',
-      dropDownValue: ''
+      dropDownValue: '',
+      selectedSelfAssesments: []
     }
   }
 
@@ -29,6 +30,8 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 
   handleDropdownChange = (e, { value }) => {
+    const selectedSelfAssesments = this.props.selfAssesments.filter(sa => sa.course_instance_id === value)
+    this.setState({ selectedSelfAssesments })
     this.setState({ dropDownValue: value })
   }
 
@@ -46,7 +49,7 @@ class SelfAssesmentCreateForm extends React.Component {
     const { dropDownCourse, dropdownAssesments } = this.props
     if (!this.state.created) {
       return (
-        <Grid columns={2} divided>
+        <Grid textAlign='center'>
           <Grid.Row>
             <Grid.Column>
               <DropDownSelection
@@ -54,24 +57,22 @@ class SelfAssesmentCreateForm extends React.Component {
                 placeholder="Valitse kurssi"
                 handleChange={this.handleDropdownChange}
               />
-
+              <List>
+                <List.Item>
+                  <List.Header>Selfassesments of selected course</List.Header>
+                </List.Item>
+                {this.state.selectedSelfAssesments.map(sa => (
+                  <List.Item>
+                    {sa.name}
+                  </List.Item>
+                ))}
+              </List>
               <CategorySelection
                 selectedView={selectedView}
                 category="category"
                 objectives="objectives"
                 toggleButton={this.toggleButton}
                 sendFormId={this.sendFormId}
-              />
-
-            </Grid.Column>
-            <Grid.Column>
-              <DropDownSelection
-                options={dropdownAssesments}
-                placeholder="Valitse muokattava itsearviointi"
-                handleChange={this.handleDropdownChange}
-                submitButton
-                label="Muokkaa"
-                onSubmit={this.changeEditValue}
               />
 
             </Grid.Column>

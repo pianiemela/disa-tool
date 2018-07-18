@@ -30,7 +30,7 @@ const CategorySelection = (props) => {
       </Form.Field>
       <Form.Field>
         <Button
-          style={{ marginTop: '25px', marginLeft: '220px' }}
+          style={{ marginTop: '25px' }}
           type="submit"
           onClick={sendFormId}
         >

@@ -38,7 +38,7 @@ export class SelfAssesmentPage extends React.Component {
     <SelfAssesmentCreateForm
       courses={this.props.courses}
       dropDownCourse={this.props.courseDropdownOptions}
-      dropdownAssesments={this.props.selfAssesmentDropdownOptions}
+      selfAssesments={this.props.selfAssesments}
       createForm={this.createForm}
     />
   )
@@ -99,9 +99,9 @@ SelfAssesmentForm.defaultProps = {
 
 SelfAssesmentPage.propTypes = {
   courseDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  selfAssesmentDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  // selfAssesmentDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()),
-  PropTypes.shape()]).isRequired,
+    PropTypes.shape()]).isRequired,
   dispatchCreateForm: PropTypes.func.isRequired,
   dispatchInitForm: PropTypes.func.isRequired,
   courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
