@@ -7,6 +7,7 @@ const routes = require('./routes.js')
 
 const lang = require('./middleware/lang.js')
 const auth = require('./middleware/token_auth.js')
+const privilege = require('./middleware/privilege.js')
 
 const PORT = 8000
 const app = express()
@@ -18,6 +19,7 @@ app.use(bodyParser.json())
 
 app.use(auth)
 app.use(lang)
+app.use(privilege)
 
 app.get('/ping', async (req, res) => {
   res.json({ data: 'pong' })

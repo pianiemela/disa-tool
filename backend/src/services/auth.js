@@ -23,6 +23,9 @@ const checkAuth = (req) => {
   }
 }
 
+const checkPrivilege = (req, privileges) => privileges.every(privilege => req.privileges[privilege])
+
 module.exports = {
-  checkAuth
+  checkAuth,
+  checkPrivilege
 }
