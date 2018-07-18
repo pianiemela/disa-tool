@@ -7,7 +7,7 @@ import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 
-import { initForm, createForm, getUserCoursesAction, getUserSelfAssesments } from '../../actions/actions'
+import { initNewFormAaction, createForm, getUserCoursesAction, getUserSelfAssesments } from '../../actions/actions'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
@@ -24,7 +24,7 @@ export class SelfAssesmentPage extends React.Component {
   createForm = async (courseId, type) => {
     const courseData = await getCourseData(courseId)
     const courseInfo = this.props.courses.find(cd => cd.id === courseId)
-    this.props.dispatchInitForm({ courseData, type, courseInfo })
+    this.props.dispatchInitNewFormAaction({ courseData, type, courseInfo })
     this.setState({ created: true })
   }
 
@@ -82,8 +82,8 @@ const mapStateToProps = state => (
 )
 
 const mapDispatchToProps = dispatch => ({
-  dispatchInitForm: data =>
-    dispatch(initForm(data)),
+  dispatchInitNewFormAaction: data =>
+    dispatch(initNewFormAaction(data)),
   dispatchCreateForm: data =>
     dispatch(createForm(data)),
   dispatchGetUsercourses: () =>
@@ -103,7 +103,7 @@ SelfAssesmentPage.propTypes = {
   formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()),
     PropTypes.shape()]).isRequired,
   dispatchCreateForm: PropTypes.func.isRequired,
-  dispatchInitForm: PropTypes.func.isRequired,
+  dispatchInitNewFormAaction: PropTypes.func.isRequired,
   courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
 }
 

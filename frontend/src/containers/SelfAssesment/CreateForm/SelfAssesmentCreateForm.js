@@ -8,6 +8,7 @@ import asyncAction from '../../../utils/asyncAction'
 import { getAllSelfAssesments } from '../services/selfAssesment'
 import CategorySelection from './CategorySelection'
 import DropDownSelection from './DropDownSelection'
+import SelfAssesmentList from './SelfAssesmentList'
 
 class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
@@ -35,8 +36,9 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ dropDownValue: value })
   }
 
-  sendFormId = () => {
-    this.props.createForm(this.state.dropDownValue, this.state.selectedView)
+  sendFormId = (type) => {
+    console.log(type, this.state.dropDownValue)
+    // this.props.createForm(this.state.dropDownValue, this.state.selectedView)
   }
 
   toggleButton = (e) => {
@@ -49,24 +51,19 @@ class SelfAssesmentCreateForm extends React.Component {
     const { dropDownCourse, dropdownAssesments } = this.props
     if (!this.state.created) {
       return (
-        <Grid textAlign='center'>
+        <Grid centered>
           <Grid.Row>
-            <Grid.Column>
+            <Grid.Column width={10}>
               <DropDownSelection
                 options={dropDownCourse}
                 placeholder="Valitse kurssi"
                 handleChange={this.handleDropdownChange}
               />
-              <List>
-                <List.Item>
-                  <List.Header>Selfassesments of selected course</List.Header>
-                </List.Item>
-                {this.state.selectedSelfAssesments.map(sa => (
-                  <List.Item>
-                    {sa.name}
-                  </List.Item>
-                ))}
-              </List>
+
+              <SelfAssesmentList
+                onClick={this.sendFormId}
+                selfAssesments={this.state.selectedSelfAssesments}
+              />
               <CategorySelection
                 selectedView={selectedView}
                 category="category"
