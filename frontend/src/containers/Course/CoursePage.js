@@ -1,15 +1,96 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link, withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Route, Switch, Link, Redirect, withRouter } from 'react-router-dom'
+import { Loader, Menu } from 'semantic-ui-react'
+import asyncAction from '../../utils/asyncAction'
 
-export const CoursePage = props => (
-  <div className="CoursePage">
-    <Link to={`/course/${props.courseId}/matrix`}>Matrix</Link>
-    <br />
-    <Link to={`/course/${props.courseId}/types`}>Types</Link>
-    <br />
-    <Link to={`/course/${props.courseId}/tasks`}>Tasks</Link>
-  </div>
-)
+import { getCourseData } from './services/course'
 
-export default withRouter(CoursePage)
+import EditMatrixPage from '../EditMatrix/EditMatrixPage'
+import EditTypesPage from '../EditTypes/EditTypesPage'
+import EditTasksPage from '../EditTasks/EditTasksPage'
+
+export class CoursePage extends Component {
+  componentDidMount() {
+    this.props.getCourseData({
+      courseId: this.props.match.params.id
+    })
+  }
+
+  render() {
+    if (this.props.loading) {
+      return <Loader active />
+    }
+    return (
+      <div className="CoursePage">
+        <nav>
+          <Menu pointing>
+            <Menu.Item
+              as={Link}
+              to={`${this.props.match.url}/matrix`}
+              name="matrix"
+              active={this.props.location.pathname.includes('matrix')}
+            />
+            <Menu.Item
+              as={Link}
+              to={`${this.props.match.url}/types`}
+              name="types"
+              active={this.props.location.pathname.includes('types')}
+            />
+            <Menu.Item
+              as={Link}
+              to={`${this.props.match.url}/tasks`}
+              name="tasks"
+              active={this.props.location.pathname.includes('tasks')}
+            />
+          </Menu>
+        </nav>
+        <Switch>
+          <Route path={`${this.props.match.url}/matrix`} component={this.props.EditMatrixPage} />
+          <Route path={`${this.props.match.url}/types`} component={this.props.EditTypesPage} />
+          <Route path={`${this.props.match.url}/tasks`} component={this.props.EditTasksPage} />
+          <Route component={() => <Redirect to={`${this.props.match.url}/tasks`} />} />
+        </Switch>
+      </div>
+    )
+  }
+}
+
+CoursePage.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      id: PropTypes.number.isRequired
+    }).isRequired
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired
+  }).isRequired,
+  getCourseData: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  EditMatrixPage: PropTypes.func.isRequired,
+  EditTypesPage: PropTypes.func.isRequired,
+  EditTasksPage: PropTypes.func.isRequired
+}
+
+const mapStateToProps = (state, ownProps) => ({
+  match: {
+    ...ownProps.match,
+    params: {
+      ...ownProps.match.params,
+      id: Number(ownProps.match.params.id)
+    }
+  },
+  location: ownProps.location,
+  EditMatrixPage: (() => <EditMatrixPage courseId={Number(ownProps.match.params.id)} />),
+  EditTypesPage: (() => <EditTypesPage courseId={Number(ownProps.match.params.id)} />),
+  EditTasksPage: (() => <EditTasksPage courseId={Number(ownProps.match.params.id)} />),
+  loading: state.course.loading
+})
+
+const mapDispatchToProps = dispatch => ({
+  getCourseData: asyncAction(getCourseData, dispatch)
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CoursePage))
