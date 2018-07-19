@@ -112,15 +112,15 @@ const mapObjectives = (value) => {
       skillLevels[objective.skill_level.id] = objective.skill_level
     }
   })
+  returnValue.levels = Object.keys(skillLevels).map(level => skillLevels[level])
   returnValue.categories = Object.keys(categories).map(category => ({
     ...categories[category],
-    skill_levels: Object.keys(categorySkillLevels[category]).map(level => ({
-      id: Number(level),
-      objectives: categorySkillLevels[category][level]
+    skill_levels: returnValue.levels.map(level => ({
+      id: level.id,
+      objectives: categorySkillLevels[category][level.id] ? categorySkillLevels[category][level.id] : []
     }))
   }))
   delete returnValue.objectives
-  returnValue.levels = Object.keys(skillLevels).map(level => skillLevels[level])
   return returnValue
 }
 
