@@ -37,12 +37,11 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 
   sendFormId = (editOrCreate, id) => {
-    console.log(editOrCreate)
-    editOrCreate === 'create' ?
-      this.props.createForm(this.state.dropDownValue, this.state.selectedView, editOrCreate)
-      :
+    if (editOrCreate === 'create') {
+      this.props.createForm(this.state.dropDownValue, this.state.selectedView)
+    } else {
       this.props.editForm(id)
-    // this.props.createForm(this.state.dropDownValue, this.state.selectedView, editOrCreate)
+    }
   }
 
   toggleButton = (e) => {

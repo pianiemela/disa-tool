@@ -32,6 +32,19 @@ router.get('/', async (req, res) => {
   })
 })
 
+router.put('/update/:id', async (req, res) => {
+  let data = req.body
+  const { formInfo } = data.structure
+  data = destructureNamesAndInstructions(data, formInfo)
+  data.structure = JSON.stringify(data.structure)
+  data = await selfAssesmentService.updateSelfAssesment(data, req.lang)
+  data.structure = JSON.parse(data.structure)
+  return res.status(200).json({
+    message: 'Self assesment updated succesfully',
+    data
+  })
+})
+
 const destructureNamesAndInstructions = (createFormData, formInfo) => {
   const withNamesAndInstructions = createFormData
   formInfo.forEach((forminfoType) => {
