@@ -67,8 +67,12 @@ const initForm = (payload) => {
 
 export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'INIT_FORM': {
+    case 'INIT_NEW_FORM': {
       const data = initForm(action.payload)
+      return { ...state, createForm: data }
+    }
+    case 'INIT_EDIT_FORM': {
+      const data = action.payload
       return { ...state, createForm: data }
     }
     case 'TOGGLE_TEXT_FIELD': {

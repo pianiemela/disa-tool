@@ -78,9 +78,9 @@ export const toggleTextField = id => (dispatch) => {
   })
 }
 
-export const initForm = data => (dispatch) => {
+export const initNewFormAaction = data => (dispatch) => {
   dispatch({
-    type: 'INIT_FORM',
+    type: 'INIT_NEW_FORM',
     payload: data
   })
 }
