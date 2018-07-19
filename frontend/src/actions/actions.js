@@ -142,6 +142,14 @@ export const createForm = data => async (dispatch) => {
   }
 }
 
+export const editFormAction = data => (dispatch) => {
+  console.log(data)
+  dispatch({
+    type: 'INIT_EDIT_FORM',
+    payload: data
+  })
+}
+
 export const getUserSelfAssesments = user => async (dispatch) => {
   dispatch({
     type: 'GET_ALL_USER_SELFASSESMENTS_ATTEMPT',

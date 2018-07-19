@@ -14,7 +14,7 @@ const SelfAssesmentList = (props) => {
         {selfAssesments.map(sa => (
           <List.Item
             key={sa.id}
-            onClick={() => onClick('edit')}
+            onClick={() => onClick('edit', sa.id)}
           >
             {sa.name}
           </List.Item>

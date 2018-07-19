@@ -36,9 +36,13 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ dropDownValue: value })
   }
 
-  sendFormId = (type) => {
-    console.log(type, this.state.dropDownValue)
-    // this.props.createForm(this.state.dropDownValue, this.state.selectedView)
+  sendFormId = (editOrCreate, id) => {
+    console.log(editOrCreate)
+    editOrCreate === 'create' ?
+      this.props.createForm(this.state.dropDownValue, this.state.selectedView, editOrCreate)
+      :
+      this.props.editForm(id)
+    // this.props.createForm(this.state.dropDownValue, this.state.selectedView, editOrCreate)
   }
 
   toggleButton = (e) => {

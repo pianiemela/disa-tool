@@ -6,7 +6,7 @@ const selfAssesmentService = require('../services/selfAssesment_service.js')
 
 router.post('/create', async (req, res) => {
   let createFormData = req.body
-  const { formInfo } = req.body
+  const { formInfo } = createFormData.structure
   createFormData = destructureNamesAndInstructions(createFormData, formInfo)
   createFormData.structure = JSON.stringify(createFormData.structure)
   const data = await selfAssesmentService.addSelfAssesment(createFormData, req.lang)

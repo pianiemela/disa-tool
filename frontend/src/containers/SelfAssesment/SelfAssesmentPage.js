@@ -7,7 +7,7 @@ import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 
-import { initNewFormAaction, createForm, getUserCoursesAction, getUserSelfAssesments } from '../../actions/actions'
+import { initNewFormAaction, createForm, getUserCoursesAction, getUserSelfAssesments, editFormAction } from '../../actions/actions'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
@@ -28,6 +28,12 @@ export class SelfAssesmentPage extends React.Component {
     this.setState({ created: true })
   }
 
+  editForm = async (id) => {
+    console.log(id)
+    await this.props.dispatchEditFormAction({ data: this.props.selfAssesments.find(sa => sa.id === id) })
+    this.setState({ created: true })
+  }
+
   handleSubmit = async () => {
     const { formData } = this.props
     this.setState({ created: false })
@@ -40,11 +46,13 @@ export class SelfAssesmentPage extends React.Component {
       dropDownCourse={this.props.courseDropdownOptions}
       selfAssesments={this.props.selfAssesments}
       createForm={this.createForm}
+      editForm={this.editForm}
     />
   )
 
   render() {
     const { formData } = this.props
+    console.log(formData)
     return (
       <Container>
         <div>
@@ -89,7 +97,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetUsercourses: () =>
     dispatch(getUserCoursesAction()),
   dispatchGetUserSelfAssesments: () =>
-    dispatch(getUserSelfAssesments())
+    dispatch(getUserSelfAssesments()),
+  dispatchEditFormAction: data =>
+    dispatch(editFormAction(data))
 
 })
 
@@ -101,7 +111,7 @@ SelfAssesmentPage.propTypes = {
   courseDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   // selfAssesmentDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()),
-    PropTypes.shape()]).isRequired,
+  PropTypes.shape()]).isRequired,
   dispatchCreateForm: PropTypes.func.isRequired,
   dispatchInitNewFormAaction: PropTypes.func.isRequired,
   courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired

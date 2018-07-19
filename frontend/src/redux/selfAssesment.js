@@ -8,9 +8,7 @@ const initForm = (payload) => {
   const { courseData, type, courseInfo } = payload
   const data = {}
   data.course_instance_id = courseInfo.id
-  data.displayCoursename = courseInfo.name
-  data.formInfo = []
-  const { formInfo } = data
+  const formInfo = []
 
   formInfo.push(
     { id: 1, displayName: 'English name', value: 'Ruottia', type: 'eng_name' },
@@ -30,6 +28,8 @@ const initForm = (payload) => {
   data.type = type
   data.structure = {}
   const { structure } = data
+  structure.displayCoursename = courseInfo.name
+  structure.formInfo = formInfo
 
   structure.openQuestions = []
   const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1)
@@ -42,6 +42,7 @@ const initForm = (payload) => {
     id
   }]
   if (data.type === 'category') {
+    structure.type = 'category'
     structure.questionModules = []
     courseData.map(ciO =>
       structure.questionModules.push({
@@ -51,6 +52,7 @@ const initForm = (payload) => {
       }))
   } else {
     structure.questionModules = []
+    structure.type = 'objectives'
     courseData.map(ciO =>
       structure.questionModules.push({
         id: ciO.id,
@@ -72,7 +74,11 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       return { ...state, createForm: data }
     }
     case 'INIT_EDIT_FORM': {
-      const data = action.payload
+      const { data } = action.payload
+      const formInfo = []
+      console.log(data)
+      formInfo.push(data.eng_name, data.fin_name, data.swe_name, data.eng_description, data.fin_description, data.swe_description)
+      data.formInfo = formInfo
       return { ...state, createForm: data }
     }
     case 'TOGGLE_TEXT_FIELD': {
@@ -144,14 +150,12 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     case 'CHANGE_TEXT_FIELD': {
       const { type, value } = action.payload
       const toChange = state.createForm
-      let { formInfo } = toChange
+      let { formInfo } = toChange.structure
       const changedValue = formInfo.find(t =>
         t.type === type)
       changedValue.value = value
       formInfo = formInfo.map(inst => (inst.type === type ? changedValue : inst))
-
-      toChange.formInfo = formInfo
-
+      toChange.structure.formInfo = formInfo
       return { ...state, createForm: toChange }
     }
 
