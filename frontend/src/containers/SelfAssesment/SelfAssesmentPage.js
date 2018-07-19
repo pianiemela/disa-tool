@@ -7,13 +7,19 @@ import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 
-import { initNewFormAaction, createForm, getUserCoursesAction, getUserSelfAssesments, editFormAction } from '../../actions/actions'
+import {
+  initNewFormAaction,
+  createForm,
+  getUserCoursesAction,
+  getUserSelfAssesments,
+  editFormAction,
+  updateSelfAssesmentAction
+} from '../../actions/actions'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      mockUser: 'ope',
       created: false
     }
   }
@@ -29,7 +35,6 @@ export class SelfAssesmentPage extends React.Component {
   }
 
   editForm = async (id) => {
-    console.log(id)
     await this.props.dispatchEditFormAction({ data: this.props.selfAssesments.find(sa => sa.id === id) })
     this.setState({ created: true })
   }
@@ -40,6 +45,11 @@ export class SelfAssesmentPage extends React.Component {
     await this.props.dispatchCreateForm(formData)
   }
 
+  handleUpdate = async () => {
+    const { formData } = this.props
+    this.setState({ created: false })
+    await this.props.dispatchUpdateSelfAssesmentAction(formData)
+  }
   renderTeacherView = () => (
     <SelfAssesmentCreateForm
       courses={this.props.courses}
@@ -52,18 +62,27 @@ export class SelfAssesmentPage extends React.Component {
 
   render() {
     const { formData } = this.props
-    console.log(formData)
+    let submitAction = null
+    let bText = 'Tallenna'
+    if (formData.id) {
+      submitAction = this.handleUpdate
+      bText = 'Päivitä'
+    } else {
+      submitAction = this.handleSubmit
+    }
+
     return (
       <Container>
         <div>
-          {!this.state.created && this.state.mockUser === 'ope' ?
+          {!this.state.created ?
             this.renderTeacherView()
             :
             <SelfAssesmentForm
               edit
               created
               formData={formData}
-              handleSubmit={this.handleSubmit}
+              handleSubmit={submitAction}
+              bText={bText}
             />
           }
         </div>
@@ -99,8 +118,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetUserSelfAssesments: () =>
     dispatch(getUserSelfAssesments()),
   dispatchEditFormAction: data =>
-    dispatch(editFormAction(data))
-
+    dispatch(editFormAction(data)),
+  dispatchUpdateSelfAssesmentAction: data =>
+    dispatch(updateSelfAssesmentAction(data))
 })
 
 SelfAssesmentForm.defaultProps = {

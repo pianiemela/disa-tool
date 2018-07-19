@@ -76,7 +76,6 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     case 'INIT_EDIT_FORM': {
       const { data } = action.payload
       const formInfo = []
-      console.log(data)
       formInfo.push(data.eng_name, data.fin_name, data.swe_name, data.eng_description, data.fin_description, data.swe_description)
       data.formInfo = formInfo
       return { ...state, createForm: data }
@@ -167,12 +166,15 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     case 'GET_ALL_USER_SELFASSESMENTS_SUCCESS': {
       return { ...state, userSelfAssesments: action.payload.data }
     }
-
+    case 'SELF_ASSESMENT_UPDATE_SUCCESS': {
+      const { data } = action.payload
+      let sa = state.userSelfAssesments
+      sa = sa.map(s => (s.id === data.id ? data : s))
+      return { ...state, userSelfAssesments: sa }
+    }
     default:
       return state
   }
-
-
 }
 
 export default selfAssesmentReducer

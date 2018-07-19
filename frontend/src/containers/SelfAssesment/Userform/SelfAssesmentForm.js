@@ -25,8 +25,7 @@ const SelfAssesmentForm = (props) => {
   const editForm = (formData, edit) => {
     const { structure } = formData
     const { displayCoursename, type, formInfo } = structure
-    console.log(structure, type, displayCoursename, formInfo)
-    console.log(formInfo)
+
     return (
       <div>
         <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
@@ -82,8 +81,7 @@ const SelfAssesmentForm = (props) => {
           style={{ marginBottom: '25px' }}
           onClick={props.handleSubmit}
         >
-
-          Tallenna lomake
+          {props.bText}
         </Button>
 
       </div>
@@ -100,7 +98,6 @@ const SelfAssesmentForm = (props) => {
 
   return (
     <div>
-      <p>olet nyt renderöinyt formin!</p>
       {renderEditableForm()}
     </div >
   )

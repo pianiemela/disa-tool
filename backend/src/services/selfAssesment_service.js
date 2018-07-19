@@ -18,37 +18,20 @@ const assessmentAttributes = lang => [
 const addSelfAssesment = async (data, lang) => {
   const name = [`${lang}_name`, 'name']
   const instructions = [`${lang}_instructions`, 'instructions']
-  const created = await SelfAssessment.create(data)
-  const createWithLanAndInst = await SelfAssessment.findOne({
-    attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
-    where: { id: created.id }
-  })
+  const created = await SelfAssessment.create(data).then(
+    SelfAssessment.findOne({
+      attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
+      where: { id: created.id }
+    })
+  )
 
-  return createWithLanAndInst
+
+  return created
 }
 
 const getUserSelfAssesments = async (user, lang) => {
   const name = [`${lang}_name`, 'name']
   const instructions = [`${lang}_instructions`, 'instructions']
-
-
-
-  // const selfAssesments = await Person.findOne({
-  //   where: {
-  //     id: user.id
-  //   },
-  //   include: [
-  //     {
-  //       model: CourseInstance,
-  //       through: {},
-  //       include: [
-  //         {
-  //           model: SelfAssessment
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // })
 
   const data = await SelfAssessment.findAll({
     attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
@@ -72,7 +55,41 @@ const getUserSelfAssesments = async (user, lang) => {
   })
 
   return data
+}
 
+const updateSelfAssesment = async (data, lang) => {
+  const name = [`${lang}_name`, 'name']
+  const instructions = [`${lang}_instructions`, 'instructions']
+  await SelfAssessment.update(
+    {
+      fin_name: data.fin_name,
+      swe_name: data.swe_name,
+      eng_name: data.eng_name,
+      fin_instructions: data.fin_instructions,
+      eng_instructions: data.swe_instructions,
+      swe_instructions: data.eng_instructions,
+      structure: data.structure,
+      open: data.open,
+      active: data.active,
+      immediate_feedback: data.immediate_feedback
+    },
+    {
+      where: { id: data.id }
+    }
+  )
+  const updated = await SelfAssessment.findById(data.id, {
+    attributes:
+      ['id',
+        name,
+        instructions,
+        'structure',
+        'open',
+        'active',
+        'immediate_feedback',
+        'course_instance_id'
+      ]
+  })
+  return updated
 }
 
 const getAssesmentsForCourse = (courseId, lang, userId) => (
@@ -86,5 +103,6 @@ const getAssesmentsForCourse = (courseId, lang, userId) => (
 module.exports = {
   addSelfAssesment,
   getUserSelfAssesments,
-  getAssesmentsForCourse
+  getAssesmentsForCourse,
+  updateSelfAssesment
 }

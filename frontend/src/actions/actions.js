@@ -1,4 +1,4 @@
-import { getJson, postJson } from '../utils/utils'
+import { getJson, postJson, putJson } from '../utils/utils'
 
 export const getUsersCourses = () => getJson('/courses/user')
 
@@ -15,6 +15,8 @@ export const createSelfAssesment = data => postJson('/selfassesment/create', dat
 export const getSelfAssesments = data => getJson('/selfassesment/', data)
 
 export const getCourseInstanceData = courseId => getJson(`/courses/instance/${courseId}`)
+
+export const updateSelfAssesment = data => putJson(`/selfassesment/update/${data.id}`, data)
 
 export const getUserAction = () => async (dispatch) => {
   dispatch({
@@ -145,7 +147,6 @@ export const createForm = data => async (dispatch) => {
 }
 
 export const editFormAction = data => (dispatch) => {
-  console.log(data)
   dispatch({
     type: 'INIT_EDIT_FORM',
     payload: data
@@ -172,3 +173,18 @@ export const getUserSelfAssesments = user => async (dispatch) => {
   }
 }
 
+export const updateSelfAssesmentAction = data => async (dispatch) => {
+  try {
+    const res = await updateSelfAssesment(data)
+    dispatch({
+      type: 'SELF_ASSESMENT_UPDATE_SUCCESS',
+      payload: res.data
+    })
+  } catch (error) {
+    dispatch({
+      type: 'SELF_ASSESMENT_UPDATE_FAILURE',
+      payload: error
+    })
+  }
+
+}
