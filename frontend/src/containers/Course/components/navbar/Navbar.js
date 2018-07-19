@@ -4,24 +4,24 @@ import { Link } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 
 const Navbar = props => (
-  <nav>
+  <nav className="Navbar">
     <Menu pointing>
       <Menu.Item
         as={Link}
         to={`${props.matchUrl}/matrix`}
-        name="matrix"
+        className="matrixLink"
         active={props.pathname.includes('matrix')}
       />
       <Menu.Item
         as={Link}
         to={`${props.matchUrl}/types`}
-        name="types"
+        className="typesLink"
         active={props.pathname.includes('types')}
       />
       <Menu.Item
         as={Link}
         to={`${props.matchUrl}/tasks`}
-        name="tasks"
+        className="tasksLink"
         active={props.pathname.includes('tasks')}
       />
     </Menu>
