@@ -1,8 +1,4 @@
 import React from 'react'
-import CourseHeader from '../../../containers/Course/components/header/CourseHeader'
-import EditMatrixPage from '../../../containers/EditMatrix/EditMatrixPage'
-import EditTasksPage from '../../../containers/EditTasks/EditTasksPage'
-import EditTypesPage from '../../../containers/EditTypes/EditTypesPage'
 import Navbar from '../../../containers/Course/components/navbar/Navbar'
 import { CoursePage } from '../../../containers/Course/CoursePage'
 
@@ -10,8 +6,10 @@ const mockFn = () => {}
 
 describe('Course page', () => {
   let wrapper
+  let getCourseData
 
   beforeEach(() => {
+    getCourseData = jest.fn()
     wrapper = shallow(<CoursePage
       match={{
         url: '/course/1',
@@ -22,12 +20,12 @@ describe('Course page', () => {
       location={{
         pathname: '/course/1'
       }}
-      EditMatrixPage={() => <EditMatrixPage courseId={1} />}
-      EditTasksPage={() => <EditTasksPage courseId={1} />}
-      EditTypesPage={() => <EditTypesPage courseId={1} />}
+      EditMatrixPage={mockFn}
+      EditTasksPage={mockFn}
+      EditTypesPage={mockFn}
       courseId={1}
       loading={false}
-      getCourseData={mockFn}
+      getCourseData={getCourseData}
     />)
   })
 
@@ -37,6 +35,12 @@ describe('Course page', () => {
 
   it('renders a Navbar Component', () => {
     expect(wrapper.find(Navbar).exists()).toEqual(true)
+  })
+
+  it('calls the getCourseData prop with the correct course id.', () => {
+    expect(getCourseData).toHaveBeenCalledWith({
+      id: 1
+    })
   })
 
   describe('while loading', () => {

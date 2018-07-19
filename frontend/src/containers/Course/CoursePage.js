@@ -15,7 +15,7 @@ import Navbar from './components/navbar/Navbar'
 export class CoursePage extends Component {
   componentDidMount() {
     this.props.getCourseData({
-      courseId: this.props.match.params.id
+      id: this.props.match.params.id
     })
   }
 
