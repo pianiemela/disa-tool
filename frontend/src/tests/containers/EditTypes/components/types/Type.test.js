@@ -1,6 +1,6 @@
 import React from 'react'
-import { Type } from '../../../../../containers/Course/components/types/Type'
-import RemoveTypeForm from '../../../../../containers/Course/components/types/RemoveTypeForm'
+import { Type } from '../../../../../containers/EditTypes/components/types/Type'
+import RemoveTypeForm from '../../../../../containers/EditTypes/components/types/RemoveTypeForm'
 import { findText } from '../../../../testUtils'
 
 const type = {

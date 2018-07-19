@@ -1,6 +1,6 @@
 import React from 'react'
-import MatrixObjective from '../../../../../containers/Course/components/matrix/MatrixObjective'
-import RemoveObjectiveForm from '../../../../../containers/Course/components/matrix/RemoveObjectiveForm'
+import MatrixObjective from '../../../../../containers/EditMatrix/components/matrix/MatrixObjective'
+import RemoveObjectiveForm from '../../../../../containers/EditMatrix/components/matrix/RemoveObjectiveForm'
 import { findText } from '../../../../testUtils'
 
 const objective = {

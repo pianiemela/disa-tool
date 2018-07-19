@@ -1,5 +1,5 @@
 import React from 'react'
-import { DetachObjectiveForm } from '../../../../../containers/Course/components/tasks/DetachObjectiveForm'
+import { DetachObjectiveForm } from '../../../../../containers/EditTasks/components/tasks/DetachObjectiveForm'
 import ModalForm from '../../../../../utils/components/ModalForm'
 import { findText } from '../../../../testUtils'
 

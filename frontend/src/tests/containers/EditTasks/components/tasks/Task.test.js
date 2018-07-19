@@ -1,8 +1,8 @@
 import React from 'react'
-import Task from '../../../../../containers/Course/components/tasks/Task'
-import TaskTypelist from '../../../../../containers/Course/components/tasks/TaskTypelist'
-import TaskObjectivelist from '../../../../../containers/Course/components/tasks/TaskObjectivelist'
-import RemoveTaskForm from '../../../../../containers/Course/components/tasks/RemoveTaskForm'
+import Task from '../../../../../containers/EditTasks/components/tasks/Task'
+import TaskTypelist from '../../../../../containers/EditTasks/components/tasks/TaskTypelist'
+import TaskObjectivelist from '../../../../../containers/EditTasks/components/tasks/TaskObjectivelist'
+import RemoveTaskForm from '../../../../../containers/EditTasks/components/tasks/RemoveTaskForm'
 import { findText } from '../../../../testUtils'
 
 const task = {

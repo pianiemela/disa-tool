@@ -5,7 +5,7 @@ import {
   removeObjectiveFromTask,
   addTypeToTask,
   removeTypeFromTask
-} from '../../../../containers/Course/services/tasks'
+} from '../../../../containers/EditTasks/services/tasks'
 import { testService } from '../../../testUtils'
 
 testService({

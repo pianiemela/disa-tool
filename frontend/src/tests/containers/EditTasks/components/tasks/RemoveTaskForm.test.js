@@ -1,5 +1,5 @@
 import React from 'react'
-import { RemoveTaskForm } from '../../../../../containers/Course/components/tasks/RemoveTaskForm'
+import { RemoveTaskForm } from '../../../../../containers/EditTasks/components/tasks/RemoveTaskForm'
 import ModalForm from '../../../../../utils/components/ModalForm'
 import { findText } from '../../../../testUtils'
 

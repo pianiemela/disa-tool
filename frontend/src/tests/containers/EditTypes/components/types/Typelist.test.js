@@ -1,7 +1,7 @@
 import React from 'react'
-import { Typelist } from '../../../../../containers/Course/components/types/Typelist'
-import Type from '../../../../../containers/Course/components/types/Type'
-import CreateTypeForm from '../../../../../containers/Course/components/types/CreateTypeForm'
+import { Typelist } from '../../../../../containers/EditTypes/components/types/Typelist'
+import Type from '../../../../../containers/EditTypes/components/types/Type'
+import CreateTypeForm from '../../../../../containers/EditTypes/components/types/CreateTypeForm'
 
 const types = [
   {

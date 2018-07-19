@@ -1,5 +1,5 @@
 import React from 'react'
-import { ObjectiveSlider } from '../../../../../containers/Course/components/tasks/ObjectiveSlider'
+import { ObjectiveSlider } from '../../../../../containers/EditTasks/components/tasks/ObjectiveSlider'
 
 const objective = {
   id: 1,

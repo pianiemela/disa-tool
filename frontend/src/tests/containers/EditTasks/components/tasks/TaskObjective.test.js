@@ -1,7 +1,7 @@
 import React from 'react'
-import TaskObjective from '../../../../../containers/Course/components/tasks/TaskObjective'
-import ObjectiveSlider from '../../../../../containers/Course/components/tasks/ObjectiveSlider'
-import DetachObjectiveForm from '../../../../../containers/Course/components/tasks/DetachObjectiveForm'
+import TaskObjective from '../../../../../containers/EditTasks/components/tasks/TaskObjective'
+import ObjectiveSlider from '../../../../../containers/EditTasks/components/tasks/ObjectiveSlider'
+import DetachObjectiveForm from '../../../../../containers/EditTasks/components/tasks/DetachObjectiveForm'
 
 const task = {
   id: 1,

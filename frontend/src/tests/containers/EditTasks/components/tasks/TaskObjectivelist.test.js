@@ -1,7 +1,7 @@
 import React from 'react'
-import TaskObjectivelist from '../../../../../containers/Course/components/tasks/TaskObjectivelist'
-import TaskObjective from '../../../../../containers/Course/components/tasks/TaskObjective'
-import AddObjectiveForm from '../../../../../containers/Course/components/tasks/AddObjectiveForm'
+import TaskObjectivelist from '../../../../../containers/EditTasks/components/tasks/TaskObjectivelist'
+import TaskObjective from '../../../../../containers/EditTasks/components/tasks/TaskObjective'
+import AddObjectiveForm from '../../../../../containers/EditTasks/components/tasks/AddObjectiveForm'
 
 const task = {
   id: 1,

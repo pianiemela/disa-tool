@@ -1,8 +1,9 @@
 import React from 'react'
 import CourseHeader from '../../../containers/Course/components/header/CourseHeader'
-import Matrix from '../../../containers/Course/components/matrix/Matrix'
-import Tasklist from '../../../containers/Course/components/tasks/Tasklist'
-import Typelist from '../../../containers/Course/components/types/Typelist'
+import EditMatrixPage from '../../../containers/EditMatrix/EditMatrixPage'
+import EditTasksPage from '../../../containers/EditTasks/EditTasksPage'
+import EditTypesPage from '../../../containers/EditTypes/EditTypesPage'
+import Navbar from '../../../containers/Course/components/navbar/Navbar'
 import { CoursePage } from '../../../containers/Course/CoursePage'
 
 const mockFn = () => {}
@@ -12,9 +13,19 @@ describe('Course page', () => {
 
   beforeEach(() => {
     wrapper = shallow(<CoursePage
+      match={{
+        url: '/course/1',
+        params: {
+          id: 1
+        }
+      }}
+      location={{
+        pathname: '/course/1'
+      }}
+      EditMatrixPage={() => <EditMatrixPage courseId={1} />}
+      EditTasksPage={() => <EditTasksPage courseId={1} />}
+      EditTypesPage={() => <EditTypesPage courseId={1} />}
       courseId={1}
-      course={{}}
-      editing={false}
       loading={false}
       getCourseData={mockFn}
     />)
@@ -24,20 +35,8 @@ describe('Course page', () => {
     expect(wrapper.find('.CoursePage').exists()).toEqual(true)
   })
 
-  it('renders CourseHeader', () => {
-    expect(wrapper.find(CourseHeader).exists()).toEqual(true)
-  })
-
-  it('renders Matrix', () => {
-    expect(wrapper.find(Matrix).exists()).toEqual(true)
-  })
-
-  it('renders Tasklist', () => {
-    expect(wrapper.find(Tasklist).exists()).toEqual(true)
-  })
-
-  it('renders Typelist', () => {
-    expect(wrapper.find(Typelist).exists()).toEqual(true)
+  it('renders a Navbar Component', () => {
+    expect(wrapper.find(Navbar).exists()).toEqual(true)
   })
 
   describe('while loading', () => {

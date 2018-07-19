@@ -1,5 +1,5 @@
 import React from 'react'
-import { RemoveTypeForm } from '../../../../../containers/Course/components/types/RemoveTypeForm'
+import { RemoveTypeForm } from '../../../../../containers/EditTypes/components/types/RemoveTypeForm'
 import ModalForm from '../../../../../utils/components/ModalForm'
 import { findText } from '../../../../testUtils'
 

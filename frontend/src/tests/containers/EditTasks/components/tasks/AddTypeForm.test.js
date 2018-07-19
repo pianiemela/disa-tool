@@ -1,10 +1,10 @@
 import React from 'react'
-import { AddObjectiveForm } from '../../../../../containers/Course/components/tasks/AddObjectiveForm'
+import { AddTypeForm } from '../../../../../containers/EditTasks/components/tasks/AddTypeForm'
 import ModalForm from '../../../../../utils/components/ModalForm'
 import { findText } from '../../../../testUtils'
 
-const objectiveIds = [1, 3]
-const objectives = [
+const typeIds = [1, 3]
+const types = [
   {
     id: 1,
     name: '1'
@@ -28,21 +28,21 @@ const task = {
 }
 const mockFn = () => {}
 
-describe('AddObjectiveForm component', () => {
+describe('AddTypeForm component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<AddObjectiveForm
-      addObjectiveToTask={mockFn}
-      objectiveIds={objectiveIds}
-      objectives={objectives}
+    wrapper = shallow(<AddTypeForm
+      addTypeToTask={mockFn}
+      typeIds={typeIds}
+      types={types}
       task={task}
       courseId={1}
     />)
   })
 
   it('renders.', () => {
-    expect(wrapper.find('.AddObjectiveForm').exists()).toEqual(true)
+    expect(wrapper.find('.AddTypeForm').exists()).toEqual(true)
   })
 
   describe('form content', () => {
@@ -73,7 +73,7 @@ describe('AddObjectiveForm component', () => {
         wrapper.find(ModalForm).props().trigger.props.onClick()
       })
 
-      it('has remaining objectives as options.', () => {
+      it('has remaining types as options.', () => {
         expect(wrapper.state().options).toEqual([
           {
             key: 2,
