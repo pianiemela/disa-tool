@@ -23,7 +23,10 @@ const SelfAssesmentForm = (props) => {
   )
 
   const editForm = (formData, edit) => {
-    const { structure, type, displayCoursename, formInfo } = formData
+    const { structure } = formData
+    const { displayCoursename, type, formInfo } = structure
+    console.log(structure, type, displayCoursename, formInfo)
+    console.log(formInfo)
     return (
       <div>
         <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>

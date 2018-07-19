@@ -32,7 +32,7 @@ const CategorySelection = (props) => {
         <Button
           style={{ marginTop: '25px' }}
           type="submit"
-          onClick={sendFormId}
+          onClick={() => sendFormId('create')}
         >
           Luo
         </Button>
