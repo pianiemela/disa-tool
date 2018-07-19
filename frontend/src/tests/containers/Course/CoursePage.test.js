@@ -1,6 +1,7 @@
 import React from 'react'
 import Navbar from '../../../containers/Course/components/navbar/Navbar'
 import { CoursePage } from '../../../containers/Course/CoursePage'
+import CourseHeader from '../../../containers/Course/components/header/CourseHeader'
 
 const mockFn = () => {}
 
@@ -35,6 +36,10 @@ describe('Course page', () => {
 
   it('renders a Navbar Component', () => {
     expect(wrapper.find(Navbar).exists()).toEqual(true)
+  })
+
+  it('renders a CourseHeader Component', () => {
+    expect(wrapper.find(CourseHeader).exists()).toEqual(true)
   })
 
   it('calls the getCourseData prop with the correct course id.', () => {
