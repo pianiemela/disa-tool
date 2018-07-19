@@ -63,7 +63,7 @@ class Nav extends Component {
           </Menu.Item>
           <Menu.Item
             as={Link}
-            to="/course"
+            to="/course/1"
             name="course"
             active={activeItem === 'course'}
             onClick={this.handleClick}
