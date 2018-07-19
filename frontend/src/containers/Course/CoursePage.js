@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Route, Switch, Link, Redirect, withRouter } from 'react-router-dom'
-import { Loader, Menu } from 'semantic-ui-react'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { Loader } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
 import { getCourseData } from './services/course'
@@ -10,6 +10,7 @@ import { getCourseData } from './services/course'
 import EditMatrixPage from '../EditMatrix/EditMatrixPage'
 import EditTypesPage from '../EditTypes/EditTypesPage'
 import EditTasksPage from '../EditTasks/EditTasksPage'
+import Navbar from './components/navbar/Navbar'
 
 export class CoursePage extends Component {
   componentDidMount() {
@@ -24,28 +25,7 @@ export class CoursePage extends Component {
     }
     return (
       <div className="CoursePage">
-        <nav>
-          <Menu pointing>
-            <Menu.Item
-              as={Link}
-              to={`${this.props.match.url}/matrix`}
-              name="matrix"
-              active={this.props.location.pathname.includes('matrix')}
-            />
-            <Menu.Item
-              as={Link}
-              to={`${this.props.match.url}/types`}
-              name="types"
-              active={this.props.location.pathname.includes('types')}
-            />
-            <Menu.Item
-              as={Link}
-              to={`${this.props.match.url}/tasks`}
-              name="tasks"
-              active={this.props.location.pathname.includes('tasks')}
-            />
-          </Menu>
-        </nav>
+        <Navbar matchUrl={this.props.match.url} pathname={this.props.location.pathname} />
         <Switch>
           <Route path={`${this.props.match.url}/matrix`} component={this.props.EditMatrixPage} />
           <Route path={`${this.props.match.url}/types`} component={this.props.EditTypesPage} />
