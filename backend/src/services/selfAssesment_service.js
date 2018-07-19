@@ -1,4 +1,19 @@
-const { SelfAssessment, Person, CoursePerson, CourseInstance } = require('../database/models.js')
+const {
+  SelfAssessment,
+  AssessmentResponse,
+  Person,
+  CoursePerson,
+  CourseInstance } = require('../database/models.js')
+
+const assessmentAttributes = lang => [
+  'id',
+  [`${lang}_name`, 'name'],
+  [`${lang}_instructions`, 'instructions'],
+  'structure',
+  'open',
+  'active',
+  'immediate_feedback',
+  'course_instance_id']
 
 const addSelfAssesment = async (data, lang) => {
   const name = [`${lang}_name`, 'name']
@@ -60,8 +75,16 @@ const getUserSelfAssesments = async (user, lang) => {
 
 }
 
+const getAssesmentsForCourse = (courseId, lang, userId) => (
+  SelfAssessment.findAll({
+    where: { course_instance_id: courseId },
+    attributes: assessmentAttributes(lang),
+    include: { model: AssessmentResponse, where: { person_id: userId }, required: false } })
+)
+
 
 module.exports = {
   addSelfAssesment,
-  getUserSelfAssesments
+  getUserSelfAssesments,
+  getAssesmentsForCourse
 }
