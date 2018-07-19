@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-dom'
 import { shape, string, arrayOf, func } from 'prop-types'
-import { List, Menu, Grid, Item, Label, Icon } from 'semantic-ui-react'
+import { Button, List, Menu, Grid, Item, Label, Icon } from 'semantic-ui-react'
 import {
   getUsersCourses,
   getUserAction,
@@ -34,6 +34,7 @@ class UserPage extends Component {
   }
 
   render() {
+    console.log(this.props)
     const { activeCourse, assessments, tasks } = this.state
     const { courses } = this.props
     return (
@@ -67,6 +68,11 @@ class UserPage extends Component {
                   <Grid.Row>
                     <Grid.Column>
                       <Item.Header as="h1">{activeCourse.name}</Item.Header>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Button as="a" href="/selfAssesment" color="green" basic>Luo uusi itsearviointi</Button>
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
