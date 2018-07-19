@@ -4,7 +4,7 @@ export const getUsersCourses = () => getJson('/courses/user')
 
 export const getCourses = () => getJson('/courses')
 
-export const getInstancesOfCourse = courseId => getJson(`/courses/instance/${courseId}`)
+export const getInstancesOfCourse = courseId => getJson(`/courses/${courseId}`)
 
 export const getCategoriesForCourse = courseId => getJson(`/categories/${courseId}`)
 
@@ -13,6 +13,8 @@ export const getUser = () => getJson('/persons/user')
 export const createSelfAssesment = data => postJson('/selfassesment/create', data)
 
 export const getSelfAssesments = data => getJson('/selfassesment/', data)
+
+export const getCourseInstanceData = courseId => getJson(`/courses/instance/${courseId}`)
 
 export const getUserAction = () => async (dispatch) => {
   dispatch({

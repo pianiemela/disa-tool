@@ -1,13 +1,20 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-dom'
 import { shape, string, arrayOf, func } from 'prop-types'
-import { List, Menu, Grid, Item } from 'semantic-ui-react'
-import { getUsersCourses, getUserAction, getUserCoursesAction, getUserSelfAssesments } from '../../actions/actions'
+import { List, Menu, Grid, Item, Label, Icon } from 'semantic-ui-react'
+import {
+  getUsersCourses,
+  getUserAction,
+  getUserCoursesAction,
+  getUserSelfAssesments,
+  getCourseInstanceData } from '../../actions/actions'
 
 class UserPage extends Component {
   state = {
-    courses: [],
-    activeCourse: undefined
+    activeCourse: undefined,
+    assessments: [],
+    tasks: []
   }
 
   componentDidMount = async () => {
@@ -16,13 +23,19 @@ class UserPage extends Component {
     // getUsersCourses().then(res => this.setState({ courses: res.data }))
   }
 
-  handleClick = (e, { course }) => {
+  handleClick = async (e, { course }) => {
     this.setState({ activeCourse: course })
-    console.log(course)
+    // Fetch all relevant course information: tasks with responses & assessments with responses.
+    const courseInstanceData = await getCourseInstanceData(course.id).then(res => res.data)
+    const { assessments, tasks } = courseInstanceData
+    this.setState({ assessments, tasks })
+    console.log(assessments)
+    console.log(tasks)
   }
 
   render() {
-    const { activeCourse, courses } = this.state
+    const { activeCourse, assessments, tasks } = this.state
+    const { courses } = this.props
     return (
       <Grid>
         <Grid.Row>
@@ -35,6 +48,8 @@ class UserPage extends Component {
             <Menu fluid vertical tabular>
               {courses.map(course => (
                 <Menu.Item
+                  as={Link}
+                  to={`/user/${course.id}`}
                   key={course.id}
                   name={course.name}
                   course={course}
@@ -55,12 +70,38 @@ class UserPage extends Component {
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
-                    <Grid.Column>
-                      <Item.Content>THIS IS A SEGMENT WITH STUFF IN IT</Item.Content>
-                      <Item.Content>THIS IS A SEGMENT WITH STUFF IN IT</Item.Content>
-                      <Item.Content>THIS IS A SEGMENT WITH STUFF IN IT</Item.Content>
-                      <Item.Content>THIS IS A SEGMENT WITH STUFF IN IT</Item.Content>
-                      <Item.Content>THIS IS A SEGMENT WITH STUFF IN IT</Item.Content>
+                    <Grid.Column width={8}>
+                      {/* Display course info, tasks and their responses
+                      and assessments with their responses.
+                      If the user has teacher role for this course,
+                      add buttons to create tasks or assessments. Also add teacher buttons
+                      for submitting student responses and to view students and their responses.
+                       */}
+                      <Item.Content>
+                        <p>Tehtävät</p>
+                        <p><Icon name="checkmark" color="green" /> tehty, <Icon name="delete" color="red" /> ei tehty</p>
+                        <List divided size="small">
+                          {tasks.map(task => (
+                            <List.Item>
+                              {task.task_responses.length > 0 ?
+                                <List.Icon verticalAlign="middle" name="checkmark" color="green" /> :
+                                <List.Icon verticalAlign="middle" name="delete" color="red" />}
+                              <List.Content>
+                                {task.name} {task.types.map(type =>
+                                  <Label>{type.header} {type.name}</Label>)}
+                              </List.Content>
+                            </List.Item>
+                          ))}
+                        </List>
+                      </Item.Content>
+                    </Grid.Column>
+                    <Grid.Column width={8}>
+                      <Item.Content>
+                        <p>Itsearvioinnit</p>
+                        <List selection size="big">
+                          {assessments.map(assessment => <List.Item>{assessment.name}</List.Item>)}
+                        </List>
+                      </Item.Content>
                     </Grid.Column>
                   </Grid.Row>
                 </Grid>

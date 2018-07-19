@@ -143,31 +143,29 @@ const getTypes = (courseInstances) => {
     const element = courseInstances[i]
     multiplier = 0.1
     for (let i = 0; i < 7; i++) {
-      const week = `Viikko ${i + 1}`
       types.push({
-        eng_header: null,
-        fin_header: null,
-        swe_header: null,
-        eng_name: week,
-        swe_name: week,
-        fin_name: week,
+        eng_header: 'Week',
+        fin_header: 'Viikko',
+        swe_header: 'Vecka',
+        eng_name: i + 1,
+        swe_name: i + 1,
+        fin_name: i + 1,
         multiplier: Math.round(multiplier * 100) / 100,
         course_instance_id: element.id
       })
       multiplier += increment
     }
 
-    const sarja = "ABC"
-    const prefix = "Sarja "
+    const sarja = ['A', 'B', 'Stack', 'Vertaisarvio']
     let sarjaMultiplier = 0.2
     for (let i = 0; i < 3; i++) {
       types.push({
-        eng_header: null,
-        fin_header: null,
-        swe_header: null,
-        eng_name: prefix + sarja.charAt(i),
-        swe_name: prefix + sarja.charAt(i),
-        fin_name: prefix + sarja.charAt(i),
+        eng_header: 'Series',
+        fin_header: 'Sarja',
+        swe_header: 'Serie',
+        eng_name: sarja[i],
+        swe_name: sarja[i],
+        fin_name: sarja[i],
         multiplier: Math.round(sarjaMultiplier * 100) / 100,
         course_instance_id: element.id
       })
@@ -181,8 +179,8 @@ const getTaskTypes = (courseInstances, tasks, types) => {
   const taskTypes = []
   for (let i = 0; i < courseInstances.length; i++) {
     const element = courseInstances[i]
-    const courseTypeWeeks = types.filter(t => (t.course_instance_id === element.id && t.eng_name.includes('Viikko')))
-    const courseTypeSarja = types.filter(t => (t.course_instance_id === element.id && t.eng_name.includes('Sarja')))
+    const courseTypeWeeks = types.filter(t => (t.course_instance_id === element.id && t.fin_header.includes('Viikko')))
+    const courseTypeSarja = types.filter(t => (t.course_instance_id === element.id && t.fin_header.includes('Sarja')))
     const courseTasks = tasks.filter(t => t.course_instance_id === element.id)
 
     for (let a = 0; a < courseTasks.length; a++) {
