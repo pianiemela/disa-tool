@@ -23,6 +23,7 @@ const messages = {
 }
 
 router.post('/create', async (req, res) => {
+  const toCreate = typeService.prepareCreate(req.body)
   if (!checkPrivilege(
     req,
     [
@@ -31,7 +32,7 @@ router.post('/create', async (req, res) => {
       },
       {
         key: 'teacher_on_course',
-        param: req.body.course_instance_id
+        param: toCreate.dataValues.course_instance_id
       }
     ]
   )) {
@@ -40,7 +41,8 @@ router.post('/create', async (req, res) => {
     })
     return
   }
-  const created = await typeService.create(req.body, req.lang)
+  await typeService.executeCreate(toCreate)
+  const created = typeService.getCreateValue(toCreate, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
     created
@@ -49,6 +51,12 @@ router.post('/create', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const toDelete = await typeService.prepareDelete(req.params.id)
+  if (!toDelete) {
+    res.status(404).json({
+      error: messages.notfound.failure[req.lang]
+    })
+    return
+  }
   if (!checkPrivilege(
     req,
     [
@@ -57,7 +65,7 @@ router.delete('/:id', async (req, res) => {
       },
       {
         key: 'teacher_on_course',
-        param: toDelete.instance.dataValues.course_instance_id
+        param: toDelete.dataValues.course_instance_id
       }
     ]
   )) {
@@ -66,10 +74,11 @@ router.delete('/:id', async (req, res) => {
     })
     return
   }
-  toDelete.instance.destroy()
+  const deleted = typeService.getDeleteValue(toDelete)
+  typeService.executeDelete(toDelete)
   res.status(200).json({
     message: messages.delete.success[req.lang],
-    deleted: toDelete.value
+    deleted
   })
 })
 
