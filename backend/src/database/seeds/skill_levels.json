@@ -15,4 +15,40 @@
     "eng_name": "5",
     "fin_name": "5",
     "swe_name": "5"
+},
+{
+    "course_instance_id": 2,
+    "eng_name": "1-2",
+    "fin_name": "1-2",
+    "swe_name": "1-2"
+},
+{
+    "course_instance_id": 2,
+    "eng_name": "3-4",
+    "fin_name": "3-4",
+    "swe_name": "3-4"
+},
+{
+    "course_instance_id": 2,
+    "eng_name": "5",
+    "fin_name": "5",
+    "swe_name": "5"
+},
+{
+    "course_instance_id": 3,
+    "eng_name": "1-2",
+    "fin_name": "1-2",
+    "swe_name": "1-2"
+},
+{
+    "course_instance_id": 3,
+    "eng_name": "3-4",
+    "fin_name": "3-4",
+    "swe_name": "3-4"
+},
+{
+    "course_instance_id": 3,
+    "eng_name": "5",
+    "fin_name": "5",
+    "swe_name": "5"
 }]
