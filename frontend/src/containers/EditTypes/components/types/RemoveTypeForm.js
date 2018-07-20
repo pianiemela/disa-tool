@@ -11,8 +11,7 @@ import ModalForm from '../../../../utils/components/ModalForm'
 export class RemoveTypeForm extends Component {
   removeType = () => {
     this.props.removeType({
-      id: this.props.type.id,
-      course_instance_id: this.props.courseId
+      id: this.props.type.id
     })
   }
 
@@ -52,8 +51,7 @@ RemoveTypeForm.propTypes = {
   type: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
-  }).isRequired,
-  courseId: PropTypes.number.isRequired
+  }).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({

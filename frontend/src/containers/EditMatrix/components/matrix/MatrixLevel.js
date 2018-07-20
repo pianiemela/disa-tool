@@ -10,7 +10,7 @@ const MatrixLevel = props => (
     <List selection>
       {props.level.objectives.map(objective => (
         <List.Item key={objective.id}>
-          <MatrixObjective objective={objective} editing={props.editing} courseId={props.courseId} />
+          <MatrixObjective objective={objective} editing={props.editing} />
         </List.Item>
       ))}
     </List>

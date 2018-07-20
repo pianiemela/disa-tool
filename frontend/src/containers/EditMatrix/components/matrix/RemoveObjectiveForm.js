@@ -11,8 +11,7 @@ import ModalForm from '../../../../utils/components/ModalForm'
 export class RemoveObjectiveForm extends Component {
   removeObjective = () => {
     this.props.removeObjective({
-      id: this.props.objective.id,
-      course_instance_id: this.props.courseId
+      id: this.props.objective.id
     })
   }
 
@@ -51,8 +50,7 @@ RemoveObjectiveForm.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
   }).isRequired,
-  removeObjective: PropTypes.func.isRequired,
-  courseId: PropTypes.number.isRequired
+  removeObjective: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

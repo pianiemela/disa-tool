@@ -12,7 +12,7 @@ const MatrixObjective = props => (
     </div>
     <div className="removeBlock">
       {props.editing ? (
-        <RemoveObjectiveForm objective={props.objective} courseId={props.courseId} />
+        <RemoveObjectiveForm objective={props.objective} />
       ) : (
         <div />
       )}
@@ -24,8 +24,7 @@ MatrixObjective.propTypes = {
   objective: PropTypes.shape({
     name: PropTypes.string.isRequired
   }).isRequired,
-  editing: PropTypes.bool.isRequired,
-  courseId: PropTypes.number.isRequired
+  editing: PropTypes.bool.isRequired
 }
 
 export default MatrixObjective
