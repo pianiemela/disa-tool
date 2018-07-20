@@ -1,13 +1,21 @@
 const { Objective, TaskObjective } = require('../database/models.js')
 
-const create = async (data, lang) => {
-  const value = (await Objective.create(data)).toJSON()
-  const name = value[`${lang}_name`]
+const prepareCreate = (data) => {
+  const instance = Objective.build(data)
+  return instance
+}
+
+const executeCreate = async (instance) => {
+  await instance.save()
+}
+
+const getCreateValue = (instance, lang) => {
+  const json = instance.toJSON()
   return {
-    id: value.id,
-    name,
-    category_id: value.category_id,
-    skill_level_id: value.skill_level_id
+    id: json.id,
+    name: json[`${lang}_name`],
+    category_id: json.category_id,
+    skill_level_id: json.skill_level_id
   }
 }
 
@@ -18,19 +26,28 @@ const prepareDelete = async (id) => {
       attributes: ['task_id']
     }
   })
-  const value = instance.toJSON()
+  return instance
+}
+
+const getDeleteValue = (instance) => {
+  const json = instance.toJSON()
   return {
-    instance,
-    value: {
-      id: value.id,
-      category_id: value.category_id,
-      skill_level_id: value.skill_level_id,
-      task_ids: value.task_objectives.map(taskObjective => taskObjective.task_id)
-    }
+    id: json.id,
+    category_id: json.category_id,
+    skill_level_id: json.skill_level_id,
+    task_ids: json.task_objectives.map(taskObjective => taskObjective.task_id)
   }
 }
 
+const executeDelete = (instance) => {
+  instance.destroy()
+}
+
 module.exports = {
-  create,
-  prepareDelete
+  prepareCreate,
+  executeCreate,
+  getCreateValue,
+  prepareDelete,
+  getDeleteValue,
+  executeDelete
 }

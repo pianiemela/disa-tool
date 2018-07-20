@@ -23,6 +23,7 @@ const messages = {
 }
 
 router.post('/create', async (req, res) => {
+  const toCreate = await objectiveService.prepareCreate(req.body)
   if (!checkPrivilege(
     req,
     [
@@ -31,7 +32,7 @@ router.post('/create', async (req, res) => {
       },
       {
         key: 'teacher_on_course',
-        param: req.body.course_instance_id
+        param: toCreate.dataValues.course_instance_id
       }
     ]
   )) {
@@ -40,7 +41,8 @@ router.post('/create', async (req, res) => {
     })
     return
   }
-  const created = await objectiveService.create(req.body, req.lang)
+  await objectiveService.executeCreate(toCreate)
+  const created = objectiveService.getCreateValue(toCreate, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
     created
@@ -57,7 +59,7 @@ router.delete('/:id', async (req, res) => {
       },
       {
         key: 'teacher_on_course',
-        param: toDelete.instance.dataValues.course_instance_id
+        param: toDelete.dataValues.course_instance_id
       }
     ]
   )) {
@@ -66,10 +68,11 @@ router.delete('/:id', async (req, res) => {
     })
     return
   }
-  toDelete.instance.destroy()
+  const deleted = objectiveService.getDeleteValue(toDelete)
+  objectiveService.executeDelete(toDelete)
   res.status(200).json({
     message: messages.delete.success[req.lang],
-    deleted: toDelete.value
+    deleted
   })
 })
 
