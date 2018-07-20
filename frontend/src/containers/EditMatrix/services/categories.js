@@ -1,9 +1,15 @@
-import { postJson } from '../../../utils/utils'
+import { postJson, deleteCall } from '../../../utils/utils'
 
-export const addCategory = data => postJson(
-  '/categories/create',
-  data,
-  ['logged_in', `teacher_on_course:${data.course_instance_id}`]
-)
+export const addCategory = data => new Promise((resolve) => {
+  postJson('/categories/create', data).then(response => resolve({
+    type: 'CATEGORY_CREATE',
+    response: response.data
+  }))
+})
 
-export const removeCategory = () => {}
+export const removeCategory = data => new Promise((resolve) => {
+  deleteCall(`/categories/${data.id}`).then(response => resolve({
+    type: 'CATEGORY_DELETE',
+    response: response.data
+  }))
+})
