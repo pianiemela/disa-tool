@@ -1,6 +1,9 @@
 const { CoursePerson } = require('../database/models')
 
 const validateTeacherOnCourse = async (param, user) => {
+  if (Number.isNaN(Number(param))) {
+    return false
+  }
   const coursePerson = await CoursePerson.findOne({
     attributes: ['role'],
     where: {
@@ -11,7 +14,7 @@ const validateTeacherOnCourse = async (param, user) => {
   if (!coursePerson) {
     return false
   }
-  return coursePerson.toJSON().role === 'TEACHER'
+  return coursePerson.toJSON().role === 'Teacher'
 }
 
 const validators = {
@@ -19,7 +22,7 @@ const validators = {
   teacher_on_course: validateTeacherOnCourse
 }
 
-const getPrivileges = (req) => {
+const getPrivileges = async (req) => {
   if (!req.query.privileges) {
     return []
   }
@@ -31,13 +34,16 @@ const getPrivileges = (req) => {
     }
   }).filter(privilege => validators[privilege.key])
   const privilegeMap = {}
-  privileges.filter(privilege => validators[privilege.key](privilege.param, req.user)).forEach((privilege) => {
-    privilegeMap[`${privilege.key}:${privilege.param}`] = true
-  })
+  for (const privilege of privileges) {
+    privilegeMap[`${privilege.key}:${privilege.param}`] = await validators[privilege.key](privilege.param, req.user)
+    // This is the only way I could get it to work.
+    // As far as I'm aware, eslint is demanding the impossible.
+  }
+  console.log(privilegeMap)
   return privilegeMap
 }
 
-module.exports = (req, res, next) => {
-  req.privileges = getPrivileges(req)
+module.exports = async (req, res, next) => {
+  req.privileges = await getPrivileges(req)
   next()
 }

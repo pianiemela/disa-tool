@@ -11,7 +11,12 @@ export const Typelist = props => (
     <div />{/* This div is here on purpose.
     The first element inside the parent div gets displaced for css reasons.
     This is a sacrificial div to deal with that bug. */}
-    {props.types.map(type => <Type key={type.id} type={type} editing={props.editing} />)}
+    {props.types.map(type => (<Type
+      key={type.id}
+      type={type}
+      editing={props.editing}
+      courseId={props.courseId}
+    />))}
     {props.editing ? (
       <CreateTypeForm courseId={props.courseId} />
     ) : (

@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const objectiveService = require('../services/objective_service.js')
-const { checkPrivilege } = require('../services/auth.js')
+const { checkPrivilege, privilegeCode } = require('../services/auth.js')
 const globalMessages = require('../messages/global_messages.js')
 
 const messages = {
@@ -23,7 +23,7 @@ const messages = {
 }
 
 router.post('/create', async (req, res) => {
-  if (!checkPrivilege(req, ['logged_in', 'teacher_on_course'])) {
+  if (!checkPrivilege(req, [privilegeCode('logged_in'), privilegeCode('teacher_on_course', req.body.course_instance_id)])) {
     res.status(403).json({
       error: messages.privilege.failure[req.lang]
     })
@@ -37,16 +37,17 @@ router.post('/create', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  if (!checkPrivilege(req, ['logged_in', 'teacher_on_course'])) {
+  const toDelete = await objectiveService.prepareDelete(req.params.id)
+  if (!checkPrivilege(req, [privilegeCode('logged_in'), privilegeCode('teacher_on_course', toDelete.instance.dataValues.course_instance_id)])) {
     res.status(403).json({
       error: messages.privilege.failure[req.lang]
     })
     return
   }
-  const deleted = await objectiveService.delete(req.params.id)
+  toDelete.instance.destroy()
   res.status(200).json({
     message: messages.delete.success[req.lang],
-    deleted
+    deleted: toDelete.value
   })
 })
 

@@ -1,14 +1,22 @@
 import { deleteCall, postJson } from '../../../utils/utils'
+import { privilegeCode } from '../../../utils/privilege'
 
 export const addType = data => new Promise((resolve) => {
-  postJson('/types/create', data).then(response => resolve({
+  postJson(
+    '/types/create',
+    data,
+    [privilegeCode('logged_in'), privilegeCode('teacher_on_course', data.course_instance_id)]
+  ).then(response => resolve({
     type: 'TYPE_CREATE',
     response: response.data
   }))
 })
 
 export const removeType = data => new Promise((resolve) => {
-  deleteCall(`/types/${data.id}`).then(response => resolve({
+  deleteCall(
+    `/types/${data.id}`,
+    [privilegeCode('logged_in'), privilegeCode('teacher_on_course', data.course_instance_id)]
+  ).then(response => resolve({
     type: 'TYPE_DELETE',
     response: response.data
   }))

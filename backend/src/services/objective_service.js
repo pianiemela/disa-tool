@@ -11,7 +11,7 @@ const create = async (data, lang) => {
   }
 }
 
-const deleteObjective = async (id) => {
+const prepareDelete = async (id) => {
   const instance = await Objective.findById(id, {
     include: {
       model: TaskObjective,
@@ -19,21 +19,18 @@ const deleteObjective = async (id) => {
     }
   })
   const value = instance.toJSON()
-  instance.destroy()
-  Objective.destroy({
-    where: {
-      id
-    }
-  })
   return {
-    id: value.id,
-    category_id: value.category_id,
-    skill_level_id: value.skill_level_id,
-    task_ids: value.task_objectives.map(taskObjective => taskObjective.task_id)
+    instance,
+    value: {
+      id: value.id,
+      category_id: value.category_id,
+      skill_level_id: value.skill_level_id,
+      task_ids: value.task_objectives.map(taskObjective => taskObjective.task_id)
+    }
   }
 }
 
 module.exports = {
   create,
-  delete: deleteObjective
+  prepareDelete
 }

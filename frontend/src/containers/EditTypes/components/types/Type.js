@@ -23,7 +23,7 @@ export class Type extends Component {
         </div>
         {this.props.editing ? (
           <div className="removeBlock">
-            <RemoveTypeForm type={this.props.type} />
+            <RemoveTypeForm type={this.props.type} courseId={this.props.courseId} />
           </div>
         ) : (
           <div />
@@ -46,7 +46,8 @@ Type.propTypes = {
     multiplier: PropTypes.number
   }).isRequired,
   editing: PropTypes.bool.isRequired,
-  changeTypeMultiplier: PropTypes.func.isRequired
+  changeTypeMultiplier: PropTypes.func.isRequired,
+  courseId: PropTypes.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

@@ -10,7 +10,7 @@ const create = async (data, lang) => {
   }
 }
 
-const deleteType = async (id) => {
+const prepareDelete = async (id) => {
   const typeToDelete = await Type.findById(id, {
     include: {
       model: TaskType,
@@ -18,14 +18,16 @@ const deleteType = async (id) => {
     }
   })
   const taskIds = typeToDelete.task_types.map(taskType => taskType.task_id)
-  typeToDelete.destroy()
   return {
-    id,
-    task_ids: taskIds
+    instance: typeToDelete,
+    value: {
+      id: Number(id),
+      task_ids: taskIds
+    }
   }
 }
 
 module.exports = {
   create,
-  delete: deleteType
+  prepareDelete
 }

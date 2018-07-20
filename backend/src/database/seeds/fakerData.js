@@ -115,7 +115,13 @@ const getStudentsAndTeachers = () => {
 
 const getCoursePersons = (persons) => {
   const coursePersons = []
-    //harcode linis for kurki test users
+  //harcode linis for kurki test users
+  const testerteacherId = 424
+  coursePersons.push({
+    course_instance_id: 1,
+    person_id: testerteacherId,
+    role: 'Teacher'
+  })
   for (let i = 420; i < persons.length; i++) {
     const element = persons[i]
     coursePersons.push({
