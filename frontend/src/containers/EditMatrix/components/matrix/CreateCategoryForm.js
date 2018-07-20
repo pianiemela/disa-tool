@@ -36,6 +36,7 @@ export class CreateCategoryForm extends Component {
                 <Button type="submit" color="green">Tallenna</Button>
               </div>
             }
+            onSubmit={this.addCategorySubmit}
           />
         </Table.Cell>
       </Table.Row>
