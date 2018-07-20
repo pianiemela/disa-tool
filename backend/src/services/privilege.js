@@ -22,13 +22,18 @@ const validators = {
   teacher_on_course: validateTeacherOnCourse
 }
 
+/**
+ * Returns a boolean representing whether or not the request has all the given privileges.
+ * @param {*} req express request object
+ * @param {*} privileges array of objects of the following shape
+ * {
+ *  key: string - required
+ *  param: string or convertable to string - optional
+ * }
+ */
 const checkPrivilege = async (req, privileges) => {
-  for (const privilege of privileges) {
-    if (!await validators[privilege.key](privilege.param, req.user)) {
-      return false
-    }
-  }
-  return true
+  const results = privileges.map(privilege => validators[privilege.key](privilege.param, req.user))
+  return (await Promise.all(results)).every(value => value)
 }
 
 module.exports = {

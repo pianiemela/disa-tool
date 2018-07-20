@@ -24,7 +24,7 @@ const messages = {
 
 router.post('/create', async (req, res) => {
   const toCreate = await objectiveService.prepareCreate(req.body)
-  if (!checkPrivilege(
+  if (!await checkPrivilege(
     req,
     [
       {
@@ -51,7 +51,7 @@ router.post('/create', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const toDelete = await objectiveService.prepareDelete(req.params.id)
-  if (!checkPrivilege(
+  if (!await checkPrivilege(
     req,
     [
       {

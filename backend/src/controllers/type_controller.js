@@ -24,7 +24,7 @@ const messages = {
 
 router.post('/create', async (req, res) => {
   const toCreate = typeService.prepareCreate(req.body)
-  if (!checkPrivilege(
+  if (!await checkPrivilege(
     req,
     [
       {
@@ -57,7 +57,7 @@ router.delete('/:id', async (req, res) => {
     })
     return
   }
-  if (!checkPrivilege(
+  if (!await checkPrivilege(
     req,
     [
       {
