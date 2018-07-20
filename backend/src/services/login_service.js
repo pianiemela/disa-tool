@@ -34,10 +34,8 @@ const login = async (body, lang) => {
     body,
     {
       httpsAgent: new https.Agent({
-        rejectUnauthorized: false
-      }) // This is not production-ready!
-      // This line makes axios accept any cert and exposes us to a man-in-the-middle attack.
-      // Sending real AD credentials through this is a violation of some terms or conditions I'm sure.
+        rejectUnauthorized: false // This is supposedly fine for this server.
+      })
     }
   )
   if (result.data.error) {
