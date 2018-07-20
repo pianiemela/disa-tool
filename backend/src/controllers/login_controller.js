@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { login, signJWT } = require('../services/login_service.js')
 
 router.post('', async (req, res) => {
-  if (!req.body.username.includes('tester')) {
+  if (process.env.NODE_ENV !== 'development' && !req.body.username.includes('tester')) {
     res.status(400).json({
       error: 'Stick to test users until security is patched.'
     })
