@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const typeService = require('../services/type_service.js')
-const { checkPrivilege, privilegeCode } = require('../services/auth.js')
+const { checkPrivilege } = require('../services/privilege.js')
 const globalMessages = require('../messages/global_messages.js')
 
 const messages = {
@@ -23,7 +23,18 @@ const messages = {
 }
 
 router.post('/create', async (req, res) => {
-  if (!checkPrivilege(req, [privilegeCode('logged_in'), privilegeCode('teacher_on_course', req.body.course_instance_id)])) {
+  if (!checkPrivilege(
+    req,
+    [
+      {
+        key: 'logged_in'
+      },
+      {
+        key: 'teacher_on_course',
+        param: req.body.course_instance_id
+      }
+    ]
+  )) {
     res.status(403).json({
       error: messages.privilege.failure[req.lang]
     })
@@ -38,7 +49,18 @@ router.post('/create', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const toDelete = await typeService.prepareDelete(req.params.id)
-  if (!checkPrivilege(req, [privilegeCode('logged_in'), privilegeCode('teacher_on_course', toDelete.instance.dataValues.course_instance_id)])) {
+  if (!checkPrivilege(
+    req,
+    [
+      {
+        key: 'logged_in'
+      },
+      {
+        key: 'teacher_on_course',
+        param: toDelete.instance.dataValues.course_instance_id
+      }
+    ]
+  )) {
     res.status(403).json({
       error: messages.privilege.failure[req.lang]
     })

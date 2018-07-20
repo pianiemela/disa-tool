@@ -23,12 +23,6 @@ const checkAuth = (req) => {
   }
 }
 
-const checkPrivilege = (req, privileges) => privileges.every(privilege => req.privileges[privilege])
-
-const privilegeCode = (key, param) => `${key}:${param}`
-
 module.exports = {
-  checkAuth,
-  checkPrivilege,
-  privilegeCode
+  checkAuth
 }

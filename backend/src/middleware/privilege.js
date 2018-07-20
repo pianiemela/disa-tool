@@ -1,21 +1,4 @@
-const { CoursePerson } = require('../database/models')
-
-const validateTeacherOnCourse = async (param, user) => {
-  if (Number.isNaN(Number(param))) {
-    return false
-  }
-  const coursePerson = await CoursePerson.findOne({
-    attributes: ['role'],
-    where: {
-      course_instance_id: Number(param),
-      person_id: user.id
-    }
-  })
-  if (!coursePerson) {
-    return false
-  }
-  return coursePerson.toJSON().role === 'Teacher'
-}
+const { validateTeacherOnCourse } = require('../services/privilege')
 
 const validators = {
   logged_in: (param, user) => user !== null,
@@ -43,6 +26,7 @@ const getPrivileges = async (req) => {
   return privilegeMap
 }
 
+// req.privileges is only used by services/privilege.checkPrivilege
 module.exports = async (req, res, next) => {
   req.privileges = await getPrivileges(req)
   next()
