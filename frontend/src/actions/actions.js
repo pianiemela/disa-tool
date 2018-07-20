@@ -132,6 +132,13 @@ export const toggleFormPartAction = (id, type) => (dispatch) => {
   })
 }
 
+export const toggleHeaderAction = (data) => (dispatch) => {
+  dispatch({
+    type: 'TOGGLE_HEADER',
+    payload: { data }
+  })
+}
+
 export const createForm = data => async (dispatch) => {
   dispatch({
     type: 'CREATE_SELF_ASSESMENT_ATTEMPT',

@@ -34,11 +34,18 @@ const initForm = (payload) => {
   structure.openQuestions = []
   const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1)
 
+  const headers = []
+
+  headers.push(
+    { id: 1, displayName: 'Fin: ', value: 'Anna itsellesi loppuarvosana kurssista' },
+    { id: 2, displayName: 'Eng: ', value: 'Give yourself a final grade for the course', type: 'eng_name' },
+    { id: 3, displayName: 'Swe: ', value: 'Låta en final grad till själv', type: 'swe_name' }
+  )
+
   structure.finalGrade = [{
-    name: 'Anna itsellesi loppuarvosana kurssista',
-    eng_name: 'Give yourself a final grade for the course',
-    swe_name: 'Låta en final grad till själv, lmao ei näin :D',
+    headers,
     textFieldOn: true,
+    includedInAssesment: true,
     id
   }]
   if (data.type === 'category') {
@@ -164,8 +171,17 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     case 'TOGGLE_FORM_PART': {
       const { id } = action.payload
       const toChange = state.createForm
-      let { questionModules } = toChange.structure
-      const togQ = questionModules.find(qm => qm.id === id)
+      let { questionModules, finalGrade } = toChange.structure
+      let togQ = null
+      if (id === finalGrade[0].id) {
+        [togQ] = finalGrade
+        togQ.includedInAssesment = !togQ.includedInAssesment
+        finalGrade[0] = togQ
+        toChange.structure.finalGrade = finalGrade
+        return { ...state, createForm: toChange }
+      }
+      togQ = questionModules.find(qm => qm.id === id)
+
       togQ.includedInAssesment = !togQ.includedInAssesment
       questionModules = questionModules.map(qm => (qm.id !== togQ.id ?
         qm : togQ))

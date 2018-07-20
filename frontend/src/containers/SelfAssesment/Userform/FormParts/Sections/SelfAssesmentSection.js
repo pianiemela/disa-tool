@@ -1,16 +1,38 @@
 import React from 'react'
-import { Card, Form } from 'semantic-ui-react'
+import { Card, Form, Input, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import AddOpenQuestion from '../addOpenQuestion'
 
 const SelfAssesmentSection = (props) => {
   const { final, question, formData, edit, textArea, header, QuestionModule } = props
+  let h
+  if (final) {
+    const q = formData[0].includedInAssesment
+
+    h =
+      (
+        <div>
+          {q ?
+            <Input
+              defaultValue={header}
+            />
+            :
+            <Input
+              disabled
+              defaultValue={header}
+            />    
+          }
+
+        </div>)
+  } else {
+    h = header
+  }
   return (
     <div>
       <Card fluid color="red" className="formCard">
         <Card.Content>
           <Card.Header className="cardHead">
-            {header}
+            {h}
           </Card.Header>
           <Form>
             {formData.map(questionModules =>
