@@ -6,6 +6,9 @@ import PropTypes from 'prop-types'
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
+import { BrowserRouter as Router, Route, withRouter, Switch } from 'react-router-dom'
+import SelfAssesmentList from './CreateForm/SelfAssesmentList'
+
 
 import {
   initNewFormAaction,
