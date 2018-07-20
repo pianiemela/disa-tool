@@ -5,7 +5,14 @@ const { checkPrivilege } = require('../services/privilege.js')
 const globalMessages = require('../messages/global_messages.js')
 
 const messages = {
-  ...globalMessages
+  ...globalMessages,
+  create: {
+    success: {
+      eng: '"Kategoria luotu onnistuneesti." englanniksi.',
+      fin: 'Kategoria luotu onnistuneesti.',
+      swe: '"Kategoria luotu onnistuneesti." ruotsiksi.'
+    }
+  }
 }
 
 router.get('/', async (req, res) => {
