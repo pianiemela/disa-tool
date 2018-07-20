@@ -64,7 +64,7 @@ export const getJson = (path, params, privileges = []) => axios.get(
 export const postJson = (path, data, privileges = []) => axios.post(
   `${BASE_PATH}${path}`,
   data,
-  getAuthAndParams(privileges)
+  getAuthAndParams(null, privileges)
 )
 
 export const putJson = (path, data, privileges = []) =>
