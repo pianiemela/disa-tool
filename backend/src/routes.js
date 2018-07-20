@@ -10,14 +10,12 @@ const types = require('./controllers/type_controller.js')
 
 const validateLang = require('./middleware/lang.js')
 const auth = require('./middleware/token_auth.js')
-const privilege = require('./middleware/privilege.js')
 
 const BASE_URL = '/api'
 
 module.exports = (app) => {
   app.use(validateLang)
   app.use(auth)
-  app.use(privilege)
   app.use(`${BASE_URL}/categories`, categories)
   app.use(`${BASE_URL}/courses`, courses)
   app.use(`${BASE_URL}/persons`, persons)
