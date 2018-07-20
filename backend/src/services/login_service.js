@@ -30,7 +30,7 @@ const messages = {
 
 const login = async (body, lang) => {
   const result = await axios.post(
-    `https://${process.env.KURKI_URL}/login`,
+    `${process.env.KURKI_URL}/login`,
     body,
     {
       httpsAgent: new https.Agent({
