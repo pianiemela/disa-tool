@@ -4,11 +4,21 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import UpOrDownToggle from '../upDownToggle'
 import { toggleTextField, toggleFormPartAction } from '../../../../../actions/actions'
-
+import './styles.css'
 
 const CategoryQuestionModule = (props) => {
   const { edit, final, textArea } = props
   const { name, textFieldOn, id, includedInAssesment } = props.data
+  let disabled = false
+  let headercolor = 'black'
+  let buttonColor = 'green'
+  let buttonText = 'Mukana itsearviossa'
+  if (!includedInAssesment) {
+    disabled = true
+    headercolor = 'grey'
+    buttonColor = 'red'
+    buttonText = 'Ei mukana itsearviossa'
+  }
 
   const gradeOptions = [
     {
@@ -39,38 +49,47 @@ const CategoryQuestionModule = (props) => {
       label="Perustelut arvosanalle"
     />) : null
 
-
   return (
     <Form.Field>
       <Card fluid>
         <Card.Content>
-          <Card.Header>{name}</Card.Header>
+          <Card.Header style={{ color: headercolor }} >{name}</Card.Header>
           <Grid verticalAlign="middle" padded columns={3}>
             <Grid.Row >
-              <Grid.Column width={10}>
-                <label> Arvioi osaamisesi asteikolla 1-5</label>
-                <Dropdown style={{ marginLeft: '20px' }} placeholder="Valitse arvosana" selection options={gradeOptions} />
-              </Grid.Column>
+              <Form.Field disabled={disabled} width={10}>
+                <Grid.Column width={10}>
+                  <label> Arvioi osaamisesi asteikolla 1-5</label>
+                  <Dropdown style={{ marginLeft: '20px' }} placeholder="Valitse arvosana" selection options={gradeOptions} />
+                </Grid.Column>
+              </Form.Field>
+
               <Grid.Column>
                 <Button
+                  className="activeButton"
                   size="large"
                   basic
-                  color="green"
+                  color={buttonColor}
                   onClick={() => props.dispatchToggleFormPartAction(id, 'category')}
                 >
-                  Mukana itsearviossa
+                  {buttonText}
                 </Button>
               </Grid.Column>
+
             </Grid.Row>
             <Grid.Row >
-              <Grid.Column width={10}>
-                {textArea('Perustelut arvosanalle', 'Kirjoita perustelut valitsemallesi arvosanalle', textFieldOn, final ? null : checkbox)}
-              </Grid.Column>
+              <Form.Field disabled={disabled} width={10}>
+                <Grid.Column width={10} >
+                  {textArea('Perustelut arvosanalle', 'Kirjoita perustelut valitsemallesi arvosanalle', textFieldOn, final ? null : checkbox)}
+                </Grid.Column>
+              </Form.Field>
+
               {final ?
                 null
                 :
-                <Grid.Column >
-                  <UpOrDownToggle id={id} />
+                <Grid.Column>
+                  <Form.Field disabled={disabled}>
+                    <UpOrDownToggle id={id} />
+                  </Form.Field>
                 </Grid.Column>
               }
             </Grid.Row>

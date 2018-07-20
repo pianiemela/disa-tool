@@ -164,12 +164,18 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     case 'TOGGLE_FORM_PART': {
       const { id } = action.payload
       const toChange = state.createForm
-      const { questionModules } = toChange
-      const togQ = questionModules.find(qm = qm.id === id)
-      console.log(togQ)
-      return state
+      let { questionModules } = toChange.structure
+      const togQ = questionModules.find(qm => qm.id === id)
+      togQ.includedInAssesment = !togQ.includedInAssesment
+      questionModules = questionModules.map(qm => (qm.id !== togQ.id ?
+        qm : togQ))
+      toChange.structure.questionModules = questionModules
+      return {
+        ...state, createForm: toChange
+      }
     }
     case 'CREATE_SELF_ASSESMENT_SUCCESS': {
+      console.log(action.payload)
       const selfAssesments = state.userSelfAssesments.concat(action.payload.data.data)
       return { ...state, createForm: [], userSelfAssesments: selfAssesments }
     }
