@@ -1,14 +1,14 @@
-import { Form, Card, Grid, Checkbox, Dropdown } from 'semantic-ui-react'
+import { Form, Card, Grid, Checkbox, Dropdown, Button } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import UpOrDownToggle from '../upDownToggle'
-import { toggleTextField } from '../../../../../actions/actions'
+import { toggleTextField, toggleFormPartAction } from '../../../../../actions/actions'
 
 
 const CategoryQuestionModule = (props) => {
   const { edit, final, textArea } = props
-  const { name, textFieldOn, id } = props.data
+  const { name, textFieldOn, id, includedInAssesment } = props.data
 
   const gradeOptions = [
     {
@@ -32,11 +32,12 @@ const CategoryQuestionModule = (props) => {
       value: 5
     }
   ]
-  const checkbox = edit ? (<Checkbox
-    defaultChecked={textFieldOn}
-    onChange={() => props.dispatchTextFieldOnOff(id)}
-    label="Klikkaa tästä jos haluat perustelut mukaan"
-  />) : null
+  const checkbox = edit ? (
+    <Checkbox
+      defaultChecked={textFieldOn}
+      onChange={() => props.dispatchTextFieldOnOff(id)}
+      label="Perustelut arvosanalle"
+    />) : null
 
 
   return (
@@ -44,21 +45,31 @@ const CategoryQuestionModule = (props) => {
       <Card fluid>
         <Card.Content>
           <Card.Header>{name}</Card.Header>
-          <Grid verticalAlign="middle" columns={3}>
-            <Grid.Row style={{ padding: '20px' }}>
+          <Grid verticalAlign="middle" padded columns={3}>
+            <Grid.Row >
               <Grid.Column width={10}>
                 <label> Arvioi osaamisesi asteikolla 1-5</label>
                 <Dropdown style={{ marginLeft: '20px' }} placeholder="Valitse arvosana" selection options={gradeOptions} />
               </Grid.Column>
+              <Grid.Column>
+                <Button
+                  size="large"
+                  basic
+                  color="green"
+                  onClick={() => props.dispatchToggleFormPartAction(id, 'category')}
+                >
+                  Mukana itsearviossa
+                </Button>
+              </Grid.Column>
             </Grid.Row>
-            <Grid.Row style={{ padding: '20px' }}>
+            <Grid.Row >
               <Grid.Column width={10}>
                 {textArea('Perustelut arvosanalle', 'Kirjoita perustelut valitsemallesi arvosanalle', textFieldOn, final ? null : checkbox)}
               </Grid.Column>
               {final ?
                 null
                 :
-                <Grid.Column>
+                <Grid.Column >
                   <UpOrDownToggle id={id} />
                 </Grid.Column>
               }
@@ -88,7 +99,9 @@ CategoryQuestionModule.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   dispatchTextFieldOnOff: id =>
-    dispatch(toggleTextField(id))
+    dispatch(toggleTextField(id)),
+  dispatchToggleFormPartAction: (id, type) =>
+    dispatch(toggleFormPartAction(id, type))
 })
 
 export default connect(null, mapDispatchToProps)(CategoryQuestionModule)

@@ -125,6 +125,13 @@ export const changeTextField = (type, value) => (dispatch) => {
   })
 }
 
+export const toggleFormPartAction = (id, type) => (dispatch) => {
+  dispatch({
+    type: 'TOGGLE_FORM_PART',
+    payload: { id, type }
+  })
+}
+
 export const createForm = data => async (dispatch) => {
   dispatch({
     type: 'CREATE_SELF_ASSESMENT_ATTEMPT',

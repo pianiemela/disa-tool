@@ -48,7 +48,8 @@ const initForm = (payload) => {
       structure.questionModules.push({
         id: ciO.id,
         name: ciO.name,
-        textFieldOn: true
+        textFieldOn: true,
+        includedInAssesment: true
       }))
   } else {
     structure.questionModules = []
@@ -59,8 +60,10 @@ const initForm = (payload) => {
         name: ciO.name,
         objectives: ciO.objectives.map(o => ({
           id: o.id,
-          name: o.name
+          name: o.name,
+          includedInAssesment: true
         })),
+        includedInAssesment: true,
         options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
       }))
   }
@@ -158,6 +161,14 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       return { ...state, createForm: toChange }
     }
 
+    case 'TOGGLE_FORM_PART': {
+      const { id } = action.payload
+      const toChange = state.createForm
+      const { questionModules } = toChange
+      const togQ = questionModules.find(qm = qm.id === id)
+      console.log(togQ)
+      return state
+    }
     case 'CREATE_SELF_ASSESMENT_SUCCESS': {
       const selfAssesments = state.userSelfAssesments.concat(action.payload.data.data)
       return { ...state, createForm: [], userSelfAssesments: selfAssesments }

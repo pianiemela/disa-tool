@@ -11,7 +11,7 @@ import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 const SelfAssesmentForm = (props) => {
   const textArea = (label, placeholder, textFieldOn, checkbox) => (
     (
-      <Grid.Column width={10}>
+      <Grid.Column >
         <Form.TextArea
           disabled={!textFieldOn}
           label={label}

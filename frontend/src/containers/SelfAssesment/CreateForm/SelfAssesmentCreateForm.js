@@ -31,7 +31,8 @@ class SelfAssesmentCreateForm extends React.Component {
   }
 
   handleDropdownChange = (e, { value }) => {
-    const selectedSelfAssesments = this.props.selfAssesments.filter(sa => sa.course_instance_id === value)
+    const selectedSelfAssesments = this.props.selfAssesments.filter(sa =>
+      sa.course_instance_id === value)
     this.setState({ selectedSelfAssesments })
     this.setState({ dropDownValue: value })
   }
@@ -51,7 +52,7 @@ class SelfAssesmentCreateForm extends React.Component {
 
   renderCreateOrDraft = () => {
     const { selectedView, formData } = this.state
-    const { dropDownCourse, dropdownAssesments } = this.props
+    const { dropDownCourse } = this.props
     if (!this.state.created) {
       return (
         <Grid centered>
@@ -97,7 +98,6 @@ class SelfAssesmentCreateForm extends React.Component {
 
 SelfAssesmentCreateForm.propTypes = {
   dropDownCourse: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  dropdownAssesments: PropTypes.arrayOf(PropTypes.shape()),
   createForm: PropTypes.func.isRequired
 }
 
