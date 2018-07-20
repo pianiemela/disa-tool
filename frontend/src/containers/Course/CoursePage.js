@@ -11,11 +11,12 @@ import EditMatrixPage from '../EditMatrix/EditMatrixPage'
 import EditTypesPage from '../EditTypes/EditTypesPage'
 import EditTasksPage from '../EditTasks/EditTasksPage'
 import Navbar from './components/navbar/Navbar'
+import CourseHeader from './components/header/CourseHeader'
 
 export class CoursePage extends Component {
   componentDidMount() {
     this.props.getCourseData({
-      courseId: this.props.match.params.id
+      id: this.props.match.params.id
     })
   }
 
@@ -25,6 +26,7 @@ export class CoursePage extends Component {
     }
     return (
       <div className="CoursePage">
+        <CourseHeader />
         <Navbar matchUrl={this.props.match.url} pathname={this.props.location.pathname} />
         <Switch>
           <Route path={`${this.props.match.url}/matrix`} component={this.props.EditMatrixPage} />

@@ -5,6 +5,7 @@ import { Table } from 'semantic-ui-react'
 import './matrix.css'
 
 import MatrixCategory from './MatrixCategory'
+import CreateCategoryForm from './CreateCategoryForm'
 
 export const Matrix = props => (
   <div className="Matrix">
@@ -32,6 +33,11 @@ export const Matrix = props => (
             editing={props.editing}
           />
         ))}
+        {props.editing ? (
+          <CreateCategoryForm courseId={props.courseId} />
+        ) : (
+          <Table.Row />
+        )}
       </Table.Body>
     </Table>
   </div>

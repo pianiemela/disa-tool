@@ -612,7 +612,7 @@ testService({
   func: getCourseData,
   type: 'COURSE_GET_DATA',
   data: {
-    courseId: 1
+    id: 1
   },
   mockResponse: {
     data: {

@@ -43,39 +43,38 @@ export const saveLanguage = (lang) => {
 axios.defaults.headers.common.credentials = 'same-origin'
 
 
-const getAuthAndParams = (params, privileges) => (
+const getAuthAndParams = params => (
   {
     headers: {
       Authorization: getAuthorization()
     },
     params: {
       ...params,
-      lang: getLanguage(),
-      privileges: privileges.join(',')
+      lang: getLanguage()
     }
   }
 )
 
-export const getJson = (path, params, privileges = []) => axios.get(
+export const getJson = (path, params) => axios.get(
   `${BASE_PATH}${path}`,
-  getAuthAndParams(params, privileges)
+  getAuthAndParams(params)
 )
 
-export const postJson = (path, data, privileges = []) => axios.post(
+export const postJson = (path, data) => axios.post(
   `${BASE_PATH}${path}`,
   data,
-  getAuthAndParams(null, privileges)
+  getAuthAndParams(null)
 )
 
-export const putJson = (path, data, privileges = []) =>
+export const putJson = (path, data) =>
   axios.put(
     `${BASE_PATH}${path}`,
     data,
-    getAuthAndParams(null, privileges)
+    getAuthAndParams(null)
   )
 
 
-export const deleteCall = (path, privileges = []) => axios.delete(
+export const deleteCall = path => axios.delete(
   `${BASE_PATH}${path}`,
-  getAuthAndParams(privileges)
+  getAuthAndParams(null)
 )
