@@ -1,3 +1,5 @@
+import { postJson, deleteCall } from '../../../utils/utils'
+
 export const addObjectiveToTask = data => new Promise((resolve) => {
   const response = {
     message: '<addObjectiveToTaskSuccess>',
@@ -22,38 +24,19 @@ export const removeObjectiveFromTask = data => new Promise((resolve) => {
   setTimeout(resolve, 100, action)
 })
 
-export const addTask = (data) => {
-  const response = {
-    message: '<addTaskSuccess>',
-    data: {
-      ...data,
-      id: 2
-    }
-  }
-  const action = {
+export const addTask = data => new Promise((resolve) => {
+  postJson('/tasks/create', data).then(response => resolve({
     type: 'TASK_CREATE',
-    response
-  }
-  return new Promise((resolve) => {
-    setTimeout(resolve, 100, action)
-  })
-}
+    response: response.data
+  }))
+})
 
-export const removeTask = (data) => {
-  const response = {
-    message: '<removeTaskSuccess>',
-    data: {
-      id: data.id
-    }
-  }
-  const action = {
+export const removeTask = data => new Promise((resolve) => {
+  deleteCall(`/tasks/${data.id}`).then(response => resolve({
     type: 'TASK_DELETE',
-    response
-  }
-  return new Promise((resolve) => {
-    setTimeout(resolve, 100, action)
-  })
-}
+    response: response.data
+  }))
+})
 
 export const addTypeToTask = (data) => {
   const response = {
