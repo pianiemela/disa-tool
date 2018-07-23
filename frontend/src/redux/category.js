@@ -62,6 +62,17 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
         categories: newCategories
       }
     }
+    case 'LEVEL_CREATE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: [...category.skill_levels, {
+            id: action.response.created.id,
+            objectives: []
+          }]
+        }))
+      }
     default:
       return state
   }

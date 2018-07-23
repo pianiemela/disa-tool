@@ -9,6 +9,11 @@ const levelReducer = (state = INITIAL_STATE, action) => {
         ...state,
         levels: action.response.data.levels
       }
+    case 'LEVEL_CREATE':
+      return {
+        ...state,
+        levels: [...state.levels, action.response.created]
+      }
     default:
       return state
   }
