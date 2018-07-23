@@ -41,6 +41,18 @@ const objectiveReducer = (state = INITIAL_STATE, action) => {
       }
       return { ...state, objectives: newObjectives }
     }
+    case 'CATEGORY_DELETE': {
+      const toDelete = {}
+      action.response.deleted.tasks.forEach((task) => {
+        task.objective_ids.forEach((id) => {
+          toDelete[id] = true
+        })
+      })
+      return {
+        ...state,
+        objectives: state.objectives.filter(objective => !toDelete[objective.id])
+      }
+    }
     default:
       return state
   }

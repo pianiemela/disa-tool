@@ -47,6 +47,21 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         categories: [...state.categories, action.response.created]
       }
+    case 'CATEGORY_DELETE': {
+      const newCategories = [...state.categories]
+      let index = 0
+      while (index < newCategories.length) {
+        if (newCategories[index].id === action.response.deleted.id) {
+          newCategories.splice(index, 1)
+          break
+        }
+        index += 1
+      }
+      return {
+        ...state,
+        categories: newCategories
+      }
+    }
     default:
       return state
   }
