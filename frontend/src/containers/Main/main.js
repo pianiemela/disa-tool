@@ -13,6 +13,7 @@ import CourseList from '../Course/CourseList'
 const Main = () => (
   <main>
     <Switch>
+      <Route exact path="/user/course/:courseId" component={UserPage} />
       <Route exact path="/user" component={UserPage} />
       <Route path="/course/:id" component={CoursePage} />
       <Route exact path="/selfAssesment" component={SelfAssesmentPage} />
