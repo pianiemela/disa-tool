@@ -81,11 +81,15 @@ const taskReducer = (state = INITIAL_STATE, action) => {
       }
     }
     case 'TASK_CREATE':
-      console.log(action.response)
-      return state
+      return {
+        ...state,
+        tasks: [...state.tasks, action.response.created]
+      }
     case 'TASK_DELETE':
-      console.log(action.response)
-      return state
+      return {
+        ...state,
+        tasks: state.tasks.filter(task => task.id !== action.response.deleted.id)
+      }
     case 'TASK_ADD_TYPE':
       console.log(action.response)
       return state
