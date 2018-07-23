@@ -14,7 +14,16 @@ const notfound = {
   }
 }
 
+const unexpected = {
+  failure: {
+    eng: '"Yllättävä virhe tapahtui." englanniksi.',
+    fin: 'Yllättävä virhe tapahtui.',
+    swe: '"Yllättävä virhe tapahtui." ruotsiksi.'
+  }
+}
+
 module.exports = {
   privilege,
-  notfound
+  notfound,
+  unexpected
 }

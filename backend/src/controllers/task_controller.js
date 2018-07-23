@@ -7,7 +7,14 @@ const { checkPrivilege } = require('../services/privilege.js')
 const globalMessages = require('../messages/global_messages.js')
 
 const messages = {
-  ...globalMessages
+  ...globalMessages,
+  create: {
+    success: {
+      eng: '"Tehtävä luotu onnistuneesti." englanniksi.',
+      fin: 'Tehtävä luotu onnistuneesti.',
+      swe: '"Tehtävä luotu onnistuneesti." ruotsiksi.'
+    }
+  }
 }
 
 router.get('/user/:courseId', async (req, res) => {
@@ -45,6 +52,7 @@ router.post('/create', async (req, res) => {
       res.status(500).json({
         error: messages.unexpected.failure[req.lang]
       })
+      console.log(e)
     }
   }
 })
