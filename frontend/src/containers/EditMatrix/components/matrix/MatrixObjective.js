@@ -7,7 +7,7 @@ import { removeObjective } from '../../services/objectives'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
-const MatrixObjective = props => (
+export const MatrixObjective = props => (
   <div className="MatrixObjective">
     <div className="objectiveBlock">
       <span>

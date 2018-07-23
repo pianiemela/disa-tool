@@ -1,6 +1,6 @@
 import React from 'react'
 import { Type } from '../../../../../containers/EditTypes/components/types/Type'
-import RemoveTypeForm from '../../../../../containers/EditTypes/components/types/RemoveTypeForm'
+import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 
 const type = {
@@ -8,6 +8,7 @@ const type = {
   name: 'Test Type',
   multiplier: 0.5
 }
+const mockFn = () => {}
 
 describe('Type component', () => {
   let wrapper
@@ -19,6 +20,7 @@ describe('Type component', () => {
       type={type}
       changeTypeMultiplier={changeTypeMultiplier}
       editing={false}
+      removeType={mockFn}
     />)
   })
 
@@ -79,8 +81,8 @@ describe('Type component', () => {
   })
 
   describe('when not editing', () => {
-    it('does not render a RemoveTypeForm component.', () => {
-      expect(wrapper.find(RemoveTypeForm).exists()).toEqual(false)
+    it('does not render a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(false)
     })
   })
 
@@ -91,8 +93,8 @@ describe('Type component', () => {
         editing: true
       })
     })
-    it('renders a RemoveTypeForm component.', () => {
-      expect(wrapper.find(RemoveTypeForm).exists()).toEqual(true)
+    it('renders a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(true)
     })
   })
 })

@@ -1,8 +1,8 @@
 import React from 'react'
-import Task from '../../../../../containers/EditTasks/components/tasks/Task'
+import { Task } from '../../../../../containers/EditTasks/components/tasks/Task'
 import TaskTypelist from '../../../../../containers/EditTasks/components/tasks/TaskTypelist'
 import TaskObjectivelist from '../../../../../containers/EditTasks/components/tasks/TaskObjectivelist'
-import RemoveTaskForm from '../../../../../containers/EditTasks/components/tasks/RemoveTaskForm'
+import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 
 const task = {
@@ -39,6 +39,7 @@ const task = {
     }
   ]
 }
+const mockFn = () => {}
 
 describe('Task component', () => {
   let wrapper
@@ -47,6 +48,7 @@ describe('Task component', () => {
     wrapper = shallow(<Task
       task={task}
       editing={false}
+      removeTask={mockFn}
     />)
   })
 
@@ -55,8 +57,8 @@ describe('Task component', () => {
   })
 
   describe('when not editing', () => {
-    it('does not render a RemoveTaskForm component.', () => {
-      expect(wrapper.find(RemoveTaskForm).exists()).toEqual(false)
+    it('does not render a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(false)
     })
   })
 
@@ -68,8 +70,8 @@ describe('Task component', () => {
       })
     })
 
-    it('renders a RemoveTaskForm component.', () => {
-      expect(wrapper.find(RemoveTaskForm).exists()).toEqual(true)
+    it('renders a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(true)
     })
   })
 

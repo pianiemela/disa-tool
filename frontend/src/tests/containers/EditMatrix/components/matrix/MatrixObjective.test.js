@@ -1,12 +1,13 @@
 import React from 'react'
-import MatrixObjective from '../../../../../containers/EditMatrix/components/matrix/MatrixObjective'
-import RemoveObjectiveForm from '../../../../../containers/EditMatrix/components/matrix/RemoveObjectiveForm'
+import { MatrixObjective } from '../../../../../containers/EditMatrix/components/matrix/MatrixObjective'
+import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 
 const objective = {
   id: 1,
   name: 'Test objective'
 }
+const mockFn = () => {}
 
 describe('MatrixObjective component', () => {
   let wrapper
@@ -15,6 +16,7 @@ describe('MatrixObjective component', () => {
     wrapper = shallow(<MatrixObjective
       objective={objective}
       editing={false}
+      removeObjective={mockFn}
     />)
   })
 
@@ -27,8 +29,8 @@ describe('MatrixObjective component', () => {
   })
 
   describe('when not editing', () => {
-    it('does not render a RemoveObjectiveForm component.', () => {
-      expect(wrapper.find(RemoveObjectiveForm).exists()).toEqual(false)
+    it('does not render a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(false)
     })
   })
 
@@ -40,8 +42,8 @@ describe('MatrixObjective component', () => {
       })
     })
 
-    it('renders a RemoveObjectiveForm component.', () => {
-      expect(wrapper.find(RemoveObjectiveForm).exists()).toEqual(true)
+    it('renders a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(true)
     })
   })
 })

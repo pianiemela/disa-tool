@@ -10,7 +10,7 @@ import TaskObjectivelist from './TaskObjectivelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import TaskTypelist from './TaskTypelist'
 
-class Task extends Component {
+export class Task extends Component {
   constructor(props) {
     super(props)
     this.state = {

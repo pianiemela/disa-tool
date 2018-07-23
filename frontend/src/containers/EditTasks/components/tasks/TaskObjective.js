@@ -8,7 +8,7 @@ import { removeObjectiveFromTask } from '../../services/tasks'
 import ObjectiveSlider from './ObjectiveSlider'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
-const TaskObjective = props => (
+export const TaskObjective = props => (
   <div className="TaskObjective">
     {props.editing ? (
       <DeleteForm

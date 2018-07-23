@@ -33,6 +33,7 @@ const categories = [
     skill_levels: levels.map(level => ({ id: level.id }))
   }
 ]
+const mockFn = () => {}
 
 describe('Matrix component', () => {
   let wrapper
@@ -43,6 +44,7 @@ describe('Matrix component', () => {
       levels={levels}
       categories={categories}
       editing={false}
+      removeLevel={mockFn}
     />)
   })
 

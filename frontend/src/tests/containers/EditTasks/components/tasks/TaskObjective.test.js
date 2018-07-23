@@ -1,7 +1,7 @@
 import React from 'react'
-import TaskObjective from '../../../../../containers/EditTasks/components/tasks/TaskObjective'
+import { TaskObjective } from '../../../../../containers/EditTasks/components/tasks/TaskObjective'
 import ObjectiveSlider from '../../../../../containers/EditTasks/components/tasks/ObjectiveSlider'
-import DetachObjectiveForm from '../../../../../containers/EditTasks/components/tasks/DetachObjectiveForm'
+import DeleteForm from '../../../../../utils/components/DeleteForm'
 
 const task = {
   id: 1,
@@ -11,6 +11,7 @@ const objective = {
   id: 3,
   name: 'Test Objective'
 }
+const mockFn = () => {}
 
 describe('TaskObjective component', () => {
   let wrapper
@@ -20,6 +21,7 @@ describe('TaskObjective component', () => {
       task={task}
       objective={objective}
       editing={false}
+      removeObjectiveFromTask={mockFn}
     />)
   })
 
@@ -32,8 +34,8 @@ describe('TaskObjective component', () => {
   })
 
   describe('when not editing', () => {
-    it('does not render an DetachObjectiveForm component.', () => {
-      expect(wrapper.find(DetachObjectiveForm).exists()).toEqual(false)
+    it('does not render an DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(false)
     })
   })
 
@@ -45,8 +47,8 @@ describe('TaskObjective component', () => {
       })
     })
 
-    it('renders an DetachObjectiveForm component.', () => {
-      expect(wrapper.find(DetachObjectiveForm).exists()).toEqual(true)
+    it('renders an DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(true)
     })
   })
 })
