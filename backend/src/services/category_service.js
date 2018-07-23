@@ -13,25 +13,35 @@ const getCourseCategories = (courseInstanceId, lang) => (
   })
 )
 
-const prepareCreate = (data) => {
+const prepareCreate = async (data) => {
   const instance = Category.build({
     course_instance_id: data.course_instance_id,
     eng_name: data.eng_name,
     fin_name: data.fin_name,
     swe_name: data.swe_name
   })
-  return instance
+  const skillLevels = await SkillLevel.findAll({
+    where: {
+      course_instance_id: data.course_instance_id
+    },
+    attributes: ['id']
+  })
+  return [instance, skillLevels]
 }
 
 const executeCreate = async (instance) => {
   await instance.save()
 }
 
-const getCreateValue = (instance, lang) => {
+const getCreateValue = (instance, skillLevels, lang) => {
   const json = instance.toJSON()
   return {
     id: json.id,
-    name: json[`${lang}_name`]
+    name: json[`${lang}_name`],
+    skill_levels: skillLevels.map(level => ({
+      id: level.id,
+      objectives: []
+    }))
   }
 }
 

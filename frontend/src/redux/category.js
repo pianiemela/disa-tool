@@ -42,6 +42,11 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
       categoryToChange.skill_levels = newSkillLevels
       return { ...state, categories: newCategories }
     }
+    case 'CATEGORY_CREATE':
+      return {
+        ...state,
+        categories: [...state.categories, action.response.created]
+      }
     default:
       return state
   }
