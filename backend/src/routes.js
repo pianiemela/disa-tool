@@ -7,6 +7,7 @@ const objectives = require('./controllers/objective_controller.js')
 const selfAssesment = require('./controllers/selfAssesment_controller.js')
 const login = require('./controllers/login_controller.js')
 const types = require('./controllers/type_controller.js')
+const skillLevels = require('./controllers/skill_level_controller.js')
 
 const validateLang = require('./middleware/lang.js')
 const auth = require('./middleware/token_auth.js')
@@ -25,4 +26,5 @@ module.exports = (app) => {
   app.use(`${BASE_URL}/selfassesment`, selfAssesment)
   app.use(`${BASE_URL}/login`, login)
   app.use(`${BASE_URL}/types`, types)
+  app.use(`${BASE_URL}/skill-levels`, skillLevels)
 }
