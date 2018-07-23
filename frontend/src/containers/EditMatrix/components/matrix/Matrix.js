@@ -7,6 +7,7 @@ import './matrix.css'
 import MatrixCategory from './MatrixCategory'
 import CreateCategoryForm from './CreateCategoryForm'
 import CreateLevelForm from './CreateLevelForm'
+import RemoveLevelForm from './RemoveLevelForm'
 
 export const Matrix = props => (
   <div className="Matrix">
@@ -20,9 +21,10 @@ export const Matrix = props => (
           {props.levels.map(level => (
             <Table.HeaderCell key={level.id} textAlign="center">
               {level.name}
+              <RemoveLevelForm level={level} courseId={props.courseId} />
             </Table.HeaderCell>
           ))}
-          <CreateLevelForm />
+          <CreateLevelForm courseId={props.courseId} />
         </Table.Row>
       </Table.Header>
 
