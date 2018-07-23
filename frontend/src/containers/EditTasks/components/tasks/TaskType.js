@@ -8,7 +8,7 @@ import { removeTypeFromTask } from '../../services/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
-const TaskType = props => (
+export const TaskType = props => (
   <div className="TaskType">
     <Segment className="TaskTypeContainer">
       <span className="TaskTypeName">
