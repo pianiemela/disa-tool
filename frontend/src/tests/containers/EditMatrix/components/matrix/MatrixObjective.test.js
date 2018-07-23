@@ -7,16 +7,17 @@ const objective = {
   id: 1,
   name: 'Test objective'
 }
-const mockFn = () => {}
 
 describe('MatrixObjective component', () => {
   let wrapper
+  let removeObjective
 
   beforeEach(() => {
+    removeObjective = jest.fn()
     wrapper = shallow(<MatrixObjective
       objective={objective}
       editing={false}
-      removeObjective={mockFn}
+      removeObjective={removeObjective}
     />)
   })
 
@@ -44,6 +45,23 @@ describe('MatrixObjective component', () => {
 
     it('renders a DeleteForm component.', () => {
       expect(wrapper.find(DeleteForm).exists()).toEqual(true)
+    })
+
+    describe('DeleteForm component', () => {
+      let deleteForm
+      beforeEach(() => {
+        deleteForm = wrapper.find(DeleteForm)
+      })
+
+      it('includes objective names in prompt.', () => {
+        const prompt = deleteForm.prop('prompt')
+        expect(prompt.filter(segment => segment.includes(objective.name)).length).toBeGreaterThan(0)
+      })
+
+      it('gets the removeObjective prop as part of onExecute.', () => {
+        deleteForm.prop('onExecute')()
+        expect(removeObjective).toHaveBeenCalled()
+      })
     })
   })
 })

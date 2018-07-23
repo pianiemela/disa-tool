@@ -39,16 +39,17 @@ const task = {
     }
   ]
 }
-const mockFn = () => {}
 
 describe('Task component', () => {
   let wrapper
+  let removeTask
 
   beforeEach(() => {
+    removeTask = jest.fn()
     wrapper = shallow(<Task
       task={task}
       editing={false}
-      removeTask={mockFn}
+      removeTask={removeTask}
     />)
   })
 
@@ -72,6 +73,23 @@ describe('Task component', () => {
 
     it('renders a DeleteForm component.', () => {
       expect(wrapper.find(DeleteForm).exists()).toEqual(true)
+    })
+
+    describe('DeleteForm component', () => {
+      let deleteForm
+      beforeEach(() => {
+        deleteForm = wrapper.find(DeleteForm)
+      })
+
+      it('includes task names in prompt.', () => {
+        const prompt = deleteForm.prop('prompt')
+        expect(prompt.filter(segment => segment.includes(task.name)).length).toBeGreaterThan(0)
+      })
+
+      it('gets the removeTypeFromTask prop as part of onExecute.', () => {
+        deleteForm.prop('onExecute')()
+        expect(removeTask).toHaveBeenCalled()
+      })
     })
   })
 

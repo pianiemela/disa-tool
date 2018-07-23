@@ -8,19 +8,20 @@ const type = {
   name: 'Test Type',
   multiplier: 0.5
 }
-const mockFn = () => {}
 
 describe('Type component', () => {
   let wrapper
   let changeTypeMultiplier
+  let removeType
 
   beforeEach(() => {
+    removeType = jest.fn()
     changeTypeMultiplier = jest.fn()
     wrapper = shallow(<Type
       type={type}
       changeTypeMultiplier={changeTypeMultiplier}
       editing={false}
-      removeType={mockFn}
+      removeType={removeType}
     />)
   })
 
@@ -95,6 +96,23 @@ describe('Type component', () => {
     })
     it('renders a DeleteForm component.', () => {
       expect(wrapper.find(DeleteForm).exists()).toEqual(true)
+    })
+
+    describe('DeleteForm component', () => {
+      let deleteForm
+      beforeEach(() => {
+        deleteForm = wrapper.find(DeleteForm)
+      })
+
+      it('includes type names in prompt.', () => {
+        const prompt = deleteForm.prop('prompt')
+        expect(prompt.filter(segment => segment.includes(type.name)).length).toBeGreaterThan(0)
+      })
+
+      it('gets the removeType prop as part of onExecute.', () => {
+        deleteForm.prop('onExecute')()
+        expect(removeType).toHaveBeenCalled()
+      })
     })
   })
 })
