@@ -14,6 +14,13 @@ const messages = {
       fin: 'Tehtävä luotu onnistuneesti.',
       swe: '"Tehtävä luotu onnistuneesti." ruotsiksi.'
     }
+  },
+  delete: {
+    success: {
+      eng: '"Tehtävä poistettu onnistuneesti." englanniksi.',
+      fin: 'Tehtävä poistettu onnistuneesti.',
+      swe: '"Tehtävä poistettu onnistuneesti." ruotsiksi.'
+    }
   }
 }
 
@@ -42,6 +49,39 @@ router.post('/create', async (req, res) => {
     res.status(200).json({
       message: messages.create.success[req.lang],
       created
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: messages.unexpected.failure[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const toDelete = await taskService.prepareDelete(req.params.id)
+    if (!checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: toDelete.dataValues.course_instance_id
+      }
+    ])) {
+      res.status(403).json({
+        error: messages.privilege.failure[req.lang]
+      })
+    }
+    const deleted = taskService.getDeleteValue(toDelete)
+    taskService.executeDelete(toDelete)
+    res.status(200).json({
+      message: messages.delete.success[req.lang],
+      deleted
     })
   } catch (e) {
     if (process.env.NODE_ENV === 'development') {

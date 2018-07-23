@@ -44,10 +44,24 @@ const getCreateValue = (instance, lang) => {
   }
 }
 
+const prepareDelete = async id => Task.findById(id)
+
+const getDeleteValue = (instance) => {
+  const json = instance.toJSON()
+  return {
+    id: json.id
+  }
+}
+
+const executeDelete = instance => instance.destroy()
+
 module.exports = {
   getUserTasksForCourse,
   getTasksForCourse,
   prepareCreate,
   executeCreate,
-  getCreateValue
+  getCreateValue,
+  prepareDelete,
+  getDeleteValue,
+  executeDelete
 }
