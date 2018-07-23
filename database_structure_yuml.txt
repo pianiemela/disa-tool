@@ -61,3 +61,5 @@
 
 [CourseInstance]1-*[Task]
 [CourseInstance]1-*[Type]
+[CourseInstance]1-*[Category]
+[CourseInstance]1-*[SkillLevel]
