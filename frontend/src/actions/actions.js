@@ -117,10 +117,10 @@ export const removeOpenQuestion = id => (dispatch) => {
   })
 }
 
-export const changeTextField = (type, value) => (dispatch) => {
+export const changeTextField = (id, value) => (dispatch) => {
   dispatch({
     type: 'CHANGE_TEXT_FIELD',
-    payload: { type, value }
+    payload: { id, value }
 
   })
 }
@@ -132,10 +132,10 @@ export const toggleFormPartAction = (id, type) => (dispatch) => {
   })
 }
 
-export const toggleHeaderAction = (data) => (dispatch) => {
+export const changeHeaderAction = data => (dispatch) => {
   dispatch({
-    type: 'TOGGLE_HEADER',
-    payload: { data }
+    type: 'CHANGE_HEADER',
+    payload: data
   })
 }
 

@@ -1,16 +1,30 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form } from 'semantic-ui-react'
+import { Form, Header, Button } from 'semantic-ui-react'
 import { changeTextField } from '../../../../../actions/actions'
+import MultiLangInput from '../MultiLangInput'
 
 class SelfAssesmentInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      values: {}
-
+      values: {},
+      editHeaders: false
     }
   }
+
+  /* {names.map(n => (
+<Form.Input
+  key={n.id}
+  label={n.displayName}
+  name={n.type}
+  placeholder={n.name}
+  // To prevent null in state, which prompts warning to dev console
+  value={this.state.values[n.type] ? this.state.values[n.type] : ''}
+  onChange={e => this.handleChange(n.type, e.target.value)}
+  onBlur={() => this.props.dispatchTextFieldChange(n.type, this.state.values[n.type])}
+/>
+))} */
   // Unecessary rerender
   componentDidMount() {
     const values = {}
@@ -20,30 +34,47 @@ class SelfAssesmentInfo extends React.Component {
     this.setState({ values })
   }
 
-  handleChange = (type, value) => {
+  handleChange = (id, value) => {
+    this.props.dispatchTextFieldChange(id, value)
     const oldValue = this.state.values
-    this.setState({ values: ({ ...oldValue, [type]: value }) })
+    this.setState({ values: ({ ...oldValue, [id]: value }) })
+  }
+  toggleEdit = () => {
+    this.setState({ editHeaders: !this.state.editHeaders })
   }
   render() {
     const descriptions = this.props.formData.filter(d => d.type.includes('instruction'))
     const names = this.props.formData.filter(d => d.type.includes('name'))
 
     return (
+
       <Form style={{ padding: '20px' }}>
-        <Form.Group>
-          {names.map(n => (
-            <Form.Input
-              key={n.id}
-              label={n.displayName}
-              name={n.type}
-              placeholder={n.name}
-              // To prevent null in state, which prompts warning to dev console
-              value={this.state.values[n.type] ? this.state.values[n.type] : ''}
-              onChange={e => this.handleChange(n.type, e.target.value)}
-              onBlur={() => this.props.dispatchTextFieldChange(n.type, this.state.values[n.type])}
+        {!this.state.editHeaders ?
+          <Header as="h3" textAlign="center">
+            {names[1].value}
+            <Button
+              style={{ marginLeft: '10px' }}
+              onClick={() => this.toggleEdit()}
+            >
+              Muokkaa
+            </Button>
+          </Header>
+          :
+          <div>
+            <MultiLangInput
+              headers={names}
+              handleBlur={this.handleChange}
+              handleChange={null}
             />
-          ))}
-        </Form.Group>
+            <Button
+              style={{ marginTop: '10px' }}
+              onClick={() => this.toggleEdit()}
+            >
+              Näytä
+            </Button>
+          </div>
+        }
+
 
         {
           descriptions.map(d => (
@@ -52,9 +83,8 @@ class SelfAssesmentInfo extends React.Component {
                 label={d.displayName}
                 name={d.type}
                 placeholder={d.name}
-                value={this.state.values[d.type] ? this.state.values[d.type] : ''}
-                onChange={(e) => this.handleChange(d.type, e.target.value)}
-                onBlur={() => this.props.dispatchTextFieldChange(d.type, this.state.values[d.type])}
+                value={this.state.values[d.id] ? this.state.values[d.id] : ''}
+                onBlur={e => this.handleChange(d.id, e.target.value)}
 
 
               />

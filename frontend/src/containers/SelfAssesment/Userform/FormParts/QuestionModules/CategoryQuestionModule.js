@@ -3,16 +3,26 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import UpOrDownToggle from '../upDownToggle'
-import { toggleTextField, toggleFormPartAction } from '../../../../../actions/actions'
+import { toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../../../actions/actions'
+import MultiLangInput from '../MultiLangInput'
 
 class CategoryQuestionModule extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { edit: false }
+    this.state = { editHeaders: false }
   }
 
   toggleEdit = () => {
-    this.setState({ edit: !this.state.edit })
+    this.setState({
+      editHeaders:
+        !this.state.editHeaders
+
+    })
+  }
+
+  changeHeader = (id, value) => {
+    console.log(id, value)
+    this.props.dispatchHeaderChange({ id, value })
   }
 
   render() {
@@ -30,30 +40,32 @@ class CategoryQuestionModule extends React.Component {
       buttonColor = 'red'
       buttonText = 'Ei mukana itsearviossa'
     }
-
     if (final && edit) {
-      const { headers } = this.props
-      if (this.state.edit) {
+      const { headers } = this.props.data
+      if (!this.state.editHeaders) {
         qfield =
           (
             <div>
-              Alaotsikko kokonaisarviolle:
-              <Input size="medium" disabled={disabled} defaultValue={name} />
+              {headers[0].value}
               <Button
                 onClick={() => this.toggleEdit()}
-                style={{ marginLeft: '10px' }}>Näytä</Button>
+                style={{ marginLeft: '10px' }}
+              >Muokkaa
+              </Button>
             </div>
           )
       } else {
         qfield =
           (
             <div>
-              {name}
+              <MultiLangInput
+                handleChange={this.changeHeader}
+                headers={headers}
+              />
               <Button
                 onClick={() => this.toggleEdit()}
-                style={{ marginLeft: '10px' }}
-              >Muokkaa
-            </Button>
+              > Näytä
+              </Button >
             </div >
           )
       }
@@ -136,7 +148,7 @@ class CategoryQuestionModule extends React.Component {
             </Grid>
           </Card.Content>
         </Card>
-      </Form.Field>
+      </Form.Field >
     )
   }
 }
@@ -161,7 +173,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchTextFieldOnOff: id =>
     dispatch(toggleTextField(id)),
   dispatchToggleFormPartAction: (id, type) =>
-    dispatch(toggleFormPartAction(id, type))
+    dispatch(toggleFormPartAction(id, type)),
+  dispatchHeaderChange: data =>
+    dispatch(changeHeaderAction(data))
 })
 
 export default connect(null, mapDispatchToProps)(CategoryQuestionModule)
