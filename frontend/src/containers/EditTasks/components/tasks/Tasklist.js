@@ -8,7 +8,13 @@ import AddTaskForm from './AddTaskForm'
 
 export const Tasklist = props => (
   <div className="Tasklist">
-    {props.tasks.map(task => <Task key={task.id} task={task} editing={props.editing} />)}
+    {props.tasks.map(task => (<Task
+      key={task.id}
+      task={task}
+      editing
+      active={task.id === props.activeTask}
+      toggleActive={() => props.changeActive(task.id)}
+    />))}
     {props.editing ? (
       <AddTaskForm courseId={props.courseId} />
     ) : (
@@ -22,7 +28,12 @@ Tasklist.propTypes = {
     id: PropTypes.number
   })).isRequired,
   editing: PropTypes.bool.isRequired,
-  courseId: PropTypes.number.isRequired
+  courseId: PropTypes.number.isRequired,
+  activeTask: PropTypes.number
+}
+
+Tasklist.defaultProps = {
+  activeTask: null
 }
 
 const mapStateToProps = (state, ownProps) => ({
