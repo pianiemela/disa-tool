@@ -34,8 +34,12 @@ MatrixLevel.propTypes = {
       id: PropTypes.number.isRequired
     })).isRequired
   }).isRequired,
-  courseId: PropTypes.number.isRequired,
+  courseId: PropTypes.number,
   editing: PropTypes.bool.isRequired
+}
+
+MatrixLevel.defaultProps = {
+  courseId: null
 }
 
 export default MatrixLevel

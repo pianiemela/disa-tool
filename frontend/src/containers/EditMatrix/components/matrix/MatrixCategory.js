@@ -45,9 +45,13 @@ MatrixCategory.propTypes = {
       id: PropTypes.number.isRequired
     })).isRequired
   }).isRequired,
-  courseId: PropTypes.number.isRequired,
+  courseId: PropTypes.number,
   editing: PropTypes.bool.isRequired,
   removeCategory: PropTypes.func.isRequired
+}
+
+MatrixCategory.defaultProps = {
+  courseId: null
 }
 
 const mapDispatchToProps = dispatch => ({

@@ -41,7 +41,7 @@ export const Matrix = props => (
           {props.editing ? (
             <CreateLevelForm courseId={props.courseId} />
           ) : (
-            <div />
+            null
           )}
         </Table.Row>
       </Table.Header>
@@ -66,7 +66,7 @@ export const Matrix = props => (
 )
 
 Matrix.propTypes = {
-  courseId: PropTypes.number.isRequired,
+  courseId: PropTypes.number,
   levels: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string.isRequired
@@ -75,6 +75,10 @@ Matrix.propTypes = {
     id: PropTypes.number.isRequired
   })).isRequired,
   editing: PropTypes.bool.isRequired
+}
+
+Matrix.defaultProps = {
+  courseId: null
 }
 
 const mapStateToProps = state => (
