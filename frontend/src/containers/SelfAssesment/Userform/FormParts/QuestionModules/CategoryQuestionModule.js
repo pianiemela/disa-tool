@@ -33,6 +33,8 @@ class CategoryQuestionModule extends React.Component {
     let buttonColor = 'green'
     let buttonText = 'Mukana itsearviossa'
     let qfield = name
+    const { headers } = this.props.data
+
 
     if (!includedInAssesment) {
       disabled = true
@@ -40,36 +42,24 @@ class CategoryQuestionModule extends React.Component {
       buttonColor = 'red'
       buttonText = 'Ei mukana itsearviossa'
     }
-    if (final && edit) {
-      const { headers } = this.props.data
-      if (!this.state.editHeaders) {
-        qfield =
-          (
-            <div>
-              {headers[0].value}
-              <Button
-                onClick={() => this.toggleEdit()}
-                style={{ marginLeft: '10px' }}
-              >Muokkaa
-              </Button>
-            </div>
-          )
-      } else {
-        qfield =
-          (
-            <div>
-              <MultiLangInput
-                handleChange={this.changeHeader}
-                headers={headers}
-              />
-              <Button
-                onClick={() => this.toggleEdit()}
-              > Näytä
-              </Button >
-            </div >
-          )
-      }
+    if (final && edit && headers) {
+      qfield =
+        (
+          <div>
+            {this.state.editHeaders ?
+              <Card.Description>
+                <MultiLangInput
+                  handleChange={this.changeHeader}
+                  headers={headers}
+                />
+              </Card.Description>
+              :
+              null
+            }
+          </div>
+        )
     }
+
 
     const gradeOptions = [
       {
@@ -99,14 +89,26 @@ class CategoryQuestionModule extends React.Component {
         onChange={() => this.props.dispatchTextFieldOnOff(id)}
         label="Perustelut arvosanalle"
       />) : null
-
     return (
       <Form.Field>
         <Card fluid>
           <Card.Content>
             <Card.Header style={{ color: headercolor }}>
-              {qfield}
+              {headers && final ?
+                <div>
+                  {this.props.data.headers[0].value}
+                  <Button
+                    onClick={() => this.toggleEdit()}
+                    style={{ marginLeft: '10px' }}
+                  >Muokkaa
+                  </Button>
+                </div>
+                : qfield
+              }
             </Card.Header>
+            <Card.Description>
+              {qfield}
+            </Card.Description>
             <Grid verticalAlign="middle" padded columns={3}>
               <Grid.Row >
                 <Form.Field disabled={disabled} width={10}>

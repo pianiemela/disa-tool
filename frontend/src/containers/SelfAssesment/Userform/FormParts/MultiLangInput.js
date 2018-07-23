@@ -6,7 +6,6 @@ const MultiLangInput = (props) => {
   const display = name =>
     (
       <p
-        key={name}
         style={{
           width: '100px',
           padding: '10px',
@@ -22,9 +21,8 @@ const MultiLangInput = (props) => {
   return (
     <div>
       {headers.map(h => (
-        <Form.Field>
+        <Form.Field key={h.id}>
           <Input
-            key={h.type}
             label={display(h.displayName)}
             onChange={handleChange ? e => handleChange(h.id, e.target.value) : null}
             onBlur={handleBlur ? e => handleBlur(h.id, e.target.value) : null}
