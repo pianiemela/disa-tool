@@ -21,10 +21,18 @@ export const Matrix = props => (
           {props.levels.map(level => (
             <Table.HeaderCell key={level.id} textAlign="center">
               {level.name}
-              <RemoveLevelForm level={level} courseId={props.courseId} />
+              {props.editing ? (
+                <RemoveLevelForm level={level} courseId={props.courseId} />
+              ) : (
+                <div />
+              )}
             </Table.HeaderCell>
           ))}
-          <CreateLevelForm courseId={props.courseId} />
+          {props.editing ? (
+            <CreateLevelForm courseId={props.courseId} />
+          ) : (
+            <div />
+          )}
         </Table.Row>
       </Table.Header>
 
