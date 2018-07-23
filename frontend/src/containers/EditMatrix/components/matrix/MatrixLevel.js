@@ -7,13 +7,16 @@ import MatrixObjective from './MatrixObjective'
 
 const MatrixLevel = props => (
   <Table.Cell textAlign="center" key={props.level.id} className="MatrixLevel">
-    <List selection>
+    <div>
       {props.level.objectives.map(objective => (
-        <List.Item key={objective.id}>
-          <MatrixObjective objective={objective} editing={props.editing} />
-        </List.Item>
+        <MatrixObjective
+          key={objective.id}
+          objective={objective}
+          editing={props.editing}
+          active={Boolean(props.activeMap[objective.id])}
+        />
       ))}
-    </List>
+    </div>
     {props.editing ? (
       <CreateObjectiveForm
         levelId={props.level.id}
@@ -35,7 +38,8 @@ MatrixLevel.propTypes = {
     })).isRequired
   }).isRequired,
   courseId: PropTypes.number,
-  editing: PropTypes.bool.isRequired
+  editing: PropTypes.bool.isRequired,
+  activeMap: PropTypes.objectOf(PropTypes.bool).isRequired
 }
 
 MatrixLevel.defaultProps = {

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeObjective } from '../../services/objectives'
@@ -10,9 +11,9 @@ import DeleteForm from '../../../../utils/components/DeleteForm'
 export const MatrixObjective = props => (
   <div className="MatrixObjective">
     <div className="objectiveBlock">
-      <span>
+      <Button toggle active={props.active} compact basic fluid>
         {props.objective.name}
-      </span>
+      </Button>
     </div>
     <div className="removeBlock">
       {props.editing ? (
@@ -37,7 +38,8 @@ MatrixObjective.propTypes = {
     name: PropTypes.string.isRequired
   }).isRequired,
   editing: PropTypes.bool.isRequired,
-  removeObjective: PropTypes.func.isRequired
+  removeObjective: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

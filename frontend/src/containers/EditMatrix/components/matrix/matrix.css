@@ -15,7 +15,3 @@
   display: inline-block;
   flex-grow: 1;
 }
-
-.objectiveBlock > span {
-  margin: auto;
-}

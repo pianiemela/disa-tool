@@ -32,6 +32,7 @@ export const MatrixCategory = props => (
         level={level}
         courseId={props.courseId}
         editing={props.editing}
+        activeMap={props.activeMap}
       />
     ))}
   </Table.Row>
@@ -47,7 +48,8 @@ MatrixCategory.propTypes = {
   }).isRequired,
   courseId: PropTypes.number,
   editing: PropTypes.bool.isRequired,
-  removeCategory: PropTypes.func.isRequired
+  removeCategory: PropTypes.func.isRequired,
+  activeMap: PropTypes.objectOf(PropTypes.bool).isRequired
 }
 
 MatrixCategory.defaultProps = {

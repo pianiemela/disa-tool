@@ -27,7 +27,7 @@ class EditTasksPage extends Component {
   render() {
     return (
       <div className="EditTasksPage">
-        <Matrix editing={false} />
+        <Matrix editing={false} activeTask={this.state.activeTask} />
         <Tasklist
           courseId={this.props.courseId}
           editing
