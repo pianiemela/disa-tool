@@ -200,5 +200,23 @@ export const updateSelfAssesmentAction = data => async (dispatch) => {
       payload: error
     })
   }
+}
 
+export const getCourseInstanceDataAction = courseId => async (dispatch) => {
+  dispatch({
+    type: 'COURSES_GET_INSTANCE_DATA_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await getCourseInstanceData(courseId)
+    dispatch({
+      type: 'COURSES_GET_INSTANCE_DATA_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'COURSES_GET_INSTANCE_DATA_FAILURE',
+      payload: e.response
+    })
+  }
 }
