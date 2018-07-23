@@ -20,7 +20,7 @@ export class CreateCategoryForm extends Component {
   }
 
   render() {
-    const contentPrompt = 'Luo uusi kategoria.'
+    const contentPrompt = 'Luo uusi kategoria'
     return (
       <Table.Row className="CreateCategoryForm">
         <Table.Cell>

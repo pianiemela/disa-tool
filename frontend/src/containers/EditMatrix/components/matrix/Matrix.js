@@ -6,6 +6,7 @@ import './matrix.css'
 
 import MatrixCategory from './MatrixCategory'
 import CreateCategoryForm from './CreateCategoryForm'
+import CreateLevelForm from './CreateLevelForm'
 
 export const Matrix = props => (
   <div className="Matrix">
@@ -21,6 +22,7 @@ export const Matrix = props => (
               {level.name}
             </Table.HeaderCell>
           ))}
+          <CreateLevelForm />
         </Table.Row>
       </Table.Header>
 
