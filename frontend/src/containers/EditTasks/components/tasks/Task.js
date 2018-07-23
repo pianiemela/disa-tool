@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Grid, Button } from 'semantic-ui-react'
+import asyncAction from '../../../../utils/asyncAction'
+
+import { removeTask } from '../../services/tasks'
 
 import TaskObjectivelist from './TaskObjectivelist'
-import RemoveTaskForm from './RemoveTaskForm'
+import DeleteForm from '../../../../utils/components/DeleteForm'
 import TaskTypelist from './TaskTypelist'
 
 class Task extends Component {
@@ -58,7 +62,14 @@ class Task extends Component {
             {this.props.task.name}
           </Button>
           {this.props.editing ? (
-            <RemoveTaskForm task={this.props.task} />
+            <DeleteForm
+              onExecute={() => this.props.removeTask({ id: this.props.task.id })}
+              prompt={[
+                'Poistetaanko tehtävä',
+                `"${this.props.task.name}"`
+              ]}
+              header="Poista tehtävä"
+            />
           ) : (
             <div />
           )}
@@ -80,7 +91,12 @@ Task.propTypes = {
     })).isRequired,
     types: PropTypes.arrayOf(PropTypes.object).isRequired
   }).isRequired,
-  editing: PropTypes.bool.isRequired
+  editing: PropTypes.bool.isRequired,
+  removeTask: PropTypes.func.isRequired
 }
 
-export default Task
+const mapDispatchToProps = dispatch => ({
+  removeTask: asyncAction(removeTask, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(Task)

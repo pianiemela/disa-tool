@@ -1,16 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Table } from 'semantic-ui-react'
+import asyncAction from '../../../../utils/asyncAction'
 
 import MatrixLevel from './MatrixLevel'
-import RemoveCategoryForm from './RemoveCategoryForm'
+import DeleteForm from '../../../../utils/components/DeleteForm'
+import { removeCategory } from '../../services/categories'
 
 export const MatrixCategory = props => (
   <Table.Row className="MatrixCategory">
     <Table.Cell>
       {props.category.name}
       {props.editing ? (
-        <RemoveCategoryForm category={props.category} />
+        <DeleteForm
+          onExecute={() => props.removeCategory({ id: props.category.id })}
+          prompt={[
+            'Poistetaanko kategoria',
+            `"${props.category.name}"`
+          ]}
+          header="Poista kategoria"
+        />
       ) : (
         <div />
       )}
@@ -29,13 +39,19 @@ export const MatrixCategory = props => (
 
 MatrixCategory.propTypes = {
   category: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     skill_levels: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired
     })).isRequired
   }).isRequired,
   courseId: PropTypes.number.isRequired,
-  editing: PropTypes.bool.isRequired
+  editing: PropTypes.bool.isRequired,
+  removeCategory: PropTypes.func.isRequired
 }
 
-export default MatrixCategory
+const mapDispatchToProps = dispatch => ({
+  removeCategory: asyncAction(removeCategory, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(MatrixCategory)

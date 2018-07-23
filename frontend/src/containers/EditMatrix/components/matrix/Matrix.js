@@ -3,11 +3,14 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Table } from 'semantic-ui-react'
 import './matrix.css'
+import asyncAction from '../../../../utils/asyncAction'
+
+import { removeLevel } from '../../services/levels'
 
 import MatrixCategory from './MatrixCategory'
 import CreateCategoryForm from './CreateCategoryForm'
 import CreateLevelForm from './CreateLevelForm'
-import RemoveLevelForm from './RemoveLevelForm'
+import DeleteForm from '../../../../utils/components/DeleteForm'
 
 export const Matrix = props => (
   <div className="Matrix">
@@ -22,7 +25,14 @@ export const Matrix = props => (
             <Table.HeaderCell key={level.id} textAlign="center">
               {level.name}
               {props.editing ? (
-                <RemoveLevelForm level={level} courseId={props.courseId} />
+                <DeleteForm
+                  onExecute={() => props.removeLevel({ id: level.id })}
+                  prompt={[
+                    'Poistetaanko oppimistaso',
+                    `"${level.name}"`
+                  ]}
+                  header="Poista oppimistaso"
+                />
               ) : (
                 <div />
               )}
@@ -74,4 +84,8 @@ const mapStateToProps = state => (
   }
 )
 
-export default connect(mapStateToProps, null)(Matrix)
+const mapDispatchToProps = dispatch => ({
+  removeLevel: asyncAction(removeLevel, dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Matrix)

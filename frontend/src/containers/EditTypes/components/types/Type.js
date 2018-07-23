@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Input, Segment, Header } from 'semantic-ui-react'
+import asyncAction from '../../../../utils/asyncAction'
 
+import { removeType } from '../../services/types'
 import { changeTypeMultiplier } from '../../actions/types'
 
-import RemoveTypeForm from './RemoveTypeForm'
+import DeleteForm from '../../../../utils/components/DeleteForm'
 
 export class Type extends Component {
   changeMultiplier = (e) => {
@@ -23,7 +25,14 @@ export class Type extends Component {
         </div>
         {this.props.editing ? (
           <div className="removeBlock">
-            <RemoveTypeForm type={this.props.type} />
+            <DeleteForm
+              onExecute={() => this.props.removeType({ id: this.props.type.id })}
+              prompt={[
+                'Poistetaanko tyyppi',
+                `"${this.props.type.name}"`
+              ]}
+              header="Poista tyyppi"
+            />
           </div>
         ) : (
           <div />
@@ -46,11 +55,13 @@ Type.propTypes = {
     multiplier: PropTypes.number
   }).isRequired,
   editing: PropTypes.bool.isRequired,
-  changeTypeMultiplier: PropTypes.func.isRequired
+  changeTypeMultiplier: PropTypes.func.isRequired,
+  removeType: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
-  changeTypeMultiplier: changeTypeMultiplier(dispatch)
+  changeTypeMultiplier: changeTypeMultiplier(dispatch),
+  removeType: asyncAction(removeType, dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(Type)

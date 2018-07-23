@@ -1,8 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Segment } from 'semantic-ui-react'
+import asyncAction from '../../../../utils/asyncAction'
 
-import DetachTypeForm from './DetachTypeForm'
+import { removeTypeFromTask } from '../../services/tasks'
+
+import DeleteForm from '../../../../utils/components/DeleteForm'
 
 const TaskType = props => (
   <div className="TaskType">
@@ -11,7 +15,19 @@ const TaskType = props => (
         {props.type.name}
       </span>
       {props.editing ? (
-        <DetachTypeForm type={props.type} task={props.task} />
+        <DeleteForm
+          onExecute={() => props.removeTypeFromTask({
+            taskId: props.task.id,
+            typeId: props.type.id
+          })}
+          prompt={[
+            'Poistetaanko tyyppi',
+            `"${props.type.name}"`,
+            'tehtävästä',
+            `"${props.task.name}"`
+          ]}
+          header="Poista tyyppi tehtävästä"
+        />
       ) : (
         <div />
       )}
@@ -21,13 +37,19 @@ const TaskType = props => (
 
 TaskType.propTypes = {
   type: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
   }).isRequired,
   task: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string
   }).isRequired,
-  editing: PropTypes.bool.isRequired
+  editing: PropTypes.bool.isRequired,
+  removeTypeFromTask: PropTypes.func.isRequired
 }
 
-export default TaskType
+const mapDispatchToProps = dispatch => ({
+  removeTypeFromTask: asyncAction(removeTypeFromTask, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(TaskType)
