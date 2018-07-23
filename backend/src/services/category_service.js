@@ -1,4 +1,4 @@
-const { Category, Objective } = require('../database/models.js')
+const { Category, Objective, SkillLevel, TaskObjective } = require('../database/models.js')
 
 const getAllCategories = () => Category.findAll()
 
@@ -35,10 +35,51 @@ const getCreateValue = (instance, lang) => {
   }
 }
 
+const prepareDelete = async (id) => {
+  const instance = await Category.findById(id, {
+    include: {
+      model: Objective,
+      attributes: ['id'],
+      include: {
+        model: TaskObjective,
+        attributes: ['task_id']
+      }
+    }
+  })
+  return instance
+}
+
+const getDeleteValue = (instance) => {
+  const json = instance.toJSON()
+  const tasks = {}
+  json.objectives.forEach((objective) => {
+    objective.task_objectives.forEach((taskObjective) => {
+      if (!tasks[taskObjective.task_id]) {
+        tasks[taskObjective.task_id] = {
+          id: taskObjective.task_id,
+          objective_ids: []
+        }
+      }
+      tasks[taskObjective.task_id].objective_ids.push(objective.id)
+    })
+  })
+  return {
+    id: json.id,
+    tasks: Object.values(tasks)
+  }
+}
+
+const executeDelete = (instance) => {
+  instance.destroy()
+}
+
 module.exports = {
   getAllCategories,
   getCourseCategories,
   prepareCreate,
   executeCreate,
-  getCreateValue
+  getCreateValue,
+  prepareDelete,
+  getDeleteValue,
+  executeDelete
 }
