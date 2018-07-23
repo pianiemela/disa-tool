@@ -1,52 +1,29 @@
-const { Category, Objective, SkillLevel, TaskObjective } = require('../database/models.js')
+const { Objective, SkillLevel, TaskObjective } = require('../database/models.js')
 
-const getAllCategories = () => Category.findAll()
-
-const getCourseCategories = (courseInstanceId, lang) => (
-  Category.findAll({
-    attributes: ['id', [`${lang}_name`, 'name']],
-    include: {
-      model: Objective,
-      attributes: ['id', 'course_instance_id', 'skill_level_id', [`${lang}_name`, 'name']],
-      where: { course_instance_id: courseInstanceId }
-    }
-  })
-)
-
-const prepareCreate = async (data) => {
-  const instance = Category.build({
+const prepareCreate = (data) => {
+  const instance = SkillLevel.build({
     course_instance_id: data.course_instance_id,
     eng_name: data.eng_name,
     fin_name: data.fin_name,
     swe_name: data.swe_name
   })
-  const skillLevels = await SkillLevel.findAll({
-    where: {
-      course_instance_id: data.course_instance_id
-    },
-    attributes: ['id']
-  })
-  return [instance, skillLevels]
+  return instance
 }
 
 const executeCreate = async (instance) => {
   await instance.save()
 }
 
-const getCreateValue = (instance, skillLevels, lang) => {
+const getCreateValue = (instance, lang) => {
   const json = instance.toJSON()
   return {
     id: json.id,
-    name: json[`${lang}_name`],
-    skill_levels: skillLevels.map(level => ({
-      id: level.id,
-      objectives: []
-    }))
+    name: json[`${lang}_name`]
   }
 }
 
 const prepareDelete = async (id) => {
-  const instance = await Category.findById(id, {
+  const instance = await SkillLevel.findById(id, {
     include: {
       model: Objective,
       attributes: ['id'],
@@ -84,8 +61,6 @@ const executeDelete = (instance) => {
 }
 
 module.exports = {
-  getAllCategories,
-  getCourseCategories,
   prepareCreate,
   executeCreate,
   getCreateValue,

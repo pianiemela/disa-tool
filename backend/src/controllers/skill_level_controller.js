@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const categoryService = require('../services/category_service.js')
+const levelService = require('../services/skill_level_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const globalMessages = require('../messages/global_messages.js')
 
@@ -8,28 +8,22 @@ const messages = {
   ...globalMessages,
   create: {
     success: {
-      eng: '"Kategoria luotu onnistuneesti." englanniksi.',
-      fin: 'Kategoria luotu onnistuneesti.',
-      swe: '"Kategoria luotu onnistuneesti." ruotsiksi.'
+      eng: '"Oppimistaso luotu onnistuneesti." englanniksi.',
+      fin: 'Oppimistaso luotu onnistuneesti.',
+      swe: '"Oppimistaso luotu onnistuneesti." ruotsiksi.'
     }
   },
   delete: {
     success: {
-      eng: '"Kategoria poistettu onnistuneesti." englanniksi.',
-      fin: 'Kategoria poistettu onnistuneesti.',
-      swe: '"Kategoria poistettu onnistuneesti." ruotsiksi.'
+      eng: '"Oppimistaso poistettu onnistuneesti." englanniksi.',
+      fin: 'Oppimistaso poistettu onnistuneesti.',
+      swe: '"Oppimistaso poistettu onnistuneesti." ruotsiksi.'
     }
   }
 }
 
-router.get('/', async (req, res) => {
-  const { courseInstanceId } = req.query
-  const categories = await categoryService.getCourseCategories(courseInstanceId, req.lang)
-  res.status(200).json(categories)
-})
-
 router.post('/create', async (req, res) => {
-  const [toCreate, skillLevels] = await categoryService.prepareCreate(req.body)
+  const toCreate = levelService.prepareCreate(req.body)
   if (!await checkPrivilege(req, [
     {
       key: 'teacher_on_course',
@@ -41,8 +35,8 @@ router.post('/create', async (req, res) => {
     })
     return
   }
-  await categoryService.executeCreate(toCreate)
-  const created = categoryService.getCreateValue(toCreate, skillLevels, req.lang)
+  await levelService.executeCreate(toCreate)
+  const created = levelService.getCreateValue(toCreate, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
     created
@@ -50,7 +44,7 @@ router.post('/create', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  const toDelete = await categoryService.prepareDelete(req.params.id)
+  const toDelete = await levelService.prepareDelete(req.params.id)
   if (!toDelete) {
     res.status(404).json({
       error: messages.notfound.failure[req.lang]
@@ -68,8 +62,8 @@ router.delete('/:id', async (req, res) => {
     })
     return
   }
-  const deleted = categoryService.getDeleteValue(toDelete)
-  categoryService.executeDelete(toDelete)
+  const deleted = levelService.getDeleteValue(toDelete)
+  levelService.executeDelete(toDelete)
   res.status(200).json({
     message: messages.delete.success[req.lang],
     deleted

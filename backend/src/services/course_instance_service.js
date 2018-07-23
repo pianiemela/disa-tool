@@ -11,18 +11,22 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
     attributes: ['id', name],
     include: [
       {
-        model: Objective,
+        model: Category,
         attributes: ['id', name],
-        include: [
-          {
-            model: Category,
-            attributes: ['id', name]
-          },
-          {
-            model: SkillLevel,
-            attributes: ['id', name]
-          }
-        ]
+        include: {
+          model: Objective,
+          attributes: ['id', 'category_id'],
+          separate: true
+        }
+      },
+      {
+        model: SkillLevel,
+        attributes: ['id', name],
+        include: {
+          model: Objective,
+          attributes: ['id', name, 'skill_level_id'],
+          separate: true
+        }
       },
       {
         model: Task,
@@ -89,38 +93,21 @@ const mapCourse = (value) => {
 
 const mapObjectives = (value) => {
   const returnValue = { ...value }
-  const categories = {}
-  const categorySkillLevels = {}
-  const skillLevels = {}
-  value.objectives.forEach((objective) => {
-    if (categories[objective.category.id] === undefined) {
-      categories[objective.category.id] = objective.category
-      categorySkillLevels[objective.category.id] = {}
-    }
-    if (categorySkillLevels[objective.category.id][objective.skill_level.id] === undefined) {
-      categorySkillLevels[objective.category.id][objective.skill_level.id] = [{
-        id: objective.id,
-        name: objective.name
-      }]
-    } else {
-      categorySkillLevels[objective.category.id][objective.skill_level.id].push({
-        id: objective.id,
-        name: objective.name
-      })
-    }
-    if (skillLevels[objective.skill_level.id] === undefined) {
-      skillLevels[objective.skill_level.id] = objective.skill_level
-    }
-  })
-  returnValue.levels = Object.keys(skillLevels).map(level => skillLevels[level])
-  returnValue.categories = Object.keys(categories).map(category => ({
-    ...categories[category],
-    skill_levels: returnValue.levels.map(level => ({
-      id: level.id,
-      objectives: categorySkillLevels[category][level.id] ? categorySkillLevels[category][level.id] : []
-    }))
+  returnValue.levels = value.skill_levels.map(skillLevel => ({
+    ...skillLevel,
+    objectives: undefined
   }))
-  delete returnValue.objectives
+  returnValue.categories = value.categories.map(category => ({
+    ...category,
+    skill_levels: value.skill_levels.map(skillLevel => ({
+      ...skillLevel,
+      name: undefined,
+      objectives: skillLevel.objectives.filter(objective => (
+        category.objectives.find(catObjective => objective.id === catObjective.id) !== undefined
+      ))
+    })),
+    objectives: undefined
+  }))
   return returnValue
 }
 

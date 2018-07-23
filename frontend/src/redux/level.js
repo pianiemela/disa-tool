@@ -9,6 +9,16 @@ const levelReducer = (state = INITIAL_STATE, action) => {
         ...state,
         levels: action.response.data.levels
       }
+    case 'LEVEL_CREATE':
+      return {
+        ...state,
+        levels: [...state.levels, action.response.created]
+      }
+    case 'LEVEL_DELETE':
+      return {
+        ...state,
+        levels: state.levels.filter(level => level.id !== action.response.deleted.id)
+      }
     default:
       return state
   }

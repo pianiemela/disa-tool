@@ -1,32 +1,38 @@
 import React from 'react'
-import { MatrixObjective } from '../../../../../containers/EditMatrix/components/matrix/MatrixObjective'
+import { TaskType } from '../../../../../containers/EditTasks/components/tasks/TaskType'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
+
 import { findText } from '../../../../testUtils'
 
-const objective = {
+const task = {
   id: 1,
-  name: 'Test objective'
+  name: 'Tehtävä 1. (Tee voltti)'
+}
+const type = {
+  id: 1,
+  name: 'Viikko 1'
 }
 
-describe('MatrixObjective component', () => {
+describe('TaskType component', () => {
   let wrapper
-  let removeObjective
+  let removeTypeFromTask
 
   beforeEach(() => {
-    removeObjective = jest.fn()
-    wrapper = shallow(<MatrixObjective
-      objective={objective}
+    removeTypeFromTask = jest.fn()
+    wrapper = shallow(<TaskType
+      task={task}
+      type={type}
       editing={false}
-      removeObjective={removeObjective}
+      removeTypeFromTask={removeTypeFromTask}
     />)
   })
 
   it('renders.', () => {
-    expect(wrapper.find('.MatrixObjective').exists()).toEqual(true)
+    expect(wrapper.find('.TaskType').exists()).toEqual(true)
   })
 
-  it('renders objective name', () => {
-    expect(findText(objective.name, wrapper)).toBeGreaterThan(0)
+  it('renders type name.', () => {
+    expect(findText(type.name, wrapper)).toBeGreaterThan(0)
   })
 
   describe('when not editing', () => {
@@ -53,14 +59,15 @@ describe('MatrixObjective component', () => {
         deleteForm = wrapper.find(DeleteForm)
       })
 
-      it('includes objective names in prompt.', () => {
+      it('includes type and task names in prompt.', () => {
         const prompt = deleteForm.prop('prompt')
-        expect(prompt.filter(segment => segment.includes(objective.name)).length).toBeGreaterThan(0)
+        expect(prompt.filter(segment => segment.includes(type.name)).length).toBeGreaterThan(0)
+        expect(prompt.filter(segment => segment.includes(task.name)).length).toBeGreaterThan(0)
       })
 
-      it('gets the removeObjective prop as part of onExecute.', () => {
+      it('gets the removeTypeFromTask prop as part of onExecute.', () => {
         deleteForm.prop('onExecute')()
-        expect(removeObjective).toHaveBeenCalled()
+        expect(removeTypeFromTask).toHaveBeenCalled()
       })
     })
   })

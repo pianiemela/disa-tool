@@ -42,6 +42,46 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
       categoryToChange.skill_levels = newSkillLevels
       return { ...state, categories: newCategories }
     }
+    case 'CATEGORY_CREATE':
+      return {
+        ...state,
+        categories: [...state.categories, action.response.created]
+      }
+    case 'CATEGORY_DELETE': {
+      const newCategories = [...state.categories]
+      let index = 0
+      while (index < newCategories.length) {
+        if (newCategories[index].id === action.response.deleted.id) {
+          newCategories.splice(index, 1)
+          break
+        }
+        index += 1
+      }
+      return {
+        ...state,
+        categories: newCategories
+      }
+    }
+    case 'LEVEL_CREATE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: [...category.skill_levels, {
+            id: action.response.created.id,
+            objectives: []
+          }]
+        }))
+      }
+    case 'LEVEL_DELETE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: category.skill_levels
+            .filter(level => level.id !== action.response.deleted.id)
+        }))
+      }
     default:
       return state
   }

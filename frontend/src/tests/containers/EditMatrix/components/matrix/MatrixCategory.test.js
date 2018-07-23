@@ -20,6 +20,7 @@ const category = {
     }
   ]
 }
+const mockFn = () => {}
 
 describe('MatrixCategory component', () => {
   let wrapper
@@ -29,6 +30,7 @@ describe('MatrixCategory component', () => {
       category={category}
       courseId={1}
       editing={false}
+      removeCategory={mockFn}
     />)
   })
 

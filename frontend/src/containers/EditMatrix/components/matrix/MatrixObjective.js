@@ -1,9 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import asyncAction from '../../../../utils/asyncAction'
 
-import RemoveObjectiveForm from './RemoveObjectiveForm'
+import { removeObjective } from '../../services/objectives'
 
-const MatrixObjective = props => (
+import DeleteForm from '../../../../utils/components/DeleteForm'
+
+export const MatrixObjective = props => (
   <div className="MatrixObjective">
     <div className="objectiveBlock">
       <span>
@@ -12,7 +16,14 @@ const MatrixObjective = props => (
     </div>
     <div className="removeBlock">
       {props.editing ? (
-        <RemoveObjectiveForm objective={props.objective} />
+        <DeleteForm
+          onExecute={() => props.removeObjective({ id: props.objective.id })}
+          prompt={[
+            'Poistetaanko oppimistavoite',
+            `"${props.objective.name}"`
+          ]}
+          header="Poista oppimistavoite"
+        />
       ) : (
         <div />
       )}
@@ -22,9 +33,15 @@ const MatrixObjective = props => (
 
 MatrixObjective.propTypes = {
   objective: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
   }).isRequired,
-  editing: PropTypes.bool.isRequired
+  editing: PropTypes.bool.isRequired,
+  removeObjective: PropTypes.func.isRequired
 }
 
-export default MatrixObjective
+const mapDispatchToProps = dispatch => ({
+  removeObjective: asyncAction(removeObjective, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(MatrixObjective)

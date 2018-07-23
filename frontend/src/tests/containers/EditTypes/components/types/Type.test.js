@@ -1,6 +1,6 @@
 import React from 'react'
 import { Type } from '../../../../../containers/EditTypes/components/types/Type'
-import RemoveTypeForm from '../../../../../containers/EditTypes/components/types/RemoveTypeForm'
+import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 
 const type = {
@@ -12,13 +12,16 @@ const type = {
 describe('Type component', () => {
   let wrapper
   let changeTypeMultiplier
+  let removeType
 
   beforeEach(() => {
+    removeType = jest.fn()
     changeTypeMultiplier = jest.fn()
     wrapper = shallow(<Type
       type={type}
       changeTypeMultiplier={changeTypeMultiplier}
       editing={false}
+      removeType={removeType}
     />)
   })
 
@@ -79,8 +82,8 @@ describe('Type component', () => {
   })
 
   describe('when not editing', () => {
-    it('does not render a RemoveTypeForm component.', () => {
-      expect(wrapper.find(RemoveTypeForm).exists()).toEqual(false)
+    it('does not render a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(false)
     })
   })
 
@@ -91,8 +94,25 @@ describe('Type component', () => {
         editing: true
       })
     })
-    it('renders a RemoveTypeForm component.', () => {
-      expect(wrapper.find(RemoveTypeForm).exists()).toEqual(true)
+    it('renders a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(true)
+    })
+
+    describe('DeleteForm component', () => {
+      let deleteForm
+      beforeEach(() => {
+        deleteForm = wrapper.find(DeleteForm)
+      })
+
+      it('includes type names in prompt.', () => {
+        const prompt = deleteForm.prop('prompt')
+        expect(prompt.filter(segment => segment.includes(type.name)).length).toBeGreaterThan(0)
+      })
+
+      it('gets the removeType prop as part of onExecute.', () => {
+        deleteForm.prop('onExecute')()
+        expect(removeType).toHaveBeenCalled()
+      })
     })
   })
 })
