@@ -15,7 +15,7 @@ export class DeleteForm extends Component {
       <div className="DeleteForm">
         <ModalForm
           header={this.props.header}
-          trigger={<Button color="red" icon={{ name: 'delete' }} size="small" />}
+          trigger={<Button negative icon={{ name: 'delete' }} size="mini" />}
           content={
             <div>
               <p>{contentPrompt}?</p>
