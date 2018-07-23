@@ -28,6 +28,24 @@ const detach = (state, action, field) => {
   return { ...state, tasks: newTasks }
 }
 
+const detachManyObjectives = (state, action) => ({
+  ...state,
+  tasks: state.tasks.map((task) => {
+    const deletionTask = action.response.deleted.tasks.find(delTask => delTask.id === task.id)
+    if (!deletionTask) {
+      return task
+    }
+    const toDelete = {}
+    deletionTask.objective_ids.forEach((id) => {
+      toDelete[id] = true
+    })
+    return {
+      ...task,
+      objectives: task.objectives.filter(objective => !toDelete[objective.id])
+    }
+  })
+})
+
 const taskReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'COURSE_GET_DATA':
@@ -85,23 +103,9 @@ const taskReducer = (state = INITIAL_STATE, action) => {
     case 'TYPE_DELETE':
       return detach(state, action, 'types')
     case 'CATEGORY_DELETE':
-      return {
-        ...state,
-        tasks: state.tasks.map((task) => {
-          const deletionTask = action.response.deleted.tasks.find(delTask => delTask.id === task.id)
-          if (!deletionTask) {
-            return task
-          }
-          const toDelete = {}
-          deletionTask.objective_ids.forEach((id) => {
-            toDelete[id] = true
-          })
-          return {
-            ...task,
-            objectives: task.objectives.filter(objective => !toDelete[objective.id])
-          }
-        })
-      }
+      return detachManyObjectives(state, action)
+    case 'LEVEL_DELETE':
+      return detachManyObjectives(state, action)
     default:
       return state
   }

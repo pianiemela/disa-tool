@@ -73,6 +73,15 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           }]
         }))
       }
+    case 'LEVEL_DELETE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: category.skill_levels
+            .filter(level => level.id !== action.response.deleted.id)
+        }))
+      }
     default:
       return state
   }

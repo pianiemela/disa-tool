@@ -2,6 +2,19 @@ const INITIAL_STATE = {
   objectives: []
 }
 
+const deleteMany = (state, action) => {
+  const toDelete = {}
+  action.response.deleted.tasks.forEach((task) => {
+    task.objective_ids.forEach((id) => {
+      toDelete[id] = true
+    })
+  })
+  return {
+    ...state,
+    objectives: state.objectives.filter(objective => !toDelete[objective.id])
+  }
+}
+
 const objectiveReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'COURSE_GET_DATA': {
@@ -41,18 +54,10 @@ const objectiveReducer = (state = INITIAL_STATE, action) => {
       }
       return { ...state, objectives: newObjectives }
     }
-    case 'CATEGORY_DELETE': {
-      const toDelete = {}
-      action.response.deleted.tasks.forEach((task) => {
-        task.objective_ids.forEach((id) => {
-          toDelete[id] = true
-        })
-      })
-      return {
-        ...state,
-        objectives: state.objectives.filter(objective => !toDelete[objective.id])
-      }
-    }
+    case 'CATEGORY_DELETE':
+      return deleteMany(state, action)
+    case 'LEVEL_DELETE':
+      return deleteMany(state, action)
     default:
       return state
   }
