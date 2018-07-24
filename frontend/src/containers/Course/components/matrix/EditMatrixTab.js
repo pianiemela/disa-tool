@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Matrix from './Matrix'
 
 const EditMatrixTab = props => (
-  <div>
+  <div className="EditMatrixTab">
     <Matrix courseId={props.courseId} editing />
   </div>
 )
