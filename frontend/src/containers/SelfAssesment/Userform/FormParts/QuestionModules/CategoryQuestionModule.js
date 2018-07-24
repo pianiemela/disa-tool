@@ -9,22 +9,19 @@ import MultiLangInput from '../MultiLangInput'
 class CategoryQuestionModule extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { editHeaders: false }
+    this.state = { editHeaders: false, changedHeaders: {} }
   }
 
   toggleEdit = () => {
-    this.setState({
-      editHeaders:
-        !this.state.editHeaders
-
-    })
+    this.setState({ editHeaders: !this.state.editHeaders })
+    this.props.dispatchHeaderChange({ changedHeaders: this.state.changedHeaders })
   }
 
   changeHeader = (id, value) => {
-    console.log(id, value)
-    this.props.dispatchHeaderChange({ id, value })
+    const oldState = this.state.changedHeaders
+    oldState[id] = value
+    this.setState({ editHeaders: oldState })
   }
-
   render() {
     const { edit, final, textArea } = this.props
     const { name, textFieldOn, id, includedInAssesment } = this.props.data
@@ -100,7 +97,7 @@ class CategoryQuestionModule extends React.Component {
                   <Button
                     onClick={() => this.toggleEdit()}
                     style={{ marginLeft: '10px' }}
-                  >Muokkaa
+                  >{this.state.editHeaders ? 'Näytä' : 'Muokkaa'}
                   </Button>
                 </div>
                 : qfield
