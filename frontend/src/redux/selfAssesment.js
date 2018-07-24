@@ -11,14 +11,14 @@ const initForm = (payload) => {
   const formInfo = []
 
   formInfo.push(
-    { id: 1, displayName: 'English name', value: 'Ruottia', type: 'eng_name' },
-    { id: 2, displayName: 'Finnish name', value: 'Soomea', type: 'fin_name' },
-    { id: 3, displayName: 'Swedish name', value: 'Enkalnti', type: 'swe_name' }
+    { id: 1, displayName: 'Eng ', value: 'Ruottia', type: 'eng_name' },
+    { id: 2, displayName: 'Swe ', value: 'Soomea', type: 'fin_name' },
+    { id: 3, displayName: 'Fin ', value: 'Enkalnti', type: 'swe_name' }
   )
   formInfo.push(
-    { id: 4, displayName: 'English instructions', value: 'Instructions', type: 'eng_instructions' },
-    { id: 5, displayName: 'Swedish instructions', value: 'anvisning', type: 'swe_instructions' },
-    { id: 6, displayName: 'Finnish instructions', value: 'Ohjeita', type: 'fin_instructions' }
+    { id: 4, displayName: 'Eng ', value: 'Instructions', type: 'eng_instructions' },
+    { id: 5, displayName: 'Swe ', value: 'anvisning', type: 'swe_instructions' },
+    { id: 6, displayName: 'Fin ', value: 'Ohjeita', type: 'fin_instructions' }
   )
 
   data.open = false
@@ -34,11 +34,18 @@ const initForm = (payload) => {
   structure.openQuestions = []
   const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id) + 1)
 
+  const headers = []
+
+  headers.push(
+    { id: 1, displayName: 'Fin: ', value: 'Anna itsellesi loppuarvosana kurssista', type: 'fin_name' },
+    { id: 2, displayName: 'Eng: ', value: 'Give yourself a final grade for the course', type: 'eng_name' },
+    { id: 3, displayName: 'Swe: ', value: 'Låta en final grad till själv', type: 'swe_name' }
+  )
+
   structure.finalGrade = [{
-    name: 'Anna itsellesi loppuarvosana kurssista',
-    eng_name: 'Give yourself a final grade for the course',
-    swe_name: 'Låta en final grad till själv, lmao ei näin :D',
+    headers,
     textFieldOn: true,
+    includedInAssesment: true,
     id
   }]
   if (data.type === 'category') {
@@ -150,13 +157,14 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'CHANGE_TEXT_FIELD': {
-      const { type, value } = action.payload
+      console.log(`now we are here`)
+      const { id, value } = action.payload
       const toChange = state.createForm
       let { formInfo } = toChange.structure
       const changedValue = formInfo.find(t =>
-        t.type === type)
+        t.id === id)
       changedValue.value = value
-      formInfo = formInfo.map(inst => (inst.type === type ? changedValue : inst))
+      formInfo = formInfo.map(inst => (inst.id === id ? changedValue : inst))
       toChange.structure.formInfo = formInfo
       return { ...state, createForm: toChange }
     }
@@ -164,16 +172,38 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     case 'TOGGLE_FORM_PART': {
       const { id } = action.payload
       const toChange = state.createForm
-      const { questionModules } = toChange
-      const togQ = questionModules.find(qm = qm.id === id)
-      console.log(togQ)
-      return state
+      let { questionModules, finalGrade } = toChange.structure
+      let togQ = null
+      if (id === finalGrade[0].id) {
+        [togQ] = finalGrade
+        togQ.includedInAssesment = !togQ.includedInAssesment
+        finalGrade[0] = togQ
+        toChange.structure.finalGrade = finalGrade
+        return { ...state, createForm: toChange }
+      }
+      togQ = questionModules.find(qm => qm.id === id)
+
+      togQ.includedInAssesment = !togQ.includedInAssesment
+      questionModules = questionModules.map(qm => (qm.id !== togQ.id ?
+        qm : togQ))
+      toChange.structure.questionModules = questionModules
+      return {
+        ...state, createForm: toChange
+      }
     }
     case 'CREATE_SELF_ASSESMENT_SUCCESS': {
       const selfAssesments = state.userSelfAssesments.concat(action.payload.data.data)
       return { ...state, createForm: [], userSelfAssesments: selfAssesments }
     }
 
+    case 'CHANGE_HEADER': {
+      const { id, value } = action.payload
+      const toChange = state.createForm
+      const { finalGrade } = toChange.structure
+      finalGrade[0].headers = finalGrade[0].headers.map(fg => (fg.id === id ?
+        { ...fg, value } : fg))
+      return state
+    }
     case 'GET_ALL_USER_SELFASSESMENTS_SUCCESS': {
       return { ...state, userSelfAssesments: action.payload.data }
     }

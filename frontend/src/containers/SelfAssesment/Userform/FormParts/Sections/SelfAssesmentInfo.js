@@ -1,66 +1,115 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form } from 'semantic-ui-react'
+import { Form, Header, Button, Card, TextArea } from 'semantic-ui-react'
 import { changeTextField } from '../../../../../actions/actions'
+import MultiLangInput from '../MultiLangInput'
 
 class SelfAssesmentInfo extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      values: {}
-
+      values: {},
+      editHeaders: false,
+      editDescriptions: false
     }
   }
+
   // Unecessary rerender
   componentDidMount() {
     const values = {}
     this.props.formData.forEach((d) => {
-      values[d.type] = d.value
+      values[d.id] = d.value
     })
     this.setState({ values })
   }
 
-  handleChange = (type, value) => {
+  handleChange = (id, value) => {
+    this.props.dispatchTextFieldChange(id, value)
     const oldValue = this.state.values
-    this.setState({ values: ({ ...oldValue, [type]: value }) })
+    this.setState({ values: ({ ...oldValue, [id]: value }) })
+  }
+  toggleEdit = (type) => {
+    console.log(type)
+    this.setState({ [type]: !this.state[type] })
+  }
+  handleCategoryC = (id, value) => {
+    const { values } = this.state
+    values[id] = value
+    this.setState({ values })
   }
   render() {
+    const font = "'Lato', 'sans-serif'"
     const descriptions = this.props.formData.filter(d => d.type.includes('instruction'))
     const names = this.props.formData.filter(d => d.type.includes('name'))
 
     return (
+
       <Form style={{ padding: '20px' }}>
-        <Form.Group>
-          {names.map(n => (
-            <Form.Input
-              key={n.id}
-              label={n.displayName}
-              name={n.type}
-              placeholder={n.name}
-              // To prevent null in state, which prompts warning to dev console
-              value={this.state.values[n.type] ? this.state.values[n.type] : ''}
-              onChange={e => this.handleChange(n.type, e.target.value)}
-              onBlur={() => this.props.dispatchTextFieldChange(n.type, this.state.values[n.type])}
-            />
-          ))}
-        </Form.Group>
-
-        {
-          descriptions.map(d => (
-            <Form.Field key={d.id}>
-              <Form.TextArea
-                label={d.displayName}
-                name={d.type}
-                placeholder={d.name}
-                value={this.state.values[d.type] ? this.state.values[d.type] : ''}
-                onChange={(e) => this.handleChange(d.type, e.target.value)}
-                onBlur={() => this.props.dispatchTextFieldChange(d.type, this.state.values[d.type])}
-
-
+        <Form.Field>
+          <Header as="h3" textAlign="center">
+            {names[2].value}
+            <Button
+              style={{ marginLeft: '10px' }}
+              onClick={() => this.toggleEdit('editHeaders')}
+            >
+              {!this.state.editHeaders ? 'Muokkaa' : 'Näytä'}
+            </Button>
+          </Header>
+          {!this.state.editHeaders ?
+            null
+            :
+            <div>
+              <MultiLangInput
+                headers={names}
+                handleBlur={this.handleChange}
               />
-            </Form.Field>
-          ))
-        }
+            </div>
+          }
+        </Form.Field>
+
+
+        <Form.Field>
+          <Card centered fluid>
+            <Card.Content>
+              <Card.Header style={{ textAlign: 'center' }}>
+                Ohjeet itsearvioon
+                <Button
+                  style={{ marginLeft: '10px' }}
+                  onClick={() => this.toggleEdit('editDescriptions')}
+                >
+                  {this.state.editDescriptions ? 'Näytä' : 'Muokkaa'}
+                </Button>
+              </Card.Header>
+              {!this.state.editDescriptions ?
+                <Card.Description>
+                  <TextArea
+                    value={descriptions[2].value}
+                    style={{
+                      fontFamily: 'Lato, sans-serif',
+                      color: 'black'
+                    }}
+                  >
+                    {descriptions[2].value}
+                  </TextArea>
+                </Card.Description>
+                :
+                descriptions.map(d => (
+                  <Form.Field
+                    key={d.id}
+                  >
+                    <label>{d.displayName}</label>
+                    <TextArea
+                      autoHeight
+                      value={this.state.values[d.id]}
+                      onChange={e => this.handleCategoryC(d.id, e.target.value)}
+                      onBlur={e => this.handleChange(d.id, e.target.value)}
+                    />
+                  </Form.Field>
+                ))
+              }
+            </Card.Content>
+          </Card>
+        </Form.Field>
       </Form >
     )
   }
