@@ -1,10 +1,13 @@
-const changeTaskObjectiveMultiplier = dispatch => (data) => {
+export const changeTaskObjectiveMultiplier = dispatch => (data) => {
   dispatch({
     type: 'TASK_CHANGE_OBJECTIVE_MULTIPLIER',
     data
   })
 }
 
-module.exports = {
-  changeTaskObjectiveMultiplier
+export const changeActive = dispatch => (id) => {
+  dispatch({
+    type: 'TASK_CHANGE_ACTIVE',
+    id
+  })
 }

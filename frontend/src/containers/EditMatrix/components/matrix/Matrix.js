@@ -98,13 +98,13 @@ Matrix.defaultProps = {
   activeTask: null
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   categories: state.category.categories,
   levels: state.level.levels,
-  activeTask: ownProps.activeTask === null ? (
+  activeTask: state.task.active === null ? (
     null
   ) : (
-    state.task.tasks.find(task => task.id === ownProps.activeTask)
+    state.task.tasks.find(task => task.id === state.task.active)
   )
 })
 

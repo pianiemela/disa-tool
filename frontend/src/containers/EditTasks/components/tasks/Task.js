@@ -5,6 +5,7 @@ import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeTask } from '../../services/tasks'
+import { changeActive } from '../../actions/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
@@ -26,7 +27,7 @@ export class Task extends Component {
       <div className="Task">
         <div className="taskUncollapseable">
           <Button
-            onClick={this.props.toggleActive}
+            onClick={() => this.props.changeActive(this.props.task.id)}
             basic={!this.props.active}
             fluid
           >
@@ -56,20 +57,22 @@ Task.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    info: PropTypes.string.isRequired,
-    objectives: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number
-    })).isRequired,
-    types: PropTypes.arrayOf(PropTypes.object).isRequired
+    info: PropTypes.string.isRequired
   }).isRequired,
   editing: PropTypes.bool.isRequired,
   removeTask: PropTypes.func.isRequired,
   active: PropTypes.bool.isRequired,
-  toggleActive: PropTypes.func.isRequired
+  changeActive: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
-  removeTask: asyncAction(removeTask, dispatch)
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  active: state.task.active === ownProps.task.id
 })
 
-export default connect(null, mapDispatchToProps)(Task)
+const mapDispatchToProps = dispatch => ({
+  removeTask: asyncAction(removeTask, dispatch),
+  changeActive: changeActive(dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Task)
