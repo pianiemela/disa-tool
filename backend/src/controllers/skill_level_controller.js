@@ -23,7 +23,7 @@ const messages = {
 }
 
 router.post('/create', async (req, res) => {
-  const toCreate = levelService.prepareCreate(req.body)
+  const toCreate = levelService.create.prepare(req.body)
   if (!await checkPrivilege(req, [
     {
       key: 'teacher_on_course',
@@ -35,8 +35,8 @@ router.post('/create', async (req, res) => {
     })
     return
   }
-  await levelService.executeCreate(toCreate)
-  const created = levelService.getCreateValue(toCreate, req.lang)
+  await levelService.create.execute(toCreate)
+  const created = levelService.create.value(toCreate, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
     created
@@ -44,7 +44,7 @@ router.post('/create', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  const toDelete = await levelService.prepareDelete(req.params.id)
+  const toDelete = await levelService.delete.prepare(req.params.id)
   if (!toDelete) {
     res.status(404).json({
       error: messages.notfound.failure[req.lang]
@@ -62,8 +62,8 @@ router.delete('/:id', async (req, res) => {
     })
     return
   }
-  const deleted = levelService.getDeleteValue(toDelete)
-  levelService.executeDelete(toDelete)
+  const deleted = levelService.delete.value(toDelete)
+  levelService.delete.execute(toDelete)
   res.status(200).json({
     message: messages.delete.success[req.lang],
     deleted

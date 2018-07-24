@@ -23,7 +23,7 @@ const messages = {
 }
 
 router.post('/create', async (req, res) => {
-  const toCreate = typeService.prepareCreate(req.body)
+  const toCreate = typeService.create.prepare(req.body)
   if (!await checkPrivilege(
     req,
     [
@@ -41,8 +41,8 @@ router.post('/create', async (req, res) => {
     })
     return
   }
-  await typeService.executeCreate(toCreate)
-  const created = typeService.getCreateValue(toCreate, req.lang)
+  await typeService.create.execute(toCreate)
+  const created = typeService.create.value(toCreate, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
     created
@@ -50,7 +50,7 @@ router.post('/create', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  const toDelete = await typeService.prepareDelete(req.params.id)
+  const toDelete = await typeService.delete.prepare(req.params.id)
   if (!toDelete) {
     res.status(404).json({
       error: messages.notfound.failure[req.lang]
@@ -74,8 +74,8 @@ router.delete('/:id', async (req, res) => {
     })
     return
   }
-  const deleted = typeService.getDeleteValue(toDelete)
-  typeService.executeDelete(toDelete)
+  const deleted = typeService.delete.value(toDelete)
+  typeService.delete.execute(toDelete)
   res.status(200).json({
     message: messages.delete.success[req.lang],
     deleted

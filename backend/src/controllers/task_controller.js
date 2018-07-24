@@ -21,6 +21,13 @@ const messages = {
       fin: 'Tehtävä poistettu onnistuneesti.',
       swe: '"Tehtävä poistettu onnistuneesti." ruotsiksi.'
     }
+  },
+  attachObjective: {
+    success: {
+      eng: '"Oppimistavoite liitetty tehtävään onnistuneesti." englanniksi.',
+      fin: 'Oppimistavoite liitetty tehtävään onnistuneesti.',
+      swe: '"Oppimistavoite liitetty tehtävään onnistuneesti." ruotsiksi.'
+    }
   }
 }
 
@@ -33,7 +40,7 @@ router.get('/user/:courseId', async (req, res) => {
 
 router.post('/create', async (req, res) => {
   try {
-    const toCreate = taskService.prepareCreate(req.body)
+    const toCreate = taskService.create.prepare(req.body)
     if (!checkPrivilege(req, [
       {
         key: 'teacher_on_course',
@@ -44,8 +51,8 @@ router.post('/create', async (req, res) => {
         error: messages.privilege.failure[req.lang]
       })
     }
-    await taskService.executeCreate(toCreate)
-    const created = taskService.getCreateValue(toCreate, req.lang)
+    await taskService.create.execute(toCreate)
+    const created = taskService.create.value(toCreate, req.lang)
     res.status(200).json({
       message: messages.create.success[req.lang],
       created
@@ -66,7 +73,7 @@ router.post('/create', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   try {
-    const toDelete = await taskService.prepareDelete(req.params.id)
+    const toDelete = await taskService.delete.prepare(req.params.id)
     if (!checkPrivilege(req, [
       {
         key: 'teacher_on_course',
@@ -77,11 +84,47 @@ router.delete('/:id', async (req, res) => {
         error: messages.privilege.failure[req.lang]
       })
     }
-    const deleted = taskService.getDeleteValue(toDelete)
-    taskService.executeDelete(toDelete)
+    const deleted = taskService.delete.value(toDelete)
+    taskService.delete.execute(toDelete)
     res.status(200).json({
       message: messages.delete.success[req.lang],
       deleted
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: messages.unexpected.failure[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.post('/objectives/attach', async (req, res) => {
+  try {
+    const { task, objective, instance: toCreate } = await taskService.attachObjective.prepare(req.body)
+    const validation = task.course_instance_id === objective.course_instance_id
+      && checkPrivilege(req, [
+        {
+          key: 'teacher_on_course',
+          param: task.course_instance_id
+        }
+      ])
+    if (!validation) {
+      res.status(403).json({
+        error: messages.privilege.failure[req.lang]
+      })
+      return
+    }
+    taskService.attachObjective.execute(toCreate)
+    const created = taskService.attachObjective.value(toCreate)
+    res.status(200).json({
+      message: messages.attachObjective.success[req.lang],
+      created
     })
   } catch (e) {
     if (process.env.NODE_ENV === 'development') {

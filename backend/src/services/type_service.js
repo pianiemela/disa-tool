@@ -1,52 +1,42 @@
 const { Type, TaskType } = require('../database/models.js')
 
-const prepareCreate = (data) => {
-  const instance = Type.build(data)
-  return instance
-}
-
-const executeCreate = async (instance) => {
-  await instance.save()
-}
-
-const getCreateValue = (instance, lang) => {
-  const json = instance.toJSON()
-  return {
-    id: json.id,
-    name: json[`${lang}_name`],
-    multiplier: json.multiplier
+const create = {
+  prepare: data => Type.build({
+    eng_name: data.eng_name,
+    fin_name: data.fin_name,
+    swe_name: data.swe_name,
+    course_instance_id: data.course_instance_id
+  }),
+  execute: instance => instance.save(),
+  value: (instance, lang) => {
+    const json = instance.toJSON()
+    return {
+      id: json.id,
+      name: json[`${lang}_name`],
+      multiplier: json.multiplier
+    }
   }
 }
 
-const prepareDelete = async (id) => {
-  const instance = await Type.findById(id, {
+const deleteType = {
+  prepare: id => Type.findById(id, {
     include: {
       model: TaskType,
       attributes: ['task_id']
     }
-  })
-  return instance
-}
-
-const getDeleteValue = (instance) => {
-  const json = instance.toJSON()
-  const taskIds = json.task_types.map(taskType => taskType.task_id)
-  return {
-    id: Number(json.id),
-    task_ids: taskIds
-  }
-}
-
-const executeDelete = (instance) => {
-  instance.destroy()
-  return instance
+  }),
+  value: (instance) => {
+    const json = instance.toJSON()
+    const taskIds = json.task_types.map(taskType => taskType.task_id)
+    return {
+      id: Number(json.id),
+      task_ids: taskIds
+    }
+  },
+  execute: instance => instance.destroy()
 }
 
 module.exports = {
-  prepareCreate,
-  executeCreate,
-  getCreateValue,
-  prepareDelete,
-  getDeleteValue,
-  executeDelete
+  create,
+  delete: deleteType
 }

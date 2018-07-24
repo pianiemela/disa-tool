@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/create', async (req, res) => {
-  const [toCreate, skillLevels] = await categoryService.prepareCreate(req.body)
+  const [toCreate, skillLevels] = await categoryService.create.prepare(req.body)
   if (!await checkPrivilege(req, [
     {
       key: 'teacher_on_course',
@@ -41,8 +41,8 @@ router.post('/create', async (req, res) => {
     })
     return
   }
-  await categoryService.executeCreate(toCreate)
-  const created = categoryService.getCreateValue(toCreate, skillLevels, req.lang)
+  await categoryService.create.execute(toCreate)
+  const created = categoryService.create.value(toCreate, skillLevels, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
     created
@@ -50,7 +50,7 @@ router.post('/create', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  const toDelete = await categoryService.prepareDelete(req.params.id)
+  const toDelete = await categoryService.delete.prepare(req.params.id)
   if (!toDelete) {
     res.status(404).json({
       error: messages.notfound.failure[req.lang]
@@ -68,8 +68,8 @@ router.delete('/:id', async (req, res) => {
     })
     return
   }
-  const deleted = categoryService.getDeleteValue(toDelete)
-  categoryService.executeDelete(toDelete)
+  const deleted = categoryService.delete.value(toDelete)
+  categoryService.delete.execute(toDelete)
   res.status(200).json({
     message: messages.delete.success[req.lang],
     deleted
