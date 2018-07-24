@@ -22,6 +22,7 @@ describe('MatrixObjective component', () => {
       removeObjective={removeObjective}
       active={false}
       toggleObjective={toggleObjective}
+      activeTaskId={null}
     />)
   })
 
@@ -65,6 +66,30 @@ describe('MatrixObjective component', () => {
       it('gets the removeObjective prop as part of onExecute.', () => {
         deleteForm.prop('onExecute')()
         expect(removeObjective).toHaveBeenCalled()
+      })
+    })
+  })
+
+  describe('when activeTaskId is null', () => {
+    it('does not call toggleObjective prop when clicked.', () => {
+      wrapper.find('.objectiveButton').prop('onClick')()
+      expect(toggleObjective).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('when activeTaskId is not null', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        activeTaskId: 3
+      })
+    })
+
+    it('calls toggleObjective prop when clicked.', () => {
+      wrapper.find('.objectiveButton').prop('onClick')()
+      expect(toggleObjective).toHaveBeenCalledWith({
+        task_id: 3,
+        objective_id: objective.id
       })
     })
   })

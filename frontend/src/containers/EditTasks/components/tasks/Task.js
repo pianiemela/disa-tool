@@ -27,6 +27,7 @@ export class Task extends Component {
       <div className="Task">
         <div className="taskUncollapseable">
           <Button
+            className="taskButton"
             onClick={() => this.props.changeActive(this.props.task.id)}
             basic={!this.props.active}
             fluid

@@ -45,6 +45,7 @@ describe('Matrix component', () => {
       categories={categories}
       editing={false}
       removeLevel={mockFn}
+      activeTask={null}
     />)
   })
 
@@ -70,5 +71,27 @@ describe('Matrix component', () => {
 
   it('renders a MatrixCategory component for each category.', () => {
     expect(wrapper.find(MatrixCategory).length).toEqual(categories.length)
+  })
+
+  describe('when a task is activated', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        activeTask: {
+          id: 4,
+          objectives: [{ id: 1 }, { id: 3 }]
+        }
+      })
+    })
+
+    it('passes the correct props to MatrixCategory components.', () => {
+      wrapper.find(MatrixCategory).forEach((matrixCategory) => {
+        expect(matrixCategory.prop('activeTaskId')).toEqual(4)
+        expect(matrixCategory.prop('activeMap')).toEqual({
+          1: true,
+          3: true
+        })
+      })
+    })
   })
 })

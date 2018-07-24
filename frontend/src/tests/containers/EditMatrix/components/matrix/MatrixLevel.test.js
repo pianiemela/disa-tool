@@ -62,4 +62,27 @@ describe('MatrixLevel component', () => {
       expect(wrapper.find(CreateObjectiveForm).exists()).toEqual(true)
     })
   })
+
+  describe('when a task is activated', () => {
+    const activeMap = {
+      1: true,
+      3: true
+    }
+
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        activeTaskId: 4,
+        activeMap
+      })
+    })
+
+    it('passes the active prop to MatrixObjectives according to activeMap.', () => {
+      wrapper.find(MatrixObjective).forEach((matrixObjective) => {
+        const objective = matrixObjective.prop('objective')
+        const active = matrixObjective.prop('active')
+        expect(active).toEqual(Boolean(activeMap[objective.id]))
+      })
+    })
+  })
 })

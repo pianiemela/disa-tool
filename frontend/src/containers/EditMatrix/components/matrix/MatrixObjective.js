@@ -24,6 +24,7 @@ export class MatrixObjective extends Component {
       <div className="MatrixObjective">
         <div className="objectiveBlock">
           <Button
+            className="objectiveButton"
             toggle
             active={this.props.active}
             compact

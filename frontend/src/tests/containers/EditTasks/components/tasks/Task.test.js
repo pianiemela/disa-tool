@@ -121,4 +121,14 @@ describe('Task component', () => {
       expect(findText(task.info, wrapper)).toBeGreaterThan(0)
     })
   })
+
+  describe('when clicked', () => {
+    beforeEach(() => {
+      wrapper.find('.taskButton').prop('onClick')()
+    })
+
+    it('calls changeActive prop with correct parameters.', () => {
+      expect(changeActive).toHaveBeenCalledWith(task.id)
+    })
+  })
 })
