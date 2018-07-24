@@ -1,7 +1,7 @@
 import React from 'react'
 import { Table } from 'semantic-ui-react'
-import { Matrix } from '../../../../../containers/EditMatrix/components/matrix/Matrix'
-import MatrixCategory from '../../../../../containers/EditMatrix/components/matrix/MatrixCategory'
+import { Matrix } from '../../../../../containers/Course/components/matrix/Matrix'
+import MatrixCategory from '../../../../../containers/Course/components/matrix/MatrixCategory'
 import { findText } from '../../../../testUtils'
 
 const levels = [{

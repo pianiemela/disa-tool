@@ -1,5 +1,5 @@
 import React from 'react'
-import { Task } from '../../../../../containers/EditTasks/components/tasks/Task'
+import { Task } from '../../../../../containers/Course/components/tasks/Task'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 

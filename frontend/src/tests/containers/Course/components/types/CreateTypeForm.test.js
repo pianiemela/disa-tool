@@ -1,21 +1,21 @@
 import React from 'react'
-import { AddTaskForm } from '../../../../../containers/EditTasks/components/tasks/AddTaskForm'
+import { CreateTypeForm } from '../../../../../containers/Course/components/types/CreateTypeForm'
 import ModalForm from '../../../../../utils/components/ModalForm'
 
 const mockFn = () => {}
 
-describe('AddTaskForm component', () => {
+describe('CreateTypeForm component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<AddTaskForm
-      addTask={mockFn}
+    wrapper = shallow(<CreateTypeForm
+      addType={mockFn}
       courseId={1}
     />)
   })
 
   it('renders.', () => {
-    expect(wrapper.find('.AddTaskForm').exists()).toEqual(true)
+    expect(wrapper.find('.CreateTypeForm').exists()).toEqual(true)
   })
 
   describe('ModalForm onSubmit', () => {

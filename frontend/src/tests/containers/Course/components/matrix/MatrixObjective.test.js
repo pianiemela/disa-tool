@@ -1,5 +1,5 @@
 import React from 'react'
-import { MatrixObjective } from '../../../../../containers/EditMatrix/components/matrix/MatrixObjective'
+import { MatrixObjective } from '../../../../../containers/Course/components/matrix/MatrixObjective'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 

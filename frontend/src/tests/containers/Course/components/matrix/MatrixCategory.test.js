@@ -1,6 +1,6 @@
 import React from 'react'
-import { MatrixCategory } from '../../../../../containers/EditMatrix/components/matrix/MatrixCategory'
-import MatrixLevel from '../../../../../containers/EditMatrix/components/matrix/MatrixLevel'
+import { MatrixCategory } from '../../../../../containers/Course/components/matrix/MatrixCategory'
+import MatrixLevel from '../../../../../containers/Course/components/matrix/MatrixLevel'
 
 const category = {
   id: 1,

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Tasklist } from '../../../../../containers/EditTasks/components/tasks/Tasklist'
-import Task from '../../../../../containers/EditTasks/components/tasks/Task'
-import AddTaskForm from '../../../../../containers/EditTasks/components/tasks/AddTaskForm'
+import { Tasklist } from '../../../../../containers/Course/components/tasks/Tasklist'
+import Task from '../../../../../containers/Course/components/tasks/Task'
+import AddTaskForm from '../../../../../containers/Course/components/tasks/AddTaskForm'
 
 const tasks = [
   {

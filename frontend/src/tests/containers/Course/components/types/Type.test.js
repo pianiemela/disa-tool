@@ -1,5 +1,5 @@
 import React from 'react'
-import { Type } from '../../../../../containers/EditTypes/components/types/Type'
+import { Type } from '../../../../../containers/Course/components/types/Type'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 

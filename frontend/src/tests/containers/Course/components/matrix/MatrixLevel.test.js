@@ -1,7 +1,7 @@
 import React from 'react'
-import MatrixLevel from '../../../../../containers/EditMatrix/components/matrix/MatrixLevel'
-import MatrixObjective from '../../../../../containers/EditMatrix/components/matrix/MatrixObjective'
-import CreateObjectiveForm from '../../../../../containers/EditMatrix/components/matrix/CreateObjectiveForm'
+import MatrixLevel from '../../../../../containers/Course/components/matrix/MatrixLevel'
+import MatrixObjective from '../../../../../containers/Course/components/matrix/MatrixObjective'
+import CreateObjectiveForm from '../../../../../containers/Course/components/matrix/CreateObjectiveForm'
 
 const level = {
   id: 1,
