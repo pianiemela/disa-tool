@@ -1,36 +1,58 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeObjective } from '../../services/objectives'
+import { addObjectiveToTask, removeObjectiveFromTask } from '../../../EditTasks/services/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
-export const MatrixObjective = props => (
-  <div className="MatrixObjective">
-    <div className="objectiveBlock">
-      <Button toggle active={props.active} compact basic fluid style={{ borderRadius: '0px' }}>
-        {props.objective.name}
-      </Button>
-    </div>
-    <div className="removeBlock">
-      {props.editing ? (
-        <DeleteForm
-          onExecute={() => props.removeObjective({ id: props.objective.id })}
-          prompt={[
-            'Poistetaanko oppimistavoite',
-            `"${props.objective.name}"`
-          ]}
-          header="Poista oppimistavoite"
-        />
-      ) : (
-        null
-      )}
-    </div>
-  </div>
-)
+export class MatrixObjective extends Component {
+  toggleObjective = () => {
+    if (this.props.activeTaskId !== null) {
+      this.props.toggleObjective({
+        objective_id: this.props.objective.id,
+        task_id: this.props.activeTaskId
+      })
+    }
+  }
+
+  render() {
+    return (
+      <div className="MatrixObjective">
+        <div className="objectiveBlock">
+          <Button
+            toggle
+            active={this.props.active}
+            compact
+            basic
+            fluid
+            style={{ borderRadius: '0px' }}
+            onClick={this.toggleObjective}
+          >
+            {this.props.objective.name}
+          </Button>
+        </div>
+        <div className="removeBlock">
+          {this.props.editing ? (
+            <DeleteForm
+              onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
+              prompt={[
+                'Poistetaanko oppimistavoite',
+                `"${this.props.objective.name}"`
+              ]}
+              header="Poista oppimistavoite"
+            />
+          ) : (
+            null
+          )}
+        </div>
+      </div>
+    )
+  }
+}
 
 MatrixObjective.propTypes = {
   objective: PropTypes.shape({
@@ -39,11 +61,22 @@ MatrixObjective.propTypes = {
   }).isRequired,
   editing: PropTypes.bool.isRequired,
   removeObjective: PropTypes.func.isRequired,
-  active: PropTypes.bool.isRequired
+  active: PropTypes.bool.isRequired,
+  toggleObjective: PropTypes.func.isRequired,
+  activeTaskId: PropTypes.number
 }
 
-const mapDispatchToProps = dispatch => ({
-  removeObjective: asyncAction(removeObjective, dispatch)
+MatrixObjective.defaultProps = {
+  activeTaskId: null
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  removeObjective: asyncAction(removeObjective, dispatch),
+  toggleObjective: ownProps.active ? (
+    asyncAction(removeObjectiveFromTask, dispatch)
+  ) : (
+    asyncAction(addObjectiveToTask, dispatch)
+  )
 })
 
 export default connect(null, mapDispatchToProps)(MatrixObjective)

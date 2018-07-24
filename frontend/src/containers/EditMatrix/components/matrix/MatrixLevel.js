@@ -14,6 +14,7 @@ const MatrixLevel = props => (
           objective={objective}
           editing={props.editing}
           active={Boolean(props.activeMap[objective.id])}
+          activeTaskId={props.activeTaskId}
         />
       ))}
     </div>
@@ -39,11 +40,13 @@ MatrixLevel.propTypes = {
   }).isRequired,
   courseId: PropTypes.number,
   editing: PropTypes.bool.isRequired,
-  activeMap: PropTypes.objectOf(PropTypes.bool).isRequired
+  activeMap: PropTypes.objectOf(PropTypes.bool).isRequired,
+  activeTaskId: PropTypes.number
 }
 
 MatrixLevel.defaultProps = {
-  courseId: null
+  courseId: null,
+  activeTaskId: null
 }
 
 export default MatrixLevel

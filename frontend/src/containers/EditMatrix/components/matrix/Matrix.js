@@ -14,7 +14,9 @@ import DeleteForm from '../../../../utils/components/DeleteForm'
 
 export const Matrix = (props) => {
   const activeMap = {}
+  let activeTaskId = null
   if (props.activeTask !== null) {
+    activeTaskId = props.activeTask.id
     props.activeTask.objectives.forEach((objective) => {
       activeMap[objective.id] = true
     })
@@ -61,6 +63,7 @@ export const Matrix = (props) => {
               courseId={props.courseId}
               editing={props.editing}
               activeMap={activeMap}
+              activeTaskId={activeTaskId}
             />
           ))}
           {props.editing ? (
@@ -85,6 +88,7 @@ Matrix.propTypes = {
   })).isRequired,
   editing: PropTypes.bool.isRequired,
   activeTask: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     objectives: PropTypes.arrayOf(PropTypes.object).isRequired
   })
 }
