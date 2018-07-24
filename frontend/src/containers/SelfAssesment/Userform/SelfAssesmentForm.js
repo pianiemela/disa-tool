@@ -25,20 +25,20 @@ const SelfAssesmentForm = (props) => {
   const editForm = (formData, edit) => {
     const { structure } = formData
     const { displayCoursename, type, formInfo } = structure
-
+    const { openQ, questionHeaders, grade } = structure.headers
+    console.log(formData)
     return (
       <div>
         <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
 
         <SelfAssesmentInfo
-          header="Yleistä tietoa itsearvioinnista"
           textArea={textArea}
           formData={formInfo}
         />
 
         {type === 'category' ?
           <SelfAssesmentSection
-            header="Kategoriaosio"
+            headers={questionHeaders}
             formData={structure.questionModules}
             edit={edit}
             textArea={textArea}
@@ -46,7 +46,7 @@ const SelfAssesmentForm = (props) => {
           />
           :
           <SelfAssesmentSection
-            header="Tavoiteosio"
+            headers={questionHeaders}
             formData={structure.questionModules}
             edit={edit}
             textArea={textArea}
@@ -55,7 +55,7 @@ const SelfAssesmentForm = (props) => {
         }
 
         <SelfAssesmentSection
-          header="Avoimet kysymykset"
+          headers={openQ}
           formData={structure.openQuestions}
           edit={edit}
           textArea={textArea}
@@ -66,12 +66,13 @@ const SelfAssesmentForm = (props) => {
         {type === 'category' ?
 
           <SelfAssesmentSection
-            header="Loppuarvio"
+            headers={grade}
             formData={structure.finalGrade}
             edit={edit}
             textArea={textArea}
             QuestionModule={CategoryQuestionModule}
             final
+            headerType="grade"
           />
           :
           null

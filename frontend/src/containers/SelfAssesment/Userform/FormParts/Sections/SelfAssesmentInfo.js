@@ -15,33 +15,34 @@ class SelfAssesmentInfo extends React.Component {
   }
 
   // Unecessary rerender
-  componentDidMount() {
-    const values = {}
-    this.props.formData.forEach((d) => {
-      values[d.id] = d.value
-    })
-    this.setState({ values })
-  }
+  // componentDidMount() {
+  // const values = {}
+  // this.props.formData.forEach((d) => {
+  //   values[d.id] = d.value
+  // })
+  // this.setState({ values })
+  // }
+  // handleCategoryC = (id, value) => {
+  //   const { values } = this.state
+  //   values[id] = value
+  //   this.setState({ values })
+  // }
 
   handleChange = (id, value) => {
-    this.props.dispatchTextFieldChange(id, value)
     const oldValue = this.state.values
-    this.setState({ values: ({ ...oldValue, [id]: value }) })
+    oldValue[id] = value
+    this.setState({ values: oldValue })
   }
   toggleEdit = (type) => {
-    console.log(type)
+    const { values } = this.state
+    this.props.dispatchTextFieldChange({ values })
     this.setState({ [type]: !this.state[type] })
   }
-  handleCategoryC = (id, value) => {
-    const { values } = this.state
-    values[id] = value
-    this.setState({ values })
-  }
+
   render() {
-    const font = "'Lato', 'sans-serif'"
     const descriptions = this.props.formData.filter(d => d.type.includes('instruction'))
     const names = this.props.formData.filter(d => d.type.includes('name'))
-
+    const { values } = this.state
     return (
 
       <Form style={{ padding: '20px' }}>
@@ -61,7 +62,7 @@ class SelfAssesmentInfo extends React.Component {
             <div>
               <MultiLangInput
                 headers={names}
-                handleBlur={this.handleChange}
+                handleChange={this.handleChange}
               />
             </div>
           }
@@ -100,9 +101,8 @@ class SelfAssesmentInfo extends React.Component {
                     <label>{d.displayName}</label>
                     <TextArea
                       autoHeight
-                      value={this.state.values[d.id]}
-                      onChange={e => this.handleCategoryC(d.id, e.target.value)}
-                      onBlur={e => this.handleChange(d.id, e.target.value)}
+                      value={values[d.id] ? values[d.id] : d.value}
+                      onChange={e => this.handleChange(d.id, e.target.value)}
                     />
                   </Form.Field>
                 ))
