@@ -28,6 +28,13 @@ const messages = {
       fin: 'Oppimistavoite liitetty tehtävään onnistuneesti.',
       swe: '"Oppimistavoite liitetty tehtävään onnistuneesti." ruotsiksi.'
     }
+  },
+  detachObjective: {
+    success: {
+      eng: '"Oppimistavoite irrotettu tehtävästä onnistuneesti." englanniksi.',
+      fin: 'Oppimistavoite irrotettu tehtävästä onnistuneesti.',
+      swe: '"Oppimistavoite irrotettu tehtävästä onnistuneesti." ruotsiksi.'
+    }
   }
 }
 
@@ -125,6 +132,42 @@ router.post('/objectives/attach', async (req, res) => {
     res.status(200).json({
       message: messages.attachObjective.success[req.lang],
       created
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: messages.unexpected.failure[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.post('/objectives/detach', async (req, res) => {
+  try {
+    const toDelete = await taskService.detachObjective.prepare(req.body)
+    const validation = toDelete.dataValues.task.course_instance_id === toDelete.dataValues.objective.course_instance_id
+      && checkPrivilege(req, [
+        {
+          key: 'teacher_on_course',
+          param: toDelete.dataValues.task.course_instance_id
+        }
+      ])
+    if (!validation) {
+      res.status(403).json({
+        error: messages.privilege.failure[req.lang]
+      })
+      return
+    }
+    const deleted = taskService.detachObjective.value(toDelete)
+    taskService.detachObjective.execute(toDelete)
+    res.status(200).json({
+      message: messages.detachObjective.success[req.lang],
+      deleted
     })
   } catch (e) {
     if (process.env.NODE_ENV === 'development') {

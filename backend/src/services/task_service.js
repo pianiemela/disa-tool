@@ -80,10 +80,36 @@ const attachObjective = {
   }
 }
 
+const detachObjective = {
+  prepare: data => TaskObjective.findOne({
+    where: {
+      task_id: data.task_id,
+      objective_id: data.objective_id
+    },
+    include: [
+      {
+        model: Task
+      },
+      {
+        model: Objective
+      }
+    ]
+  }),
+  value: (instance) => {
+    const json = instance.toJSON()
+    return {
+      task_id: json.task_id,
+      objective_id: json.objective_id
+    }
+  },
+  execute: instance => instance.destroy()
+}
+
 module.exports = {
   getUserTasksForCourse,
   getTasksForCourse,
   create,
   delete: deleteTask,
-  attachObjective
+  attachObjective,
+  detachObjective
 }
