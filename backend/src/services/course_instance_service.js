@@ -34,21 +34,13 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
         include: [
           {
             model: TaskObjective,
-            attributes: ['task_id', 'multiplier'],
-            separate: true,
-            include: {
-              model: Objective,
-              attributes: ['id', name]
-            }
+            attributes: ['task_id', 'multiplier', 'objective_id'],
+            separate: true
           },
           {
             model: TaskType,
-            attributes: ['task_id'],
-            separate: true,
-            include: {
-              model: Type,
-              attributes: ['id', name]
-            }
+            attributes: ['task_id', 'type_id'],
+            separate: true
           }
         ]
       },
@@ -67,14 +59,14 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
 
 const mapTasks = (value) => {
   const returnValue = { ...value }
-  returnValue.tasks = returnValue.tasks.map(task => ({
+  returnValue.tasks = value.tasks.map(task => ({
     ...task,
     objectives: task.task_objectives.map(taskObjective => ({
-      ...taskObjective.objective,
+      id: taskObjective.objective_id,
       multiplier: taskObjective.multiplier
     })),
     task_objectives: undefined,
-    types: task.task_types.map(taskType => taskType.type),
+    types: task.task_types.map(taskType => taskType.type_id),
     task_types: undefined
   }))
   return returnValue

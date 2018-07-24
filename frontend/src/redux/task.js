@@ -3,30 +3,42 @@ const INITIAL_STATE = {
   active: null
 }
 
-const detachFromMany = (state, action, field) => {
-  const changes = []
+const detachObjectiveFromMany = (state, action) => {
+  const deleteFrom = []
   action.response.deleted.task_ids.forEach((taskId) => {
-    changes[taskId] = true
+    deleteFrom[taskId] = true
   })
-  const newTasks = state.tasks.map((task) => {
-    if (changes[task.id]) {
-      const newField = [...task[field]]
-      let index = 0
-      while (index < newField.length) {
-        if (newField[index].id === action.response.deleted.id) {
-          newField.splice(index, 1)
-          break
+  return {
+    ...state,
+    tasks: state.tasks.map((task) => {
+      if (deleteFrom[task.id]) {
+        return {
+          ...task,
+          objectives: task.types.filter(objective => objective.id !== action.response.deleted.id)
         }
-        index += 1
       }
-      return {
-        ...task,
-        [field]: newField
-      }
-    }
-    return task
+      return task
+    })
+  }
+}
+
+const detachTypeFromMany = (state, action) => {
+  const deleteFrom = []
+  action.response.deleted.task_ids.forEach((taskId) => {
+    deleteFrom[taskId] = true
   })
-  return { ...state, tasks: newTasks }
+  return {
+    ...state,
+    tasks: state.tasks.map((task) => {
+      if (deleteFrom[task.id]) {
+        return {
+          ...task,
+          types: task.types.filter(type => type !== action.response.deleted.id)
+        }
+      }
+      return task
+    })
+  }
 }
 
 const detachManyObjectives = (state, action) => ({
@@ -135,9 +147,9 @@ const taskReducer = (state = INITIAL_STATE, action) => {
     case 'TASK_DETACH_OBJECTIVE':
       return detachOneObjective(state, action)
     case 'OBJECTIVE_DELETE':
-      return detachFromMany(state, action, 'objectives')
+      return detachObjectiveFromMany(state, action, 'objectives')
     case 'TYPE_DELETE':
-      return detachFromMany(state, action, 'types')
+      return detachTypeFromMany(state, action, 'types')
     case 'CATEGORY_DELETE':
       return detachManyObjectives(state, action)
     case 'LEVEL_DELETE':
