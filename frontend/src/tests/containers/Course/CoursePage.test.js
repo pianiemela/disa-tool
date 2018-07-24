@@ -21,9 +21,9 @@ describe('Course page', () => {
       location={{
         pathname: '/course/1'
       }}
-      EditMatrixPage={mockFn}
-      EditTasksPage={mockFn}
-      EditTypesPage={mockFn}
+      EditMatrixTab={mockFn}
+      EditTasksTab={mockFn}
+      EditTypesTab={mockFn}
       courseId={1}
       loading={false}
       getCourseData={getCourseData}

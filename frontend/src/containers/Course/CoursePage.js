@@ -7,9 +7,9 @@ import asyncAction from '../../utils/asyncAction'
 
 import { getCourseData } from './services/course'
 
-import EditMatrixPage from '../EditMatrix/EditMatrixPage'
-import EditTypesPage from '../EditTypes/EditTypesPage'
-import EditTasksPage from '../EditTasks/EditTasksPage'
+import EditMatrixTab from './components/matrix/EditMatrixTab'
+import EditTypesTab from './components/types/EditTypesTab'
+import EditTasksTab from './components/tasks/EditTasksTab'
 import Navbar from './components/navbar/Navbar'
 import CourseHeader from './components/header/CourseHeader'
 
@@ -29,9 +29,9 @@ export class CoursePage extends Component {
         <CourseHeader />
         <Navbar matchUrl={this.props.match.url} pathname={this.props.location.pathname} />
         <Switch>
-          <Route path={`${this.props.match.url}/matrix`} component={this.props.EditMatrixPage} />
-          <Route path={`${this.props.match.url}/types`} component={this.props.EditTypesPage} />
-          <Route path={`${this.props.match.url}/tasks`} component={this.props.EditTasksPage} />
+          <Route path={`${this.props.match.url}/matrix`} component={this.props.EditMatrixTab} />
+          <Route path={`${this.props.match.url}/types`} component={this.props.EditTypesTab} />
+          <Route path={`${this.props.match.url}/tasks`} component={this.props.EditTasksTab} />
           <Route component={() => <Redirect to={`${this.props.match.url}/tasks`} />} />
         </Switch>
       </div>
@@ -51,9 +51,9 @@ CoursePage.propTypes = {
   }).isRequired,
   getCourseData: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  EditMatrixPage: PropTypes.func.isRequired,
-  EditTypesPage: PropTypes.func.isRequired,
-  EditTasksPage: PropTypes.func.isRequired
+  EditMatrixTab: PropTypes.func.isRequired,
+  EditTypesTab: PropTypes.func.isRequired,
+  EditTasksTab: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -65,9 +65,9 @@ const mapStateToProps = (state, ownProps) => ({
     }
   },
   location: ownProps.location,
-  EditMatrixPage: (() => <EditMatrixPage courseId={Number(ownProps.match.params.id)} />),
-  EditTypesPage: (() => <EditTypesPage courseId={Number(ownProps.match.params.id)} />),
-  EditTasksPage: (() => <EditTasksPage courseId={Number(ownProps.match.params.id)} />),
+  EditMatrixTab: (() => <EditMatrixTab courseId={Number(ownProps.match.params.id)} />),
+  EditTypesTab: (() => <EditTypesTab courseId={Number(ownProps.match.params.id)} />),
+  EditTasksTab: (() => <EditTasksTab courseId={Number(ownProps.match.params.id)} />),
   loading: state.course.loading
 })
 

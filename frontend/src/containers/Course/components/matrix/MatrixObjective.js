@@ -5,7 +5,7 @@ import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeObjective } from '../../services/objectives'
-import { addObjectiveToTask, removeObjectiveFromTask } from '../../../EditTasks/services/tasks'
+import { addObjectiveToTask, removeObjectiveFromTask } from '../../services/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
