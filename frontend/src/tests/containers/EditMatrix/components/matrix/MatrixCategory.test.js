@@ -31,6 +31,8 @@ describe('MatrixCategory component', () => {
       courseId={1}
       editing={false}
       removeCategory={mockFn}
+      activeMap={{}}
+      activeTaskId={null}
     />)
   })
 

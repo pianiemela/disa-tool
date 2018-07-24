@@ -1,7 +1,5 @@
 import React from 'react'
 import { Task } from '../../../../../containers/EditTasks/components/tasks/Task'
-import TaskTypelist from '../../../../../containers/EditTasks/components/tasks/TaskTypelist'
-import TaskObjectivelist from '../../../../../containers/EditTasks/components/tasks/TaskObjectivelist'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 
@@ -43,13 +41,17 @@ const task = {
 describe('Task component', () => {
   let wrapper
   let removeTask
+  let changeActive
 
   beforeEach(() => {
     removeTask = jest.fn()
+    changeActive = jest.fn()
     wrapper = shallow(<Task
       task={task}
       editing={false}
       removeTask={removeTask}
+      active={false}
+      changeActive={changeActive}
     />)
   })
 
@@ -101,20 +103,13 @@ describe('Task component', () => {
     it('does not render task info.', () => {
       expect(findText(task.info, wrapper)).toEqual(0)
     })
-
-    it('does not render a TaskTypelist component.', () => {
-      expect(wrapper.find(TaskTypelist).exists()).toEqual(false)
-    })
-
-    it('does not render a TaskObjectivelist component.', () => {
-      expect(wrapper.find(TaskObjectivelist).exists()).toEqual(false)
-    })
   })
 
   describe('when expanded', () => {
     beforeEach(() => {
-      wrapper.setState({
-        expanded: true
+      wrapper.setProps({
+        ...wrapper.props(),
+        active: true
       })
     })
 
@@ -124,14 +119,6 @@ describe('Task component', () => {
 
     it('renders task info.', () => {
       expect(findText(task.info, wrapper)).toBeGreaterThan(0)
-    })
-
-    it('renders a TaskTypelist component.', () => {
-      expect(wrapper.find(TaskTypelist).exists()).toEqual(true)
-    })
-
-    it('renders a TaskObjectivelist component.', () => {
-      expect(wrapper.find(TaskObjectivelist).exists()).toEqual(true)
     })
   })
 })

@@ -11,13 +11,17 @@ const objective = {
 describe('MatrixObjective component', () => {
   let wrapper
   let removeObjective
+  let toggleObjective
 
   beforeEach(() => {
     removeObjective = jest.fn()
+    toggleObjective = jest.fn()
     wrapper = shallow(<MatrixObjective
       objective={objective}
       editing={false}
       removeObjective={removeObjective}
+      active={false}
+      toggleObjective={toggleObjective}
     />)
   })
 

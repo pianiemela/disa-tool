@@ -15,18 +15,18 @@ testService({
     eng_name: 'doot',
     fin_name: 'dööt',
     swe_name: 'dååt',
-    courseId: 1
+    course_instance_id: 1
   },
   mockResponse: {
     message: '<addTaskSuccess>',
-    data: {
-      eng_name: 'doot',
-      fin_name: 'dööt',
-      swe_name: 'dååt',
-      courseId: 1,
+    created: {
+      name: 'dööt',
+      course_instance_id: 1,
       id: 2
     }
-  }
+  },
+  apiRoute: '/tasks/create',
+  apiMethod: 'post'
 })
 
 testService({
@@ -37,45 +37,51 @@ testService({
   },
   mockResponse: {
     message: '<removeTaskSuccess>',
-    data: {
+    deleted: {
       id: 3
     }
-  }
+  },
+  apiRoute: '/tasks/3',
+  apiMethod: 'delete'
 })
 
 testService({
   func: addObjectiveToTask,
-  type: 'TASK_ADD_OBJECTIVE',
+  type: 'TASK_ATTACH_OBJECTIVE',
   data: {
-    taskId: 7,
-    objectiveId: 4
+    task_id: 7,
+    objective_id: 4
   },
   mockResponse: {
     message: '<addObjectiveToTaskSuccess>',
-    data: {
-      taskId: 7,
-      objectiveId: 4
+    created: {
+      task_id: 7,
+      objective_id: 4
     }
-  }
+  },
+  apiRoute: '/tasks/objectives/attach',
+  apiMethod: 'post'
 })
 
 testService({
   func: removeObjectiveFromTask,
-  type: 'TASK_REMOVE_OBJECTIVE',
+  type: 'TASK_DETACH_OBJECTIVE',
   data: {
-    taskId: 11,
-    objectiveId: 23
+    task_id: 11,
+    objective_id: 23
   },
   mockResponse: {
     message: '<removeObjectiveFromTaskSuccess>',
-    data: {
-      taskId: 11,
-      objectiveId: 23
+    deleted: {
+      task_id: 11,
+      objective_id: 23
     }
-  }
+  },
+  apiRoute: '/tasks/objectives/detach',
+  apiMethod: 'post'
 })
 
-testService({
+/* testService({
   func: addTypeToTask,
   type: 'TASK_ADD_TYPE',
   data: {
@@ -105,4 +111,4 @@ testService({
       taskId: 23
     }
   }
-})
+}) */

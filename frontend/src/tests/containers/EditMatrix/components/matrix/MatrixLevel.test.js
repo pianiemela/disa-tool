@@ -31,6 +31,8 @@ describe('MatrixLevel component', () => {
       level={level}
       courseId={1}
       editing={false}
+      activeMap={{}}
+      activeTaskId={null}
     />)
   })
 

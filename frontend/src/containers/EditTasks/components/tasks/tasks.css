@@ -7,58 +7,10 @@
   width: 100%;
 }
 
-.objectiveSlider .numberInput {
-  width: 100px;
-}
-
-.objectiveSlider .rangeInput {
-  width: 300px;
-}
-
-.objectiveDropdown {
-  max-width: 500px;
-}
-
-.AddObjectiveForm {
-  margin: 10px;
-}
-
-.TaskObjective {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.TaskObjectivelist {
-  width: 100%;
-  text-align: right;
-}
-
 .addTaskButton {
   width: 500px;
 }
 
 .taskUncollapseable {
   display: flex;
-}
-
-.TaskTypelistContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
-.TaskType {
-  margin: 0px 10px 0px 10px;
-}
-
-.TaskTypeContainer {
-  display: flex;
-}
-
-.TaskTypeName {
-  font-size: 24px;
-}
-
-.addObjectiveToTaskButton {
-  width: 200px;
 }
