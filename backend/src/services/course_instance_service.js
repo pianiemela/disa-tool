@@ -3,6 +3,7 @@ const { CourseInstance, Objective, Category, Task, SkillLevel, Type, TaskObjecti
 const getCourseInstanceData = async (courseInstanceId, lang) => {
   const name = [`${lang}_name`, 'name']
   const description = [`${lang}_description`, 'description']
+  const header = [`${lang}_header`, 'header']
 
   let value = (await CourseInstance.findOne({
     where: {
@@ -46,7 +47,7 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
       },
       {
         model: Type,
-        attributes: ['id', name, 'multiplier']
+        attributes: ['id', name, header, 'multiplier']
       }
     ]
   })).toJSON()
