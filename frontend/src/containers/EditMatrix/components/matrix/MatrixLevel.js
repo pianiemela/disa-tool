@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Table, List } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 
 import CreateObjectiveForm from './CreateObjectiveForm'
 import MatrixObjective from './MatrixObjective'
@@ -24,7 +24,7 @@ const MatrixLevel = props => (
         courseId={props.courseId}
       />
     ) : (
-      <div />
+      null
     )}
   </Table.Cell>
 )

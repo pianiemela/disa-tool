@@ -20,7 +20,7 @@ export const Typelist = props => (
     {props.editing ? (
       <CreateTypeForm courseId={props.courseId} />
     ) : (
-      <div />
+      null
     )}
   </div>
 )

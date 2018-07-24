@@ -25,7 +25,7 @@ export const TaskObjective = props => (
         header="Poista oppimistavoite tehtävästä"
       />
     ) : (
-      <div />
+      null
     )}
     <ObjectiveSlider objective={props.objective} taskId={props.task.id} />
   </div>

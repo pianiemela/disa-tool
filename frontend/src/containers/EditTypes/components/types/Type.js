@@ -35,7 +35,7 @@ export class Type extends Component {
             />
           </div>
         ) : (
-          <div />
+          null
         )}
         <div className="inputBlock">
           <div className="inputContainer">

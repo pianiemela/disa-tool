@@ -41,7 +41,7 @@ export const Matrix = (props) => {
                     header="Poista oppimistaso"
                   />
                 ) : (
-                  <div />
+                  null
                 )}
               </Table.HeaderCell>
             ))}

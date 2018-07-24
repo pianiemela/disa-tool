@@ -29,7 +29,7 @@ export const TaskType = props => (
           header="Poista tyyppi tehtävästä"
         />
       ) : (
-        <div />
+        null
       )}
     </Segment>
   </div>

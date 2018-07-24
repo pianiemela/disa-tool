@@ -20,7 +20,7 @@ const TaskObjectivelist = props => (
         task={props.task}
       />
     ) : (
-      <div />
+      null
     )}
   </div>
 )

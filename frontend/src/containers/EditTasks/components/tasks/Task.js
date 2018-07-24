@@ -11,7 +11,7 @@ import DeleteForm from '../../../../utils/components/DeleteForm'
 export class Task extends Component {
   renderExpanded() {
     if (!this.props.active) {
-      return <div />
+      return null
     }
     return (
       <div>
@@ -42,7 +42,7 @@ export class Task extends Component {
               header="Poista tehtävä"
             />
           ) : (
-            <div />
+            null
           )}
         </div>
         {this.renderExpanded()}

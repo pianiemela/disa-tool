@@ -22,7 +22,7 @@ export const MatrixCategory = props => (
           header="Poista kategoria"
         />
       ) : (
-        <div />
+        null
       )}
     </Table.Cell>
     {props.category.skill_levels.map(level => (

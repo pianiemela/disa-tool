@@ -11,7 +11,7 @@ import DeleteForm from '../../../../utils/components/DeleteForm'
 export const MatrixObjective = props => (
   <div className="MatrixObjective">
     <div className="objectiveBlock">
-      <Button toggle active={props.active} compact basic fluid>
+      <Button toggle active={props.active} compact basic fluid style={{ borderRadius: '0px' }}>
         {props.objective.name}
       </Button>
     </div>
@@ -26,7 +26,7 @@ export const MatrixObjective = props => (
           header="Poista oppimistavoite"
         />
       ) : (
-        <div />
+        null
       )}
     </div>
   </div>

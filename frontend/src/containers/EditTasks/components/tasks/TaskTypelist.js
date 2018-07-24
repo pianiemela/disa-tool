@@ -15,7 +15,7 @@ const TaskTypelist = props => (
       {props.editing ? (
         <AddTypeForm task={props.task} typeIds={props.types.map(type => type.id)} />
       ) : (
-        <div />
+        null
       )}
     </div>
   </div>

@@ -18,7 +18,7 @@ export const Tasklist = props => (
     {props.editing ? (
       <AddTaskForm courseId={props.courseId} />
     ) : (
-      <div />
+      null
     )}
   </div>
 )
