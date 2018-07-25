@@ -1,7 +1,8 @@
 module.exports = {
   extends: 'airbnb-base',
   env: {
-    node: true
+    node: true,
+    jest: true
   },
   rules: {
     quotes: ['warn', 'single'],
@@ -65,3 +66,4 @@ module.exports = {
     'no-var': 'warn'
   }
 }
+
