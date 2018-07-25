@@ -116,6 +116,7 @@ const run = async () => {
   await createTaskTypes(createdCourseInstances, createdTypeHeaders, createdTasks, createdTypes)
   console.log('task types created')
   console.log('ALL DONE')
+  process.exit()
 }
 
 run()
