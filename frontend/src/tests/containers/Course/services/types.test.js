@@ -10,13 +10,6 @@ testService({
     swe_name: 'dååt',
     courseId: 1
   },
-  mockResponse: {
-    message: '<addTypeSuccess>',
-    data: {
-      name: 'dööt',
-      id: 10
-    }
-  },
   apiMethod: 'post',
   apiRoute: '/types/create'
 })
@@ -26,16 +19,6 @@ testService({
   type: 'TYPE_DELETE',
   data: {
     id: 15
-  },
-  mockResponse: {
-    message: '<removeTypeSuccess>',
-    data: {
-      id: 15,
-      task_ids: [
-        12,
-        3
-      ]
-    }
   },
   apiMethod: 'delete',
   apiRoute: '/types/15'

@@ -1,4 +1,4 @@
-const { CourseInstance, Objective, Category, Task, SkillLevel, Type, TaskObjective, TaskType } = require('../database/models.js')
+const { CourseInstance, Objective, Category, Task, SkillLevel, TypeHeader, Type, TaskObjective, TaskType } = require('../database/models.js')
 
 const getCourseInstanceData = async (courseInstanceId, lang) => {
   const name = [`${lang}_name`, 'name']
@@ -46,8 +46,12 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
         ]
       },
       {
-        model: Type,
-        attributes: ['id', name, header, 'multiplier']
+        model: TypeHeader,
+        attributes: ['id', name],
+        include: {
+          model: Type,
+          attributes: ['id', name, 'multiplier']
+        }
       }
     ]
   })).toJSON()
