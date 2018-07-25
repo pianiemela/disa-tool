@@ -52,7 +52,26 @@ const deleteType = {
   execute: instance => instance.destroy()
 }
 
+const createHeader = {
+  prepare: data => TypeHeader.build({
+    eng_name: data.eng_name,
+    fin_name: data.fin_name,
+    swe_name: data.swe_name,
+    course_instance_id: data.course_instance_id
+  }),
+  execute: instance => instance.save(),
+  value: (instance, lang) => {
+    const json = instance.toJSON()
+    return {
+      id: json.id,
+      name: json[`${lang}_name`],
+      types: []
+    }
+  }
+}
+
 module.exports = {
   create,
-  delete: deleteType
+  delete: deleteType,
+  createHeader
 }

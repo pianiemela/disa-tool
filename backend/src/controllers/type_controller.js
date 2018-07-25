@@ -19,6 +19,13 @@ const messages = {
       fin: 'Tyyppi poistettu onnistuneesti.',
       swe: '"Tyyppi poistettu onnistuneesti." ruotsiksi.'
     }
+  },
+  createHeader: {
+    success: {
+      eng: '"Tyyppiotsake luotu onnistuneesti." englanniksi.',
+      fin: 'Tyyppiotsake luotu onnistuneesti.',
+      swe: '"Tyyppiotsake luotu onnistuneesti." ruotsiksi.'
+    }
   }
 }
 
@@ -81,6 +88,46 @@ router.delete('/:id', async (req, res) => {
     message: messages.delete.success[req.lang],
     deleted
   })
+})
+
+router.post('/headers/create', async (req, res) => {
+  try {
+    const toCreate = typeService.createHeader.prepare(req.body)
+    if (!await checkPrivilege(
+      req,
+      [
+        {
+          key: 'logged_in'
+        },
+        {
+          key: 'teacher_on_course',
+          param: toCreate.dataValues.course_instance_id
+        }
+      ]
+    )) {
+      res.status(403).json({
+        error: messages.privilege.failure[req.lang]
+      })
+      return
+    }
+    await typeService.createHeader.execute(toCreate)
+    const created = typeService.createHeader.value(toCreate, req.lang)
+    res.status(200).json({
+      message: messages.createHeader.success[req.lang],
+      created
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: messages.unexpected.failure[req.lang]
+      })
+      console.log(e)
+    }
+  }
 })
 
 module.exports = router
