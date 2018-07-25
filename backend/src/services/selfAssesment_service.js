@@ -98,10 +98,17 @@ const getAssesmentsForCourse = (courseId, lang, userId) => (
   })
 )
 
+const getOne = selfAssesmentId => (
+  SelfAssessment.findOne({
+    where: { id: selfAssesmentId }
+  })
+)
+
 
 module.exports = {
   addSelfAssesment,
   getUserSelfAssesments,
   getAssesmentsForCourse,
-  updateSelfAssesment
+  updateSelfAssesment,
+  getOne
 }
