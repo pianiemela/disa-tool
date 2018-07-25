@@ -13,3 +13,10 @@ export const removeType = data => new Promise((resolve) => {
     response: response.data
   }))
 })
+
+export const addHeader = data => new Promise((resolve) => {
+  postJson('/types/headers/create', data).then(response => resolve({
+    type: 'TYPE_HEADER_CREATE',
+    response: response.data
+  }))
+})

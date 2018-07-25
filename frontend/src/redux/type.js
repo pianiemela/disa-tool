@@ -42,6 +42,11 @@ const typeReducer = (state = INITIAL_STATE, action) => {
             }]
           } : header))
       }
+    case 'TYPE_HEADER_CREATE':
+      return {
+        ...state,
+        headers: [...state.headers, action.response.created]
+      }
     default:
       return state
   }
