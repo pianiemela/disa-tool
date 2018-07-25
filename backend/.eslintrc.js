@@ -64,6 +64,10 @@ module.exports = {
       ignoreReadBeforeAssign: true
     }],
     'no-var': 'warn'
+  },
+  globals: {
+    app: false,
+    supertest: false
   }
 }
 

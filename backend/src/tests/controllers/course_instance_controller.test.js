@@ -1,6 +1,3 @@
-const supertest = require('supertest')
-const app = require('../../app.js')
-
 describe('course_instance_controller', () => {
   let server
   beforeEach(() => {
