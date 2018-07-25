@@ -33,54 +33,6 @@ describe('Type component', () => {
     expect(findText(type.name, wrapper)).toBeGreaterThan(0)
   })
 
-  describe('number input', () => {
-    let numberInput
-
-    beforeEach(() => {
-      numberInput = wrapper.find('.numberInput')
-    })
-
-    it('renders with the correct value.', () => {
-      expect(numberInput.props().value).toEqual(type.multiplier)
-    })
-
-    it('calls changeTypeMultiplier when value is changed.', () => {
-      numberInput.simulate('change', {
-        target: {
-          value: 0.4
-        }
-      })
-      expect(changeTypeMultiplier).toHaveBeenCalledWith({
-        id: type.id,
-        multiplier: 0.4
-      })
-    })
-  })
-
-  describe('range input', () => {
-    let rangeInput
-
-    beforeEach(() => {
-      rangeInput = wrapper.find('.rangeInput')
-    })
-
-    it('renders with the correct value.', () => {
-      expect(rangeInput.props().value).toEqual(type.multiplier)
-    })
-
-    it('calls changeTypeMultiplier when value is changed.', () => {
-      rangeInput.simulate('change', {
-        target: {
-          value: 0.4
-        }
-      })
-      expect(changeTypeMultiplier).toHaveBeenCalledWith({
-        id: type.id,
-        multiplier: 0.4
-      })
-    })
-  })
-
   describe('when not editing', () => {
     it('does not render a DeleteForm component.', () => {
       expect(wrapper.find(DeleteForm).exists()).toEqual(false)

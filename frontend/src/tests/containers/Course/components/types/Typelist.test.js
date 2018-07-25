@@ -20,7 +20,7 @@ describe('Typelist component', () => {
   beforeEach(() => {
     wrapper = shallow(<Typelist
       types={types}
-      courseId={1}
+      headerId={1}
       editing={false}
     />)
   })
