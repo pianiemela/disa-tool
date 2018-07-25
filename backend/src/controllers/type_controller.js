@@ -26,6 +26,13 @@ const messages = {
       fin: 'Tyyppiotsake luotu onnistuneesti.',
       swe: '"Tyyppiotsake luotu onnistuneesti." ruotsiksi.'
     }
+  },
+  deleteHeader: {
+    success: {
+      eng: '"Tyyppiotsake poistettu onnistuneesti." englanniksi.',
+      fin: 'Tyyppiotsake poistettu onnistuneesti.',
+      swe: '"Tyyppiotsake poistettu onnistuneesti." ruotsiksi.'
+    }
   }
 }
 
@@ -115,6 +122,46 @@ router.post('/headers/create', async (req, res) => {
     res.status(200).json({
       message: messages.createHeader.success[req.lang],
       created
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: messages.unexpected.failure[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.delete('/headers/:id', async (req, res) => {
+  try {
+    const toDelete = await typeService.deleteHeader.prepare(req.params.id)
+    if (!await checkPrivilege(
+      req,
+      [
+        {
+          key: 'logged_in'
+        },
+        {
+          key: 'teacher_on_course',
+          param: toDelete.dataValues.course_instance_id
+        }
+      ]
+    )) {
+      res.status(403).json({
+        error: messages.privilege.failure[req.lang]
+      })
+      return
+    }
+    const deleted = typeService.deleteHeader.value(toDelete)
+    typeService.deleteHeader.execute(toDelete)
+    res.status(200).json({
+      message: messages.deleteHeader.success[req.lang],
+      deleted
     })
   } catch (e) {
     if (process.env.NODE_ENV === 'development') {

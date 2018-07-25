@@ -70,8 +70,20 @@ const createHeader = {
   }
 }
 
+const deleteHeader = {
+  prepare: id => TypeHeader.findById(id),
+  value: (instance) => {
+    const json = instance.toJSON()
+    return {
+      id: json.id
+    }
+  },
+  execute: instance => instance.destroy()
+}
+
 module.exports = {
   create,
   delete: deleteType,
-  createHeader
+  createHeader,
+  deleteHeader
 }
