@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Input, Segment, Header } from 'semantic-ui-react'
+import { Segment, Header, Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeType } from '../../services/types'
@@ -24,25 +24,24 @@ export class Type extends Component {
           <Header className="typeHeader">{this.props.type.name}</Header>
         </div>
         {this.props.editing ? (
-          <div className="removeBlock">
-            <DeleteForm
-              onExecute={() => this.props.removeType({ id: this.props.type.id })}
-              prompt={[
-                'Poistetaanko tyyppi',
-                `"${this.props.type.name}"`
-              ]}
-              header="Poista tyyppi"
-            />
+          <div>
+            <div className="editBlock">
+              <Button type="button" icon={{ name: 'edit', size: 'small' }} />
+            </div>
+            <div className="removeBlock">
+              <DeleteForm
+                onExecute={() => this.props.removeType({ id: this.props.type.id })}
+                prompt={[
+                  'Poistetaanko tyyppi',
+                  `"${this.props.type.name}"`
+                ]}
+                header="Poista tyyppi"
+              />
+            </div>
           </div>
         ) : (
           null
         )}
-        <div className="inputBlock">
-          <div className="inputContainer">
-            <Input className="numberInput" type="number" min={0} max={1} step={0.01} value={this.props.type.multiplier} onChange={this.changeMultiplier} />
-            <Input className="rangeInput" type="range" min={0} max={1} step={0.01} value={this.props.type.multiplier} onChange={this.changeMultiplier} />
-          </div>
-        </div>
       </Segment>
     )
   }

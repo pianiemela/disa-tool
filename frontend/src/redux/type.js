@@ -9,16 +9,17 @@ const typeReducer = (state = INITIAL_STATE, action) => {
         ...state,
         headers: action.response.data.type_headers
       }
-    case 'TYPE_CHANGE_MULTIPLIER':
+    case 'TYPE_EDIT':
       return {
         ...state,
-        headers: state.headers.map(header => (header.id === action.header_id ? {
-          ...header,
-          types: header.types.map(type => (type.id === action.type_id ? {
-            ...type,
-            multiplier: action.value
-          } : type))
-        } : header))
+        headers: state.headers
+          .map(header => (header.id === action.response.edited.type_header_id ? {
+            ...header,
+            types: header.types.map(type => (type.id === action.response.edited.id ? {
+              ...action.response.edited,
+              type_header_id: undefined
+            } : type))
+          } : header))
       }
     case 'TYPE_DELETE':
       return {

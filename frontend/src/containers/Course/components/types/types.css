@@ -24,11 +24,8 @@
   width: 200px;
 }
 
-.numberInput {
-  width: 100px;
-}
-
-.inputBlock {
+.editBlock, .removeBlock {
+  margin: 0px !important;
   display: inline-block;
 }
 
@@ -36,9 +33,4 @@
   min-width: 100px;
   display: inline-block;
   flex-grow: 1;
-}
-
-.removeBlock {
-  display: inline-block;
-  margin-right: 5px;
 }
