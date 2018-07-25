@@ -1,4 +1,4 @@
-import { addType, removeType } from '../../../../containers/Course/services/types'
+import { addType, removeType, addHeader, removeHeader } from '../../../../containers/Course/services/types'
 import { testService } from '../../../testUtils'
 
 testService({
@@ -22,4 +22,21 @@ testService({
   },
   apiMethod: 'delete',
   apiRoute: '/types/15'
+})
+
+testService({
+  func: addHeader,
+  type: 'TYPE_HEADER_CREATE',
+  apiRoute: '/types/headers/create',
+  apiMethod: 'post'
+})
+
+testService({
+  func: removeHeader,
+  type: 'TYPE_HEADER_DELETE',
+  data: {
+    id: 16
+  },
+  apiRoute: '/types/headers/16',
+  apiMethod: 'delete'
 })
