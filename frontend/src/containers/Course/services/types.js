@@ -20,3 +20,10 @@ export const addHeader = data => new Promise((resolve) => {
     response: response.data
   }))
 })
+
+export const removeHeader = data => new Promise((resolve) => {
+  deleteCall(`/types/headers/${data.id}`).then(response => resolve({
+    type: 'TYPE_HEADER_DELETE',
+    response: response.data
+  }))
+})

@@ -1,5 +1,14 @@
+.flexContainer {
+  display: flex;
+}
+
 .TypeHeader {
   display: inline-block;
+}
+
+.typeHeaderHeader {
+  text-align: center;
+  flex-grow: 1;
 }
 
 .Headerlist {
@@ -33,4 +42,9 @@
   min-width: 100px;
   display: inline-block;
   flex-grow: 1;
+}
+
+.addHeaderButton {
+  width: 200px;
+  height: 50px;
 }
