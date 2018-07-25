@@ -12,10 +12,11 @@ const DropdownSelection = (props) => {
           placeholder={placeholder}
           onChange={handleChange}
           options={options}
+          value={options.find(c => c.value.toString() === selectedCourse)}
         />
       </Form.Field>
 
-      {submitButton ?
+      {/* {submitButton ?
         <Form.Field style={{ paddingTop: '5px' }}>
           <Button
             size="tiny"
@@ -25,7 +26,7 @@ const DropdownSelection = (props) => {
         </Form.Field>
         :
         null
-      }
+      } */}
     </Form>
   )
 }

@@ -1,4 +1,6 @@
 const router = require('express').Router()
+const globalMessages = require('../messages/global_messages.js')
+const { checkPrivilege } = require('../services/privilege')
 
 const { checkAuth } = require('../services/auth.js')
 
@@ -16,6 +18,40 @@ router.post('/create', async (req, res) => {
     message: 'it is done my friend',
     data
   })
+})
+
+router.get('/:selfAssesmentId', async (req, res) => {
+  try {
+    const { selfAssesmentId } = req.params
+    const data = await selfAssesmentService.getOne(selfAssesmentId)
+    const hasPrivilege = checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: data.course_instance_id
+      }
+    ])
+    if (!hasPrivilege) {
+      return res.status(403).json({
+        error: globalMessages.privilege.failure[req.lang]
+      })
+    }
+    data.structure = JSON.parse(data.structure)
+    return res.status(200).json({
+      data
+    })
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error
+      })
+    } else {
+      res.status(500).json({
+        error: globalMessages.unexpected.failure[req.lang]
+      })
+      console.log(error)
+    }
+  }
+  return null
 })
 
 router.get('/', async (req, res) => {
