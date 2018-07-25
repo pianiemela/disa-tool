@@ -3,7 +3,6 @@ const { CourseInstance, Objective, Category, Task, SkillLevel, TypeHeader, Type,
 const getCourseInstanceData = async (courseInstanceId, lang) => {
   const name = [`${lang}_name`, 'name']
   const description = [`${lang}_description`, 'description']
-  const header = [`${lang}_header`, 'header']
 
   let value = (await CourseInstance.findOne({
     where: {

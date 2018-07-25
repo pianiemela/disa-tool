@@ -23,7 +23,8 @@ const messages = {
 }
 
 router.post('/create', async (req, res) => {
-  const toCreate = typeService.create.prepare(req.body)
+  const { instance: toCreate, header } = await typeService.create.prepare(req.body)
+  console.log(toCreate.dataValues)
   if (!await checkPrivilege(
     req,
     [
@@ -32,7 +33,7 @@ router.post('/create', async (req, res) => {
       },
       {
         key: 'teacher_on_course',
-        param: toCreate.dataValues.course_instance_id
+        param: header.course_instance_id
       }
     ]
   )) {

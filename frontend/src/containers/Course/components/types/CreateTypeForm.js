@@ -12,10 +12,7 @@ import MultilingualField from '../../../../utils/components/MultilingualField'
 export class CreateTypeForm extends Component {
   addTypeSubmit = (e) => {
     this.props.addType({
-      course_instance_id: this.props.courseId,
-      eng_header: e.target.eng_header.value,
-      fin_header: e.target.fin_header.value,
-      swe_header: e.target.swe_header.value,
+      type_header_id: this.props.headerId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value,
@@ -26,7 +23,6 @@ export class CreateTypeForm extends Component {
   render() {
     const contentPrompt = 'Lisää uusi tyyppi'
     const label = {
-      header: 'otsikko',
       name: 'nimi',
       multiplier: 'kerroin'
     }
@@ -40,7 +36,6 @@ export class CreateTypeForm extends Component {
               <p>
                 {contentPrompt}.
               </p>
-              <MultilingualField field="header" fieldDisplay={label.header} />
               <MultilingualField field="name" fieldDisplay={label.name} />
               <Form.Field inline>
                 <Label>{label.multiplier}</Label>
@@ -58,7 +53,7 @@ export class CreateTypeForm extends Component {
 
 CreateTypeForm.propTypes = {
   addType: PropTypes.func.isRequired,
-  courseId: PropTypes.number.isRequired
+  headerId: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
