@@ -18,11 +18,10 @@ const assessmentAttributes = lang => [
 const addSelfAssesment = async (data, lang) => {
   const name = [`${lang}_name`, 'name']
   const instructions = [`${lang}_instructions`, 'instructions']
-  const created = await SelfAssessment.create(data).then(created =>
-    SelfAssessment.findOne({
-      attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
-      where: { id: created.id }
-    }))
+  const created = await SelfAssessment.create(data).then(created => SelfAssessment.findOne({
+    attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
+    where: { id: created.id }
+  }))
 
   return created
 }

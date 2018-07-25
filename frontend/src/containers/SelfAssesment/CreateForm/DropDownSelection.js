@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Dropdown, Form, Button } from 'semantic-ui-react'
 
 const DropdownSelection = (props) => {
-  const { options, placeholder, submitButton, label, onSubmit, handleChange } = props
+  const { options, placeholder, submitButton, label, onSubmit, handleChange, selectedCourse } = props
   return (
     <Form style={{ paddingTop: '20px', paddingBottom: '20px' }}>
       <Form.Field>

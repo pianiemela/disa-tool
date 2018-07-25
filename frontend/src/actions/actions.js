@@ -18,6 +18,8 @@ export const getCourseInstanceData = courseId => getJson(`/courses/instance/${co
 
 export const updateSelfAssesment = data => putJson(`/selfassesment/update/${data.id}`, data)
 
+export const getSelfAssesment = selfAssesmentId => getJson(`/selfassesment/${selfAssesmentId}`)
+
 export const getUserAction = () => async (dispatch) => {
   dispatch({
     type: 'USER_GET_ATTEMPT',
@@ -71,6 +73,26 @@ export const getUserCoursesAction = () => async (dispatch) => {
     dispatch({
       type: 'USER_GET_COURSES_FAILURE',
       payload: e.response
+    })
+  }
+}
+
+export const getSelfAssesmentAction = selfAssesmentId => async (dispatch) => {
+  dispatch({
+    type: 'GET_SELF_ASSESMENT_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await getSelfAssesment(selfAssesmentId)
+    console.log(data)
+    dispatch({
+      type: 'INIT_EDIT_FORM',
+      payload: data
+    })
+  } catch (error) {
+    dispatch({
+      type: 'GET_SELF_ASSESMENT_FAILURE',
+      payload: error.response
     })
   }
 }
