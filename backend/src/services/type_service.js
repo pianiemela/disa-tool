@@ -29,17 +29,23 @@ const create = {
 
 const deleteType = {
   prepare: id => Type.findById(id, {
-    include: {
-      model: TaskType,
-      attributes: ['task_id']
-    }
+    include: [
+      {
+        model: TaskType,
+        attributes: ['task_id']
+      },
+      {
+        model: TypeHeader,
+        attributes: ['course_instance_id']
+      }
+  ]
   }),
   value: (instance) => {
     const json = instance.toJSON()
     const taskIds = json.task_types.map(taskType => taskType.task_id)
     return {
       id: json.id,
-      header: json.header,
+      type_header_id: json.type_header_id,
       task_ids: taskIds
     }
   },

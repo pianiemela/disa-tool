@@ -66,7 +66,7 @@ router.delete('/:id', async (req, res) => {
       },
       {
         key: 'teacher_on_course',
-        param: toDelete.dataValues.course_instance_id
+        param: toDelete.dataValues.type_header.course_instance_id
       }
     ]
   )) {
