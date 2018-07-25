@@ -6,8 +6,6 @@ import PropTypes from 'prop-types'
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
-import { BrowserRouter as Router, Route, withRouter, Switch } from 'react-router-dom'
-import SelfAssesmentList from './CreateForm/SelfAssesmentList'
 
 
 import {
@@ -53,10 +51,12 @@ export class SelfAssesmentPage extends React.Component {
     this.setState({ created: false })
     await this.props.dispatchUpdateSelfAssesmentAction(formData)
   }
+
   renderTeacherView = () => (
     <SelfAssesmentCreateForm
       courses={this.props.courses}
       dropDownCourse={this.props.courseDropdownOptions}
+      selectedCourse={this.props.match.params.courseId}
       selfAssesments={this.props.selfAssesments}
       createForm={this.createForm}
       editForm={this.editForm}

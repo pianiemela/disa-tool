@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid, List } from 'semantic-ui-react'
+import { Grid, List, Dropdown, Form } from 'semantic-ui-react'
 import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
 import asyncAction from '../../../utils/asyncAction'
 
@@ -19,6 +19,10 @@ class SelfAssesmentCreateForm extends React.Component {
       dropDownValue: '',
       selectedSelfAssesments: []
     }
+  }
+
+  componentDidMount() {
+    this.setState({ dropDownValue: parseInt(this.props.selectedCourse) })
   }
 
   handleClick = (e, titleProps) => {
@@ -52,42 +56,50 @@ class SelfAssesmentCreateForm extends React.Component {
 
   renderCreateOrDraft = () => {
     const { selectedView, formData } = this.state
-    const { dropDownCourse } = this.props
+    const { dropDownCourse, selectedCourse } = this.props
+    let selfAssesments = this.state.selectedSelfAssesments
+    if (this.props.selectedCourse && selfAssesments.length === 0) {
+      selfAssesments = this.props.selfAssesments.filter(s => s.course_instance_id === parseInt(selectedCourse))
+    }
+
     if (!this.state.created) {
       return (
-        <Grid centered>
-          <Grid.Row>
-            <Grid.Column width={10}>
-              <DropDownSelection
-                options={dropDownCourse}
-                placeholder="Valitse kurssi"
-                handleChange={this.handleDropdownChange}
-              />
-
-              <SelfAssesmentList
-                onClick={this.sendFormId}
-                selfAssesments={this.state.selectedSelfAssesments}
-              />
-              <CategorySelection
-                selectedView={selectedView}
-                category="category"
-                objectives="objectives"
-                toggleButton={this.toggleButton}
-                sendFormId={this.sendFormId}
-              />
-
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <Form>
+          <Form.Field style={{ marginTop: '20px' }}>
+            <Dropdown
+              selection
+              placeholder={"Valitse kurssi"}
+              onChange={this.handleDropdownChange}
+              options={dropDownCourse}
+              defaultValue={parseInt(selectedCourse)}
+            />
+          </Form.Field>
+          <Form.Field>
+            <SelfAssesmentList
+              onClick={this.sendFormId}
+              selfAssesments={selfAssesments}
+            />
+          </Form.Field>
+          <Form.Field>
+            <CategorySelection
+              selectedView={selectedView}
+              category="category"
+              objectives="objectives"
+              toggleButton={this.toggleButton}
+              sendFormId={this.sendFormId}
+            />
+          </Form.Field>
+        </Form>
       )
     }
 
-    return (<SelfAssesmentForm
-      handleChange={this.handleFormChange}
-      edit
-      created
-      formData={formData}
-    />)
+    return (
+      <SelfAssesmentForm
+        handleChange={this.handleFormChange}
+        edit
+        created
+        formData={formData}
+      />)
   }
 
 

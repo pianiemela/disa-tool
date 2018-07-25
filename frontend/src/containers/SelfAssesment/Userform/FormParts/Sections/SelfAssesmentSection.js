@@ -110,7 +110,6 @@ SelfAssesmentSection.propTypes = {
   edit: PropTypes.bool.isRequired,
   textArea: PropTypes.func.isRequired,
   question: PropTypes.bool,
-  header: PropTypes.string.isRequired,
   QuestionModule: PropTypes.func.isRequired,
   final: PropTypes.bool
 }
