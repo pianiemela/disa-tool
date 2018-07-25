@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Typelist from './Typelist'
+import Headerlist from './Headerlist'
 
 const EditTypesTab = props => (
   <div className="EditTypesTab">
-    <Typelist courseId={props.courseId} editing />
+    <Headerlist courseId={props.courseId} editing />
   </div>
 )
 

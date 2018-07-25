@@ -1,12 +1,9 @@
-.Typelist {
-  margin: 0% 10% 0% 10%;
-  display: flex;
-  flex-wrap: wrap;
+.TypeHeader {
+  display: inline-block;
 }
 
-.Type, .addTypeForm {
-  width: 50%;
-  flex-shrink: 1;
+.Headerlist {
+  display: flex;
 }
 
 .Type {
@@ -36,6 +33,7 @@
 }
 
 .headerBlock {
+  min-width: 100px;
   display: inline-block;
   flex-grow: 1;
 }
