@@ -9,8 +9,8 @@ import { removeHeader } from '../../services/types'
 import Typelist from './Typelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
-const TypeHeader = props => (
-  <div>
+export const TypeHeader = props => (
+  <div className="TypeHeader">
     <Segment>
       <div className="flexContainer">
         <Header className="typeHeaderHeader">{props.header.name}</Header>
