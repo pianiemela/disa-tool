@@ -1,24 +1,25 @@
-const { testTeacherOnCoursePrivilege, testHeaders, testBody } = require('../testUtils')
-
-const data = {
-  type_header_id: 1,
-  eng_name: '8e',
-  fin_name: '8f',
-  swe_name: '8s',
-  multiplier: 1
-}
-
-const options = {
-  route: '/api/types/create',
-  method: 'post',
-  preamble: {
-    send: data,
-    set: ['Authorization', `Bearer ${tokens.teacher}`]
-  }
-}
+const { testTeacherOnCoursePrivilege, testHeaders, testBody, testDatabaseSave } = require('../testUtils')
+const { Type } = require('../../database/models.js')
 
 describe('type_controller', () => {
   describe('POST /create', () => {
+    const data = {
+      type_header_id: 1,
+      eng_name: '8e',
+      fin_name: '8f',
+      swe_name: '8s',
+      multiplier: 1
+    }
+    
+    const options = {
+      route: '/api/types/create',
+      method: 'post',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+    
     testTeacherOnCoursePrivilege({
       route: '/api/types/create',
       method: 'post',
@@ -38,5 +39,14 @@ describe('type_controller', () => {
         multiplier: data.multiplier
       }
     })
+
+    testDatabaseSave(
+      options,
+      {
+        id: expect.any(Number),
+        ...data
+      },
+      Type
+    )
   })
 })

@@ -57,8 +57,20 @@ const testBody = (options, match) => {
   })
 }
 
+const testDatabaseSave = (options, match, model) => {
+  it('saves a row into the database.', (done) => {
+    makeRequest(options).then((response) => {
+      model.findById(response.body.created.id).then((row) => {
+        expect(row.toJSON()).toMatchObject(match)
+        done()
+      })
+    })
+  })
+}
+
 module.exports = {
   testTeacherOnCoursePrivilege,
   testHeaders,
-  testBody
+  testBody,
+  testDatabaseSave
 }
