@@ -1,4 +1,4 @@
-const { testTeacherOnCoursePrivilege, testHeaders } = require('../testUtils')
+const { testTeacherOnCoursePrivilege, testHeaders, testBody } = require('../testUtils')
 
 const data = {
   type_header_id: 1,
@@ -6,6 +6,15 @@ const data = {
   fin_name: '8f',
   swe_name: '8s',
   multiplier: 1
+}
+
+const options = {
+  route: '/api/types/create',
+  method: 'post',
+  preamble: {
+    send: data,
+    set: ['Authorization', `Bearer ${tokens.teacher}`]
+  }
 }
 
 describe('type_controller', () => {
@@ -18,40 +27,16 @@ describe('type_controller', () => {
       }
     })
 
-    testHeaders({
-      route: '/api/types/create',
-      method: 'post',
-      preamble: {
-        send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+    testHeaders(options)
+
+    testBody(options, {
+      message: expect.any(String),
+      created: {
+        id: expect.any(Number),
+        name: data.fin_name,
+        type_header_id: data.type_header_id,
+        multiplier: data.multiplier
       }
-    })
-
-    describe('json response', () => {
-      let json
-      beforeAll((done) => {
-        server
-          .post('/api/types/create')
-          .send(data)
-          .set('Authorization', `Bearer ${tokens.teacher}`)
-          .then((response) => {
-            json = response.body
-            done()
-          })
-      })
-
-      it('Contains a message', () => {
-        expect(typeof json.message).toEqual('string')
-      })
-
-      it('Contains field "created" with appropriate object.', () => {
-        expect(json.created).toMatchObject({
-          id: expect.any(Number),
-          name: data.fin_name,
-          type_header_id: data.type_header_id,
-          multiplier: data.multiplier
-        })
-      })
     })
   })
 })

@@ -48,7 +48,17 @@ const testHeaders = (options) => {
   })
 }
 
+const testBody = (options, match) => {
+  it('returns an appropriate json object in response body.', (done) => {
+    makeRequest(options).then((response) => {
+      expect(response.body).toMatchObject(match)
+      done()
+    })
+  })
+}
+
 module.exports = {
   testTeacherOnCoursePrivilege,
-  testHeaders
+  testHeaders,
+  testBody
 }
