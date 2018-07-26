@@ -29,5 +29,25 @@ describe('type_controller', () => {
         done()
       })
     })
+
+    it('responds 403 when invalid authorization is provided.', (done) => {
+      server.post('/api/types/create')
+        .send(data)
+        .set('Authorization', `Bearer ${tokens.student}`)
+        .then((response) => {
+          expect(response.status).toEqual(403)
+          done()
+        })
+    })
+
+    it('responds 200 when valid authorization is provided.', (done) => {
+      server.post('/api/types/create')
+        .send(data)
+        .set('Authorization', `Bearer ${tokens.teacher}`)
+        .then((response) => {
+          expect(response.status).toEqual(200)
+          done()
+        })
+    })
   })
 })

@@ -12,7 +12,7 @@ global.tokens = {
       },
       attributes: ['id', 'name', 'studentnumber', 'role']
     }).then((student) => {
-      global.tokens.student = jwt.sign(student.toJSON(), process.env.SECRET)
+      global.tokens.student = jwt.sign({ user: student.toJSON() }, process.env.SECRET)
     }),
     Person.findOne({
       where: {
@@ -20,7 +20,7 @@ global.tokens = {
       },
       attributes: ['id', 'name', 'studentnumber', 'role']
     }).then((teacher) => {
-      global.tokens.teacher = jwt.sign(teacher.toJSON(), process.env.SECRET)
+      global.tokens.teacher = jwt.sign({ user: teacher.toJSON() }, process.env.SECRET)
     })
   ])
 }
