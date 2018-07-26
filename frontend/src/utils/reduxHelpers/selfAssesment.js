@@ -23,6 +23,9 @@ const initForm = (payload) => {
   data.structure = {}
   const { structure } = data
   structure.displayCoursename = courseInfo.name
+  if (!structure.displayCoursename) {
+    structure.displayCoursename = courseInfo[`${localStorage.getItem('lang')}.name`]
+  }
   structure.formInfo = formInfo
 
   structure.openQuestions = []

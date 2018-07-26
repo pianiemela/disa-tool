@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form, Grid, Button, Loader } from 'semantic-ui-react'
+import { Form, Grid, Button, Loader, Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
@@ -75,7 +75,7 @@ class SelfAssesmentForm extends React.Component {
         </Grid.Column>
       )
     )
-    const renderEditForm = () => {
+    const renderForm = () => {
       const { formData, edit } = this.props
       const { structure } = formData
       const { displayCoursename, type, formInfo } = structure
@@ -84,71 +84,87 @@ class SelfAssesmentForm extends React.Component {
 
       return (
         <div>
-          <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
+          <Container>
+            <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
+            <Form>
+              <Form.Field>
+                <SelfAssesmentInfo
+                  textArea={textArea}
+                  formData={formInfo}
+                />
+              </Form.Field>
 
-          <SelfAssesmentInfo
-            textArea={textArea}
-            formData={formInfo}
-          />
+              {type === 'category' ?
+                <Form.Field>
+                  <SelfAssesmentSection
+                    headers={questionHeaders}
+                    formData={structure.questionModules}
+                    edit={edit}
+                    textArea={textArea}
+                    QuestionModule={CategoryQuestionModule}
+                  />
+                </Form.Field>
 
-          {type === 'category' ?
-            <SelfAssesmentSection
-              headers={questionHeaders}
-              formData={structure.questionModules}
-              edit={edit}
-              textArea={textArea}
-              QuestionModule={CategoryQuestionModule}
-            />
-            :
-            <SelfAssesmentSection
-              headers={questionHeaders}
-              formData={structure.questionModules}
-              edit={edit}
-              textArea={textArea}
-              QuestionModule={ObjectiveQuestionModule}
-            />
-          }
+                :
+                <Form.Field>
 
-          <SelfAssesmentSection
-            headers={openQ}
-            formData={structure.openQuestions}
-            edit={edit}
-            textArea={textArea}
-            QuestionModule={OpenQuestionModule}
-            question
-          />
+                  <SelfAssesmentSection
+                    headers={questionHeaders}
+                    formData={structure.questionModules}
+                    edit={edit}
+                    textArea={textArea}
+                    QuestionModule={ObjectiveQuestionModule}
+                  />
+                </Form.Field>
 
-          {type === 'category' ?
+              }
 
-            <SelfAssesmentSection
-              headers={grade}
-              formData={[structure.finalGrade]}
-              edit={edit}
-              textArea={textArea}
-              QuestionModule={CategoryQuestionModule}
-              final
-              headerType="grade"
-            />
-            :
-            null
-          }
-          <Button
-            positive
-            style={{ marginBottom: '25px' }}
-            onClick={this.props.new ? this.handleSubmit : this.handleUpdate}
-          >
-            {this.props.new ? 'Tallenna' : 'Päivitä'}
-          </Button>
+              <Form.Field>
+                <SelfAssesmentSection
+                  headers={openQ}
+                  formData={structure.openQuestions}
+                  edit={edit}
+                  textArea={textArea}
+                  QuestionModule={OpenQuestionModule}
+                  question
+                />
+              </Form.Field>
 
-        </div>
+
+              {type === 'category' ?
+
+                <SelfAssesmentSection
+                  headers={grade}
+                  formData={[structure.finalGrade]}
+                  edit={edit}
+                  textArea={textArea}
+                  QuestionModule={CategoryQuestionModule}
+                  final
+                  headerType="grade"
+                />
+                :
+                null
+              }
+              <Button
+                positive
+                style={{ marginBottom: '25px' }}
+                onClick={this.props.new ? this.handleSubmit : this.handleUpdate}
+              >
+                {this.props.new ? 'Tallenna' : 'Päivitä'}
+              </Button>
+
+            </Form>
+          </Container>
+        </div >
       )
     }
     return (
       <div>
-        {this.props.edit && Object.keys(this.props.formData).length > 0 ?
-          renderEditForm()
-          :
-          <Loader active>Loading</Loader>
+        {
+          this.props.edit && Object.keys(this.props.formData).length > 0 ?
+            renderForm()
+            :
+            <Loader active>Loading</Loader>
         }
       </div >
     )
