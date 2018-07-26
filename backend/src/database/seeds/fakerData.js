@@ -141,52 +141,68 @@ const getCoursePersons = (persons) => {
   return coursePersons
 }
 
-const getTypes = (courseInstances) => {
-  const types = []
-  let multiplier = 0.1
-  const increment = 0.15
-  for (let i = 0; i < courseInstances.length; i++) {
-    const element = courseInstances[i]
-    multiplier = 0.1
-    for (let i = 0; i < 7; i++) {
-      types.push({
-        eng_header: 'Week',
-        fin_header: 'Viikko',
-        swe_header: 'Vecka',
-        eng_name: i + 1,
-        swe_name: i + 1,
-        fin_name: i + 1,
-        multiplier: Math.round(multiplier * 100) / 100,
-        course_instance_id: element.id
-      })
-      multiplier += increment
-    }
+const getTypeHeaders = (courseInstances) => {
+  const typeHeaders = []
+  courseInstances.forEach((element) => {
+    typeHeaders.push({
+      eng_name: 'Week',
+      fin_name: 'Viikko',
+      swe_name: 'Vecka',
+      course_instance_id: element.id
+    })
+    typeHeaders.push({
+      eng_name: 'Series',
+      fin_name: 'Sarja',
+      swe_name: 'Serie',
+      course_instance_id: element.id
+    })
+  })
+  return typeHeaders
+}
 
-    const sarja = ['A', 'B', 'Stack', 'Vertaisarvio']
-    let sarjaMultiplier = 0.2
-    for (let i = 0; i < 3; i++) {
-      types.push({
-        eng_header: 'Series',
-        fin_header: 'Sarja',
-        swe_header: 'Serie',
-        eng_name: sarja[i],
-        swe_name: sarja[i],
-        fin_name: sarja[i],
-        multiplier: Math.round(sarjaMultiplier * 100) / 100,
-        course_instance_id: element.id
-      })
-      sarjaMultiplier += increment
+const getTypes = (typeHeaders) => {
+  const types = []
+  const increment = 0.15
+  for (let i = 0; i < typeHeaders.length; i++) {
+    const header = typeHeaders[i]
+    if (header.eng_name === 'Week') {
+      let multiplier = 0.1
+      for (let i = 0; i < 7; i++) {
+        types.push({
+          eng_name: i + 1,
+          swe_name: i + 1,
+          fin_name: i + 1,
+          multiplier: Math.round(multiplier * 100) / 100,
+          type_header_id: header.id
+        })
+        multiplier += increment
+      }
+    } else {
+      const sarja = ['A', 'B', 'Stack', 'Vertaisarvio']
+      let multiplier = 0.2
+      for (let i = 0; i < 3; i++) {
+        types.push({
+          eng_name: sarja[i],
+          swe_name: sarja[i],
+          fin_name: sarja[i],
+          multiplier: Math.round(multiplier * 100) / 100,
+          type_header_id: header.id
+        })
+        multiplier += increment
+      }
     }
   }
   return types
 }
 
-const getTaskTypes = (courseInstances, tasks, types) => {
+const getTaskTypes = (courseInstances, typeHeaders, tasks, types) => {
   const taskTypes = []
   for (let i = 0; i < courseInstances.length; i++) {
     const element = courseInstances[i]
-    const courseTypeWeeks = types.filter(t => (t.course_instance_id === element.id && t.fin_header.includes('Viikko')))
-    const courseTypeSarja = types.filter(t => (t.course_instance_id === element.id && t.fin_header.includes('Sarja')))
+    const weekHeader = typeHeaders.find(header => header.course_instance_id === element.id && header.fin_name === 'Viikko')
+    const sarjaHeader = typeHeaders.find(header => header.course_instance_id === element.id && header.fin_name === 'Sarja')
+    const courseTypeWeeks = types.filter(t => (t.type_header_id === weekHeader.id))
+    const courseTypeSarja = types.filter(t => (t.type_header_id === sarjaHeader.id))
     const courseTasks = tasks.filter(t => t.course_instance_id === element.id)
 
     for (let a = 0; a < courseTasks.length; a++) {
@@ -215,6 +231,7 @@ module.exports = {
   getCoursePersons,
   getCourseTasks,
   getTaskObjectives,
+  getTypeHeaders,
   getTypes,
   getTaskTypes
 }

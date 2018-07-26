@@ -20,12 +20,15 @@ const { Task,
   SelfAssessment,
   TaskResponse,
   AssessmentResponse,
-  Type } = require('./models.js')
+  TypeHeader,
+  Type
+} = require('./models.js')
 
 const {
   getStudentsAndTeachers,
   getCourseTasks,
   getTaskObjectives,
+  getTypeHeaders,
   getTypes,
   getTaskTypes,
   getCoursePersons
@@ -75,9 +78,11 @@ const createTaskObjectives = taskObjectives => TaskObjective.bulkCreate(taskObje
 
 const createTaskResponses = () => TaskResponse.bulkCreate(taskResponses, { returning: true }).map(db0 => db0.toJSON())
 
+const createTypeHeaders = typeHeaders => TypeHeader.bulkCreate(typeHeaders, { returning: true }).map(db0 => db0.toJSON())
+
 const createTypes = types => Type.bulkCreate(types, { returning: true }).map(db0 => db0.toJSON())
 
-const createTaskTypes = (courseInstances, tasks, types) => TaskType.bulkCreate(getTaskTypes(courseInstances, tasks, types))
+const createTaskTypes = (courseInstances, typeHeaders, tasks, types) => TaskType.bulkCreate(getTaskTypes(courseInstances, typeHeaders, tasks, types))
 
 const run = async () => {
   await sequelize.sync({ force: true })
@@ -103,10 +108,12 @@ const run = async () => {
   console.log('task objectives created')
   await createTaskResponses()
   console.log('task responses created')
-  const createdTypes = await createTypes(getTypes(createdCourseInstances))
+  const createdTypeHeaders = await createTypeHeaders(getTypeHeaders(createdCourseInstances))
+  console.log('type headers created')
+  const createdTypes = await createTypes(getTypes(createdTypeHeaders))
   console.log('types created')
   // console.log(createdTypes)
-  await createTaskTypes(createdCourseInstances, createdTasks, createdTypes)
+  await createTaskTypes(createdCourseInstances, createdTypeHeaders, createdTasks, createdTypes)
   console.log('task types created')
   console.log('ALL DONE')
 }

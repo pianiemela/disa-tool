@@ -19,11 +19,26 @@ const messages = {
       fin: 'Tyyppi poistettu onnistuneesti.',
       swe: '"Tyyppi poistettu onnistuneesti." ruotsiksi.'
     }
+  },
+  createHeader: {
+    success: {
+      eng: '"Tyyppiotsake luotu onnistuneesti." englanniksi.',
+      fin: 'Tyyppiotsake luotu onnistuneesti.',
+      swe: '"Tyyppiotsake luotu onnistuneesti." ruotsiksi.'
+    }
+  },
+  deleteHeader: {
+    success: {
+      eng: '"Tyyppiotsake poistettu onnistuneesti." englanniksi.',
+      fin: 'Tyyppiotsake poistettu onnistuneesti.',
+      swe: '"Tyyppiotsake poistettu onnistuneesti." ruotsiksi.'
+    }
   }
 }
 
 router.post('/create', async (req, res) => {
-  const toCreate = typeService.create.prepare(req.body)
+  const { instance: toCreate, header } = await typeService.create.prepare(req.body)
+  console.log(toCreate.dataValues)
   if (!await checkPrivilege(
     req,
     [
@@ -32,7 +47,7 @@ router.post('/create', async (req, res) => {
       },
       {
         key: 'teacher_on_course',
-        param: toCreate.dataValues.course_instance_id
+        param: header.course_instance_id
       }
     ]
   )) {
@@ -65,7 +80,7 @@ router.delete('/:id', async (req, res) => {
       },
       {
         key: 'teacher_on_course',
-        param: toDelete.dataValues.course_instance_id
+        param: toDelete.dataValues.type_header.course_instance_id
       }
     ]
   )) {
@@ -80,6 +95,86 @@ router.delete('/:id', async (req, res) => {
     message: messages.delete.success[req.lang],
     deleted
   })
+})
+
+router.post('/headers/create', async (req, res) => {
+  try {
+    const toCreate = typeService.createHeader.prepare(req.body)
+    if (!await checkPrivilege(
+      req,
+      [
+        {
+          key: 'logged_in'
+        },
+        {
+          key: 'teacher_on_course',
+          param: toCreate.dataValues.course_instance_id
+        }
+      ]
+    )) {
+      res.status(403).json({
+        error: messages.privilege.failure[req.lang]
+      })
+      return
+    }
+    await typeService.createHeader.execute(toCreate)
+    const created = typeService.createHeader.value(toCreate, req.lang)
+    res.status(200).json({
+      message: messages.createHeader.success[req.lang],
+      created
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: messages.unexpected.failure[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.delete('/headers/:id', async (req, res) => {
+  try {
+    const toDelete = await typeService.deleteHeader.prepare(req.params.id)
+    if (!await checkPrivilege(
+      req,
+      [
+        {
+          key: 'logged_in'
+        },
+        {
+          key: 'teacher_on_course',
+          param: toDelete.dataValues.course_instance_id
+        }
+      ]
+    )) {
+      res.status(403).json({
+        error: messages.privilege.failure[req.lang]
+      })
+      return
+    }
+    const deleted = typeService.deleteHeader.value(toDelete)
+    typeService.deleteHeader.execute(toDelete)
+    res.status(200).json({
+      message: messages.deleteHeader.success[req.lang],
+      deleted
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: messages.unexpected.failure[req.lang]
+      })
+      console.log(e)
+    }
+  }
 })
 
 module.exports = router

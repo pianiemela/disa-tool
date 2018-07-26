@@ -19,16 +19,26 @@ const Task = sequelize.define('task', {
   timestamps: true
 })
 
+const TypeHeader = sequelize.define('type_header', {
+  id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+  eng_name: { type: Sequelize.STRING },
+  fin_name: { type: Sequelize.STRING },
+  swe_name: { type: Sequelize.STRING },
+  course_instance_id: { type: Sequelize.BIGINT }
+},
+{
+  tableName: 'type_header',
+  underscored: true,
+  timestamps: true
+})
+
 const Type = sequelize.define('type', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
-  eng_header: { type: Sequelize.STRING },
-  fin_header: { type: Sequelize.STRING },
-  swe_header: { type: Sequelize.STRING },
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
   multiplier: { type: Sequelize.DOUBLE },
-  course_instance_id: { type: Sequelize.BIGINT }
+  type_header_id: { type: Sequelize.BIGINT }
 },
 {
   tableName: 'type',
@@ -309,8 +319,11 @@ SelfAssessment.hasMany(AssessmentResponse, { foreignKey: 'self_assessment_id', t
 AssessmentResponse.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
 AssessmentResponse.belongsTo(SelfAssessment, { foreignKey: 'self_assessment_id', targetKey: 'id' })
 
-CourseInstance.hasMany(Type, { foreignKey: 'course_instance_id', targetKey: 'id' })
-Type.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
+CourseInstance.hasMany(TypeHeader, { foreignKey: 'course_instance_id', targetKey: 'id' })
+TypeHeader.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
+
+TypeHeader.hasMany(Type, { foreignKey: 'type_header_id', targetKey: 'id' })
+Type.belongsTo(TypeHeader, { foreignKey: 'type_header_id', targetKey: 'id' })
 
 CourseInstance.hasMany(Category, { foreignKey: 'course_instance_id', targetKey: 'id' })
 Category.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
@@ -320,6 +333,7 @@ SkillLevel.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetK
 
 module.exports = {
   Task,
+  TypeHeader,
   Type,
   TaskType,
   Category,

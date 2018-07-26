@@ -1,36 +1,39 @@
 import React from 'react'
-import { Type } from '../../../../../containers/Course/components/types/Type'
+import { TypeHeader } from '../../../../../containers/Course/components/types/TypeHeader'
+import Typelist from '../../../../../containers/Course/components/types/Typelist'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
+
 import { findText } from '../../../../testUtils'
 
-const type = {
-  id: 1,
-  name: 'Test Type',
-  multiplier: 0.5
+const header = {
+  id: 20,
+  name: 'Head',
+  types: []
 }
 
-describe('Type component', () => {
+describe('TypeHeader component', () => {
   let wrapper
-  let changeTypeMultiplier
-  let removeType
+  let removeHeader
 
   beforeEach(() => {
-    removeType = jest.fn()
-    changeTypeMultiplier = jest.fn()
-    wrapper = shallow(<Type
-      type={type}
-      changeTypeMultiplier={changeTypeMultiplier}
+    removeHeader = jest.fn()
+    wrapper = shallow(<TypeHeader
+      header={header}
       editing={false}
-      removeType={removeType}
+      removeHeader={removeHeader}
     />)
   })
 
   it('renders.', () => {
-    expect(wrapper.find('.Type').exists()).toEqual(true)
+    expect(wrapper.find('.TypeHeader').exists()).toEqual(true)
   })
 
-  it('renders type name', () => {
-    expect(findText(type.name, wrapper)).toBeGreaterThan(0)
+  it('renders header name.', () => {
+    expect(findText(header.name, wrapper)).toBeGreaterThan(0)
+  })
+
+  it('renders a Typelist component.', () => {
+    expect(wrapper.find(Typelist).exists()).toEqual(true)
   })
 
   describe('when not editing', () => {
@@ -46,6 +49,7 @@ describe('Type component', () => {
         editing: true
       })
     })
+
     it('renders a DeleteForm component.', () => {
       expect(wrapper.find(DeleteForm).exists()).toEqual(true)
     })
@@ -56,14 +60,14 @@ describe('Type component', () => {
         deleteForm = wrapper.find(DeleteForm)
       })
 
-      it('includes type names in prompt.', () => {
+      it('includes header name in prompt.', () => {
         const prompt = deleteForm.prop('prompt')
-        expect(prompt.filter(segment => segment.includes(type.name)).length).toBeGreaterThan(0)
+        expect(prompt.filter(segment => segment.includes(header.name)).length).toBeGreaterThan(0)
       })
 
-      it('gets the removeType prop as part of onExecute.', () => {
+      it('gets the removeHeader prop as part of onExecute.', () => {
         deleteForm.prop('onExecute')()
-        expect(removeType).toHaveBeenCalled()
+        expect(removeHeader).toHaveBeenCalled()
       })
     })
   })

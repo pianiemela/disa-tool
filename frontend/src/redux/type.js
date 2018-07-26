@@ -1,5 +1,5 @@
 const INITIAL_STATE = {
-  types: []
+  headers: []
 }
 
 const typeReducer = (state = INITIAL_STATE, action) => {
@@ -7,43 +7,51 @@ const typeReducer = (state = INITIAL_STATE, action) => {
     case 'COURSE_GET_DATA':
       return {
         ...state,
-        types: action.response.data.types
+        headers: action.response.data.type_headers
       }
-    case 'TYPE_CHANGE_MULTIPLIER': {
-      const newTypes = [...state.types]
-      let i = 0
-      while (i < newTypes.length) {
-        if (newTypes[i].id === action.data.id) {
-          newTypes[i] = {
-            ...newTypes[i],
-            multiplier: action.data.multiplier
-          }
-          break
-        }
-        i += 1
-      }
+    case 'TYPE_EDIT':
       return {
         ...state,
-        types: newTypes
+        headers: state.headers
+          .map(header => (header.id === action.response.edited.type_header_id ? {
+            ...header,
+            types: header.types.map(type => (type.id === action.response.edited.id ? {
+              ...action.response.edited,
+              type_header_id: undefined
+            } : type))
+          } : header))
       }
-    }
-    case 'TYPE_DELETE': {
-      const newTypes = [...state.types]
-      let index = 0
-      while (index < newTypes.length) {
-        if (newTypes[index].id === action.response.deleted.id) {
-          newTypes.splice(index, 1)
-          break
-        }
-        index += 1
+    case 'TYPE_DELETE':
+      return {
+        ...state,
+        headers: state.headers
+          .map(header => (header.id === action.response.deleted.type_header_id ? {
+            ...header,
+            types: header.types.filter(type => type.id !== action.response.deleted.id)
+          } : header))
       }
-      return { ...state, types: newTypes }
-    }
-    case 'TYPE_CREATE': {
-      const newTypes = [...state.types]
-      newTypes.push(action.response.created)
-      return { ...state, types: newTypes }
-    }
+    case 'TYPE_CREATE':
+      return {
+        ...state,
+        headers: state.headers
+          .map(header => (header.id === action.response.created.type_header_id ? {
+            ...header,
+            types: [...header.types, {
+              ...action.response.created,
+              type_header_id: undefined
+            }]
+          } : header))
+      }
+    case 'TYPE_HEADER_CREATE':
+      return {
+        ...state,
+        headers: [...state.headers, action.response.created]
+      }
+    case 'TYPE_HEADER_DELETE':
+      return {
+        ...state,
+        headers: state.headers.filter(header => header.id !== action.response.deleted.id)
+      }
     default:
       return state
   }

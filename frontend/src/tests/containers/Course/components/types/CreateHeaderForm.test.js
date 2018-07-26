@@ -1,21 +1,21 @@
 import React from 'react'
-import { CreateTypeForm } from '../../../../../containers/Course/components/types/CreateTypeForm'
+import { CreateHeaderForm } from '../../../../../containers/Course/components/types/CreateHeaderForm'
 import ModalForm from '../../../../../utils/components/ModalForm'
 
 const mockFn = () => {}
 
-describe('CreateTypeForm component', () => {
+describe('CreateHeaderForm component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<CreateTypeForm
-      addType={mockFn}
-      headerId={1}
+    wrapper = shallow(<CreateHeaderForm
+      addHeader={mockFn}
+      courseId={1}
     />)
   })
 
   it('renders.', () => {
-    expect(wrapper.find('.CreateTypeForm').exists()).toEqual(true)
+    expect(wrapper.find('.CreateHeaderForm').exists()).toEqual(true)
   })
 
   describe('ModalForm onSubmit', () => {
