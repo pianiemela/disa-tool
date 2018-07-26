@@ -1,3 +1,25 @@
+/**
+ * @return a supertest request (promise).
+ *   server.method(route) + preamble methods chained.
+ * @param {*} options object containing the following required fields:
+ * {
+ *   route: route to which request should be made.
+ *   method: http method: 'get', 'post', 'put', 'delete'.
+ *   preamble: object with no required fields.
+ *     Keys are methods to be called on request and values are parameters to give those methods.
+ *     Multiple parameters should be passed as an array.
+ *
+ *     example:
+ *     {
+ *       set: ['Authorization', 'Bearer <token>'],
+ *       send: { id: 1 }
+ *     }
+ *     Will cause the following method calls to be run on request
+ *     request = request
+ *                 .set('Authorization', 'Bearer <token>')
+ *                 .send({ id: 1 })
+ * }
+ */
 const makeRequest = (options) => {
   let request = server[options.method](options.route)
   Object.keys(options.preamble).forEach((method) => {
@@ -10,6 +32,9 @@ const makeRequest = (options) => {
   return request
 }
 
+/**
+ * Helper function that merges two objects and all of their fields recursively.
+ */
 const mergeRecursive = (a, b) => {
   if (!a) {
     return b
@@ -66,6 +91,41 @@ const testHeaders = (options) => {
   })
 }
 
+/**
+ * @param {*} match an object with the following fields. response.body should match this.
+ *   {
+ *     common: object containing fields that should be matched on all languages.
+ *     eng: object containing fields that should be matched only when language is English.
+ *     fin: same as eng, but for Finnish.
+ *     swe: same as eng but for Swedish.
+ *   }
+ *   common can be left undefined if all languages are defined.
+ *   Any language can be left undefined if common is defined.
+ *   EXAMPLE
+ *   {
+ *     common: {
+ *       message: 'test message',
+ *       created: {
+ *         id: 1
+ *       }
+ *     },
+ *     eng: {
+ *       created: {
+ *         name: 'doot'
+ *       }
+ *     },
+ *     fin: {
+ *       created: {
+ *         name: 'dööt'
+ *       }
+ *     },
+ *     swe: {
+ *       created: {
+ *         name: 'dååt'
+ *       }
+ *     }
+ *   }
+ */
 const testBody = (options, match) => {
   describe('returns an appropriate json object in response body', () => {
     it('in English.', (done) => {
@@ -109,6 +169,18 @@ const testBody = (options, match) => {
   })
 }
 
+/**
+ * @param {*} match Object that database row.toJSON() should match.
+ * @param {*} model Database model.
+ * @param {*} config Object with the following fields. Extra configuration goes here.
+ * {
+ *   pathToId: array of strings.
+ *     If the id of the new database row is not found in response.body.created.id,
+ *     define here where to find id in response.
+ *   disallowId: boolean. If true, will add a field 'id' to request body and
+ *     check that it had no effect on the response.
+ * }
+ */
 const testDatabaseSave = (options, match, model, config = {}) => {
   const { disallowId = false, pathToId = ['body', 'created', 'id'] } = config
   const reqOptions = { ...options }
