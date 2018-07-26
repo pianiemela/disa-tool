@@ -117,15 +117,10 @@ const getCoursePersons = (persons) => {
   const coursePersons = []
   //harcode linis for kurki test users
   const testerteacherId = 424
-  coursePersons.push({
-    course_instance_id: 1,
-    person_id: testerteacherId,
-    role: 'Teacher'
-  })
   for (let i = 420; i < persons.length; i++) {
     const element = persons[i]
     coursePersons.push({
-      course_instance_id: Math.floor(Math.random() * 3) + 1,
+      course_instance_id: i === testerteacherId ? 1 : Math.floor(Math.random() * 3) + 1,
       person_id: element.id,
       role: element.role
     })
