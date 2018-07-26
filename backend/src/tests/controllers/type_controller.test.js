@@ -1,4 +1,5 @@
 const { TypeHeader } = require('../../database/models.js')
+const { testTeacherOnCoursePrivilege } = require('../testUtils')
 
 const data = {
   type_header_id: null,
@@ -23,31 +24,12 @@ describe('type_controller', () => {
   })
 
   describe('POST /create', () => {
-    it('responds 403 when no authorization is provided.', (done) => {
-      server.post('/api/types/create').send(data).then((response) => {
-        expect(response.status).toEqual(403)
-        done()
-      })
-    })
-
-    it('responds 403 when invalid authorization is provided.', (done) => {
-      server.post('/api/types/create')
-        .send(data)
-        .set('Authorization', `Bearer ${tokens.student}`)
-        .then((response) => {
-          expect(response.status).toEqual(403)
-          done()
-        })
-    })
-
-    it('responds 200 when valid authorization is provided.', (done) => {
-      server.post('/api/types/create')
-        .send(data)
-        .set('Authorization', `Bearer ${tokens.teacher}`)
-        .then((response) => {
-          expect(response.status).toEqual(200)
-          done()
-        })
+    testTeacherOnCoursePrivilege({
+      route: '/api/types/create',
+      method: 'post',
+      preamble: {
+        send: data
+      }
     })
   })
 })
