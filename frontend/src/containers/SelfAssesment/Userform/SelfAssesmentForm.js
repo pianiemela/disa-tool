@@ -10,7 +10,16 @@ import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 import { Redirect } from 'react-router'
 import {
-  getSelfAssesmentAction, createForm, updateSelfAssesmentAction, getCourseInstanceDataAction, initNewFormAaction, editFormAction, getCourseData, getCourseInstance
+  getSelfAssesmentAction,
+  createForm,
+  updateSelfAssesmentAction,
+  getCourseInstanceDataAction,
+  initNewFormAaction,
+  editFormAction,
+  getCourseData,
+  getCourseInstance,
+  getAssesmentResponseAction,
+  getSelfAssesmentResponse
 } from '../../../actions/actions'
 
 
@@ -22,27 +31,29 @@ class SelfAssesmentForm extends React.Component {
     }
   }
   async componentDidMount() {
-    if (this.props.edit && this.props.new) {
+    const { courseInstanceId, type, selfAssesmentId } = this.props.match.params
+    if (this.props.edit) {
+      if (this.props.new) {
+        // Get assesment type and course instance id from params
 
-      // Get assesment type and course instance id from params
 
-      const { courseInstanceId, type } = this.props.match.params
+        // Fetch the required data for self assesment
+        // courseData includes all objectives and categories related to course
+        // course info includes the names in eng, fin and swe
 
-      // Fetch the required data for self assesment
-      // courseData includes all objectives and categories related to course
-      // course info includes the names in eng, fin and swe
+        const courseData = await getCourseData(courseInstanceId)
+        const courseInfo = await getCourseInstance(courseInstanceId)
 
-      const courseData = await getCourseData(courseInstanceId)
-      const courseInfo = await getCourseInstance(courseInstanceId)
+        // dispatch the call to reducer to generate the required form data with given parameters
 
-      // dispatch the call to reducer to generate the required form data with given parameters
-
-      this.props.dispatchInitNewFormAaction({ courseData: courseData.data, courseInfo: courseInfo.data.data, type })
-    }
-    if (this.props.edit && !this.props.new) {
-      const { selfAssesmentId } = this.props.match.params
-      // Fetch the selfassesment data by given id
-      await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
+        this.props.dispatchInitNewFormAaction({ courseData: courseData.data, courseInfo: courseInfo.data.data, type })
+      } else {
+        // Fetch the selfassesment data by given id
+        await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
+      }
+    } else {
+      // Either fetch or create a self assesment response for the user
+      await this.props.dispatchGetAssesmentResponseAction(selfAssesmentId)
     }
   }
 
@@ -86,74 +97,63 @@ class SelfAssesmentForm extends React.Component {
         <div>
           <Container>
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
-            <Form>
-              <Form.Field>
-                <SelfAssesmentInfo
-                  textArea={textArea}
-                  formData={formInfo}
-                />
-              </Form.Field>
+            <SelfAssesmentInfo
+              textArea={textArea}
+              formData={formInfo}
+            />
 
-              {type === 'category' ?
-                <Form.Field>
-                  <SelfAssesmentSection
-                    headers={questionHeaders}
-                    formData={structure.questionModules}
-                    edit={edit}
-                    textArea={textArea}
-                    QuestionModule={CategoryQuestionModule}
-                  />
-                </Form.Field>
+            {type === 'category' ?
+              <SelfAssesmentSection
+                headers={questionHeaders}
+                formData={structure.questionModules}
+                edit={edit}
+                textArea={textArea}
+                QuestionModule={CategoryQuestionModule}
+              />
 
-                :
-                <Form.Field>
+              :
 
-                  <SelfAssesmentSection
-                    headers={questionHeaders}
-                    formData={structure.questionModules}
-                    edit={edit}
-                    textArea={textArea}
-                    QuestionModule={ObjectiveQuestionModule}
-                  />
-                </Form.Field>
+              <SelfAssesmentSection
+                headers={questionHeaders}
+                formData={structure.questionModules}
+                edit={edit}
+                textArea={textArea}
+                QuestionModule={ObjectiveQuestionModule}
+              />
 
-              }
+            }
 
-              <Form.Field>
-                <SelfAssesmentSection
-                  headers={openQ}
-                  formData={structure.openQuestions}
-                  edit={edit}
-                  textArea={textArea}
-                  QuestionModule={OpenQuestionModule}
-                  question
-                />
-              </Form.Field>
+            <SelfAssesmentSection
+              headers={openQ}
+              formData={structure.openQuestions}
+              edit={edit}
+              textArea={textArea}
+              QuestionModule={OpenQuestionModule}
+              question
+            />
 
 
-              {type === 'category' ?
+            {type === 'category' ?
 
-                <SelfAssesmentSection
-                  headers={grade}
-                  formData={[structure.finalGrade]}
-                  edit={edit}
-                  textArea={textArea}
-                  QuestionModule={CategoryQuestionModule}
-                  final
-                  headerType="grade"
-                />
-                :
-                null
-              }
-              <Button
-                positive
-                style={{ marginBottom: '25px' }}
-                onClick={this.props.new ? this.handleSubmit : this.handleUpdate}
-              >
-                {this.props.new ? 'Tallenna' : 'Päivitä'}
-              </Button>
-
-            </Form>
+              <SelfAssesmentSection
+                headers={grade}
+                formData={[structure.finalGrade]}
+                edit={edit}
+                textArea={textArea}
+                QuestionModule={CategoryQuestionModule}
+                final
+                headerType="grade"
+              />
+              :
+              null
+            }
+            <Button
+              positive
+              style={{ marginBottom: '25px' }}
+              onClick={this.props.new ? this.handleSubmit : this.handleUpdate}
+            >
+              {this.props.new ? 'Tallenna' : 'Päivitä'}
+            </Button>
           </Container>
         </div >
       )
@@ -193,7 +193,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(initNewFormAaction(data)),
 
   dispatchEditFormAction: data =>
-    dispatch(editFormAction(data))
+    dispatch(editFormAction(data)),
+
+  dispatchGetAssesmentResponseAction: selfAssesmentId =>
+    dispatch(getAssesmentResponseAction(selfAssesmentId))
 
 })
 
