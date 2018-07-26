@@ -8,19 +8,61 @@ import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
 import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
-import { getSelfAssesmentAction } from '../../../actions/actions'
+import { Redirect } from 'react-router'
+import {
+  getSelfAssesmentAction, createForm, updateSelfAssesmentAction, getCourseInstanceDataAction, initNewFormAaction, editFormAction, getCourseData, getCourseInstance
+} from '../../../actions/actions'
 
 
 class SelfAssesmentForm extends React.Component {
-
+  constructor(props) {
+    super(props)
+    this.state = {
+      redirect: false
+    }
+  }
   async componentDidMount() {
-    if (!this.props.created) {
+    if (this.props.edit && this.props.new) {
+
+      // Get assesment type and course instance id from params
+
+      const { courseInstanceId, type } = this.props.match.params
+
+      // Fetch the required data for self assesment
+      // courseData includes all objectives and categories related to course
+      // course info includes the names in eng, fin and swe
+
+      const courseData = await getCourseData(courseInstanceId)
+      const courseInfo = await getCourseInstance(courseInstanceId)
+
+      // dispatch the call to reducer to generate the required form data with given parameters
+
+      this.props.dispatchInitNewFormAaction({ courseData: courseData.data, courseInfo: courseInfo.data.data, type })
+    }
+    if (this.props.edit && !this.props.new) {
       const { selfAssesmentId } = this.props.match.params
+      // Fetch the selfassesment data by given id
       await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
     }
   }
+
+  handleSubmit = async () => {
+    const { formData } = this.props
+    await this.props.dispatchCreateFormAction(formData)
+    this.setState({ redirect: true })
+  }
+
+  handleUpdate = async () => {
+    const { formData } = this.props
+    await this.props.dispatchUpdateSelfAssesmentAction(formData)
+    this.setState({ redirect: true })
+  }
+
+
   render() {
-    console.log(`rerender`)
+    if (this.state.redirect) {
+      return <Redirect to="/selfassesment" />
+    }
     const textArea = (label, placeholder, textFieldOn, checkbox) => (
       (
         <Grid.Column>
@@ -93,9 +135,9 @@ class SelfAssesmentForm extends React.Component {
           <Button
             positive
             style={{ marginBottom: '25px' }}
-          // onClick={handleSubmit}
+            onClick={this.props.new ? this.handleSubmit : this.handleUpdate}
           >
-            {/* {bText} */}
+            {this.props.new ? 'Tallenna' : 'Päivitä'}
           </Button>
 
         </div>
@@ -114,23 +156,42 @@ class SelfAssesmentForm extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  formData: state.selfAssesment.createForm
+  formData: state.selfAssesment.createForm,
+  courseInstance: state.instance
 })
 
 const mapDispatchToProps = dispatch => ({
-  dispatchGetSelfAssesmentAction: id =>
-    dispatch(getSelfAssesmentAction(id))
+  dispatchCreateFormAction: data =>
+    dispatch(createForm(data)),
+
+  dispatchUpdateSelfAssesmentAction: data =>
+    dispatch(updateSelfAssesmentAction(data)),
+
+  dispatchGetSelfAssesmentAction: selfAssesmentId =>
+    dispatch(getSelfAssesmentAction(selfAssesmentId)),
+
+  dispatchGetCourseInstanceDataAction: courseInstanceId =>
+    dispatch(getCourseInstanceDataAction(courseInstanceId)),
+
+  dispatchInitNewFormAaction: data =>
+    dispatch(initNewFormAaction(data)),
+
+  dispatchEditFormAction: data =>
+    dispatch(editFormAction(data))
+
 })
 
-// SelfAssesmentForm.defaultProps = {
-//   selfAssesment: state.selfAssesment
-// }
+SelfAssesmentForm.defaultProps = {
+  formData: {} || []
+}
+
 
 SelfAssesmentForm.propTypes = {
-  // formData: PropTypes.shape(),
+  formData: PropTypes.shape(),
   edit: PropTypes.bool.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
-  bText: PropTypes.string.isRequired
+  dispatchCreateFormAction: PropTypes.func.isRequired,
+  dispatchUpdateSelfAssesmentAction: PropTypes.func.isRequired
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentForm)

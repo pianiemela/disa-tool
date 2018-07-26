@@ -54,57 +54,91 @@ class SelfAssesmentCreateForm extends React.Component {
     this.setState({ selectedView: value })
   }
 
-  renderCreateOrDraft = () => {
-    const { selectedView, formData } = this.state
-    const { dropDownCourse, selectedCourse } = this.props
-    let selfAssesments = this.state.selectedSelfAssesments
-    if (this.props.selectedCourse && selfAssesments.length === 0) {
-      selfAssesments = this.props.selfAssesments.filter(s => s.course_instance_id === parseInt(selectedCourse))
-    }
+  // renderCreateOrDraft = () => {
+  //   const { selectedCourse } = this.props
+  //   let selfAssesments = this.state.selectedSelfAssesments
+  //   if (this.props.selectedCourse && selfAssesments.length === 0) {
+  //     selfAssesments = this.props.selfAssesments.filter(s => s.course_instance_id === parseInt(selectedCourse, 10))
+  //   }
+  // }
 
-    if (!this.state.created) {
-      return (
-        <Form>
-          <Form.Field style={{ marginTop: '20px' }}>
-            <Dropdown
-              selection
-              placeholder={"Valitse kurssi"}
-              onChange={this.handleDropdownChange}
-              options={dropDownCourse}
-              defaultValue={parseInt(selectedCourse)}
-            />
-          </Form.Field>
-          <Form.Field>
-            <SelfAssesmentList
-              onClick={this.sendFormId}
-              selfAssesments={selfAssesments}
-            />
-          </Form.Field>
-          <Form.Field>
-            <CategorySelection
-              selectedView={selectedView}
-              category="category"
-              objectives="objectives"
-              toggleButton={this.toggleButton}
-              sendFormId={this.sendFormId}
-            />
-          </Form.Field>
-        </Form>
-      )
-    }
+  // if (!this.state.created) {
+  // return (
+  // <Form>
+  //   <Form.Field style={{ marginTop: '20px' }}>
+  //     <Dropdown
+  //       selection
+  //       placeholder={"Valitse kurssi"}
+  //       onChange={this.handleDropdownChange}
+  //       options={dropDownCourse}
+  //       defaultValue={parseInt(selectedCourse)}
+  //     />
+  //   </Form.Field>
+  //   <Form.Field>
+  //     <SelfAssesmentList
+  //       onClick={this.sendFormId}
+  //       selfAssesments={selfAssesments}
+  //     />
+  //   </Form.Field>
+  //   <Form.Field>
+  //     <CategorySelection
+  //       selectedView={selectedView}
+  //       category="category"
+  //       objectives="objectives"
+  //       toggleButton={this.toggleButton}
+  //       sendFormId={this.sendFormId}
+  //     />
+  //   </Form.Field>
+  // </Form>
+  // )
+  // }
 
-    return (
-      <SelfAssesmentForm
-        handleChange={this.handleFormChange}
-        edit
-        created
-        formData={formData}
-      />)
-  }
+  // return (
+  // <SelfAssesmentForm
+  //   handleChange={this.handleFormChange}
+  //   edit
+  //   created
+  //   formData={formData}
+  // />)
+  // }
 
 
   render() {
-    return <div>{this.renderCreateOrDraft()}</div>
+    const { selectedView } = this.state
+    const { dropDownCourse, selectedCourse } = this.props
+    let selfAssesments = this.state.selectedSelfAssesments
+    if (this.props.selectedCourse && selfAssesments.length === 0) {
+      selfAssesments = this.props.selfAssesments.filter(s => s.course_instance_id === parseInt(selectedCourse, 10))
+    }
+
+    return (
+      <Form>
+        <Form.Field style={{ marginTop: '20px' }}>
+          <Dropdown
+            selection
+            placeholder={"Valitse kurssi"}
+            onChange={this.handleDropdownChange}
+            options={dropDownCourse}
+            defaultValue={parseInt(selectedCourse, 10)}
+          />
+        </Form.Field>
+        <Form.Field>
+          <SelfAssesmentList
+            onClick={this.sendFormId}
+            selfAssesments={selfAssesments}
+          />
+        </Form.Field>
+        <Form.Field>
+          <CategorySelection
+            selectedView={selectedView}
+            category="category"
+            objectives="objectives"
+            toggleButton={this.toggleButton}
+            sendFormId={this.sendFormId}
+          />
+        </Form.Field>
+      </Form>
+    )
   }
 }
 

@@ -11,8 +11,9 @@ import CourseList from '../Course/CourseList'
 const Main = () => (
   <main>
     <Switch>
-      <Route exact path="/selfassesment/:courseId" component={SelfAssesmentPage} />
       <Route exact path="/selfassesment/edit/:selfAssesmentId" component={({ match }) => <SelfAssesmentForm edit match={match} />} />
+      <Route exact path="/selfassesment/create/:courseInstanceId/:type" component={({ match }) => <SelfAssesmentForm edit new match={match} />} />
+      <Route exact path="/selfassesment/:courseId" component={SelfAssesmentPage} />
       <Route path="/selfassesment" component={SelfAssesmentPage} />
       <Route exact path="/user/course/:courseId" component={UserPage} />
       <Route exact path="/user" component={UserPage} />

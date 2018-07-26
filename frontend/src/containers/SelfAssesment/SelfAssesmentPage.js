@@ -2,6 +2,7 @@ import React from 'react'
 import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router'
 
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
@@ -21,49 +22,39 @@ export class SelfAssesmentPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      created: false
+      new: false,
+      type: '',
+      edit: false,
+      courseInstanceId: '',
+      assesmentId: ''
     }
   }
   async componentDidMount() {
     this.props.dispatchGetUsercourses()
     this.props.dispatchGetUserSelfAssesments()
   }
-  createForm = async (courseId, type) => {
-    const courseData = await getCourseData(courseId)
-    const courseInfo = this.props.courses.find(cd => cd.id === courseId)
-    this.props.dispatchInitNewFormAaction({ courseData, type, courseInfo })
-    this.setState({ created: true })
+  createForm = async (courseInstanceId, type) => {
+    // const courseData = await getCourseData(courseId)
+    // const courseInfo = this.props.courses.find(cd => cd.id === courseId)
+    // await this.props.dispatchInitNewFormAaction({ courseData, type, courseInfo })
+    this.setState({ redirect: true, new: true, courseInstanceId, type })
   }
 
   editForm = async (id) => {
     await this.props.dispatchEditFormAction({ data: this.props.selfAssesments.find(sa => sa.id === id) })
-    this.setState({ created: true })
+    this.setState({ redirect: true, edit: true, assesmentId: id })
   }
-
-  handleSubmit = async () => {
-    const { formData } = this.props
-    this.setState({ created: false })
-    await this.props.dispatchCreateForm(formData)
-  }
-
-  handleUpdate = async () => {
-    const { formData } = this.props
-    this.setState({ created: false })
-    await this.props.dispatchUpdateSelfAssesmentAction(formData)
-  }
-
-  renderTeacherView = () => (
-    <SelfAssesmentCreateForm
-      courses={this.props.courses}
-      dropDownCourse={this.props.courseDropdownOptions}
-      selectedCourse={this.props.match.params.courseId}
-      selfAssesments={this.props.selfAssesments}
-      createForm={this.createForm}
-      editForm={this.editForm}
-    />
-  )
-
   render() {
+    if (this.state.new && this.state.redirect) {
+      console.log(`redirecting to create page...`)
+      return <Redirect to={`/selfassesment/create/${this.state.courseInstanceId}/${this.state.type}`} />
+    }
+
+    if (this.state.edit && this.state.redirect) {
+      console.log(`redirecting to edit page...`)
+      return <Redirect to={`/selfassesment/edit/${this.state.assesmentId}`} />
+    }
+
     const { formData } = this.props
     let submitAction = null
     let bText = 'Tallenna'
@@ -77,7 +68,21 @@ export class SelfAssesmentPage extends React.Component {
     return (
       <Container>
         <div>
-          {!this.state.created ?
+          <SelfAssesmentCreateForm
+            courses={this.props.courses}
+            dropDownCourse={this.props.courseDropdownOptions}
+            selectedCourse={this.props.match.params.courseId}
+            selfAssesments={this.props.selfAssesments}
+            createForm={this.createForm}
+            editForm={this.editForm}
+          />
+        </div>
+      </Container>
+    )
+  }
+}
+
+{/* {!this.state.created ?
             this.renderTeacherView()
             :
             <SelfAssesmentForm
