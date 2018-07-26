@@ -26,5 +26,32 @@ describe('type_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     })
+
+    describe('json response', () => {
+      let json
+      beforeAll((done) => {
+        server
+          .post('/api/types/create')
+          .send(data)
+          .set('Authorization', `Bearer ${tokens.teacher}`)
+          .then((response) => {
+            json = response.body
+            done()
+          })
+      })
+
+      it('Contains a message', () => {
+        expect(typeof json.message).toEqual('string')
+      })
+
+      it('Contains field "created" with appropriate object.', () => {
+        expect(json.created).toMatchObject({
+          id: expect.any(Number),
+          name: data.fin_name,
+          type_header_id: data.type_header_id,
+          multiplier: data.multiplier
+        })
+      })
+    })
   })
 })
