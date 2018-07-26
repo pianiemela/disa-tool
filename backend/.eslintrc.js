@@ -66,8 +66,8 @@ module.exports = {
     'no-var': 'warn'
   },
   globals: {
-    app: false,
-    supertest: false
+    server: false,
+    tokens: false
   }
 }
 

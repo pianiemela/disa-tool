@@ -120,7 +120,7 @@ const getCoursePersons = (persons) => {
   for (let i = 420; i < persons.length; i++) {
     const element = persons[i]
     coursePersons.push({
-      course_instance_id: i === testerteacherId ? 1 : Math.floor(Math.random() * 3) + 1,
+      course_instance_id: element.id === testerteacherId ? 1 : Math.floor(Math.random() * 3) + 1,
       person_id: element.id,
       role: element.role
     })
