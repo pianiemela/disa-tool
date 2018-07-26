@@ -4,7 +4,7 @@ const { checkPrivilege } = require('../services/privilege')
 
 const { checkAuth } = require('../services/auth.js')
 
-const selfAssesmentService = require('../services/selfAssesment_service.js')
+const selfAssesmentService = require('../services/self_assesment_service.js')
 
 router.post('/create', async (req, res) => {
   let createFormData = req.body

@@ -1,6 +1,6 @@
 const { CoursePerson } = require('../database/models')
 
-const validateTeacherOnCourse = async (param, user) => {
+const validatePerson = role => async (param, user) => {
   if (Number.isNaN(Number(param))) {
     return false
   }
@@ -14,12 +14,32 @@ const validateTeacherOnCourse = async (param, user) => {
   if (!coursePerson) {
     return false
   }
-  return coursePerson.toJSON().role === 'Teacher'
+  return coursePerson.toJSON().role === role
 }
+
+
+// const validateTeacherOnCourseasync (param, user) => {
+//   if (Number.isNaN(Number(param))) {
+//     return false
+//   }
+//   const coursePerson = await CoursePerson.findOne({
+//     attributes: ['role'],
+//     where: {
+//       course_instance_id: Number(param),
+//       person_id: user.id
+//     }
+//   })
+//   if (!coursePerson) {
+//     return false
+//   }
+//   return coursePerson.toJSON().role === 'Teacher'
+// }
+
 
 const validators = {
   logged_in: (param, user) => user !== null,
-  teacher_on_course: validateTeacherOnCourse
+  teacher_on_course: validatePerson('Teacher'),
+  student_on_course: validatePerson('Student')
 }
 
 /**

@@ -1,4 +1,4 @@
-const { Course, CourseInstance, Person, CoursePerson, Task, TaskResponse, Type, SelfAssessment, AssessmentResponse } = require('../database/models.js')
+const { Course, CourseInstance, Person, CoursePerson, Task, TaskResponse, Type, SelfAssessment, AssessmentResponse, TypeHeader } = require('../database/models.js')
 
 const instanceAttributes = lang => ['id', 'course_id', [`${lang}_name`, 'name'], 'active']
 const courseAttributes = lang => ['id', [`${lang}_name`, 'name']]
@@ -12,7 +12,7 @@ const assessmentAttributes = lang => [
   'immediate_feedback',
   'course_instance_id']
 const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
-const typeAttributes = lang => ['id', [`${lang}_header`, 'header'], [`${lang}_name`, 'name']]
+const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]
 
 const getCourseInstancesOfCourse = (courseId, lang) => (
   CourseInstance.findAll({
@@ -40,7 +40,15 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
         attributes: taskAttributes(lang),
         include: [
           { model: TaskResponse, where: { person_id: userId }, required: false },
-          { model: Type, attributes: typeAttributes(lang) }]
+          {
+            model: Type,
+            attributes: typeAttributes(lang),
+            include: {
+              model: TypeHeader,
+              where: { course_instance_id: instanceId },
+              attributes: courseAttributes(lang)
+            }
+          }]
       }, {
         model: SelfAssessment,
         attributes: assessmentAttributes(lang),

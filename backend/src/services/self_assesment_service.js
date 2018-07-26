@@ -2,7 +2,6 @@ const {
   SelfAssessment,
   AssessmentResponse,
   Person,
-  CoursePerson,
   CourseInstance } = require('../database/models.js')
 
 const assessmentAttributes = lang => [
