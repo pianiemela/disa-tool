@@ -3,6 +3,7 @@ const oldTasks = require('./tasks.json')
 
 if (process.env.NODE_ENV === 'test') {
   // create_data randomly fails. This is here to make sure that doesn't happen with tests.
+  // seed SAFE_SEED should cause the problem to appear.
   require('seedrandom')('SAFESEED', { global: true }) // eslint-disable-line
 }
 
