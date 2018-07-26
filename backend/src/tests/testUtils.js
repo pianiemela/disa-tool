@@ -10,6 +10,24 @@ const makeRequest = (options) => {
   return request
 }
 
+const mergeRecursive = (a, b) => {
+  if (!a) {
+    return b
+  }
+  if (!b) {
+    return a
+  }
+  const merged = { ...a }
+  Object.keys(b).forEach((key) => {
+    if (merged[key] !== undefined) {
+      merged[key] = mergeRecursive(merged[key], b[key])
+    } else {
+      merged[key] = b[key]
+    }
+  })
+  return merged
+}
+
 const testTeacherOnCoursePrivilege = (options) => {
   describe('teacher_on_course privilege', () => {
     it('is not granted when no authorization is provided', (done) => {
@@ -49,18 +67,54 @@ const testHeaders = (options) => {
 }
 
 const testBody = (options, match) => {
-  it('returns an appropriate json object in response body.', (done) => {
-    makeRequest(options).then((response) => {
-      expect(response.body).toMatchObject(match)
+  it('returns an appropriate json object in response body in English.', (done) => {
+    makeRequest({
+      ...options,
+      preamble: {
+        ...options.preamble,
+        query: { lang: 'eng' }
+      }
+    }).then((response) => {
+      expect(response.body).toMatchObject(mergeRecursive(match.common, match.eng))
+      done()
+    })
+  })
+
+  it('returns an appropriate json object in response body in Finnish.', (done) => {
+    makeRequest({
+      ...options,
+      preamble: {
+        ...options.preamble,
+        query: { lang: 'fin' }
+      }
+    }).then((response) => {
+      expect(response.body).toMatchObject(mergeRecursive(match.common, match.fin))
+      done()
+    })
+  })
+
+  it('returns an appropriate json object in response body in Swedish.', (done) => {
+    makeRequest({
+      ...options,
+      preamble: {
+        ...options.preamble,
+        query: { lang: 'swe' }
+      }
+    }).then((response) => {
+      expect(response.body).toMatchObject(mergeRecursive(match.common, match.swe))
       done()
     })
   })
 }
 
-const testDatabaseSave = (options, match, model) => {
+const testDatabaseSave = (options, match, model, pathToId = ['body', 'created', 'id']) => {
   it('saves a row into the database.', (done) => {
     makeRequest(options).then((response) => {
-      model.findById(response.body.created.id).then((row) => {
+      let id = response
+      pathToId.forEach((step) => {
+        id = id[step]
+      })
+      model.findById(id).then((row) => {
         expect(row.toJSON()).toMatchObject(match)
         done()
       })

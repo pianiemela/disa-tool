@@ -27,12 +27,30 @@ describe('task_controller', () => {
     testHeaders(options)
 
     testBody(options, {
-      message: expect.any(String),
-      created: {
-        id: expect.any(Number),
-        name: data.fin_name,
-        description: data.fin_description,
-        info: data.info
+      common: {
+        message: expect.any(String),
+        created: {
+          id: expect.any(Number),
+          info: data.info
+        }
+      },
+      eng: {
+        created: {
+          name: data.eng_name,
+          description: data.eng_description
+        }
+      },
+      fin: {
+        created: {
+          name: data.fin_name,
+          description: data.fin_description
+        }
+      },
+      swe: {
+        created: {
+          name: data.swe_name,
+          description: data.swe_description
+        }
       }
     })
 

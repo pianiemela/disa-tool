@@ -24,12 +24,28 @@ describe('type_controller', () => {
     testHeaders(options)
 
     testBody(options, {
-      message: expect.any(String),
-      created: {
-        id: expect.any(Number),
-        name: data.fin_name,
-        type_header_id: data.type_header_id,
-        multiplier: data.multiplier
+      common: {
+        message: expect.any(String),
+        created: {
+          id: expect.any(Number),
+          type_header_id: data.type_header_id,
+          multiplier: data.multiplier
+        }
+      },
+      eng: {
+        created: {
+          name: data.eng_name
+        }
+      },
+      fin: {
+        created: {
+          name: data.fin_name
+        }
+      },
+      swe: {
+        created: {
+          name: data.swe_name
+        }
       }
     })
 
@@ -64,10 +80,26 @@ describe('type_controller', () => {
     testHeaders(options)
 
     testBody(options, {
-      message: expect.any(String),
-      created: {
-        id: expect.any(Number),
-        name: data.fin_name
+      common: {
+        message: expect.any(String),
+        created: {
+          id: expect.any(Number)
+        }
+      },
+      eng: {
+        created: {
+          name: data.eng_name
+        }
+      },
+      fin: {
+        created: {
+          name: data.fin_name
+        }
+      },
+      swe: {
+        created: {
+          name: data.swe_name
+        }
       }
     })
 
