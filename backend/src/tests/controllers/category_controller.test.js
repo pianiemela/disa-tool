@@ -1,20 +1,16 @@
 const { testTeacherOnCoursePrivilege, testHeaders, testBody, testDatabaseSave } = require('../testUtils')
-const { Task } = require('../../database/models.js')
+const { Category } = require('../../database/models.js')
 
-describe('task_controller', () => {
+describe('category_controller', () => {
   describe('POST /create', () => {
     const data = {
       course_instance_id: 1,
       eng_name: 'en',
       fin_name: 'fn',
-      swe_name: 'sn',
-      eng_description: 'ed',
-      fin_description: 'fd',
-      swe_description: 'sd',
-      info: 'test info'
+      swe_name: 'sn'
     }
     const options = {
-      route: '/api/tasks/create',
+      route: '/api/categories/create',
       method: 'post',
       preamble: {
         send: data,
@@ -30,26 +26,22 @@ describe('task_controller', () => {
       common: {
         message: expect.any(String),
         created: {
-          id: expect.any(Number),
-          info: data.info
+          id: expect.any(Number)
         }
       },
       eng: {
         created: {
-          name: data.eng_name,
-          description: data.eng_description
+          name: data.eng_name
         }
       },
       fin: {
         created: {
-          name: data.fin_name,
-          description: data.fin_description
+          name: data.fin_name
         }
       },
       swe: {
         created: {
-          name: data.swe_name,
-          description: data.swe_description
+          name: data.swe_name
         }
       }
     })
@@ -60,7 +52,7 @@ describe('task_controller', () => {
         id: expect.any(Number),
         ...data
       },
-      Task,
+      Category,
       {
         disallowId: true
       }
