@@ -48,7 +48,7 @@ router.get('/user/:courseId', async (req, res) => {
 router.post('/create', async (req, res) => {
   try {
     const toCreate = taskService.create.prepare(req.body)
-    if (!checkPrivilege(req, [
+    if (!await checkPrivilege(req, [
       {
         key: 'teacher_on_course',
         param: toCreate.dataValues.course_instance_id
@@ -57,6 +57,7 @@ router.post('/create', async (req, res) => {
       res.status(403).json({
         error: messages.privilege.failure[req.lang]
       })
+      return
     }
     await taskService.create.execute(toCreate)
     const created = taskService.create.value(toCreate, req.lang)
@@ -81,7 +82,7 @@ router.post('/create', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const toDelete = await taskService.delete.prepare(req.params.id)
-    if (!checkPrivilege(req, [
+    if (!await checkPrivilege(req, [
       {
         key: 'teacher_on_course',
         param: toDelete.dataValues.course_instance_id
@@ -90,6 +91,7 @@ router.delete('/:id', async (req, res) => {
       res.status(403).json({
         error: messages.privilege.failure[req.lang]
       })
+      return
     }
     const deleted = taskService.delete.value(toDelete)
     taskService.delete.execute(toDelete)

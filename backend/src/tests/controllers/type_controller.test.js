@@ -10,7 +10,6 @@ describe('type_controller', () => {
       swe_name: '8s',
       multiplier: 1
     }
-    
     const options = {
       route: '/api/types/create',
       method: 'post',
@@ -51,7 +50,6 @@ describe('type_controller', () => {
       fin_name: 'f',
       swe_name: 's'
     }
-    
     const options = {
       route: '/api/types/headers/create',
       method: 'post',
@@ -60,7 +58,7 @@ describe('type_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
-    
+
     testTeacherOnCoursePrivilege(options)
 
     testHeaders(options)
