@@ -20,6 +20,11 @@ export const updateSelfAssesment = data => putJson(`/selfassesment/update/${data
 
 export const getSelfAssesment = selfAssesmentId => getJson(`/selfassesment/${selfAssesmentId}`)
 
+export const getCourseInstance = id => getJson(`/course-instances/${id}`)
+
+export const getCourseData = id => getJson('/categories', { courseInstanceId: id })
+
+
 export const getUserAction = () => async (dispatch) => {
   dispatch({
     type: 'USER_GET_ATTEMPT',

@@ -82,7 +82,7 @@ export class SelfAssesmentPage extends React.Component {
   }
 }
 
-{/* {!this.state.created ?
+/* {!this.state.created ?
             this.renderTeacherView()
             :
             <SelfAssesmentForm

@@ -5,14 +5,14 @@ const initForm = (payload) => {
   const formInfo = []
 
   formInfo.push(
-    { id: 1, displayName: 'Eng ', value: 'Ruottia', type: 'eng_name' },
-    { id: 2, displayName: 'Swe ', value: 'Soomea', type: 'fin_name' },
-    { id: 3, displayName: 'Fin ', value: 'Enkalnti', type: 'swe_name' }
+    { id: 1, displayName: 'Eng', value: 'English Display', type: 'eng_name' },
+    { id: 3, displayName: 'Swe', value: 'Swedish Display', type: 'swe_name' },
+    { id: 2, displayName: 'Fin', value: 'Finnish display', type: 'fin_name' },
   )
   formInfo.push(
-    { id: 4, displayName: 'Eng ', value: 'Instructions', type: 'eng_instructions' },
-    { id: 5, displayName: 'Swe ', value: 'anvisning', type: 'swe_instructions' },
-    { id: 6, displayName: 'Fin ', value: 'Ohjeita', type: 'fin_instructions' }
+    { id: 4, displayName: 'Eng', value: 'Instructions', type: 'eng_instructions' },
+    { id: 5, displayName: 'Swe', value: 'anvisning', type: 'swe_instructions' },
+    { id: 6, displayName: 'Fin', value: 'Ohjeita', type: 'fin_instructions' }
   )
 
   data.open = false

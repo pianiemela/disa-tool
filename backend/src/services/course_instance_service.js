@@ -1,5 +1,8 @@
 const { CourseInstance, Objective, Category, Task, SkillLevel, Type, TaskObjective, TaskType } = require('../database/models.js')
 
+
+const getOne = courseInstanceId => CourseInstance.findOne({ where: { id: courseInstanceId } })
+
 const getCourseInstanceData = async (courseInstanceId, lang) => {
   const name = [`${lang}_name`, 'name']
   const description = [`${lang}_description`, 'description']
@@ -105,5 +108,6 @@ const mapObjectives = (value) => {
 }
 
 module.exports = {
-  getCourseInstanceData
+  getCourseInstanceData,
+  getOne
 }
