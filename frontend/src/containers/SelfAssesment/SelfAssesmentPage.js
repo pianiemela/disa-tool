@@ -34,14 +34,10 @@ export class SelfAssesmentPage extends React.Component {
     this.props.dispatchGetUserSelfAssesments()
   }
   createForm = async (courseInstanceId, type) => {
-    // const courseData = await getCourseData(courseId)
-    // const courseInfo = this.props.courses.find(cd => cd.id === courseId)
-    // await this.props.dispatchInitNewFormAaction({ courseData, type, courseInfo })
     this.setState({ redirect: true, new: true, courseInstanceId, type })
   }
 
   editForm = async (id) => {
-    await this.props.dispatchEditFormAction({ data: this.props.selfAssesments.find(sa => sa.id === id) })
     this.setState({ redirect: true, edit: true, assesmentId: id })
   }
   render() {
@@ -55,16 +51,6 @@ export class SelfAssesmentPage extends React.Component {
       return <Redirect to={`/selfassesment/edit/${this.state.assesmentId}`} />
     }
 
-    const { formData } = this.props
-    let submitAction = null
-    let bText = 'Tallenna'
-    if (formData.id) {
-      submitAction = this.handleUpdate
-      bText = 'Päivitä'
-    } else {
-      submitAction = this.handleSubmit
-    }
-
     return (
       <Container>
         <div>
@@ -76,23 +62,6 @@ export class SelfAssesmentPage extends React.Component {
             createForm={this.createForm}
             editForm={this.editForm}
           />
-        </div>
-      </Container>
-    )
-  }
-}
-
-/* {!this.state.created ?
-            this.renderTeacherView()
-            :
-            <SelfAssesmentForm
-              edit
-              created
-              formData={formData}
-              handleSubmit={submitAction}
-              bText={bText}
-            />
-          }
         </div>
       </Container>
     )
@@ -117,18 +86,10 @@ const mapStateToProps = state => (
 )
 
 const mapDispatchToProps = dispatch => ({
-  dispatchInitNewFormAaction: data =>
-    dispatch(initNewFormAaction(data)),
-  dispatchCreateForm: data =>
-    dispatch(createForm(data)),
   dispatchGetUsercourses: () =>
     dispatch(getUserCoursesAction()),
   dispatchGetUserSelfAssesments: () =>
-    dispatch(getUserSelfAssesments()),
-  dispatchEditFormAction: data =>
-    dispatch(editFormAction(data)),
-  dispatchUpdateSelfAssesmentAction: data =>
-    dispatch(updateSelfAssesmentAction(data))
+    dispatch(getUserSelfAssesments())
 })
 
 SelfAssesmentForm.defaultProps = {
@@ -137,11 +98,6 @@ SelfAssesmentForm.defaultProps = {
 
 SelfAssesmentPage.propTypes = {
   courseDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  // selfAssesmentDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()),
-  PropTypes.shape()]).isRequired,
-  dispatchCreateForm: PropTypes.func.isRequired,
-  dispatchInitNewFormAaction: PropTypes.func.isRequired,
   courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
 }
 
