@@ -60,7 +60,10 @@ describe('task_controller', () => {
         id: expect.any(Number),
         ...data
       },
-      Task
+      Task,
+      {
+        disallowId: true
+      }
     )
   })
 })

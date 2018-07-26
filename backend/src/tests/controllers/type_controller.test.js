@@ -55,7 +55,10 @@ describe('type_controller', () => {
         id: expect.any(Number),
         ...data
       },
-      Type
+      Type,
+      {
+        disallowId: true
+      }
     )
   })
 
@@ -109,7 +112,10 @@ describe('type_controller', () => {
         id: expect.any(Number),
         ...data
       },
-      TypeHeader
+      TypeHeader,
+      {
+        disallowId: true
+      }
     )
   })
 })

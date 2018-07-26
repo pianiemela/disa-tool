@@ -67,55 +67,62 @@ const testHeaders = (options) => {
 }
 
 const testBody = (options, match) => {
-  it('returns an appropriate json object in response body in English.', (done) => {
-    makeRequest({
-      ...options,
-      preamble: {
-        ...options.preamble,
-        query: { lang: 'eng' }
-      }
-    }).then((response) => {
-      expect(response.body).toMatchObject(mergeRecursive(match.common, match.eng))
-      done()
+  describe('returns an appropriate json object in response body', () => {
+    it('in English.', (done) => {
+      makeRequest({
+        ...options,
+        preamble: {
+          ...options.preamble,
+          query: { lang: 'eng' }
+        }
+      }).then((response) => {
+        expect(response.body).toMatchObject(mergeRecursive(match.common, match.eng))
+        done()
+      })
     })
-  })
 
-  it('returns an appropriate json object in response body in Finnish.', (done) => {
-    makeRequest({
-      ...options,
-      preamble: {
-        ...options.preamble,
-        query: { lang: 'fin' }
-      }
-    }).then((response) => {
-      expect(response.body).toMatchObject(mergeRecursive(match.common, match.fin))
-      done()
+    it('in Finnish.', (done) => {
+      makeRequest({
+        ...options,
+        preamble: {
+          ...options.preamble,
+          query: { lang: 'fin' }
+        }
+      }).then((response) => {
+        expect(response.body).toMatchObject(mergeRecursive(match.common, match.fin))
+        done()
+      })
     })
-  })
 
-  it('returns an appropriate json object in response body in Swedish.', (done) => {
-    makeRequest({
-      ...options,
-      preamble: {
-        ...options.preamble,
-        query: { lang: 'swe' }
-      }
-    }).then((response) => {
-      expect(response.body).toMatchObject(mergeRecursive(match.common, match.swe))
-      done()
+    it('in Swedish.', (done) => {
+      makeRequest({
+        ...options,
+        preamble: {
+          ...options.preamble,
+          query: { lang: 'swe' }
+        }
+      }).then((response) => {
+        expect(response.body).toMatchObject(mergeRecursive(match.common, match.swe))
+        done()
+      })
     })
   })
 }
 
-const testDatabaseSave = (options, match, model, pathToId = ['body', 'created', 'id']) => {
+const testDatabaseSave = (options, match, model, config = {}) => {
+  const { disallowId = false, pathToId = ['body', 'created', 'id'] } = config
+  const reqOptions = { ...options }
+  if (disallowId) reqOptions.preamble.send = { ...reqOptions.preamble.send, id: 10001 }
   it('saves a row into the database.', (done) => {
-    makeRequest(options).then((response) => {
+    makeRequest(reqOptions).then((response) => {
       let id = response
       pathToId.forEach((step) => {
         id = id[step]
       })
       model.findById(id).then((row) => {
-        expect(row.toJSON()).toMatchObject(match)
+        const json = row.toJSON()
+        if (disallowId) expect(json.id).not.toEqual(10001)
+        expect(json).toMatchObject(match)
         done()
       })
     })
