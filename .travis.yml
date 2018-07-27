@@ -1,0 +1,18 @@
+sudo: true
+dist: trusty
+cache:
+  directories:
+    - frontend/node_modules
+notifications:
+  email: false
+language: node_js
+node_js:
+- '8'
+before_install:
+- npm install -g npm
+install:
+- cd frontend && nom install && cd ..
+jobs:
+  include:
+    - stage: tests
+      script: cd frontend && npm test
