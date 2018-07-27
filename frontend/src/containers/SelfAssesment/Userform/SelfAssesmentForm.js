@@ -56,8 +56,8 @@ class SelfAssesmentForm extends React.Component {
         await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
       }
     } else {
-      // Either fetch or create a self assesment response for the user
-      // and fetch the data of the self assesment
+      // Fetch the data of the self assesment
+      // and fetch or create a self assesment response for the user
       await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
       await this.props.dispatchGetAssesmentResponseAction(selfAssesmentId)
     }

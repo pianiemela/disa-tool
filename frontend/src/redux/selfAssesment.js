@@ -48,14 +48,18 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       reducer field assesmentResponse
       */
       if (data.response) {
-        console.log(data.response)
-      } else {
-        const created = initResponseForm(state.createForm)
-        console.log(created)
+        /* We have to take in consideration that the amount of open questions can change
+        // so it'd be wise to some sort of checking and adding
+        // Regarding the changed amount of categories... well have to see about that
+        // as of now; dont create the assesment and expect it to contain all updated info
+         about your course, that youve put in after you created the assesment
+        */
+        return { ...state, assesmentResponse: data.response }
       }
-      // const data = initResponseForm(action.payload.data)
-      return state
+      const created = initResponseForm(state.createForm)
+      return { ...state, assesmentResponse: created }
     }
+
 
     case 'INIT_EDIT_RESPONSE_FORM': {
       return state
@@ -144,7 +148,6 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
 
     case 'REMOVE_OPEN_QUESTION': {
       const id = action.payload
-      console.log(id)
       return {
         ...state,
         createForm: {

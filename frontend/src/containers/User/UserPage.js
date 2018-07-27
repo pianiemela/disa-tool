@@ -9,7 +9,8 @@ import {
   getUserCoursesAction,
   getUserSelfAssesments,
   getCourseInstanceData,
-  getCourseInstanceDataAction } from '../../actions/actions'
+  getCourseInstanceDataAction
+} from '../../actions/actions'
 
 class UserPage extends Component {
   state = {
@@ -89,7 +90,7 @@ class UserPage extends Component {
                   </Grid.Row>
                   <Grid.Row>
                     <Grid.Column>
-                      <Button as={Link} to="/selfAssesment" color="green" basic>Luo uusi itsearviointi</Button>
+                      <Button as={Link} to={`/selfAssesment/${activeCourse.id}`} color="green" basic>Luo uusi itsearviointi</Button>
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
@@ -122,7 +123,7 @@ class UserPage extends Component {
                       <Item.Content>
                         <p>Itsearvioinnit</p>
                         <List selection size="big">
-                          {assessments.map(assessment => <List.Item>{assessment.name}</List.Item>)}
+                          {assessments.map(assessment => <List.Item as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name}</List.Item>)}
                         </List>
                       </Item.Content>
                     </Grid.Column>
