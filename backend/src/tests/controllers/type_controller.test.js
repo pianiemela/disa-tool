@@ -1,4 +1,4 @@
-const { testTeacherOnCoursePrivilege, testHeaders, testBody, testDatabaseSave } = require('../testUtils')
+const { testTeacherOnCoursePrivilege, testHeaders, testBody, testDatabaseSave, testDatabaseDestroy } = require('../testUtils')
 const { Type, TypeHeader } = require('../../database/models.js')
 
 describe('type_controller', () => {
@@ -117,5 +117,43 @@ describe('type_controller', () => {
         disallowId: true
       }
     )
+  })
+
+  describe('DELETE /:id', () => {
+    const options = {
+      method: 'delete',
+      preamble: {
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    beforeEach((done) => {
+      Type.create({
+        type_header_id: 1,
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn'
+      }).then((result) => {
+        options.route = `/api/types/${result.get({ plain: true }).id}`
+        done()
+      })
+    })
+
+    testTeacherOnCoursePrivilege(options)
+
+    testHeaders(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        deleted: {
+          id: expect.any(Number),
+          type_header_id: 1,
+          task_ids: []
+        }
+      }
+    })
+
+    testDatabaseDestroy(options, Type, { delay: 2000 })
   })
 })

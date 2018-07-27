@@ -201,9 +201,34 @@ const testDatabaseSave = (options, match, model, config = {}) => {
   })
 }
 
+const testDatabaseDestroy = (options, model, config = {}) => {
+  const {
+    pathToId = ['body', 'deleted', 'id'],
+    delay = 0
+  } = config
+
+  const checkDestruction = (response, done) => {
+    let id = response
+    pathToId.forEach((step) => {
+      id = id[step]
+    })
+    model.findById(id).then((result) => {
+      expect(result).toEqual(null)
+      done()
+    })
+  }
+
+  it('destroys a row from the database', (done) => {
+    makeRequest(options).then((response) => {
+      setTimeout(checkDestruction, delay, response, done)
+    })
+  })
+}
+
 module.exports = {
   testTeacherOnCoursePrivilege,
   testHeaders,
   testBody,
-  testDatabaseSave
+  testDatabaseSave,
+  testDatabaseDestroy
 }
