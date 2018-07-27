@@ -1,4 +1,10 @@
-const { testTeacherOnCoursePrivilege, testHeaders, testBody, testDatabaseSave } = require('../testUtils')
+const {
+  testTeacherOnCoursePrivilege,
+  testHeaders,
+  testBody,
+  testDatabaseSave,
+  testDatabaseDestroy
+} = require('../testUtils')
 const { Objective, Category, SkillLevel } = require('../../database/models.js')
 
 describe('objective_controller', () => {
@@ -99,5 +105,46 @@ describe('objective_controller', () => {
         })
       })
     })
+  })
+
+  describe('DELETE /:id', () => {
+    const options = {
+      method: 'delete',
+      preamble: {
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    beforeEach((done) => {
+      Objective.create({
+        course_instance_id: 1,
+        category_id: 1,
+        skill_level_id: 1,
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn'
+      }).then((result) => {
+        options.route = `/api/objectives/${result.get({ plain: true }).id}`
+        done()
+      })
+    })
+
+    testTeacherOnCoursePrivilege(options)
+
+    testHeaders(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        deleted: {
+          id: expect.any(Number),
+          category_id: 1,
+          skill_level_id: 1,
+          task_ids: []
+        }
+      }
+    })
+
+    testDatabaseDestroy(options, Objective, { delay: 2000 })
   })
 })
