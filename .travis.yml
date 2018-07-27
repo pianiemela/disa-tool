@@ -11,7 +11,7 @@ node_js:
 before_install:
 - npm install -g npm
 install:
-- cd frontend && nom install && cd ..
+- cd frontend && npm install && cd ..
 jobs:
   include:
     - stage: tests
