@@ -201,26 +201,53 @@ const testDatabaseSave = (options, match, model, config = {}) => {
   })
 }
 
+/**
+ * @param {*} model Database model.
+ * @param {*} config Object with the following fields. Extra configuration goes here.
+ * {
+ *   pathToId: array of strings.
+ *     If the id of the new database row is not found in response.body.deleted.id,
+ *     define here where to find id in response.
+ *   delay: number.
+ *     Milliseconds to wait after receiving response.
+ *   cascade: array of objects.
+ *     Objects should have the following fields.
+ *     {
+ *       model: database model.
+ *       getId: function that returns id to look for.
+ *     }
+ *     Each object will cause test to check that the table no longer has the specified row.
+ * }
+ */
 const testDatabaseDestroy = (options, model, config = {}) => {
   const {
     pathToId = ['body', 'deleted', 'id'],
-    delay = 0
+    delay = 0,
+    cascade = []
   } = config
 
-  const checkDestruction = (response, done) => {
+  const checkCascade = cascade.map(params => (response, cascadeStep) => {
+    params.model.findById(params.getId()).then((result) => {
+      expect(result).toEqual(null)
+      checkCascade[cascadeStep](response, cascadeStep + 1)
+    })
+  })
+
+  const checkDestruction = (response, cascadeStep) => {
     let id = response
     pathToId.forEach((step) => {
       id = id[step]
     })
     model.findById(id).then((result) => {
       expect(result).toEqual(null)
-      done()
+      checkCascade[cascadeStep](response, cascadeStep + 1)
     })
   }
 
   it('destroys a row from the database', (done) => {
+    checkCascade.push(() => done())
     makeRequest(options).then((response) => {
-      setTimeout(checkDestruction, delay, response, done)
+      setTimeout(checkDestruction, delay, response, 0)
     })
   })
 }

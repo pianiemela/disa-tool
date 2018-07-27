@@ -156,4 +156,65 @@ describe('type_controller', () => {
 
     testDatabaseDestroy(options, Type, { delay: 2000 })
   })
+  
+  describe('DELETE /headers/:id', () => {
+    const options = {
+      method: 'delete',
+      preamble: {
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+    let newId
+
+    beforeEach((done) => {
+      TypeHeader.create({
+        course_instance_id: 1,
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn'
+      }).then((result) => {
+        newId = result.get({ plain: true }).id
+        options.route = `/api/types/headers/${newId}`
+        done()
+      })
+    })
+
+    testTeacherOnCoursePrivilege(options)
+
+    testHeaders(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        deleted: {
+          id: expect.any(Number)
+        }
+      }
+    })
+
+    describe('deletion cascades and', () => {
+      const cascadeIds = {}
+      beforeEach((done) => {
+        Type.create({
+          type_header_id: newId,
+          eng_name: 'ent',
+          fin_name: 'fnt',
+          swe_name: 'snt'
+        }).then((result) => {
+          cascadeIds.type = result.get({ plain: true }).id
+          done()
+        })
+      })
+
+      testDatabaseDestroy(options, TypeHeader, {
+        delay: 2000,
+        cascade: [
+          {
+            model: Type,
+            getId: () => cascadeIds.type
+          }
+        ]
+      })
+    })
+  })
 })
