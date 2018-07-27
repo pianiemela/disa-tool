@@ -5,7 +5,6 @@ import { Grid, List, Dropdown, Form } from 'semantic-ui-react'
 import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
 import asyncAction from '../../../utils/asyncAction'
 
-import { getAllSelfAssesments } from '../services/selfAssesment'
 import CategorySelection from './CategorySelection'
 import DropDownSelection from './DropDownSelection'
 import SelfAssesmentList from './SelfAssesmentList'

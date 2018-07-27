@@ -1,8 +1,9 @@
-import initForm from '../utils/reduxHelpers/selfAssesment'
+import { initForm, initResponseForm } from '../utils/reduxHelpers/selfAssesment'
 
 const INITIAL_STATE = {
   createForm: {},
-  userSelfAssesments: []
+  userSelfAssesments: [],
+  assesmentResponse: {}
 }
 
 const getToggleProps = (id, state) => {
@@ -21,7 +22,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       return { ...state, createForm: data }
     }
 
-    case 'INIT_EDIT_FORM': {
+    case 'GET_SELF_ASSESMENT_SUCCESS': {
       const { data } = action.payload
       const formInfo = []
       formInfo.push(
@@ -34,6 +35,29 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       )
       data.formInfo = formInfo
       return { ...state, createForm: data }
+    }
+
+    case 'GET_ASSESMENT_RESPONSE_SUCCESS': {
+      const { data } = action.payload
+      /*
+      if the assesment response is empty,
+      we have a user who hasnt answered to the assesment yet, so we'll create it
+      by using the assesment course data we have in the createForm object in reducer
+
+      Otherwise we'll just store the response data we have in the api request to
+      reducer field assesmentResponse
+      */
+      if (data.response) {
+        console.log(data.response)
+      } else {
+        initResponseForm(state.createForm)
+      }
+      // const data = initResponseForm(action.payload.data)
+      return state
+    }
+
+    case 'INIT_EDIT_RESPONSE_FORM': {
+      return state
     }
 
     case 'TOGGLE_TEXT_FIELD': {
@@ -93,19 +117,11 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
 
     case 'ADD_OPEN_QUESTION': {
       const questionData = action.payload
-      const { openQuestions, finalGrade } = state.createForm.structure
+      const { openQuestions } = state.createForm.structure
       let data = null
-      if (openQuestions.length > 0) {
-        data = {
-          id: openQuestions[openQuestions.length - 1].id + 1,
-          name: questionData
-        }
-      } else {
-        const id = parseInt(((finalGrade.id) + 1).toString(), 10)
-        data = {
-          id,
-          name: questionData
-        }
+      data = {
+        id: openQuestions.incrementId,
+        name: questionData
       }
 
       return {
@@ -114,9 +130,12 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
           ...state.createForm,
           structure: {
             ...state.createForm.structure,
-            openQuestions: [
-              ...state.createForm.structure.openQuestions.concat(data)
-            ]
+            openQuestions: {
+              ...state.createForm.structure.openQuestions,
+              incrementId: state.createForm.structure.openQuestions.incrementId + 1,
+              questions: [...state.createForm.structure.openQuestions.questions.concat(data)
+              ]
+            }
           }
         }
       }
@@ -124,14 +143,17 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
 
     case 'REMOVE_OPEN_QUESTION': {
       const id = action.payload
+      console.log(id)
       return {
         ...state,
         createForm: {
           ...state.createForm,
           structure: {
             ...state.createForm.structure,
-            openQuestions:
-              state.createForm.structure.openQuestions.filter(oQ => oQ.id !== id)
+            openQuestions: {
+              ...state.createForm.structure.openQuestions,
+              questions: state.createForm.structure.openQuestions.questions.filter(oQ => oQ.id !== id)
+            }
           }
         }
       }

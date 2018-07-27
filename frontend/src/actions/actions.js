@@ -2,6 +2,8 @@ import { getJson, postJson, putJson } from '../utils/utils'
 
 export const getUsersCourses = () => getJson('/courses/user')
 
+export const getAllSelfAssesments = () => getJson('/courses/user')
+
 export const getCourses = () => getJson('/courses')
 
 export const getInstancesOfCourse = courseId => getJson(`/courses/${courseId}`)
@@ -24,6 +26,27 @@ export const getCourseInstance = id => getJson(`/course-instances/${id}`)
 
 export const getCourseData = id => getJson('/categories', { courseInstanceId: id })
 
+export const getSelfAssesmentResponse = assesmentId => getJson(`/assesmentresponse/${assesmentId}`)
+
+
+export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
+  dispatch({
+    type: 'GET_ASSESMENT_RESPONSE_ATTEMPT',
+    payload: ''
+  })
+  const { data } = await getSelfAssesmentResponse(assesmentId)
+  try {
+    dispatch({
+      type: 'GET_ASSESMENT_RESPONSE_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'GET_ASSESMENT_RESPONSE_FAILURE',
+      payload: e.response
+    })
+  }
+}
 
 export const getUserAction = () => async (dispatch) => {
   dispatch({
@@ -89,9 +112,8 @@ export const getSelfAssesmentAction = selfAssesmentId => async (dispatch) => {
   })
   try {
     const { data } = await getSelfAssesment(selfAssesmentId)
-    console.log(data)
     dispatch({
-      type: 'INIT_EDIT_FORM',
+      type: 'GET_SELF_ASSESMENT_SUCCESS',
       payload: data
     })
   } catch (error) {
@@ -100,70 +122,6 @@ export const getSelfAssesmentAction = selfAssesmentId => async (dispatch) => {
       payload: error.response
     })
   }
-}
-
-export const toggleTextField = id => (dispatch) => {
-  dispatch({
-    type: 'TOGGLE_TEXT_FIELD',
-    payload: id
-  })
-}
-
-export const initNewFormAaction = data => (dispatch) => {
-  dispatch({
-    type: 'INIT_NEW_FORM',
-    payload: data
-  })
-}
-
-export const toggleUp = id => (dispatch) => {
-  dispatch({
-    type: 'TOGGLE_UP',
-    payload: id
-  })
-}
-
-export const toggleDown = id => (dispatch) => {
-  dispatch({
-    type: 'TOGGLE_DOWN',
-    payload: id
-  })
-}
-
-export const addOpenQuestion = questionData => (dispatch) => {
-  dispatch({
-    type: 'ADD_OPEN_QUESTION',
-    payload: questionData
-  })
-}
-
-export const removeOpenQuestion = id => (dispatch) => {
-  dispatch({
-    type: 'REMOVE_OPEN_QUESTION',
-    payload: id
-  })
-}
-
-export const changeTextField = data => (dispatch) => {
-  dispatch({
-    type: 'CHANGE_TEXT_FIELD',
-    payload: data
-
-  })
-}
-
-export const toggleFormPartAction = (id, type) => (dispatch) => {
-  dispatch({
-    type: 'TOGGLE_FORM_PART',
-    payload: { id, type }
-  })
-}
-
-export const changeHeaderAction = data => (dispatch) => {
-  dispatch({
-    type: 'CHANGE_HEADER',
-    payload: data
-  })
 }
 
 export const createForm = data => async (dispatch) => {
@@ -185,13 +143,6 @@ export const createForm = data => async (dispatch) => {
 
     })
   }
-}
-
-export const editFormAction = data => (dispatch) => {
-  dispatch({
-    type: 'INIT_EDIT_FORM',
-    payload: data
-  })
 }
 
 export const getUserSelfAssesments = user => async (dispatch) => {

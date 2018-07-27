@@ -10,13 +10,16 @@ import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 
 
 import {
-  initNewFormAaction,
   createForm,
   getUserCoursesAction,
   getUserSelfAssesments,
-  editFormAction,
   updateSelfAssesmentAction
 } from '../../actions/actions'
+
+import {
+  editFormAction,
+  initNewFormAaction
+} from '../SelfAssesment/actions/selfAssesment'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {

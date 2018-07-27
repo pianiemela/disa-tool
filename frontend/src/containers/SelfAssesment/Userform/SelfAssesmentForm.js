@@ -14,13 +14,17 @@ import {
   createForm,
   updateSelfAssesmentAction,
   getCourseInstanceDataAction,
-  initNewFormAaction,
-  editFormAction,
   getCourseData,
   getCourseInstance,
   getAssesmentResponseAction,
   getSelfAssesmentResponse
 } from '../../../actions/actions'
+
+import {
+  initNewFormAaction,
+  editFormAction,
+  initAssesmentResponseAction
+} from '../actions/selfAssesment'
 
 
 class SelfAssesmentForm extends React.Component {
@@ -53,6 +57,8 @@ class SelfAssesmentForm extends React.Component {
       }
     } else {
       // Either fetch or create a self assesment response for the user
+      // and fetch the data of the self assesment
+      await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
       await this.props.dispatchGetAssesmentResponseAction(selfAssesmentId)
     }
   }
@@ -78,6 +84,7 @@ class SelfAssesmentForm extends React.Component {
       (
         <Grid.Column>
           <Form.TextArea
+            autoHeight
             disabled={!textFieldOn}
             label={label}
             placeholder={placeholder}
@@ -92,7 +99,6 @@ class SelfAssesmentForm extends React.Component {
       const { displayCoursename, type, formInfo } = structure
       const { openQ, questionHeaders, grade } = structure.headers
 
-
       return (
         <div>
           <Container>
@@ -100,6 +106,7 @@ class SelfAssesmentForm extends React.Component {
             <SelfAssesmentInfo
               textArea={textArea}
               formData={formInfo}
+              edit={edit}
             />
 
             {type === 'category' ?
@@ -125,7 +132,7 @@ class SelfAssesmentForm extends React.Component {
 
             <SelfAssesmentSection
               headers={openQ}
-              formData={structure.openQuestions}
+              formData={structure.openQuestions.questions}
               edit={edit}
               textArea={textArea}
               QuestionModule={OpenQuestionModule}
@@ -161,7 +168,7 @@ class SelfAssesmentForm extends React.Component {
     return (
       <div>
         {
-          this.props.edit && Object.keys(this.props.formData).length > 0 ?
+          Object.keys(this.props.formData).length > 0 ?
             renderForm()
             :
             <Loader active>Loading</Loader>
@@ -197,7 +204,6 @@ const mapDispatchToProps = dispatch => ({
 
   dispatchGetAssesmentResponseAction: selfAssesmentId =>
     dispatch(getAssesmentResponseAction(selfAssesmentId))
-
 })
 
 SelfAssesmentForm.defaultProps = {

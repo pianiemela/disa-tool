@@ -27,12 +27,19 @@ class SelfAssesmentSection extends React.Component {
   }
 
   render() {
-    const { final, question, formData, edit, textArea, QuestionModule, headers, headerType } = this.props
+    const { final,
+      question,
+      formData,
+      edit,
+      textArea,
+      QuestionModule,
+      headers } = this.props
+
     const { editHeaders } = this.state
     let h = this.props.headers[0].value
 
     let questionEditField = null
-    if (final) {
+    if (final && edit) {
       h =
         (
           <div>
@@ -83,7 +90,7 @@ class SelfAssesmentSection extends React.Component {
                   final={final}
                 />))}
 
-              {question ?
+              {question && edit ?
                 <AddOpenQuestion />
                 :
                 null

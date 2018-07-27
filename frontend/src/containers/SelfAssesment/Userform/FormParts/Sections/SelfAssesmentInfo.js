@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Form, Header, Button, Card, TextArea } from 'semantic-ui-react'
-import { changeTextField } from '../../../../../actions/actions'
+import { changeTextField } from '../../../actions/selfAssesment'
 import MultiLangInput from '../MultiLangInput'
 
 class SelfAssesmentInfo extends React.Component {
@@ -13,20 +13,6 @@ class SelfAssesmentInfo extends React.Component {
       editDescriptions: false
     }
   }
-
-  // Unecessary rerender
-  // componentDidMount() {
-  // const values = {}
-  // this.props.formData.forEach((d) => {
-  //   values[d.id] = d.value
-  // })
-  // this.setState({ values })
-  // }
-  // handleCategoryC = (id, value) => {
-  //   const { values } = this.state
-  //   values[id] = value
-  //   this.setState({ values })
-  // }
 
   handleChange = (id, value) => {
     const oldValue = this.state.values
@@ -40,21 +26,32 @@ class SelfAssesmentInfo extends React.Component {
   }
 
   render() {
+
+    const editButton = toggleEdit => (
+      <Button
+        style={{ marginLeft: '10px' }}
+        onClick={() => this.toggleEdit(toggleEdit)}
+      >
+        {!this.state.editHeaders ? 'Muokkaa' : 'Näytä'}
+      </Button>
+    )
+
+
     const descriptions = this.props.formData.filter(d => d.type.includes('instruction'))
     const names = this.props.formData.filter(d => d.type.includes('name'))
     const { values } = this.state
+    const { edit } = this.props
     return (
 
       <Form style={{ padding: '20px' }}>
         <Form.Field>
           <Header as="h3" textAlign="center">
             {names[2].value}
-            <Button
-              style={{ marginLeft: '10px' }}
-              onClick={() => this.toggleEdit('editHeaders')}
-            >
-              {!this.state.editHeaders ? 'Muokkaa' : 'Näytä'}
-            </Button>
+            {edit ?
+              editButton('editHeaders')
+              :
+              null
+            }
           </Header>
           {!this.state.editHeaders ?
             null
@@ -74,21 +71,20 @@ class SelfAssesmentInfo extends React.Component {
             <Card.Content>
               <Card.Header style={{ textAlign: 'center' }}>
                 Ohjeet itsearvioon
-                <Button
-                  style={{ marginLeft: '10px' }}
-                  onClick={() => this.toggleEdit('editDescriptions')}
-                >
-                  {this.state.editDescriptions ? 'Näytä' : 'Muokkaa'}
-                </Button>
+                {edit ?
+                  editButton('editDescriptions')
+                  :
+                  null}
               </Card.Header>
               {!this.state.editDescriptions ?
                 <Card.Description>
                   <TextArea
+                    autoHeight
                     value={descriptions[2].value}
-                    style={{
-                      fontFamily: 'Lato, sans-serif',
-                      color: 'black'
-                    }}
+                  // style={{
+                  // fontFamily: 'Lato, sans-serif',
+                  // color: 'black'
+                  // }}
                   >
                     {descriptions[2].value}
                   </TextArea>

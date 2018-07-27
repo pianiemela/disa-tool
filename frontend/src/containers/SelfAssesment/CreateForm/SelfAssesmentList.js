@@ -8,9 +8,7 @@ const SelfAssesmentList = (props) => {
   if (visible) {
     return (
       <List animated selection>
-        <List.Item>
-          <List.Header>Selfassesments of selected course - click item - to edit</List.Header>
-        </List.Item>
+        <List.Header>Selfassesments of selected course - click item to edit</List.Header>
         {selfAssesments.map(sa => (
           <List.Item
             key={sa.id}

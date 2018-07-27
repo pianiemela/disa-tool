@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import UpOrDownToggle from '../upDownToggle'
-import { toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../../../actions/actions'
+import { toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
 import MultiLangInput from '../MultiLangInput'
 
 class CategoryQuestionModule extends React.Component {
@@ -39,7 +39,7 @@ class CategoryQuestionModule extends React.Component {
       buttonColor = 'red'
       buttonText = 'Ei mukana itsearviossa'
     }
-    if (final && edit && headers) {
+    if (final && headers) {
       qfield =
         (
           <div>
@@ -86,6 +86,7 @@ class CategoryQuestionModule extends React.Component {
         onChange={() => this.props.dispatchTextFieldOnOff(id)}
         label="Perustelut arvosanalle"
       />) : null
+
     return (
       <Form.Field>
         <Card fluid>
@@ -94,11 +95,14 @@ class CategoryQuestionModule extends React.Component {
               {headers && final ?
                 <div>
                   {this.props.data.headers[0].value}
-                  <Button
-                    onClick={() => this.toggleEdit()}
-                    style={{ marginLeft: '10px' }}
-                  >{this.state.editHeaders ? 'Näytä' : 'Muokkaa'}
-                  </Button>
+                  {edit ?
+                    <Button
+                      onClick={() => this.toggleEdit()}
+                      style={{ marginLeft: '10px' }}
+                    >{this.state.editHeaders ? 'Näytä' : 'Muokkaa'}
+                    </Button>
+                    :
+                    null}
                 </div>
                 : qfield
               }
@@ -109,32 +113,36 @@ class CategoryQuestionModule extends React.Component {
             <Grid verticalAlign="middle" padded columns={3}>
               <Grid.Row >
                 <Form.Field disabled={disabled} width={10}>
-                  <Grid.Column width={10}>
+                  <Grid.Column>
                     <label> Arvioi osaamisesi asteikolla 1-5</label>
                     <Dropdown style={{ marginLeft: '20px' }} placeholder="Valitse arvosana" selection options={gradeOptions} />
                   </Grid.Column>
                 </Form.Field>
 
                 <Grid.Column>
-                  <Button
-                    size="large"
-                    basic
-                    color={buttonColor}
-                    onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
-                  >
-                    {buttonText}
-                  </Button>
+                  {edit ?
+                    <Button
+                      size="large"
+                      basic
+                      color={buttonColor}
+                      onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
+                    >
+                      {buttonText}
+                    </Button>
+                    :
+                    null
+                  }
                 </Grid.Column>
 
               </Grid.Row>
               <Grid.Row >
                 <Form.Field disabled={disabled} width={10}>
-                  <Grid.Column width={10} >
+                  <Grid.Column>
                     {textArea('Perustelut arvosanalle', 'Kirjoita perustelut valitsemallesi arvosanalle', textFieldOn, final ? null : checkbox)}
                   </Grid.Column>
                 </Form.Field>
 
-                {final ?
+                {final || !edit ?
                   null
                   :
                   <Grid.Column>

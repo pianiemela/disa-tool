@@ -1,4 +1,4 @@
-const initForm = (payload) => {
+export const initForm = (payload) => {
   const { courseData, type, courseInfo } = payload
   const data = {}
   data.course_instance_id = courseInfo.id
@@ -22,14 +22,15 @@ const initForm = (payload) => {
   data.type = type
   data.structure = {}
   const { structure } = data
-  structure.displayCoursename = courseInfo.name
+
   if (!structure.displayCoursename) {
-    structure.displayCoursename = courseInfo[`${localStorage.getItem('lang')}.name`]
+    structure.displayCoursename = courseInfo[`${localStorage.getItem('lang')}_name`]
   }
   structure.formInfo = formInfo
-
-  structure.openQuestions = []
+  structure.openQuestions = {}
+  structure.openQuestions.questions = []
   const id = (parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id, 10) + 1)
+  structure.openQuestions.incrementId = id + 1
 
   const headers = []
 
@@ -99,4 +100,31 @@ const initForm = (payload) => {
   return data
 }
 
-export default initForm
+
+export const initResponseForm = (data) => {
+  const { questionModules, finalGrade } = data.structure
+  const { questions } = data.structure.openQuestions
+  const response = {}
+
+  response.questionModuleResponses = []
+  response.openQuestionResponses = []
+  response.finalGradeResponse = []
+
+  questionModules.map(qm =>
+    response.questionModuleResponses.push({
+      id: qm.id,
+      responseText: '',
+      grade: null
+    }))
+  questions.map(q =>
+    response.openQuestionResponses.push({
+      id: q.id,
+      text: ''
+    }))
+  response.finalGradeResponse.push({
+    id: finalGrade.id,
+    responseText: '',
+    grade: null
+  })
+  return response
+}

@@ -20,33 +20,37 @@ const OpenQuestionModule = (props) => {
             <Grid verticalAlign="middle" columns={3}>
               <Grid.Row>
                 <Grid.Column width={10}>
-                  {textArea('Vastaa avoimeen kysymykseen', 'Kirjoita vastaus tähän', edit)}
+                  {textArea('Vastaa avoimeen kysymykseen', 'Kirjoita vastaus tähän', true)}
                 </Grid.Column>
                 <Grid.Column>
-                  <ModalForm
-                    header="Poista avoin kysymys"
-                    content={
-                      <div>
-                        <p>Haluatko poistaa avoimen kysymyksen {name}?</p>
-                        <Button color="green" onClick={() => props.dispatchRemoveOpenQuestion(id)} type="submit">Ok</Button>
-                        <Button color="red">
-                          {'Peru'}
-                        </Button>
-                      </div>
-                    }
-                    trigger={
-                      <Popup
-                        trigger={
-                          <Icon
-                            name="minus circle"
-                            size="big"
-                            color="red"
-                          />
-                        }
-                        content="Poista avoin kysymys tästä"
-                      />
-                    }
-                  />
+                  {edit ?
+                    <ModalForm
+                      header="Poista avoin kysymys"
+                      content={
+                        <div>
+                          <p>Haluatko poistaa avoimen kysymyksen {name}?</p>
+                          <Button color="green" onClick={() => props.dispatchRemoveOpenQuestion(id)} type="submit">Ok</Button>
+                          <Button color="red">
+                            {'Peru'}
+                          </Button>
+                        </div>
+                      }
+                      trigger={
+                        <Popup
+                          trigger={
+                            <Icon
+                              name="minus circle"
+                              size="big"
+                              color="red"
+                            />
+                          }
+                          content="Poista avoin kysymys tästä"
+                        />
+                      }
+                    />
+                    :
+                    null
+                  }
                 </Grid.Column>
               </Grid.Row>
             </Grid>

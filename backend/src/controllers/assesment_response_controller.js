@@ -30,10 +30,10 @@ router.get('/:selfAssesmentId', async (req, res) => {
       message: 'homma meni wilduks, mutta tässä asssesmentti',
       data
     })
-    
+
   } catch (error) {
     res.status(500).json({
-      error
+      ERROR: globalMessages.unexpected.failure[req.lang]
     })
     console.log(error)
   }
