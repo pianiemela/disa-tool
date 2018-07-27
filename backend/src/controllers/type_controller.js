@@ -38,7 +38,6 @@ const messages = {
 
 router.post('/create', async (req, res) => {
   const { instance: toCreate, header } = await typeService.create.prepare(req.body)
-  console.log(toCreate.dataValues)
   if (!await checkPrivilege(
     req,
     [

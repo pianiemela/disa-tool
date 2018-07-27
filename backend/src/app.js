@@ -5,7 +5,6 @@ const bodyParser = require('body-parser')
 
 const routes = require('./routes.js')
 
-const PORT = 8000
 const app = express()
 
 // app.use(cors())
@@ -21,10 +20,6 @@ routes(app)
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist', 'index.html'))
-})
-
-app.listen(PORT, () => {
-  console.log(`DISA backend listening at ${PORT}`)
 })
 
 module.exports = app

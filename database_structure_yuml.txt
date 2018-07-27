@@ -1,16 +1,18 @@
 [Task| -id;-eng_name;-fin_name;-swe_name;-eng_description;-fin_description;-swe_description;-max_points;-info;-course_instance_id;]
 
-[Type| -id;-eng_header;-fin_header;-swe_header;-eng_name;-fin_name;-swe_name;-multiplier;-course_instance_id;]
+[TypeHeader| -id;-eng_name;-fin_name;swe_name;-course_instance_id]
+
+[Type| -id;-eng_name;-fin_name;-swe_name;-multiplier;-type_header_id;]
 
 [TaskType| -id;-task_id;-type_id;]
 
-[Category| -id;-eng_name;-fin_name;-swe_name;]
+[Category| -id;-eng_name;-fin_name;-swe_name;-course_instance_id]
 
 [Objective| -id;-eng_name;-fin_name;-swe_name;-category_id;course_instance_id;skill_level_id]
 
 [TaskObjective| -id;-multiplier;-modified;-task_id;-objective_id]
 
-[SkillLevel| -id;-eng_name;-fin_name;-swe_name]
+[SkillLevel| -id;-eng_name;-fin_name;-swe_name;-course_instance_id]
 
 [Grade| -id;-eng_name;-fin_name;-swe_name;-needed_for_grade;-skill_level_id;-prerequisite]
 
@@ -59,7 +61,9 @@
 [Person]1-*[AssessmentResponse]
 [SelfAssessment]1-*[AssessmentResponse]
 
+[TypeHeader]1-*[Type]
+
 [CourseInstance]1-*[Task]
-[CourseInstance]1-*[Type]
+[CourseInstance]1-*[TypeHeader]
 [CourseInstance]1-*[Category]
 [CourseInstance]1-*[SkillLevel]

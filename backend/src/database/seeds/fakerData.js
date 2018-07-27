@@ -1,6 +1,12 @@
 const faker = require('faker')
 const oldTasks = require('./tasks.json')
 
+if (process.env.NODE_ENV === 'test') {
+  // create_data randomly fails. This is here to make sure that doesn't happen with tests.
+  // seed SAFE_SEED should cause the problem to appear.
+  require('seedrandom')('SAFESEED', { global: true }) // eslint-disable-line
+}
+
 
 const getTaskObjectives = (tasks, objectives, courseInstances) => {
   const taskObjectives = []
@@ -115,17 +121,12 @@ const getStudentsAndTeachers = () => {
 
 const getCoursePersons = (persons) => {
   const coursePersons = []
-  //harcode linis for kurki test users
+  // harcode linis for kurki test users
   const testerteacherId = 424
-  coursePersons.push({
-    course_instance_id: 1,
-    person_id: testerteacherId,
-    role: 'Teacher'
-  })
   for (let i = 420; i < persons.length; i++) {
     const element = persons[i]
     coursePersons.push({
-      course_instance_id: Math.floor(Math.random() * 3) + 1,
+      course_instance_id: element.id === testerteacherId ? 1 : Math.floor(Math.random() * 3) + 1,
       person_id: element.id,
       role: element.role
     })

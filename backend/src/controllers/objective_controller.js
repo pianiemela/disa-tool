@@ -23,7 +23,7 @@ const messages = {
 }
 
 router.post('/create', async (req, res) => {
-  const toCreate = await objectiveService.create.prepare(req.body)
+  const { instance: toCreate, category, skillLevel } = await objectiveService.create.prepare(req.body)
   if (!await checkPrivilege(
     req,
     [
@@ -35,7 +35,10 @@ router.post('/create', async (req, res) => {
         param: toCreate.dataValues.course_instance_id
       }
     ]
-  )) {
+  )
+  || category.course_instance_id !== toCreate.dataValues.course_instance_id
+  || skillLevel.course_instance_id !== toCreate.dataValues.course_instance_id
+  ) {
     res.status(403).json({
       error: messages.privilege.failure[req.lang]
     })
