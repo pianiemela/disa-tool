@@ -4,7 +4,7 @@ import { Card, Form, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import MultiLangInput from '../MultiLangInput'
 import AddOpenQuestion from '../addOpenQuestion'
-import { changeHeaderAction } from '../../../../../actions/actions'
+import { changeHeaderAction } from '../../../actions/selfAssesment'
 
 class SelfAssesmentSection extends React.Component {
   constructor(props) {

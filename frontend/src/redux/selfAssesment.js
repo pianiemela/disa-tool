@@ -50,7 +50,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       if (data.response) {
         console.log(data.response)
       } else {
-        initResponseForm(state.createForm)
+        const created = initResponseForm(state.createForm)
+        console.log(created)
       }
       // const data = initResponseForm(action.payload.data)
       return state

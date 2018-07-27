@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Card, Grid, Icon, Popup, Button } from 'semantic-ui-react'
 import ModalForm from '../../../../../utils/components/ModalForm'
-import { removeOpenQuestion } from '../../../../../actions/actions'
+import { removeOpenQuestion } from '../../../actions/selfAssesment'
 
 const OpenQuestionModule = (props) => {
   const { edit, textArea } = props

@@ -121,8 +121,8 @@ export const initResponseForm = (data) => {
       id: q.id,
       text: ''
     }))
+
   response.finalGradeResponse.push({
-    id: finalGrade.id,
     responseText: '',
     grade: null
   })
