@@ -1,5 +1,11 @@
-const { testTeacherOnCoursePrivilege, testHeaders, testBody, testDatabaseSave } = require('../testUtils')
-const { Task } = require('../../database/models.js')
+const {
+  testTeacherOnCoursePrivilege,
+  testHeaders,
+  testBody,
+  testDatabaseSave,
+  testDatabaseDestroy
+} = require('../testUtils')
+const { Task, TaskType, TaskObjective } = require('../../database/models.js')
 
 describe('task_controller', () => {
   describe('POST /create', () => {
@@ -65,5 +71,82 @@ describe('task_controller', () => {
         disallowId: true
       }
     )
+  })
+
+  describe('DELETE /:id', () => {
+    const options = {
+      method: 'delete',
+      preamble: {
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+    let newId
+
+    beforeEach((done) => {
+      Task.create({
+        course_instance_id: 1,
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn'
+      }).then((result) => {
+        newId = result.get({ plain: true }).id
+        options.route = `/api/tasks/${newId}`
+        done()
+      })
+    })
+
+    testTeacherOnCoursePrivilege(options)
+
+    testHeaders(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        deleted: {
+          id: expect.any(Number)
+        }
+      }
+    })
+
+    describe('deletion cascades', () => {
+      const cascadeIds = {}
+      beforeEach((done) => {
+        let countdown = 2
+        TaskType.create({
+          task_id: newId,
+          type_id: 1
+        }).then((result) => {
+          cascadeIds.task_type = result.get({ plain: true }).id
+          countdown -= 1
+          if (countdown === 0) {
+            done()
+          }
+        })
+        TaskObjective.create({
+          task_id: newId,
+          objective_id: 1,
+          multiplier: 1
+        }).then((result) => {
+          cascadeIds.task_objective = result.get({ plain: true }).id
+          countdown -= 1
+          if (countdown === 0) {
+            done()
+          }
+        })
+      })
+      testDatabaseDestroy(options, Task, {
+        delay: 2000,
+        cascade: [
+          {
+            model: TaskType,
+            getId: () => cascadeIds.task_type
+          },
+          {
+            model: TaskObjective,
+            getId: () => cascadeIds.task_objective
+          }
+        ]
+      })
+    })
   })
 })

@@ -1,4 +1,10 @@
-const { testTeacherOnCoursePrivilege, testHeaders, testBody, testDatabaseSave, testDatabaseDestroy } = require('../testUtils')
+const {
+  testTeacherOnCoursePrivilege,
+  testHeaders,
+  testBody,
+  testDatabaseSave,
+  testDatabaseDestroy
+} = require('../testUtils')
 const { Type, TypeHeader } = require('../../database/models.js')
 
 describe('type_controller', () => {
@@ -156,7 +162,7 @@ describe('type_controller', () => {
 
     testDatabaseDestroy(options, Type, { delay: 2000 })
   })
-  
+
   describe('DELETE /headers/:id', () => {
     const options = {
       method: 'delete',
