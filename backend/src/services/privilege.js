@@ -1,7 +1,7 @@
 const { CoursePerson } = require('../database/models')
 
 const validatePerson = role => async (param, user) => {
-  if (Number.isNaN(Number(param))) {
+  if (Number.isNaN(Number(param)) || !user) {
     return false
   }
   const coursePerson = await CoursePerson.findOne({
