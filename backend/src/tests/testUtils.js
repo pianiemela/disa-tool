@@ -252,10 +252,16 @@ const testDatabaseDestroy = (options, model, config = {}) => {
   })
 }
 
+const asymmetricMatcher = matcher => ({
+  $$typeof: Symbol.for('jest.asymmetricMatcher'),
+  asymmetricMatch: matcher
+})
+
 module.exports = {
   testTeacherOnCoursePrivilege,
   testHeaders,
   testBody,
   testDatabaseSave,
-  testDatabaseDestroy
+  testDatabaseDestroy,
+  asymmetricMatcher
 }

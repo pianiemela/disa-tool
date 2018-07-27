@@ -3,7 +3,8 @@ const {
   testHeaders,
   testBody,
   testDatabaseSave,
-  testDatabaseDestroy
+  testDatabaseDestroy,
+  asymmetricMatcher
 } = require('../testUtils')
 const { Category, Objective } = require('../../database/models.js')
 
@@ -72,7 +73,7 @@ describe('category_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
-    let newId
+    const ids = {}
 
     beforeEach((done) => {
       Category.create({
@@ -81,8 +82,8 @@ describe('category_controller', () => {
         fin_name: 'fn',
         swe_name: 'sn'
       }).then((result) => {
-        newId = result.get({ plain: true }).id
-        options.route = `/api/categories/${newId}`
+        ids.category = result.get({ plain: true }).id
+        options.route = `/api/categories/${ids.category}`
         done()
       })
     })
@@ -95,24 +96,23 @@ describe('category_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: expect.any(Number),
+          id: asymmetricMatcher(actual => actual === ids.category),
           tasks: []
         }
       }
     })
 
     describe('deletion cascades', () => {
-      const cascadeIds = {}
       beforeEach((done) => {
         Objective.create({
           skill_level_id: 1,
           course_instance_id: 1,
-          category_id: newId,
+          category_id: ids.category,
           eng_name: 'eno',
           fin_name: 'fno',
           swe_name: 'sno'
         }).then((result) => {
-          cascadeIds.objective = result.get({ plain: true }).id
+          ids.objective = result.get({ plain: true }).id
           done()
         })
       })
@@ -121,7 +121,7 @@ describe('category_controller', () => {
         cascade: [
           {
             model: Objective,
-            getId: () => cascadeIds.objective
+            getId: () => ids.objective
           }
         ]
       })

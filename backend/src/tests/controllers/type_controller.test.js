@@ -3,7 +3,8 @@ const {
   testHeaders,
   testBody,
   testDatabaseSave,
-  testDatabaseDestroy
+  testDatabaseDestroy,
+  asymmetricMatcher
 } = require('../testUtils')
 const { Type, TypeHeader } = require('../../database/models.js')
 
@@ -132,6 +133,7 @@ describe('type_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
+    const ids = {}
 
     beforeEach((done) => {
       Type.create({
@@ -140,7 +142,8 @@ describe('type_controller', () => {
         fin_name: 'fn',
         swe_name: 'sn'
       }).then((result) => {
-        options.route = `/api/types/${result.get({ plain: true }).id}`
+        ids.type = result.get({ plain: true }).id
+        options.route = `/api/types/${ids.type}`
         done()
       })
     })
@@ -153,7 +156,7 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: expect.any(Number),
+          id: asymmetricMatcher(actual => actual === ids.type),
           type_header_id: 1,
           task_ids: []
         }
@@ -170,7 +173,7 @@ describe('type_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
-    let newId
+    const ids = {}
 
     beforeEach((done) => {
       TypeHeader.create({
@@ -179,8 +182,8 @@ describe('type_controller', () => {
         fin_name: 'fn',
         swe_name: 'sn'
       }).then((result) => {
-        newId = result.get({ plain: true }).id
-        options.route = `/api/types/headers/${newId}`
+        ids.type_header = result.get({ plain: true }).id
+        options.route = `/api/types/headers/${ids.type_header}`
         done()
       })
     })
@@ -193,21 +196,20 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: expect.any(Number)
+          id: asymmetricMatcher(actual => actual === ids.type_header)
         }
       }
     })
 
     describe('deletion cascades and', () => {
-      const cascadeIds = {}
       beforeEach((done) => {
         Type.create({
-          type_header_id: newId,
+          type_header_id: ids.type_header,
           eng_name: 'ent',
           fin_name: 'fnt',
           swe_name: 'snt'
         }).then((result) => {
-          cascadeIds.type = result.get({ plain: true }).id
+          ids.type = result.get({ plain: true }).id
           done()
         })
       })
@@ -217,7 +219,7 @@ describe('type_controller', () => {
         cascade: [
           {
             model: Type,
-            getId: () => cascadeIds.type
+            getId: () => ids.type
           }
         ]
       })

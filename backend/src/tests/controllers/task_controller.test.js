@@ -3,7 +3,8 @@ const {
   testHeaders,
   testBody,
   testDatabaseSave,
-  testDatabaseDestroy
+  testDatabaseDestroy,
+  asymmetricMatcher
 } = require('../testUtils')
 const { Task, TaskType, TaskObjective } = require('../../database/models.js')
 
@@ -80,7 +81,7 @@ describe('task_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
-    let newId
+    const ids = {}
 
     beforeEach((done) => {
       Task.create({
@@ -89,8 +90,8 @@ describe('task_controller', () => {
         fin_name: 'fn',
         swe_name: 'sn'
       }).then((result) => {
-        newId = result.get({ plain: true }).id
-        options.route = `/api/tasks/${newId}`
+        ids.task = result.get({ plain: true }).id
+        options.route = `/api/tasks/${ids.task}`
         done()
       })
     })
@@ -103,31 +104,30 @@ describe('task_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: expect.any(Number)
+          id: asymmetricMatcher(actual => actual === ids.task)
         }
       }
     })
 
     describe('deletion cascades', () => {
-      const cascadeIds = {}
       beforeEach((done) => {
         let countdown = 2
         TaskType.create({
-          task_id: newId,
+          task_id: ids.task,
           type_id: 1
         }).then((result) => {
-          cascadeIds.task_type = result.get({ plain: true }).id
+          ids.task_type = result.get({ plain: true }).id
           countdown -= 1
           if (countdown === 0) {
             done()
           }
         })
         TaskObjective.create({
-          task_id: newId,
+          task_id: ids.task,
           objective_id: 1,
           multiplier: 1
         }).then((result) => {
-          cascadeIds.task_objective = result.get({ plain: true }).id
+          ids.task_objective = result.get({ plain: true }).id
           countdown -= 1
           if (countdown === 0) {
             done()
@@ -139,11 +139,11 @@ describe('task_controller', () => {
         cascade: [
           {
             model: TaskType,
-            getId: () => cascadeIds.task_type
+            getId: () => ids.task_type
           },
           {
             model: TaskObjective,
-            getId: () => cascadeIds.task_objective
+            getId: () => ids.task_objective
           }
         ]
       })

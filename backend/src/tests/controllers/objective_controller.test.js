@@ -3,7 +3,8 @@ const {
   testHeaders,
   testBody,
   testDatabaseSave,
-  testDatabaseDestroy
+  testDatabaseDestroy,
+  asymmetricMatcher
 } = require('../testUtils')
 const { Objective, Category, SkillLevel } = require('../../database/models.js')
 
@@ -114,6 +115,7 @@ describe('objective_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
+    const ids = {}
 
     beforeEach((done) => {
       Objective.create({
@@ -124,7 +126,8 @@ describe('objective_controller', () => {
         fin_name: 'fn',
         swe_name: 'sn'
       }).then((result) => {
-        options.route = `/api/objectives/${result.get({ plain: true }).id}`
+        ids.objective = result.get({ plain: true }).id
+        options.route = `/api/objectives/${ids.objective}`
         done()
       })
     })
@@ -137,7 +140,7 @@ describe('objective_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: expect.any(Number),
+          id: asymmetricMatcher(actual => actual === ids.objective),
           category_id: 1,
           skill_level_id: 1,
           task_ids: []
