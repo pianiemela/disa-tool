@@ -1,5 +1,11 @@
-const { testTeacherOnCoursePrivilege, testHeaders, testBody, testDatabaseSave } = require('../testUtils')
-const { SkillLevel } = require('../../database/models.js')
+const {
+  testTeacherOnCoursePrivilege,
+  testHeaders,
+  testBody,
+  testDatabaseSave,
+  testDatabaseDestroy
+} = require('../testUtils')
+const { SkillLevel, Objective } = require('../../database/models.js')
 
 describe('skill_level_controller', () => {
   describe('POST /create', () => {
@@ -57,5 +63,68 @@ describe('skill_level_controller', () => {
         disallowId: true
       }
     )
+  })
+
+  describe('DELETE /:id', () => {
+    const options = {
+      method: 'delete',
+      preamble: {
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+    let newId
+
+    beforeEach((done) => {
+      SkillLevel.create({
+        course_instance_id: 1,
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn'
+      }).then((result) => {
+        newId = result.get({ plain: true }).id
+        options.route = `/api/skill-levels/${newId}`
+        done()
+      })
+    })
+
+    testTeacherOnCoursePrivilege(options)
+
+    testHeaders(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        deleted: {
+          id: expect.any(Number),
+          tasks: []
+        }
+      }
+    })
+
+    describe('deletion cascades', () => {
+      const cascadeIds = {}
+      beforeEach((done) => {
+        Objective.create({
+          skill_level_id: newId,
+          course_instance_id: 1,
+          category_id: 1,
+          eng_name: 'eno',
+          fin_name: 'fno',
+          swe_name: 'sno'
+        }).then((result) => {
+          cascadeIds.objective = result.get({ plain: true }).id
+          done()
+        })
+      })
+      testDatabaseDestroy(options, SkillLevel, {
+        delay: 2000,
+        cascade: [
+          {
+            model: Objective,
+            getId: () => cascadeIds.objective
+          }
+        ]
+      })
+    })
   })
 })
