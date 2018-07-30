@@ -18,7 +18,6 @@ jobs:
         - cd frontend
         - npm install
         - npm test
-        - cd ..
     - stage: tests
       script:
         - >
@@ -28,8 +27,7 @@ jobs:
         - docker exec -u postgres disa_db psql -c "CREATE DATABASE disa_test_db"
         - cd backend
         - npm install
-        - npm run ci-test
-        - cd ..
+        - npm test
       env:
         - TEST_DB_URL=postgres://postgres@localhost:5321/disa_test_db
         - SECRET=Ir8CG7mwPJr3lh1yhpIGqW1jzhFbH4fzsxtcdmdC9MTy6Z7GVTlUvw3a1y7eh8tx0jEm9ie2hMRyOW6PY3IvbQH21JtIqVcqiTla
