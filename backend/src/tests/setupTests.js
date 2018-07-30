@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken')
 const supertest = require('supertest')
 const app = require('../app.js')
 
+require('dotenv').config()
+
 global.server = supertest(app)
 
 global.tokens = {

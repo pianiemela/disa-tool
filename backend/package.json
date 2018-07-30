@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "test": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest --forceExit",
+        "test": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest",
+        "ci-test": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest -i --forceExit",
         "lint": "eslint --ext .js src || true",
         "lint-fix": "eslint --fix --ext .js src || true",
         "start": "nodemon index.js"

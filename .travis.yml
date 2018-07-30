@@ -11,11 +11,6 @@ node_js:
   - '8'
 before_install:
   - npm install -g npm
-  - >
-    printf "version: '2'\n\nservices:\n  db:\n    image: postgres:10\n    ports:\n      - '5321:5432'\n    volumes:\n      - ./disa_pgdata:/var/lib/postgresql/data\n    container_name: disa_db" >> docker-compose.yml
-  - docker-compose up -d
-  - sleep 5
-  - docker exec -u postgres disa_db psql -c "CREATE DATABASE disa_test_db"
 jobs:
   include:
     - stage: tests
@@ -26,9 +21,14 @@ jobs:
         - cd ..
     - stage: tests
       script:
+        - >
+            printf "version: '2'\n\nservices:\n  db:\n    image: postgres:10\n    ports:\n      - '5321:5432'\n    volumes:\n      - ./disa_pgdata:/var/lib/postgresql/data\n    container_name: disa_db" >> docker-compose.yml
+        - docker-compose up -d
+        - sleep 3
+        - docker exec -u postgres disa_db psql -c "CREATE DATABASE disa_test_db"
         - cd backend
         - npm install
-        - npm test
+        - npm run ci-test
         - cd ..
       env:
         - TEST_DB_URL=postgres://postgres@localhost:5321/disa_test_db
