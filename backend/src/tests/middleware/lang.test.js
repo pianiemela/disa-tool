@@ -1,7 +1,5 @@
 const lang = require('../../middleware/lang.js')
 
-
-
 describe('middleware lang', () => {
   let req
   let res
