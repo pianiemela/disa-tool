@@ -1,6 +1,6 @@
 const { testHeaders } = require('../testUtils')
 
-describe.skip('course_instance_controller', () => {
+describe('course_instance_controller', () => {
   testHeaders({
     route: '/api/course-instances/data/1',
     method: 'get',

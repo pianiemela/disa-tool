@@ -11,4 +11,4 @@ global.tokens = {
   teacher: jwt.sign({ user: { id: 424 } }, process.env.SECRET)
 }
 
-jest.setTimeout(10000)
+jest.setTimeout(100000)
