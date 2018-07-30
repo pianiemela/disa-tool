@@ -9,30 +9,40 @@ import { removeHeader } from '../../services/types'
 import Typelist from './Typelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
-export const TypeHeader = props => (
-  <div className="TypeHeader">
-    <Segment>
-      <div className="flexContainer">
-        <Header className="typeHeaderHeader">{props.header.name}</Header>
-        {props.editing ? (
-          <DeleteForm
-            onExecute={() => props.removeHeader({ id: props.header.id })}
-            prompt={[
-              'Poistetaanko tyyppiotsake',
-              `"${props.header.name}"`
-            ]}
-            header="Poista tyyppiotsake"
-          />
-        ) : null}
-      </div>
-      <Typelist
-        types={props.header.types}
-        editing={props.editing}
-        headerId={props.header.id}
-      />
-    </Segment>
-  </div>
-)
+export const TypeHeader = (props) => {
+  const activeMap = {}
+  if (props.activeTask !== null) {
+    props.activeTask.types.forEach((type) => {
+      activeMap[type] = true
+    })
+  }
+  return (
+    <div className="TypeHeader">
+      <Segment>
+        <div className="flexContainer">
+          <Header className="typeHeaderHeader">{props.header.name}</Header>
+          {props.editing ? (
+            <DeleteForm
+              onExecute={() => props.removeHeader({ id: props.header.id })}
+              prompt={[
+                'Poistetaanko tyyppiotsake',
+                `"${props.header.name}"`
+              ]}
+              header="Poista tyyppiotsake"
+            />
+          ) : null}
+        </div>
+        <Typelist
+          types={props.header.types}
+          editing={props.editing}
+          headerId={props.header.id}
+          activeTaskId={props.activeTask === null ? null : props.activeTask.id}
+          activeMap={activeMap}
+        />
+      </Segment>
+    </div>
+  )
+}
 
 TypeHeader.propTypes = {
   header: PropTypes.shape({
@@ -41,7 +51,15 @@ TypeHeader.propTypes = {
     types: PropTypes.arrayOf(PropTypes.object).isRequired
   }).isRequired,
   editing: PropTypes.bool.isRequired,
-  removeHeader: PropTypes.func.isRequired
+  removeHeader: PropTypes.func.isRequired,
+  activeTask: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    types: PropTypes.arrayOf(PropTypes.number).isRequired
+  })
+}
+
+TypeHeader.defaultProps = {
+  activeTask: null
 }
 
 const mapDispatchToProps = dispatch => ({

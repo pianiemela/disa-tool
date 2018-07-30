@@ -13,6 +13,7 @@
 
 .Headerlist {
   display: flex;
+  justify-content: center;
 }
 
 .Type {

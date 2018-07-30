@@ -17,9 +17,18 @@ export class Type extends Component {
     })
   }
 
+  toggleType = () => console.log('toggle')
+
   render() {
     return (
-      <Segment className="Type">
+      <Segment
+        className="Type"
+        style={{
+            cursor: this.props.activeTaskId === null ? 'default' : 'pointer',
+            backgroundColor: this.props.active ? '#21ba45' : undefined
+          }}
+        onClick={this.toggleType}
+      >
         <div className="headerBlock">
           <Header className="typeHeader">{this.props.type.name}</Header>
         </div>
@@ -55,7 +64,13 @@ Type.propTypes = {
   }).isRequired,
   editing: PropTypes.bool.isRequired,
   changeTypeMultiplier: PropTypes.func.isRequired,
-  removeType: PropTypes.func.isRequired
+  removeType: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  activeTaskId: PropTypes.number
+}
+
+Type.defaultProps = {
+  activeTaskId: null
 }
 
 const mapDispatchToProps = dispatch => ({
