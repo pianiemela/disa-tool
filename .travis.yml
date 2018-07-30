@@ -3,6 +3,7 @@ dist: trusty
 cache:
   directories:
     - frontend/node_modules
+    - backend/node_modules
 notifications:
   email: false
 language: node_js
@@ -13,10 +14,14 @@ before_install:
   - >
     printf "version: '2'\n\nservices:\n  db:\n    image: postgres:10\n    ports:\n      - '5321:5432'\n    volumes:\n      - ./disa_pgdata:/var/lib/postgresql/data\n    container_name: disa_db" >> docker-compose.yml
   - docker-compose up -d
-  - sleep 10
+  - sleep 5
   - docker exec -u postgres disa_db psql -c "CREATE DATABASE disa_test_db"
 install:
-  - cd frontend && npm install && cd ..
+  - cd frontend
+  - npm install
+  - cd ../backend
+  - npm install
+  - cd ..
 jobs:
   include:
     - stage: tests
