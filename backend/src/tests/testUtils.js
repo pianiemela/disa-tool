@@ -78,9 +78,10 @@ const testTeacherOnCoursePrivilege = (options) => {
   })
 }
 
-const testHeaders = (options) => {
+const testHeaders = (options, request = null) => {
   it('responds with appropriate headers.', (done) => {
-    makeRequest(options).then((response) => {
+    const promise = request === null ? makeRequest(options) : request
+    promise.then((response) => {
       expect(response.headers['content-type'].includes('application/json')).toEqual(true)
       expect(response.headers['content-type'].includes('charset=utf-8')).toEqual(true)
       expect(response.headers.connection).toEqual('close')

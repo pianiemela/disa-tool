@@ -16,22 +16,18 @@ before_install:
   - docker-compose up -d
   - sleep 5
   - docker exec -u postgres disa_db psql -c "CREATE DATABASE disa_test_db"
-install:
-  - cd frontend
-  - npm install
-  - cd ../backend
-  - npm install
-  - cd ..
 jobs:
   include:
     - stage: tests
       script:
         - cd frontend
+        - npm install
         - npm test
         - cd ..
     - stage: tests
       script:
         - cd backend
+        - npm install
         - npm test
         - cd ..
       env:
