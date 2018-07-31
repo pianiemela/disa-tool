@@ -72,6 +72,7 @@ router.post('/create', async (req, res) => {
       res.status(403).json({
         error: messages.privilege.failure[req.lang]
       })
+      return
     }
     const toCreate = courseService.create.prepare(req.body)
     await courseService.create.execute(toCreate)

@@ -53,8 +53,8 @@ const mergeRecursive = (a, b) => {
   return merged
 }
 
-const testTeacherOnCoursePrivilege = (options) => {
-  describe('teacher_on_course privilege', () => {
+const testTeacherPrivilege = (options, description) => {
+  describe(description, () => {
     it('is not granted when no authorization is provided', (done) => {
       makeRequest(options).set('Authorization', '').then((response) => {
         expect(response.status).toEqual(403)
@@ -77,6 +77,10 @@ const testTeacherOnCoursePrivilege = (options) => {
     })
   })
 }
+
+const testTeacherOnCoursePrivilege = options => testTeacherPrivilege(options, 'teacher_on_course privilege')
+
+const testGlobalTeacherPrivilege = options => testTeacherPrivilege(options, 'global_teacher privilege')
 
 const testHeaders = (options) => {
   it('responds with appropriate headers.', (done) => {
@@ -259,6 +263,7 @@ const asymmetricMatcher = matcher => ({
 
 module.exports = {
   testTeacherOnCoursePrivilege,
+  testGlobalTeacherPrivilege,
   testHeaders,
   testBody,
   testDatabaseSave,
