@@ -35,6 +35,20 @@ const messages = {
       fin: 'Oppimistavoite irrotettu tehtävästä onnistuneesti.',
       swe: '"Oppimistavoite irrotettu tehtävästä onnistuneesti." ruotsiksi.'
     }
+  },
+  attachType: {
+    success: {
+      eng: '"Tyyppi liitetty tehtävään onnistuneesti." englanniksi.',
+      fin: 'Tyyppi liitetty tehtävään onnistuneesti.',
+      swe: '"Tyyppi liitetty tehtävään onnistuneesti." ruotsiksi.'
+    }
+  },
+  detachType: {
+    success: {
+      eng: '"Tyyppi irrotettu tehtävästä onnistuneesti." englanniksi.',
+      fin: 'Tyyppi irrotettu tehtävästä onnistuneesti.',
+      swe: '"Tyyppi irrotettu tehtävästä onnistuneesti." ruotsiksi.'
+    }
   }
 }
 
@@ -169,6 +183,80 @@ router.post('/objectives/detach', async (req, res) => {
     taskService.detachObjective.execute(toDelete)
     res.status(200).json({
       message: messages.detachObjective.success[req.lang],
+      deleted
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: messages.unexpected.failure[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.post('/types/attach', async (req, res) => {
+  try {
+    const { task, type, instance: toCreate } = await taskService.attachType.prepare(req.body)
+    const validation = task.course_instance_id === type.type_header.course_instance_id
+      && checkPrivilege(req, [
+        {
+          key: 'teacher_on_course',
+          param: task.course_instance_id
+        }
+      ])
+    if (!validation) {
+      res.status(403).json({
+        error: messages.privilege.failure[req.lang]
+      })
+      return
+    }
+    taskService.attachType.execute(toCreate)
+    const created = taskService.attachType.value(toCreate)
+    res.status(200).json({
+      message: messages.attachType.success[req.lang],
+      created
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: messages.unexpected.failure[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.post('/types/detach', async (req, res) => {
+  try {
+    const toDelete = await taskService.detachType.prepare(req.body)
+    const validation = (
+      toDelete.dataValues.task.course_instance_id === toDelete.dataValues.type.type_header.course_instance_id
+      && checkPrivilege(req, [
+        {
+          key: 'teacher_on_course',
+          param: toDelete.dataValues.task.course_instance_id
+        }
+      ])
+    )
+    if (!validation) {
+      res.status(403).json({
+        error: messages.privilege.failure[req.lang]
+      })
+      return
+    }
+    const deleted = taskService.detachType.value(toDelete)
+    taskService.detachType.execute(toDelete)
+    res.status(200).json({
+      message: messages.detachType.success[req.lang],
       deleted
     })
   } catch (e) {
