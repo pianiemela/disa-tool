@@ -99,7 +99,7 @@ const detachOneType = (state, action) => ({
     if (task.id === action.response.deleted.task_id) {
       return {
         ...task,
-        types: task.objectives.filter(type => (
+        types: task.types.filter(type => (
           type !== action.response.deleted.type_id
         ))
       }

@@ -41,34 +41,3 @@ export const removeTask = data => new Promise((resolve) => {
     response: response.data
   }))
 })
-
-export const addTypeToTask = (data) => {
-  const response = {
-    message: '<addTypeToTaskSuccess>',
-    data
-  }
-  const action = {
-    type: 'TASK_ADD_TYPE',
-    response
-  }
-  return new Promise((resolve) => {
-    setTimeout(resolve, 100, action)
-  })
-}
-
-export const removeTypeFromTask = (data) => {
-  const response = {
-    message: '<removeTypeFromTaskSuccess>',
-    data: {
-      taskId: data.taskId,
-      typeId: data.typeId
-    }
-  }
-  const action = {
-    type: 'TASK_REMOVE_TYPE',
-    response
-  }
-  return new Promise((resolve) => {
-    setTimeout(resolve, 100, action)
-  })
-}
