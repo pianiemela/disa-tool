@@ -8,7 +8,7 @@ import Tasklist from './Tasklist'
 import Matrix from '../matrix/Matrix'
 import Headerlist from '../types/Headerlist'
 
-class EditTasksTab extends PureComponent {
+export class EditTasksTab extends PureComponent {
   componentWillUnmount() {
     this.props.changeActive(null)
   }
