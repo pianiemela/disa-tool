@@ -78,7 +78,7 @@ const getStudentsAndTeachers = () => {
     persons.push({
       studentnumber,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-      role: 'Student'
+      role: 'STUDENT'
     })
     number++
   }
@@ -87,7 +87,7 @@ const getStudentsAndTeachers = () => {
     persons.push({
       studentnumber,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
-      role: 'Teacher'
+      role: 'TEACHER'
     })
     number++
   }
@@ -95,25 +95,25 @@ const getStudentsAndTeachers = () => {
   persons.push({
     studentnumber: '012345678',
     name: 'Teppo Testaaja',
-    role: 'Student'
+    role: 'STUDENT'
   })
 
   persons.push({
     studentnumber: '012345688',
     name: 'Angela Merkel',
-    role: 'Student'
+    role: 'STUDENT'
   })
 
   persons.push({
     studentnumber: '012345609',
     name: 'Kimg Jon-un',
-    role: 'Teacher'
+    role: 'TEACHER'
   })
 
   persons.push({
     studentnumber: '012345679',
     name: 'Terhi Testaaja',
-    role: 'Teacher'
+    role: 'TEACHER'
   })
 
   return persons

@@ -12,9 +12,9 @@ class CreateCoursePage extends Component {
   createCourseSubmit = (e) => {
     e.preventDefault()
     this.props.createCourse({
-      eng_name: e.target.eng_name,
-      fin_name: e.target.fin_name,
-      swe_name: e.target.swe_name
+      eng_name: e.target.eng_name.value,
+      fin_name: e.target.fin_name.value,
+      swe_name: e.target.swe_name.value
     })
   }
 

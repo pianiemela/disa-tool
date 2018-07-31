@@ -70,9 +70,26 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
   })
 )
 
+const create = {
+  prepare: data => Course.build({
+    eng_name: data.eng_name,
+    fin_name: data.fin_name,
+    swe_name: data.swe_name
+  }),
+  execute: instance => instance.save(),
+  value: (instance, lang) => {
+    const json = instance.toJSON()
+    return {
+      id: json.id,
+      name: json[`${lang}_name`]
+    }
+  }
+}
+
 module.exports = {
   getCourseInstancesOfCourse,
   getCoursesForPerson,
   getCourses,
-  getInstanceWithRelatedData
+  getInstanceWithRelatedData,
+  create
 }
