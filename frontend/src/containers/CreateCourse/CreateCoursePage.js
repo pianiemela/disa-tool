@@ -10,7 +10,7 @@ import { createCourse } from './services/createCourse'
 
 import MultilingualField from '../../utils/components/MultilingualField'
 
-class CreateCoursePage extends Component {
+export class CreateCoursePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
