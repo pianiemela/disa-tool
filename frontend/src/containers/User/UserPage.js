@@ -19,7 +19,9 @@ class UserPage extends Component {
     activeCourse: undefined,
     assessments: [],
     tasks: [],
-    selectedType: undefined
+    selectedType: undefined,
+    updatedTasks: [],
+    popUp: { show: false, task: undefined, person: undefined }
   }
 
   componentDidMount = async () => {
@@ -55,14 +57,52 @@ class UserPage extends Component {
     selectedType: this.state.selectedType === type ? undefined : type
   })
 
+  markTask = async (e, { task, person }) => {
+    const { updatedTasks } = this.state
+    const taskExists = updatedTasks.find(t => t.taskId === task.id && t.personId === person.id)
+    if (taskExists) {
+      await this.setState({ popUp: { show: true, task: taskExists, person } })
+    } else {
+      this.setState({
+        updatedTasks: [
+          ...this.state.updatedTasks,
+          { taskId: task.id, personId: person.id, points: task.max_points }
+        ]
+      })
+    }
+  }
+
+  updateTask = (e, { task }) => {
+    switch (e.target.name) {
+      case 'input':
+        this.setState({ popUp: { show: true, task: { ...this.state.popUp.task, points: e.target.value }, person: this.state.popUp.person } })
+        break
+      case 'update': {
+        const filteredTasks = this.state.updatedTasks.filter(et => et.taskId !== task.taskId || et.personId !== task.personId)
+        // input values are always strings, so convert to number
+        task.points = Number(task.points)
+        filteredTasks.push(task)
+        this.setState({ updatedTasks: filteredTasks, popUp: { show: false } })
+        break
+      }
+      case 'cancel': {
+        const filteredTasks = this.state.updatedTasks.filter(et => et.taskId !== task.taskId || et.personId !== task.personId)
+        this.setState({ updatedTasks: filteredTasks, popUp: { show: false } })
+        break
+      }
+      default:
+        this.setState({ popUp: { show: false } })
+    }
+  }
+
   render() {
     const { activeCourse, courses } = this.props
-    const { selectedType } = this.state
+    const { selectedType, updatedTasks, popUp } = this.state
     const { self_assessments: assessments, tasks } = activeCourse
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    // console.log(this.props)
+    // console.log(updatedTasks)
     return (
       <Grid>
         <Grid.Row>
@@ -125,20 +165,28 @@ class UserPage extends Component {
                   <Grid.Row>
                     <Grid.Column style={{ overflowX: 'scroll' }}>
                       {activeCourse.courseRole === 'TEACHER' ?
-                        <CoursePeopleList
-                          selectType={this.selectType}
-                          selectedType={selectedType}
-                          types={activeCourse.type_headers}
-                          tasks={tasks}
-                          students={activeCourse.people.filter(person => person.course_instances[0].course_person.role !== 'TEACHER')} 
-                        />
+                        <div>
+                          <CoursePeopleList
+                            popUp={popUp}
+                            updatedTasks={updatedTasks}
+                            markTask={this.markTask}
+                            updateTask={this.updateTask}
+                            selectType={this.selectType}
+                            selectedType={selectedType}
+                            types={activeCourse.type_headers}
+                            tasks={tasks}
+                            students={activeCourse.people.filter(person =>
+                              person.course_instances[0].course_person.role !== 'TEACHER')}
+                          />
+                          <Button color="green">Save changes</Button>
+                        </div>
                         : <p>you are no teacher</p>}
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
-                    {activeCourse.courseRole === 'TEACHER' ?
-                      <List items={activeCourse.people.filter(person => person.course_instances[0].course_person.role === 'TEACHER').map(person => person.name)} />
-                      : <p>you are no teacher</p>}
+                    <List items={activeCourse.people.filter(person =>
+                      person.course_instances[0].course_person.role === 'TEACHER').map(person => person.name)}
+                    />
                   </Grid.Row>
                 </Grid>
               </Item> :
@@ -182,7 +230,7 @@ UserPage.propTypes = {
 
 UserPage.defaultProps = {
   courses: [],
-  activeCourse: { tasks: [], self_assessments: [] }
+  activeCourse: { tasks: [], self_assessments: [], people: [] }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
