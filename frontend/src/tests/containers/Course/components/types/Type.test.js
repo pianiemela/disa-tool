@@ -44,7 +44,6 @@ describe('Type component', () => {
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         editing: true
       })
     })
@@ -80,7 +79,6 @@ describe('Type component', () => {
   describe('when activeTaskId is not null', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         activeTaskId: 3
       })
     })
@@ -103,7 +101,6 @@ describe('Type component', () => {
   describe('when active', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         active: true
       })
     })

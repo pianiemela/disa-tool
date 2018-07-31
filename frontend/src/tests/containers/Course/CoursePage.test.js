@@ -51,7 +51,6 @@ describe('Course page', () => {
   describe('while loading', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         loading: true
       })
     })

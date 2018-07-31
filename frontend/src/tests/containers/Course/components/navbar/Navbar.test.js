@@ -24,7 +24,6 @@ describe('Navbar component', () => {
   describe('when user navigates to /matrix', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         pathname: 'course/12/matrix'
       })
     })
@@ -39,7 +38,6 @@ describe('Navbar component', () => {
   describe('when user navigates to /tasks', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         pathname: 'course/12/tasks'
       })
     })
@@ -54,7 +52,6 @@ describe('Navbar component', () => {
   describe('when user navigates to /types', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         pathname: 'course/12/types'
       })
     })

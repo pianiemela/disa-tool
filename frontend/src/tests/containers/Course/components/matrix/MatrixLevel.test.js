@@ -53,7 +53,6 @@ describe('MatrixLevel component', () => {
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         editing: true
       })
     })
@@ -71,7 +70,6 @@ describe('MatrixLevel component', () => {
 
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         activeTaskId: 4,
         activeMap
       })
