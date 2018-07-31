@@ -57,6 +57,14 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
       {
         model: Person,
         where: { id: userId }
+      },
+      {
+        model: TypeHeader,
+        attributes: courseAttributes(lang),
+        include: {
+          model: Type,
+          attributes: typeAttributes(lang)
+        }
       }
     ]
   })

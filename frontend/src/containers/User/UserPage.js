@@ -11,12 +11,15 @@ import {
   getCourseInstanceData,
   getCourseInstanceDataAction
 } from '../../actions/actions'
+import { CoursePeopleList } from './CoursePeopleList'
+import { ListTasks } from './ListTasks'
 
 class UserPage extends Component {
   state = {
     activeCourse: undefined,
     assessments: [],
-    tasks: []
+    tasks: [],
+    selectedType: undefined
   }
 
   componentDidMount = async () => {
@@ -48,8 +51,13 @@ class UserPage extends Component {
     // this.setState({ assessments, tasks })
   }
 
+  selectType = (e, { type }) => this.setState({
+    selectedType: this.state.selectedType === type ? undefined : type
+  })
+
   render() {
     const { activeCourse, courses } = this.props
+    const { selectedType } = this.state
     const { self_assessments: assessments, tasks } = activeCourse
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
@@ -59,7 +67,7 @@ class UserPage extends Component {
       <Grid>
         <Grid.Row>
           <Grid.Column>
-            {this.props.user ? <h1>Hello {this.props.user.name}</h1> : <p>Hello bastard</p>}
+            {this.props.user ? <h1>Hei {this.props.user.name}</h1> : <p>Hello bastard</p>}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -102,21 +110,7 @@ class UserPage extends Component {
                       for submitting student responses and to view students and their responses.
                        */}
                       <Item.Content>
-                        <p>Tehtävät</p>
-                        <p><Icon name="checkmark" color="green" /> tehty, <Icon name="delete" color="red" /> ei tehty</p>
-                        <List divided size="small">
-                          {tasks.map(task => (
-                            <List.Item key={task.id}>
-                              {task.task_responses.length > 0 ?
-                                <List.Icon verticalAlign="middle" name="checkmark" color="green" /> :
-                                <List.Icon verticalAlign="middle" name="delete" color="red" />}
-                              <List.Content>
-                                {task.name} {task.types.map(type =>
-                                  <Label key={type.id}>{type.header} {type.name}</Label>)}
-                              </List.Content>
-                            </List.Item>
-                          ))}
-                        </List>
+                        <ListTasks tasks={tasks} selectedType={selectedType} />
                       </Item.Content>
                     </Grid.Column>
                     <Grid.Column width={8}>
@@ -128,10 +122,28 @@ class UserPage extends Component {
                       </Item.Content>
                     </Grid.Column>
                   </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column style={{ overflowX: 'scroll' }}>
+                      {activeCourse.courseRole === 'TEACHER' ?
+                        <CoursePeopleList
+                          selectType={this.selectType}
+                          selectedType={selectedType}
+                          types={activeCourse.type_headers}
+                          tasks={tasks}
+                          students={activeCourse.people.filter(person => person.course_instances[0].course_person.role !== 'TEACHER')} 
+                        />
+                        : <p>you are no teacher</p>}
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    {activeCourse.courseRole === 'TEACHER' ?
+                      <List items={activeCourse.people.filter(person => person.course_instances[0].course_person.role === 'TEACHER').map(person => person.name)} />
+                      : <p>you are no teacher</p>}
+                  </Grid.Row>
                 </Grid>
               </Item> :
               <Item>
-                <Item.Content>No course selected</Item.Content>
+                <Item.Content>Kurssia ei valittu</Item.Content>
               </Item>}
           </Grid.Column>
         </Grid.Row>
