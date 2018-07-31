@@ -29,9 +29,9 @@ export class CoursePage extends Component {
         <CourseHeader />
         <Navbar matchUrl={this.props.match.url} pathname={this.props.location.pathname} />
         <Switch>
-          <Route path={`${this.props.match.url}/matrix`} component={this.props.EditMatrixTab} />
-          <Route path={`${this.props.match.url}/types`} component={this.props.EditTypesTab} />
-          <Route path={`${this.props.match.url}/tasks`} component={this.props.EditTasksTab} />
+          <Route path={`${this.props.match.url}/matrix`} render={() => <EditMatrixTab courseId={this.props.match.params.id} />} />
+          <Route path={`${this.props.match.url}/types`} render={() => <EditTypesTab courseId={this.props.match.params.id} />} />
+          <Route path={`${this.props.match.url}/tasks`} render={() => <EditTasksTab courseId={this.props.match.params.id} />} />
           <Route component={() => <Redirect to={`${this.props.match.url}/tasks`} />} />
         </Switch>
       </div>
@@ -50,10 +50,7 @@ CoursePage.propTypes = {
     pathname: PropTypes.string.isRequired
   }).isRequired,
   getCourseData: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-  EditMatrixTab: PropTypes.func.isRequired,
-  EditTypesTab: PropTypes.func.isRequired,
-  EditTasksTab: PropTypes.func.isRequired
+  loading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -65,9 +62,6 @@ const mapStateToProps = (state, ownProps) => ({
     }
   },
   location: ownProps.location,
-  EditMatrixTab: (() => <EditMatrixTab courseId={Number(ownProps.match.params.id)} />),
-  EditTypesTab: (() => <EditTypesTab courseId={Number(ownProps.match.params.id)} />),
-  EditTasksTab: (() => <EditTasksTab courseId={Number(ownProps.match.params.id)} />),
   loading: state.course.loading
 })
 
