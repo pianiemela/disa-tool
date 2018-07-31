@@ -22,6 +22,8 @@ describe('Typelist component', () => {
       types={types}
       headerId={1}
       editing={false}
+      activeTaskId={null}
+      activeMap={{}}
     />)
   })
 

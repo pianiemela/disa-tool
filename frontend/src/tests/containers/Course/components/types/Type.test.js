@@ -22,6 +22,8 @@ describe('Type component', () => {
       changeTypeMultiplier={changeTypeMultiplier}
       editing={false}
       removeType={removeType}
+      activeTaskId={null}
+      active={false}
     />)
   })
 
