@@ -45,7 +45,16 @@ class CourseList extends Component {
               selection
               value={this.state.course ? this.state.course.id : undefined}
               options={this.state.courses.map(course =>
-                ({ key: course.id, text: course.name, value: course.id }))}
+                ({ key: course.id, text: course.name, value: course.id }))
+                .concat([{
+                  as: Link,
+                  to: 'courses/create',
+                  key: 0,
+                  icon: { name: 'add', color: 'green' },
+                  style: { color: 'green' },
+                  text: 'Luo uusi kurssi'
+                }])
+              }
               onChange={this.handleChange}
             />
           </Grid.Column>
