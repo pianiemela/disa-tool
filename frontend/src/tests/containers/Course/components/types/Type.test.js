@@ -11,19 +11,19 @@ const type = {
 
 describe('Type component', () => {
   let wrapper
-  let changeTypeMultiplier
   let removeType
+  let toggleType
 
   beforeEach(() => {
     removeType = jest.fn()
-    changeTypeMultiplier = jest.fn()
+    toggleType = jest.fn()
     wrapper = shallow(<Type
       type={type}
-      changeTypeMultiplier={changeTypeMultiplier}
       editing={false}
       removeType={removeType}
       activeTaskId={null}
       active={false}
+      toggleType={toggleType}
     />)
   })
 
@@ -67,6 +67,49 @@ describe('Type component', () => {
         deleteForm.prop('onExecute')()
         expect(removeType).toHaveBeenCalled()
       })
+    })
+  })
+
+  describe('when activeTaskId is null', () => {
+    it('does not call toggleType prop when clicked.', () => {
+      wrapper.find('.Type').prop('onClick')()
+      expect(toggleType).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('when activeTaskId is not null', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        activeTaskId: 3
+      })
+    })
+
+    it('calls toggleType prop when clicked.', () => {
+      wrapper.find('.Type').prop('onClick')()
+      expect(toggleType).toHaveBeenCalledWith({
+        task_id: 3,
+        type_id: type.id
+      })
+    })
+  })
+
+  describe('when not active', () => {
+    it('is not a special colour.', () => {
+      expect(wrapper.find('.Type').prop('style').backgroundColor).not.toBeDefined()
+    })
+  })
+
+  describe('when active', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        active: true
+      })
+    })
+
+    it('is coloured.', () => {
+      expect(wrapper.find('.Type').prop('style').backgroundColor).toBeDefined()
     })
   })
 })
