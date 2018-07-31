@@ -80,7 +80,44 @@ const attachObjective = (state, action) => ({
     if (task.id === action.response.created.task_id) {
       return {
         ...task,
-        objectives: [...task.objectives, { id: action.response.created.objective_id, multiplier: 1 }]
+        objectives: [
+          ...task.objectives,
+          {
+            id: action.response.created.objective_id,
+            multiplier: 1
+          }
+        ]
+      }
+    }
+    return task
+  })
+})
+
+const detachOneType = (state, action) => ({
+  ...state,
+  tasks: state.tasks.map((task) => {
+    if (task.id === action.response.deleted.task_id) {
+      return {
+        ...task,
+        types: task.objectives.filter(type => (
+          type !== action.response.deleted.type_id
+        ))
+      }
+    }
+    return task
+  })
+})
+
+const attachType = (state, action) => ({
+  ...state,
+  tasks: state.tasks.map((task) => {
+    if (task.id === action.response.created.task_id) {
+      return {
+        ...task,
+        types: [
+          ...task.types,
+          action.response.created.type_id
+        ]
       }
     }
     return task
@@ -146,6 +183,10 @@ const taskReducer = (state = INITIAL_STATE, action) => {
       return attachObjective(state, action)
     case 'TASK_DETACH_OBJECTIVE':
       return detachOneObjective(state, action)
+    case 'TASK_ATTACH_TYPE':
+      return attachType(state, action)
+    case 'TASK_DETACH_TYPE':
+      return detachOneType(state, action)
     case 'OBJECTIVE_DELETE':
       return detachObjectiveFromMany(state, action, 'objectives')
     case 'TYPE_DELETE':

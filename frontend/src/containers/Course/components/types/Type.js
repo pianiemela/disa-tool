@@ -5,19 +5,19 @@ import { Segment, Header, Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeType } from '../../services/types'
-import { changeTypeMultiplier } from '../../actions/types'
+import { addTypeToTask, removeTypeFromTask } from '../../services/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
 export class Type extends Component {
-  changeMultiplier = (e) => {
-    this.props.changeTypeMultiplier({
-      id: this.props.type.id,
-      multiplier: Number(e.target.value)
-    })
+  toggleType = () => {
+    if (this.props.activeTaskId) {
+      this.props.toggleType({
+        type_id: this.props.type.id,
+        task_id: this.props.activeTaskId
+      })
+    }
   }
-
-  toggleType = () => console.log('toggle')
 
   render() {
     return (
@@ -63,19 +63,20 @@ Type.propTypes = {
     multiplier: PropTypes.number
   }).isRequired,
   editing: PropTypes.bool.isRequired,
-  changeTypeMultiplier: PropTypes.func.isRequired,
   removeType: PropTypes.func.isRequired,
   active: PropTypes.bool.isRequired,
-  activeTaskId: PropTypes.number
+  activeTaskId: PropTypes.number,
+  toggleType: PropTypes.func.isRequired
 }
 
 Type.defaultProps = {
   activeTaskId: null
 }
 
-const mapDispatchToProps = dispatch => ({
-  changeTypeMultiplier: changeTypeMultiplier(dispatch),
-  removeType: asyncAction(removeType, dispatch)
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  ...ownProps,
+  removeType: asyncAction(removeType, dispatch),
+  toggleType: asyncAction(ownProps.active ? removeTypeFromTask : addTypeToTask, dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(Type)
