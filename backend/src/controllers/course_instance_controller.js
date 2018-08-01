@@ -48,13 +48,9 @@ router.post('/create', async (req, res) => {
     })
     return
   }
-  console.log('doot')
   const toCreate = courseInstanceService.create.prepare(req.body)
-  console.log('doot')
-  await courseInstanceService.create.execute(toCreate)
-  console.log('doot')
+  await courseInstanceService.create.execute(toCreate, req.user)
   const created = courseInstanceService.create.value(toCreate, req.lang)
-  console.log('doot')
   res.status(200).json({
     message: messages.create.success[req.lang],
     created

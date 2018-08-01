@@ -1,4 +1,15 @@
-const { CourseInstance, Objective, Category, Task, SkillLevel, TypeHeader, Type, TaskObjective, TaskType } = require('../database/models.js')
+const {
+  CourseInstance,
+  Objective,
+  Category,
+  Task,
+  SkillLevel,
+  TypeHeader,
+  Type,
+  TaskObjective,
+  TaskType,
+  CoursePerson
+} = require('../database/models.js')
 
 
 const getOne = courseInstanceId => CourseInstance.findOne({ where: { id: courseInstanceId } })
@@ -117,7 +128,11 @@ const create = {
     fin_name: data.fin_name,
     swe_name: data.swe_name
   }),
-  execute: instance => instance.save(),
+  execute: (instance, user) => instance.save().then(result => CoursePerson.create({
+    course_instance_id: result.dataValues.id,
+    person_id: user.id,
+    role: 'TEACHER'
+  })),
   value: (instance, lang) => {
     const json = instance.toJSON()
     return {
