@@ -53,7 +53,7 @@ export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
 export const getUserAction = () => async (dispatch) => {
   dispatch({
     type: 'USER_GET_ATTEMPT',
-    payload: ''
+    payload: {}
   })
   try {
     const { data } = await getUser()
@@ -199,4 +199,12 @@ export const getCourseInstanceDataAction = courseId => async (dispatch) => {
       payload: e.response
     })
   }
+}
+
+export const logoutAction = (dispatch) => {
+  localStorage.removeItem('token')
+  dispatch({
+    type: 'USER_LOGOUT',
+    payload: {}
+  })
 }
