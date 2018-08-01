@@ -3,7 +3,6 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 
 import task from './redux/task'
-import objective from './redux/objective'
 import level from './redux/level'
 import category from './redux/category'
 import type from './redux/type'
@@ -15,7 +14,6 @@ import { instanceReducer } from './redux/instance'
 
 const reducers = combineReducers({
   task,
-  objective,
   level,
   category,
   type,
