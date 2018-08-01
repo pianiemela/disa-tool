@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { Task, TaskResponse, Type, Objective, TaskObjective } = require('../database/models.js')
+const { Task, TaskResponse, Type, Objective, TaskObjective, TaskType, TypeHeader } = require('../database/models.js')
 
 const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
 const typeAttributes = lang => ['id', [`${lang}_header`, 'header'], [`${lang}_name`, 'name']]
@@ -95,7 +95,6 @@ const attachObjective = {
       task_id: data.task_id,
       objective_id: data.objective_id
     })
-    // await Promise.all([task, objective])
     return {
       task: task.toJSON(),
       objective: objective.toJSON(),
@@ -137,6 +136,62 @@ const detachObjective = {
   execute: instance => instance.destroy()
 }
 
+const attachType = {
+  prepare: async (data) => {
+    const task = await Task.findById(data.task_id)
+    const type = await Type.findById(data.type_id, {
+      include: {
+        model: TypeHeader
+      }
+    })
+    const instance = TaskType.build({
+      task_id: data.task_id,
+      type_id: data.type_id
+    })
+    return {
+      task: task.toJSON(),
+      type: type.toJSON(),
+      instance
+    }
+  },
+  execute: instance => instance.save(),
+  value: (instance) => {
+    const json = instance.toJSON()
+    return {
+      task_id: json.task_id,
+      type_id: json.type_id
+    }
+  }
+}
+
+const detachType = {
+  prepare: data => TaskType.findOne({
+    where: {
+      task_id: data.task_id,
+      type_id: data.type_id
+    },
+    include: [
+      {
+        model: Task
+      },
+      {
+        model: Type,
+        include: {
+          model: TypeHeader
+        }
+      }
+    ]
+  }),
+  value: (instance) => {
+    const json = instance.toJSON()
+    return {
+      task_id: json.task_id,
+      type_id: json.type_id
+    }
+  },
+  execute: instance => instance.destroy()
+}
+
 module.exports = {
   getUserTasksForCourse,
   getTasksForCourse,
@@ -146,5 +201,7 @@ module.exports = {
   create,
   delete: deleteTask,
   attachObjective,
-  detachObjective
+  detachObjective,
+  attachType,
+  detachType
 }

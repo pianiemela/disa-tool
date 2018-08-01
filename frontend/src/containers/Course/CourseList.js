@@ -1,17 +1,27 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Header, List, Grid, Dropdown } from 'semantic-ui-react'
+import parseQueryParams from '../../utils/parseQueryParams'
 
 import { getCourses, getInstancesOfCourse } from '../../actions/actions'
 
 
 class CourseList extends Component {
-  state = {
-    courses: [],
-    course: undefined,
-    instances: [],
-    instance: undefined
+  constructor(props) {
+    super(props)
+    this.state = {
+      courses: [],
+      course: undefined,
+      instances: [],
+      instance: undefined
+    }
+    if (this.props.location.query_params.id) {
+      this.state.course = {
+        id: Number(this.props.location.query_params.id)
+      }
+    }
   }
 
   componentDidMount = async () => {
@@ -45,7 +55,16 @@ class CourseList extends Component {
               selection
               value={this.state.course ? this.state.course.id : undefined}
               options={this.state.courses.map(course =>
-                ({ key: course.id, text: course.name, value: course.id }))}
+                ({ key: course.id, text: course.name, value: course.id }))
+                .concat([{
+                  as: Link,
+                  to: 'courses/create',
+                  key: 0,
+                  icon: { name: 'add', color: 'green' },
+                  style: { color: 'green' },
+                  text: 'Luo uusi kurssi'
+                }])
+              }
               onChange={this.handleChange}
             />
           </Grid.Column>
@@ -105,9 +124,17 @@ class CourseList extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+CourseList.propTypes = {
+  location: PropTypes.shape({
+    query_params: PropTypes.object.isRequired
+  }).isRequired
+}
+
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
   user: state.user,
-  userCourses: state.courses
+  userCourses: state.courses,
+  location: parseQueryParams(ownProps.location)
 })
 
 // const mapDispatchToProps = dispatch => ({

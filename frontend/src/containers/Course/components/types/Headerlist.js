@@ -13,6 +13,7 @@ export const Headerlist = props => (
       header={header}
       editing={props.editing}
       courseId={props.courseId}
+      activeTask={props.activeTask}
     />))}
     {props.editing ? (
       <CreateHeaderForm courseId={props.courseId} />
@@ -27,11 +28,24 @@ Headerlist.propTypes = {
     id: PropTypes.number
   })).isRequired,
   editing: PropTypes.bool.isRequired,
-  courseId: PropTypes.number.isRequired
+  courseId: PropTypes.number.isRequired,
+  activeTask: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    types: PropTypes.arrayOf(PropTypes.number).isRequired
+  })
+}
+
+Headerlist.defaultProps = {
+  activeTask: null
 }
 
 const mapStateToProps = state => ({
-  headers: state.type.headers
+  headers: state.type.headers,
+  activeTask: state.task.active === null ? (
+    null
+  ) : (
+    state.task.tasks.find(task => task.id === state.task.active)
+  )
 })
 
 export default connect(mapStateToProps, null)(Headerlist)

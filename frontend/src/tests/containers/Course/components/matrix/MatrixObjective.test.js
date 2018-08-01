@@ -93,4 +93,23 @@ describe('MatrixObjective component', () => {
       })
     })
   })
+
+  describe('when not active', () => {
+    it('does not highlight button.', () => {
+      expect(wrapper.find('.objectiveButton').prop('active')).toEqual(false)
+    })
+  })
+
+  describe('when active', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        ...wrapper.props(),
+        active: true
+      })
+    })
+
+    it('is coloured.', () => {
+      expect(wrapper.find('.objectiveButton').prop('active')).toEqual(true)
+    })
+  })
 })

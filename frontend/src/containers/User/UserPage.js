@@ -155,8 +155,11 @@ class UserPage extends Component {
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
-                    <Grid.Column>
+                    <Grid.Column width={3}>
                       <Button as={Link} to={`/selfAssesment/${activeCourse.id}`} color="green" basic>Luo uusi itsearviointi</Button>
+                    </Grid.Column>
+                    <Grid.Column width={3}>
+                      <Button as={Link} to={`/course/${activeCourse.id}`} color="blue" basic>Muokkaa kurssia</Button>
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>

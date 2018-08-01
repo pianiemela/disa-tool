@@ -53,20 +53,24 @@ testService({
   apiMethod: 'post'
 })
 
-/* testService({
+testService({
   func: addTypeToTask,
-  type: 'TASK_ADD_TYPE',
+  type: 'TASK_ATTACH_TYPE',
   data: {
-    typeId: 7,
-    taskId: 4
-  }
+    type_id: 7,
+    task_id: 4
+  },
+  apiRoute: '/tasks/types/attach',
+  apiMethod: 'post'
 })
 
 testService({
   func: removeTypeFromTask,
-  type: 'TASK_REMOVE_TYPE',
+  type: 'TASK_DETACH_TYPE',
   data: {
-    typeId: 11,
-    taskId: 23
-  }
-}) */
+    type_id: 11,
+    task_id: 23
+  },
+  apiRoute: '/tasks/types/detach',
+  apiMethod: 'post'
+})

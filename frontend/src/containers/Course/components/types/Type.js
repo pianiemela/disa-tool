@@ -5,21 +5,30 @@ import { Segment, Header, Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeType } from '../../services/types'
-import { changeTypeMultiplier } from '../../actions/types'
+import { addTypeToTask, removeTypeFromTask } from '../../services/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
 export class Type extends Component {
-  changeMultiplier = (e) => {
-    this.props.changeTypeMultiplier({
-      id: this.props.type.id,
-      multiplier: Number(e.target.value)
-    })
+  toggleType = () => {
+    if (this.props.activeTaskId) {
+      this.props.toggleType({
+        type_id: this.props.type.id,
+        task_id: this.props.activeTaskId
+      })
+    }
   }
 
   render() {
     return (
-      <Segment className="Type">
+      <Segment
+        className="Type"
+        style={{
+            cursor: this.props.activeTaskId === null ? 'default' : 'pointer',
+            backgroundColor: this.props.active ? '#21ba45' : undefined
+          }}
+        onClick={this.toggleType}
+      >
         <div className="headerBlock">
           <Header className="typeHeader">{this.props.type.name}</Header>
         </div>
@@ -54,13 +63,20 @@ Type.propTypes = {
     multiplier: PropTypes.number
   }).isRequired,
   editing: PropTypes.bool.isRequired,
-  changeTypeMultiplier: PropTypes.func.isRequired,
-  removeType: PropTypes.func.isRequired
+  removeType: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  activeTaskId: PropTypes.number,
+  toggleType: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
-  changeTypeMultiplier: changeTypeMultiplier(dispatch),
-  removeType: asyncAction(removeType, dispatch)
+Type.defaultProps = {
+  activeTaskId: null
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  ...ownProps,
+  removeType: asyncAction(removeType, dispatch),
+  toggleType: asyncAction(ownProps.active ? removeTypeFromTask : addTypeToTask, dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(Type)

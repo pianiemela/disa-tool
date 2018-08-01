@@ -10,6 +10,8 @@ export const Typelist = props => (
       key={type.id}
       type={type}
       editing={props.editing}
+      active={Boolean(props.activeMap[type.id])}
+      activeTaskId={props.activeTaskId}
     />))}
     {props.editing ? (
       <CreateTypeForm headerId={props.headerId} />
@@ -24,7 +26,13 @@ Typelist.propTypes = {
     id: PropTypes.number
   })).isRequired,
   editing: PropTypes.bool.isRequired,
-  headerId: PropTypes.number.isRequired
+  headerId: PropTypes.number.isRequired,
+  activeTaskId: PropTypes.number,
+  activeMap: PropTypes.objectOf(PropTypes.bool).isRequired
+}
+
+Typelist.defaultProps = {
+  activeTaskId: null
 }
 
 export default Typelist

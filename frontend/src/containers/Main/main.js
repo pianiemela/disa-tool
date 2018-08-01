@@ -7,6 +7,7 @@ import SelfAssesmentPage from '../SelfAssesment/SelfAssesmentPage'
 import SelfAssesmentForm from '../SelfAssesment/Userform/SelfAssesmentForm'
 import UserPage from '../User/UserPage'
 import CourseList from '../Course/CourseList'
+import CreateCoursePage from '../CreateCourse/CreateCoursePage'
 
 const Main = () => (
   <main>
@@ -20,6 +21,7 @@ const Main = () => (
       <Route exact path="/user" component={UserPage} />
       <Route path="/course/:id" component={CoursePage} />
       <Route exact path="/courses" component={CourseList} />
+      <Route exact path="/courses/create" component={CreateCoursePage} />
       <Route component={LoginPage} />
     </Switch>
   </main>
