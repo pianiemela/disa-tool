@@ -1,16 +1,79 @@
-const { testHeaders } = require('../testUtils')
+const {
+  testHeaders,
+  testStatusCode,
+  testTeacherOnCoursePrivilege,
+  testBody,
+  testDatabaseSave
+} = require('../testUtils')
+const { CourseInstance } = require('../../database/models.js')
 
 describe('course_instance_controller', () => {
-  testHeaders({
-    route: '/api/course-instances/data/1',
-    method: 'get',
-    preamble: {}
+  describe('GET /data/:courseInstanceId', () => {
+    const options = {
+      route: '/api/course-instances/data/1',
+      method: 'get',
+      preamble: {}
+    }
+
+    testHeaders(options)
+
+    testStatusCode(options, 200)
   })
 
-  it('responds 200 to GET /data/:id.', (done) => {
-    server.get('/api/course-instances/data/1').then((response) => {
-      expect(response.status).toEqual(200)
-      done()
+  describe('POST /create', () => {
+    const data = {
+      course_id: 1,
+      eng_name: 'en',
+      fin_name: 'fn',
+      swe_name: 'sn'
+    }
+    const options = {
+      route: '/api/course-instances/create',
+      method: 'post',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        created: {
+          id: expect.any(Number)
+        }
+      },
+      eng: {
+        created: {
+          name: data.eng_name
+        }
+      },
+      fin: {
+        created: {
+          name: data.fin_name
+        }
+      },
+      swe: {
+        created: {
+          name: data.swe_name
+        }
+      }
     })
+
+    testDatabaseSave(
+      options,
+      {
+        ...data,
+        id: expect.any(Number)
+      },
+      CourseInstance,
+      {
+        disallowId: true
+      }
+    )
   })
 })
