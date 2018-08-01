@@ -313,6 +313,8 @@ Person.hasMany(TaskResponse, { foreignKey: 'person_id', targetKey: 'id' })
 Task.hasMany(TaskResponse, { foreignKey: 'task_id', targetKey: 'id' })
 TaskResponse.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
 TaskResponse.belongsTo(Task, { foreignKey: 'task_id', targetKey: 'id' })
+Person.belongsToMany(Task, { through: TaskResponse })
+Task.belongsToMany(Person, { through: TaskResponse })
 
 Person.hasMany(AssessmentResponse, { foreignKey: 'person_id', targetKey: 'id' })
 SelfAssessment.hasMany(AssessmentResponse, { foreignKey: 'self_assessment_id', targetKey: 'id' })
