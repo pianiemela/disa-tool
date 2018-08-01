@@ -8,7 +8,7 @@ import parseQueryParams from '../../utils/parseQueryParams'
 import { getCourses, getInstancesOfCourse } from '../../actions/actions'
 
 
-class CourseList extends Component {
+class CourseListPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -117,7 +117,7 @@ class CourseList extends Component {
   }
 }
 
-CourseList.propTypes = {
+CourseListPage.propTypes = {
   location: PropTypes.shape({
     query_params: PropTypes.object.isRequired
   }).isRequired
@@ -134,4 +134,4 @@ const mapStateToProps = (state, ownProps) => ({
 
 // })
 
-export default connect(mapStateToProps, null)(CourseList)
+export default connect(mapStateToProps, null)(CourseListPage)
