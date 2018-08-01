@@ -4,9 +4,10 @@ const {
   testBody,
   testDatabaseSave,
   testDatabaseDestroy,
-  asymmetricMatcher
+  asymmetricMatcher,
+  testStatusCode
 } = require('../testUtils')
-const { Task, TaskType, TaskObjective } = require('../../database/models.js')
+const { Task, TaskType, TaskObjective, TaskResponse, CoursePerson, CourseInstance } = require('../../database/models.js')
 
 describe('task_controller', () => {
   describe('POST /create', () => {
@@ -146,6 +147,61 @@ describe('task_controller', () => {
             getId: () => ids.task_objective
           }
         ]
+      })
+    })
+  })
+
+  describe('POST /responses', () => {
+    describe('adding new response', () => {
+      const courseInstanceId = 1
+      const data = {
+        courseId: 1,
+        tasks: [{ points: 1 }]
+      }
+      // instead of database calls you could use hard coded person 422 and task 1.
+      beforeAll(async () => {
+        const task = await Task.findOne({ where: { course_instance_id: courseInstanceId } })
+        const coursePerson = await CoursePerson.findOne({ where: { course_instance_id: courseInstanceId } })
+        data.tasks[0].personId = coursePerson.person_id
+        data.tasks[0].taskId = task.id
+      })
+      afterAll(async () => {
+        const task = await Task.findOne({ where: { course_instance_id: courseInstanceId } })
+        const coursePerson = await CoursePerson.findOne({ where: { course_instance_id: courseInstanceId } })
+        await TaskResponse.destroy({ where: { person_id: coursePerson.person_id, task_id: task.id } })
+      })
+
+      describe('teacher can add', () => {
+        const options = {
+          route: '/api/tasks/responses',
+          method: 'post',
+          preamble: {
+            send: data,
+            set: ['Authorization', `Bearer ${tokens.teacher}`]
+          }
+        }
+        testStatusCode(options, 201)
+        // it('increases database length by one', async (done) => {
+        //   const afterResponses = await TaskResponse.findAll()
+        //   expect(afterResponses.length).toEqual(responses.length + 1)
+        //   done()
+        // })
+      })
+      describe('student cannot add', () => {
+        const options = {
+          route: '/api/tasks/responses',
+          method: 'post',
+          preamble: {
+            send: data,
+            set: ['Authorization', `Bearer ${tokens.student}`]
+          }
+        }
+        testStatusCode(options, 403)
+        // it('does not affect database length', async (done) => {
+        //   const afterResponses = await TaskResponse.findAll()
+        //   expect(afterResponses.length).toEqual(responses)
+        //   done()
+        // })
       })
     })
   })

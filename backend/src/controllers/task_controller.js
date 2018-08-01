@@ -201,7 +201,7 @@ router.post('/objectives/detach', async (req, res) => {
 
 router.post('/responses', async (req, res) => {
   const { tasks, courseId } = req.body
-  const isTeacher = checkPrivilege(req, [{
+  const isTeacher = await checkPrivilege(req, [{
     key: 'teacher_on_course',
     param: courseId
   }])
@@ -211,15 +211,12 @@ router.post('/responses', async (req, res) => {
   }
   try {
     const { updateResponses, newResponses } = await taskService.validateTaskResponses(tasks, courseId)
-    // console.log(updateResponses, newResponses)
     const createdResponses = await taskService.createTaskResponses(newResponses)
     const updatedResponses = await taskService.updateTaskResponses(updateResponses)
-    // console.log(createdResponses.toJSON())
-    // console.log(updatedResponses.toJSON())
     res.status(201).json({ msg: 'good job', createdResponses: [...createdResponses, ...updatedResponses] })
   } catch (e) {
     console.log(e)
-    res.status(403).json({ error: 'thats not so good is it' })
+    res.status(400).json({ error: 'There was something wrong with your request' })
   }
 })
 

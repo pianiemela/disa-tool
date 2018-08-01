@@ -261,6 +261,15 @@ const asymmetricMatcher = matcher => ({
   asymmetricMatch: matcher
 })
 
+const testStatusCode = (options, code) => {
+  it('response status code is correct', (done) => {
+    makeRequest(options).then((res) => {
+      expect(res.status).toEqual(code)
+      done()
+    })
+  })
+}
+
 module.exports = {
   testTeacherOnCoursePrivilege,
   testGlobalTeacherPrivilege,
@@ -268,5 +277,6 @@ module.exports = {
   testBody,
   testDatabaseSave,
   testDatabaseDestroy,
-  asymmetricMatcher
+  asymmetricMatcher,
+  testStatusCode
 }
