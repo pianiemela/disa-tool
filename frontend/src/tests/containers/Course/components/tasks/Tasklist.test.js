@@ -52,7 +52,6 @@ describe('Tasklist component', () => {
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         editing: true
       })
     })

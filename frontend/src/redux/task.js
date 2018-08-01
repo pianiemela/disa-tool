@@ -14,7 +14,7 @@ const detachObjectiveFromMany = (state, action) => {
       if (deleteFrom[task.id]) {
         return {
           ...task,
-          objectives: task.types.filter(objective => objective.id !== action.response.deleted.id)
+          objectives: task.objectives.filter(objective => objective.id !== action.response.deleted.id)
         }
       }
       return task
@@ -131,33 +131,6 @@ const taskReducer = (state = INITIAL_STATE, action) => {
         ...state,
         tasks: action.response.data.tasks
       }
-    case 'TASK_CHANGE_OBJECTIVE_MULTIPLIER': {
-      const newTasks = [...state.tasks]
-      let i = 0
-      while (i < newTasks.length) {
-        if (newTasks[i].id === action.data.taskId) {
-          const newTask = { ...newTasks[i] }
-          let j = 0
-          while (j < newTask.objectives.length) {
-            if (newTask.objectives[j].id === action.data.objectiveId) {
-              newTask.objectives[j] = {
-                ...newTask.objectives[j],
-                multiplier: action.data.multiplier
-              }
-              break
-            }
-            j += 1
-          }
-          newTasks[i] = newTask
-          break
-        }
-        i += 1
-      }
-      return {
-        ...state,
-        tasks: newTasks
-      }
-    }
     case 'TASK_CHANGE_ACTIVE':
       return {
         ...state,
@@ -173,12 +146,6 @@ const taskReducer = (state = INITIAL_STATE, action) => {
         ...state,
         tasks: state.tasks.filter(task => task.id !== action.response.deleted.id)
       }
-    case 'TASK_ADD_TYPE':
-      console.log(action.response)
-      return state
-    case 'TASK_REMOVE_TYPE':
-      console.log(action.response)
-      return state
     case 'TASK_ATTACH_OBJECTIVE':
       return attachObjective(state, action)
     case 'TASK_DETACH_OBJECTIVE':

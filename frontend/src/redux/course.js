@@ -12,11 +12,6 @@ const courseReducer = (state = INITIAL_STATE, action) => {
         course: action.response.data.course,
         loading: false
       }
-    case 'COURSE_SET_EDITING':
-      return {
-        ...state,
-        editing: action.data.value
-      }
     default:
       return state
   }

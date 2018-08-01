@@ -68,7 +68,6 @@ describe('Task component', () => {
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         editing: true
       })
     })
@@ -108,7 +107,6 @@ describe('Task component', () => {
   describe('when expanded', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         active: true
       })
     })

@@ -97,13 +97,6 @@ class CourseList extends Component {
                     {this.props.userCourses && this.props.userCourses.find(course => course.id === this.state.instance.id) ?
                       <p>Olet kurssilla <Button as={Link} to={`/user/course/${this.state.instance.id}`}>Kurssisivulle</Button></p> : <p>et ole kurssilla</p>}
                     {this.state.instance.active ? <Button inverted color="blue">Rekisteröidy kurssille</Button> : undefined}
-                    {this.props.user && this.props.user.role === 'TEACHER' ?
-                      <div>
-                        <br />
-                        <Button>Luo uusi instanssi tästä kurssista</Button>
-                      </div> :
-                      undefined
-                    }
                   </div> :
                   <div>Valitse vielä kurssi-instanssi.</div>
                 }

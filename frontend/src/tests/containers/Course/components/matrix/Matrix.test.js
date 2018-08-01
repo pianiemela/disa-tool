@@ -76,7 +76,6 @@ describe('Matrix component', () => {
   describe('when a task is activated', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         activeTask: {
           id: 4,
           objectives: [{ id: 1 }, { id: 3 }]
