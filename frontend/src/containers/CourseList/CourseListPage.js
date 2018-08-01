@@ -7,7 +7,7 @@ import parseQueryParams from '../../utils/parseQueryParams'
 
 import { getCourses, getInstancesOfCourse } from '../../actions/actions'
 
-import { CreateInstanceForm } from './components/CreateInstanceForm'
+import CreateInstanceForm from './components/CreateInstanceForm'
 
 class CourseListPage extends Component {
   constructor(props) {
@@ -104,7 +104,7 @@ class CourseListPage extends Component {
                 {this.props.user && this.props.user.role === 'TEACHER' ?
                   <div>
                     <br />
-                    <CreateInstanceForm />
+                    <CreateInstanceForm course_id={this.state.course.id} />
                   </div> :
                   undefined
                 }
