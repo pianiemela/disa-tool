@@ -64,7 +64,7 @@ const login = async (body, lang) => {
       ) : (
         result.data.first_names.split(' ')[0]
       )} ${result.data.last_name}`,
-      role: 'student'
+      role: 'STUDENT'
     })
     const loggedIn = {
       id: created.id,

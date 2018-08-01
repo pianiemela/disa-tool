@@ -28,6 +28,8 @@ export const getCourseData = id => getJson('/categories', { courseInstanceId: id
 
 export const getSelfAssesmentResponse = assesmentId => getJson(`/assesmentresponse/${assesmentId}`)
 
+export const postTaskResponses = updatedTasks => postJson('/tasks/responses', updatedTasks)
+
 
 export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
   dispatch({

@@ -38,8 +38,8 @@ const validatePerson = role => async (param, user) => {
 
 const validators = {
   logged_in: (param, user) => user !== null,
-  teacher_on_course: validatePerson('Teacher'),
-  student_on_course: validatePerson('Student')
+  teacher_on_course: validatePerson('TEACHER'),
+  student_on_course: validatePerson('STUDENT')
 }
 
 /**

@@ -1,3 +1,4 @@
+const { Op } = require('sequelize')
 const { Task, TaskResponse, Type, Objective, TaskObjective } = require('../database/models.js')
 
 const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
@@ -17,6 +18,37 @@ const getTasksForCourse = (courseId, lang, userId) => (
     attributes: taskAttributes(lang),
     include: [{ model: TaskResponse, where: { person_id: userId }, required: false },
       { model: Type, attributes: typeAttributes(lang) }] })
+)
+
+const validateTaskResponses = async (taskResponses, courseId) => {
+  const tasks = await Task.findAll({ where: { id: { [Op.in]: taskResponses.map(resp => resp.taskId) } } })
+  const validatedResponses = taskResponses.map((r) => {
+    const originalTask = tasks.find(t => t.dataValues.id === r.taskId)
+    if (originalTask.course_instance_id !== courseId) {
+      return null
+    }
+    return {
+      responseId: r.responseId,
+      task_id: r.taskId,
+      person_id: r.personId,
+      points: r.points <= originalTask.max_points ? r.points : originalTask.max_points }
+  })
+  const updateResponses = validatedResponses.filter(resp => resp.responseId !== undefined)
+  const newResponses = validatedResponses.filter(resp => resp.responseId === undefined)
+  return { updateResponses, newResponses }
+}
+
+const createTaskResponses = taskResponses => (
+  TaskResponse.bulkCreate(taskResponses, { returning: true })
+)
+
+const updateTaskResponses = taskResponses => (
+  Promise.all(taskResponses.map((resp) => {
+    if (resp.points !== null) {
+      return TaskResponse.update({ points: resp.points }, { where: { id: resp.responseId }, returning: true })
+    }
+    TaskResponse.destroy({ where: { id: resp.responseId } })
+  }))
 )
 
 const create = {
@@ -108,6 +140,9 @@ const detachObjective = {
 module.exports = {
   getUserTasksForCourse,
   getTasksForCourse,
+  validateTaskResponses,
+  createTaskResponses,
+  updateTaskResponses,
   create,
   delete: deleteTask,
   attachObjective,

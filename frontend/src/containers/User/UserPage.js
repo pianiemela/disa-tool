@@ -9,7 +9,8 @@ import {
   getUserCoursesAction,
   getUserSelfAssesments,
   getCourseInstanceData,
-  getCourseInstanceDataAction
+  getCourseInstanceDataAction,
+  postTaskResponses
 } from '../../actions/actions'
 import { CoursePeopleList } from './CoursePeopleList'
 import { ListTasks } from './ListTasks'
@@ -58,10 +59,22 @@ class UserPage extends Component {
   })
 
   markTask = async (e, { task, person }) => {
+    // console.log(task, person)
     const { updatedTasks } = this.state
-    const taskExists = updatedTasks.find(t => t.taskId === task.id && t.personId === person.id)
-    if (taskExists) {
-      await this.setState({ popUp: { show: true, task: taskExists, person } })
+    const taskUpdated = updatedTasks.find(t => t.taskId === task.id && t.personId === person.id)
+    if (taskUpdated) {
+      await this.setState({ popUp: { show: true, task: taskUpdated, person } })
+    } else if (task.task_id && task.person_id && task.points) {
+      const existingTask = {
+        responseId: task.id,
+        taskId: task.task_id,
+        personId: task.person_id,
+        points: task.points
+      }
+      this.setState({
+        updatedTasks: [...this.state.updatedTasks, existingTask],
+        popUp: { show: true, task: existingTask, person }
+      })
     } else {
       this.setState({
         updatedTasks: [
@@ -95,6 +108,11 @@ class UserPage extends Component {
     }
   }
 
+  submitTaskUpdates = () => {
+    postTaskResponses({ tasks: this.state.updatedTasks, courseId: this.props.activeCourse.id })
+      .then(res => console.log(res))
+  }
+
   render() {
     const { activeCourse, courses } = this.props
     const { selectedType, updatedTasks, popUp } = this.state
@@ -102,7 +120,7 @@ class UserPage extends Component {
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    // console.log(updatedTasks)
+    console.log(updatedTasks)
     return (
       <Grid>
         <Grid.Row>
@@ -115,9 +133,9 @@ class UserPage extends Component {
             <Menu fluid vertical tabular>
               {courses.map(course => (
                 <Menu.Item
+                  key={course.id}
                   as={Link}
                   to={`/user/course/${course.id}`}
-                  key={course.id}
                   name={course.name}
                   course={course}
                   active={activeCourse === course}
@@ -143,12 +161,6 @@ class UserPage extends Component {
                   </Grid.Row>
                   <Grid.Row>
                     <Grid.Column width={8}>
-                      {/* Display course info, tasks and their responses
-                      and assessments with their responses.
-                      If the user has teacher role for this course,
-                      add buttons to create tasks or assessments. Also add teacher buttons
-                      for submitting student responses and to view students and their responses.
-                       */}
                       <Item.Content>
                         <ListTasks tasks={tasks} selectedType={selectedType} />
                       </Item.Content>
@@ -157,7 +169,7 @@ class UserPage extends Component {
                       <Item.Content>
                         <p>Itsearvioinnit</p>
                         <List selection size="big">
-                          {assessments.map(assessment => <List.Item as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name}</List.Item>)}
+                          {assessments.map(assessment => <List.Item key={assessment.id} as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name}</List.Item>)}
                         </List>
                       </Item.Content>
                     </Grid.Column>
@@ -178,15 +190,15 @@ class UserPage extends Component {
                             students={activeCourse.people.filter(person =>
                               person.course_instances[0].course_person.role !== 'TEACHER')}
                           />
-                          <Button color="green">Save changes</Button>
+                          <Button color="green" onClick={this.submitTaskUpdates}>Tallenna muutokset</Button>
                         </div>
                         : <p>you are no teacher</p>}
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
-                    <List items={activeCourse.people.filter(person =>
+                    {/* <List items={activeCourse.people.filter(person =>
                       person.course_instances[0].course_person.role === 'TEACHER').map(person => person.name)}
-                    />
+                    /> */}
                   </Grid.Row>
                 </Grid>
               </Item> :
