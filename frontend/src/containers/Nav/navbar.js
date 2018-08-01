@@ -95,7 +95,7 @@ class Nav extends Component {
             {this.props.user ?
               <Menu.Item
                 as={Link}
-                to="/logout"
+                to="/login"
                 name="logout"
                 active={activeItem === 'logout'}
                 onClick={this.handleClick}
