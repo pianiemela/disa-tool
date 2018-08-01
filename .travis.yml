@@ -1,0 +1,38 @@
+sudo: true
+dist: trusty
+notifications:
+  email: false
+language: node_js
+node_js:
+  - '8'
+before_install:
+  - npm install -g npm
+jobs:
+  include:
+    - stage: tests
+      cache:
+        directories:
+          - frontend/node_modules
+      install:
+        - cd frontend
+        - npm install
+      script:
+        - npm test
+    - stage: tests
+      cache:
+        directories:
+          - backend/node_modules
+      before_install:
+        - >
+            printf "version: '2'\n\nservices:\n  db:\n    image: postgres:10\n    ports:\n      - '5321:5432'\n    volumes:\n      - ./disa_pgdata:/var/lib/postgresql/data\n    container_name: disa_db" >> docker-compose.yml
+        - docker-compose up -d
+        - sleep 3
+        - docker exec -u postgres disa_db psql -c "CREATE DATABASE disa_test_db"
+      install:
+        - cd backend
+        - npm install
+      script:
+        - npm run test-ci
+      env:
+        - TEST_DB_URL=postgres://postgres@localhost:5321/disa_test_db
+        - SECRET=Ir8CG7mwPJr3lh1yhpIGqW1jzhFbH4fzsxtcdmdC9MTy6Z7GVTlUvw3a1y7eh8tx0jEm9ie2hMRyOW6PY3IvbQH21JtIqVcqiTla

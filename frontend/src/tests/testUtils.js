@@ -2,6 +2,8 @@ import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import asyncAction from '../utils/asyncAction'
 
+import { BASE_PATH } from '../utils/utils'
+
 export const findText = (text, wrapper) => {
   let found = 0
   if (wrapper.text().includes(text)) found += 1
@@ -23,48 +25,49 @@ export const findText = (text, wrapper) => {
  * }
  */
 export const testService = (options) => {
-  const { func, data, mockResponse, type, apiRoute, apiMethod = 'get', mockStatus = 200 } = options
+  const { func, data = {}, mockResponse = {}, type, apiRoute, apiMethod = 'get', mockStatus = 200 } = options
+  let path
   if (apiRoute === undefined) {
     console.warn('apiRoute was undefined. All routes will be considered valid and pass tests.')
+    path = apiRoute
+  } else {
+    path = `${BASE_PATH}${apiRoute}`
   }
 
   describe(`${func.name} func`, () => {
+    let dispatch
+    let withDispatch
+    let apiMock
+
+    beforeAll(() => {
+      apiMock = new MockAdapter(axios)
+      let route
+      switch (apiMethod) {
+        case 'get':
+          route = apiMock.onGet(path)
+          break
+        case 'post':
+          route = apiMock.onPost(path)
+          break
+        case 'put':
+          route = apiMock.onPut(path)
+          break
+        case 'delete':
+          route = apiMock.onDelete(path)
+          break
+        default:
+          console.warn('apiMethod was invalid, no api mock created.')
+      }
+      route.reply(mockStatus, mockResponse)
+      dispatch = jest.fn()
+      withDispatch = asyncAction(func, dispatch)
+    })
+
     it('returns a promise', () => {
       expect(typeof func(data).then).toEqual('function')
     })
 
-    /* It's just broken. Another library needs to be used instead. mock adapter is broken at the moment.
     describe('dispatch', () => {
-      let dispatch
-      let withDispatch
-      let apiMock
-
-      beforeEach(() => {
-        apiMock = new MockAdapter(axios)
-        switch (apiMethod) {
-          case 'get':
-            apiMock.onGet(apiRoute).reply(mockStatus, mockResponse)
-            break
-          case 'post':
-            apiMock.onPost(apiRoute).reply(mockStatus, mockResponse)
-            break
-          case 'put':
-            apiMock.onPut(apiRoute).reply(mockStatus, mockResponse)
-            break
-          case 'delete':
-            apiMock.onDelete(apiRoute).reply(mockStatus, mockResponse)
-            break
-          default:
-            console.warn('apiMethod was invalid, no api mock created.')
-        }
-        dispatch = jest.fn()
-        withDispatch = asyncAction(func, dispatch)
-      })
-
-      afterEach(() => {
-        apiMock.reset()
-      })
-
       it('is called with correct action.', async () => {
         await withDispatch(data)
         expect(dispatch).toHaveBeenCalledWith({
@@ -73,6 +76,5 @@ export const testService = (options) => {
         })
       })
     })
-    */
   })
 }

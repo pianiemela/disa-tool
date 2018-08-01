@@ -1,4 +1,7 @@
-const { CourseInstance, Objective, Category, Task, SkillLevel, Type, TaskObjective, TaskType } = require('../database/models.js')
+const { CourseInstance, Objective, Category, Task, SkillLevel, TypeHeader, Type, TaskObjective, TaskType } = require('../database/models.js')
+
+
+const getOne = courseInstanceId => CourseInstance.findOne({ where: { id: courseInstanceId } })
 
 const getCourseInstanceData = async (courseInstanceId, lang) => {
   const name = [`${lang}_name`, 'name']
@@ -11,18 +14,22 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
     attributes: ['id', name],
     include: [
       {
-        model: Objective,
+        model: Category,
         attributes: ['id', name],
-        include: [
-          {
-            model: Category,
-            attributes: ['id', name]
-          },
-          {
-            model: SkillLevel,
-            attributes: ['id', name]
-          }
-        ]
+        include: {
+          model: Objective,
+          attributes: ['id', 'category_id'],
+          separate: true
+        }
+      },
+      {
+        model: SkillLevel,
+        attributes: ['id', name],
+        include: {
+          model: Objective,
+          attributes: ['id', name, 'skill_level_id'],
+          separate: true
+        }
       },
       {
         model: Task,
@@ -30,27 +37,23 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
         include: [
           {
             model: TaskObjective,
-            attributes: ['task_id', 'multiplier'],
-            separate: true,
-            include: {
-              model: Objective,
-              attributes: ['id', name]
-            }
+            attributes: ['task_id', 'multiplier', 'objective_id'],
+            separate: true
           },
           {
             model: TaskType,
-            attributes: ['task_id'],
-            separate: true,
-            include: {
-              model: Type,
-              attributes: ['id', name]
-            }
+            attributes: ['task_id', 'type_id'],
+            separate: true
           }
         ]
       },
       {
-        model: Type,
-        attributes: ['id', name, 'multiplier']
+        model: TypeHeader,
+        attributes: ['id', name],
+        include: {
+          model: Type,
+          attributes: ['id', name, 'multiplier']
+        }
       }
     ]
   })).toJSON()
@@ -63,14 +66,14 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
 
 const mapTasks = (value) => {
   const returnValue = { ...value }
-  returnValue.tasks = returnValue.tasks.map(task => ({
+  returnValue.tasks = value.tasks.map(task => ({
     ...task,
     objectives: task.task_objectives.map(taskObjective => ({
-      ...taskObjective.objective,
+      id: taskObjective.objective_id,
       multiplier: taskObjective.multiplier
     })),
     task_objectives: undefined,
-    types: task.task_types.map(taskType => taskType.type),
+    types: task.task_types.map(taskType => taskType.type_id),
     task_types: undefined
   }))
   return returnValue
@@ -89,41 +92,25 @@ const mapCourse = (value) => {
 
 const mapObjectives = (value) => {
   const returnValue = { ...value }
-  const categories = {}
-  const categorySkillLevels = {}
-  const skillLevels = {}
-  value.objectives.forEach((objective) => {
-    if (categories[objective.category.id] === undefined) {
-      categories[objective.category.id] = objective.category
-      categorySkillLevels[objective.category.id] = {}
-    }
-    if (categorySkillLevels[objective.category.id][objective.skill_level.id] === undefined) {
-      categorySkillLevels[objective.category.id][objective.skill_level.id] = [{
-        id: objective.id,
-        name: objective.name
-      }]
-    } else {
-      categorySkillLevels[objective.category.id][objective.skill_level.id].push({
-        id: objective.id,
-        name: objective.name
-      })
-    }
-    if (skillLevels[objective.skill_level.id] === undefined) {
-      skillLevels[objective.skill_level.id] = objective.skill_level
-    }
-  })
-  returnValue.categories = Object.keys(categories).map(category => ({
-    ...categories[category],
-    skill_levels: Object.keys(categorySkillLevels[category]).map(level => ({
-      id: Number(level),
-      objectives: categorySkillLevels[category][level]
-    }))
+  returnValue.levels = value.skill_levels.map(skillLevel => ({
+    ...skillLevel,
+    objectives: undefined
   }))
-  delete returnValue.objectives
-  returnValue.levels = Object.keys(skillLevels).map(level => skillLevels[level])
+  returnValue.categories = value.categories.map(category => ({
+    ...category,
+    skill_levels: value.skill_levels.map(skillLevel => ({
+      ...skillLevel,
+      name: undefined,
+      objectives: skillLevel.objectives.filter(objective => (
+        category.objectives.find(catObjective => objective.id === catObjective.id) !== undefined
+      ))
+    })),
+    objectives: undefined
+  }))
   return returnValue
 }
 
 module.exports = {
-  getCourseInstanceData
+  getCourseInstanceData,
+  getOne
 }

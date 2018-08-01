@@ -2,52 +2,69 @@ import React from 'react'
 import { Container } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router'
 
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
 import { getCourseData } from './services/createForm'
 import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 
-import { initCreateForm } from '../../actions/actions'
+
+import {
+  createForm,
+  getUserCoursesAction,
+  getUserSelfAssesments,
+  updateSelfAssesmentAction
+} from '../../actions/actions'
+
+import {
+  editFormAction,
+  initNewFormAaction
+} from '../SelfAssesment/actions/selfAssesment'
 
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      mockUser: 'ope',
-      created: false
+      new: false,
+      type: '',
+      edit: false,
+      courseInstanceId: '',
+      assesmentId: ''
     }
   }
-
-  createForm = async (courseId, type) => {
-    const courseData = await getCourseData(courseId)
-    const courseInfo = this.props.courses.find(cd => cd.id === courseId)
-    this.props.dispatchCreateForm({ courseData, type, courseInfo })
-    this.setState({ created: true })
+  async componentDidMount() {
+    this.props.dispatchGetUsercourses()
+    this.props.dispatchGetUserSelfAssesments()
+  }
+  createForm = async (courseInstanceId, type) => {
+    this.setState({ redirect: true, new: true, courseInstanceId, type })
   }
 
-  renderTeacherView = () => (
-    <SelfAssesmentCreateForm
-      courses={this.props.courses}
-      dropDownCourse={this.props.dropDownOptions}
-      createForm={this.createForm}
-    />
-  )
-
+  editForm = async (id) => {
+    this.setState({ redirect: true, edit: true, assesmentId: id })
+  }
   render() {
-    const { formData } = this.props
-    
+    if (this.state.new && this.state.redirect) {
+      console.log(`redirecting to create page...`)
+      return <Redirect to={`/selfassesment/create/${this.state.courseInstanceId}/${this.state.type}`} />
+    }
+
+    if (this.state.edit && this.state.redirect) {
+      console.log(`redirecting to edit page...`)
+      return <Redirect to={`/selfassesment/edit/${this.state.assesmentId}`} />
+    }
+
     return (
       <Container>
         <div>
-          {!this.state.created && this.state.mockUser === 'ope' ?
-            this.renderTeacherView()
-            :
-            <SelfAssesmentForm
-              edit
-              created
-              formData={formData}
-            />
-          }
+          <SelfAssesmentCreateForm
+            courses={this.props.courses}
+            dropDownCourse={this.props.courseDropdownOptions}
+            selectedCourse={this.props.match.params.courseId}
+            selfAssesments={this.props.selfAssesments}
+            createForm={this.createForm}
+            editForm={this.editForm}
+          />
         </div>
       </Container>
     )
@@ -62,16 +79,20 @@ const createOptions = (data) => {
 }
 const mapStateToProps = state => (
   {
+    user: state.user,
     courses: state.courses,
-    selfAssesments: state.selfAssesments,
-    dropDownOptions: createOptions(state.courses),
-    formData: state.selfAssesmentCreate
+    courseDropdownOptions: createOptions(state.courses),
+    selfAssesmentDropdownOptions: createOptions(state.selfAssesment.userSelfAssesments),
+    formData: state.selfAssesment.createForm,
+    selfAssesments: state.selfAssesment.userSelfAssesments
   }
 )
 
 const mapDispatchToProps = dispatch => ({
-  dispatchCreateForm: data =>
-    dispatch(initCreateForm(data))
+  dispatchGetUsercourses: () =>
+    dispatch(getUserCoursesAction()),
+  dispatchGetUserSelfAssesments: () =>
+    dispatch(getUserSelfAssesments())
 })
 
 SelfAssesmentForm.defaultProps = {
@@ -79,9 +100,7 @@ SelfAssesmentForm.defaultProps = {
 }
 
 SelfAssesmentPage.propTypes = {
-  dropDownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  formData: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()), PropTypes.shape()]).isRequired,
-  dispatchCreateForm: PropTypes.func.isRequired,
+  courseDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
 }
 

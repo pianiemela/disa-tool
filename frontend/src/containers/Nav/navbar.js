@@ -17,8 +17,12 @@ class Nav extends Component {
     language: 'fin'
   }
 
-  componentDidMount() {
+  componentDidMount = async () => {
     const language = getLanguage()
+    const path = await window.location.pathname.split('/')
+    if (path.length > 1 && path[1].length > 0) {
+      await this.setState({ activeItem: path[1] })
+    }
     if (language) {
       this.setState({ language })
     }
@@ -59,21 +63,21 @@ class Nav extends Component {
           </Menu.Item>
           <Menu.Item
             as={Link}
-            to="/course"
-            name="course"
-            active={activeItem === 'course'}
-            onClick={this.handleClick}
-          >
-              Kurssi
-          </Menu.Item>
-          <Menu.Item
-            as={Link}
             to="/selfAssesment"
-            name="assessment"
-            active={activeItem === 'assessment'}
+            name="selfAssesment"
+            active={activeItem === 'selfAssesment'}
             onClick={this.handleClick}
           >
               Itsearvio
+          </Menu.Item>
+          <Menu.Item
+            as={Link}
+            to="/courses"
+            name="courses"
+            active={activeItem === 'courses'}
+            onClick={this.handleClick}
+          >
+              Kurssit
           </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item>

@@ -13,6 +13,10 @@ const types = [
     name: 'Testier Type'
   }
 ]
+const activeMap = {
+  2: true,
+  3: true
+}
 
 describe('Typelist component', () => {
   let wrapper
@@ -20,8 +24,10 @@ describe('Typelist component', () => {
   beforeEach(() => {
     wrapper = shallow(<Typelist
       types={types}
-      courseId={1}
+      headerId={1}
       editing={false}
+      activeTaskId={1}
+      activeMap={activeMap}
     />)
   })
 
@@ -33,6 +39,10 @@ describe('Typelist component', () => {
     expect(wrapper.find(Type).length).toEqual(types.length)
   })
 
+  it('Passes the active prop to correct Types.', () => {
+    wrapper.find(Type).forEach(type => expect(type.prop('active')).toEqual(Boolean(activeMap[type.prop('type').id])))
+  })
+
   describe('when not editing', () => {
     it('does not render an CreateTypeForm component.', () => {
       expect(wrapper.find(CreateTypeForm).exists()).toEqual(false)
@@ -42,7 +52,6 @@ describe('Typelist component', () => {
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         editing: true
       })
     })

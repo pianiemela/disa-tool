@@ -33,6 +33,7 @@ const categories = [
     skill_levels: levels.map(level => ({ id: level.id }))
   }
 ]
+const mockFn = () => {}
 
 describe('Matrix component', () => {
   let wrapper
@@ -43,6 +44,8 @@ describe('Matrix component', () => {
       levels={levels}
       categories={categories}
       editing={false}
+      removeLevel={mockFn}
+      activeTask={null}
     />)
   })
 
@@ -68,5 +71,26 @@ describe('Matrix component', () => {
 
   it('renders a MatrixCategory component for each category.', () => {
     expect(wrapper.find(MatrixCategory).length).toEqual(categories.length)
+  })
+
+  describe('when a task is activated', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        activeTask: {
+          id: 4,
+          objectives: [{ id: 1 }, { id: 3 }]
+        }
+      })
+    })
+
+    it('passes the correct props to MatrixCategory components.', () => {
+      wrapper.find(MatrixCategory).forEach((matrixCategory) => {
+        expect(matrixCategory.prop('activeTaskId')).toEqual(4)
+        expect(matrixCategory.prop('activeMap')).toEqual({
+          1: true,
+          3: true
+        })
+      })
+    })
   })
 })

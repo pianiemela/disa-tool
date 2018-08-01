@@ -1,48 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Button } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { Button } from 'semantic-ui-react'
+import asyncAction from '../../../../utils/asyncAction'
 
-import TaskObjectivelist from './TaskObjectivelist'
-import RemoveTaskForm from './RemoveTaskForm'
-import TaskTypelist from './TaskTypelist'
+import { removeTask } from '../../services/tasks'
+import { changeActive } from '../../actions/tasks'
 
-class Task extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      expanded: false
-    }
-  }
+import DeleteForm from '../../../../utils/components/DeleteForm'
 
-  toggleExpanded = () => {
-    this.setState({
-      expanded: !this.state.expanded
-    })
-  }
-
+export class Task extends Component {
   renderExpanded() {
-    if (!this.state.expanded) {
-      return <div />
+    if (!this.props.active) {
+      return null
     }
     return (
-      <Grid columns="equal">
-        <Grid.Row>
-          <Grid.Column>
-            <h4>{this.props.task.description}</h4>
-            <p>{this.props.task.info}</p>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <TaskTypelist
-              types={this.props.task.types}
-              task={this.props.task}
-              editing={this.props.editing}
-            />
-          </Grid.Column>
-        </Grid.Row>
-        <TaskObjectivelist task={this.props.task} editing={this.props.editing} />
-      </Grid>
+      <div>
+        <p>{this.props.task.description}</p>
+        <p>{this.props.task.info}</p>
+      </div>
     )
   }
 
@@ -51,16 +27,24 @@ class Task extends Component {
       <div className="Task">
         <div className="taskUncollapseable">
           <Button
-            onClick={this.toggleExpanded}
-            basic={!this.state.expanded}
+            className="taskButton"
+            onClick={() => this.props.changeActive(this.props.task.id)}
+            basic={!this.props.active}
             fluid
           >
             {this.props.task.name}
           </Button>
           {this.props.editing ? (
-            <RemoveTaskForm task={this.props.task} />
+            <DeleteForm
+              onExecute={() => this.props.removeTask({ id: this.props.task.id })}
+              prompt={[
+                'Poistetaanko tehtävä',
+                `"${this.props.task.name}"`
+              ]}
+              header="Poista tehtävä"
+            />
           ) : (
-            <div />
+            null
           )}
         </div>
         {this.renderExpanded()}
@@ -74,13 +58,22 @@ Task.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    info: PropTypes.string.isRequired,
-    objectives: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number
-    })).isRequired,
-    types: PropTypes.arrayOf(PropTypes.object).isRequired
+    info: PropTypes.string.isRequired
   }).isRequired,
-  editing: PropTypes.bool.isRequired
+  editing: PropTypes.bool.isRequired,
+  removeTask: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  changeActive: PropTypes.func.isRequired
 }
 
-export default Task
+const mapStateToProps = (state, ownProps) => ({
+  ...ownProps,
+  active: state.task.active === ownProps.task.id
+})
+
+const mapDispatchToProps = dispatch => ({
+  removeTask: asyncAction(removeTask, dispatch),
+  changeActive: changeActive(dispatch)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Task)

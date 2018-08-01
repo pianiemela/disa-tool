@@ -1,8 +1,6 @@
 import React from 'react'
-import Task from '../../../../../containers/Course/components/tasks/Task'
-import TaskTypelist from '../../../../../containers/Course/components/tasks/TaskTypelist'
-import TaskObjectivelist from '../../../../../containers/Course/components/tasks/TaskObjectivelist'
-import RemoveTaskForm from '../../../../../containers/Course/components/tasks/RemoveTaskForm'
+import { Task } from '../../../../../containers/Course/components/tasks/Task'
+import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 
 const task = {
@@ -42,11 +40,18 @@ const task = {
 
 describe('Task component', () => {
   let wrapper
+  let removeTask
+  let changeActive
 
   beforeEach(() => {
+    removeTask = jest.fn()
+    changeActive = jest.fn()
     wrapper = shallow(<Task
       task={task}
       editing={false}
+      removeTask={removeTask}
+      active={false}
+      changeActive={changeActive}
     />)
   })
 
@@ -55,21 +60,37 @@ describe('Task component', () => {
   })
 
   describe('when not editing', () => {
-    it('does not render a RemoveTaskForm component.', () => {
-      expect(wrapper.find(RemoveTaskForm).exists()).toEqual(false)
+    it('does not render a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(false)
     })
   })
 
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         editing: true
       })
     })
 
-    it('renders a RemoveTaskForm component.', () => {
-      expect(wrapper.find(RemoveTaskForm).exists()).toEqual(true)
+    it('renders a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(true)
+    })
+
+    describe('DeleteForm component', () => {
+      let deleteForm
+      beforeEach(() => {
+        deleteForm = wrapper.find(DeleteForm)
+      })
+
+      it('includes task names in prompt.', () => {
+        const prompt = deleteForm.prop('prompt')
+        expect(prompt.filter(segment => segment.includes(task.name)).length).toBeGreaterThan(0)
+      })
+
+      it('gets the removeTypeFromTask prop as part of onExecute.', () => {
+        deleteForm.prop('onExecute')()
+        expect(removeTask).toHaveBeenCalled()
+      })
     })
   })
 
@@ -81,20 +102,12 @@ describe('Task component', () => {
     it('does not render task info.', () => {
       expect(findText(task.info, wrapper)).toEqual(0)
     })
-
-    it('does not render a TaskTypelist component.', () => {
-      expect(wrapper.find(TaskTypelist).exists()).toEqual(false)
-    })
-
-    it('does not render a TaskObjectivelist component.', () => {
-      expect(wrapper.find(TaskObjectivelist).exists()).toEqual(false)
-    })
   })
 
   describe('when expanded', () => {
     beforeEach(() => {
-      wrapper.setState({
-        expanded: true
+      wrapper.setProps({
+        active: true
       })
     })
 
@@ -105,13 +118,15 @@ describe('Task component', () => {
     it('renders task info.', () => {
       expect(findText(task.info, wrapper)).toBeGreaterThan(0)
     })
+  })
 
-    it('renders a TaskTypelist component.', () => {
-      expect(wrapper.find(TaskTypelist).exists()).toEqual(true)
+  describe('when clicked', () => {
+    beforeEach(() => {
+      wrapper.find('.taskButton').prop('onClick')()
     })
 
-    it('renders a TaskObjectivelist component.', () => {
-      expect(wrapper.find(TaskObjectivelist).exists()).toEqual(true)
+    it('calls changeActive prop with correct parameters.', () => {
+      expect(changeActive).toHaveBeenCalledWith(task.id)
     })
   })
 })

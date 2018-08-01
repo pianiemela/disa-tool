@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button } from 'semantic-ui-react'
+import { Button, Form, Label, Input } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { addType } from '../../services/types'
@@ -12,16 +12,20 @@ import MultilingualField from '../../../../utils/components/MultilingualField'
 export class CreateTypeForm extends Component {
   addTypeSubmit = (e) => {
     this.props.addType({
-      courseId: this.props.courseId,
+      type_header_id: this.props.headerId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
-      swe_name: e.target.swe_name.value
+      swe_name: e.target.swe_name.value,
+      multiplier: Number(e.target.multiplier.value)
     })
   }
 
   render() {
     const contentPrompt = 'Lisää uusi tyyppi'
-    const label = 'nimi'
+    const label = {
+      name: 'nimi',
+      multiplier: 'kerroin'
+    }
     return (
       <div className="CreateTypeForm">
         <ModalForm
@@ -32,7 +36,11 @@ export class CreateTypeForm extends Component {
               <p>
                 {contentPrompt}.
               </p>
-              <MultilingualField field="name" fieldDisplay={label} />
+              <MultilingualField field="name" fieldDisplay={label.name} />
+              <Form.Field inline>
+                <Label>{label.multiplier}</Label>
+                <Input name="multiplier" type="number" min={0} max={1} step={0.01} />
+              </Form.Field>
               <Button type="submit" color="green">Tallenna</Button>
             </div>
           }
@@ -45,7 +53,7 @@ export class CreateTypeForm extends Component {
 
 CreateTypeForm.propTypes = {
   addType: PropTypes.func.isRequired,
-  courseId: PropTypes.number.isRequired
+  headerId: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

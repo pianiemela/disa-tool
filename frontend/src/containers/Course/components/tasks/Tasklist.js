@@ -8,11 +8,15 @@ import AddTaskForm from './AddTaskForm'
 
 export const Tasklist = props => (
   <div className="Tasklist">
-    {props.tasks.map(task => <Task key={task.id} task={task} editing={props.editing} />)}
+    {props.tasks.map(task => (<Task
+      key={task.id}
+      task={task}
+      editing
+    />))}
     {props.editing ? (
       <AddTaskForm courseId={props.courseId} />
     ) : (
-      <div />
+      null
     )}
   </div>
 )

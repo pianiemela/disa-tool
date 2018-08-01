@@ -1,8 +1,11 @@
 const router = require('express').Router()
 
 const objectiveService = require('../services/objective_service.js')
+const { checkPrivilege } = require('../services/privilege.js')
+const globalMessages = require('../messages/global_messages.js')
 
 const messages = {
+  ...globalMessages,
   create: {
     success: {
       eng: '"Oppimistavoite luotu onnistuneesti." englanniksi.',
@@ -20,8 +23,29 @@ const messages = {
 }
 
 router.post('/create', async (req, res) => {
-  // TODO validate
-  const created = await objectiveService.create(req.body, req.lang)
+  const { instance: toCreate, category, skillLevel } = await objectiveService.create.prepare(req.body)
+  if (!await checkPrivilege(
+    req,
+    [
+      {
+        key: 'logged_in'
+      },
+      {
+        key: 'teacher_on_course',
+        param: toCreate.dataValues.course_instance_id
+      }
+    ]
+  )
+  || category.course_instance_id !== toCreate.dataValues.course_instance_id
+  || skillLevel.course_instance_id !== toCreate.dataValues.course_instance_id
+  ) {
+    res.status(403).json({
+      error: messages.privilege.failure[req.lang]
+    })
+    return
+  }
+  await objectiveService.create.execute(toCreate)
+  const created = objectiveService.create.value(toCreate, req.lang)
   res.status(200).json({
     message: messages.create.success[req.lang],
     created
@@ -29,8 +53,26 @@ router.post('/create', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  // TODO validate
-  const deleted = await objectiveService.delete(req.params.id)
+  const toDelete = await objectiveService.delete.prepare(req.params.id)
+  if (!await checkPrivilege(
+    req,
+    [
+      {
+        key: 'logged_in'
+      },
+      {
+        key: 'teacher_on_course',
+        param: toDelete.dataValues.course_instance_id
+      }
+    ]
+  )) {
+    res.status(403).json({
+      error: messages.privilege.failure[req.lang]
+    })
+    return
+  }
+  const deleted = objectiveService.delete.value(toDelete)
+  objectiveService.delete.execute(toDelete)
   res.status(200).json({
     message: messages.delete.success[req.lang],
     deleted

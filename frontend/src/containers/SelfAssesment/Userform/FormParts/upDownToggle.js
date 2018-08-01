@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Icon, Popup } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
-import { toggleUp, toggleDown } from '../../../../actions/actions'
+import { toggleUp, toggleDown } from '../../actions/selfAssesment'
 
 const UpOrDownToggle = (props) => {
   const { id } = props

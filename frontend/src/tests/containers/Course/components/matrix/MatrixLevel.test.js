@@ -31,6 +31,8 @@ describe('MatrixLevel component', () => {
       level={level}
       courseId={1}
       editing={false}
+      activeMap={{}}
+      activeTaskId={null}
     />)
   })
 
@@ -51,13 +53,34 @@ describe('MatrixLevel component', () => {
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         editing: true
       })
     })
 
     it('renders a CreateObjectiveForm component.', () => {
       expect(wrapper.find(CreateObjectiveForm).exists()).toEqual(true)
+    })
+  })
+
+  describe('when a task is activated', () => {
+    const activeMap = {
+      1: true,
+      3: true
+    }
+
+    beforeEach(() => {
+      wrapper.setProps({
+        activeTaskId: 4,
+        activeMap
+      })
+    })
+
+    it('passes the active prop to MatrixObjectives according to activeMap.', () => {
+      wrapper.find(MatrixObjective).forEach((matrixObjective) => {
+        const objective = matrixObjective.prop('objective')
+        const active = matrixObjective.prop('active')
+        expect(active).toEqual(Boolean(activeMap[objective.id]))
+      })
     })
   })
 })

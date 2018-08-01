@@ -9,39 +9,84 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         categories: action.response.data.categories
       }
-    case 'OBJECTIVE_CREATE': {
-      const newObjective = {
-        id: action.response.created.id,
-        name: action.response.created.name
-      }
-      const newCategories = [...state.categories]
-      newCategories
-        .find(category => category.id === action.response.created.category_id).skill_levels
-        .find(level => level.id === action.response.created.skill_level_id).objectives
-        .push(newObjective)
+    case 'OBJECTIVE_CREATE':
       return {
         ...state,
-        categories: newCategories
+        categories: state.categories.map((category) => {
+          if (category.id === action.response.created.category_id) {
+            return {
+              ...category,
+              skill_levels: category.skill_levels.map((skillLevel) => {
+                if (skillLevel.id === action.response.created.skill_level_id) {
+                  return {
+                    ...skillLevel,
+                    objectives: [...skillLevel.objectives, {
+                      id: action.response.created.id,
+                      name: action.response.created.name
+                    }]
+                  }
+                }
+                return skillLevel
+              })
+            }
+          }
+          return category
+        })
       }
-    }
-    case 'OBJECTIVE_DELETE': {
-      const newCategories = [...state.categories]
-      const categoryToChange = newCategories.find(category => category.id === action.response.deleted.category_id)
-      const newSkillLevels = [...categoryToChange.skill_levels]
-      const levelToChange = newSkillLevels.find(level => level.id === action.response.deleted.skill_level_id)
-      const newObjectives = [...levelToChange.objectives]
-      let index = 0
-      while (index < newObjectives.length) {
-        if (newObjectives[index].id === action.response.deleted.id) {
-          newObjectives.splice(index, 1)
-          break
-        }
-        index += 1
+    case 'OBJECTIVE_DELETE':
+      return {
+        ...state,
+        categories: state.categories.map(category => (
+          category.id === action.response.deleted.category_id ? (
+            {
+              ...category,
+              skill_levels: category.skill_levels.map(skillLevel => (
+                skillLevel.id === action.response.deleted.skill_level_id ? (
+                  {
+                    ...skillLevel,
+                    objectives: skillLevel.objectives.filter(objective => (
+                      objective.id !== action.response.deleted.id
+                    ))
+                  }
+                ) : (
+                  skillLevel
+                )
+              ))
+            }
+          ) : (
+            category
+          )))
       }
-      levelToChange.objectives = newObjectives
-      categoryToChange.skill_levels = newSkillLevels
-      return { ...state, categories: newCategories }
-    }
+    case 'CATEGORY_CREATE':
+      return {
+        ...state,
+        categories: [...state.categories, action.response.created]
+      }
+    case 'CATEGORY_DELETE':
+      return {
+        ...state,
+        categories: state.categories.filter(category => category.id !== action.response.deleted.id)
+      }
+    case 'LEVEL_CREATE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: [...category.skill_levels, {
+            id: action.response.created.id,
+            objectives: []
+          }]
+        }))
+      }
+    case 'LEVEL_DELETE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: category.skill_levels
+            .filter(level => level.id !== action.response.deleted.id)
+        }))
+      }
     default:
       return state
   }

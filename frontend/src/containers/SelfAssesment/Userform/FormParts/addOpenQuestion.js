@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Grid, Button, Input } from 'semantic-ui-react'
 import { connect } from 'react-redux'
-import { addOpenQuestion } from '../../../../actions/actions'
+import { addOpenQuestion } from '../../actions/selfAssesment'
 
 class AddOpenQuestion extends React.Component {
   constructor(props) {

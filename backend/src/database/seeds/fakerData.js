@@ -1,6 +1,12 @@
 const faker = require('faker')
 const oldTasks = require('./tasks.json')
 
+if (process.env.NODE_ENV === 'test') {
+  // create_data randomly fails. This is here to make sure that doesn't happen with tests.
+  // seed SAFE_SEED should cause the problem to appear.
+  require('seedrandom')('SAFESEED', { global: true }) // eslint-disable-line
+}
+
 
 const getTaskObjectives = (tasks, objectives, courseInstances) => {
   const taskObjectives = []
@@ -66,34 +72,69 @@ const getCourseTasks = (courseInstances) => {
 
 const getStudentsAndTeachers = () => {
   const persons = []
+  let number = 12457689
   for (let i = 1; i <= 400; i++) {
-    const number = faker.random.number({ min: 11111111, max: 99999999 }).toString()
-    const studentnumber = '0' + number
+    const studentnumber = '0' + number.toString()
     persons.push({
       studentnumber,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       role: 'STUDENT'
     })
+    number++
   }
   for (let i = 401; i <= 420; i++) {
-    const number = faker.random.number({ min: 11111111, max: 99999999 }).toString()
-    const studentnumber = '0' + number
+    const studentnumber = '0' + number.toString()
     persons.push({
       studentnumber,
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       role: 'TEACHER'
     })
+    number++
   }
+// kurki test users
+  persons.push({
+    studentnumber: '012345678',
+    name: 'Teppo Testaaja',
+    role: 'STUDENT'
+  })
+
+  persons.push({
+    studentnumber: '012345688',
+    name: 'Angela Merkel',
+    role: 'STUDENT'
+  })
+
+  persons.push({
+    studentnumber: '012345609',
+    name: 'Kimg Jon-un',
+    role: 'TEACHER'
+  })
+
+  persons.push({
+    studentnumber: '012345679',
+    name: 'Terhi Testaaja',
+    role: 'TEACHER'
+  })
 
   return persons
 }
 
 const getCoursePersons = (persons) => {
   const coursePersons = []
-  for (let i = 0; i < persons.length; i++) {
+  // harcode linis for kurki test users
+  const testerteacherId = 424
+  for (let i = 420; i < persons.length; i++) {
     const element = persons[i]
     coursePersons.push({
-      course_instance_id: Math.floor(Math.random() * 8) + 1,
+      course_instance_id: element.id === testerteacherId ? 1 : Math.floor(Math.random() * 3) + 1,
+      person_id: element.id,
+      role: element.role
+    })
+  }
+  for (let i = 0; i < 420; i++) {
+    const element = persons[i]
+    coursePersons.push({
+      course_instance_id: Math.floor(Math.random() * 37) + 1,
       person_id: element.id,
       role: element.role
     })
@@ -101,54 +142,68 @@ const getCoursePersons = (persons) => {
   return coursePersons
 }
 
-const getTypes = (courseInstances) => {
-  const types = []
-  let multiplier = 0.1
-  const increment = 0.15
-  for (let i = 0; i < courseInstances.length; i++) {
-    const element = courseInstances[i]
-    multiplier = 0.1
-    for (let i = 0; i < 7; i++) {
-      const week = `Viikko ${i + 1}`
-      types.push({
-        eng_header: null,
-        fin_header: null,
-        swe_header: null,
-        eng_name: week,
-        swe_name: week,
-        fin_name: week,
-        multiplier: Math.round(multiplier * 100) / 100,
-        course_instance_id: element.id
-      })
-      multiplier += increment
-    }
+const getTypeHeaders = (courseInstances) => {
+  const typeHeaders = []
+  courseInstances.forEach((element) => {
+    typeHeaders.push({
+      eng_name: 'Week',
+      fin_name: 'Viikko',
+      swe_name: 'Vecka',
+      course_instance_id: element.id
+    })
+    typeHeaders.push({
+      eng_name: 'Series',
+      fin_name: 'Sarja',
+      swe_name: 'Serie',
+      course_instance_id: element.id
+    })
+  })
+  return typeHeaders
+}
 
-    const sarja = "ABC"
-    const prefix = "Sarja "
-    let sarjaMultiplier = 0.2
-    for (let i = 0; i < 3; i++) {
-      types.push({
-        eng_header: null,
-        fin_header: null,
-        swe_header: null,
-        eng_name: prefix + sarja.charAt(i),
-        swe_name: prefix + sarja.charAt(i),
-        fin_name: prefix + sarja.charAt(i),
-        multiplier: Math.round(sarjaMultiplier * 100) / 100,
-        course_instance_id: element.id
-      })
-      sarjaMultiplier += increment
+const getTypes = (typeHeaders) => {
+  const types = []
+  const increment = 0.15
+  for (let i = 0; i < typeHeaders.length; i++) {
+    const header = typeHeaders[i]
+    if (header.eng_name === 'Week') {
+      let multiplier = 0.1
+      for (let i = 0; i < 7; i++) {
+        types.push({
+          eng_name: i + 1,
+          swe_name: i + 1,
+          fin_name: i + 1,
+          multiplier: Math.round(multiplier * 100) / 100,
+          type_header_id: header.id
+        })
+        multiplier += increment
+      }
+    } else {
+      const sarja = ['A', 'B', 'Stack', 'Vertaisarvio']
+      let multiplier = 0.2
+      for (let i = 0; i < 3; i++) {
+        types.push({
+          eng_name: sarja[i],
+          swe_name: sarja[i],
+          fin_name: sarja[i],
+          multiplier: Math.round(multiplier * 100) / 100,
+          type_header_id: header.id
+        })
+        multiplier += increment
+      }
     }
   }
   return types
 }
 
-const getTaskTypes = (courseInstances, tasks, types) => {
+const getTaskTypes = (courseInstances, typeHeaders, tasks, types) => {
   const taskTypes = []
   for (let i = 0; i < courseInstances.length; i++) {
     const element = courseInstances[i]
-    const courseTypeWeeks = types.filter(t => (t.course_instance_id === element.id && t.eng_name.includes('Viikko')))
-    const courseTypeSarja = types.filter(t => (t.course_instance_id === element.id && t.eng_name.includes('Sarja')))
+    const weekHeader = typeHeaders.find(header => header.course_instance_id === element.id && header.fin_name === 'Viikko')
+    const sarjaHeader = typeHeaders.find(header => header.course_instance_id === element.id && header.fin_name === 'Sarja')
+    const courseTypeWeeks = types.filter(t => (t.type_header_id === weekHeader.id))
+    const courseTypeSarja = types.filter(t => (t.type_header_id === sarjaHeader.id))
     const courseTasks = tasks.filter(t => t.course_instance_id === element.id)
 
     for (let a = 0; a < courseTasks.length; a++) {
@@ -177,6 +232,7 @@ module.exports = {
   getCoursePersons,
   getCourseTasks,
   getTaskObjectives,
+  getTypeHeaders,
   getTypes,
   getTaskTypes
 }

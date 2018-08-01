@@ -12,16 +12,7 @@ testService({
     category_id: 7,
     course_instance_id: 1
   },
-  mockResponse: {
-    message: '<addObjectiveSuccess>',
-    created: {
-      id: 15,
-      name: 'dööt',
-      skill_level_id: 3,
-      category_id: 7
-    }
-  },
-  apiRoute: '/api/objectives/create',
+  apiRoute: '/objectives/create',
   apiMethod: 'post'
 })
 
@@ -31,14 +22,6 @@ testService({
   data: {
     id: 15
   },
-  mockResponse: {
-    message: '<removeObjectiveSuccess>',
-    deleted: {
-      id: 15,
-      skill_level_id: 3,
-      category_id: 7
-    }
-  },
-  apiRoute: '/api/objectives/1',
+  apiRoute: '/objectives/15',
   apiMethod: 'delete'
 })

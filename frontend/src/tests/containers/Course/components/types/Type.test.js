@@ -1,6 +1,6 @@
 import React from 'react'
 import { Type } from '../../../../../containers/Course/components/types/Type'
-import RemoveTypeForm from '../../../../../containers/Course/components/types/RemoveTypeForm'
+import DeleteForm from '../../../../../utils/components/DeleteForm'
 import { findText } from '../../../../testUtils'
 
 const type = {
@@ -11,14 +11,19 @@ const type = {
 
 describe('Type component', () => {
   let wrapper
-  let changeTypeMultiplier
+  let removeType
+  let toggleType
 
   beforeEach(() => {
-    changeTypeMultiplier = jest.fn()
+    removeType = jest.fn()
+    toggleType = jest.fn()
     wrapper = shallow(<Type
       type={type}
-      changeTypeMultiplier={changeTypeMultiplier}
       editing={false}
+      removeType={removeType}
+      activeTaskId={null}
+      active={false}
+      toggleType={toggleType}
     />)
   })
 
@@ -30,69 +35,78 @@ describe('Type component', () => {
     expect(findText(type.name, wrapper)).toBeGreaterThan(0)
   })
 
-  describe('number input', () => {
-    let numberInput
-
-    beforeEach(() => {
-      numberInput = wrapper.find('.numberInput')
-    })
-
-    it('renders with the correct value.', () => {
-      expect(numberInput.props().value).toEqual(type.multiplier)
-    })
-
-    it('calls changeTypeMultiplier when value is changed.', () => {
-      numberInput.simulate('change', {
-        target: {
-          value: 0.4
-        }
-      })
-      expect(changeTypeMultiplier).toHaveBeenCalledWith({
-        id: type.id,
-        multiplier: 0.4
-      })
-    })
-  })
-
-  describe('range input', () => {
-    let rangeInput
-
-    beforeEach(() => {
-      rangeInput = wrapper.find('.rangeInput')
-    })
-
-    it('renders with the correct value.', () => {
-      expect(rangeInput.props().value).toEqual(type.multiplier)
-    })
-
-    it('calls changeTypeMultiplier when value is changed.', () => {
-      rangeInput.simulate('change', {
-        target: {
-          value: 0.4
-        }
-      })
-      expect(changeTypeMultiplier).toHaveBeenCalledWith({
-        id: type.id,
-        multiplier: 0.4
-      })
-    })
-  })
-
   describe('when not editing', () => {
-    it('does not render a RemoveTypeForm component.', () => {
-      expect(wrapper.find(RemoveTypeForm).exists()).toEqual(false)
+    it('does not render a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(false)
     })
   })
 
   describe('when editing', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         editing: true
       })
     })
-    it('renders a RemoveTypeForm component.', () => {
-      expect(wrapper.find(RemoveTypeForm).exists()).toEqual(true)
+    it('renders a DeleteForm component.', () => {
+      expect(wrapper.find(DeleteForm).exists()).toEqual(true)
+    })
+
+    describe('DeleteForm component', () => {
+      let deleteForm
+      beforeEach(() => {
+        deleteForm = wrapper.find(DeleteForm)
+      })
+
+      it('includes type names in prompt.', () => {
+        const prompt = deleteForm.prop('prompt')
+        expect(prompt.filter(segment => segment.includes(type.name)).length).toBeGreaterThan(0)
+      })
+
+      it('gets the removeType prop as part of onExecute.', () => {
+        deleteForm.prop('onExecute')()
+        expect(removeType).toHaveBeenCalled()
+      })
+    })
+  })
+
+  describe('when activeTaskId is null', () => {
+    it('does not call toggleType prop when clicked.', () => {
+      wrapper.find('.Type').prop('onClick')()
+      expect(toggleType).not.toHaveBeenCalled()
+    })
+  })
+
+  describe('when activeTaskId is not null', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        activeTaskId: 3
+      })
+    })
+
+    it('calls toggleType prop when clicked.', () => {
+      wrapper.find('.Type').prop('onClick')()
+      expect(toggleType).toHaveBeenCalledWith({
+        task_id: 3,
+        type_id: type.id
+      })
+    })
+  })
+
+  describe('when not active', () => {
+    it('is not a special colour.', () => {
+      expect(wrapper.find('.Type').prop('style').backgroundColor).not.toBeDefined()
+    })
+  })
+
+  describe('when active', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        active: true
+      })
+    })
+
+    it('is coloured.', () => {
+      expect(wrapper.find('.Type').prop('style').backgroundColor).toBeDefined()
     })
   })
 })

@@ -8,7 +8,9 @@ module.exports = {
   mode: 'development',
   entry: ['babel-polyfill', './src/index.js'],
   output: {
-    path: path.join(__dirname, './dist')
+    path: path.join(__dirname, './dist'),
+    filename: 'index.js',
+    publicPath: '/'
   },
   module: {
     rules: [

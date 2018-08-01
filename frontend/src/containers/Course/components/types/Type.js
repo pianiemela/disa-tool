@@ -1,39 +1,56 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Input, Segment, Header } from 'semantic-ui-react'
+import { Segment, Header, Button } from 'semantic-ui-react'
+import asyncAction from '../../../../utils/asyncAction'
 
-import { changeTypeMultiplier } from '../../actions/types'
+import { removeType } from '../../services/types'
+import { addTypeToTask, removeTypeFromTask } from '../../services/tasks'
 
-import RemoveTypeForm from './RemoveTypeForm'
+import DeleteForm from '../../../../utils/components/DeleteForm'
 
 export class Type extends Component {
-  changeMultiplier = (e) => {
-    this.props.changeTypeMultiplier({
-      id: this.props.type.id,
-      multiplier: Number(e.target.value)
-    })
+  toggleType = () => {
+    if (this.props.activeTaskId) {
+      this.props.toggleType({
+        type_id: this.props.type.id,
+        task_id: this.props.activeTaskId
+      })
+    }
   }
 
   render() {
     return (
-      <Segment className="Type">
+      <Segment
+        className="Type"
+        style={{
+            cursor: this.props.activeTaskId === null ? 'default' : 'pointer',
+            backgroundColor: this.props.active ? '#21ba45' : undefined
+          }}
+        onClick={this.toggleType}
+      >
         <div className="headerBlock">
           <Header className="typeHeader">{this.props.type.name}</Header>
         </div>
         {this.props.editing ? (
-          <div className="removeBlock">
-            <RemoveTypeForm type={this.props.type} />
+          <div>
+            <div className="editBlock">
+              <Button type="button" icon={{ name: 'edit', size: 'small' }} />
+            </div>
+            <div className="removeBlock">
+              <DeleteForm
+                onExecute={() => this.props.removeType({ id: this.props.type.id })}
+                prompt={[
+                  'Poistetaanko tyyppi',
+                  `"${this.props.type.name}"`
+                ]}
+                header="Poista tyyppi"
+              />
+            </div>
           </div>
         ) : (
-          <div />
+          null
         )}
-        <div className="inputBlock">
-          <div className="inputContainer">
-            <Input className="numberInput" type="number" min={0} max={1} step={0.01} value={this.props.type.multiplier} onChange={this.changeMultiplier} />
-            <Input className="rangeInput" type="range" min={0} max={1} step={0.01} value={this.props.type.multiplier} onChange={this.changeMultiplier} />
-          </div>
-        </div>
       </Segment>
     )
   }
@@ -46,11 +63,20 @@ Type.propTypes = {
     multiplier: PropTypes.number
   }).isRequired,
   editing: PropTypes.bool.isRequired,
-  changeTypeMultiplier: PropTypes.func.isRequired
+  removeType: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  activeTaskId: PropTypes.number,
+  toggleType: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
-  changeTypeMultiplier: changeTypeMultiplier(dispatch)
+Type.defaultProps = {
+  activeTaskId: null
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => ({
+  ...ownProps,
+  removeType: asyncAction(removeType, dispatch),
+  toggleType: asyncAction(ownProps.active ? removeTypeFromTask : addTypeToTask, dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(Type)

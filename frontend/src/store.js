@@ -3,25 +3,25 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
 
 import task from './redux/task'
-import objective from './redux/objective'
 import level from './redux/level'
 import category from './redux/category'
 import type from './redux/type'
 import course from './redux/course'
-import selfAssesmentCreate from './redux/selfAssesmentCreate'
+import selfAssesment from './redux/selfAssesment'
 import { userReducer } from './redux/user'
 import { userCoursesReducer } from './redux/userCourses'
+import { instanceReducer } from './redux/instance'
 
 const reducers = combineReducers({
   task,
-  objective,
   level,
   category,
   type,
   course,
-  selfAssesmentCreate,
+  selfAssesment,
   user: userReducer,
-  courses: userCoursesReducer
+  courses: userCoursesReducer,
+  instance: instanceReducer
 })
 
 const store = process.env.NODE_ENV === 'development' ?

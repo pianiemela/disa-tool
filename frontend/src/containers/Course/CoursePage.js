@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Grid, Loader } from 'semantic-ui-react'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
+import { Loader } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
 import { getCourseData } from './services/course'
 
-import Matrix from './components/matrix/Matrix'
-import Tasklist from './components/tasks/Tasklist'
-import Typelist from './components/types/Typelist'
+import EditMatrixTab from './components/matrix/EditMatrixTab'
+import EditTypesTab from './components/types/EditTypesTab'
+import EditTasksTab from './components/tasks/EditTasksTab'
+import Navbar from './components/navbar/Navbar'
 import CourseHeader from './components/header/CourseHeader'
 
 export class CoursePage extends Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.getCourseData({
-      courseId: this.props.courseId
+      id: this.props.match.params.id
     })
   }
 
@@ -24,44 +26,42 @@ export class CoursePage extends Component {
     }
     return (
       <div className="CoursePage">
-        <Grid>
-          <Grid.Row>
-            <CourseHeader editing={this.props.editing} courseName={this.props.course.name} />
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <Matrix editing={this.props.editing} courseId={this.props.course.id} />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Grid.Column>
-              <Typelist editing={this.props.editing} courseId={this.props.course.id} />
-            </Grid.Column>
-          </Grid.Row>
-          <Grid.Row>
-            <Tasklist editing={this.props.editing} courseId={this.props.course.id} />
-          </Grid.Row>
-        </Grid>
+        <CourseHeader />
+        <Navbar matchUrl={this.props.match.url} pathname={this.props.location.pathname} />
+        <Switch>
+          <Route path={`${this.props.match.url}/matrix`} render={() => <EditMatrixTab courseId={this.props.match.params.id} />} />
+          <Route path={`${this.props.match.url}/types`} render={() => <EditTypesTab courseId={this.props.match.params.id} />} />
+          <Route path={`${this.props.match.url}/tasks`} render={() => <EditTasksTab courseId={this.props.match.params.id} />} />
+          <Route component={() => <Redirect to={`${this.props.match.url}/tasks`} />} />
+        </Switch>
       </div>
     )
   }
 }
 
 CoursePage.propTypes = {
-  course: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string
+  match: PropTypes.shape({
+    url: PropTypes.string.isRequired,
+    params: PropTypes.shape({
+      id: PropTypes.number.isRequired
+    }).isRequired
+  }).isRequired,
+  location: PropTypes.shape({
+    pathname: PropTypes.string.isRequired
   }).isRequired,
   getCourseData: PropTypes.func.isRequired,
-  editing: PropTypes.bool.isRequired,
-  loading: PropTypes.bool.isRequired,
-  courseId: PropTypes.number.isRequired
+  loading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  ...ownProps,
-  course: state.course.course,
-  editing: state.course.editing,
+  match: {
+    ...ownProps.match,
+    params: {
+      ...ownProps.match.params,
+      id: Number(ownProps.match.params.id)
+    }
+  },
+  location: ownProps.location,
   loading: state.course.loading
 })
 
@@ -69,4 +69,4 @@ const mapDispatchToProps = dispatch => ({
   getCourseData: asyncAction(getCourseData, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CoursePage)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CoursePage))

@@ -1,21 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import './types.css'
 
 import Type from './Type'
 import CreateTypeForm from './CreateTypeForm'
 
 export const Typelist = props => (
   <div className="Typelist">
-    <div />{/* This div is here on purpose.
-    The first element inside the parent div gets displaced for css reasons.
-    This is a sacrificial div to deal with that bug. */}
-    {props.types.map(type => <Type key={type.id} type={type} editing={props.editing} />)}
+    {props.types.map(type => (<Type
+      key={type.id}
+      type={type}
+      editing={props.editing}
+      active={Boolean(props.activeMap[type.id])}
+      activeTaskId={props.activeTaskId}
+    />))}
     {props.editing ? (
-      <CreateTypeForm courseId={props.courseId} />
+      <CreateTypeForm headerId={props.headerId} />
     ) : (
-      <div />
+      null
     )}
   </div>
 )
@@ -25,11 +26,13 @@ Typelist.propTypes = {
     id: PropTypes.number
   })).isRequired,
   editing: PropTypes.bool.isRequired,
-  courseId: PropTypes.number.isRequired
+  headerId: PropTypes.number.isRequired,
+  activeTaskId: PropTypes.number,
+  activeMap: PropTypes.objectOf(PropTypes.bool).isRequired
 }
 
-const mapStateToProps = state => ({
-  types: state.type.types
-})
+Typelist.defaultProps = {
+  activeTaskId: null
+}
 
-export default connect(mapStateToProps, null)(Typelist)
+export default Typelist

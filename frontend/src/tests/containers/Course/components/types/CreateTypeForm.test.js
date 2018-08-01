@@ -10,7 +10,7 @@ describe('CreateTypeForm component', () => {
   beforeEach(() => {
     wrapper = shallow(<CreateTypeForm
       addType={mockFn}
-      courseId={1}
+      headerId={1}
     />)
   })
 

@@ -15,18 +15,10 @@ testService({
     eng_name: 'doot',
     fin_name: 'dööt',
     swe_name: 'dååt',
-    courseId: 1
+    course_instance_id: 1
   },
-  mockResponse: {
-    message: '<addTaskSuccess>',
-    data: {
-      eng_name: 'doot',
-      fin_name: 'dööt',
-      swe_name: 'dååt',
-      courseId: 1,
-      id: 2
-    }
-  }
+  apiRoute: '/tasks/create',
+  apiMethod: 'post'
 })
 
 testService({
@@ -35,74 +27,50 @@ testService({
   data: {
     id: 3
   },
-  mockResponse: {
-    message: '<removeTaskSuccess>',
-    data: {
-      id: 3
-    }
-  }
+  apiRoute: '/tasks/3',
+  apiMethod: 'delete'
 })
 
 testService({
   func: addObjectiveToTask,
-  type: 'TASK_ADD_OBJECTIVE',
+  type: 'TASK_ATTACH_OBJECTIVE',
   data: {
-    taskId: 7,
-    objectiveId: 4
+    task_id: 7,
+    objective_id: 4
   },
-  mockResponse: {
-    message: '<addObjectiveToTaskSuccess>',
-    data: {
-      taskId: 7,
-      objectiveId: 4
-    }
-  }
+  apiRoute: '/tasks/objectives/attach',
+  apiMethod: 'post'
 })
 
 testService({
   func: removeObjectiveFromTask,
-  type: 'TASK_REMOVE_OBJECTIVE',
+  type: 'TASK_DETACH_OBJECTIVE',
   data: {
-    taskId: 11,
-    objectiveId: 23
+    task_id: 11,
+    objective_id: 23
   },
-  mockResponse: {
-    message: '<removeObjectiveFromTaskSuccess>',
-    data: {
-      taskId: 11,
-      objectiveId: 23
-    }
-  }
+  apiRoute: '/tasks/objectives/detach',
+  apiMethod: 'post'
 })
 
 testService({
   func: addTypeToTask,
-  type: 'TASK_ADD_TYPE',
+  type: 'TASK_ATTACH_TYPE',
   data: {
-    typeId: 7,
-    taskId: 4
+    type_id: 7,
+    task_id: 4
   },
-  mockResponse: {
-    message: '<addTypeToTaskSuccess>',
-    data: {
-      typeId: 7,
-      taskId: 4
-    }
-  }
+  apiRoute: '/tasks/types/attach',
+  apiMethod: 'post'
 })
 
 testService({
   func: removeTypeFromTask,
-  type: 'TASK_REMOVE_TYPE',
+  type: 'TASK_DETACH_TYPE',
   data: {
-    typeId: 11,
-    taskId: 23
+    type_id: 11,
+    task_id: 23
   },
-  mockResponse: {
-    message: '<removeTypeFromTaskSuccess>',
-    data: {
-      typeId: 11,
-      taskId: 23
-    }
-  }
+  apiRoute: '/tasks/types/detach',
+  apiMethod: 'post'
 })

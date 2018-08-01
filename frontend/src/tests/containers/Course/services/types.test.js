@@ -1,4 +1,4 @@
-import { addType, removeType } from '../../../../containers/Course/services/types'
+import { addType, removeType, addHeader, removeHeader } from '../../../../containers/Course/services/types'
 import { testService } from '../../../testUtils'
 
 testService({
@@ -10,16 +10,8 @@ testService({
     swe_name: 'dååt',
     courseId: 1
   },
-  mockResponse: {
-    message: '<addTypeSuccess>',
-    data: {
-      eng_name: 'doot',
-      fin_name: 'dööt',
-      swe_name: 'dååt',
-      courseId: 1,
-      id: 10
-    }
-  }
+  apiMethod: 'post',
+  apiRoute: '/types/create'
 })
 
 testService({
@@ -28,10 +20,23 @@ testService({
   data: {
     id: 15
   },
-  mockResponse: {
-    message: '<removeTypeSuccess>',
-    data: {
-      id: 15
-    }
-  }
+  apiMethod: 'delete',
+  apiRoute: '/types/15'
+})
+
+testService({
+  func: addHeader,
+  type: 'TYPE_HEADER_CREATE',
+  apiRoute: '/types/headers/create',
+  apiMethod: 'post'
+})
+
+testService({
+  func: removeHeader,
+  type: 'TYPE_HEADER_DELETE',
+  data: {
+    id: 16
+  },
+  apiRoute: '/types/headers/16',
+  apiMethod: 'delete'
 })

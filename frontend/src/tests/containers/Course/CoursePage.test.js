@@ -1,22 +1,32 @@
 import React from 'react'
-import CourseHeader from '../../../containers/Course/components/header/CourseHeader'
-import Matrix from '../../../containers/Course/components/matrix/Matrix'
-import Tasklist from '../../../containers/Course/components/tasks/Tasklist'
-import Typelist from '../../../containers/Course/components/types/Typelist'
+import Navbar from '../../../containers/Course/components/navbar/Navbar'
 import { CoursePage } from '../../../containers/Course/CoursePage'
+import CourseHeader from '../../../containers/Course/components/header/CourseHeader'
 
 const mockFn = () => {}
 
 describe('Course page', () => {
   let wrapper
+  let getCourseData
 
   beforeEach(() => {
+    getCourseData = jest.fn()
     wrapper = shallow(<CoursePage
+      match={{
+        url: '/course/1',
+        params: {
+          id: 1
+        }
+      }}
+      location={{
+        pathname: '/course/1'
+      }}
+      EditMatrixTab={mockFn}
+      EditTasksTab={mockFn}
+      EditTypesTab={mockFn}
       courseId={1}
-      course={{}}
-      editing={false}
       loading={false}
-      getCourseData={mockFn}
+      getCourseData={getCourseData}
     />)
   })
 
@@ -24,26 +34,23 @@ describe('Course page', () => {
     expect(wrapper.find('.CoursePage').exists()).toEqual(true)
   })
 
-  it('renders CourseHeader', () => {
+  it('renders a Navbar Component', () => {
+    expect(wrapper.find(Navbar).exists()).toEqual(true)
+  })
+
+  it('renders a CourseHeader Component', () => {
     expect(wrapper.find(CourseHeader).exists()).toEqual(true)
   })
 
-  it('renders Matrix', () => {
-    expect(wrapper.find(Matrix).exists()).toEqual(true)
-  })
-
-  it('renders Tasklist', () => {
-    expect(wrapper.find(Tasklist).exists()).toEqual(true)
-  })
-
-  it('renders Typelist', () => {
-    expect(wrapper.find(Typelist).exists()).toEqual(true)
+  it('calls the getCourseData prop with the correct course id.', () => {
+    expect(getCourseData).toHaveBeenCalledWith({
+      id: 1
+    })
   })
 
   describe('while loading', () => {
     beforeEach(() => {
       wrapper.setProps({
-        ...wrapper.props(),
         loading: true
       })
     })
