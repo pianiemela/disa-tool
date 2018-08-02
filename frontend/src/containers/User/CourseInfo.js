@@ -30,7 +30,6 @@ export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }
               {teacher.name}
               {course.courseRole === 'TEACHER' ?
                 <Button
-                  name="teacherRemoveButton"
                   floated="right"
                   basic
                   circular
