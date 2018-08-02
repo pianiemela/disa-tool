@@ -15,6 +15,11 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         instances: action.response
       }
+    case 'COURSELIST_INSTANCE_CREATE':
+      return {
+        ...state,
+        instances: [...state.instances, action.response.created]
+      }
     default:
       return state
   }

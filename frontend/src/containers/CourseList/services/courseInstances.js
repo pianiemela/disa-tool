@@ -3,7 +3,7 @@ import { postJson, getJson } from '../../../utils/utils'
 export const addInstance = data => new Promise((resolve) => {
   postJson('/course-instances/create', data).then((response) => {
     resolve({
-      type: 'COURSE_INSTANCE_CREATE',
+      type: 'COURSELIST_INSTANCE_CREATE',
       response: response.data
     })
   })
