@@ -70,10 +70,12 @@ class CourseListPage extends Component {
                 </List.Item>
               ))}
               {this.props.user && this.props.user.role === 'TEACHER' && this.props.selectedCourse ?
-                <div>
-                  <CreateInstanceForm course_id={this.props.selectedCourse.id} />
-                </div> :
-                undefined
+                (
+                  <List.Item style={{ color: 'green' }}>
+                    <CreateInstanceForm course_id={this.props.selectedCourse.id} />
+                  </List.Item>
+                ) :
+                null
               }
             </List>
           </Grid.Column>

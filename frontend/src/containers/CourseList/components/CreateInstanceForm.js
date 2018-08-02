@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button } from 'semantic-ui-react'
+import { Button, Icon } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
 
 import { addInstance } from '../services/courseInstances'
@@ -25,7 +25,7 @@ export class CreateInstanceForm extends Component {
       <div className="CreateInstanceForm">
         <ModalForm
           header="Luo uusi kurssi-instanssi"
-          trigger={<Button className="addInstanceButton">Luo uusi instanssi tästä kurssista</Button>}
+          trigger={<span><Icon name="add" />Luo uusi instanssi tästä kurssista</span>}
           content={
             <div>
               <p>
