@@ -4,8 +4,10 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Header, List, Grid, Dropdown } from 'semantic-ui-react'
 import parseQueryParams from '../../utils/parseQueryParams'
+import asyncAction from '../../utils/asyncAction'
 
-import { getCourses, getInstancesOfCourse } from '../../actions/actions'
+import { getCourses } from './services/courses'
+import { getInstancesOfCourse } from './services/courseInstances'
 
 import CreateInstanceForm from './components/CreateInstanceForm'
 
@@ -13,9 +15,7 @@ class CourseListPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      courses: [],
       course: undefined,
-      instances: [],
       instance: undefined
     }
     if (this.props.location.query_params.id) {
@@ -26,26 +26,23 @@ class CourseListPage extends Component {
   }
 
   componentDidMount = async () => {
-    const courses = await getCourses().then(res => res.data)
-    this.setState({ courses })
+    await this.props.getCourses()
   }
 
   handleChange = async (e, data) => {
     if (data.value && data.value !== this.state.course) {
-      const selectedCourse = this.state.courses.find(course => course.id === data.value)
+      const selectedCourse = this.props.courses.find(course => course.id === data.value)
       await this.setState({ course: selectedCourse })
-      const instances = await getInstancesOfCourse(this.state.course.id).then(res => res.data)
-      await this.setState({ instances, instance: undefined })
+      await this.props.getInstancesOfCourse(this.state.course.id)
     }
   }
 
   selectInstance = (e, data) => {
-    const selectedInstance = this.state.instances.find(instance => instance.id === Number(data.value))
+    const selectedInstance = this.props.instances.find(instance => instance.id === Number(data.value))
     this.setState({ instance: selectedInstance })
   }
 
   render() {
-    console.log(this.props)
     return (
       <Grid columns={1} padded="vertically">
         <Grid.Row centered>
@@ -55,7 +52,7 @@ class CourseListPage extends Component {
               search
               selection
               value={this.state.course ? this.state.course.id : undefined}
-              options={this.state.courses.map(course =>
+              options={this.props.courses.map(course =>
                 ({ key: course.id, text: course.name, value: course.id }))
                 .concat([{
                   as: Link,
@@ -73,7 +70,7 @@ class CourseListPage extends Component {
         <Grid.Row>
           <Grid.Column width={4}>
             <List selection>
-              {this.state.instances.map(instance => (
+              {this.props.instances.map(instance => (
                 <List.Item
                   style={instance.active ? { color: 'blue' } : undefined}
                   key={instance.id}
@@ -121,18 +118,30 @@ class CourseListPage extends Component {
 CourseListPage.propTypes = {
   location: PropTypes.shape({
     query_params: PropTypes.object.isRequired
-  }).isRequired
+  }).isRequired,
+  courses: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
+  })).isRequired,
+  instances: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    active: PropTypes.bool.isRequired
+  })).isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   user: state.user,
   userCourses: state.courses,
-  location: parseQueryParams(ownProps.location)
+  location: parseQueryParams(ownProps.location),
+  courses: state.listCourses.courses,
+  instances: state.listCourses.instances
 })
 
-// const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = dispatch => ({
+  getCourses: asyncAction(getCourses, dispatch),
+  getInstancesOfCourse: asyncAction(getInstancesOfCourse, dispatch)
+})
 
-// })
-
-export default connect(mapStateToProps, null)(CourseListPage)
+export default connect(mapStateToProps, mapDispatchToProps)(CourseListPage)

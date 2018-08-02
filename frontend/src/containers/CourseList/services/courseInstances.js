@@ -1,6 +1,6 @@
-import { postJson } from '../../../utils/utils'
+import { postJson, getJson } from '../../../utils/utils'
 
-const addInstance = data => new Promise((resolve) => {
+export const addInstance = data => new Promise((resolve) => {
   postJson('/course-instances/create', data).then((response) => {
     resolve({
       type: 'COURSE_INSTANCE_CREATE',
@@ -9,6 +9,11 @@ const addInstance = data => new Promise((resolve) => {
   })
 })
 
-module.exports = {
-  addInstance
-}
+export const getInstancesOfCourse = courseId => new Promise((resolve) => {
+  getJson(`/courses/${courseId}`).then((response) => {
+    resolve({
+      type: 'COURSELIST_GET_INSTANCES',
+      response: response.data
+    })
+  })
+})

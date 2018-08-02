@@ -4,10 +4,6 @@ export const getUsersCourses = () => getJson('/courses/user')
 
 export const getAllSelfAssesments = () => getJson('/courses/user')
 
-export const getCourses = () => getJson('/courses')
-
-export const getInstancesOfCourse = courseId => getJson(`/courses/${courseId}`)
-
 export const getCategoriesForCourse = courseId => getJson(`/categories/${courseId}`)
 
 export const getUser = () => getJson('/persons/user')
