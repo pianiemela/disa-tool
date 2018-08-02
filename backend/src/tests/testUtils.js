@@ -173,6 +173,11 @@ const testBody = (options, match) => {
   })
 }
 
+const timestamps = {
+  updated_at: expect.any(Date),
+  created_at: expect.any(Date)
+}
+
 /**
  * @param {*} match Object that database row.toJSON() should match.
  * @param {*} model Database model.
@@ -186,7 +191,11 @@ const testBody = (options, match) => {
  * }
  */
 const testDatabaseSave = (options, match, model, config = {}) => {
-  const { disallowId = false, pathToId = ['body', 'created', 'id'] } = config
+  const {
+    disallowId = false,
+    pathToId = ['body', 'created', 'id'],
+    includeTimestamps = true
+  } = config
   const reqOptions = { ...options }
   if (disallowId) reqOptions.preamble.send = { ...reqOptions.preamble.send, id: 10001 }
   it('saves a row into the database.', (done) => {
@@ -199,6 +208,7 @@ const testDatabaseSave = (options, match, model, config = {}) => {
         const json = row.toJSON()
         if (disallowId) expect(json.id).not.toEqual(10001)
         expect(json).toMatchObject(match)
+        if (includeTimestamps) expect(json).toMatchObject(timestamps)
         done()
       })
     })
