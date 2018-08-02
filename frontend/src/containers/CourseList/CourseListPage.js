@@ -8,38 +8,27 @@ import asyncAction from '../../utils/asyncAction'
 
 import { getCourses } from './services/courses'
 import { getInstancesOfCourse } from './services/courseInstances'
+import { selectCourse } from './actions/courses'
+import { selectInstance } from './actions/courseInstances'
 
 import CreateInstanceForm from './components/CreateInstanceForm'
 
 class CourseListPage extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      course: undefined,
-      instance: undefined
-    }
-    if (this.props.location.query_params.id) {
-      this.state.course = {
-        id: Number(this.props.location.query_params.id)
-      }
-    }
-  }
 
   componentDidMount = async () => {
     await this.props.getCourses()
   }
 
-  handleChange = async (e, data) => {
-    if (data.value && data.value !== this.state.course) {
-      const selectedCourse = this.props.courses.find(course => course.id === data.value)
-      await this.setState({ course: selectedCourse })
-      await this.props.getInstancesOfCourse(this.state.course.id)
+  handleChange = (e, data) => {
+    if (data.value && data.value !== this.props.selectedCourse) {
+      this.props.selectCourse(Number(data.value))
+      this.props.selectInstance(undefined)
+      this.props.getInstancesOfCourse(Number(data.value))
     }
   }
 
   selectInstance = (e, data) => {
-    const selectedInstance = this.props.instances.find(instance => instance.id === Number(data.value))
-    this.setState({ instance: selectedInstance })
+    this.props.selectInstance(Number(data.value))
   }
 
   render() {
@@ -51,7 +40,7 @@ class CourseListPage extends Component {
               fluid
               search
               selection
-              value={this.state.course ? this.state.course.id : undefined}
+              value={this.props.selectedCourse ? this.props.selectedCourse.id : undefined}
               options={this.props.courses.map(course =>
                 ({ key: course.id, text: course.name, value: course.id }))
                 .concat([{
@@ -83,25 +72,25 @@ class CourseListPage extends Component {
             </List>
           </Grid.Column>
           <Grid.Column width={4}>
-            {this.state.course ?
+            {this.props.selectedCourse ?
               <div>
-                {this.state.instance ?
+                {this.props.selectedInstance ?
                   <div>
-                    <h2>{this.state.instance.name}</h2>
-                    <Header as="h2" color={this.state.instance.active ? 'green' : 'red'}>
+                    <h2>{this.props.selectedInstance.name}</h2>
+                    <Header as="h2" color={this.props.selectedInstance.active ? 'green' : 'red'}>
                       <Header.Subheader>Tämä kurssi on tällä hetkellä </Header.Subheader>
-                      {this.state.instance.active ? <span><b>käynnissä</b></span> : <span><b>ei käynnissä</b></span>}
+                      {this.props.selectedInstance.active ? <span><b>käynnissä</b></span> : <span><b>ei käynnissä</b></span>}
                     </Header>
-                    {this.props.userCourses && this.props.userCourses.find(course => course.id === this.state.instance.id) ?
-                      <p>Olet kurssilla <Button as={Link} to={`/user/course/${this.state.instance.id}`}>Kurssisivulle</Button></p> : <p>et ole kurssilla</p>}
-                    {this.state.instance.active ? <Button inverted color="blue">Rekisteröidy kurssille</Button> : undefined}
+                    {this.props.userCourses && this.props.userCourses.find(course => course.id === this.props.selectedInstance.id) ?
+                      <p>Olet kurssilla <Button as={Link} to={`/user/course/${this.props.selectedInstance.id}`}>Kurssisivulle</Button></p> : <p>et ole kurssilla</p>}
+                    {this.props.selectedInstance.active ? <Button inverted color="blue">Rekisteröidy kurssille</Button> : undefined}
                   </div> :
                   <div>Valitse vielä kurssi-instanssi.</div>
                 }
                 {this.props.user && this.props.user.role === 'TEACHER' ?
                   <div>
                     <br />
-                    <CreateInstanceForm course_id={this.state.course.id} />
+                    <CreateInstanceForm course_id={this.props.selectedCourse.id} />
                   </div> :
                   undefined
                 }
@@ -127,7 +116,19 @@ CourseListPage.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired
-  })).isRequired
+  })).isRequired,
+  getCourses: PropTypes.func.isRequired,
+  getInstancesOfCourse: PropTypes.func.isRequired,
+  selectedCourse: PropTypes.shape({
+    id: PropTypes.number.isRequired
+  }).isRequired,
+  selectedInstance: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    active: PropTypes.bool.isRequired
+  }).isRequired,
+  selectCourse: PropTypes.func.isRequired,
+  selectInstance: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -136,12 +137,16 @@ const mapStateToProps = (state, ownProps) => ({
   userCourses: state.courses,
   location: parseQueryParams(ownProps.location),
   courses: state.listCourses.courses,
-  instances: state.listCourses.instances
+  instances: state.listCourses.instances,
+  selectedCourse: state.listCourses.selectedCourse,
+  selectedInstance: state.listCourses.selectedInstance
 })
 
 const mapDispatchToProps = dispatch => ({
   getCourses: asyncAction(getCourses, dispatch),
-  getInstancesOfCourse: asyncAction(getInstancesOfCourse, dispatch)
+  getInstancesOfCourse: asyncAction(getInstancesOfCourse, dispatch),
+  selectCourse: selectCourse(dispatch),
+  selectInstance: selectInstance(dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CourseListPage)

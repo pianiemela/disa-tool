@@ -1,6 +1,8 @@
 const INITIAL_STATE = {
   instances: [],
-  courses: []
+  courses: [],
+  selectedCourse: undefined,
+  selectedInstance: undefined
 }
 
 const listCoursesReducer = (state = INITIAL_STATE, action) => {
@@ -14,6 +16,16 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         instances: action.response
+      }
+    case 'COURSELIST_COURSE_SELECT':
+      return {
+        ...state,
+        selectedCourse: state.courses.find(course => course.id === action.id)
+      }
+    case 'COURSELIST_INSTANCE_SELECT':
+      return {
+        ...state,
+        selectedInstance: state.instances.find(instance => instance.id === action.id)
       }
     case 'COURSELIST_INSTANCE_CREATE':
       return {
