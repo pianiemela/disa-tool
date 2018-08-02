@@ -1,4 +1,15 @@
-const { CourseInstance, Objective, Category, Task, SkillLevel, TypeHeader, Type, TaskObjective, TaskType } = require('../database/models.js')
+const {
+  CourseInstance,
+  Objective,
+  Category,
+  Task,
+  SkillLevel,
+  TypeHeader,
+  Type,
+  TaskObjective,
+  TaskType,
+  CoursePerson
+} = require('../database/models.js')
 
 
 const getOne = courseInstanceId => CourseInstance.findOne({ where: { id: courseInstanceId } })
@@ -110,7 +121,31 @@ const mapObjectives = (value) => {
   return returnValue
 }
 
+const create = {
+  prepare: data => CourseInstance.build({
+    course_id: data.course_id,
+    eng_name: data.eng_name,
+    fin_name: data.fin_name,
+    swe_name: data.swe_name,
+    active: false
+  }),
+  execute: (instance, user) => instance.save().then(result => CoursePerson.create({
+    course_instance_id: result.dataValues.id,
+    person_id: user.id,
+    role: 'TEACHER'
+  })),
+  value: (instance, lang) => {
+    const json = instance.toJSON()
+    return {
+      id: json.id,
+      name: json[`${lang}_name`],
+      active: json.active
+    }
+  }
+}
+
 module.exports = {
   getCourseInstanceData,
-  getOne
+  getOne,
+  create
 }

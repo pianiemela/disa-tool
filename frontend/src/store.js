@@ -11,6 +11,7 @@ import selfAssesment from './redux/selfAssesment'
 import { userReducer } from './redux/user'
 import { userCoursesReducer } from './redux/userCourses'
 import { instanceReducer } from './redux/instance'
+import listCourses from './redux/listCourses'
 
 const reducers = combineReducers({
   task,
@@ -21,7 +22,8 @@ const reducers = combineReducers({
   selfAssesment,
   user: userReducer,
   courses: userCoursesReducer,
-  instance: instanceReducer
+  instance: instanceReducer,
+  listCourses
 })
 
 const store = process.env.NODE_ENV === 'development' ?
