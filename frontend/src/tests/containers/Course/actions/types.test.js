@@ -1,4 +1,4 @@
-import { addType, removeType, addHeader, removeHeader } from '../../../../containers/Course/services/types'
+import { addType, removeType, addHeader, removeHeader } from '../../../../containers/Course/actions/types'
 import { testService } from '../../../testUtils'
 
 testService({

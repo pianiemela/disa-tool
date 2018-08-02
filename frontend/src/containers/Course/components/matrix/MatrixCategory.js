@@ -6,7 +6,7 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import MatrixLevel from './MatrixLevel'
 import DeleteForm from '../../../../utils/components/DeleteForm'
-import { removeCategory } from '../../services/categories'
+import { removeCategory } from '../../actions/categories'
 
 export const MatrixCategory = props => (
   <Table.Row className="MatrixCategory">

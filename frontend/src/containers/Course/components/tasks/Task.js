@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
-import { removeTask } from '../../services/tasks'
-import { changeActive } from '../../actions/tasks'
+import { removeTask, changeActive } from '../../actions/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 

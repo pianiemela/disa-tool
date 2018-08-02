@@ -1,4 +1,4 @@
-import { addLevel, removeLevel } from '../../../../containers/Course/services/levels'
+import { addLevel, removeLevel } from '../../../../containers/Course/actions/levels'
 import { testService } from '../../../testUtils'
 
 testService({

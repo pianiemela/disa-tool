@@ -1,4 +1,4 @@
-import { addObjective, removeObjective } from '../../../../containers/Course/services/objectives'
+import { addObjective, removeObjective } from '../../../../containers/Course/actions/objectives'
 import { testService } from '../../../testUtils'
 
 testService({

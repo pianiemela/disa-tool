@@ -1,4 +1,4 @@
-import { getCourseData } from '../../../../containers/Course/services/course'
+import { getCourseData } from '../../../../containers/Course/actions/course'
 import { testService } from '../../../testUtils'
 
 testService({

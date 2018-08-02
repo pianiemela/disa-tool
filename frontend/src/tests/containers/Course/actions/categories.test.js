@@ -1,4 +1,4 @@
-import { addCategory, removeCategory } from '../../../../containers/Course/services/categories'
+import { addCategory, removeCategory } from '../../../../containers/Course/actions/categories'
 import { testService } from '../../../testUtils'
 
 testService({
