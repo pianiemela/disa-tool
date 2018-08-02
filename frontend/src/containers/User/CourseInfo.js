@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Header, Grid, Item } from 'semantic-ui-react'
+import { Button, Divider, Grid, Header, List } from 'semantic-ui-react'
 
-export const CourseInfo = ({ course, toggleActivation }) => {
+export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }) => {
   const renderTeacherOptions = () => (
     <Grid.Row>
       <Grid.Column width={3}>
@@ -18,6 +18,34 @@ export const CourseInfo = ({ course, toggleActivation }) => {
     course.active ?
       <Button floated="right" negative onClick={toggleActivation}>Sulje kurssi</Button> :
       <Button floated="right" positive onClick={toggleActivation}>Käynnistä kurssi</Button>
+  )
+
+  const renderCourseTeacehrs = () => (
+    <Grid.Row>
+      <Grid.Column width={6}>
+        <Header as="h3">Kurssin opettajat</Header>
+        <List>
+          {teachers.map(teacher => (
+            <List.Item key={teacher.id}>
+              {teacher.name}
+              {course.courseRole === 'TEACHER' ?
+                <Button
+                  name="teacherRemoveButton"
+                  floated="right"
+                  basic
+                  circular
+                  color="red"
+                  size="mini"
+                  icon="delete"
+                  value={teacher.id}
+                  onClick={deleteTeacher}
+                />
+                : undefined}
+            </List.Item>
+          ))}
+        </List>
+      </Grid.Column>
+    </Grid.Row>
   )
 
   return (
@@ -39,6 +67,8 @@ export const CourseInfo = ({ course, toggleActivation }) => {
         </Grid.Column>
       </Grid.Row>
       {course.courseRole === 'TEACHER' ? renderTeacherOptions() : undefined}
+      {teachers ? renderCourseTeacehrs() : undefined}
+      <Divider />
     </Grid>
   )
 }
