@@ -69,6 +69,12 @@ class CourseListPage extends Component {
                   {instance.name}
                 </List.Item>
               ))}
+              {this.props.user && this.props.user.role === 'TEACHER' && this.props.selectedCourse ?
+                <div>
+                  <CreateInstanceForm course_id={this.props.selectedCourse.id} />
+                </div> :
+                undefined
+              }
             </List>
           </Grid.Column>
           <Grid.Column width={4}>
@@ -86,13 +92,6 @@ class CourseListPage extends Component {
                     {this.props.selectedInstance.active ? <Button inverted color="blue">Rekisteröidy kurssille</Button> : undefined}
                   </div> :
                   <div>Valitse vielä kurssi-instanssi.</div>
-                }
-                {this.props.user && this.props.user.role === 'TEACHER' ?
-                  <div>
-                    <br />
-                    <CreateInstanceForm course_id={this.props.selectedCourse.id} />
-                  </div> :
-                  undefined
                 }
               </div> :
               <div>Valitse ensin kurssi</div>
@@ -121,14 +120,19 @@ CourseListPage.propTypes = {
   getInstancesOfCourse: PropTypes.func.isRequired,
   selectedCourse: PropTypes.shape({
     id: PropTypes.number.isRequired
-  }).isRequired,
+  }),
   selectedInstance: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired
-  }).isRequired,
+  }),
   selectCourse: PropTypes.func.isRequired,
   selectInstance: PropTypes.func.isRequired
+}
+
+CourseListPage.defaultProps = {
+  selectedCourse: null,
+  selectedInstance: null
 }
 
 const mapStateToProps = (state, ownProps) => ({
