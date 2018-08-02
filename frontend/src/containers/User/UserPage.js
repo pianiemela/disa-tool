@@ -3,11 +3,12 @@ import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
 import { Button, Header, List, Menu, Grid, Item, Label, Icon } from 'semantic-ui-react'
+
+import { postTaskResponses } from '../../api/tasks'
 import {
   getUserCoursesAction,
   getUserSelfAssesments,
-  getCourseInstanceDataAction,
-  postTaskResponses
+  getCourseInstanceDataAction
 } from '../../actions/actions'
 import { CoursePeopleList } from './CoursePeopleList'
 import { CourseSideMenu } from './CourseSideMenu'

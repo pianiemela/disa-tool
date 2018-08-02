@@ -1,30 +1,30 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
 import { Form, Grid, Button, Loader, Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+
+import { getCourseInstance } from '../../../api/courses'
+import { getCourseData } from '../../../api/categories'
+import {
+  getSelfAssesmentAction,
+  createForm,
+  updateSelfAssesmentAction,
+  getCourseInstanceDataAction,
+  getAssesmentResponseAction
+} from '../../../actions/actions'
+import {
+  initNewFormAaction,
+  editFormAction,
+  initAssesmentResponseAction
+} from '../actions/selfAssesment'
+
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
 import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
 import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
-import { Redirect } from 'react-router'
-import {
-  getSelfAssesmentAction,
-  createForm,
-  updateSelfAssesmentAction,
-  getCourseInstanceDataAction,
-  getCourseData,
-  getCourseInstance,
-  getAssesmentResponseAction,
-  getSelfAssesmentResponse
-} from '../../../actions/actions'
-
-import {
-  initNewFormAaction,
-  editFormAction,
-  initAssesmentResponseAction
-} from '../actions/selfAssesment'
 
 
 class SelfAssesmentForm extends React.Component {

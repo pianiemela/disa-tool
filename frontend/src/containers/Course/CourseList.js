@@ -3,10 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Header, List, Grid, Dropdown } from 'semantic-ui-react'
+
 import parseQueryParams from '../../utils/parseQueryParams'
-
-import { getCourses, getInstancesOfCourse } from '../../actions/actions'
-
+import { getCourses, getInstancesOfCourse } from '../../api/courses'
 
 class CourseList extends Component {
   constructor(props) {
@@ -15,7 +14,7 @@ class CourseList extends Component {
       courses: [],
       course: undefined,
       instances: [],
-      instance: undefined
+      instance: {}
     }
     if (this.props.location.query_params.id) {
       this.state.course = {
@@ -34,7 +33,7 @@ class CourseList extends Component {
       const selectedCourse = this.state.courses.find(course => course.id === data.value)
       await this.setState({ course: selectedCourse })
       const instances = await getInstancesOfCourse(this.state.course.id).then(res => res.data)
-      await this.setState({ instances, instance: undefined })
+      await this.setState({ instances, instance: {} })
     }
   }
 
@@ -44,7 +43,7 @@ class CourseList extends Component {
   }
 
   render() {
-    console.log(this.props)
+    console.log(this.state)
     return (
       <Grid columns={1} padded="vertically">
         <Grid.Row centered>
