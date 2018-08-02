@@ -126,7 +126,8 @@ const create = {
     course_id: data.course_id,
     eng_name: data.eng_name,
     fin_name: data.fin_name,
-    swe_name: data.swe_name
+    swe_name: data.swe_name,
+    active: false
   }),
   execute: (instance, user) => instance.save().then(result => CoursePerson.create({
     course_instance_id: result.dataValues.id,
@@ -137,7 +138,8 @@ const create = {
     const json = instance.toJSON()
     return {
       id: json.id,
-      name: json[`${lang}_name`]
+      name: json[`${lang}_name`],
+      active: json.active
     }
   }
 }
