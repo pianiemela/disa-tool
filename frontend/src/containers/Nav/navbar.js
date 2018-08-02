@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu, Dropdown } from 'semantic-ui-react'
+import { func, shape } from 'prop-types'
 
+import { logoutAction } from '../../actions/actions'
 import { getLanguage, saveLanguage } from '../../utils/utils'
 
 const languageOptions = [
@@ -29,6 +31,9 @@ class Nav extends Component {
   }
 
   handleClick = (e, { name }) => {
+    if (name === 'logout') {
+      this.props.dispatchLogout()
+    }
     this.setState({ activeItem: name })
   }
 
@@ -118,4 +123,14 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-export default withRouter(connect(mapStateToProps, null)(Nav))
+const mapDispatchToProps = dispatch => ({
+  dispatchLogout: () =>
+    dispatch(logoutAction())
+})
+
+Nav.propTypes = {
+  dispatchLogout: func.isRequired,
+  user: shape().isRequired
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav))
