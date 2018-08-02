@@ -24,6 +24,20 @@ router.get('/', async (req, res) => {
   res.status(200).json(courses)
 })
 
+router.put('/instance/:courseId/toggle', async (req, res) => {
+  const { courseId } = req.params
+  const isTeacher = await checkPrivilege(req, [{
+    key: 'teacher_on_course',
+    param: courseId
+  }])
+  if (!isTeacher) {
+    res.status(403).json({ error: messages.privilege.failure[req.lang] })
+    return
+  }
+  const instance = await courseService.toggleActivity(courseId)
+  res.status(200).json(instance)
+})
+
 router.get('/instance/:courseId', async (req, res) => {
   const { courseId } = req.params
   const user = await checkAuth(req)

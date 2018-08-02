@@ -9,7 +9,7 @@ const renderCourseMenuItem = (course, activeCourse, handleChange) => (
     as={Link}
     to={`/user/course/${course.id}`}
     name={course.name}
-    color={course.active ? 'blue' : 'black'}
+    color={course.active ? 'blue' : 'grey'}
     course={course}
     active={activeCourse.id && activeCourse.id === course.id}
     onClick={handleChange}
@@ -24,11 +24,11 @@ export const CourseSideMenu = ({ courses, activeCourse, handleChange }) => {
   return (
     <Menu fluid vertical tabular>
       <Menu.Item>
-        <Header as="h4">Aktiiviset kurssit</Header>
+        <Header as="h4" color="green">Aktiiviset kurssit</Header>
       </Menu.Item>
       {activeCourses.map(course => renderCourseMenuItem(course, activeCourse, handleChange))}
       <Menu.Item>
-        <Header as="h4">Ei-aktiiviset kurssit</Header>
+        <Header as="h4" color="red">Ei-aktiiviset kurssit</Header>
       </Menu.Item>
       {closedCourses.map(course => renderCourseMenuItem(course, activeCourse, handleChange))}
     </Menu>

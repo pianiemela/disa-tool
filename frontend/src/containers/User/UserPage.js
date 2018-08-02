@@ -8,11 +8,13 @@ import { postTaskResponses } from '../../api/tasks'
 import {
   getUserCoursesAction,
   getUserSelfAssesments,
-  getCourseInstanceDataAction
+  getCourseInstanceDataAction,
+  toggleCourseActivityAction
 } from '../../actions/actions'
 import { CoursePeopleList } from './CoursePeopleList'
 import { CourseSideMenu } from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
+import { CourseInfo } from './CourseInfo'
 
 class UserPage extends Component {
   state = {
@@ -26,7 +28,7 @@ class UserPage extends Component {
     const { courseId } = this.props.match.params
 
     await this.props.dispatchGetUserCourses()
-    this.props.dispatchGetUserSelfAssesments()
+    // this.props.dispatchGetUserSelfAssesments()
     if (courseId && !activeCourse.id) {
       this.props.dispatchGetCourseInstanceData(courseId)
     }
@@ -39,6 +41,12 @@ class UserPage extends Component {
       console.log('imma updatin')
       this.props.dispatchGetCourseInstanceData(courseId)
     }
+  }
+
+  handleActivityToggle = async () => {
+    const { activeCourse } = this.props
+    console.log('props', activeCourse.id)
+    this.props.dispatchToggleActivity(activeCourse.id).then(res => console.log(res))
   }
 
   handleClick = async (e, { course }) => {
@@ -112,8 +120,8 @@ class UserPage extends Component {
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    console.log(activeCourse)
-    console.log(this.props.match.params.courseId)
+    // console.log(activeCourse)
+    // console.log(this.props.match.params.courseId)
     return (
       <Grid>
         <Grid.Row>
@@ -132,29 +140,17 @@ class UserPage extends Component {
           <Grid.Column width={13}>
             {activeCourse.id ?
               <Item>
-                <Grid>
+                <Grid padded="horizontally">
+                  <CourseInfo course={activeCourse} toggleActivation={this.handleActivityToggle} />
                   <Grid.Row>
-                    <Grid.Column>
-                      <Item.Header as="h1">{activeCourse.name}</Item.Header>
-                    </Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column width={3}>
-                      <Button as={Link} to={`/selfAssesment/${activeCourse.id}`} color="green" basic>Luo uusi itsearviointi</Button>
-                    </Grid.Column>
-                    <Grid.Column width={3}>
-                      <Button as={Link} to={`/course/${activeCourse.id}`} color="blue" basic>Muokkaa kurssia</Button>
-                    </Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column width={8}>
+                    <Grid.Column floated="left" width={8}>
                       <Item.Content>
                         <ListTasks tasks={tasks} selectedType={selectedType} />
                       </Item.Content>
                     </Grid.Column>
-                    <Grid.Column width={8}>
+                    <Grid.Column floated="right" width={8}>
                       <Item.Content>
-                        <p>Itsearvioinnit</p>
+                        <Header as="h3">Itsearvioinnit</Header>
                         <List selection size="big">
                           {assessments.map(assessment => <List.Item key={assessment.id} as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name}</List.Item>)}
                         </List>
@@ -205,7 +201,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetUserSelfAssesments: () =>
     dispatch(getUserSelfAssesments()),
   dispatchGetCourseInstanceData: courseId =>
-    dispatch(getCourseInstanceDataAction(courseId))
+    dispatch(getCourseInstanceDataAction(courseId)),
+  dispatchToggleActivity: courseId =>
+    dispatch(toggleCourseActivityAction(courseId))
 })
 
 const mapStateToProps = state => ({

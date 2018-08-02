@@ -70,6 +70,12 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
   })
 )
 
+const toggleActivity = async (id) => {
+  const instance = await CourseInstance.findById(id)
+  return CourseInstance.update({ active: !instance.active }, { where: { id }, returning: true })
+    .then(res => res[1][0])
+}
+
 const create = {
   prepare: data => Course.build({
     eng_name: data.eng_name,
@@ -91,5 +97,6 @@ module.exports = {
   getCoursesForPerson,
   getCourses,
   getInstanceWithRelatedData,
-  create
+  create,
+  toggleActivity
 }
