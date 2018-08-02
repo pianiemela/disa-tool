@@ -44,7 +44,8 @@ describe('course_instance_controller', () => {
       common: {
         message: expect.any(String),
         created: {
-          id: expect.any(Number)
+          id: expect.any(Number),
+          active: false
         }
       },
       eng: {
@@ -68,6 +69,7 @@ describe('course_instance_controller', () => {
       options,
       {
         ...data,
+        active: false,
         id: expect.any(Number)
       },
       CourseInstance,
