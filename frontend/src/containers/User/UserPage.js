@@ -2,24 +2,20 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Button, List, Menu, Grid, Item, Label, Icon } from 'semantic-ui-react'
+import { Button, Header, List, Menu, Grid, Item, Label, Icon } from 'semantic-ui-react'
+
+import { postTaskResponses } from '../../api/tasks'
 import {
-  getUsersCourses,
-  getUserAction,
   getUserCoursesAction,
   getUserSelfAssesments,
-  getCourseInstanceData,
-  getCourseInstanceDataAction,
-  postTaskResponses
+  getCourseInstanceDataAction
 } from '../../actions/actions'
 import { CoursePeopleList } from './CoursePeopleList'
+import { CourseSideMenu } from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
 
 class UserPage extends Component {
   state = {
-    activeCourse: undefined,
-    assessments: [],
-    tasks: [],
     selectedType: undefined,
     updatedTasks: [],
     popUp: { show: false, task: undefined, person: undefined }
@@ -29,7 +25,7 @@ class UserPage extends Component {
     const { activeCourse } = this.props
     const { courseId } = this.props.match.params
 
-    await this.props.dispatchGetUsercourses()
+    await this.props.dispatchGetUserCourses()
     this.props.dispatchGetUserSelfAssesments()
     if (courseId && !activeCourse.id) {
       this.props.dispatchGetCourseInstanceData(courseId)
@@ -49,9 +45,6 @@ class UserPage extends Component {
     // this.setState({ activeCourse: course })
     // Fetch all relevant course information: tasks with responses & assessments with responses.
     this.props.dispatchGetCourseInstanceData(course.id)
-    // const courseInstanceData = await getCourseInstanceData(course.id).then(res => res.data)
-    // const { assessments, tasks } = courseInstanceData
-    // this.setState({ assessments, tasks })
   }
 
   selectType = (e, { type }) => this.setState({
@@ -59,7 +52,6 @@ class UserPage extends Component {
   })
 
   markTask = async (e, { task, person }) => {
-    // console.log(task, person)
     const { updatedTasks } = this.state
     const taskUpdated = updatedTasks.find(t => t.taskId === task.id && t.personId === person.id)
     if (taskUpdated) {
@@ -120,7 +112,8 @@ class UserPage extends Component {
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    console.log(updatedTasks)
+    console.log(activeCourse)
+    console.log(this.props.match.params.courseId)
     return (
       <Grid>
         <Grid.Row>
@@ -130,20 +123,11 @@ class UserPage extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width={3}>
-            <Menu fluid vertical tabular>
-              {courses.map(course => (
-                <Menu.Item
-                  key={course.id}
-                  as={Link}
-                  to={`/user/course/${course.id}`}
-                  name={course.name}
-                  course={course}
-                  active={activeCourse === course}
-                  onClick={this.handleClick}
-                >
-                  {course.name}
-                </Menu.Item>))}
-            </Menu>
+            <CourseSideMenu
+              courses={courses}
+              activeCourse={activeCourse}
+              handleChange={this.handleClick}
+            />
           </Grid.Column>
           <Grid.Column width={13}>
             {activeCourse.id ?
@@ -216,7 +200,7 @@ class UserPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  dispatchGetUsercourses: () =>
+  dispatchGetUserCourses: () =>
     dispatch(getUserCoursesAction()),
   dispatchGetUserSelfAssesments: () =>
     dispatch(getUserSelfAssesments()),

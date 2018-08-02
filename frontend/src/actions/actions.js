@@ -1,30 +1,6 @@
-import { getJson, postJson, putJson } from '../utils/utils'
-
-export const getUsersCourses = () => getJson('/courses/user')
-
-export const getAllSelfAssesments = () => getJson('/courses/user')
-
-export const getCategoriesForCourse = courseId => getJson(`/categories/${courseId}`)
-
-export const getUser = () => getJson('/persons/user')
-
-export const createSelfAssesment = data => postJson('/selfassesment/create', data)
-
-export const getSelfAssesments = data => getJson('/selfassesment/', data)
-
-export const getCourseInstanceData = courseId => getJson(`/courses/instance/${courseId}`)
-
-export const updateSelfAssesment = data => putJson(`/selfassesment/update/${data.id}`, data)
-
-export const getSelfAssesment = selfAssesmentId => getJson(`/selfassesment/${selfAssesmentId}`)
-
-export const getCourseInstance = id => getJson(`/course-instances/${id}`)
-
-export const getCourseData = id => getJson('/categories', { courseInstanceId: id })
-
-export const getSelfAssesmentResponse = assesmentId => getJson(`/assesmentresponse/${assesmentId}`)
-
-export const postTaskResponses = updatedTasks => postJson('/tasks/responses', updatedTasks)
+import { getUsersCourses, getCourses, getCourseInstanceData } from '../api/courses'
+import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse } from '../api/selfassesment'
+import { getUser } from '../api/persons'
 
 
 export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
