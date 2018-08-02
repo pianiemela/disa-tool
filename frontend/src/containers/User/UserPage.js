@@ -143,10 +143,12 @@ class UserPage extends Component {
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    const students = activeCourse.id ? activeCourse.people.filter(person =>
-      person.course_instances[0].course_person.role !== 'TEACHER') : []
-    const teachers = activeCourse.id ? activeCourse.people.filter(person =>
-      person.course_instances[0].course_person.role === 'TEACHER') : []
+    const students = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
+      activeCourse.people.filter(person =>
+        person.course_instances[0].course_person.role !== 'TEACHER') : []
+    const teachers = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
+      activeCourse.people.filter(person =>
+        person.course_instances[0].course_person.role === 'TEACHER') : []
     // console.log(activeCourse)
     // console.log(this.props.match.params.courseId)
     return (
@@ -175,12 +177,14 @@ class UserPage extends Component {
                     teachers={teachers}
                     deleteTeacher={this.handleTeacherRemoving}
                   />
-                  <Grid.Row>
-                    <Grid.Column>
-                      <Dropdown name="teacherSelector" fluid multiple selection search placeholder="Lisää opettaja" value={this.state.newTeachers} options={students.map(person => ({ key: person.id, text: person.name, value: person.id }))} onChange={this.handleTeacherAdding} />
-                      <Button name="teacherAddButton" basic color="pink" onClick={this.handleTeacherAdding}>Lisää opettaja</Button>
-                    </Grid.Column>
-                  </Grid.Row>
+                  {activeCourse.courseRole === 'TEACHER' ?
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Dropdown name="teacherSelector" fluid multiple selection search placeholder="Lisää opettaja" value={this.state.newTeachers} options={students.map(person => ({ key: person.id, text: person.name, value: person.id }))} onChange={this.handleTeacherAdding} />
+                        <Button name="teacherAddButton" basic color="pink" onClick={this.handleTeacherAdding}>Lisää opettaja</Button>
+                      </Grid.Column>
+                    </Grid.Row> : undefined
+                  }
                   <Grid.Row>
                     <Grid.Column floated="left" width={8}>
                       <Item.Content>
