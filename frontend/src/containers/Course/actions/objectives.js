@@ -1,15 +1,10 @@
 import { create, remove } from '../../../api/objectives'
+import apiPromise from '../../../utils/apiPromise'
 
-export const addObjective = data => new Promise((resolve) => {
-  create(data).then(response => resolve({
-    type: 'OBJECTIVE_CREATE',
-    response: response.data
-  }))
+export const addObjective = data => apiPromise(create, data, {
+  success: { type: 'OBJECTIVE_CREATE' }
 })
 
-export const removeObjective = data => new Promise((resolve) => {
-  remove(data).then(response => resolve({
-    type: 'OBJECTIVE_DELETE',
-    response: response.data
-  }))
+export const removeObjective = data => apiPromise(remove, data, {
+  success: { type: 'OBJECTIVE_DELETE' }
 })

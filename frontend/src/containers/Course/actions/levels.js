@@ -1,15 +1,10 @@
 import { create, remove } from '../../../api/skillLevels'
+import apiPromise from '../../../utils/apiPromise'
 
-export const addLevel = data => new Promise((resolve) => {
-  create(data).then(response => resolve({
-    type: 'LEVEL_CREATE',
-    response: response.data
-  }))
+export const addLevel = data => apiPromise(create, data, {
+  success: { type: 'LEVEL_CREATE' }
 })
 
-export const removeLevel = data => new Promise((resolve) => {
-  remove(data).then(response => resolve({
-    type: 'LEVEL_DELETE',
-    response: response.data
-  }))
+export const removeLevel = data => apiPromise(remove, data, {
+  success: { type: 'LEVEL_DELETE' }
 })

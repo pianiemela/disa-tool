@@ -1,11 +1,8 @@
 import { getData } from '../../../api/courseInstances'
+import apiPromise from '../../../utils/apiPromise'
 
-export const getCourseData = data => new Promise((resolve) => {
-  getData(data).then(response =>
-    resolve({
-      type: 'COURSE_GET_DATA',
-      response: response.data
-    }))
+export const getCourseData = data => apiPromise(getData, data, {
+  success: { type: 'COURSE_GET_DATA' }
 })
 
 export const setEditing = dispatch => (data) => {
