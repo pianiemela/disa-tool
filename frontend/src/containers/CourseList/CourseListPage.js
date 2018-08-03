@@ -6,17 +6,15 @@ import { Button, Header, List, Grid, Dropdown } from 'semantic-ui-react'
 import parseQueryParams from '../../utils/parseQueryParams'
 import asyncAction from '../../utils/asyncAction'
 
-import { getCourses } from './services/courses'
-import { getInstancesOfCourse } from './services/courseInstances'
-import { selectCourse } from './actions/courses'
-import { selectInstance } from './actions/courseInstances'
+import { getAllCourses, selectCourse } from './actions/courses'
+import { getInstancesOfCourse, selectInstance } from './actions/courseInstances'
 
 import CreateInstanceForm from './components/CreateInstanceForm'
 
 class CourseListPage extends Component {
 
   componentDidMount = async () => {
-    await this.props.getCourses()
+    await this.props.getAllCourses()
   }
 
   handleChange = (e, data) => {
@@ -106,9 +104,6 @@ class CourseListPage extends Component {
 }
 
 CourseListPage.propTypes = {
-  location: PropTypes.shape({
-    query_params: PropTypes.object.isRequired
-  }).isRequired,
   courses: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
@@ -118,7 +113,7 @@ CourseListPage.propTypes = {
     name: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired
   })).isRequired,
-  getCourses: PropTypes.func.isRequired,
+  getAllCourses: PropTypes.func.isRequired,
   getInstancesOfCourse: PropTypes.func.isRequired,
   selectedCourse: PropTypes.shape({
     id: PropTypes.number.isRequired
@@ -149,7 +144,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getCourses: asyncAction(getCourses, dispatch),
+  getCourses: asyncAction(getAllCourses, dispatch),
   getInstancesOfCourse: asyncAction(getInstancesOfCourse, dispatch),
   selectCourse: selectCourse(dispatch),
   selectInstance: selectInstance(dispatch)
