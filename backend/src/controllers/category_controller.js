@@ -2,23 +2,18 @@ const router = require('express').Router()
 
 const categoryService = require('../services/category_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
-const globalMessages = require('../messages/global_messages.js')
+const { errors } = require('../messages/global.js')
 
 const messages = {
-  ...globalMessages,
   create: {
-    success: {
-      eng: '"Kategoria luotu onnistuneesti." englanniksi.',
-      fin: 'Kategoria luotu onnistuneesti.',
-      swe: '"Kategoria luotu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Kategoria luotu onnistuneesti." englanniksi.',
+    fin: 'Kategoria luotu onnistuneesti.',
+    swe: '"Kategoria luotu onnistuneesti." ruotsiksi.'
   },
   delete: {
-    success: {
-      eng: '"Kategoria poistettu onnistuneesti." englanniksi.',
-      fin: 'Kategoria poistettu onnistuneesti.',
-      swe: '"Kategoria poistettu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Kategoria poistettu onnistuneesti." englanniksi.',
+    fin: 'Kategoria poistettu onnistuneesti.',
+    swe: '"Kategoria poistettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -37,14 +32,14 @@ router.post('/create', async (req, res) => {
     }
   ])) {
     res.status(403).json({
-      error: messages.privilege.failure[req.lang]
+      error: errors.privilege[req.lang]
     })
     return
   }
   await categoryService.create.execute(toCreate)
   const created = categoryService.create.value(toCreate, skillLevels, req.lang)
   res.status(200).json({
-    message: messages.create.success[req.lang],
+    message: messages.create[req.lang],
     created
   })
 })
@@ -53,7 +48,7 @@ router.delete('/:id', async (req, res) => {
   const toDelete = await categoryService.delete.prepare(req.params.id)
   if (!toDelete) {
     res.status(404).json({
-      error: messages.notfound.failure[req.lang]
+      error: errors.notfound[req.lang]
     })
     return
   }
@@ -64,14 +59,14 @@ router.delete('/:id', async (req, res) => {
     }
   ])) {
     res.status(403).json({
-      error: messages.privilege.failure[req.lang]
+      error: errors.privilege[req.lang]
     })
     return
   }
   const deleted = categoryService.delete.value(toDelete)
   categoryService.delete.execute(toDelete)
   res.status(200).json({
-    message: messages.delete.success[req.lang],
+    message: messages.delete[req.lang],
     deleted
   })
 })

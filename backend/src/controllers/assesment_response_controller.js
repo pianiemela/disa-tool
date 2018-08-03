@@ -3,7 +3,7 @@ const { checkAuth } = require('../services/auth')
 const { checkPrivilege } = require('../services/privilege')
 const selfAssesmentService = require('../services/self_assesment_service')
 const assementResponseService = require('../services/assesment_response_service')
-const globalMessages = require('../messages/global_messages.js')
+const { errors } = require('../messages/global.js')
 
 
 router.get('/:selfAssesmentId', async (req, res) => {
@@ -21,7 +21,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
     )
     if (!hasPrivilege) {
       return res.status(403).json({
-        error: globalMessages.privilege.failure
+        error: errors.privilege
       })
     }
     const user = await checkAuth(req)
@@ -33,7 +33,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
 
   } catch (error) {
     res.status(500).json({
-      ERROR: globalMessages.unexpected.failure[req.lang]
+      error: errors.unexpected[req.lang]
     })
     console.log(error)
   }

@@ -1,23 +1,18 @@
 const router = require('express').Router()
 
 const coursePersonService = require('../services/course_person_service.js')
-const globalMessages = require('../messages/global_messages.js')
+const { errors } = require('../messages/global.js')
 
 const messages = {
-  ...globalMessages,
   create: {
-    success: {
-      eng: '"Rekisteröityminen onnistui." englanniksi.',
-      fin: 'Rekisteröityminen onnistui.',
-      swe: '"Rekisteröityminen onnistui." ruotsiksi.'
-    }
+    eng: '"Rekisteröityminen onnistui." englanniksi.',
+    fin: 'Rekisteröityminen onnistui.',
+    swe: '"Rekisteröityminen onnistui." ruotsiksi.'
   },
   delete: {
-    success: {
-      eng: '"Rekisteröityminen purettu onnistuneesti." englanniksi.',
-      fin: 'Rekisteröityminen purettu onnistuneesti.',
-      swe: '"Rekisteröityminen purettu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Rekisteröityminen purettu onnistuneesti." englanniksi.',
+    fin: 'Rekisteröityminen purettu onnistuneesti.',
+    swe: '"Rekisteröityminen purettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -27,7 +22,7 @@ router.post('/register', async (req, res) => {
     await coursePersonService.create.execute(toCreate)
     const created = coursePersonService.create.value(toCreate)
     res.status(200).json({
-      message: messages.create.success[req.lang],
+      message: messages.create[req.lang],
       created
     })
   } catch (e) {
@@ -37,7 +32,7 @@ router.post('/register', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }
@@ -50,7 +45,7 @@ router.post('/unregister', async (req, res) => {
     const deleted = coursePersonService.delete.value(toDelete)
     coursePersonService.delete.execute(toDelete)
     res.status(200).json({
-      message: messages.delete.success[req.lang],
+      message: messages.delete[req.lang],
       deleted
     })
   } catch (e) {
@@ -60,7 +55,7 @@ router.post('/unregister', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }

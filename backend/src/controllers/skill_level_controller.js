@@ -2,23 +2,18 @@ const router = require('express').Router()
 
 const levelService = require('../services/skill_level_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
-const globalMessages = require('../messages/global_messages.js')
+const { errors } = require('../messages/global.js')
 
 const messages = {
-  ...globalMessages,
   create: {
-    success: {
-      eng: '"Oppimistaso luotu onnistuneesti." englanniksi.',
-      fin: 'Oppimistaso luotu onnistuneesti.',
-      swe: '"Oppimistaso luotu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Oppimistaso luotu onnistuneesti." englanniksi.',
+    fin: 'Oppimistaso luotu onnistuneesti.',
+    swe: '"Oppimistaso luotu onnistuneesti." ruotsiksi.'
   },
   delete: {
-    success: {
-      eng: '"Oppimistaso poistettu onnistuneesti." englanniksi.',
-      fin: 'Oppimistaso poistettu onnistuneesti.',
-      swe: '"Oppimistaso poistettu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Oppimistaso poistettu onnistuneesti." englanniksi.',
+    fin: 'Oppimistaso poistettu onnistuneesti.',
+    swe: '"Oppimistaso poistettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -31,14 +26,14 @@ router.post('/create', async (req, res) => {
     }
   ])) {
     res.status(403).json({
-      error: messages.privilege.failure[req.lang]
+      error: errors.privilege[req.lang]
     })
     return
   }
   await levelService.create.execute(toCreate)
   const created = levelService.create.value(toCreate, req.lang)
   res.status(200).json({
-    message: messages.create.success[req.lang],
+    message: messages.create[req.lang],
     created
   })
 })
@@ -47,7 +42,7 @@ router.delete('/:id', async (req, res) => {
   const toDelete = await levelService.delete.prepare(req.params.id)
   if (!toDelete) {
     res.status(404).json({
-      error: messages.notfound.failure[req.lang]
+      error: errors.notfound[req.lang]
     })
     return
   }
@@ -58,14 +53,14 @@ router.delete('/:id', async (req, res) => {
     }
   ])) {
     res.status(403).json({
-      error: messages.privilege.failure[req.lang]
+      error: errors.privilege[req.lang]
     })
     return
   }
   const deleted = levelService.delete.value(toDelete)
   levelService.delete.execute(toDelete)
   res.status(200).json({
-    message: messages.delete.success[req.lang],
+    message: messages.delete[req.lang],
     deleted
   })
 })

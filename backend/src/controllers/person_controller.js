@@ -1,12 +1,9 @@
 const router = require('express').Router()
 
 const { checkPrivilege } = require('../services/privilege.js')
-const globalMessages = require('../messages/global_messages.js')
+const { errors } = require('../messages/global.js')
 
 const personService = require('../services/person_service')
-
-const messages = {
-  ...globalMessages }
 
 router.get('/user', async (req, res) => {
   if (req.user) {
@@ -22,7 +19,7 @@ router.put('/course_role', async (req, res) => {
     param: person.course_instance_id
   }]))
   if (!coursePersons || coursePersons.length === 0) {
-    res.status(403).json({ error: messages.privilege.failure[req.lang] })
+    res.status(403).json({ error: errors.privilege[req.lang] })
   }
   const updatedPersons = await personService.updatePersonRoleOnCourse(coursePersons)
   res.status(200).json(updatedPersons)

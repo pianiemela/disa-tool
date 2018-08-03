@@ -2,23 +2,18 @@ const router = require('express').Router()
 
 const objectiveService = require('../services/objective_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
-const globalMessages = require('../messages/global_messages.js')
+const { errors } = require('../messages/global.js')
 
 const messages = {
-  ...globalMessages,
   create: {
-    success: {
-      eng: '"Oppimistavoite luotu onnistuneesti." englanniksi.',
-      fin: 'Oppimistavoite luotu onnistuneesti.',
-      swe: '"Oppimistavoite luotu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Oppimistavoite luotu onnistuneesti." englanniksi.',
+    fin: 'Oppimistavoite luotu onnistuneesti.',
+    swe: '"Oppimistavoite luotu onnistuneesti." ruotsiksi.'
   },
   delete: {
-    success: {
-      eng: '"Oppimistavoite poistettu onnistuneesti." englanniksi.',
-      fin: 'Oppimistavoite poistettu onnistuneesti.',
-      swe: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Oppimistavoite poistettu onnistuneesti." englanniksi.',
+    fin: 'Oppimistavoite poistettu onnistuneesti.',
+    swe: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -40,14 +35,14 @@ router.post('/create', async (req, res) => {
   || skillLevel.course_instance_id !== toCreate.dataValues.course_instance_id
   ) {
     res.status(403).json({
-      error: messages.privilege.failure[req.lang]
+      error: errors.privilege[req.lang]
     })
     return
   }
   await objectiveService.create.execute(toCreate)
   const created = objectiveService.create.value(toCreate, req.lang)
   res.status(200).json({
-    message: messages.create.success[req.lang],
+    message: messages.create[req.lang],
     created
   })
 })
@@ -67,14 +62,14 @@ router.delete('/:id', async (req, res) => {
     ]
   )) {
     res.status(403).json({
-      error: messages.privilege.failure[req.lang]
+      error: errors.privilege[req.lang]
     })
     return
   }
   const deleted = objectiveService.delete.value(toDelete)
   objectiveService.delete.execute(toDelete)
   res.status(200).json({
-    message: messages.delete.success[req.lang],
+    message: messages.delete[req.lang],
     deleted
   })
 })

@@ -4,51 +4,38 @@ const { checkAuth } = require('../services/auth.js')
 
 const taskService = require('../services/task_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
-const globalMessages = require('../messages/global_messages.js')
+const { errors } = require('../messages/global.js')
 
 const messages = {
-  ...globalMessages,
   create: {
-    success: {
-      eng: '"Tehtävä luotu onnistuneesti." englanniksi.',
-      fin: 'Tehtävä luotu onnistuneesti.',
-      swe: '"Tehtävä luotu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Tehtävä luotu onnistuneesti." englanniksi.',
+    fin: 'Tehtävä luotu onnistuneesti.',
+    swe: '"Tehtävä luotu onnistuneesti." ruotsiksi.'
   },
   delete: {
-    success: {
-      eng: '"Tehtävä poistettu onnistuneesti." englanniksi.',
-      fin: 'Tehtävä poistettu onnistuneesti.',
-      swe: '"Tehtävä poistettu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Tehtävä poistettu onnistuneesti." englanniksi.',
+    fin: 'Tehtävä poistettu onnistuneesti.',
+    swe: '"Tehtävä poistettu onnistuneesti." ruotsiksi.'
   },
   attachObjective: {
-    success: {
-      eng: '"Oppimistavoite liitetty tehtävään onnistuneesti." englanniksi.',
-      fin: 'Oppimistavoite liitetty tehtävään onnistuneesti.',
-      swe: '"Oppimistavoite liitetty tehtävään onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Oppimistavoite liitetty tehtävään onnistuneesti." englanniksi.',
+    fin: 'Oppimistavoite liitetty tehtävään onnistuneesti.',
+    swe: '"Oppimistavoite liitetty tehtävään onnistuneesti." ruotsiksi.'
   },
   detachObjective: {
-    success: {
-      eng: '"Oppimistavoite irrotettu tehtävästä onnistuneesti." englanniksi.',
-      fin: 'Oppimistavoite irrotettu tehtävästä onnistuneesti.',
-      swe: '"Oppimistavoite irrotettu tehtävästä onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Oppimistavoite irrotettu tehtävästä onnistuneesti." englanniksi.',
+    fin: 'Oppimistavoite irrotettu tehtävästä onnistuneesti.',
+    swe: '"Oppimistavoite irrotettu tehtävästä onnistuneesti." ruotsiksi.'
   },
   attachType: {
-    success: {
-      eng: '"Tyyppi liitetty tehtävään onnistuneesti." englanniksi.',
-      fin: 'Tyyppi liitetty tehtävään onnistuneesti.',
-      swe: '"Tyyppi liitetty tehtävään onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Tyyppi liitetty tehtävään onnistuneesti." englanniksi.',
+    fin: 'Tyyppi liitetty tehtävään onnistuneesti.',
+    swe: '"Tyyppi liitetty tehtävään onnistuneesti." ruotsiksi.'
   },
   detachType: {
-    success: {
-      eng: '"Tyyppi irrotettu tehtävästä onnistuneesti." englanniksi.',
-      fin: 'Tyyppi irrotettu tehtävästä onnistuneesti.',
-      swe: '"Tyyppi irrotettu tehtävästä onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Tyyppi irrotettu tehtävästä onnistuneesti." englanniksi.',
+    fin: 'Tyyppi irrotettu tehtävästä onnistuneesti.',
+    swe: '"Tyyppi irrotettu tehtävästä onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -69,14 +56,14 @@ router.post('/create', async (req, res) => {
       }
     ])) {
       res.status(403).json({
-        error: messages.privilege.failure[req.lang]
+        error: errors.privilege[req.lang]
       })
       return
     }
     await taskService.create.execute(toCreate)
     const created = taskService.create.value(toCreate, req.lang)
     res.status(200).json({
-      message: messages.create.success[req.lang],
+      message: messages.create[req.lang],
       created
     })
   } catch (e) {
@@ -86,7 +73,7 @@ router.post('/create', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }
@@ -103,14 +90,14 @@ router.delete('/:id', async (req, res) => {
       }
     ])) {
       res.status(403).json({
-        error: messages.privilege.failure[req.lang]
+        error: errors.privilege[req.lang]
       })
       return
     }
     const deleted = taskService.delete.value(toDelete)
     taskService.delete.execute(toDelete)
     res.status(200).json({
-      message: messages.delete.success[req.lang],
+      message: messages.delete[req.lang],
       deleted
     })
   } catch (e) {
@@ -120,7 +107,7 @@ router.delete('/:id', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }
@@ -139,14 +126,14 @@ router.post('/objectives/attach', async (req, res) => {
       ])
     if (!validation) {
       res.status(403).json({
-        error: messages.privilege.failure[req.lang]
+        error: errors.privilege[req.lang]
       })
       return
     }
     taskService.attachObjective.execute(toCreate)
     const created = taskService.attachObjective.value(toCreate)
     res.status(200).json({
-      message: messages.attachObjective.success[req.lang],
+      message: messages.attachObjective[req.lang],
       created
     })
   } catch (e) {
@@ -156,7 +143,7 @@ router.post('/objectives/attach', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }
@@ -175,14 +162,14 @@ router.post('/objectives/detach', async (req, res) => {
       ])
     if (!validation) {
       res.status(403).json({
-        error: messages.privilege.failure[req.lang]
+        error: errors.privilege[req.lang]
       })
       return
     }
     const deleted = taskService.detachObjective.value(toDelete)
     taskService.detachObjective.execute(toDelete)
     res.status(200).json({
-      message: messages.detachObjective.success[req.lang],
+      message: messages.detachObjective[req.lang],
       deleted
     })
   } catch (e) {
@@ -192,7 +179,7 @@ router.post('/objectives/detach', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }
@@ -206,7 +193,7 @@ router.post('/responses', async (req, res) => {
     param: courseId
   }])
   if (!isTeacher) {
-    res.status(403).json({ error: messages.failure })
+    res.status(403).json({ error: errors.privilege })
     return
   }
   try {
@@ -232,14 +219,14 @@ router.post('/types/attach', async (req, res) => {
       ])
     if (!validation) {
       res.status(403).json({
-        error: messages.privilege.failure[req.lang]
+        error: errors.privilege[req.lang]
       })
       return
     }
     taskService.attachType.execute(toCreate)
     const created = taskService.attachType.value(toCreate)
     res.status(200).json({
-      message: messages.attachType.success[req.lang],
+      message: messages.attachType[req.lang],
       created
     })
   } catch (e) {
@@ -249,7 +236,7 @@ router.post('/types/attach', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }
@@ -270,14 +257,14 @@ router.post('/types/detach', async (req, res) => {
     )
     if (!validation) {
       res.status(403).json({
-        error: messages.privilege.failure[req.lang]
+        error: errors.privilege[req.lang]
       })
       return
     }
     const deleted = taskService.detachType.value(toDelete)
     taskService.detachType.execute(toDelete)
     res.status(200).json({
-      message: messages.detachType.success[req.lang],
+      message: messages.detachType[req.lang],
       deleted
     })
   } catch (e) {
@@ -287,7 +274,7 @@ router.post('/types/detach', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }
