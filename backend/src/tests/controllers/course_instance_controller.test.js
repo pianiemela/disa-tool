@@ -45,7 +45,8 @@ describe('course_instance_controller', () => {
         message: expect.any(String),
         created: {
           id: expect.any(Number),
-          active: false
+          active: false,
+          registered: true
         }
       },
       eng: {
