@@ -57,22 +57,34 @@ const testTeacherPrivilege = (options, description) => {
   describe(description, () => {
     it('is not granted when no authorization is provided', (done) => {
       makeRequest(options).set('Authorization', '').then((response) => {
-        expect(response.status).toEqual(403)
-        done()
+        try {
+          expect(response.status).toEqual(403)
+          done()
+        } catch (e) {
+          done(e)
+        }
       })
     })
 
-    it('is not granted when invalid authorization is provided', async (done) => {
+    it('is not granted when invalid authorization is provided', (done) => {
       makeRequest(options).set('Authorization', `Bearer ${tokens.student}`).then((response) => {
-        expect(response.status).toEqual(403)
-        done()
+        try {
+          expect(response.status).toEqual(403)
+          done()
+        } catch (e) {
+          done(e)
+        }
       })
     })
 
-    it('is granted when valid authorization is provided', async (done) => {
+    it('is granted when valid authorization is provided', (done) => {
       makeRequest(options).set('Authorization', `Bearer ${tokens.teacher}`).then((response) => {
-        expect(response.status).toEqual(200)
-        done()
+        try {
+          expect(response.status).toEqual(200)
+          done()
+        } catch (e) {
+          done(e)
+        }
       })
     })
   })
@@ -85,12 +97,16 @@ const testGlobalTeacherPrivilege = options => testTeacherPrivilege(options, 'glo
 const testHeaders = (options) => {
   it('responds with appropriate headers.', (done) => {
     makeRequest(options).then((response) => {
-      expect(response.headers['content-type'].includes('application/json')).toEqual(true)
-      expect(response.headers['content-type'].includes('charset=utf-8')).toEqual(true)
-      expect(response.headers.connection).toEqual('close')
-      expect(response.headers).toHaveProperty('content-length')
-      expect(response.headers['x-powered-by']).toEqual('Express')
-      done()
+      try {
+        expect(response.headers['content-type'].includes('application/json')).toEqual(true)
+        expect(response.headers['content-type'].includes('charset=utf-8')).toEqual(true)
+        expect(response.headers.connection).toEqual('close')
+        expect(response.headers).toHaveProperty('content-length')
+        expect(response.headers['x-powered-by']).toEqual('Express')
+        done()
+      } catch (e) {
+        done(e)
+      }
     })
   })
 }
@@ -140,8 +156,12 @@ const testBody = (options, match) => {
           query: { lang: 'eng' }
         }
       }).then((response) => {
-        expect(response.body).toMatchObject(mergeRecursive(match.common, match.eng))
-        done()
+        try {
+          expect(response.body).toMatchObject(mergeRecursive(match.common, match.eng))
+          done()
+        } catch (e) {
+          done(e)
+        }
       })
     })
 
@@ -153,8 +173,12 @@ const testBody = (options, match) => {
           query: { lang: 'fin' }
         }
       }).then((response) => {
-        expect(response.body).toMatchObject(mergeRecursive(match.common, match.fin))
-        done()
+        try {
+          expect(response.body).toMatchObject(mergeRecursive(match.common, match.fin))
+          done()
+        } catch (e) {
+          done(e)
+        }
       })
     })
 
@@ -166,8 +190,12 @@ const testBody = (options, match) => {
           query: { lang: 'swe' }
         }
       }).then((response) => {
-        expect(response.body).toMatchObject(mergeRecursive(match.common, match.swe))
-        done()
+        try {
+          expect(response.body).toMatchObject(mergeRecursive(match.common, match.swe))
+          done()
+        } catch (e) {
+          done(e)
+        }
       })
     })
   })
@@ -200,17 +228,27 @@ const testDatabaseSave = (options, match, model, config = {}) => {
   if (disallowId) reqOptions.preamble.send = { ...reqOptions.preamble.send, id: 10001 }
   it('saves a row into the database.', (done) => {
     makeRequest(reqOptions).then((response) => {
-      let id = response
-      pathToId.forEach((step) => {
-        id = id[step]
-      })
-      model.findById(id).then((row) => {
-        const json = row.toJSON()
-        if (disallowId) expect(json.id).not.toEqual(10001)
-        expect(json).toMatchObject(match)
-        if (includeTimestamps) expect(json).toMatchObject(timestamps)
-        done()
-      })
+      try {
+        let id = response
+        pathToId.forEach((step) => {
+          id = id[step]
+        })
+        expect(typeof id).toEqual('number')
+        model.findById(id).then((row) => {
+          try {
+            expect(row).toBeTruthy()
+            const json = row.toJSON()
+            if (disallowId) expect(json.id).not.toEqual(10001)
+            expect(json).toMatchObject(match)
+            if (includeTimestamps) expect(json).toMatchObject(timestamps)
+            done()
+          } catch (e) {
+            done(e)
+          }
+        })
+      } catch (e) {
+        done(e)
+      }
     })
   })
 }
@@ -240,28 +278,36 @@ const testDatabaseDestroy = (options, model, config = {}) => {
     cascade = []
   } = config
 
-  const checkCascade = cascade.map(params => (response, cascadeStep) => {
+  const checkCascade = cascade.map(params => (response, cascadeStep, done) => {
     params.model.findById(params.getId()).then((result) => {
-      expect(result).toEqual(null)
-      checkCascade[cascadeStep](response, cascadeStep + 1)
+      try {
+        expect(result).toEqual(null)
+        checkCascade[cascadeStep](response, cascadeStep + 1)
+      } catch (e) {
+        done(e)
+      }
     })
   })
 
-  const checkDestruction = (response, cascadeStep) => {
+  const checkDestruction = (response, cascadeStep, done) => {
     let id = response
     pathToId.forEach((step) => {
       id = id[step]
     })
     model.findById(id).then((result) => {
-      expect(result).toEqual(null)
-      checkCascade[cascadeStep](response, cascadeStep + 1)
+      try {
+        expect(result).toEqual(null)
+        checkCascade[cascadeStep](response, cascadeStep + 1, done)
+      } catch (e) {
+        done(e)
+      }
     })
   }
 
   it('destroys a row from the database', (done) => {
     checkCascade.push(() => done())
     makeRequest(options).then((response) => {
-      setTimeout(checkDestruction, delay, response, 0)
+      setTimeout(checkDestruction, delay, response, 0, done)
     })
   })
 }
@@ -274,8 +320,12 @@ const asymmetricMatcher = matcher => ({
 const testStatusCode = (options, code) => {
   it('response status code is correct', (done) => {
     makeRequest(options).then((res) => {
-      expect(res.status).toEqual(code)
-      done()
+      try {
+        expect(res.status).toEqual(code)
+        done()
+      } catch (e) {
+        done(e)
+      }
     })
   })
 }
