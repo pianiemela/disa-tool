@@ -10,6 +10,7 @@ const create = {
   value: (instance) => {
     const json = instance.toJSON()
     return {
+      id: json.id,
       course_instance_id: json.course_instance_id,
       person_id: json.person_id,
       role: json.role
@@ -27,6 +28,7 @@ const deleteCourseperson = {
   value: (instance) => {
     const json = instance.toJSON()
     return {
+      id: json.id,
       course_instance_id: json.course_instance_id,
       person_id: json.person_id,
       role: json.role

@@ -4,7 +4,21 @@ const coursePersonService = require('../services/course_person_service.js')
 const globalMessages = require('../messages/global_messages.js')
 
 const messages = {
-  ...globalMessages
+  ...globalMessages,
+  create: {
+    success: {
+      eng: '"Rekisteröityminen onnistui." englanniksi.',
+      fin: 'Rekisteröityminen onnistui.',
+      swe: '"Rekisteröityminen onnistui." ruotsiksi.'
+    }
+  },
+  delete: {
+    success: {
+      eng: '"Rekisteröityminen purettu onnistuneesti." englanniksi.',
+      fin: 'Rekisteröityminen purettu onnistuneesti.',
+      swe: '"Rekisteröityminen purettu onnistuneesti." ruotsiksi.'
+    }
+  }
 }
 
 router.post('/register', async (req, res) => {
@@ -30,7 +44,7 @@ router.post('/register', async (req, res) => {
   }
 })
 
-router.post('unregister', async (req, res) => {
+router.post('/unregister', async (req, res) => {
   try {
     const toDelete = await coursePersonService.delete.prepare(req.body, req.user)
     const deleted = coursePersonService.delete.value(toDelete)
