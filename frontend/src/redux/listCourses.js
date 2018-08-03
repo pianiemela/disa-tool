@@ -33,6 +33,34 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
         instances: [...state.instances, action.response.created],
         selectedInstance: action.response.created
       }
+    case 'COURSELIST_REGISTER':
+      return {
+        ...state,
+        instances: state.instances.map((instance) => {
+          if (instance.id === action.response.created.course_instance_id) {
+            return {
+              ...instance,
+              registered: true
+            }
+          }
+          return instance
+        }),
+        selectedInstance: { ...state.selectedInstance, registered: true }
+      }
+    case 'COURSELIST_UNREGISTER':
+      return {
+        ...state,
+        instances: state.instances.map((instance) => {
+          if (instance.id === action.response.deleted.course_instance_id) {
+            return {
+              ...instance,
+              registered: false
+            }
+          }
+          return instance
+        }),
+        selectedInstance: { ...state.selectedInstance, registered: false }
+      }
     default:
       return state
   }

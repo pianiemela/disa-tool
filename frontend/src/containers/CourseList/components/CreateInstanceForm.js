@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Button, Icon } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
 
-import { addInstance } from '../services/courseInstances'
+import { addInstance } from '../actions/courseInstances'
 
 import ModalForm from '../../../utils/components/ModalForm'
 import MultilingualField from '../../../utils/components/MultilingualField'

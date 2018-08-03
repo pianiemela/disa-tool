@@ -10,9 +10,9 @@ import { getAllCourses, selectCourse } from './actions/courses'
 import { getInstancesOfCourse, selectInstance } from './actions/courseInstances'
 
 import CreateInstanceForm from './components/CreateInstanceForm'
+import RegisterForm from './components/RegisterForm'
 
 class CourseListPage extends Component {
-
   componentDidMount = async () => {
     await this.props.getAllCourses()
   }
@@ -87,9 +87,9 @@ class CourseListPage extends Component {
                       <Header.Subheader>Tämä kurssi on tällä hetkellä </Header.Subheader>
                       {this.props.selectedInstance.active ? <span><b>käynnissä</b></span> : <span><b>ei käynnissä</b></span>}
                     </Header>
-                    {this.props.userCourses && this.props.userCourses.find(course => course.id === this.props.selectedInstance.id) ?
+                    {this.props.selectedInstance.registered ?
                       <p>Olet kurssilla <Button as={Link} to={`/user/course/${this.props.selectedInstance.id}`}>Kurssisivulle</Button></p> : <p>et ole kurssilla</p>}
-                    {this.props.selectedInstance.active ? <Button inverted color="blue">Rekisteröidy kurssille</Button> : undefined}
+                    {this.props.selectedInstance.active ? <RegisterForm registered={this.props.selectedInstance.registered} instanceId={this.props.selectedInstance.id} /> : undefined}
                   </div> :
                   <div>Valitse vielä kurssi-instanssi.</div>
                 }
@@ -121,7 +121,8 @@ CourseListPage.propTypes = {
   selectedInstance: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    active: PropTypes.bool.isRequired
+    active: PropTypes.bool.isRequired,
+    registered: PropTypes.bool.isRequired
   }),
   selectCourse: PropTypes.func.isRequired,
   selectInstance: PropTypes.func.isRequired
@@ -144,7 +145,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getCourses: asyncAction(getAllCourses, dispatch),
+  getAllCourses: asyncAction(getAllCourses, dispatch),
   getInstancesOfCourse: asyncAction(getInstancesOfCourse, dispatch),
   selectCourse: selectCourse(dispatch),
   selectInstance: selectInstance(dispatch)

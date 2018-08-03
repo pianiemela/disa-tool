@@ -1,4 +1,4 @@
-const { Course, CourseInstance, Person, CoursePerson, Task, TaskResponse, Type, SelfAssessment, AssessmentResponse, TypeHeader } = require('../database/models.js')
+const { Course, CourseInstance, Person, Task, TaskResponse, Type, SelfAssessment, AssessmentResponse, TypeHeader } = require('../database/models.js')
 
 const instanceAttributes = lang => ['id', 'course_id', [`${lang}_name`, 'name'], 'active']
 const courseAttributes = lang => ['id', [`${lang}_name`, 'name']]
@@ -14,12 +14,25 @@ const assessmentAttributes = lang => [
 const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
 const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]
 
-const getCourseInstancesOfCourse = (courseId, lang) => (
-  CourseInstance.findAll({
+const getCourseInstancesOfCourse = async (courseId, user, lang) => {
+  const instances = (await CourseInstance.findAll({
     where: { course_id: courseId },
-    attributes: instanceAttributes(lang)
-  })
-)
+    attributes: instanceAttributes(lang),
+    include: {
+      model: Person,
+      required: false,
+      where: {
+        id: user ? user.id : null
+      },
+      attributes: ['id']
+    }
+  })).map(instance => instance.toJSON())
+  return instances.map(instance => ({
+    ...instance,
+    registered: instance.people.length > 0,
+    people: undefined
+  }))
+}
 
 const getCoursesForPerson = (personId, lang) => (
   CourseInstance.findAll({

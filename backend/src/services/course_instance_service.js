@@ -139,7 +139,8 @@ const create = {
     return {
       id: json.id,
       name: json[`${lang}_name`],
-      active: json.active
+      active: json.active,
+      registered: true
     }
   }
 }
