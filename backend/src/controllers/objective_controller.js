@@ -35,6 +35,7 @@ router.post('/create', async (req, res) => {
   || skillLevel.course_instance_id !== toCreate.dataValues.course_instance_id
   ) {
     res.status(403).json({
+      toast: errors.privilege.toast,
       error: errors.privilege[req.lang]
     })
     return
@@ -62,6 +63,7 @@ router.delete('/:id', async (req, res) => {
     ]
   )) {
     res.status(403).json({
+      toast: errors.privilege.toast,
       error: errors.privilege[req.lang]
     })
     return

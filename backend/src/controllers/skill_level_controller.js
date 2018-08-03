@@ -26,6 +26,7 @@ router.post('/create', async (req, res) => {
     }
   ])) {
     res.status(403).json({
+      toast: errors.privilege.toast,
       error: errors.privilege[req.lang]
     })
     return
@@ -53,6 +54,7 @@ router.delete('/:id', async (req, res) => {
     }
   ])) {
     res.status(403).json({
+      toast: errors.privilege.toast,
       error: errors.privilege[req.lang]
     })
     return

@@ -56,6 +56,7 @@ router.post('/create', async (req, res) => {
       }
     ])) {
       res.status(403).json({
+        toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
       })
       return
@@ -90,6 +91,7 @@ router.delete('/:id', async (req, res) => {
       }
     ])) {
       res.status(403).json({
+        toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
       })
       return
@@ -126,6 +128,7 @@ router.post('/objectives/attach', async (req, res) => {
       ])
     if (!validation) {
       res.status(403).json({
+        toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
       })
       return
@@ -162,6 +165,7 @@ router.post('/objectives/detach', async (req, res) => {
       ])
     if (!validation) {
       res.status(403).json({
+        toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
       })
       return
@@ -193,7 +197,7 @@ router.post('/responses', async (req, res) => {
     param: courseId
   }])
   if (!isTeacher) {
-    res.status(403).json({ error: errors.privilege })
+    res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege })
     return
   }
   try {
@@ -219,6 +223,7 @@ router.post('/types/attach', async (req, res) => {
       ])
     if (!validation) {
       res.status(403).json({
+        toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
       })
       return
@@ -257,6 +262,7 @@ router.post('/types/detach', async (req, res) => {
     )
     if (!validation) {
       res.status(403).json({
+        toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
       })
       return

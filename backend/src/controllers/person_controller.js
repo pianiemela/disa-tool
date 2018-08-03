@@ -19,7 +19,7 @@ router.put('/course_role', async (req, res) => {
     param: person.course_instance_id
   }]))
   if (!coursePersons || coursePersons.length === 0) {
-    res.status(403).json({ error: errors.privilege[req.lang] })
+    res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
   }
   const updatedPersons = await personService.updatePersonRoleOnCourse(coursePersons)
   res.status(200).json(updatedPersons)

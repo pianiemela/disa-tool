@@ -13,6 +13,7 @@ const options = {
 
 const toastReducer = (state = INITIAL_STATE, action) => {
   if (action.response) {
+    if (!action.response.toast) return state
     if (action.response.error) {
       return {
         message: action.response.error,
@@ -20,6 +21,7 @@ const toastReducer = (state = INITIAL_STATE, action) => {
       }
     } else if (action.response.message) {
       return {
+        toast: true,
         message: action.response.message,
         options: options.message
       }

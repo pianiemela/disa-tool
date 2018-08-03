@@ -21,6 +21,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
     )
     if (!hasPrivilege) {
       return res.status(403).json({
+        toast: errors.privilege.toast,
         error: errors.privilege
       })
     }

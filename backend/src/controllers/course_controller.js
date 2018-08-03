@@ -28,7 +28,7 @@ router.put('/instance/:courseId/toggle', async (req, res) => {
     param: courseId
   }])
   if (!isTeacher) {
-    res.status(403).json({ error: errors.privilege[req.lang] })
+    res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
     return
   }
   const instance = await courseService.toggleActivity(courseId)
@@ -81,6 +81,7 @@ router.post('/create', async (req, res) => {
       }
     ])) {
       res.status(403).json({
+        toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
       })
       return
