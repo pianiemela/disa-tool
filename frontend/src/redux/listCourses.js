@@ -1,8 +1,8 @@
 const INITIAL_STATE = {
   instances: [],
   courses: [],
-  selectedCourse: undefined,
-  selectedInstance: undefined
+  selectedCourse: null,
+  selectedInstance: null
 }
 
 const listCoursesReducer = (state = INITIAL_STATE, action) => {
@@ -60,6 +60,14 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
           return instance
         }),
         selectedInstance: { ...state.selectedInstance, registered: false }
+      }
+    case 'COURSE_CREATE':
+      return {
+        ...state,
+        courses: [...state.courses, action.response.created],
+        selectedCourse: action.response.created,
+        instances: [],
+        selectedInstance: null
       }
     default:
       return state

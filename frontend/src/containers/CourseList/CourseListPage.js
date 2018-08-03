@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Header, List, Grid, Dropdown } from 'semantic-ui-react'
-import parseQueryParams from '../../utils/parseQueryParams'
 import asyncAction from '../../utils/asyncAction'
 
 import { getAllCourses, selectCourse } from './actions/courses'
@@ -137,7 +136,6 @@ const mapStateToProps = (state, ownProps) => ({
   ...ownProps,
   user: state.user,
   userCourses: state.courses,
-  location: parseQueryParams(ownProps.location),
   courses: state.listCourses.courses,
   instances: state.listCourses.instances,
   selectedCourse: state.listCourses.selectedCourse,

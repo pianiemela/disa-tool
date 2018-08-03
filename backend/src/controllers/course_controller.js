@@ -90,6 +90,7 @@ router.post('/create', async (req, res) => {
     await courseService.create.execute(toCreate)
     const created = courseService.create.value(toCreate, req.lang)
     res.status(200).json({
+      toast: true,
       message: messages.create[req.lang],
       created
     })
