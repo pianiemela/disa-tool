@@ -1,4 +1,4 @@
-import { getUsersCourses, getCourses, getCourseInstanceData } from '../api/courses'
+import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity } from '../api/courses'
 import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse } from '../api/selfassesment'
 import { getUser } from '../api/persons'
 
@@ -168,6 +168,25 @@ export const getCourseInstanceDataAction = courseId => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: 'COURSES_GET_INSTANCE_DATA_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
+export const toggleCourseActivityAction = courseId => async (dispatch) => {
+  dispatch({
+    type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await toggleCourseInstanceActivity(courseId)
+    dispatch({
+      type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE',
       payload: e.response
     })
   }

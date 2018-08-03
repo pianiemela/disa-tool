@@ -46,6 +46,7 @@ const updateTaskResponses = taskResponses => (
   Promise.all(taskResponses.map((resp) => {
     if (resp.points !== null) {
       return TaskResponse.update({ points: resp.points }, { where: { id: resp.responseId }, returning: true })
+        .then(res => res[1][0])
     }
     TaskResponse.destroy({ where: { id: resp.responseId } })
   }))
