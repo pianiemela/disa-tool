@@ -12,9 +12,6 @@ import {
   getUserSelfAssesments
 } from '../../actions/actions'
 
-import {
-} from '../SelfAssesment/actions/selfAssesment'
-
 export class SelfAssesmentPage extends React.Component {
   constructor(props) {
     super(props)

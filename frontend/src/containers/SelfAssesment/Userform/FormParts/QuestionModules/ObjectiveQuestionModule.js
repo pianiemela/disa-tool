@@ -1,6 +1,7 @@
 import { Form, Card, List, Grid } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
 
 class ObjectiveQuestionModule extends React.Component {
@@ -77,4 +78,4 @@ ObjectiveQuestionModule.propTypes = {
   })
 }
 
-export default ObjectiveQuestionModule
+export default connect(null, null)(ObjectiveQuestionModule)
