@@ -24,6 +24,16 @@ const messages = {
     eng: '"Tyyppiotsake poistettu onnistuneesti." englanniksi.',
     fin: 'Tyyppiotsake poistettu onnistuneesti.',
     swe: '"Tyyppiotsake poistettu onnistuneesti." ruotsiksi.'
+  },
+  details: {
+    eng: '"Tyypin tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Tyypin tiedot haettu onnistuneesti.',
+    swe: '"Tyypin tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  edit: {
+    eng: '"Tyypin muutokset tallennettu onnistuneesti." englanniksi.',
+    fin: 'Tyypin muutokset tallennettu onnistuneesti.',
+    swe: '"Tyypin muutokset tallennettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -156,6 +166,61 @@ router.delete('/headers/:id', async (req, res) => {
     res.status(200).json({
       message: messages.deleteHeader[req.lang],
       deleted
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.get('/:id', async (req, res) => {
+  try {
+    const data = await typeService.details(req.params.id)
+    res.status(200).json({
+      message: messages.details[req.lang],
+      data
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.put('/:id', async (req, res) => {
+  try {
+    const toEdit = await typeService.edit.prepare(req.params.id)
+    if (!await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: toEdit.dataValues.type_header.course_instance_id
+      }
+    ])) {
+      res.status(403).json({
+        error: errors.privilege[req.lang]
+      })
+      return
+    }
+    await typeService.edit.execute(toEdit, req.body)
+    const edited = typeService.edit.value(toEdit)
+    res.status(200).json({
+      message: messages.edit[req.lang],
+      edited
     })
   } catch (e) {
     if (process.env.NODE_ENV === 'development') {

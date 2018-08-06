@@ -81,9 +81,41 @@ const deleteHeader = {
   execute: instance => instance.destroy()
 }
 
+const details = id => Type.findById(id, {
+  attributes: {
+    exclude: ['updated_at', 'created_at', 'type_header_id']
+  }
+})
+
+const edit = {
+  prepare: id => Type.findById(id, {
+    include: {
+      model: TypeHeader,
+      attributes: ['id', 'course_instance_id']
+    }
+  }),
+  execute: (instance, data) => instance.update({
+    eng_name: data.eng_name,
+    fin_name: data.fin_name,
+    swe_name: data.swe_name,
+    multiplier: data.multiplier
+  }),
+  value: (instance, lang) => {
+    const json = instance.toJSON()
+    return {
+      id: json.id,
+      name: json[`${lang}_name`],
+      multiplier: json.multiplier,
+      type_header_id: json.type_header_id
+    }
+  }
+}
+
 module.exports = {
   create,
   delete: deleteType,
   createHeader,
-  deleteHeader
+  deleteHeader,
+  details,
+  edit
 }
