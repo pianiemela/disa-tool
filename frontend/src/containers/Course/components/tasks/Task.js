@@ -7,6 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { removeTask, changeActive } from '../../actions/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
+import EditTaskForm from './EditTaskForm'
 
 export class Task extends Component {
   renderExpanded() {
@@ -20,7 +21,7 @@ export class Task extends Component {
           <p>{this.props.task.info}</p>
         </div>
         <div className="flexBlock">
-          <Button icon={{ name: 'edit' }} size="small" />
+          <EditTaskForm taskId={this.props.task.id} />
         </div>
       </div>
     )

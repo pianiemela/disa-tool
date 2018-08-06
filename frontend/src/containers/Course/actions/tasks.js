@@ -1,4 +1,4 @@
-import { addObjective, removeObjective, addType, removeType, create, remove } from '../../../api/tasks'
+import { addObjective, removeObjective, addType, removeType, create, remove, edit } from '../../../api/tasks'
 import apiPromise from '../../../utils/apiPromise'
 
 export const addObjectiveToTask = data => apiPromise(addObjective, data, {
@@ -31,3 +31,7 @@ export const changeActive = dispatch => (id) => {
     id
   })
 }
+
+export const editTask = data => apiPromise(edit, data, {
+  success: { type: 'TASK_EDIT' }
+})
