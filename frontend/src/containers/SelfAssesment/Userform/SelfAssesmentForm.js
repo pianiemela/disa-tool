@@ -27,7 +27,7 @@ import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 
 
-class SelfAssesmentForm extends React.Component {
+export class SelfAssesmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

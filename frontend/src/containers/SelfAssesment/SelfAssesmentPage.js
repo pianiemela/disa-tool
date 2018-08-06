@@ -5,20 +5,14 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
 
 import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
-import { getCourseData } from './services/createForm'
-import SelfAssesmentForm from './Userform/SelfAssesmentForm'
 
 
 import {
-  createForm,
   getUserCoursesAction,
-  getUserSelfAssesments,
-  updateSelfAssesmentAction
+  getUserSelfAssesments
 } from '../../actions/actions'
 
 import {
-  editFormAction,
-  initNewFormAaction
 } from '../SelfAssesment/actions/selfAssesment'
 
 export class SelfAssesmentPage extends React.Component {
@@ -37,26 +31,26 @@ export class SelfAssesmentPage extends React.Component {
     this.props.dispatchGetUserSelfAssesments()
   }
   createForm = async (courseInstanceId, type) => {
-    this.setState({ redirect: true, new: true, courseInstanceId, type })
+    this.setState({ new: true, courseInstanceId, type })
   }
 
   editForm = async (id) => {
-    this.setState({ redirect: true, edit: true, assesmentId: id })
+    this.setState({ edit: true, assesmentId: id })
   }
   render() {
-    if (this.state.new && this.state.redirect) {
-      console.log(`redirecting to create page...`)
+    if (this.state.new) {
+      console.log('redirecting to create page...')
       return <Redirect to={`/selfassesment/create/${this.state.courseInstanceId}/${this.state.type}`} />
     }
 
-    if (this.state.edit && this.state.redirect) {
-      console.log(`redirecting to edit page...`)
+    if (this.state.edit) {
+      console.log('redirecting to edit page...')
       return <Redirect to={`/selfassesment/edit/${this.state.assesmentId}`} />
     }
 
     return (
       <Container>
-        <div>
+        <div className="selfAssesmentCreateForm">
           <SelfAssesmentCreateForm
             courses={this.props.courses}
             dropDownCourse={this.props.courseDropdownOptions}
@@ -95,13 +89,24 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getUserSelfAssesments())
 })
 
-SelfAssesmentForm.defaultProps = {
-  formData: {} || []
+SelfAssesmentPage.propTypes = {
+  courseDropdownOptions: PropTypes.arrayOf(PropTypes.shape()),
+  courses: PropTypes.arrayOf(PropTypes.shape()),
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      courseId: PropTypes.number
+    }).isRequired
+  }).isRequired,
+  selfAssesments: PropTypes.arrayOf(PropTypes.shape()),
+  dispatchGetUsercourses: PropTypes.func.isRequired,
+  dispatchGetUserSelfAssesments: PropTypes.func.isRequired
 }
 
-SelfAssesmentPage.propTypes = {
-  courseDropdownOptions: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  courses: PropTypes.PropTypes.arrayOf(PropTypes.shape()).isRequired
+SelfAssesmentPage.defaultProps = {
+  courses: [],
+  selfAssesments: [],
+  courseDropdownOptions: []
+
 }
 
 
