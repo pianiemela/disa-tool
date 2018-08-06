@@ -184,6 +184,12 @@ router.delete('/headers/:id', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     const data = await typeService.details(req.params.id)
+    if (!data) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
     res.status(200).json({
       message: messages.details[req.lang],
       data
@@ -205,6 +211,12 @@ router.get('/:id', async (req, res) => {
 router.put('/:id', async (req, res) => {
   try {
     const toEdit = await typeService.edit.prepare(req.params.id)
+    if (!toEdit) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
     if (!await checkPrivilege(req, [
       {
         key: 'teacher_on_course',

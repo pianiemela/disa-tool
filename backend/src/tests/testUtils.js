@@ -224,9 +224,10 @@ const testDatabaseSave = (options, match, model, config = {}) => {
     pathToId = ['body', 'created', 'id'],
     includeTimestamps = true
   } = config
-  const reqOptions = { ...options }
-  if (disallowId) reqOptions.preamble.send = { ...reqOptions.preamble.send, id: 10001 }
   it('saves a row into the database.', (done) => {
+    const reqOptions = { ...options }
+    if (disallowId) reqOptions.preamble.send = { ...reqOptions.preamble.send, id: 10001 }
+
     makeRequest(reqOptions).then((response) => {
       try {
         let id = response
@@ -235,9 +236,10 @@ const testDatabaseSave = (options, match, model, config = {}) => {
         })
         expect(typeof id).toEqual('number')
         model.findById(id).then((row) => {
+          let json
           try {
             expect(row).toBeTruthy()
-            const json = row.toJSON()
+            json = row.toJSON()
             if (disallowId) expect(json.id).not.toEqual(10001)
             expect(json).toMatchObject(match)
             if (includeTimestamps) expect(json).toMatchObject(timestamps)
