@@ -20,9 +20,11 @@ export class Task extends Component {
           <p>{this.props.task.description}</p>
           <p>{this.props.task.info}</p>
         </div>
-        <div className="flexBlock">
-          <EditTaskForm taskId={this.props.task.id} />
-        </div>
+        {this.props.editing ? (
+          <div className="flexBlock">
+            <EditTaskForm taskId={this.props.task.id} />
+          </div>
+         ) : null}
       </div>
     )
   }
