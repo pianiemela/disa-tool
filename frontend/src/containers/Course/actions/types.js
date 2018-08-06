@@ -1,4 +1,4 @@
-import { create, remove, headerCreate, headerRemove } from '../../../api/types'
+import { create, remove, headerCreate, headerRemove, edit } from '../../../api/types'
 import apiPromise from '../../../utils/apiPromise'
 
 export const addType = data => apiPromise(create, data, {
@@ -15,4 +15,8 @@ export const addHeader = data => apiPromise(headerCreate, data, {
 
 export const removeHeader = data => apiPromise(headerRemove, data, {
   success: { type: 'TYPE_HEADER_DELETE' }
+})
+
+export const editType = data => apiPromise(edit, data, {
+  success: { type: 'TYPE_EDIT' }
 })

@@ -11,6 +11,15 @@
   width: 500px;
 }
 
-.taskUncollapseable {
+.flexContainer {
   display: flex;
+  justify-content: center;
+}
+
+.flexGrower {
+  flex-grow: 1;
+}
+
+.flexBlock {
+  display: inline-block;
 }

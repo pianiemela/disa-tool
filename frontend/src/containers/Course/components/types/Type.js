@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Segment, Header, Button } from 'semantic-ui-react'
+import { Segment, Header, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeType } from '../../actions/types'
 import { addTypeToTask, removeTypeFromTask } from '../../actions/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
+import EditTypeForm from './EditTypeForm'
 
 export class Type extends Component {
   toggleType = () => {
@@ -32,10 +33,13 @@ export class Type extends Component {
         <div className="headerBlock">
           <Header className="typeHeader">{this.props.type.name}</Header>
         </div>
+        <div className="multiplierBlock">
+          <Label size="large" >{this.props.type.multiplier.toFixed(2)}</Label>
+        </div>
         {this.props.editing ? (
           <div>
             <div className="editBlock">
-              <Button type="button" icon={{ name: 'edit', size: 'small' }} />
+              <EditTypeForm typeId={this.props.type.id} />
             </div>
             <div className="removeBlock">
               <DeleteForm

@@ -162,6 +162,15 @@ const taskReducer = (state = INITIAL_STATE, action) => {
       return detachManyObjectives(state, action)
     case 'LEVEL_DELETE':
       return detachManyObjectives(state, action)
+    case 'TASK_EDIT':
+      return {
+        ...state,
+        tasks: state.tasks.map(task => (task.id === action.response.edited.id ? {
+          ...action.response.edited,
+          types: task.types,
+          objectives: task.objectives
+        } : task))
+      }
     default:
       return state
   }
