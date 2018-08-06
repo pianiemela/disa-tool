@@ -12,6 +12,7 @@ import SelfAssesmentForm from '../SelfAssesment/Userform/SelfAssesmentForm'
 import UserPage from '../User/UserPage'
 import CourseListPage from '../CourseList/CourseListPage'
 import CreateCoursePage from '../CreateCourse/CreateCoursePage'
+import UploadResponsesPage from '../TaskResponses/UploadResponsesPage'
 
 class Main extends PureComponent {
   componentWillReceiveProps(newProps) {
@@ -38,6 +39,7 @@ class Main extends PureComponent {
           <Route exact path="/user/course/:courseId" component={UserPage} />
           <Route exact path="/user" component={UserPage} />
           <Route path="/course/:id" component={CoursePage} />
+          <Route path="/tasks-responses/upload/:courseId" component={UploadResponsesPage} />
           <Route exact path="/courses" component={CourseListPage} />
           <Route exact path="/courses/create" component={CreateCoursePage} />
           <Route component={LoginPage} />
