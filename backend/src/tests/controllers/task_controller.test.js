@@ -7,7 +7,7 @@ const {
   asymmetricMatcher,
   testStatusCode
 } = require('../testUtils')
-const { Task, TaskType, TaskObjective, TaskResponse, CoursePerson, CourseInstance } = require('../../database/models.js')
+const { Task, TaskType, TaskObjective, TaskResponse, CoursePerson } = require('../../database/models.js')
 
 describe('task_controller', () => {
   describe('POST /create', () => {
@@ -204,5 +204,147 @@ describe('task_controller', () => {
         // })
       })
     })
+  })
+
+  describe('GET /:id', () => {
+    const options = {
+      route: '/api/tasks/1',
+      method: 'get',
+      preamble: {}
+    }
+    const expectedBody = {
+      common: {
+        message: expect.any(String),
+        data: {
+          id: 1,
+          course_instance_id: 1
+        }
+      }
+    }
+
+    beforeAll((done) => {
+      Task.findById(1).then((result) => {
+        expectedBody.common.data.eng_name = result.eng_name
+        expectedBody.common.data.fin_name = result.fin_name
+        expectedBody.common.data.swe_name = result.swe_name
+        expectedBody.common.data.eng_description = result.eng_description
+        expectedBody.common.data.fin_description = result.fin_description
+        expectedBody.common.data.swe_description = result.swe_description
+        expectedBody.common.data.info = result.info
+        done()
+      })
+    })
+
+    testHeaders(options)
+
+    testStatusCode(options, 200)
+
+    testStatusCode({ ...options, route: '/api/types/999999' }, 404)
+
+    testBody(options, expectedBody)
+  })
+
+  describe('PUT /:id', () => {
+    const data = {
+      eng_name: 'new en',
+      fin_name: 'new fn',
+      swe_name: 'new sn',
+      eng_description: 'new ed',
+      fin_description: 'new fd',
+      swe_description: 'new sd',
+      info: 'new i'
+    }
+    const options = {
+      route: '/api/tasks',
+      method: 'put',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+    const ids = {}
+    const databaseExpectation = {}
+
+    beforeAll((done) => {
+      Task.create({
+        course_instance_id: 1,
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn',
+        eng_description: 'ed',
+        fin_description: 'fd',
+        swe_description: 'sd',
+        info: 'i'
+      }).then((result) => {
+        ids.task = result.id
+        options.route = `${options.route}/${ids.task}`
+        databaseExpectation.created_at = result.created_at
+        done()
+      })
+    })
+
+    beforeEach((done) => {
+      Task.findById(ids.task).then(instance => instance.update({
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn',
+        eng_description: 'ed',
+        fin_description: 'fd',
+        swe_description: 'sd',
+        info: 'i'
+      }).then(() => done()))
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testStatusCode({ ...options, route: '/api/tasks/999999' }, 404)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        edited: {
+          id: asymmetricMatcher(actual => actual === ids.task),
+          info: data.info
+        }
+      },
+      eng: {
+        edited: {
+          name: data.eng_name,
+          description: data.eng_description
+        }
+      },
+      fin: {
+        edited: {
+          name: data.fin_name,
+          description: data.fin_description
+        }
+      },
+      swe: {
+        edited: {
+          name: data.swe_name,
+          description: data.swe_description
+        }
+      }
+    })
+
+    testDatabaseSave(
+      options,
+      {
+        ...data,
+        id: asymmetricMatcher(actual => actual === ids.task),
+        course_instance_id: 1,
+        created_at: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        )),
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+      },
+      Task,
+      {
+        pathToId: ['body', 'edited', 'id'],
+        includeTimestamps: false
+      }
+    )
   })
 })
