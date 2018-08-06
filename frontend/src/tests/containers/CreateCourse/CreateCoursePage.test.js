@@ -28,6 +28,10 @@ describe('CreateCoursePage component', () => {
     expect(wrapper.find('.CreateCoursePage').exists()).toEqual(true)
   })
 
+  it('does not redirect initially.', () => {
+    expect(wrapper.state('redirect')).toEqual(false)
+  })
+
   describe('when submitting the form', () => {
     beforeEach(() => {
       wrapper.find(Form).prop('onSubmit')({
@@ -50,10 +54,7 @@ describe('CreateCoursePage component', () => {
     })
 
     it('redirects.', () => {
-      expect(wrapper.state('redirect')).toEqual({
-        id: 15,
-        name: 'fn'
-      })
+      expect(wrapper.state('redirect')).toEqual(true)
     })
   })
 })
