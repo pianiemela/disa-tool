@@ -34,21 +34,15 @@
   width: 200px;
 }
 
-.editBlock, .removeBlock {
-  margin: 0px !important;
-  display: inline-block;
-}
-
 .headerBlock {
   min-width: 100px;
   display: inline-block;
   flex-grow: 1;
 }
 
-.multiplierBlock {
+.editBlock, .removeBlock, .multiplierBlock {
   display: inline-block;
-  flex-shrink: 1;
-  margin: 2px 5px 2px 5px;
+  margin: 2px 0px 2px 5px !important;
 }
 
 .addHeaderButton {

@@ -42,7 +42,7 @@ class ModalForm extends Component {
       <Modal trigger={trigger} open={this.state.expanded} onClose={this.collapse}>
         <Modal.Header>{this.props.header}</Modal.Header>
         <Modal.Content>
-          <Form onSubmit={this.handleSubmit}>
+          <Form onSubmit={this.handleSubmit} loading={this.props.loading}>
             {this.props.content}
           </Form>
         </Modal.Content>
@@ -58,11 +58,13 @@ ModalForm.propTypes = {
     PropTypes.string
   ]).isRequired,
   content: PropTypes.element.isRequired,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  loading: PropTypes.bool
 }
 
 ModalForm.defaultProps = {
-  onSubmit: () => {}
+  onSubmit: () => {},
+  loading: false
 }
 
 export default ModalForm

@@ -82,13 +82,16 @@ export class EditTypeForm extends Component {
                   max={1}
                   step={0.01}
                   value={this.state.values.multiplier}
-                  onChange={e => this.setState({ values: { ...this.state.values, multiplier: e.target.value } })}
+                  onChange={e => this.setState({
+                    values: { ...this.state.values, multiplier: e.target.value }
+                  })}
                 />
               </Form.Field>
               <Button type="submit" color="green">Tallenna</Button>
             </div>
           }
           onSubmit={this.editTypeSubmit}
+          loading={this.state.loading}
         />
       </div>
     )
