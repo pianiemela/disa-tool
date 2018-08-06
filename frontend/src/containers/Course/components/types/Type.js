@@ -8,6 +8,7 @@ import { removeType } from '../../actions/types'
 import { addTypeToTask, removeTypeFromTask } from '../../actions/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
+import EditTypeForm from './EditTypeForm'
 
 export class Type extends Component {
   toggleType = () => {
@@ -38,7 +39,7 @@ export class Type extends Component {
         {this.props.editing ? (
           <div>
             <div className="editBlock">
-              <Button type="button" icon={{ name: 'edit', size: 'small' }} />
+              <EditTypeForm typeId={this.props.type.id} />
             </div>
             <div className="removeBlock">
               <DeleteForm

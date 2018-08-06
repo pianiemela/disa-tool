@@ -10,6 +10,14 @@ class MultilingualField extends Component {
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.values !== this.props.values) {
+      this.setState({
+        values: newProps.values
+      })
+    }
+  }
+
   changeValue = key => e => this.setState({
     values: {
       ...this.state.values,

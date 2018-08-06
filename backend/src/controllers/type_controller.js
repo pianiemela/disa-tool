@@ -217,7 +217,7 @@ router.put('/:id', async (req, res) => {
       return
     }
     await typeService.edit.execute(toEdit, req.body)
-    const edited = typeService.edit.value(toEdit)
+    const edited = typeService.edit.value(toEdit, req.lang)
     res.status(200).json({
       message: messages.edit[req.lang],
       edited

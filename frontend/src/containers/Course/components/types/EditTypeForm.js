@@ -50,7 +50,7 @@ export class EditTypeForm extends Component {
           fin: typeDetails.fin_name,
           swe: typeDetails.swe_name
         },
-        mulitplier: typeDetails.multiplier
+        multiplier: typeDetails.multiplier
       },
       loading: false
     })
@@ -66,7 +66,7 @@ export class EditTypeForm extends Component {
       <div className="EditTypeForm">
         <ModalForm
           header="Muokkaa tyyppiä"
-          trigger={<Button onClick={this.loadDetails} className="editTypeButton" icon={{ name: 'add' }} />}
+          trigger={<Button onClick={this.loadDetails} className="editTypeButton" icon={{ name: 'edit' }} size="mini" />}
           content={
             <div>
               <p>
@@ -75,7 +75,15 @@ export class EditTypeForm extends Component {
               <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
               <Form.Field inline>
                 <Label>{label.multiplier}</Label>
-                <Input name="multiplier" type="number" min={0} max={1} step={0.01} value={this.state.values.multiplier} />
+                <Input
+                  name="multiplier"
+                  type="number"
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  value={this.state.values.multiplier}
+                  onChange={e => this.setState({ values: { ...this.state.values, multiplier: e.target.value } })}
+                />
               </Form.Field>
               <Button type="submit" color="green">Tallenna</Button>
             </div>
