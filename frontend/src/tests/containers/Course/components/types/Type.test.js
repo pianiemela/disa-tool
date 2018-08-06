@@ -1,6 +1,7 @@
 import React from 'react'
 import { Type } from '../../../../../containers/Course/components/types/Type'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
+import EditTypeForm from '../../../../../containers/Course/components/types/EditTypeForm'
 import { findText } from '../../../../testUtils'
 
 const type = {
@@ -31,13 +32,21 @@ describe('Type component', () => {
     expect(wrapper.find('.Type').exists()).toEqual(true)
   })
 
-  it('renders type name', () => {
+  it('renders type name.', () => {
     expect(findText(type.name, wrapper)).toBeGreaterThan(0)
+  })
+
+  it('renders type multiplier.', () => {
+    expect(findText(type.multiplier.toFixed(2), wrapper)).toBeGreaterThan(0)
   })
 
   describe('when not editing', () => {
     it('does not render a DeleteForm component.', () => {
       expect(wrapper.find(DeleteForm).exists()).toEqual(false)
+    })
+
+    it('does not render an EditTypeForm component.', () => {
+      expect(wrapper.find(EditTypeForm).exists()).toEqual(false)
     })
   })
 
@@ -49,6 +58,10 @@ describe('Type component', () => {
     })
     it('renders a DeleteForm component.', () => {
       expect(wrapper.find(DeleteForm).exists()).toEqual(true)
+    })
+
+    it('renders an EditTypeForm component.', () => {
+      expect(wrapper.find(EditTypeForm).exists()).toEqual(true)
     })
 
     describe('DeleteForm component', () => {
