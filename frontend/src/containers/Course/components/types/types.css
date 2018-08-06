@@ -45,6 +45,12 @@
   flex-grow: 1;
 }
 
+.multiplierBlock {
+  display: inline-block;
+  flex-shrink: 1;
+  margin: 2px 5px 2px 5px;
+}
+
 .addHeaderButton {
   width: 200px;
   height: 50px;

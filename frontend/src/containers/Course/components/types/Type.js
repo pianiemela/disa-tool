@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Segment, Header, Button } from 'semantic-ui-react'
+import { Segment, Header, Button, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeType } from '../../actions/types'
@@ -31,6 +31,9 @@ export class Type extends Component {
       >
         <div className="headerBlock">
           <Header className="typeHeader">{this.props.type.name}</Header>
+        </div>
+        <div className="multiplierBlock">
+          <Label size="large" >{this.props.type.multiplier}</Label>
         </div>
         {this.props.editing ? (
           <div>
