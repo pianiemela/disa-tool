@@ -14,17 +14,22 @@ export class Task extends Component {
       return null
     }
     return (
-      <div>
-        <p>{this.props.task.description}</p>
-        <p>{this.props.task.info}</p>
+      <div className="flexContainer">
+        <div className="flexGrower flexBlock">
+          <p>{this.props.task.description}</p>
+          <p>{this.props.task.info}</p>
+        </div>
+        <div className="flexBlock">
+          <Button icon={{ name: 'edit' }} size="small" />
+        </div>
       </div>
     )
   }
 
   render() {
     return (
-      <div className="Task">
-        <div className="taskUncollapseable">
+      <div className="Task flexContainer">
+        <div className="flexGrower">
           <Button
             className="taskButton"
             onClick={() => this.props.changeActive(this.props.task.id)}
@@ -33,20 +38,20 @@ export class Task extends Component {
           >
             {this.props.task.name}
           </Button>
-          {this.props.editing ? (
-            <DeleteForm
-              onExecute={() => this.props.removeTask({ id: this.props.task.id })}
-              prompt={[
-                'Poistetaanko tehtävä',
-                `"${this.props.task.name}"`
-              ]}
-              header="Poista tehtävä"
-            />
-          ) : (
-            null
-          )}
+          {this.renderExpanded()}
         </div>
-        {this.renderExpanded()}
+        {this.props.editing ? (
+          <DeleteForm
+            onExecute={() => this.props.removeTask({ id: this.props.task.id })}
+            prompt={[
+              'Poistetaanko tehtävä',
+              `"${this.props.task.name}"`
+            ]}
+            header="Poista tehtävä"
+          />
+        ) : (
+          null
+        )}
       </div>
     )
   }
