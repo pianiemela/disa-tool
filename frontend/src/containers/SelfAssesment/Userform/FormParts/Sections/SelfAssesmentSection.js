@@ -6,7 +6,7 @@ import MultiLangInput from '../MultiLangInput'
 import AddOpenQuestion from '../addOpenQuestion'
 import { changeHeaderAction } from '../../../actions/selfAssesment'
 
-class SelfAssesmentSection extends React.Component {
+export class SelfAssesmentSection extends React.Component {
   constructor(props) {
     super(props)
     this.state = {

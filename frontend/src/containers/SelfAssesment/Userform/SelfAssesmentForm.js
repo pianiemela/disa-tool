@@ -14,7 +14,7 @@ import {
   getAssesmentResponseAction
 } from '../../../actions/actions'
 import {
-  initNewFormAaction,
+  initNewFormAction,
   editFormAction,
   initAssesmentResponseAction
 } from '../actions/selfAssesment'
@@ -27,7 +27,7 @@ import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 
 
-class SelfAssesmentForm extends React.Component {
+export class SelfAssesmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -49,8 +49,7 @@ class SelfAssesmentForm extends React.Component {
         const courseInfo = await getCourseInstance(courseInstanceId)
 
         // dispatch the call to reducer to generate the required form data with given parameters
-
-        this.props.dispatchInitNewFormAaction({ courseData: courseData.data, courseInfo: courseInfo.data.data, type })
+        this.props.dispatchInitNewFormAction({ courseData: courseData.data, courseInfo: courseInfo.data.data, type })
       } else {
         // Fetch the selfassesment data by given id
         await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
@@ -101,7 +100,7 @@ class SelfAssesmentForm extends React.Component {
 
       return (
         <div>
-          <Container>
+          <Container className="selfAssesmentForm">
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
             <SelfAssesmentInfo
               textArea={textArea}
@@ -196,8 +195,8 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetCourseInstanceDataAction: courseInstanceId =>
     dispatch(getCourseInstanceDataAction(courseInstanceId)),
 
-  dispatchInitNewFormAaction: data =>
-    dispatch(initNewFormAaction(data)),
+  dispatchInitNewFormAction: data =>
+    dispatch(initNewFormAction(data)),
 
   dispatchEditFormAction: data =>
     dispatch(editFormAction(data)),
@@ -215,7 +214,14 @@ SelfAssesmentForm.propTypes = {
   formData: PropTypes.shape(),
   edit: PropTypes.bool.isRequired,
   dispatchCreateFormAction: PropTypes.func.isRequired,
-  dispatchUpdateSelfAssesmentAction: PropTypes.func.isRequired
+  dispatchUpdateSelfAssesmentAction: PropTypes.func.isRequired,
+  new: PropTypes.bool.isRequired,
+  dispatchInitNewFormAction: PropTypes.func.isRequired,
+  dispatchGetAssesmentResponseAction: PropTypes.func.isRequired,
+  dispatchGetSelfAssesmentAction: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({}).isRequired
+  }).isRequired
 
 }
 
