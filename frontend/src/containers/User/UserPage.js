@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Prompt } from 'react-router'
 import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Button, Header, List, Menu, Grid, Item, Label, Icon, Dropdown } from 'semantic-ui-react'
+import { Accordion, Button, Header, List, Menu, Grid, Item, Label, Icon, Dropdown } from 'semantic-ui-react'
 
 import { postTaskResponses } from '../../api/tasks'
 import {
@@ -17,6 +17,7 @@ import { CoursePeopleList } from './CoursePeopleList'
 import { CourseSideMenu } from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
 import { CourseInfo } from './CourseInfo'
+import { UploadResponsesPage } from '../TaskResponses/UploadResponsesPage'
 
 class UserPage extends Component {
   state = {
@@ -131,6 +132,10 @@ class UserPage extends Component {
     }
   }
 
+  updateTasksFromFile = (updatedTasks) => {
+    this.setState({ updatedTasks })
+  }
+
   submitTaskUpdates = () => {
     postTaskResponses({ tasks: this.state.updatedTasks, courseId: this.props.activeCourse.id })
       .then(res => console.log(res))
@@ -149,6 +154,7 @@ class UserPage extends Component {
     const teachers = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role === 'TEACHER') : []
+    console.log(updatedTasks)
     // console.log(activeCourse)
     // console.log(this.props.match.params.courseId)
     return (
@@ -198,6 +204,24 @@ class UserPage extends Component {
                           {assessments.map(assessment => <List.Item key={assessment.id} as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name}</List.Item>)}
                         </List>
                       </Item.Content>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Accordion
+                        defaultActiveIndex={-1}
+                        styled
+                        fluid
+                        panels={[{
+                          key: 'UploadComponent',
+                          title: 'Lataa tehtäviä csv-tiedostosta',
+                          content: {
+                            content: <UploadResponsesPage
+                              activeCourse={activeCourse}
+                              updateHandler={this.updateTasksFromFile}
+                            />
+                          } }]}
+                      />
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>

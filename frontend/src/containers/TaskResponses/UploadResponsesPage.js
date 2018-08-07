@@ -1,27 +1,29 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Button, Grid, Input, List, Table, Dropdown } from 'semantic-ui-react'
+import { Button, Grid, Input, List, Table, Dropdown, Accordion } from 'semantic-ui-react'
 import Papa from 'papaparse'
 
 import { getCourseInstanceDataAction } from '../../actions/actions'
 
 export class UploadResponsesPage extends Component {
   state = {
-    courseId: undefined,
     csv: undefined,
     csvMappings: {},
-    studentHeader: undefined
+    studentHeader: undefined,
+    pointsMapping: {},
+    pointKey: '',
+    pointValue: 0
   }
 
-  componentDidMount() {
-    const { courseId } = this.props.match.params
-    if (courseId) {
-      this.setState({ courseId })
-    }
-    if (!this.props.activeCourse.id) {
-      this.props.dispatchGetCourseInstanceData(courseId)
-    }
-  }
+  // componentDidMount() {
+  //   const { courseId } = this.props.match.params
+  //   if (courseId) {
+  //     this.setState({ courseId })
+  //   }
+  //   if (!this.props.activeCourse.id) {
+  //     this.props.dispatchGetCourseInstanceData(courseId)
+  //   }
+  // }
 
   loadFile = async (e) => {
     const { files } = e.target
@@ -60,16 +62,87 @@ export class UploadResponsesPage extends Component {
     this.setState({ csvMappings: mappings })
   }
 
-  render() {
-    const { courseId, csv, csvMappings, studentHeader } = this.state
-    if (!courseId) return <h2>Ei kurssia</h2>
+  handlePointChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  addPointMapping = () => {
+    const { pointsMapping, pointKey, pointValue } = this.state
+    this.setState({ pointsMapping: { ...pointsMapping, [pointKey]: pointValue } })
+  }
+
+  removePointMapping = (e, { value }) => {
+    const mappings = { ...this.state.pointsMapping }
+    delete mappings[value]
+    this.setState({ pointsMapping: mappings })
+  }
+
+  createResponseData = () => {
+    const { csv, csvMappings, studentHeader, pointsMapping } = this.state
     const { activeCourse } = this.props
+    const students = csv.data
+    const tasks = Object.keys(csvMappings).filter(task => csvMappings[task].active)
+    const updatedTasks = []
+    for (let i = 1; i < students.length; i += 1) {
+      const row = students[i]
+      const student = activeCourse.people.find(person =>
+        person.studentnumber.includes(String(row[studentHeader])))
+      if (student) {
+        const studentTasks = tasks.map((task) => {
+          const response = { personId: student.id, taskId: csvMappings[task].task.id }
+          if (pointsMapping[row[task]] !== undefined) {
+            response.points = pointsMapping[row[task]]
+          } else {
+            const points = Number(row[task].replace(',', '.'))
+            if (Number.isNaN(points)) {
+              response.points = 0
+            } else {
+              response.points = points
+            }
+          }
+          return response
+        })
+        updatedTasks.push(...studentTasks)
+      }
+    }
+    this.props.updateHandler(updatedTasks)
+  }
+
+  accordionPanels = csv => (
+    [{ key: 'table', title: '', content: { content: this.renderCsvTable(csv) } }]
+  )
+
+  renderCsvTable = csv => (
+    <Grid.Row>
+      <Grid.Column style={{ overflowX: 'scroll' }}>
+        <Table>
+          <Table.Header>
+            <Table.Row>
+              {csv.data[0].map(cell => <Table.HeaderCell key={cell}>{cell}</Table.HeaderCell>)}
+            </Table.Row>
+          </Table.Header>
+          <Table.Body>
+            {csv.data.map((row, i) => (i === 0 ? undefined :
+            <Table.Row key={i}>
+              {row.map((cell, j) => <Table.Cell key={j}>{cell}</Table.Cell>)}
+            </Table.Row>))}
+          </Table.Body>
+        </Table>
+      </Grid.Column>
+    </Grid.Row>
+  )
+
+  render() {
+    const { csv, csvMappings, studentHeader, pointsMapping, pointKey, pointValue } = this.state
+    // if (!courseId) return <h2>Ei kurssia</h2>
+    const { activeCourse } = this.props
+    // console.log(csv)
     return !activeCourse.id ? <h1>Loading</h1> : (
       <Grid container>
         <Grid.Row>
           <Grid.Column>
-            <h1>{activeCourse.name}</h1>
-            <Input type="file" onChange={this.loadFile} />
+            <h3>Valitse ladattava csv-tiedosto</h3>
+            <Input type="file" accept=".csv" onChange={this.loadFile} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -90,42 +163,38 @@ export class UploadResponsesPage extends Component {
         <Grid.Row>
           {csv ?
             <Grid.Column>
-              <h3>Onko tehtäviä, joiden pistemäärä pitää muuttaa numeraalisiksi?</h3>
-              <Dropdown options={csv.data[0].map(header => ({ key: header, text: header, value: header }))} /><Button>Lisää</Button>
+              <h3>Onko sarakkeissa arvoja, joiden pistemäärä pitää muuttaa numeraalisiksi?</h3>
+              <List>
+                {Object.keys(pointsMapping).map(key =>
+                  <List.Item>{key} = {pointsMapping[key]} <Button basic color="red" size="small" icon="delete" value={key} onClick={this.removePointMapping} /></List.Item>)}
+              </List>
+              <Input name="pointKey" label="arvo" type="text" value={pointKey} onChange={this.handlePointChange} />
+              <Input name="pointValue" label="pistemäärä" type="number" value={pointValue} onChange={this.handlePointChange} />
+              <Button onClick={this.addPointMapping}>Lisää</Button>
             </Grid.Column> : undefined}
         </Grid.Row>
+        <Grid.Row>
+          <Grid.Column>
+            <h3>Luo palautukset</h3>
+            <Button onClick={this.createResponseData}>Luo palautukset</Button>
+          </Grid.Column>
+        </Grid.Row>
         {csv ?
-          <Grid.Row>
-            <Grid.Column style={{ overflowX: 'scroll' }}>
-              <Table>
-                <Table.Header>
-                  <Table.Row>
-                    {csv.data[0].map(cell => <Table.HeaderCell key={cell}>{cell}</Table.HeaderCell>)}
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {csv.data.map((row, i) => (i === 0 ? undefined : <Table.Row key={i}>{row.map((cell, j) => <Table.Cell key={j}>{cell}</Table.Cell>)}</Table.Row>))}
-                </Table.Body>
-              </Table>
-            </Grid.Column>
-          </Grid.Row>
+          <Accordion
+            defaultActiveIndex={-1}
+            panels={[{
+              key: 'table',
+              title: 'Katso csv-tiedoston sisältöä',
+              content: { content: this.renderCsvTable(csv) } }]}
+          />
         : undefined}
       </Grid>
     )
   }
 }
 
-const mapStateToProps = state => ({
-  activeCourse: state.instance
-})
-
-const mapDispatchToProps = dispatch => ({
-  dispatchGetCourseInstanceData: courseId =>
-    dispatch(getCourseInstanceDataAction(courseId))
-})
-
 UploadResponsesPage.defaultProps = {
   activeCourse: {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UploadResponsesPage)
+export default UploadResponsesPage
