@@ -11,9 +11,6 @@ export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }
       <Grid.Column width={3}>
         <Button as={Link} to={`/course/${course.id}`} color="blue" basic>Muokkaa kurssia</Button>
       </Grid.Column>
-      <Grid.Column width={3}>
-        <Button as={Link} to={`/tasks-responses/upload/${course.id}`} color="blue" basic>Lataa tehtävävastauksia</Button>
-      </Grid.Column>
     </Grid.Row>
   )
 

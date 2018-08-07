@@ -154,7 +154,6 @@ class UserPage extends Component {
     const teachers = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role === 'TEACHER') : []
-    console.log(updatedTasks)
     // console.log(activeCourse)
     // console.log(this.props.match.params.courseId)
     return (
@@ -240,6 +239,7 @@ class UserPage extends Component {
                             students={students}
                           />
                           <Button color="green" onClick={this.submitTaskUpdates}>Tallenna muutokset</Button>
+                          <Button color="red" onClick={() => this.setState({ updatedTasks: [] })}>Peru kaikki muutokset</Button>
                         </div>
                         : <p>you are no teacher</p>}
                     </Grid.Column>

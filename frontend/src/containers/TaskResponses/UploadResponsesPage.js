@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import { shape, func } from 'prop-types'
 import { Button, Grid, Input, List, Table, Dropdown, Accordion } from 'semantic-ui-react'
 import Papa from 'papaparse'
-
-import { getCourseInstanceDataAction } from '../../actions/actions'
 
 export class UploadResponsesPage extends Component {
   state = {
@@ -14,16 +12,6 @@ export class UploadResponsesPage extends Component {
     pointKey: '',
     pointValue: 0
   }
-
-  // componentDidMount() {
-  //   const { courseId } = this.props.match.params
-  //   if (courseId) {
-  //     this.setState({ courseId })
-  //   }
-  //   if (!this.props.activeCourse.id) {
-  //     this.props.dispatchGetCourseInstanceData(courseId)
-  //   }
-  // }
 
   loadFile = async (e) => {
     const { files } = e.target
@@ -45,7 +33,6 @@ export class UploadResponsesPage extends Component {
       }
     })
     const studentHeader = headers.findIndex(header => header.includes('Opiskelijanumero'))
-    console.log(suggestions)
     this.setState({ csvMappings: suggestions, studentHeader })
   }
 
@@ -56,9 +43,9 @@ export class UploadResponsesPage extends Component {
     this.setState({ csvMappings: mappings })
   }
 
-  removeCsvHeader = (e, { value }) => {
+  toggleCsvHeader = (e, { value }) => {
     const mappings = { ...this.state.csvMappings }
-    mappings[value].active = false
+    mappings[value].active = !mappings[value].active
     this.setState({ csvMappings: mappings })
   }
 
@@ -108,10 +95,6 @@ export class UploadResponsesPage extends Component {
     this.props.updateHandler(updatedTasks)
   }
 
-  accordionPanels = csv => (
-    [{ key: 'table', title: '', content: { content: this.renderCsvTable(csv) } }]
-  )
-
   renderCsvTable = csv => (
     <Grid.Row>
       <Grid.Column style={{ overflowX: 'scroll' }}>
@@ -134,9 +117,7 @@ export class UploadResponsesPage extends Component {
 
   render() {
     const { csv, csvMappings, studentHeader, pointsMapping, pointKey, pointValue } = this.state
-    // if (!courseId) return <h2>Ei kurssia</h2>
     const { activeCourse } = this.props
-    // console.log(csv)
     return !activeCourse.id ? <h1>Loading</h1> : (
       <Grid container>
         <Grid.Row>
@@ -147,14 +128,47 @@ export class UploadResponsesPage extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            {csv ? <p>Opiskelijanumerot sarakkeessa: <b>{csv.data[0][studentHeader]}</b></p> : undefined}
+            {csv ? (
+              <div>
+                <h4>Opiskelijanumerot sarakkeessa: </h4>
+                <Dropdown
+                  value={studentHeader}
+                  scrolling
+                  placeholder="Valitse opiskelijanumeroiden sarake"
+                  options={Object.keys(csvMappings).map(key =>
+                    ({ key, text: csvMappings[key].csv, value: Number(key) }))}
+                  onChange={(e, { value }) => this.setState({ studentHeader: value })}
+                />
+              </div>) : undefined}
             <List>
               {Object.keys(csvMappings).map(suggestion => (
-                <List.Item disabled={!csvMappings[suggestion].active}>
-                  {csv.data[0][suggestion]} - {csvMappings[suggestion].task.name}
-                  <List.Content floated="right">
-                    <Dropdown value={csvMappings[suggestion].task.id ? csvMappings[suggestion].task.id : null} placeholder="Valitse vastaava tehtävä" options={activeCourse.tasks.map(task => ({ key: task.id, text: task.name, value: task.id }))} onChange={this.handleMapTask(suggestion)} />
-                    <Button icon="delete" basic color="red" value={suggestion} onClick={this.removeCsvHeader} />
+                <List.Item key={suggestion}>
+                  <List.Content>
+                    {csvMappings[suggestion].active ?
+                      <b>{csv.data[0][suggestion]} </b> :
+                      <strike>{csv.data[0][suggestion]} </strike>}
+                     -------
+                    <Dropdown
+                      disabled={!csvMappings[suggestion].active}
+                      search
+                      selectOnBlur={false}
+                      scrolling
+                      value={csvMappings[suggestion].task.id ?
+                        csvMappings[suggestion].task.id : null}
+                      placeholder="Valitse vastaava tehtävä"
+                      options={activeCourse.tasks.map(task =>
+                        ({ key: task.id, text: task.name, value: task.id }))}
+                      onChange={this.handleMapTask(suggestion)}
+                    />
+                    <Button
+                      basic
+                      circular
+                      color={csvMappings[suggestion].active ? 'red' : 'green'}
+                      icon={csvMappings[suggestion].active ? 'minus' : 'plus'}
+                      size="small"
+                      value={suggestion}
+                      onClick={this.toggleCsvHeader}
+                    />
                   </List.Content>
                 </List.Item>))}
             </List>
@@ -165,8 +179,19 @@ export class UploadResponsesPage extends Component {
             <Grid.Column>
               <h3>Onko sarakkeissa arvoja, joiden pistemäärä pitää muuttaa numeraalisiksi?</h3>
               <List>
-                {Object.keys(pointsMapping).map(key =>
-                  <List.Item>{key} = {pointsMapping[key]} <Button basic color="red" size="small" icon="delete" value={key} onClick={this.removePointMapping} /></List.Item>)}
+                {Object.keys(pointsMapping).map(key => (
+                  <List.Item key={key}>
+                    {key} = {pointsMapping[key]}
+                    <Button
+                      basic
+                      color="red"
+                      icon="delete"
+                      size="small"
+                      value={key}
+                      onClick={this.removePointMapping}
+                    />
+                  </List.Item>
+                ))}
               </List>
               <Input name="pointKey" label="arvo" type="text" value={pointKey} onChange={this.handlePointChange} />
               <Input name="pointValue" label="pistemäärä" type="number" value={pointValue} onChange={this.handlePointChange} />
@@ -193,8 +218,9 @@ export class UploadResponsesPage extends Component {
   }
 }
 
-UploadResponsesPage.defaultProps = {
-  activeCourse: {}
+UploadResponsesPage.propTypes = {
+  activeCourse: shape().isRequired,
+  updateHandler: func.isRequired
 }
 
 export default UploadResponsesPage
