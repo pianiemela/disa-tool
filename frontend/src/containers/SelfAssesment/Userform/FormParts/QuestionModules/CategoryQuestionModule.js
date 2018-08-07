@@ -23,7 +23,7 @@ export class CategoryQuestionModule extends React.Component {
     this.setState({ editHeaders: oldState })
   }
   render() {
-    const { edit, final, textArea } = this.props
+    const { edit, final } = this.props
     const { name, textFieldOn, id, includedInAssesment } = this.props.data
     let disabled = false
     let headercolor = 'black'
@@ -121,7 +121,9 @@ export class CategoryQuestionModule extends React.Component {
                         style={{ marginLeft: '20px' }}
                         placeholder="Valitse arvosana"
                         selection
-                        options={gradeOptions} />
+                        options={gradeOptions}
+                        onChange={(e, { value }) => this.props.dispatchGradeCategoryAction({ id, value, final })}
+                      />
                     </Grid.Column>
                   </Form.Field>
 
@@ -150,7 +152,11 @@ export class CategoryQuestionModule extends React.Component {
                         disabled={!textFieldOn}
                         label="Perustelut arvosanalle"
                         placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
-                        onChange={e => this.props.dispatchTextfieldResponseAction({ id, value: e.target.value, final })}
+                        onChange={e => this.props.dispatchTextfieldResponseAction({
+                          id,
+                          value: e.target.value,
+                          final
+                        })}
                       />
                       {final ?
                         null :
@@ -195,7 +201,9 @@ CategoryQuestionModule.propTypes = {
   final: PropTypes.bool,
   dispatchTextFieldOnOff: PropTypes.func.isRequired,
   dispatchToggleFormPartAction: PropTypes.func.isRequired,
-  dispatchHeaderChange: PropTypes.func.isRequired
+  dispatchHeaderChange: PropTypes.func.isRequired,
+  dispatchTextfieldResponseAction: PropTypes.func.isRequired,
+  dispatchGradeCategoryAction: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -206,7 +214,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchHeaderChange: data =>
     dispatch(changeHeaderAction(data)),
   dispatchTextfieldResponseAction: data =>
-    dispatch(textfieldResponseAction(data))
+    dispatch(textfieldResponseAction(data)),
+  dispatchGradeCategoryAction: data =>
+    dispatch(gradeCategoryAction(data))
 })
 
 export default connect(null, mapDispatchToProps)(CategoryQuestionModule)
