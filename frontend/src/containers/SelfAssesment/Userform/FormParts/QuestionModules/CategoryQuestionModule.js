@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import UpOrDownToggle from '../UpOrDownToggle'
-import { toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
+import { gradeCategoryAction, textfieldResponseAction, toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
 import MultiLangInput from '../MultiLangInput'
 
 export class CategoryQuestionModule extends React.Component {
@@ -117,7 +117,11 @@ export class CategoryQuestionModule extends React.Component {
                   <Form.Field disabled={disabled} width={10}>
                     <Grid.Column>
                       <label> Arvioi osaamisesi asteikolla 1-5</label>
-                      <Dropdown style={{ marginLeft: '20px' }} placeholder="Valitse arvosana" selection options={gradeOptions} />
+                      <Dropdown
+                        style={{ marginLeft: '20px' }}
+                        placeholder="Valitse arvosana"
+                        selection
+                        options={gradeOptions} />
                     </Grid.Column>
                   </Form.Field>
 
@@ -146,6 +150,7 @@ export class CategoryQuestionModule extends React.Component {
                         disabled={!textFieldOn}
                         label="Perustelut arvosanalle"
                         placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
+                        onChange={e => this.props.dispatchTextfieldResponseAction({ id, value: e.target.value, final })}
                       />
                       {final ?
                         null :
@@ -188,7 +193,6 @@ CategoryQuestionModule.propTypes = {
   }).isRequired,
   edit: PropTypes.bool.isRequired,
   final: PropTypes.bool,
-  textArea: PropTypes.func.isRequired,
   dispatchTextFieldOnOff: PropTypes.func.isRequired,
   dispatchToggleFormPartAction: PropTypes.func.isRequired,
   dispatchHeaderChange: PropTypes.func.isRequired
@@ -200,7 +204,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchToggleFormPartAction: (id, type) =>
     dispatch(toggleFormPartAction(id, type)),
   dispatchHeaderChange: data =>
-    dispatch(changeHeaderAction(data))
+    dispatch(changeHeaderAction(data)),
+  dispatchTextfieldResponseAction: data =>
+    dispatch(textfieldResponseAction(data))
 })
 
 export default connect(null, mapDispatchToProps)(CategoryQuestionModule)

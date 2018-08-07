@@ -69,16 +69,25 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       return state
     }
 
-    case 'GRADE_FOR_CATEGORY_RESPONSE': {
+    case 'GRADE_CATEGORY_RESPONSE': {
       return state
     }
 
-    case 'GRADE_FOR_OBJECTIVE_RESPONSE': {
+    case 'GRADE_OBJECTIVE_RESPONSE': {
       return state
     }
 
     case 'TEXTFIELD_RESPONSE': {
-      return state
+      const { type, id, value } = action.payload
+      console.log(type, id, value)
+      return {
+        ...state,
+        assesmentResponse: {
+          ...state.assesmentResponse,
+          questionModuleResponses: state.assesmentResponse.questionModuleResponses.map(qmRes =>
+            (qmRes.id === id ? { ...qmRes, responseText: value } : qmRes))
+        }
+      }
     }
 
     case 'TOGGLE_TEXT_FIELD': {

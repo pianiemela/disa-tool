@@ -120,7 +120,6 @@ SelfAssesmentSection.propTypes = {
     PropTypes.arrayOf(PropTypes.shape())
   ]).isRequired,
   edit: PropTypes.bool.isRequired,
-  textArea: PropTypes.func.isRequired,
   question: PropTypes.bool,
   QuestionModule: PropTypes.func.isRequired,
   final: PropTypes.bool,

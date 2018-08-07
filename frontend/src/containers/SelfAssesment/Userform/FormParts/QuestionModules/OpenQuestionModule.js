@@ -67,7 +67,6 @@ const OpenQuestionModule = (props) => {
 
 OpenQuestionModule.propTypes = {
   edit: PropTypes.bool.isRequired,
-  textArea: PropTypes.func.isRequired,
   dispatchRemoveOpenQuestion: PropTypes.func.isRequired,
   data: PropTypes.shape().isRequired
 }
