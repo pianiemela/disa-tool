@@ -141,7 +141,16 @@ export class CategoryQuestionModule extends React.Component {
                 <Grid.Row >
                   <Form.Field disabled={disabled} width={10}>
                     <Grid.Column>
-                      {textArea('Perustelut arvosanalle', 'Kirjoita perustelut valitsemallesi arvosanalle', textFieldOn, final ? null : checkbox)}
+                      <Form.TextArea
+                        autoHeight
+                        disabled={!textFieldOn}
+                        label="Perustelut arvosanalle"
+                        placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
+                      />
+                      {final ?
+                        null :
+                        checkbox
+                      }
                     </Grid.Column>
                   </Form.Field>
 

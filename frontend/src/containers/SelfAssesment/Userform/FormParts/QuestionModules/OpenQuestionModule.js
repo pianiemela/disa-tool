@@ -20,7 +20,11 @@ const OpenQuestionModule = (props) => {
             <Grid verticalAlign="middle" columns={3}>
               <Grid.Row>
                 <Grid.Column width={10}>
-                  {textArea('Vastaa avoimeen kysymykseen', 'Kirjoita vastaus tähän', true)}
+                  <Form.TextArea
+                    autoHeight
+                    label="Vastaa avoimeen kysymykseen"
+                    placeholder="Kirjoita vastaus tähän"
+                  />
                 </Grid.Column>
                 <Grid.Column>
                   {edit ?

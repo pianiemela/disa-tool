@@ -65,6 +65,22 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       return state
     }
 
+    case 'OPEN_QUESTION_RESPONSE': {
+      return state
+    }
+
+    case 'GRADE_FOR_CATEGORY_RESPONSE': {
+      return state
+    }
+
+    case 'GRADE_FOR_OBJECTIVE_RESPONSE': {
+      return state
+    }
+
+    case 'TEXTFIELD_RESPONSE': {
+      return state
+    }
+
     case 'TOGGLE_TEXT_FIELD': {
       const id = action.payload
       return {
