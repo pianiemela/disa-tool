@@ -1,8 +1,7 @@
 import React from 'react'
-import { SelfAssesmentPage } from '../../../containers/SelfAssesment/SelfAssesmentPage'
-import { SelfAssesmentCreateForm } from '../../../containers/SelfAssesment/CreateForm/SelfAssesmentCreateForm'
-import { SelfAssesmentForm } from '../../../containers/SelfAssesment/Userform/SelfAssesmentForm'
 import { Redirect } from 'react-router'
+import { SelfAssesmentPage } from '../../../../containers/SelfAssesment/SelfAssesmentPage'
+import { SelfAssesmentCreateForm } from '../../../../containers/SelfAssesment/CreateForm/SelfAssesmentCreateForm'
 
 describe('Self assesment page', () => {
   let wrapper

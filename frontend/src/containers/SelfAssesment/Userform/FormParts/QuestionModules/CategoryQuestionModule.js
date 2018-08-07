@@ -2,11 +2,11 @@ import { Form, Card, Grid, Checkbox, Dropdown, Button, Input } from 'semantic-ui
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import UpOrDownToggle from '../upDownToggle'
+import UpOrDownToggle from '../UpOrDownToggle'
 import { toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
 import MultiLangInput from '../MultiLangInput'
 
-class CategoryQuestionModule extends React.Component {
+export class CategoryQuestionModule extends React.Component {
   constructor(props) {
     super(props)
     this.state = { editHeaders: false, changedHeaders: {} }
@@ -88,74 +88,78 @@ class CategoryQuestionModule extends React.Component {
       />) : null
 
     return (
-      <Form.Field>
-        <Card fluid>
-          <Card.Content>
-            <Card.Header style={{ color: headercolor }}>
-              {headers && final ?
-                <div>
-                  {this.props.data.headers[0].value}
-                  {edit ?
-                    <Button
-                      onClick={() => this.toggleEdit()}
-                      style={{ marginLeft: '10px' }}
-                    >{this.state.editHeaders ? 'Näytä' : 'Muokkaa'}
-                    </Button>
-                    :
-                    null}
-                </div>
-                : qfield
-              }
-            </Card.Header>
-            <Card.Description>
-              {qfield}
-            </Card.Description>
-            <Grid verticalAlign="middle" padded columns={3}>
-              <Grid.Row >
-                <Form.Field disabled={disabled} width={10}>
-                  <Grid.Column>
-                    <label> Arvioi osaamisesi asteikolla 1-5</label>
-                    <Dropdown style={{ marginLeft: '20px' }} placeholder="Valitse arvosana" selection options={gradeOptions} />
-                  </Grid.Column>
-                </Form.Field>
-
-                <Grid.Column>
-                  {edit ?
-                    <Button
-                      size="large"
-                      basic
-                      color={buttonColor}
-                      onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
-                    >
-                      {buttonText}
-                    </Button>
-                    :
-                    null
-                  }
-                </Grid.Column>
-
-              </Grid.Row>
-              <Grid.Row >
-                <Form.Field disabled={disabled} width={10}>
-                  <Grid.Column>
-                    {textArea('Perustelut arvosanalle', 'Kirjoita perustelut valitsemallesi arvosanalle', textFieldOn, final ? null : checkbox)}
-                  </Grid.Column>
-                </Form.Field>
-
-                {final || !edit ?
-                  null
-                  :
-                  <Grid.Column>
-                    <Form.Field disabled={disabled}>
-                      <UpOrDownToggle id={id} />
-                    </Form.Field>
-                  </Grid.Column>
+      <div className="CategoryQuestion">
+        <Form.Field>
+          <Card fluid>
+            <Card.Content>
+              <Card.Header style={{ color: headercolor }}>
+                {headers && final ?
+                  <div>
+                    {headers[0].value}
+                    {edit ?
+                      <Button
+                        className="editHeadersButton"
+                        onClick={() => this.toggleEdit()}
+                        style={{ marginLeft: '10px' }}
+                      >{this.state.editHeaders ? 'Näytä' : 'Muokkaa'}
+                      </Button>
+                      :
+                      null}
+                  </div>
+                  : qfield
                 }
-              </Grid.Row>
-            </Grid>
-          </Card.Content>
-        </Card>
-      </Form.Field >
+              </Card.Header>
+              <Card.Description>
+                {qfield}
+              </Card.Description>
+              <Grid verticalAlign="middle" padded columns={3}>
+                <Grid.Row >
+                  <Form.Field disabled={disabled} width={10}>
+                    <Grid.Column>
+                      <label> Arvioi osaamisesi asteikolla 1-5</label>
+                      <Dropdown style={{ marginLeft: '20px' }} placeholder="Valitse arvosana" selection options={gradeOptions} />
+                    </Grid.Column>
+                  </Form.Field>
+
+                  <Grid.Column>
+                    {edit ?
+                      <Button
+                        className="toggleFormPartButton"
+                        size="large"
+                        basic
+                        color={buttonColor}
+                        onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
+                      >
+                        {buttonText}
+                      </Button>
+                      :
+                      null
+                    }
+                  </Grid.Column>
+
+                </Grid.Row>
+                <Grid.Row >
+                  <Form.Field disabled={disabled} width={10}>
+                    <Grid.Column>
+                      {textArea('Perustelut arvosanalle', 'Kirjoita perustelut valitsemallesi arvosanalle', textFieldOn, final ? null : checkbox)}
+                    </Grid.Column>
+                  </Form.Field>
+
+                  {final || !edit ?
+                    null
+                    :
+                    <Grid.Column>
+                      <Form.Field disabled={disabled}>
+                        <UpOrDownToggle id={id} />
+                      </Form.Field>
+                    </Grid.Column>
+                  }
+                </Grid.Row>
+              </Grid>
+            </Card.Content>
+          </Card>
+        </Form.Field >
+      </div>
     )
   }
 }

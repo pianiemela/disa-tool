@@ -1,10 +1,10 @@
 import React from 'react'
-import { SelfAssesmentForm } from '../../../containers/SelfAssesment/Userform/SelfAssesmentForm'
-import { Button } from 'semantic-ui-react'
-import SelfAssesmentSection from '../../../containers/SelfAssesment/Userform/FormParts/Sections/SelfAssesmentSection'
 import { Redirect } from 'react-router'
-import { getCourseInstance } from '../../../api/courses'
-import { getCourseData } from '../../../api/categories'
+import { Button } from 'semantic-ui-react'
+import { SelfAssesmentForm } from '../../../../containers/SelfAssesment/Userform/SelfAssesmentForm'
+import SelfAssesmentSection from '../../../../containers/SelfAssesment/Userform/FormParts/Sections/SelfAssesmentSection'
+import { getCourseInstance } from '../../../../api/courses'
+import { getCourseData } from '../../../../api/categories'
 
 
 const dispatchCreateFormAction = jest.fn()
@@ -30,24 +30,24 @@ const formData = {
   }
 }
 
-const selfAssesmentform = (edit, n) => (
-  shallow(<SelfAssesmentForm
-    match={{
-      params: {
-        courseInstanceId: 1,
-        selfAssesmentId: 1,
-        type: 'category'
-      }
-    }}
-    edit={edit}
-    new={n}
-    dispatchCreateFormAction={dispatchCreateFormAction}
-    dispatchUpdateSelfAssesmentAction={dispatchUpdateSelfAssesmentAction}
-    dispatchInitNewFormAction={dispatchInitNewFormAction}
-    dispatchGetAssesmentResponseAction={dispatchGetAssesmentResponseAction}
-    dispatchGetSelfAssesmentAction={dispatchGetSelfAssesmentAction}
-  />)
-)
+// const selfAssesmentform = (edit, n) => (
+//   shallow(<SelfAssesmentForm
+//     match={{
+//       params: {
+//         courseInstanceId: 1,
+//         selfAssesmentId: 1,
+//         type: 'category'
+//       }
+//     }}
+//     edit={edit}
+//     new={n}
+//     dispatchCreateFormAction={dispatchCreateFormAction}
+//     dispatchUpdateSelfAssesmentAction={dispatchUpdateSelfAssesmentAction}
+//     dispatchInitNewFormAction={dispatchInitNewFormAction}
+//     dispatchGetAssesmentResponseAction={dispatchGetAssesmentResponseAction}
+//     dispatchGetSelfAssesmentAction={dispatchGetSelfAssesmentAction}
+//   />)
+// )
 
 describe('Self assesment form', () => {
   let wrapper
