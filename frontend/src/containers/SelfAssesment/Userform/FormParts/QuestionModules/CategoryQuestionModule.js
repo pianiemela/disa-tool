@@ -1,4 +1,4 @@
-import { Form, Card, Grid, Checkbox, Dropdown, Button, Input } from 'semantic-ui-react'
+import { Form, Card, Grid, Checkbox, Dropdown, Button } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -172,12 +172,17 @@ CategoryQuestionModule.defaultProps = {
 CategoryQuestionModule.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string,
-    id: PropTypes.number
+    id: PropTypes.number,
+    headers: PropTypes.arrayOf(PropTypes.shape()),
+    textFieldOn: PropTypes.bool,
+    includedInAssesment: PropTypes.bool
   }).isRequired,
   edit: PropTypes.bool.isRequired,
   final: PropTypes.bool,
   textArea: PropTypes.func.isRequired,
-  dispatchTextFieldOnOff: PropTypes.func.isRequired
+  dispatchTextFieldOnOff: PropTypes.func.isRequired,
+  dispatchToggleFormPartAction: PropTypes.func.isRequired,
+  dispatchHeaderChange: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
