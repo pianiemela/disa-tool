@@ -78,14 +78,24 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'TEXTFIELD_RESPONSE': {
-      const { type, id, value } = action.payload
-      console.log(type, id, value)
+      const { final, id, value } = action.payload
+      if (!final) {
+        return {
+          ...state,
+          assesmentResponse: {
+            ...state.assesmentResponse,
+            questionModuleResponses: state.assesmentResponse.questionModuleResponses.map(qmRes =>
+              (qmRes.id === id ? { ...qmRes, responseText: value } : qmRes))
+          }
+        }
+      }
       return {
         ...state,
         assesmentResponse: {
           ...state.assesmentResponse,
-          questionModuleResponses: state.assesmentResponse.questionModuleResponses.map(qmRes =>
-            (qmRes.id === id ? { ...qmRes, responseText: value } : qmRes))
+          finalGrade: {
+            ...state.assesmentResponse.finalGrade, responseText: value
+          }
         }
       }
     }
