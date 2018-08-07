@@ -108,7 +108,6 @@ export const initResponseForm = (data) => {
 
   response.questionModuleResponses = []
   response.openQuestionResponses = []
-  response.finalGradeResponse = []
 
   questionModules.map(qm =>
     response.questionModuleResponses.push({
@@ -122,9 +121,33 @@ export const initResponseForm = (data) => {
       text: ''
     }))
 
-  response.finalGradeResponse.push({
+  response.finalGradeResponse = {
     responseText: '',
     grade: null
-  })
+  }
   return response
+}
+
+export const respond = (state, payload, typeOfResponse) => {
+  const { id, value, final } = payload
+
+  if (!final) {
+    return {
+      ...state,
+      assesmentResponse: {
+        ...state.assesmentResponse,
+        questionModuleResponses: state.assesmentResponse.questionModuleResponses.map(qmRes =>
+          (qmRes.id === id ? { ...qmRes, [typeOfResponse]: value } : qmRes))
+      }
+    }
+  }
+  return {
+    ...state,
+    assesmentResponse: {
+      ...state.assesmentResponse,
+      finalGradeResponse: {
+        ...state.assesmentResponse.finalGradeResponse, [typeOfResponse]: value
+      }
+    }
+  }
 }

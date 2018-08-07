@@ -103,7 +103,6 @@ export class SelfAssesmentForm extends React.Component {
           <Container className="selfAssesmentForm">
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
             <SelfAssesmentInfo
-              textArea={textArea}
               formData={formInfo}
               edit={edit}
             />
@@ -113,7 +112,6 @@ export class SelfAssesmentForm extends React.Component {
                 headers={questionHeaders}
                 formData={structure.questionModules}
                 edit={edit}
-                textArea={textArea}
                 QuestionModule={CategoryQuestionModule}
               />
 
@@ -123,7 +121,6 @@ export class SelfAssesmentForm extends React.Component {
                 headers={questionHeaders}
                 formData={structure.questionModules}
                 edit={edit}
-                textArea={textArea}
                 QuestionModule={ObjectiveQuestionModule}
               />
 
@@ -133,7 +130,6 @@ export class SelfAssesmentForm extends React.Component {
               headers={openQ}
               formData={structure.openQuestions.questions}
               edit={edit}
-              textArea={textArea}
               QuestionModule={OpenQuestionModule}
               question
             />
@@ -145,7 +141,6 @@ export class SelfAssesmentForm extends React.Component {
                 headers={grade}
                 formData={[structure.finalGrade]}
                 edit={edit}
-                textArea={textArea}
                 QuestionModule={CategoryQuestionModule}
                 final
                 headerType="grade"
