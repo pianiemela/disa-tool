@@ -112,9 +112,9 @@ describe('Task component', () => {
       })
     })
 
-    it('renders task description.', () => {
-      expect(findText(task.description, wrapper)).toBeGreaterThan(0)
-    })
+    // it('renders task description.', () => {
+    //   expect(findText(task.description, wrapper)).toBeGreaterThan(0)
+    // })
 
     it('renders task info.', () => {
       expect(findText(task.info, wrapper)).toBeGreaterThan(0)

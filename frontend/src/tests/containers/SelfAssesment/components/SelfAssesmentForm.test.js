@@ -12,8 +12,8 @@ const dispatchUpdateSelfAssesmentAction = jest.fn()
 const dispatchInitNewFormAction = jest.fn()
 const dispatchGetAssesmentResponseAction = jest.fn()
 const dispatchGetSelfAssesmentAction = jest.fn()
-jest.mock('../../../api/courses')
-jest.mock('../../../api/categories')
+// jest.mock('../../../api/courses')
+// jest.mock('../../../api/categories')
 
 const formData = {
   course_instance_id: 2,
