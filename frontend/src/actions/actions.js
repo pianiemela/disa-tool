@@ -1,6 +1,7 @@
 import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity } from '../api/courses'
 import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse } from '../api/selfassesment'
 import { getUser } from '../api/persons'
+import { postTaskResponses } from '../api/tasks'
 
 
 export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
@@ -198,4 +199,23 @@ export const logoutAction = (dispatch) => {
     type: 'USER_LOGOUT',
     payload: {}
   })
+}
+
+export const postTaskResponseActions = tasks => async (dispatch) => {
+  dispatch({
+    type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_ATTEMPT',
+    payload: tasks
+  })
+  try {
+    const { data } = await postTaskResponses(tasks)
+    dispatch({
+      type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_FAILURE',
+      payload: e.response
+    })
+  }
 }

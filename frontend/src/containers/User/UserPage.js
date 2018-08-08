@@ -10,7 +10,8 @@ import {
   getUserCoursesAction,
   getUserSelfAssesments,
   getCourseInstanceDataAction,
-  toggleCourseActivityAction
+  toggleCourseActivityAction,
+  postTaskResponseActions
 } from '../../actions/actions'
 import { updateCoursePersonRoleAction } from './actions/courseInstances'
 import { CoursePeopleList } from './CoursePeopleList'
@@ -137,8 +138,13 @@ class UserPage extends Component {
   }
 
   submitTaskUpdates = () => {
-    postTaskResponses({ tasks: this.state.updatedTasks, courseId: this.props.activeCourse.id })
-      .then(res => console.log(res))
+    this.props.dispatchPostTaskResponses({
+      tasks: this.state.updatedTasks,
+      courseId: this.props.activeCourse.id
+    })
+    this.setState({ updatedTasks: [] })
+    // postTaskResponses({ tasks: this.state.updatedTasks, courseId: this.props.activeCourse.id })
+    //   .then(res => console.log(res))
   }
 
   render() {
@@ -271,7 +277,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchToggleActivity: courseId =>
     dispatch(toggleCourseActivityAction(courseId)),
   dispatchUpdateCoursePersonRole: coursePersons =>
-    dispatch(updateCoursePersonRoleAction(coursePersons))
+    dispatch(updateCoursePersonRoleAction(coursePersons)),
+  dispatchPostTaskResponses: tasks =>
+    dispatch(postTaskResponseActions(tasks))
 })
 
 const mapStateToProps = state => ({

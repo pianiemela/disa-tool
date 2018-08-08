@@ -18,6 +18,22 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
       })
       return { ...state, people: updatePeople }
     }
+    case 'COURSE_INSTANCE_POST_TASK_RESPONSES_SUCCESS': {
+      const people = [...state.people]
+      const updatedTasks = action.payload.createdResponses
+      updatedTasks.map((task) => {
+        const student = people.find(p => p.id === task.person_id)
+        if (student) {
+          const oldTask = student.task_responses.find(t => t.id === task.id)
+          if (oldTask) {
+            oldTask.points = task.points
+          } else {
+            student.task_responses.push(task)
+          }
+        }
+      })
+      return { ...state, people }
+    }
     default:
       return state
   }
