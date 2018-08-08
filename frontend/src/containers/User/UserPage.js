@@ -143,8 +143,6 @@ class UserPage extends Component {
       courseId: this.props.activeCourse.id
     })
     this.setState({ updatedTasks: [] })
-    // postTaskResponses({ tasks: this.state.updatedTasks, courseId: this.props.activeCourse.id })
-    //   .then(res => console.log(res))
   }
 
   render() {
