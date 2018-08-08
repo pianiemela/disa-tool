@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
+import MathJax from 'react-mathjax-preview'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeTask, changeActive } from '../../actions/tasks'
@@ -17,7 +18,7 @@ export class Task extends Component {
     return (
       <div className="flexContainer">
         <div className="flexGrower flexBlock">
-          <p>{this.props.task.description}</p>
+          <MathJax math={this.props.task.description} />
           <p>{this.props.task.info}</p>
         </div>
         {this.props.editing ? (
