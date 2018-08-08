@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import MathJax from 'react-mathjax-preview'
 
+import { gradeObjectiveAction } from '../../../actions/selfAssesment'
 
 class ObjectiveQuestionModule extends React.Component {
   constructor(props) {
@@ -19,10 +20,12 @@ class ObjectiveQuestionModule extends React.Component {
     this.setState({ ratings })
   }
 
-  handleChange = (e, data) => {
+  handleChange = (e, name, id) => {
+    console.log(e.target.value, name, id)
     const { ratings } = this.state
-    ratings[data] = e.target.value
+    ratings[name] = e.target.value
     this.setState({ ratings })
+    this.props.dispatchGradeObjectiveAction({ value: e.target.value, id })
   }
 
   render() {
@@ -44,7 +47,7 @@ class ObjectiveQuestionModule extends React.Component {
                       <input
                         style={{}}
                         value={ratings[o.name] ? ratings[o.name] : 1}
-                        onChange={e => this.handleChange(e, o.name)}
+                        onChange={e => this.handleChange(e, o.name, o.id)}
                         type="range"
                         min={0}
                         max={2}
@@ -63,6 +66,12 @@ class ObjectiveQuestionModule extends React.Component {
     )
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  dispatchGradeObjectiveAction: data =>
+    dispatch(gradeObjectiveAction(data))
+})
+
 ObjectiveQuestionModule.defaultProps = {
   data: {
     options: [],
@@ -78,4 +87,4 @@ ObjectiveQuestionModule.propTypes = {
   })
 }
 
-export default connect(null, null)(ObjectiveQuestionModule)
+export default connect(null, mapDispatchToProps)(ObjectiveQuestionModule)

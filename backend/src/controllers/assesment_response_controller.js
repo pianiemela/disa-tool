@@ -26,7 +26,9 @@ router.get('/:selfAssesmentId', async (req, res) => {
       })
     }
     const user = await checkAuth(req)
-    const data = await assementResponseService.getOne(user, selfAssesmentId)
+    let data = await assementResponseService.getOne(user, selfAssesmentId)
+    data = data.toJSON()
+    data.response = JSON.parse(data.response)
     res.status(200).json({
       message: 'homma meni wilduks, mutta tässä asssesmentti',
       data
@@ -37,6 +39,40 @@ router.get('/:selfAssesmentId', async (req, res) => {
       error: errors.unexpected[req.lang]
     })
     console.log(error)
+  }
+})
+
+router.post('/', async (req, res) => {
+  try {
+    const data = req.body
+    const user = await checkAuth(req)
+    const hasPrivilege = await checkPrivilege(req,
+      [
+        {
+          key: 'student_on_course',
+          param: data.course_instance_id
+        }
+      ]
+    )
+    if (!hasPrivilege) {
+      return res.status(403).json({
+        toast: errors.privilege.toast,
+        error: errors.privilege
+      })
+    }
+
+    let response = await assementResponseService.createOrUpdate(user, data.assessmentId, JSON.stringify(data))
+    response = response.toJSON()
+    response.response = JSON.parse(response.response)
+    res.status(200).json({
+      message: 'hyvin meni',
+      data: response
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      error: errors.unexpected[req.lang]
+    })
   }
 })
 

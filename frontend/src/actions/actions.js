@@ -1,5 +1,5 @@
 import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity } from '../api/courses'
-import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse } from '../api/selfassesment'
+import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse } from '../api/selfassesment'
 import { getUser } from '../api/persons'
 import { postTaskResponses } from '../api/tasks'
 
@@ -188,6 +188,25 @@ export const toggleCourseActivityAction = courseId => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
+export const createSelfAssessmentResponseAction = responseData => async (dispatch) => {
+  dispatch({
+    type: 'ASSESMENT_RESPONSE_CREATE_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await createSelfAssessmentResponse(responseData)
+    dispatch({
+      type: 'ASSESMENT_RESPONSE_CREATE_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'ASSESMENT_RESPONSE_CREATE_FAILURE',
       payload: e.response
     })
   }

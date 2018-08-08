@@ -34,7 +34,6 @@ export class SelfAssesmentSection extends React.Component {
       question,
       formData,
       edit,
-      textArea,
       QuestionModule,
       headers } = this.props
 
@@ -90,7 +89,6 @@ export class SelfAssesmentSection extends React.Component {
                   key={questionModules.id}
                   data={questionModules}
                   edit={edit}
-                  textArea={textArea}
                   final={final}
                 />))}
 
