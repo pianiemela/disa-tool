@@ -11,7 +11,8 @@ import {
   createForm,
   updateSelfAssesmentAction,
   getCourseInstanceDataAction,
-  getAssesmentResponseAction
+  getAssesmentResponseAction,
+  createSelfAssessmentResponseAction
 } from '../../../actions/actions'
 import {
   initNewFormAction,
@@ -74,34 +75,40 @@ export class SelfAssesmentForm extends React.Component {
     this.setState({ redirect: true })
   }
 
+  handleResponse = async () => {
+    const { assesmentResponse } = this.props
+    await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
+  }
+
 
   render() {
     if (this.state.redirect) {
       return <Redirect to="/selfassesment" />
     }
-    const textArea = (label, placeholder, textFieldOn, checkbox) => (
-      (
-        <Grid.Column>
-          <Form.TextArea
-            autoHeight
-            disabled={!textFieldOn}
-            label={label}
-            placeholder={placeholder}
-          />
-          {checkbox}
-        </Grid.Column>
-      )
-    )
     const renderForm = () => {
+      let submitFunction = null
       const { formData, edit } = this.props
       const { structure } = formData
       const { displayCoursename, type, formInfo } = structure
       const { openQ, questionHeaders, grade } = structure.headers
 
+      if (!edit) {
+        submitFunction = this.handleResponse
+      } else if (this.props.new) {
+        submitFunction = this.handleSubmit
+      } else {
+        submitFunction = this.handleUpdate
+      }
+
+
       return (
         <div>
           <Container className="selfAssesmentForm">
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
+            {!edit && this.props.assesmentResponse.edit ?
+              <h2>OLET JO VASTANNUT PÖHKÖ</h2>
+              :
+              null}
             <SelfAssesmentInfo
               formData={formInfo}
               edit={edit}
@@ -151,9 +158,9 @@ export class SelfAssesmentForm extends React.Component {
             <Button
               positive
               style={{ marginBottom: '25px' }}
-              onClick={this.props.new ? this.handleSubmit : this.handleUpdate}
+              onClick={submitFunction}
             >
-              {this.props.new ? 'Tallenna' : 'Päivitä'}
+              {!this.props.edit || this.props.new ? 'Tallenna' : 'Päivitä'}
             </Button>
           </Container>
         </div >
@@ -174,7 +181,8 @@ export class SelfAssesmentForm extends React.Component {
 
 const mapStateToProps = state => ({
   formData: state.selfAssesment.createForm,
-  courseInstance: state.instance
+  courseInstance: state.instance,
+  assesmentResponse: state.selfAssesment.assesmentResponse
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -197,7 +205,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(editFormAction(data)),
 
   dispatchGetAssesmentResponseAction: selfAssesmentId =>
-    dispatch(getAssesmentResponseAction(selfAssesmentId))
+    dispatch(getAssesmentResponseAction(selfAssesmentId)),
+
+  dispatchCreateSelfAssesmentResponseAction: data =>
+    dispatch(createSelfAssessmentResponseAction(data))
 })
 
 SelfAssesmentForm.defaultProps = {

@@ -74,7 +74,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'GRADE_OBJECTIVE_RESPONSE': {
-      return state
+      return respond(state, action.payload, 'grade')
     }
 
     case 'TEXTFIELD_RESPONSE': {

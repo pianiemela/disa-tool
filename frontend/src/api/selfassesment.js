@@ -10,3 +10,4 @@ export const getSelfAssesment = selfAssesmentId => getJson(`/selfassesment/${sel
 
 export const getSelfAssesmentResponse = assesmentId => getJson(`/assesmentresponse/${assesmentId}`)
 
+export const createSelfAssessmentResponse = data => postJson('/assesmentresponse', data)

@@ -102,28 +102,39 @@ export const initForm = (payload) => {
 
 
 export const initResponseForm = (data) => {
-  const { questionModules, finalGrade } = data.structure
+  const { questionModules, finalGrade, type } = data.structure
   const { questions } = data.structure.openQuestions
   const response = {}
-
+  response.assessmentId = data.id
+  response.course_instance_id = data.course_instance_id
   response.questionModuleResponses = []
   response.openQuestionResponses = []
 
-  questionModules.map(qm =>
-    response.questionModuleResponses.push({
-      id: qm.id,
+  if (type !== 'objectives') {
+    questionModules.map(qm =>
+      response.questionModuleResponses.push({
+        id: qm.id,
+        responseText: '',
+        grade: null
+      }))
+  } else {
+    questionModules.map(qm =>
+      qm.objectives.map(qmO =>
+        response.questionModuleResponses.push({
+          id: qmO.id,
+          grade: null
+        })))
+
+    questions.map(q =>
+      response.openQuestionResponses.push({
+        id: q.id,
+        text: ''
+      }))
+
+    response.finalGradeResponse = {
       responseText: '',
       grade: null
-    }))
-  questions.map(q =>
-    response.openQuestionResponses.push({
-      id: q.id,
-      text: ''
-    }))
-
-  response.finalGradeResponse = {
-    responseText: '',
-    grade: null
+    }
   }
   return response
 }
