@@ -126,7 +126,6 @@ export class UploadResponsesPage extends Component {
   render() {
     const { csv, csvMappings, studentHeader, pointsMapping, pointKey, pointValue } = this.state
     const { activeCourse } = this.props
-    console.log(this.state)
     return !activeCourse.id ? <h1>Loading</h1> : (
       <Grid container>
         <Grid.Row>
