@@ -32,11 +32,10 @@ export class SelfAssesmentSection extends React.Component {
   render() {
     const { final,
       question,
-      formData,
       edit,
       QuestionModule,
+      formData,
       headers } = this.props
-
     const { editHeaders } = this.state
     let h = this.props.headers[0].value
 

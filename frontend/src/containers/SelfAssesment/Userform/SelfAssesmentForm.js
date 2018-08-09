@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import { Form, Grid, Button, Loader, Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-
+import UserResultsPage from './UserResultsPage'
 import { getCourseInstance } from '../../../api/courses'
 import { getCourseData } from '../../../api/categories'
 import {
@@ -17,7 +17,6 @@ import {
 import {
   initNewFormAction,
   editFormAction,
-  initAssesmentResponseAction
 } from '../actions/selfAssesment'
 
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
@@ -80,6 +79,10 @@ export class SelfAssesmentForm extends React.Component {
     await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
   }
 
+  changedProp = () => (
+    <p>moi</p>
+  )
+
 
   render() {
     const dummyPropToEnsureChange = () => (
@@ -97,6 +100,13 @@ export class SelfAssesmentForm extends React.Component {
       const { displayCoursename, type, formInfo } = structure
       const { openQ, questionHeaders, grade } = structure.headers
 
+      if (this.props.assesmentResponse.existingAnswer) {
+        return (<UserResultsPage
+          assesmentResponse={this.props.assesmentResponse}
+          formInfo={this.props.formData}
+        />)
+      }
+
       if (!edit) {
         submitFunction = this.handleResponse
       } else if (this.props.new) {
@@ -110,10 +120,7 @@ export class SelfAssesmentForm extends React.Component {
         <div>
           <Container className="selfAssesmentForm">
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
-            {!edit && this.props.assesmentResponse.edit ?
-              <h2>Olet jo vastannut, vaikka vastaukset eivätpi näy ihan vielä</h2>
-              :
-              null}
+
             <SelfAssesmentInfo
               formData={formInfo}
               edit={edit}
@@ -122,6 +129,7 @@ export class SelfAssesmentForm extends React.Component {
             {type === 'category' ?
               <SelfAssesmentSection
                 headers={questionHeaders}
+                formData={structure.questionModules}
                 edit={edit}
                 changedProp={dummyPropToEnsureChange}
                 QuestionModule={CategoryQuestionModule}
@@ -171,7 +179,9 @@ export class SelfAssesmentForm extends React.Component {
               {!this.props.edit || this.props.new ? 'Tallenna' : 'Päivitä'}
             </Button>
           </Container>
+          }
         </div >
+
       )
     }
     return (
