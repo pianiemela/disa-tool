@@ -128,7 +128,7 @@ export const initResponseForm = (data) => {
     questions.map(q =>
       response.openQuestionResponses.push({
         id: q.id,
-        text: ''
+        responseText: ''
       }))
 
     response.finalGradeResponse = {

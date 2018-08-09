@@ -106,7 +106,7 @@ export class SelfAssesmentForm extends React.Component {
           <Container className="selfAssesmentForm">
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
             {!edit && this.props.assesmentResponse.edit ?
-              <h2>OLET JO VASTANNUT PÖHKÖ</h2>
+              <h2>Olet jo vastannut, vaikka vastaukset eivätpi näy ihan vielä</h2>
               :
               null}
             <SelfAssesmentInfo

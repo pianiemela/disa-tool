@@ -26,6 +26,8 @@ export class CategoryQuestionModule extends React.Component {
     const { edit, final } = this.props
     const { name, textFieldOn, id, includedInAssesment } = this.props.data
     let disabled = false
+    // const { grade, responseText } = this.props.answers.filter(answ => answ.id === id)
+    // console.log(grade, responseText)
     let headercolor = 'black'
     let buttonColor = 'green'
     let buttonText = 'Mukana itsearviossa'
@@ -122,7 +124,7 @@ export class CategoryQuestionModule extends React.Component {
                         placeholder="Valitse arvosana"
                         selection
                         options={gradeOptions}
-                        onChange={(e, { value }) => this.props.dispatchGradeCategoryAction({ id, value, final })}
+                        onChange={!edit ? (e, { value }) => this.props.dispatchGradeCategoryAction({ id, value, final }) : null}
                       />
                     </Grid.Column>
                   </Form.Field>
@@ -152,11 +154,11 @@ export class CategoryQuestionModule extends React.Component {
                         disabled={!textFieldOn}
                         label="Perustelut arvosanalle"
                         placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
-                        onChange={e => this.props.dispatchTextfieldResponseAction({
+                        onChange={!edit ? e => this.props.dispatchTextfieldResponseAction({
                           id,
                           value: e.target.value,
                           final
-                        })}
+                        }) : null}
                       />
                       {final ?
                         null :
@@ -206,6 +208,10 @@ CategoryQuestionModule.propTypes = {
   dispatchGradeCategoryAction: PropTypes.func.isRequired
 }
 
+const mapStateToProps = state => ({
+  answers: state.selfAssesment.assesmentResponse
+})
+
 const mapDispatchToProps = dispatch => ({
   dispatchTextFieldOnOff: id =>
     dispatch(toggleTextField(id)),
@@ -219,4 +225,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(gradeCategoryAction(data))
 })
 
-export default connect(null, mapDispatchToProps)(CategoryQuestionModule)
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryQuestionModule)

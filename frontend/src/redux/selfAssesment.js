@@ -54,6 +54,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
         // as of now; dont create the assesment and expect it to contain all updated info
          about your course, that youve put in after you created the assesment
         */
+        data.response.edit = true
         return { ...state, assesmentResponse: data.response }
       }
       const created = initResponseForm(state.createForm)
@@ -66,7 +67,16 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'OPEN_QUESTION_RESPONSE': {
-      return state
+      const { id, value } = action.payload
+      return {
+        ...state,
+        assesmentResponse: {
+          ...state.assesmentResponse,
+          openQuestionResponses:
+            state.assesmentResponse.openQuestionResponses.map(oQ =>
+              (oQ.id === id ? { ...oQ, responseText: value } : oQ))
+        }
+      }
     }
 
     case 'GRADE_CATEGORY_RESPONSE': {
