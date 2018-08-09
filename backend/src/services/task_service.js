@@ -155,12 +155,24 @@ const attachType = {
       instance
     }
   },
-  execute: instance => instance.save(),
-  value: (instance) => {
+  execute: async (instance) => {
+    const createdTaskType = await instance.save({ returning: true })
+    const taskTypes = await Type.findAll({ include: { model: TaskType, where: { task_id: createdTaskType.task_id } } })
+    const multiplier = taskTypes.reduce((acc, curr) => acc * curr.dataValues.multiplier, 1)
+    const taskObjectives = await TaskObjective.findAll({ where: { task_id: instance.task_id } })
+    const updatedObjectives = await Promise.all(taskObjectives.map(taskO => (
+      TaskObjective.update({ multiplier }, { where: { id: taskO.dataValues.id }, returning: true })
+        .then(res => res[1][0])
+    )))
+    return { createdTaskType, updatedObjectives, multiplier }
+  },
+  value: (instance, updatedObjectives, multiplier) => {
     const json = instance.toJSON()
     return {
       task_id: json.task_id,
-      type_id: json.type_id
+      type_id: json.type_id,
+      updatedObjectives,
+      multiplier
     }
   }
 }

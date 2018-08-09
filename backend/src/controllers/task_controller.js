@@ -238,9 +238,9 @@ router.post('/types/attach', async (req, res) => {
       })
       return
     }
-    taskService.attachType.execute(toCreate)
-    const created = taskService.attachType.value(toCreate)
-    res.status(200).json({
+    const newTaskType = await taskService.attachType.execute(toCreate)
+    const created = await taskService.attachType.value(newTaskType.createdTaskType, newTaskType.updatedObjectives, newTaskType.multiplier)
+    res.status(201).json({
       message: messages.attachType[req.lang],
       created
     })

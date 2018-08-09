@@ -114,6 +114,7 @@ const attachType = (state, action) => ({
     if (task.id === action.response.created.task_id) {
       return {
         ...task,
+        defaultMultiplier: action.response.created.multiplier,
         types: [
           ...task.types,
           action.response.created.type_id
