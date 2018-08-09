@@ -6,6 +6,7 @@ const taskService = require('../services/task_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
 
+// TODO: Move these to a common/utils file
 const messages = {
   create: {
     eng: '"Tehtävä luotu onnistuneesti." englanniksi.',
@@ -48,6 +49,8 @@ const messages = {
     swe: '"Tehtävän muutokset tallennettu onnistuneesti." ruotsiksi.'
   }
 }
+
+// TODO: Refactor privilege things to take less space
 
 router.get('/user/:courseId', async (req, res) => {
   const user = await checkAuth(req)
@@ -221,6 +224,7 @@ router.post('/responses', async (req, res) => {
   }
 })
 
+// TODO: Refactor to look nicer. Also, check for bugs.
 router.post('/types/attach', async (req, res) => {
   try {
     const { task, type, instance: toCreate } = await taskService.attachType.prepare(req.body)
@@ -239,10 +243,12 @@ router.post('/types/attach', async (req, res) => {
       return
     }
     const newTaskType = await taskService.attachType.execute(toCreate)
-    const created = await taskService.attachType.value(newTaskType.createdTaskType, newTaskType.updatedObjectives, newTaskType.multiplier)
+    const created = await taskService.attachType.value(newTaskType.createdTaskType)
     res.status(201).json({
       message: messages.attachType[req.lang],
-      created
+      created,
+      taskObjectives: newTaskType.taskObjectives,
+      multiplier: newTaskType.multiplier
     })
   } catch (e) {
     if (process.env.NODE_ENV === 'development') {
@@ -278,10 +284,11 @@ router.post('/types/detach', async (req, res) => {
       return
     }
     const deleted = taskService.detachType.value(toDelete)
-    taskService.detachType.execute(toDelete)
+    const updatedObjectives = await taskService.detachType.execute(toDelete)
     res.status(200).json({
       message: messages.detachType[req.lang],
-      deleted
+      deleted,
+      ...updatedObjectives
     })
   } catch (e) {
     if (process.env.NODE_ENV === 'development') {

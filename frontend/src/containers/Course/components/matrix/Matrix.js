@@ -139,6 +139,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  // TODO: refactor to pass actions as parameters to dispatch (i.e. dispatch(action)),
+  // not the other way around as these are now.
   removeLevel: asyncAction(removeLevel, dispatch),
   dispatchChangeTask: changeActive(dispatch)
 })
