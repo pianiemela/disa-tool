@@ -82,6 +82,11 @@ export class SelfAssesmentForm extends React.Component {
 
 
   render() {
+    const dummyPropToEnsureChange = () => (
+      (
+        null
+      )
+    )
     if (this.state.redirect) {
       return <Redirect to="/selfassesment" />
     }
@@ -117,8 +122,8 @@ export class SelfAssesmentForm extends React.Component {
             {type === 'category' ?
               <SelfAssesmentSection
                 headers={questionHeaders}
-                formData={structure.questionModules}
                 edit={edit}
+                changedProp={dummyPropToEnsureChange}
                 QuestionModule={CategoryQuestionModule}
               />
 
@@ -128,6 +133,7 @@ export class SelfAssesmentForm extends React.Component {
                 headers={questionHeaders}
                 formData={structure.questionModules}
                 edit={edit}
+                changedProp={dummyPropToEnsureChange}
                 QuestionModule={ObjectiveQuestionModule}
               />
 
@@ -137,6 +143,7 @@ export class SelfAssesmentForm extends React.Component {
               headers={openQ}
               formData={structure.openQuestions.questions}
               edit={edit}
+              changedProp={dummyPropToEnsureChange}
               QuestionModule={OpenQuestionModule}
               question
             />
@@ -151,6 +158,7 @@ export class SelfAssesmentForm extends React.Component {
                 QuestionModule={CategoryQuestionModule}
                 final
                 headerType="grade"
+                changedProp={dummyPropToEnsureChange}
               />
               :
               null
