@@ -217,7 +217,7 @@ router.post('/responses', async (req, res) => {
     res.status(201).json({ msg: 'good job', createdResponses: [...createdResponses, ...updatedResponses] })
   } catch (e) {
     console.log(e)
-    res.status(400).json({ error: 'There was something wrong with your request' })
+    res.status(400).json({ error: 'There was something wrong with your request, please try again' })
   }
 })
 

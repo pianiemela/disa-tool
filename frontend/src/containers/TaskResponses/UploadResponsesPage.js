@@ -26,9 +26,10 @@ export class UploadResponsesPage extends Component {
     const headers = csv.data[0]
     const suggestions = {}
     headers.map((header, i) => {
+      const suggestion = activeCourse.tasks.find(task => task.name.includes(headers[i]))
       suggestions[i] = {
-        task: activeCourse.tasks.find(task => task.name.includes(headers[i])) ? activeCourse.tasks.find(task => task.name.includes(headers[i])) : { name: 'ei ehdotusta' },
-        active: true,
+        task: suggestion || { name: 'ei ehdotusta' },
+        active: suggestion,
         csv: header
       }
     })
@@ -36,7 +37,7 @@ export class UploadResponsesPage extends Component {
     this.setState({ csvMappings: suggestions, studentHeader })
   }
 
-  handleMapTask = suggestion => (e, { value }) => {
+  handleMapTask = (e, { value, suggestion }) => {
     const mappings = { ...this.state.csvMappings }
     const task = this.props.activeCourse.tasks.find(t => t.id === value)
     mappings[suggestion].task = task
@@ -49,13 +50,13 @@ export class UploadResponsesPage extends Component {
     this.setState({ csvMappings: mappings })
   }
 
-  handlePointChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
+  handleChange = (e, { name, value }) => {
+    this.setState({ [name]: value })
   }
 
   addPointMapping = () => {
     const { pointsMapping, pointKey, pointValue } = this.state
-    this.setState({ pointsMapping: { ...pointsMapping, [pointKey]: pointValue } })
+    this.setState({ pointsMapping: { ...pointsMapping, [pointKey]: Number(pointValue) } })
   }
 
   removePointMapping = (e, { value }) => {
@@ -78,7 +79,7 @@ export class UploadResponsesPage extends Component {
         const studentTasks = tasks.map((task) => {
           const response = { personId: student.id, taskId: csvMappings[task].task.id }
           if (pointsMapping[row[task]] !== undefined) {
-            response.points = pointsMapping[row[task]]
+            response.points = Number(pointsMapping[row[task]])
           } else {
             const points = Number(row[task].replace(',', '.'))
             if (Number.isNaN(points)) {
@@ -87,9 +88,16 @@ export class UploadResponsesPage extends Component {
               response.points = points
             }
           }
-          return response
+          const existingResponse = student.task_responses.find(resp =>
+            resp.task_id === response.taskId && resp.person_id === response.personId)
+          if (existingResponse) {
+            response.responseId = existingResponse.id
+          }
+          if (response.taskId && response.personId && response.points) {
+            return response
+          }
         })
-        updatedTasks.push(...studentTasks)
+        updatedTasks.push(...studentTasks.filter(task => task !== undefined))
       }
     }
     this.props.updateHandler(updatedTasks)
@@ -101,7 +109,7 @@ export class UploadResponsesPage extends Component {
         <Table>
           <Table.Header>
             <Table.Row>
-              {csv.data[0].map(cell => <Table.HeaderCell key={cell}>{cell}</Table.HeaderCell>)}
+              {csv.data[0].map((cell, i) => <Table.HeaderCell key={`${cell},${i}`}>{cell}</Table.HeaderCell>)}
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -118,6 +126,7 @@ export class UploadResponsesPage extends Component {
   render() {
     const { csv, csvMappings, studentHeader, pointsMapping, pointKey, pointValue } = this.state
     const { activeCourse } = this.props
+    console.log(this.state)
     return !activeCourse.id ? <h1>Loading</h1> : (
       <Grid container>
         <Grid.Row>
@@ -132,12 +141,13 @@ export class UploadResponsesPage extends Component {
               <div>
                 <h4>Opiskelijanumerot sarakkeessa: </h4>
                 <Dropdown
+                  name="studentHeader"
                   value={studentHeader}
                   scrolling
                   placeholder="Valitse opiskelijanumeroiden sarake"
                   options={Object.keys(csvMappings).map(key =>
                     ({ key, text: csvMappings[key].csv, value: Number(key) }))}
-                  onChange={(e, { value }) => this.setState({ studentHeader: value })}
+                  onChange={this.handleChange}
                 />
               </div>) : undefined}
             <List>
@@ -147,24 +157,25 @@ export class UploadResponsesPage extends Component {
                     {csvMappings[suggestion].active ?
                       <b>{csv.data[0][suggestion]} </b> :
                       <strike>{csv.data[0][suggestion]} </strike>}
-                     -------
+                     ------------
                     <Dropdown
                       disabled={!csvMappings[suggestion].active}
                       search
                       selectOnBlur={false}
                       scrolling
+                      suggestion={suggestion}
                       value={csvMappings[suggestion].task.id ?
                         csvMappings[suggestion].task.id : null}
                       placeholder="Valitse vastaava tehtävä"
                       options={activeCourse.tasks.map(task =>
                         ({ key: task.id, text: task.name, value: task.id }))}
-                      onChange={this.handleMapTask(suggestion)}
+                      onChange={this.handleMapTask}
                     />
                     <Button
                       basic
                       circular
-                      color={csvMappings[suggestion].active ? 'red' : 'green'}
-                      icon={csvMappings[suggestion].active ? 'minus' : 'plus'}
+                      color={csvMappings[suggestion].active ? 'green' : 'red'}
+                      icon={csvMappings[suggestion].active ? 'checkmark' : 'minus'}
                       size="small"
                       value={suggestion}
                       onClick={this.toggleCsvHeader}
@@ -193,8 +204,8 @@ export class UploadResponsesPage extends Component {
                   </List.Item>
                 ))}
               </List>
-              <Input name="pointKey" label="arvo" type="text" value={pointKey} onChange={this.handlePointChange} />
-              <Input name="pointValue" label="pistemäärä" type="number" value={pointValue} onChange={this.handlePointChange} />
+              <Input name="pointKey" label="arvo" type="text" value={pointKey} onChange={this.handleChange} />
+              <Input name="pointValue" label="pistemäärä" type="number" value={pointValue} onChange={this.handleChange} />
               <Button onClick={this.addPointMapping}>Lisää</Button>
             </Grid.Column> : undefined}
         </Grid.Row>
