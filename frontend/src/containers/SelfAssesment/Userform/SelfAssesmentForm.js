@@ -78,12 +78,6 @@ export class SelfAssesmentForm extends React.Component {
     const { assesmentResponse } = this.props
     await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
   }
-
-  changedProp = () => (
-    <p>moi</p>
-  )
-
-
   render() {
     const dummyPropToEnsureChange = () => (
       (
