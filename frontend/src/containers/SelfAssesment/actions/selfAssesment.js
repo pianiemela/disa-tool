@@ -5,7 +5,7 @@ export const toggleTextField = id => (dispatch) => {
   })
 }
 
-export const initNewFormAaction = data => (dispatch) => {
+export const initNewFormAction = data => (dispatch) => {
   dispatch({
     type: 'INIT_NEW_FORM',
     payload: data
@@ -65,6 +65,34 @@ export const changeHeaderAction = data => (dispatch) => {
 export const editFormAction = data => (dispatch) => {
   dispatch({
     type: 'INIT_EDIT_FORM',
+    payload: data
+  })
+}
+
+export const openQuestionResponseAction = data => (dispatch) => {
+  dispatch({
+    type: 'OPEN_QUESTION_RESPONSE',
+    payload: data
+  })
+}
+
+export const gradeCategoryAction = data => (dispatch) => {
+  dispatch({
+    type: 'GRADE_CATEGORY_RESPONSE',
+    payload: data
+  })
+}
+
+export const gradeObjectiveAction = data => (dispatch) => {
+  dispatch({
+    type: 'GRADE_OBJECTIVE_RESPONSE',
+    payload: data
+  })
+}
+
+export const textfieldResponseAction = data => (dispatch) => {
+  dispatch({
+    type: 'TEXTFIELD_RESPONSE',
     payload: data
   })
 }

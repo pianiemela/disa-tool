@@ -46,6 +46,7 @@ const updateTaskResponses = taskResponses => (
   Promise.all(taskResponses.map((resp) => {
     if (resp.points !== null) {
       return TaskResponse.update({ points: resp.points }, { where: { id: resp.responseId }, returning: true })
+        .then(res => res[1][0])
     }
     TaskResponse.destroy({ where: { id: resp.responseId } })
   }))
@@ -192,6 +193,36 @@ const detachType = {
   execute: instance => instance.destroy()
 }
 
+const details = id => Task.findById(id, {
+  attributes: {
+    exclude: ['updated_at', 'created_at']
+  }
+})
+
+const edit = {
+  prepare: id => Task.findById(id, {
+    attributes: ['id', 'course_instance_id']
+  }),
+  execute: (instance, data) => instance.update({
+    eng_name: data.eng_name,
+    fin_name: data.fin_name,
+    swe_name: data.swe_name,
+    eng_description: data.eng_description,
+    fin_description: data.fin_description,
+    swe_description: data.swe_description,
+    info: data.info
+  }),
+  value: (instance, lang) => {
+    const json = instance.toJSON()
+    return {
+      id: json.id,
+      name: json[`${lang}_name`],
+      description: json[`${lang}_description`],
+      info: json.info
+    }
+  }
+}
+
 module.exports = {
   getUserTasksForCourse,
   getTasksForCourse,
@@ -203,5 +234,7 @@ module.exports = {
   attachObjective,
   detachObjective,
   attachType,
-  detachType
+  detachType,
+  details,
+  edit
 }

@@ -1,10 +1,10 @@
 import React from 'react'
-import { Icon, Label, List } from 'semantic-ui-react'
+import { Icon, Label, List, Header } from 'semantic-ui-react'
 
 
 export const ListTasks = ({ tasks, selectedType }) => (
   <div>
-    <p>Tehtävät</p>
+    <Header as="h3">Tehtävät</Header>
     <p><Icon name="checkmark" color="green" /> tehty, <Icon name="delete" color="red" /> ei tehty</p>
     <List divided size="tiny">
       {tasks.map(task => (

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const globalMessages = require('../messages/global_messages.js')
+const { errors } = require('../messages/global.js')
 const { checkPrivilege } = require('../services/privilege')
 
 const { checkAuth } = require('../services/auth.js')
@@ -32,7 +32,8 @@ router.get('/:selfAssesmentId', async (req, res) => {
     ])
     if (!hasPrivilege) {
       return res.status(403).json({
-        error: globalMessages.privilege.failure[req.lang]
+        toast: errors.privilege.toast,
+        error: errors.privilege[req.lang]
       })
     }
     data.structure = JSON.parse(data.structure)
@@ -46,7 +47,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: globalMessages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(error)
     }

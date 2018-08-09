@@ -6,25 +6,22 @@ const { Person } = require('../database/models.js')
 
 const messages = {
   create: {
-    success: {
-      eng: '"Uusi käyttäjä luotu onnistuneesti." englanniksi.',
-      fin: 'Uusi käyttäjä luotu onnistuneesti.',
-      swe: '"Uusi käyttäjä luotu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Uusi käyttäjä luotu onnistuneesti." englanniksi.',
+    fin: 'Uusi käyttäjä luotu onnistuneesti.',
+    swe: '"Uusi käyttäjä luotu onnistuneesti." ruotsiksi.'
   },
   login: {
-    success: {
-      eng: '"Sisäänkirjautuminen onnistui." englanniksi.',
-      fin: 'Sisäänkirjautuminen onnistui.',
-      swe: '"Sisäänkirjautuminen onnistui." ruotsiksi.'
-    },
-    failure: {
-      wrong_creds: {
-        eng: '"Väärä salasana tai käyttäjänimi." englanniksi.',
-        fin: 'Väärä salasana tai käyttäjänimi.',
-        swe: '"Väärä salasana tai käyttäjänimi." ruotsiksi.'
-      }
-    }
+    eng: '"Sisäänkirjautuminen onnistui." englanniksi.',
+    fin: 'Sisäänkirjautuminen onnistui.',
+    swe: '"Sisäänkirjautuminen onnistui." ruotsiksi.'
+  }
+}
+
+const errors = {
+  wrong_creds: {
+    eng: '"Väärä salasana tai käyttäjänimi." englanniksi.',
+    fin: 'Väärä salasana tai käyttäjänimi.',
+    swe: '"Väärä salasana tai käyttäjänimi." ruotsiksi.'
   }
 }
 
@@ -41,7 +38,7 @@ const login = async (body, lang) => {
   if (result.data.error) {
     if (result.data.error === 'wrong credentials') {
       return {
-        error: messages.login.failure.wrong_creds[lang],
+        error: errors.wrong_creds[lang],
         status: 403
       }
     }
@@ -73,13 +70,13 @@ const login = async (body, lang) => {
       role: created.role
     }
     return {
-      message: messages.create.success[lang],
+      message: messages.create[lang],
       logged_in: loggedIn,
       created: true
     }
   }
   return {
-    message: messages.login.success[lang],
+    message: messages.login[lang],
     logged_in: person.toJSON(),
     created: false
   }

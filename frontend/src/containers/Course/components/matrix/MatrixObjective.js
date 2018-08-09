@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
+import MathJax from 'react-mathjax-preview'
 import asyncAction from '../../../../utils/asyncAction'
 
-import { removeObjective } from '../../services/objectives'
-import { addObjectiveToTask, removeObjectiveFromTask } from '../../services/tasks'
+import { removeObjective } from '../../actions/objectives'
+import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
@@ -33,7 +34,7 @@ export class MatrixObjective extends Component {
             style={{ borderRadius: '0px' }}
             onClick={this.toggleObjective}
           >
-            {this.props.objective.name}
+            <MathJax math={this.props.objective.name} />
           </Button>
         </div>
         <div className="removeBlock">

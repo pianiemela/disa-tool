@@ -14,7 +14,7 @@ export class CreateCoursePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      redirect: null
+      redirect: false
     }
   }
 
@@ -24,12 +24,12 @@ export class CreateCoursePage extends Component {
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value
-    }).then(action => this.setState({ redirect: action.response.created }))
+    }).then(() => this.setState({ redirect: true }))
   }
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to={`/courses?id=${this.state.redirect.id}`} />
+      return <Redirect to="/courses" />
     }
     const label = {
       name: 'nimi'

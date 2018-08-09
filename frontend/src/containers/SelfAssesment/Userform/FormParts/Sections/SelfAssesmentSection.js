@@ -6,7 +6,7 @@ import MultiLangInput from '../MultiLangInput'
 import AddOpenQuestion from '../addOpenQuestion'
 import { changeHeaderAction } from '../../../actions/selfAssesment'
 
-class SelfAssesmentSection extends React.Component {
+export class SelfAssesmentSection extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -16,7 +16,10 @@ class SelfAssesmentSection extends React.Component {
   }
 
   toggleEdit = () => {
-    this.props.dispatchHeaderChange({ changedHeaders: this.state.changedHeaders, headerType: this.props.headerType })
+    this.props.dispatchHeaderChange({
+      changedHeaders: this.state.changedHeaders,
+      headerType: this.props.headerType
+    })
     this.setState({ editHeaders: !this.state.editHeaders })
   }
 
@@ -31,7 +34,6 @@ class SelfAssesmentSection extends React.Component {
       question,
       formData,
       edit,
-      textArea,
       QuestionModule,
       headers } = this.props
 
@@ -46,7 +48,8 @@ class SelfAssesmentSection extends React.Component {
             {h}
             <Button
               onClick={() => this.toggleEdit()}
-              style={{ marginLeft: '10px' }} >
+              style={{ marginLeft: '10px' }}
+            >
               {editHeaders ? 'Näytä' : 'Muokkaa'}
             </Button>
           </div>)
@@ -86,7 +89,6 @@ class SelfAssesmentSection extends React.Component {
                   key={questionModules.id}
                   data={questionModules}
                   edit={edit}
-                  textArea={textArea}
                   final={final}
                 />))}
 
@@ -106,7 +108,8 @@ class SelfAssesmentSection extends React.Component {
 
 SelfAssesmentSection.defaultProps = {
   question: false,
-  final: false
+  final: false,
+  headerType: null
 }
 
 SelfAssesmentSection.propTypes = {
@@ -115,10 +118,12 @@ SelfAssesmentSection.propTypes = {
     PropTypes.arrayOf(PropTypes.shape())
   ]).isRequired,
   edit: PropTypes.bool.isRequired,
-  textArea: PropTypes.func.isRequired,
   question: PropTypes.bool,
   QuestionModule: PropTypes.func.isRequired,
-  final: PropTypes.bool
+  final: PropTypes.bool,
+  dispatchHeaderChange: PropTypes.func.isRequired,
+  headers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  headerType: PropTypes.string
 }
 
 const mapDispatchToProps = dispatch => ({

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Task } from '../../../../../containers/Course/components/tasks/Task'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
+import EditTaskForm from '../../../../../containers/Course/components/tasks/EditTaskForm'
 import { findText } from '../../../../testUtils'
 
 const task = {
@@ -111,12 +112,30 @@ describe('Task component', () => {
       })
     })
 
-    it('renders task description.', () => {
-      expect(findText(task.description, wrapper)).toBeGreaterThan(0)
-    })
+    // it('renders task description.', () => {
+    //   expect(findText(task.description, wrapper)).toBeGreaterThan(0)
+    // })
 
     it('renders task info.', () => {
       expect(findText(task.info, wrapper)).toBeGreaterThan(0)
+    })
+
+    describe('and not editing', () => {
+      it('does not render an EditTaskForm component.', () => {
+        expect(wrapper.find(EditTaskForm).exists()).toEqual(false)
+      })
+    })
+
+    describe('and editing', () => {
+      beforeEach(() => {
+        wrapper.setProps({
+          editing: true
+        })
+      })
+
+      it('renders an EditTaskForm component.', () => {
+        expect(wrapper.find(EditTaskForm).exists()).toEqual(true)
+      })
     })
   })
 

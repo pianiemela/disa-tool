@@ -9,7 +9,7 @@ import CategorySelection from './CategorySelection'
 import DropDownSelection from './DropDownSelection'
 import SelfAssesmentList from './SelfAssesmentList'
 
-class SelfAssesmentCreateForm extends React.Component {
+export class SelfAssesmentCreateForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -52,55 +52,6 @@ class SelfAssesmentCreateForm extends React.Component {
     const { value } = e.target
     this.setState({ selectedView: value })
   }
-
-  // renderCreateOrDraft = () => {
-  //   const { selectedCourse } = this.props
-  //   let selfAssesments = this.state.selectedSelfAssesments
-  //   if (this.props.selectedCourse && selfAssesments.length === 0) {
-  //     selfAssesments = this.props.selfAssesments.filter(s => s.course_instance_id === parseInt(selectedCourse, 10))
-  //   }
-  // }
-
-  // if (!this.state.created) {
-  // return (
-  // <Form>
-  //   <Form.Field style={{ marginTop: '20px' }}>
-  //     <Dropdown
-  //       selection
-  //       placeholder={"Valitse kurssi"}
-  //       onChange={this.handleDropdownChange}
-  //       options={dropDownCourse}
-  //       defaultValue={parseInt(selectedCourse)}
-  //     />
-  //   </Form.Field>
-  //   <Form.Field>
-  //     <SelfAssesmentList
-  //       onClick={this.sendFormId}
-  //       selfAssesments={selfAssesments}
-  //     />
-  //   </Form.Field>
-  //   <Form.Field>
-  //     <CategorySelection
-  //       selectedView={selectedView}
-  //       category="category"
-  //       objectives="objectives"
-  //       toggleButton={this.toggleButton}
-  //       sendFormId={this.sendFormId}
-  //     />
-  //   </Form.Field>
-  // </Form>
-  // )
-  // }
-
-  // return (
-  // <SelfAssesmentForm
-  //   handleChange={this.handleFormChange}
-  //   edit
-  //   created
-  //   formData={formData}
-  // />)
-  // }
-
 
   render() {
     const { selectedView } = this.state

@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Segment, Header } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
-import { removeHeader } from '../../services/types'
+import { removeHeader } from '../../actions/types'
 
 import Typelist from './Typelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'

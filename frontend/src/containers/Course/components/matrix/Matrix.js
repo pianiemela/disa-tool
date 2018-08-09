@@ -5,7 +5,7 @@ import { Table } from 'semantic-ui-react'
 import './matrix.css'
 import asyncAction from '../../../../utils/asyncAction'
 
-import { removeLevel } from '../../services/levels'
+import { removeLevel } from '../../actions/levels'
 
 import MatrixCategory from './MatrixCategory'
 import CreateCategoryForm from './CreateCategoryForm'

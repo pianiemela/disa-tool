@@ -2,37 +2,38 @@ const router = require('express').Router()
 
 const typeService = require('../services/type_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
-const globalMessages = require('../messages/global_messages.js')
+const { errors } = require('../messages/global.js')
 
 const messages = {
-  ...globalMessages,
   create: {
-    success: {
-      eng: '"Tyyppi luotu onnistuneesti." englanniksi.',
-      fin: 'Tyyppi luotu onnistuneesti.',
-      swe: '"Tyyppi luotu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Tyyppi luotu onnistuneesti." englanniksi.',
+    fin: 'Tyyppi luotu onnistuneesti.',
+    swe: '"Tyyppi luotu onnistuneesti." ruotsiksi.'
   },
   delete: {
-    success: {
-      eng: '"Tyyppi poistettu onnistuneesti." englanniksi.',
-      fin: 'Tyyppi poistettu onnistuneesti.',
-      swe: '"Tyyppi poistettu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Tyyppi poistettu onnistuneesti." englanniksi.',
+    fin: 'Tyyppi poistettu onnistuneesti.',
+    swe: '"Tyyppi poistettu onnistuneesti." ruotsiksi.'
   },
   createHeader: {
-    success: {
-      eng: '"Tyyppiotsake luotu onnistuneesti." englanniksi.',
-      fin: 'Tyyppiotsake luotu onnistuneesti.',
-      swe: '"Tyyppiotsake luotu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Tyyppiotsake luotu onnistuneesti." englanniksi.',
+    fin: 'Tyyppiotsake luotu onnistuneesti.',
+    swe: '"Tyyppiotsake luotu onnistuneesti." ruotsiksi.'
   },
   deleteHeader: {
-    success: {
-      eng: '"Tyyppiotsake poistettu onnistuneesti." englanniksi.',
-      fin: 'Tyyppiotsake poistettu onnistuneesti.',
-      swe: '"Tyyppiotsake poistettu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Tyyppiotsake poistettu onnistuneesti." englanniksi.',
+    fin: 'Tyyppiotsake poistettu onnistuneesti.',
+    swe: '"Tyyppiotsake poistettu onnistuneesti." ruotsiksi.'
+  },
+  details: {
+    eng: '"Tyypin tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Tyypin tiedot haettu onnistuneesti.',
+    swe: '"Tyypin tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  edit: {
+    eng: '"Tyypin muutokset tallennettu onnistuneesti." englanniksi.',
+    fin: 'Tyypin muutokset tallennettu onnistuneesti.',
+    swe: '"Tyypin muutokset tallennettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -51,14 +52,15 @@ router.post('/create', async (req, res) => {
     ]
   )) {
     res.status(403).json({
-      error: messages.privilege.failure[req.lang]
+      toast: errors.privilege.toast,
+      error: errors.privilege[req.lang]
     })
     return
   }
   await typeService.create.execute(toCreate)
   const created = typeService.create.value(toCreate, req.lang)
   res.status(200).json({
-    message: messages.create.success[req.lang],
+    message: messages.create[req.lang],
     created
   })
 })
@@ -67,7 +69,7 @@ router.delete('/:id', async (req, res) => {
   const toDelete = await typeService.delete.prepare(req.params.id)
   if (!toDelete) {
     res.status(404).json({
-      error: messages.notfound.failure[req.lang]
+      error: errors.notfound[req.lang]
     })
     return
   }
@@ -84,14 +86,15 @@ router.delete('/:id', async (req, res) => {
     ]
   )) {
     res.status(403).json({
-      error: messages.privilege.failure[req.lang]
+      toast: errors.privilege.toast,
+      error: errors.privilege[req.lang]
     })
     return
   }
   const deleted = typeService.delete.value(toDelete)
   typeService.delete.execute(toDelete)
   res.status(200).json({
-    message: messages.delete.success[req.lang],
+    message: messages.delete[req.lang],
     deleted
   })
 })
@@ -112,14 +115,15 @@ router.post('/headers/create', async (req, res) => {
       ]
     )) {
       res.status(403).json({
-        error: messages.privilege.failure[req.lang]
+        toast: errors.privilege.toast,
+        error: errors.privilege[req.lang]
       })
       return
     }
     await typeService.createHeader.execute(toCreate)
     const created = typeService.createHeader.value(toCreate, req.lang)
     res.status(200).json({
-      message: messages.createHeader.success[req.lang],
+      message: messages.createHeader[req.lang],
       created
     })
   } catch (e) {
@@ -129,7 +133,7 @@ router.post('/headers/create', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }
@@ -152,14 +156,15 @@ router.delete('/headers/:id', async (req, res) => {
       ]
     )) {
       res.status(403).json({
-        error: messages.privilege.failure[req.lang]
+        toast: errors.privilege.toast,
+        error: errors.privilege[req.lang]
       })
       return
     }
     const deleted = typeService.deleteHeader.value(toDelete)
     typeService.deleteHeader.execute(toDelete)
     res.status(200).json({
-      message: messages.deleteHeader.success[req.lang],
+      message: messages.deleteHeader[req.lang],
       deleted
     })
   } catch (e) {
@@ -169,7 +174,74 @@ router.delete('/headers/:id', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.get('/:id', async (req, res) => {
+  try {
+    const data = await typeService.details(req.params.id)
+    if (!data) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
+    res.status(200).json({
+      message: messages.details[req.lang],
+      data
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lang]
+      })
+      console.log(e)
+    }
+  }
+})
+
+router.put('/:id', async (req, res) => {
+  try {
+    const toEdit = await typeService.edit.prepare(req.params.id)
+    if (!toEdit) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
+    if (!await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: toEdit.dataValues.type_header.course_instance_id
+      }
+    ])) {
+      res.status(403).json({
+        error: errors.privilege[req.lang]
+      })
+      return
+    }
+    await typeService.edit.execute(toEdit, req.body)
+    const edited = typeService.edit.value(toEdit, req.lang)
+    res.status(200).json({
+      message: messages.edit[req.lang],
+      edited
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }

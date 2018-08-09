@@ -1,4 +1,4 @@
-import { initForm, initResponseForm } from '../utils/reduxHelpers/selfAssesment'
+import { initForm, initResponseForm, respond } from '../utils/reduxHelpers/selfAssesment'
 
 const INITIAL_STATE = {
   createForm: {},
@@ -63,6 +63,22 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
 
     case 'INIT_EDIT_RESPONSE_FORM': {
       return state
+    }
+
+    case 'OPEN_QUESTION_RESPONSE': {
+      return state
+    }
+
+    case 'GRADE_CATEGORY_RESPONSE': {
+      return respond(state, action.payload, 'grade')
+    }
+
+    case 'GRADE_OBJECTIVE_RESPONSE': {
+      return respond(state, action.payload, 'grade')
+    }
+
+    case 'TEXTFIELD_RESPONSE': {
+      return respond(state, action.payload, 'responseText')
     }
 
     case 'TOGGLE_TEXT_FIELD': {

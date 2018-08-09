@@ -1,36 +1,39 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Prompt } from 'react-router'
 import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Button, List, Menu, Grid, Item, Label, Icon } from 'semantic-ui-react'
+import { Accordion, Button, Header, List, Menu, Grid, Item, Label, Icon, Dropdown } from 'semantic-ui-react'
+
+import { postTaskResponses } from '../../api/tasks'
 import {
-  getUsersCourses,
-  getUserAction,
   getUserCoursesAction,
   getUserSelfAssesments,
-  getCourseInstanceData,
   getCourseInstanceDataAction,
-  postTaskResponses
+  toggleCourseActivityAction,
+  postTaskResponseActions
 } from '../../actions/actions'
+import { updateCoursePersonRoleAction } from './actions/courseInstances'
 import { CoursePeopleList } from './CoursePeopleList'
+import { CourseSideMenu } from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
+import { CourseInfo } from './CourseInfo'
+import { UploadResponsesPage } from '../TaskResponses/UploadResponsesPage'
 
 class UserPage extends Component {
   state = {
-    activeCourse: undefined,
-    assessments: [],
-    tasks: [],
     selectedType: undefined,
     updatedTasks: [],
-    popUp: { show: false, task: undefined, person: undefined }
+    popUp: { show: false, task: undefined, person: undefined },
+    newTeachers: []
   }
 
   componentDidMount = async () => {
     const { activeCourse } = this.props
     const { courseId } = this.props.match.params
 
-    await this.props.dispatchGetUsercourses()
-    this.props.dispatchGetUserSelfAssesments()
+    await this.props.dispatchGetUserCourses()
+    // this.props.dispatchGetUserSelfAssesments()
     if (courseId && !activeCourse.id) {
       this.props.dispatchGetCourseInstanceData(courseId)
     }
@@ -45,13 +48,36 @@ class UserPage extends Component {
     }
   }
 
+  handleActivityToggle = async () => {
+    const { activeCourse } = this.props
+    console.log('props', activeCourse.id)
+    this.props.dispatchToggleActivity(activeCourse.id).then(res => console.log(res))
+  }
+
+  handleTeacherAdding = (e, { value }) => {
+    if (e.target.name !== 'teacherAddButton') {
+      this.setState({ newTeachers: value })
+    } else {
+      const formattedRequest = this.state.newTeachers.map(teacher => (
+        { person_id: teacher, course_instance_id: this.props.activeCourse.id, role: 'TEACHER' }
+      ))
+      this.props.dispatchUpdateCoursePersonRole(formattedRequest).then(() => this.setState({ newTeachers: [] }))
+    }
+  }
+
+  handleTeacherRemoving = (e, { value }) => {
+    const formattedRequest = [{
+      person_id: value,
+      course_instance_id: this.props.activeCourse.id,
+      role: 'STUDENT'
+    }]
+    this.props.dispatchUpdateCoursePersonRole(formattedRequest)
+  }
+
   handleClick = async (e, { course }) => {
     // this.setState({ activeCourse: course })
     // Fetch all relevant course information: tasks with responses & assessments with responses.
     this.props.dispatchGetCourseInstanceData(course.id)
-    // const courseInstanceData = await getCourseInstanceData(course.id).then(res => res.data)
-    // const { assessments, tasks } = courseInstanceData
-    // this.setState({ assessments, tasks })
   }
 
   selectType = (e, { type }) => this.setState({
@@ -59,7 +85,6 @@ class UserPage extends Component {
   })
 
   markTask = async (e, { task, person }) => {
-    // console.log(task, person)
     const { updatedTasks } = this.state
     const taskUpdated = updatedTasks.find(t => t.taskId === task.id && t.personId === person.id)
     if (taskUpdated) {
@@ -108,9 +133,16 @@ class UserPage extends Component {
     }
   }
 
+  updateTasksFromFile = (updatedTasks) => {
+    this.setState({ updatedTasks })
+  }
+
   submitTaskUpdates = () => {
-    postTaskResponses({ tasks: this.state.updatedTasks, courseId: this.props.activeCourse.id })
-      .then(res => console.log(res))
+    this.props.dispatchPostTaskResponses({
+      tasks: this.state.updatedTasks,
+      courseId: this.props.activeCourse.id
+    })
+    this.setState({ updatedTasks: [] })
   }
 
   render() {
@@ -120,9 +152,17 @@ class UserPage extends Component {
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    console.log(updatedTasks)
+    const students = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
+      activeCourse.people.filter(person =>
+        person.course_instances[0].course_person.role !== 'TEACHER') : []
+    const teachers = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
+      activeCourse.people.filter(person =>
+        person.course_instances[0].course_person.role === 'TEACHER') : []
+    // console.log(activeCourse)
+    // console.log(this.props.match.params.courseId)
     return (
       <Grid>
+        <Prompt when={updatedTasks.length > 0} message="Sinulla on tallentamattomia muutoksia" />
         <Grid.Row>
           <Grid.Column>
             {this.props.user ? <h1>Hei {this.props.user.name}</h1> : <p>Hello bastard</p>}
@@ -130,51 +170,61 @@ class UserPage extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column width={3}>
-            <Menu fluid vertical tabular>
-              {courses.map(course => (
-                <Menu.Item
-                  key={course.id}
-                  as={Link}
-                  to={`/user/course/${course.id}`}
-                  name={course.name}
-                  course={course}
-                  active={activeCourse === course}
-                  onClick={this.handleClick}
-                >
-                  {course.name}
-                </Menu.Item>))}
-            </Menu>
+            <CourseSideMenu
+              courses={courses}
+              activeCourse={activeCourse}
+              handleChange={this.handleClick}
+            />
           </Grid.Column>
           <Grid.Column width={13}>
             {activeCourse.id ?
               <Item>
-                <Grid>
+                <Grid padded="horizontally">
+                  <CourseInfo
+                    course={activeCourse}
+                    toggleActivation={this.handleActivityToggle}
+                    teachers={teachers}
+                    deleteTeacher={this.handleTeacherRemoving}
+                  />
+                  {activeCourse.courseRole === 'TEACHER' ?
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Dropdown name="teacherSelector" fluid multiple selection search placeholder="Lisää opettaja" value={this.state.newTeachers} options={students.map(person => ({ key: person.id, text: person.name, value: person.id }))} onChange={this.handleTeacherAdding} />
+                        <Button name="teacherAddButton" basic color="pink" onClick={this.handleTeacherAdding}>Lisää opettaja</Button>
+                      </Grid.Column>
+                    </Grid.Row> : undefined
+                  }
                   <Grid.Row>
-                    <Grid.Column>
-                      <Item.Header as="h1">{activeCourse.name}</Item.Header>
-                    </Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column width={3}>
-                      <Button as={Link} to={`/selfAssesment/${activeCourse.id}`} color="green" basic>Luo uusi itsearviointi</Button>
-                    </Grid.Column>
-                    <Grid.Column width={3}>
-                      <Button as={Link} to={`/course/${activeCourse.id}`} color="blue" basic>Muokkaa kurssia</Button>
-                    </Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column width={8}>
+                    <Grid.Column floated="left" width={8}>
                       <Item.Content>
                         <ListTasks tasks={tasks} selectedType={selectedType} />
                       </Item.Content>
                     </Grid.Column>
-                    <Grid.Column width={8}>
+                    <Grid.Column floated="right" width={8}>
                       <Item.Content>
-                        <p>Itsearvioinnit</p>
+                        <Header as="h3">Itsearvioinnit</Header>
                         <List selection size="big">
                           {assessments.map(assessment => <List.Item key={assessment.id} as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name}</List.Item>)}
                         </List>
                       </Item.Content>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
+                      <Accordion
+                        defaultActiveIndex={-1}
+                        styled
+                        fluid
+                        panels={[{
+                          key: 'UploadComponent',
+                          title: 'Lataa tehtäviä csv-tiedostosta',
+                          content: {
+                            content: <UploadResponsesPage
+                              activeCourse={activeCourse}
+                              updateHandler={this.updateTasksFromFile}
+                            />
+                          } }]}
+                      />
                     </Grid.Column>
                   </Grid.Row>
                   <Grid.Row>
@@ -190,10 +240,10 @@ class UserPage extends Component {
                             selectedType={selectedType}
                             types={activeCourse.type_headers}
                             tasks={tasks}
-                            students={activeCourse.people.filter(person =>
-                              person.course_instances[0].course_person.role !== 'TEACHER')}
+                            students={students}
                           />
                           <Button color="green" onClick={this.submitTaskUpdates}>Tallenna muutokset</Button>
+                          <Button color="red" onClick={() => this.setState({ updatedTasks: [] })}>Peru kaikki muutokset</Button>
                         </div>
                         : <p>you are no teacher</p>}
                     </Grid.Column>
@@ -216,12 +266,18 @@ class UserPage extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  dispatchGetUsercourses: () =>
+  dispatchGetUserCourses: () =>
     dispatch(getUserCoursesAction()),
   dispatchGetUserSelfAssesments: () =>
     dispatch(getUserSelfAssesments()),
   dispatchGetCourseInstanceData: courseId =>
-    dispatch(getCourseInstanceDataAction(courseId))
+    dispatch(getCourseInstanceDataAction(courseId)),
+  dispatchToggleActivity: courseId =>
+    dispatch(toggleCourseActivityAction(courseId)),
+  dispatchUpdateCoursePersonRole: coursePersons =>
+    dispatch(updateCoursePersonRoleAction(coursePersons)),
+  dispatchPostTaskResponses: tasks =>
+    dispatch(postTaskResponseActions(tasks))
 })
 
 const mapStateToProps = state => ({

@@ -5,23 +5,34 @@ const courseService = require('../services/course_service')
 const taskService = require('../services/task_service')
 const selfAssesmentService = require('../services/self_assesment_service')
 const personService = require('../services/person_service')
-const globalMessages = require('../messages/global_messages')
+const { errors } = require('../messages/global')
 const { checkPrivilege } = require('../services/privilege')
 
 const messages = {
-  ...globalMessages,
   create: {
-    success: {
-      eng: '"Kurssi luotu onnistuneesti." englanniksi.',
-      fin: 'Kurssi luotu onnistuneesti.',
-      swe: '"Kurssi luotu onnistuneesti." ruotsiksi.'
-    }
+    eng: '"Kurssi luotu onnistuneesti." englanniksi.',
+    fin: 'Kurssi luotu onnistuneesti.',
+    swe: '"Kurssi luotu onnistuneesti." ruotsiksi.'
   }
 }
 
 router.get('/', async (req, res) => {
   const courses = await courseService.getCourses(req.lang)
   res.status(200).json(courses)
+})
+
+router.put('/instance/:courseId/toggle', async (req, res) => {
+  const { courseId } = req.params
+  const isTeacher = await checkPrivilege(req, [{
+    key: 'teacher_on_course',
+    param: courseId
+  }])
+  if (!isTeacher) {
+    res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
+    return
+  }
+  const instance = await courseService.toggleActivity(courseId)
+  res.status(200).json(instance)
 })
 
 router.get('/instance/:courseId', async (req, res) => {
@@ -58,7 +69,7 @@ router.get('/user', async (req, res) => {
 
 router.get('/:courseId', async (req, res) => {
   const { courseId } = req.params
-  const instances = await courseService.getCourseInstancesOfCourse(Number(courseId), req.lang)
+  const instances = await courseService.getCourseInstancesOfCourse(Number(courseId), req.user, req.lang)
   res.status(200).json(instances)
 })
 
@@ -70,7 +81,8 @@ router.post('/create', async (req, res) => {
       }
     ])) {
       res.status(403).json({
-        error: messages.privilege.failure[req.lang]
+        toast: errors.privilege.toast,
+        error: errors.privilege[req.lang]
       })
       return
     }
@@ -78,7 +90,8 @@ router.post('/create', async (req, res) => {
     await courseService.create.execute(toCreate)
     const created = courseService.create.value(toCreate, req.lang)
     res.status(200).json({
-      message: messages.create.success[req.lang],
+      toast: true,
+      message: messages.create[req.lang],
       created
     })
   } catch (e) {
@@ -88,7 +101,7 @@ router.post('/create', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: messages.unexpected.failure[req.lang]
+        error: errors.unexpected[req.lang]
       })
       console.log(e)
     }

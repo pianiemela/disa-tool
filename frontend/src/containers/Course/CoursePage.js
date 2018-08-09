@@ -5,7 +5,7 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
-import { getCourseData } from './services/course'
+import { getCourseData } from './actions/course'
 
 import EditMatrixTab from './components/matrix/EditMatrixTab'
 import EditTypesTab from './components/types/EditTypesTab'

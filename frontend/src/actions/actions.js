@@ -1,34 +1,7 @@
-import { getJson, postJson, putJson } from '../utils/utils'
-
-export const getUsersCourses = () => getJson('/courses/user')
-
-export const getAllSelfAssesments = () => getJson('/courses/user')
-
-export const getCourses = () => getJson('/courses')
-
-export const getInstancesOfCourse = courseId => getJson(`/courses/${courseId}`)
-
-export const getCategoriesForCourse = courseId => getJson(`/categories/${courseId}`)
-
-export const getUser = () => getJson('/persons/user')
-
-export const createSelfAssesment = data => postJson('/selfassesment/create', data)
-
-export const getSelfAssesments = data => getJson('/selfassesment/', data)
-
-export const getCourseInstanceData = courseId => getJson(`/courses/instance/${courseId}`)
-
-export const updateSelfAssesment = data => putJson(`/selfassesment/update/${data.id}`, data)
-
-export const getSelfAssesment = selfAssesmentId => getJson(`/selfassesment/${selfAssesmentId}`)
-
-export const getCourseInstance = id => getJson(`/course-instances/${id}`)
-
-export const getCourseData = id => getJson('/categories', { courseInstanceId: id })
-
-export const getSelfAssesmentResponse = assesmentId => getJson(`/assesmentresponse/${assesmentId}`)
-
-export const postTaskResponses = updatedTasks => postJson('/tasks/responses', updatedTasks)
+import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity } from '../api/courses'
+import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse } from '../api/selfassesment'
+import { getUser } from '../api/persons'
+import { postTaskResponses } from '../api/tasks'
 
 
 export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
@@ -201,10 +174,67 @@ export const getCourseInstanceDataAction = courseId => async (dispatch) => {
   }
 }
 
+export const toggleCourseActivityAction = courseId => async (dispatch) => {
+  dispatch({
+    type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await toggleCourseInstanceActivity(courseId)
+    dispatch({
+      type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
+export const createSelfAssessmentResponseAction = responseData => async (dispatch) => {
+  dispatch({
+    type: 'ASSESMENT_RESPONSE_CREATE_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await createSelfAssessmentResponse(responseData)
+    dispatch({
+      type: 'ASSESMENT_RESPONSE_CREATE_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'ASSESMENT_RESPONSE_CREATE_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
 export const logoutAction = (dispatch) => {
   localStorage.removeItem('token')
   dispatch({
     type: 'USER_LOGOUT',
     payload: {}
   })
+}
+
+export const postTaskResponseActions = tasks => async (dispatch) => {
+  dispatch({
+    type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_ATTEMPT',
+    payload: tasks
+  })
+  try {
+    const { data } = await postTaskResponses(tasks)
+    dispatch({
+      type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_FAILURE',
+      payload: e.response
+    })
+  }
 }

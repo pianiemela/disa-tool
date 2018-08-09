@@ -1,33 +1,34 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Redirect } from 'react-router'
 import { Form, Grid, Button, Loader, Container } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+
+import { getCourseInstance } from '../../../api/courses'
+import { getCourseData } from '../../../api/categories'
+import {
+  getSelfAssesmentAction,
+  createForm,
+  updateSelfAssesmentAction,
+  getCourseInstanceDataAction,
+  getAssesmentResponseAction,
+  createSelfAssessmentResponseAction
+} from '../../../actions/actions'
+import {
+  initNewFormAction,
+  editFormAction,
+  initAssesmentResponseAction
+} from '../actions/selfAssesment'
+
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
 import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
 import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
-import { Redirect } from 'react-router'
-import {
-  getSelfAssesmentAction,
-  createForm,
-  updateSelfAssesmentAction,
-  getCourseInstanceDataAction,
-  getCourseData,
-  getCourseInstance,
-  getAssesmentResponseAction,
-  getSelfAssesmentResponse
-} from '../../../actions/actions'
-
-import {
-  initNewFormAaction,
-  editFormAction,
-  initAssesmentResponseAction
-} from '../actions/selfAssesment'
 
 
-class SelfAssesmentForm extends React.Component {
+export class SelfAssesmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -49,8 +50,7 @@ class SelfAssesmentForm extends React.Component {
         const courseInfo = await getCourseInstance(courseInstanceId)
 
         // dispatch the call to reducer to generate the required form data with given parameters
-
-        this.props.dispatchInitNewFormAaction({ courseData: courseData.data, courseInfo: courseInfo.data.data, type })
+        this.props.dispatchInitNewFormAction({ courseData: courseData.data, courseInfo: courseInfo.data.data, type })
       } else {
         // Fetch the selfassesment data by given id
         await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
@@ -75,36 +75,41 @@ class SelfAssesmentForm extends React.Component {
     this.setState({ redirect: true })
   }
 
+  handleResponse = async () => {
+    const { assesmentResponse } = this.props
+    await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
+  }
+
 
   render() {
     if (this.state.redirect) {
       return <Redirect to="/selfassesment" />
     }
-    const textArea = (label, placeholder, textFieldOn, checkbox) => (
-      (
-        <Grid.Column>
-          <Form.TextArea
-            autoHeight
-            disabled={!textFieldOn}
-            label={label}
-            placeholder={placeholder}
-          />
-          {checkbox}
-        </Grid.Column>
-      )
-    )
     const renderForm = () => {
+      let submitFunction = null
       const { formData, edit } = this.props
       const { structure } = formData
       const { displayCoursename, type, formInfo } = structure
       const { openQ, questionHeaders, grade } = structure.headers
 
+      if (!edit) {
+        submitFunction = this.handleResponse
+      } else if (this.props.new) {
+        submitFunction = this.handleSubmit
+      } else {
+        submitFunction = this.handleUpdate
+      }
+
+
       return (
         <div>
-          <Container>
+          <Container className="selfAssesmentForm">
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
+            {!edit && this.props.assesmentResponse.edit ?
+              <h2>OLET JO VASTANNUT PÖHKÖ</h2>
+              :
+              null}
             <SelfAssesmentInfo
-              textArea={textArea}
               formData={formInfo}
               edit={edit}
             />
@@ -114,7 +119,6 @@ class SelfAssesmentForm extends React.Component {
                 headers={questionHeaders}
                 formData={structure.questionModules}
                 edit={edit}
-                textArea={textArea}
                 QuestionModule={CategoryQuestionModule}
               />
 
@@ -124,7 +128,6 @@ class SelfAssesmentForm extends React.Component {
                 headers={questionHeaders}
                 formData={structure.questionModules}
                 edit={edit}
-                textArea={textArea}
                 QuestionModule={ObjectiveQuestionModule}
               />
 
@@ -134,7 +137,6 @@ class SelfAssesmentForm extends React.Component {
               headers={openQ}
               formData={structure.openQuestions.questions}
               edit={edit}
-              textArea={textArea}
               QuestionModule={OpenQuestionModule}
               question
             />
@@ -146,7 +148,6 @@ class SelfAssesmentForm extends React.Component {
                 headers={grade}
                 formData={[structure.finalGrade]}
                 edit={edit}
-                textArea={textArea}
                 QuestionModule={CategoryQuestionModule}
                 final
                 headerType="grade"
@@ -157,9 +158,9 @@ class SelfAssesmentForm extends React.Component {
             <Button
               positive
               style={{ marginBottom: '25px' }}
-              onClick={this.props.new ? this.handleSubmit : this.handleUpdate}
+              onClick={submitFunction}
             >
-              {this.props.new ? 'Tallenna' : 'Päivitä'}
+              {!this.props.edit || this.props.new ? 'Tallenna' : 'Päivitä'}
             </Button>
           </Container>
         </div >
@@ -180,7 +181,8 @@ class SelfAssesmentForm extends React.Component {
 
 const mapStateToProps = state => ({
   formData: state.selfAssesment.createForm,
-  courseInstance: state.instance
+  courseInstance: state.instance,
+  assesmentResponse: state.selfAssesment.assesmentResponse
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -196,14 +198,17 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetCourseInstanceDataAction: courseInstanceId =>
     dispatch(getCourseInstanceDataAction(courseInstanceId)),
 
-  dispatchInitNewFormAaction: data =>
-    dispatch(initNewFormAaction(data)),
+  dispatchInitNewFormAction: data =>
+    dispatch(initNewFormAction(data)),
 
   dispatchEditFormAction: data =>
     dispatch(editFormAction(data)),
 
   dispatchGetAssesmentResponseAction: selfAssesmentId =>
-    dispatch(getAssesmentResponseAction(selfAssesmentId))
+    dispatch(getAssesmentResponseAction(selfAssesmentId)),
+
+  dispatchCreateSelfAssesmentResponseAction: data =>
+    dispatch(createSelfAssessmentResponseAction(data))
 })
 
 SelfAssesmentForm.defaultProps = {
@@ -215,7 +220,14 @@ SelfAssesmentForm.propTypes = {
   formData: PropTypes.shape(),
   edit: PropTypes.bool.isRequired,
   dispatchCreateFormAction: PropTypes.func.isRequired,
-  dispatchUpdateSelfAssesmentAction: PropTypes.func.isRequired
+  dispatchUpdateSelfAssesmentAction: PropTypes.func.isRequired,
+  new: PropTypes.bool.isRequired,
+  dispatchInitNewFormAction: PropTypes.func.isRequired,
+  dispatchGetAssesmentResponseAction: PropTypes.func.isRequired,
+  dispatchGetSelfAssesmentAction: PropTypes.func.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({}).isRequired
+  }).isRequired
 
 }
 
