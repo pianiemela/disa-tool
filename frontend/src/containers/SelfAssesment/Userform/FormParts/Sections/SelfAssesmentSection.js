@@ -37,14 +37,46 @@ export class SelfAssesmentSection extends React.Component {
       formData,
       headers } = this.props
     const { editHeaders } = this.state
-    let h = this.props.headers[0].value
+    let header = this.props.headers[0].value
+    let headerEditForm = null
 
-    let questionEditField = null
+    // If we are in edit form, show all the question modules despite their status of being included in the assessment
+
+    const editQuestionModules = (
+      (formData.map(questionModules =>
+        (<QuestionModule
+          key={questionModules.id}
+          data={questionModules}
+          edit={edit}
+          final={final}
+        />)))
+    )
+
+    /*
+    If we are in the response form, show just the modules that are included in the assesment.
+     The question boolean tells if we are dealing with open question modules.
+     In that case just show them all, since those modules don't have an includedInAssesment boolean
+     so the ternary would default to false and we'd never see them in the response form
+    */
+    const responseQuestionModules = (
+      (formData.map(questionModules =>
+        (questionModules.includedInAssesment || question ?
+          (<QuestionModule
+            key={questionModules.id}
+            data={questionModules}
+            edit={edit}
+            final={final}
+          />)
+          :
+          null
+        ))))
+
+
     if (final && edit) {
-      h =
+      header =
         (
           <div>
-            {h}
+            {header}
             <Button
               onClick={() => this.toggleEdit()}
               style={{ marginLeft: '10px' }}
@@ -55,7 +87,7 @@ export class SelfAssesmentSection extends React.Component {
     }
 
     if (editHeaders) {
-      questionEditField =
+      headerEditForm =
         (
           <div style={{
             marginBottom: '10px'
@@ -77,20 +109,16 @@ export class SelfAssesmentSection extends React.Component {
         <Card fluid color="red" className="formCard">
           <Card.Content>
             <Card.Header className="cardHead">
-              {h}
+              {header}
             </Card.Header>
             <Card.Description>
-              {questionEditField}
+              {headerEditForm}
             </Card.Description>
             <Form>
-              {formData.map(questionModules =>
-                (<QuestionModule
-                  key={questionModules.id}
-                  data={questionModules}
-                  edit={edit}
-                  final={final}
-                />))}
-
+              {edit ?
+                editQuestionModules :
+                responseQuestionModules
+              }
               {question && edit ?
                 <AddOpenQuestion />
                 :
