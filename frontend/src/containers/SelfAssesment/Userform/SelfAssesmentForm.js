@@ -16,7 +16,7 @@ import {
 } from '../../../actions/actions'
 import {
   initNewFormAction,
-  editFormAction,
+  editFormAction
 } from '../actions/selfAssesment'
 
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
@@ -137,7 +137,7 @@ export class SelfAssesmentForm extends React.Component {
 
             <SelfAssesmentInfo
               formData={formInfo}
-              edit={edit}
+              edit={edit ? !this.state.preview : false}
             />
 
             {type === 'category' ?
@@ -160,19 +160,20 @@ export class SelfAssesmentForm extends React.Component {
               />
 
             }
+            {structure.openQuestions.questions.length > 0 || (edit && !this.state.preview) ?
+              <SelfAssesmentSection
+                headers={openQ}
+                formData={structure.openQuestions.questions}
+                edit={edit ? !this.state.preview : false}
+                changedProp={dummyPropToEnsureChange}
+                QuestionModule={OpenQuestionModule}
+                question
+              />
+              :
+              null
+            }
 
-            <SelfAssesmentSection
-              headers={openQ}
-              formData={structure.openQuestions.questions}
-              edit={edit ? !this.state.preview : false}
-              changedProp={dummyPropToEnsureChange}
-              QuestionModule={OpenQuestionModule}
-              question
-            />
-
-
-            {type === 'category' ?
-
+            {structure.finalGrade.includedInAssesment || (edit && !this.state.preview) ?
               <SelfAssesmentSection
                 headers={grade}
                 formData={[structure.finalGrade]}
@@ -183,8 +184,8 @@ export class SelfAssesmentForm extends React.Component {
                 changedProp={dummyPropToEnsureChange}
               />
               :
-              null
-            }
+              null}
+
             {this.state.preview ?
               null
               :
@@ -262,6 +263,10 @@ SelfAssesmentForm.propTypes = {
   dispatchGetSelfAssesmentAction: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({}).isRequired
+  }).isRequired,
+  dispatchCreateSelfAssesmentResponseAction: PropTypes.func.isRequired,
+  assesmentResponse: PropTypes.shape({
+    existingAnswer: PropTypes.bool
   }).isRequired
 
 }
