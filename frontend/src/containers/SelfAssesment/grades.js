@@ -1,4 +1,4 @@
-const gradeOptions = [
+export const gradeOptions = [
   {
     text: '1',
     value: 1
@@ -21,4 +21,11 @@ const gradeOptions = [
   }
 ]
 
-export default gradeOptions
+export const objectiveGrades = [
+  {
+    1: 'Osaamisessani on vielä kehitettävää',
+    2: 'Osaan kohtalaisesti',
+    3: 'Osaan hyvin'
+  }
+]
+

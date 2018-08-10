@@ -128,11 +128,15 @@ export class SelfAssesmentForm extends React.Component {
               :
               null
             }
-            <Button
-              green
-              onClick={() => this.togglePreview()}
-            >{this.state.buttonText}
-            </Button>
+            {edit ?
+              <Button
+                green
+                onClick={() => this.togglePreview()}
+              >{this.state.buttonText}
+              </Button>
+              :
+              null
+            }
 
 
             <SelfAssesmentInfo
