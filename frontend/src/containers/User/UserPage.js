@@ -219,6 +219,7 @@ class UserPage extends Component {
                           key: 'UploadComponent',
                           title: 'Lataa tehtäviä csv-tiedostosta',
                           content: {
+                            key: 'uploader',
                             content: <UploadResponsesPage
                               activeCourse={activeCourse}
                               updateHandler={this.updateTasksFromFile}
