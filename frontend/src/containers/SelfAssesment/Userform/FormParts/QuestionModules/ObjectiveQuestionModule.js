@@ -21,7 +21,6 @@ class ObjectiveQuestionModule extends React.Component {
   }
 
   handleChange = (e, name, id) => {
-    console.log(e.target.value, name, id)
     const { ratings } = this.state
     ratings[name] = e.target.value
     this.setState({ ratings })

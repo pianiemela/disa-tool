@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import UpOrDownToggle from '../UpOrDownToggle'
 import { gradeCategoryAction, textfieldResponseAction, toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
 import MultiLangInput from '../MultiLangInput'
+import gradeOptions from '../../../grades'
 
 export class CategoryQuestionModule extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ export class CategoryQuestionModule extends React.Component {
     oldState[id] = value
     this.setState({ editHeaders: oldState })
   }
+
   render() {
     const { edit, final } = this.props
     const { name, textFieldOn, id, includedInAssesment } = this.props.data
@@ -29,7 +31,6 @@ export class CategoryQuestionModule extends React.Component {
     let headercolor = 'black'
     let buttonColor = 'green'
     let buttonText = 'Mukana itsearviossa'
-    let qfield = name
     const { headers } = this.props.data
 
 
@@ -39,53 +40,38 @@ export class CategoryQuestionModule extends React.Component {
       buttonColor = 'red'
       buttonText = 'Ei mukana itsearviossa'
     }
-    if (final && headers) {
-      qfield =
-        (
-          <div>
-            {this.state.editHeaders ?
-              <Card.Description>
-                <MultiLangInput
-                  handleChange={this.changeHeader}
-                  headers={headers}
-                />
-              </Card.Description>
-              :
-              null
-            }
-          </div>
-        )
-    }
 
+    const finalGradeHeader =
+      (
+        <div>
+          {headers ? headers[0].value : null}
+          {edit ?
+            <Button
+              className="editHeadersButton"
+              onClick={() => this.toggleEdit()}
+              style={{ marginLeft: '10px' }}
+            >{this.state.editHeaders ? 'Näytä' : 'Muokkaa'}
+            </Button>
+            :
+            null}
+        </div>
+      )
 
-    const gradeOptions = [
-      {
-        text: '1',
-        value: 1
-      },
-      {
-        text: '2',
-        value: 2
-      },
-      {
-        text: '3',
-        value: 3
-      },
-      {
-        text: '4',
-        value: 4
-      },
-      {
-        text: '5',
-        value: 5
-      }
-    ]
-    const checkbox = edit ? (
-      <Checkbox
-        defaultChecked={textFieldOn}
-        onChange={() => this.props.dispatchTextFieldOnOff(id)}
-        label="Perustelut arvosanalle"
-      />) : null
+    const finalGradeEdit =
+      (
+        <div>
+          {this.state.editHeaders ?
+            <Card.Description>
+              <MultiLangInput
+                handleChange={this.changeHeader}
+                headers={headers}
+              />
+            </Card.Description>
+            :
+            null
+          }
+        </div>
+      )
 
     return (
       <div className="CategoryQuestion">
@@ -93,37 +79,33 @@ export class CategoryQuestionModule extends React.Component {
           <Card fluid>
             <Card.Content>
               <Card.Header style={{ color: headercolor }}>
-                {headers && final ?
-                  <div>
-                    {headers[0].value}
-                    {edit ?
-                      <Button
-                        className="editHeadersButton"
-                        onClick={() => this.toggleEdit()}
-                        style={{ marginLeft: '10px' }}
-                      >{this.state.editHeaders ? 'Näytä' : 'Muokkaa'}
-                      </Button>
-                      :
-                      null}
-                  </div>
-                  : qfield
+                {final ?
+                  finalGradeHeader
+                  :
+                  name
                 }
               </Card.Header>
               <Card.Description>
-                {qfield}
+                {finalGradeEdit}
               </Card.Description>
               <Grid verticalAlign="middle" padded columns={3}>
                 <Grid.Row >
-                  <Form.Field disabled={disabled} width={10}>
+                  <Form.Field width={10}>
                     <Grid.Column>
-                      <label> Arvioi osaamisesi asteikolla 1-5</label>
-                      <Dropdown
-                        style={{ marginLeft: '20px' }}
-                        placeholder="Valitse arvosana"
-                        selection
-                        options={gradeOptions}
-                        onChange={(e, { value }) => this.props.dispatchGradeCategoryAction({ id, value, final })}
-                      />
+                      {!edit ?
+                        <div>
+                          <label> Arvioi osaamisesi asteikolla 1-5</label>
+                          <Dropdown
+                            style={{ marginLeft: '20px' }}
+                            placeholder="Valitse arvosana"
+                            options={gradeOptions}
+                            onChange={!edit ? (e, { value }) => this.props.dispatchGradeCategoryAction({ id, value, final }) : null}
+                          />
+                        </div>
+                        :
+                        null
+                      }
+
                     </Grid.Column>
                   </Form.Field>
 
@@ -147,20 +129,28 @@ export class CategoryQuestionModule extends React.Component {
                 <Grid.Row >
                   <Form.Field disabled={disabled} width={10}>
                     <Grid.Column>
-                      <Form.TextArea
-                        autoHeight
-                        disabled={!textFieldOn}
-                        label="Perustelut arvosanalle"
-                        placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
-                        onChange={e => this.props.dispatchTextfieldResponseAction({
-                          id,
-                          value: e.target.value,
-                          final
-                        })}
-                      />
-                      {final ?
-                        null :
-                        checkbox
+                      {!edit && textFieldOn ?
+                        <Form.TextArea
+                          autoHeight
+                          label="Perustelut arvosanalle"
+                          placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
+                          onChange={e => this.props.dispatchTextfieldResponseAction({
+                            id,
+                            value: e.target.value,
+                            final
+                          })}
+                        />
+                        :
+                        null
+                      }
+                      {edit && !final ?
+                        <Checkbox
+                          defaultChecked={textFieldOn}
+                          onChange={() => this.props.dispatchTextFieldOnOff(id)}
+                          label="Perustelut arvosanalle"
+                        />
+                        :
+                        null
                       }
                     </Grid.Column>
                   </Form.Field>
@@ -206,6 +196,10 @@ CategoryQuestionModule.propTypes = {
   dispatchGradeCategoryAction: PropTypes.func.isRequired
 }
 
+const mapStateToProps = state => ({
+  answers: state.selfAssesment.assesmentResponse
+})
+
 const mapDispatchToProps = dispatch => ({
   dispatchTextFieldOnOff: id =>
     dispatch(toggleTextField(id)),
@@ -219,4 +213,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(gradeCategoryAction(data))
 })
 
-export default connect(null, mapDispatchToProps)(CategoryQuestionModule)
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryQuestionModule)

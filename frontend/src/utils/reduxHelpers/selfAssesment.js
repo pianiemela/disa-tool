@@ -109,31 +109,37 @@ export const initResponseForm = (data) => {
   response.course_instance_id = data.course_instance_id
   response.questionModuleResponses = []
   response.openQuestionResponses = []
+  response.assessmentType = type
 
   if (type !== 'objectives') {
     questionModules.map(qm =>
       response.questionModuleResponses.push({
         id: qm.id,
         responseText: '',
-        grade: null
+        grade: null,
+        name: qm.name
       }))
   } else {
     questionModules.map(qm =>
       qm.objectives.map(qmO =>
         response.questionModuleResponses.push({
           id: qmO.id,
-          grade: null
+          grade: null,
+          name: qmO.name,
+          header: qm.name
         })))
 
     questions.map(q =>
       response.openQuestionResponses.push({
         id: q.id,
-        text: ''
+        responseText: '',
+        name: q.name
       }))
 
     response.finalGradeResponse = {
       responseText: '',
-      grade: null
+      grade: null,
+      headers: data.structure.finalGrade.headers
     }
   }
   return response

@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { Form, Grid, Button, Loader, Container } from 'semantic-ui-react'
+import { Form, Grid, Button, Loader, Container, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-
+import UserResultsPage from './UserResultsPage'
 import { getCourseInstance } from '../../../api/courses'
 import { getCourseData } from '../../../api/categories'
 import {
@@ -16,8 +16,7 @@ import {
 } from '../../../actions/actions'
 import {
   initNewFormAction,
-  editFormAction,
-  initAssesmentResponseAction
+  editFormAction
 } from '../actions/selfAssesment'
 
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
@@ -32,9 +31,13 @@ export class SelfAssesmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      redirect: false
+      redirect: false,
+      preview: false,
+      buttonText: 'Esikatsele'
     }
   }
+
+
   async componentDidMount() {
     const { courseInstanceId, type, selfAssesmentId } = this.props.match.params
     if (this.props.edit) {
@@ -80,8 +83,16 @@ export class SelfAssesmentForm extends React.Component {
     await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
   }
 
+  togglePreview = () => {
+    this.setState({ preview: !this.state.preview, buttonText: this.state.preview ? 'Esikatsele' : 'Muokkaa' })
+  }
 
   render() {
+    const dummyPropToEnsureChange = () => (
+      (
+        null
+      )
+    )
     if (this.state.redirect) {
       return <Redirect to="/selfassesment" />
     }
@@ -91,6 +102,13 @@ export class SelfAssesmentForm extends React.Component {
       const { structure } = formData
       const { displayCoursename, type, formInfo } = structure
       const { openQ, questionHeaders, grade } = structure.headers
+
+      if (this.props.assesmentResponse.existingAnswer) {
+        return (<UserResultsPage
+          assesmentResponse={this.props.assesmentResponse}
+          formInfo={this.props.formData}
+        />)
+      }
 
       if (!edit) {
         submitFunction = this.handleResponse
@@ -105,20 +123,33 @@ export class SelfAssesmentForm extends React.Component {
         <div>
           <Container className="selfAssesmentForm">
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
-            {!edit && this.props.assesmentResponse.edit ?
-              <h2>OLET JO VASTANNUT PÖHKÖ</h2>
+            {this.state.preview ?
+              <Message style={{ textAlign: 'center' }} color="green">Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan</Message>
               :
-              null}
+              null
+            }
+            {edit ?
+              <Button
+                green
+                onClick={() => this.togglePreview()}
+              >{this.state.buttonText}
+              </Button>
+              :
+              null
+            }
+
+
             <SelfAssesmentInfo
               formData={formInfo}
-              edit={edit}
+              edit={edit ? !this.state.preview : false}
             />
 
             {type === 'category' ?
               <SelfAssesmentSection
                 headers={questionHeaders}
                 formData={structure.questionModules}
-                edit={edit}
+                edit={edit ? !this.state.preview : false}
+                changedProp={dummyPropToEnsureChange}
                 QuestionModule={CategoryQuestionModule}
               />
 
@@ -127,43 +158,52 @@ export class SelfAssesmentForm extends React.Component {
               <SelfAssesmentSection
                 headers={questionHeaders}
                 formData={structure.questionModules}
-                edit={edit}
+                edit={edit ? !this.state.preview : false}
+                changedProp={dummyPropToEnsureChange}
                 QuestionModule={ObjectiveQuestionModule}
               />
 
             }
-
-            <SelfAssesmentSection
-              headers={openQ}
-              formData={structure.openQuestions.questions}
-              edit={edit}
-              QuestionModule={OpenQuestionModule}
-              question
-            />
-
-
-            {type === 'category' ?
-
+            {structure.openQuestions.questions.length > 0 || (edit && !this.state.preview) ?
               <SelfAssesmentSection
-                headers={grade}
-                formData={[structure.finalGrade]}
-                edit={edit}
-                QuestionModule={CategoryQuestionModule}
-                final
-                headerType="grade"
+                headers={openQ}
+                formData={structure.openQuestions.questions}
+                edit={edit ? !this.state.preview : false}
+                changedProp={dummyPropToEnsureChange}
+                QuestionModule={OpenQuestionModule}
+                question
               />
               :
               null
             }
-            <Button
-              positive
-              style={{ marginBottom: '25px' }}
-              onClick={submitFunction}
-            >
-              {!this.props.edit || this.props.new ? 'Tallenna' : 'Päivitä'}
-            </Button>
+
+            {structure.finalGrade.includedInAssesment || (edit && !this.state.preview) ?
+              <SelfAssesmentSection
+                headers={grade}
+                formData={[structure.finalGrade]}
+                edit={edit ? !this.state.preview : false}
+                QuestionModule={CategoryQuestionModule}
+                final
+                headerType="grade"
+                changedProp={dummyPropToEnsureChange}
+              />
+              :
+              null}
+
+            {this.state.preview ?
+              null
+              :
+              <Button
+                positive
+                style={{ marginBottom: '25px' }}
+                onClick={submitFunction}
+              >
+                {!this.props.edit || this.props.new ? 'Tallenna' : 'Päivitä'}
+              </Button>
+            }
           </Container>
         </div >
+
       )
     }
     return (
@@ -227,6 +267,10 @@ SelfAssesmentForm.propTypes = {
   dispatchGetSelfAssesmentAction: PropTypes.func.isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({}).isRequired
+  }).isRequired,
+  dispatchCreateSelfAssesmentResponseAction: PropTypes.func.isRequired,
+  assesmentResponse: PropTypes.shape({
+    existingAnswer: PropTypes.bool
   }).isRequired
 
 }

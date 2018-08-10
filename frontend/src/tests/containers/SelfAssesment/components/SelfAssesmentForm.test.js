@@ -30,25 +30,6 @@ const formData = {
   }
 }
 
-// const selfAssesmentform = (edit, n) => (
-//   shallow(<SelfAssesmentForm
-//     match={{
-//       params: {
-//         courseInstanceId: 1,
-//         selfAssesmentId: 1,
-//         type: 'category'
-//       }
-//     }}
-//     edit={edit}
-//     new={n}
-//     dispatchCreateFormAction={dispatchCreateFormAction}
-//     dispatchUpdateSelfAssesmentAction={dispatchUpdateSelfAssesmentAction}
-//     dispatchInitNewFormAction={dispatchInitNewFormAction}
-//     dispatchGetAssesmentResponseAction={dispatchGetAssesmentResponseAction}
-//     dispatchGetSelfAssesmentAction={dispatchGetSelfAssesmentAction}
-//   />)
-// )
-
 describe('Self assesment form', () => {
   let wrapper
 
@@ -68,6 +49,8 @@ describe('Self assesment form', () => {
       dispatchInitNewFormAction={dispatchInitNewFormAction}
       dispatchGetAssesmentResponseAction={dispatchGetAssesmentResponseAction}
       dispatchGetSelfAssesmentAction={dispatchGetSelfAssesmentAction}
+      dispatchCreateSelfAssesmentResponseAction={jest.fn()}
+      assesmentResponse={{}}
     />)
   })
 
@@ -77,15 +60,14 @@ describe('Self assesment form', () => {
         edit: true,
         new: true,
         type: 'category',
-        formData: { ...formData, structure: { ...formData.structure, type: 'category' } }
-
+        formData: { ...formData, structure: { ...formData.structure, type: 'category', openQuestions: { questions: [] }, finalGrade: { includedinAssesment: true } } }
       })
     })
     it('renders correctly', () => {
       expect(wrapper.find('.selfAssesmentForm').exists()).toEqual(true)
     })
     it('shows the correct label on the button', () => {
-      expect(wrapper.find(Button).props().children).toEqual('Tallenna')
+      expect(wrapper.find(Button).at(1).props().children).toEqual('Tallenna')
     })
 
     it('contains questionmodules of type category', () => {
@@ -95,7 +77,7 @@ describe('Self assesment form', () => {
     })
 
     it('calls the correct function on click', (done) => {
-      wrapper.find(Button).simulate('click')
+      wrapper.find(Button).at(1).simulate('click')
       setTimeout(() => {
         wrapper.update()
         expect(dispatchCreateFormAction).toHaveBeenCalled()
@@ -111,14 +93,14 @@ describe('Self assesment form', () => {
         edit: true,
         new: true,
         type: 'category',
-        formData: { ...formData, structure: { ...formData.structure, type: 'objective' } }
+        formData: { ...formData, structure: { ...formData.structure, type: 'objective', openQuestions: { questions: [] }, finalGrade: { includedinAssesment: true } } }
 
       })
     })
     it('contains question modules of type objective', () => {
       const { displayName } = wrapper.find(SelfAssesmentSection).at(0).prop('QuestionModule')
       expect(displayName).toBe('Connect(ObjectiveQuestionModule)')
-      expect(wrapper.find(SelfAssesmentSection).length).toBe(2)
+      expect(wrapper.find(SelfAssesmentSection).length).toBe(3)
     })
   })
 
@@ -128,16 +110,16 @@ describe('Self assesment form', () => {
         edit: true,
         new: false,
         type: 'category',
-        formData
+        formData: { ...formData, structure: { ...formData.structure, type: 'objective', openQuestions: { questions: [] }, finalGrade: { includedinAssesment: true } } }
       })
     })
 
     it('has the correct label on button', () => {
-      expect(wrapper.find(Button).props().children).toEqual('Päivitä')
+      expect(wrapper.find(Button).at(1).props().children).toEqual('Päivitä')
     })
 
     it('calls the correct function on click', (done) => {
-      wrapper.find(Button).simulate('click')
+      wrapper.find(Button).at(1).simulate('click')
       setTimeout(() => {
         wrapper.update()
         expect(dispatchUpdateSelfAssesmentAction).toHaveBeenCalled()

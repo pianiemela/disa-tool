@@ -137,6 +137,21 @@ const detachObjective = {
   execute: instance => instance.destroy()
 }
 
+const updateMultipliers = async (taskType, removing = false) => {
+  const taskTypes = await Type.findAll({ include: { model: TaskType, where: { task_id: taskType.task_id } } })
+  if (removing) {
+    const i = taskTypes.findIndex(tt => tt.id === taskType.type_id)
+    taskTypes.splice(i, 1)
+  }
+  const multiplier = taskTypes.reduce((acc, curr) => acc * curr.multiplier, 1)
+  const taskObjectives = await TaskObjective.findAll({ where: { task_id: taskType.task_id } })
+  const updatedObjectives = await Promise.all(taskObjectives.map(taskO => (
+    TaskObjective.update({ multiplier }, { where: { id: taskO.id }, returning: true })
+      .then(res => res[1][0])
+  )))
+  return { taskObjectives: updatedObjectives, multiplier }
+}
+
 const attachType = {
   prepare: async (data) => {
     const task = await Task.findById(data.task_id)
@@ -155,7 +170,11 @@ const attachType = {
       instance
     }
   },
-  execute: instance => instance.save(),
+  execute: async (instance) => {
+    const createdTaskType = await instance.save({ returning: true })
+    const { taskObjectives, multiplier } = await updateMultipliers(createdTaskType)
+    return { createdTaskType, taskObjectives, multiplier }
+  },
   value: (instance) => {
     const json = instance.toJSON()
     return {
@@ -190,7 +209,11 @@ const detachType = {
       type_id: json.type_id
     }
   },
-  execute: instance => instance.destroy()
+  execute: async (instance) => {
+    const updates = await updateMultipliers(instance, true)
+    instance.destroy()
+    return updates
+  }
 }
 
 const details = id => Task.findById(id, {

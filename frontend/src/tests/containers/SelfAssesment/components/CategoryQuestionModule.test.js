@@ -26,6 +26,8 @@ describe('Category question module', () => {
       dispatchTextFieldOnOff={jest.fn()}
       dispatchToggleFormPartAction={jest.fn()}
       dispatchHeaderChange={jest.fn()}
+      dispatchTextfieldResponseAction={jest.fn()}
+      dispatchGradeCategoryAction={jest.fn()}
     />)
   })
 

@@ -99,6 +99,7 @@ const detachOneType = (state, action) => ({
     if (task.id === action.response.deleted.task_id) {
       return {
         ...task,
+        defaultMultiplier: action.response.multiplier,
         types: task.types.filter(type => (
           type !== action.response.deleted.type_id
         ))
@@ -114,6 +115,7 @@ const attachType = (state, action) => ({
     if (task.id === action.response.created.task_id) {
       return {
         ...task,
+        defaultMultiplier: action.response.multiplier,
         types: [
           ...task.types,
           action.response.created.type_id
