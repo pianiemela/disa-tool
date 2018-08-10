@@ -39,6 +39,7 @@ export const Matrix = (props) => {
   // console.log(props)
   return (
     <Container>
+      {props.editing ? undefined :
       <Header as="h2">
         <Dropdown
           fluid
@@ -59,7 +60,7 @@ export const Matrix = (props) => {
             />
             : undefined}
         </Header.Subheader>
-      </Header>
+      </Header>}
       <Table celled structured>
         <Table.Header>
           <Table.Row>

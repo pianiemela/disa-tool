@@ -1,25 +1,38 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { number, shape, string } from 'prop-types'
 import { connect } from 'react-redux'
-import { Segment, Header } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Button, Segment, Header } from 'semantic-ui-react'
 import './header.css'
 
 export const CourseHeader = props => (
   <div className="CourseHeader">
-    <Segment className="headerContainer">
-      <Header>
-        {props.courseName}
+    <Segment>
+      <Header as="h1" textAlign="center">
+        <Button
+          as={Link}
+          to={`/user/course/${props.course.id}`}
+          basic
+          color="blue"
+          floated="left"
+          icon="backward"
+          content="Takaisin kurssisivulle"
+        />
+        {props.course.name}
       </Header>
     </Segment>
   </div>
 )
 
 CourseHeader.propTypes = {
-  courseName: PropTypes.string.isRequired
+  course: shape({
+    id: number.isRequired,
+    name: string.isRequired
+  }).isRequired
 }
 
 const mapStateToProps = state => ({
-  courseName: state.course.course.name
+  course: state.course.course
 })
 
 export default connect(mapStateToProps, null)(CourseHeader)

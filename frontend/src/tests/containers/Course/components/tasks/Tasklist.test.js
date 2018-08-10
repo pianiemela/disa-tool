@@ -36,7 +36,7 @@ describe('Tasklist component', () => {
   })
 
   it('renders.', () => {
-    expect(wrapper.find('.Tasklist').exists()).toEqual(true)
+    expect(wrapper.find('Container').exists()).toEqual(true)
   })
 
   it('renders a Task component for each task.', () => {
