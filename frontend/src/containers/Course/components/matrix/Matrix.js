@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Dropdown, Header, Table, Button } from 'semantic-ui-react'
+import { Dropdown, Header, Table, Button, Container } from 'semantic-ui-react'
 import './matrix.css'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -18,7 +18,8 @@ export const Matrix = (props) => {
     props.dispatchChangeTask(value)
   }
 
-  // This should not be needed in the long run, all tasks should have an up-to-date defaultMultiplier
+  // TODO: This should not be needed anymore, all tasks should have an up-to-date defaultMultiplier
+  // Keeping this for now, just in case.
   const calculateMultiplier = (activeTask) => {
     const types = props.types.headers.map(header =>
       header.types.find(type => activeTask.types.includes(type.id)))
@@ -35,22 +36,30 @@ export const Matrix = (props) => {
       activeMap[objective.id] = true
     })
   }
-  console.log(props)
+  // console.log(props)
   return (
-    <div className="Matrix">
-      <Dropdown
-        as="h2"
-        value={props.activeTask ? props.activeTask.id : null}
-        placeholder="Valitse tehtävä tästä"
-        options={props.tasks.map(task => ({ key: task.id, text: task.name, value: task.id }))}
-        onChange={handleCourseChange}
-      />
-      {props.activeTask ?
-        <Header as="h3">Kerroin
-          <Button content={props.activeTask.defaultMultiplier ?
-            props.activeTask.defaultMultiplier : calculateMultiplier(props.activeTask)}
-          />
-        </Header> : undefined}
+    <Container>
+      <Header as="h2">
+        <Dropdown
+          fluid
+          options={props.tasks.map(task => ({ key: task.id, text: task.name, value: task.id }))}
+          placeholder="Valitse tehtävä tästä"
+          scrolling
+          search
+          selectOnBlur={false}
+          value={props.activeTask ? props.activeTask.id : null}
+          onChange={handleCourseChange}
+        />
+        <Header.Subheader>Kerroin:
+          {props.activeTask ?
+            <Button
+              basic
+              content={props.activeTask.defaultMultiplier ?
+                props.activeTask.defaultMultiplier : calculateMultiplier(props.activeTask)}
+            />
+            : undefined}
+        </Header.Subheader>
+      </Header>
       <Table celled structured>
         <Table.Header>
           <Table.Row>
@@ -101,7 +110,7 @@ export const Matrix = (props) => {
           )}
         </Table.Body>
       </Table>
-    </div>
+    </Container>
   )
 }
 

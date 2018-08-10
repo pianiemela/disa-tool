@@ -75,6 +75,7 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
   return value
 }
 
+// TODO: Refactor and test
 const mapTasks = (value) => {
   const returnValue = { ...value }
   returnValue.tasks = value.tasks.map(task => ({
@@ -83,6 +84,15 @@ const mapTasks = (value) => {
       id: taskObjective.objective_id,
       multiplier: taskObjective.multiplier
     })),
+    defaultMultiplier: task.task_types.map((tt) => {
+      const types = value.type_headers.map((header) => {
+        const type = header.types.find(t => tt.type_id === t.id)
+        if (type) {
+          return type.multiplier
+        }
+      })
+      return types.filter(type => type !== undefined)
+    }).reduce((acc, curr) => acc * curr, 1),
     task_objectives: undefined,
     types: task.task_types.map(taskType => taskType.type_id),
     task_types: undefined

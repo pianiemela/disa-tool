@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { Container } from 'semantic-ui-react'
 import './tasks.css'
 
 import Task from './Task'
 import AddTaskForm from './AddTaskForm'
 
 export const Tasklist = props => (
-  <div className="Tasklist">
+  <Container>
     {props.tasks.map(task => (<Task
       key={task.id}
       task={task}
@@ -18,7 +19,7 @@ export const Tasklist = props => (
     ) : (
       null
     )}
-  </div>
+  </Container>
 )
 
 Tasklist.propTypes = {
