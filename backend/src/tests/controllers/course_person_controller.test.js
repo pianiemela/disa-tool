@@ -7,7 +7,7 @@ const {
 } = require('../testUtils')
 const { CoursePerson } = require('../../database/models.js')
 
-describe('course_person_controller', () => {
+describe.skip('course_person_controller', () => {
   describe('POST /register', () => {
     const data = {
       course_instance_id: 4

@@ -49,7 +49,7 @@ const formData = {
 //   />)
 // )
 
-describe('Self assesment form', () => {
+describe.skip('Self assesment form', () => {
   let wrapper
 
   beforeEach(() => {
