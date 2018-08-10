@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { Form, Grid, Button, Loader, Container } from 'semantic-ui-react'
+import { Form, Grid, Button, Loader, Container, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import UserResultsPage from './UserResultsPage'
 import { getCourseInstance } from '../../../api/courses'
@@ -31,9 +31,13 @@ export class SelfAssesmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      redirect: false
+      redirect: false,
+      preview: false,
+      buttonText: 'Esikatsele'
     }
   }
+
+
   async componentDidMount() {
     const { courseInstanceId, type, selfAssesmentId } = this.props.match.params
     if (this.props.edit) {
@@ -78,6 +82,11 @@ export class SelfAssesmentForm extends React.Component {
     const { assesmentResponse } = this.props
     await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
   }
+
+  togglePreview = () => {
+    this.setState({ preview: !this.state.preview, buttonText: this.state.preview ? 'Esikatsele' : 'Muokkaa' })
+  }
+
   render() {
     const dummyPropToEnsureChange = () => (
       (
@@ -114,6 +123,17 @@ export class SelfAssesmentForm extends React.Component {
         <div>
           <Container className="selfAssesmentForm">
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
+            {this.state.preview ?
+              <Message style={{ textAlign: 'center' }} color="green">Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan</Message>
+              :
+              null
+            }
+            <Button
+              green
+              onClick={() => this.togglePreview()}
+            >{this.state.buttonText}
+            </Button>
+
 
             <SelfAssesmentInfo
               formData={formInfo}
@@ -124,7 +144,7 @@ export class SelfAssesmentForm extends React.Component {
               <SelfAssesmentSection
                 headers={questionHeaders}
                 formData={structure.questionModules}
-                edit={edit}
+                edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
                 QuestionModule={CategoryQuestionModule}
               />
@@ -134,7 +154,7 @@ export class SelfAssesmentForm extends React.Component {
               <SelfAssesmentSection
                 headers={questionHeaders}
                 formData={structure.questionModules}
-                edit={edit}
+                edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
                 QuestionModule={ObjectiveQuestionModule}
               />
@@ -144,7 +164,7 @@ export class SelfAssesmentForm extends React.Component {
             <SelfAssesmentSection
               headers={openQ}
               formData={structure.openQuestions.questions}
-              edit={edit}
+              edit={edit ? !this.state.preview : false}
               changedProp={dummyPropToEnsureChange}
               QuestionModule={OpenQuestionModule}
               question
@@ -156,7 +176,7 @@ export class SelfAssesmentForm extends React.Component {
               <SelfAssesmentSection
                 headers={grade}
                 formData={[structure.finalGrade]}
-                edit={edit}
+                edit={edit ? !this.state.preview : false}
                 QuestionModule={CategoryQuestionModule}
                 final
                 headerType="grade"
@@ -165,15 +185,18 @@ export class SelfAssesmentForm extends React.Component {
               :
               null
             }
-            <Button
-              positive
-              style={{ marginBottom: '25px' }}
-              onClick={submitFunction}
-            >
-              {!this.props.edit || this.props.new ? 'Tallenna' : 'Päivitä'}
-            </Button>
+            {this.state.preview ?
+              null
+              :
+              <Button
+                positive
+                style={{ marginBottom: '25px' }}
+                onClick={submitFunction}
+              >
+                {!this.props.edit || this.props.new ? 'Tallenna' : 'Päivitä'}
+              </Button>
+            }
           </Container>
-          }
         </div >
 
       )
