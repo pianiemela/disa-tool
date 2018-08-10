@@ -114,16 +114,23 @@ export class CategoryQuestionModule extends React.Component {
               </Card.Description>
               <Grid verticalAlign="middle" padded columns={3}>
                 <Grid.Row >
-                  <Form.Field disabled={disabled} width={10}>
+                  <Form.Field width={10}>
                     <Grid.Column>
-                      <label> Arvioi osaamisesi asteikolla 1-5</label>
-                      <Dropdown
-                        style={{ marginLeft: '20px' }}
-                        placeholder="Valitse arvosana"
-                        selection
-                        options={gradeOptions}
-                        onChange={(e, { value }) => this.props.dispatchGradeCategoryAction({ id, value, final })}
-                      />
+                      {!edit ?
+                        <div>
+                          <label> Arvioi osaamisesi asteikolla 1-5</label>
+                          <Dropdown
+                            style={{ marginLeft: '20px' }}
+                            placeholder="Valitse arvosana"
+                            selection
+                            options={gradeOptions}
+                            onChange={!edit ? (e, { value }) => this.props.dispatchGradeCategoryAction({ id, value, final }) : null}
+                          />
+                        </div>
+                        :
+                        null
+                      }
+
                     </Grid.Column>
                   </Form.Field>
 
@@ -147,20 +154,24 @@ export class CategoryQuestionModule extends React.Component {
                 <Grid.Row >
                   <Form.Field disabled={disabled} width={10}>
                     <Grid.Column>
-                      <Form.TextArea
-                        autoHeight
-                        disabled={!textFieldOn}
-                        label="Perustelut arvosanalle"
-                        placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
-                        onChange={e => this.props.dispatchTextfieldResponseAction({
-                          id,
-                          value: e.target.value,
-                          final
-                        })}
-                      />
-                      {final ?
-                        null :
+                      {!edit ?
+                        <Form.TextArea
+                          autoHeight
+                          label="Perustelut arvosanalle"
+                          placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
+                          onChange={!edit ? e => this.props.dispatchTextfieldResponseAction({
+                            id,
+                            value: e.target.value,
+                            final
+                          }) : null}
+                        />
+                        :
+                        null
+                      }
+                      {edit && !final ?
                         checkbox
+                        :
+                        null
                       }
                     </Grid.Column>
                   </Form.Field>
@@ -206,6 +217,10 @@ CategoryQuestionModule.propTypes = {
   dispatchGradeCategoryAction: PropTypes.func.isRequired
 }
 
+const mapStateToProps = state => ({
+  answers: state.selfAssesment.assesmentResponse
+})
+
 const mapDispatchToProps = dispatch => ({
   dispatchTextFieldOnOff: id =>
     dispatch(toggleTextField(id)),
@@ -219,4 +234,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(gradeCategoryAction(data))
 })
 
-export default connect(null, mapDispatchToProps)(CategoryQuestionModule)
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryQuestionModule)

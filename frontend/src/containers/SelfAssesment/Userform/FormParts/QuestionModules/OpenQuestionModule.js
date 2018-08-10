@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Card, Grid, Icon, Popup, Button } from 'semantic-ui-react'
 import ModalForm from '../../../../../utils/components/ModalForm'
-import { removeOpenQuestion } from '../../../actions/selfAssesment'
+import { removeOpenQuestion, openQuestionResponseAction } from '../../../actions/selfAssesment'
 
 const OpenQuestionModule = (props) => {
   const { edit, textArea } = props
@@ -24,6 +24,7 @@ const OpenQuestionModule = (props) => {
                     autoHeight
                     label="Vastaa avoimeen kysymykseen"
                     placeholder="Kirjoita vastaus tähän"
+                    onChange={!edit ? e => props.dispatchopenQuestionResponseAction({ id, value: e.target.value }) : null}
                   />
                 </Grid.Column>
                 <Grid.Column>
@@ -73,7 +74,9 @@ OpenQuestionModule.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
   dispatchRemoveOpenQuestion: id =>
-    dispatch(removeOpenQuestion(id))
+    dispatch(removeOpenQuestion(id)),
+  dispatchopenQuestionResponseAction: data =>
+    dispatch(openQuestionResponseAction(data))
 })
 
 export default connect(null, mapDispatchToProps)(OpenQuestionModule)
