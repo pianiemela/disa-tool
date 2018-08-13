@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu, Dropdown } from 'semantic-ui-react'
-import { func, shape } from 'prop-types'
+import { func, shape, number } from 'prop-types'
 
 import { logoutAction } from '../../actions/actions'
 import { getLanguage, saveLanguage } from '../../utils/utils'
@@ -57,24 +57,16 @@ class Nav extends Component {
           >
               DISA-työkalu
           </Menu.Item>
-          <Menu.Item
-            as={Link}
-            to="/user"
-            name="user"
-            active={activeItem === 'user'}
-            onClick={this.handleClick}
-          >
-              Oma sivu
-          </Menu.Item>
-          <Menu.Item
-            as={Link}
-            to="/selfAssesment"
-            name="selfAssesment"
-            active={activeItem === 'selfAssesment'}
-            onClick={this.handleClick}
-          >
-              Itsearvio
-          </Menu.Item>
+          {this.props.user.id ?
+            <Menu.Item
+              as={Link}
+              to="/user"
+              name="user"
+              active={activeItem === 'user'}
+              onClick={this.handleClick}
+            >
+                Oma sivu
+            </Menu.Item> : undefined}
           <Menu.Item
             as={Link}
             to="/courses"
@@ -92,7 +84,7 @@ class Nav extends Component {
                 onChange={this.changeLanguage}
               />
             </Menu.Item>
-            {this.props.user ?
+            {this.props.user.id ?
               <Menu.Item
                 as={Link}
                 to="/login"
@@ -130,7 +122,7 @@ const mapDispatchToProps = dispatch => ({
 
 Nav.propTypes = {
   dispatchLogout: func.isRequired,
-  user: shape().isRequired
+  user: shape({ id: number }).isRequired
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav))

@@ -12,17 +12,15 @@ const options = {
 }
 
 const toastReducer = (state = INITIAL_STATE, action) => {
-  if (action.response) {
-    if (!action.response.toast) return state
-    if (action.response.error) {
+  if (action.payload) {
+    if (action.payload.data && action.payload.data.error) {
       return {
-        message: action.response.error,
+        message: action.payload.data.error,
         options: options.error
       }
-    } else if (action.response.message) {
+    } else if (action.payload.message) {
       return {
-        toast: true,
-        message: action.response.message,
+        message: action.payload.message,
         options: options.message
       }
     }

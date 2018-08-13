@@ -233,7 +233,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'CREATE_SELF_ASSESMENT_SUCCESS': {
-      const selfAssesments = state.userSelfAssesments.concat(action.payload.data.data)
+      const selfAssesments = state.userSelfAssesments.concat(action.payload.data)
       return { ...state, createForm: [], userSelfAssesments: selfAssesments }
     }
 

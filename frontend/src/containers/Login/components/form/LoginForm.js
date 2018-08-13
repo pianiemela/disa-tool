@@ -1,18 +1,17 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { func, shape, number } from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Label, Input, Button, Segment } from 'semantic-ui-react'
 import { Redirect } from 'react-router'
 import './form.css'
 
-import { login } from '../../services/login'
+import { loginAction } from '../../../../actions/actions'
 
 
 export class LoginForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      redirect: false,
       emptyFields: {
         username: true,
         password: true
@@ -22,12 +21,10 @@ export class LoginForm extends Component {
 
   login = (e) => {
     e.preventDefault()
-    this.props.login({
+    this.props.dispatchLogin({
       username: e.target.username.value,
       password: e.target.password.value
     })
-      .then(() => this.setState({ redirect: true }))
-      .catch(() => {})
   }
 
   changeField = fieldName => (e) => {
@@ -40,7 +37,7 @@ export class LoginForm extends Component {
   }
 
   render() {
-    if (this.state.redirect) {
+    if (this.props.user.id) {
       return <Redirect to="/user" />
     }
     return (
@@ -71,11 +68,20 @@ export class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  login: PropTypes.func.isRequired
+  user: shape({ id: number }),
+  dispatchLogin: func.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
-  login: login(dispatch)
+LoginForm.defaultProps = {
+  user: {}
+}
+
+const mapStateToProps = state => ({
+  user: state.user
 })
 
-export default connect(null, mapDispatchToProps)(LoginForm)
+const mapDispatchToProps = dispatch => ({
+  dispatchLogin: data => dispatch(loginAction(data))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)

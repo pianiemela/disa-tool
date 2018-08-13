@@ -5,8 +5,8 @@ export const userReducer = (state = {}, action) => {
       return action.payload === '' ? {} : action.payload
     case 'USER_GET_FAILURE':
       return state
-    case 'USER_LOGIN':
-      return action.response.logged_in
+    case 'USER_LOGIN_SUCCESS':
+      return action.payload.logged_in
     case 'USER_LOGOUT':
       return action.payload
     default:
