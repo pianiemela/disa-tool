@@ -5,7 +5,8 @@ import { findText } from '../../../../testUtils'
 
 const objective = {
   id: 1,
-  name: 'Test objective'
+  name: 'Test objective',
+  task_count: 0
 }
 
 describe('MatrixObjective component', () => {
@@ -23,6 +24,7 @@ describe('MatrixObjective component', () => {
       active={false}
       toggleObjective={toggleObjective}
       activeTaskId={null}
+      details={() => {}}
     />)
   })
 
