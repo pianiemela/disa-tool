@@ -217,7 +217,7 @@ router.post('/responses', async (req, res) => {
     const { updateResponses, newResponses } = await taskService.validateTaskResponses(tasks, courseId)
     const createdResponses = await taskService.createTaskResponses(newResponses)
     const updatedResponses = await taskService.updateTaskResponses(updateResponses)
-    res.status(201).json({ msg: 'good job', createdResponses: [...createdResponses, ...updatedResponses] })
+    res.status(201).json({ message: 'good job', createdResponses: [...createdResponses, ...updatedResponses] })
   } catch (e) {
     console.log(e)
     res.status(400).json({ error: 'There was something wrong with your request, please try again' })

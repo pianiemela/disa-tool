@@ -31,6 +31,10 @@ export const saveToken = (token) => {
   }
 }
 
+export const removeToken = () => (
+  localStorage.removeItem('token')
+)
+
 export const saveLanguage = (lang) => {
   try {
     localStorage.setItem('lang', lang)
