@@ -9,7 +9,7 @@ describe('LoginForm component', () => {
   beforeEach(() => {
     login = jest.fn()
     wrapper = shallow(<LoginForm
-      login={data => new Promise((resolve, reject) => {
+      dispatchLogin={data => new Promise((resolve, reject) => {
         login(data)
         if (data.password === 'pass') {
           resolve()
@@ -116,35 +116,15 @@ describe('LoginForm component', () => {
         password: 'pass'
       })
     })
+  })
 
-    it('redirects on success.', async () => {
-      await wrapper.find(Form).simulate('submit', {
-        preventDefault: () => {},
-        target: {
-          username: {
-            value: 'user'
-          },
-          password: {
-            value: 'pass'
-          }
-        }
-      })
-      expect(wrapper.state('redirect')).toEqual(true)
-    })
-
-    it('does not redirect on failure.', async () => {
-      await wrapper.find(Form).simulate('submit', {
-        preventDefault: () => {},
-        target: {
-          username: {
-            value: 'user'
-          },
-          password: {
-            value: 'wrong'
-          }
-        }
-      })
-      expect(wrapper.state('redirect')).toEqual(false)
+  describe('if user prop is present', () => {
+    it('component redirects.', async () => {
+      const f = shallow(<LoginForm
+        user={{ id: 1 }}
+        dispatchLogin={() => {}}
+      />)
+      expect(f.find('Redirect').exists())
     })
   })
 })

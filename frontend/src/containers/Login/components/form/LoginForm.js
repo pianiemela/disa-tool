@@ -68,8 +68,12 @@ export class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  user: shape({ id: number }).isRequired,
+  user: shape({ id: number }),
   dispatchLogin: func.isRequired
+}
+
+LoginForm.defaultProps = {
+  user: {}
 }
 
 const mapStateToProps = state => ({
