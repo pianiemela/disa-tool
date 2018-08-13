@@ -26,7 +26,7 @@ export class EditTasksTab extends PureComponent {
           activeTask={this.props.activeTask}
           changeActive={this.changeActive}
         />
-        <Matrix editing={false} />
+        <Matrix editing={false} showDetails />
         <Headerlist
           courseId={this.props.courseId}
           editing={false}

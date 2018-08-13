@@ -39,7 +39,6 @@ export class MatrixObjective extends Component {
       triggered: true
     })
     const objectiveDetails = (await this.props.details({ id: this.props.objective.id })).data.data
-    console.log(objectiveDetails)
     let cumMultiplier = 0
     objectiveDetails.tasks.forEach((task) => {
       cumMultiplier += task.type_multiplier * task.task_multiplier
@@ -67,29 +66,47 @@ export class MatrixObjective extends Component {
           >
             <MathJax math={this.props.objective.name} />
           </Button>
-          <div>
-            <Popup
-              trigger={<Label
-                content={this.props.objective.task_count}
-                onMouseOver={this.loadDetails}
-                onFocus={this.loadDetails}
-              />}
-              content={
-                this.state.loading ? (
-                  <Loader active inline />
-                ) : (
-                  <div>
-                    <p>Kerroin yhteensä: <strong>{this.state.cumulative_multiplier.toFixed(2)}</strong></p>
-                    <Header>Tehtävät</Header>
-                    {this.state.tasks.map(task => (
-                      <div key={task.name}>
-                        <p><strong>{task.name}</strong>: {(task.type_multiplier * task.task_multiplier).toFixed(2)}</p>
-                      </div>
-                    ))}
-                  </div>
-                )}
-            />
-          </div>
+          {this.props.showDetails ? (
+            <div>
+              <Popup
+                trigger={<Label
+                  content={this.props.objective.task_count}
+                  onMouseOver={this.loadDetails}
+                  onFocus={this.loadDetails}
+                />}
+                content={
+                  this.state.loading ? (
+                    <Loader active inline />
+                  ) : (
+                    <div>
+                      <p>
+                        <span>
+                          {'Kerroin yhteensä: '}
+                        </span>
+                        <strong>
+                          {this.state.cumulative_multiplier.toFixed(2)}
+                        </strong>
+                      </p>
+                      <Header>Tehtävät</Header>
+                      {this.state.tasks.map(task => (
+                        <div key={task.name}>
+                          <p>
+                            <strong>
+                              {task.name}
+                            </strong>
+                            <span>
+                              : {(task.type_multiplier * task.task_multiplier).toFixed(2)}
+                            </span>
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+              />
+            </div>
+          ) : (
+            null
+          )}
         </div>
         <div className="removeBlock">
           {this.props.editing ? (
@@ -120,11 +137,14 @@ MatrixObjective.propTypes = {
   removeObjective: PropTypes.func.isRequired,
   active: PropTypes.bool.isRequired,
   toggleObjective: PropTypes.func.isRequired,
-  activeTaskId: PropTypes.number
+  activeTaskId: PropTypes.number,
+  details: PropTypes.func.isRequired,
+  showDetails: PropTypes.bool
 }
 
 MatrixObjective.defaultProps = {
-  activeTaskId: null
+  activeTaskId: null,
+  showDetails: false
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

@@ -34,6 +34,7 @@ export const MatrixCategory = props => (
         editing={props.editing}
         activeMap={props.activeMap}
         activeTaskId={props.activeTaskId}
+        showDetails={props.showDetails}
       />
     ))}
   </Table.Row>
@@ -51,12 +52,14 @@ MatrixCategory.propTypes = {
   editing: PropTypes.bool.isRequired,
   removeCategory: PropTypes.func.isRequired,
   activeMap: PropTypes.objectOf(PropTypes.bool).isRequired,
-  activeTaskId: PropTypes.number
+  activeTaskId: PropTypes.number,
+  showDetails: PropTypes.bool
 }
 
 MatrixCategory.defaultProps = {
   courseId: null,
-  activeTaskId: null
+  activeTaskId: null,
+  showDetails: false
 }
 
 const mapDispatchToProps = dispatch => ({

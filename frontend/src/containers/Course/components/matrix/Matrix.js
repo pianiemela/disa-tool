@@ -65,6 +65,7 @@ export const Matrix = (props) => {
               editing={props.editing}
               activeMap={activeMap}
               activeTaskId={activeTaskId}
+              showDetails={props.showDetails}
             />
           ))}
           {props.editing ? (
@@ -91,12 +92,14 @@ Matrix.propTypes = {
   activeTask: PropTypes.shape({
     id: PropTypes.number.isRequired,
     objectives: PropTypes.arrayOf(PropTypes.object).isRequired
-  })
+  }),
+  showDetails: PropTypes.bool
 }
 
 Matrix.defaultProps = {
   courseId: null,
-  activeTask: null
+  activeTask: null,
+  showDetails: false
 }
 
 const mapStateToProps = state => ({
