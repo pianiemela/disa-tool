@@ -7,11 +7,11 @@ const SelectTaskDropdown = props => (
     <Header as="h2">
       <Dropdown
         fluid
-        options={props.tasks.map(task => ({
+        options={[{ key: null, text: '' }].concat(props.tasks.map(task => ({
           key: task.id,
           text: task.name,
           value: task.id
-        }))}
+        })))}
         placeholder="Valitse tehtävä tästä"
         scrolling
         search
