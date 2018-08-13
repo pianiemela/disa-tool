@@ -124,7 +124,7 @@ export const initResponseForm = (data) => {
       qm.objectives.map(qmO =>
         response.questionModuleResponses.push({
           id: qmO.id,
-          grade: null,
+          grade: '1',
           name: qmO.name,
           header: qm.name
         })))

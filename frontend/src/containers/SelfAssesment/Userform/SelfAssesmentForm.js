@@ -80,7 +80,12 @@ export class SelfAssesmentForm extends React.Component {
 
   handleResponse = async () => {
     const { assesmentResponse } = this.props
-    await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
+    try {
+      await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
+      this.setState({ redirect: true })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   togglePreview = () => {
@@ -94,7 +99,7 @@ export class SelfAssesmentForm extends React.Component {
       )
     )
     if (this.state.redirect) {
-      return <Redirect to="/selfassesment" />
+      return <Redirect to="/user" />
     }
     const renderForm = () => {
       let submitFunction = null

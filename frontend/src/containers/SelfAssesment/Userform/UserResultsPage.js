@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card, Form, List, Table, Container } from 'semantic-ui-react'
+import { objectiveGrades } from '../../SelfAssesment/grades'
 
 const UserResultsPage = (props) => {
   const { assesmentResponse } = props
@@ -15,14 +16,32 @@ const UserResultsPage = (props) => {
     })
   }
 
+  const deepCalculations = (data) => {
+    let nanighh = null
+    nanighh = Object.keys(data).reduce((eka, toka) => (
+      eka + parseInt(data[toka].grade)
+    ), 0)
+    nanighh = Math.round(nanighh / Object.keys(data).length)
+    if (isNaN(nanighh)) {
+      return 'Etpä tainnut arvioida kaikkea'
+    }
+    if (nanighh > 0) {
+      if (nanighh > 1) {
+        return 'Arvioit osaavasi osion tavoitteet hyvin'
+      }
+      return 'Arvioit osaavasi osion tavoitteet kohtalaisesti'
+    }
+    return 'Arvioit että sinulla on vielä selkeästi kehitettävää osion tavoitteiden suhteen'
+  }
+
   const renderFunc = () =>
     (
       <Container>
         <div>
           Olet jo vastannut tähän itsearviointiin. Voit tarkastella kootusti tuloksiasi alla.
-        {Object.keys(objectives).map(objective => (
+          {Object.keys(objectives).map(objective => (
             <div>
-              <Table fixed compact celled striped>
+              <Table style={{ margin: '50px' }} fixed compact celled striped>
                 <Table.Header>
                   <Table.Row>
                     <Table.HeaderCell colSpan="2">
@@ -30,12 +49,20 @@ const UserResultsPage = (props) => {
                     </Table.HeaderCell>
                   </Table.Row>
                   <Table.Row>
+                    <Table.HeaderCell colSpan="2">
+                      {deepCalculations(objectives[objective])}
+                    </Table.HeaderCell>
+                  </Table.Row>
+                  <Table.Row>
+                    <Table.HeaderCell colSpan="2" />
+                  </Table.Row>
+                  <Table.Row>
                     <Table.HeaderCell>
                       Tavoite
-                  </Table.HeaderCell>
+                    </Table.HeaderCell>
                     <Table.HeaderCell>
                       Arviosi osaamisesta
-                  </Table.HeaderCell>
+                    </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -45,7 +72,7 @@ const UserResultsPage = (props) => {
                         {singleO.name}
                       </Table.Cell>
                       <Table.Cell>
-                        {singleO.grade}
+                        {singleO.grade ? objectiveGrades[(singleO.grade)] : 'IMPOSSBRU'}
                       </Table.Cell>
                     </Table.Row>
                   ))}
