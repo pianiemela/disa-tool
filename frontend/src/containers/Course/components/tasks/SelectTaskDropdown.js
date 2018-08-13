@@ -7,7 +7,7 @@ const SelectTaskDropdown = props => (
     <Header as="h2">
       <Dropdown
         fluid
-        options={[{ key: null, text: '' }].concat(props.tasks.map(task => ({
+        options={[{ key: 0, text: '', value: null }].concat(props.tasks.map(task => ({
           key: task.id,
           text: task.name,
           value: task.id

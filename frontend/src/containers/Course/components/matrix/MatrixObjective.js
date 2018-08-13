@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button } from 'semantic-ui-react'
+import { Button, Label } from 'semantic-ui-react'
 import MathJax from 'react-mathjax-preview'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -23,7 +23,7 @@ export class MatrixObjective extends Component {
   render() {
     return (
       <div className="MatrixObjective">
-        <div className="objectiveBlock">
+        <div className="objectiveBlock flexContainer">
           <Button
             className="objectiveButton"
             toggle
@@ -36,6 +36,9 @@ export class MatrixObjective extends Component {
           >
             <MathJax math={this.props.objective.name} />
           </Button>
+          <div>
+            <Label content={this.props.objective.task_count} />
+          </div>
         </div>
         <div className="removeBlock">
           {this.props.editing ? (
@@ -59,7 +62,8 @@ export class MatrixObjective extends Component {
 MatrixObjective.propTypes = {
   objective: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    task_count: PropTypes.number.isRequired
   }).isRequired,
   editing: PropTypes.bool.isRequired,
   removeObjective: PropTypes.func.isRequired,
