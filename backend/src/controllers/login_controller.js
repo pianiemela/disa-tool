@@ -9,7 +9,6 @@ router.post('', async (req, res) => {
     },
     req.lang
   )
-  console.log(req.body)
   if (result.error) {
     res.status(result.status).json({
       error: result.error
