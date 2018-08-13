@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { Form, Grid, Button, Loader, Container, Message } from 'semantic-ui-react'
+import { Button, Loader, Container, Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import UserResultsPage from './UserResultsPage'
 import { getCourseInstance } from '../../../api/courses'
@@ -33,7 +33,16 @@ export class SelfAssesmentForm extends React.Component {
     this.state = {
       redirect: false,
       preview: false,
-      buttonText: 'Esikatsele'
+      buttonText: 'Esikatsele',
+      responseErrors: {
+        qModErrors:
+          { grade: [], responseText: [] },
+        finalGErrors:
+          { grade: [], responseText: [] },
+        openQErrors: {
+          responseText: []
+        }
+      }
     }
   }
 
@@ -68,21 +77,73 @@ export class SelfAssesmentForm extends React.Component {
 
   handleSubmit = async () => {
     const { formData } = this.props
-    await this.props.dispatchCreateFormAction(formData)
     this.setState({ redirect: true })
+    await this.props.dispatchCreateFormAction(formData)
   }
 
   handleUpdate = async () => {
     const { formData } = this.props
-    await this.props.dispatchUpdateSelfAssesmentAction(formData)
     this.setState({ redirect: true })
+    await this.props.dispatchUpdateSelfAssesmentAction(formData)
+  }
+
+  clearError = async (types) => {
+    const newE = { ...this.state.responseErrors }
+    const { type, errorType, id } = types
+
+    if (type === 'qModErrors' ||  'openQErrors') {
+      newE[type][errorType] = newE[type][errorType].filter(error => error.id !== id)
+    }
+
+    if (type === 'finalGErrors') {
+      newE[type][errorType] = []
+    }
+
+    this.setState({ responseErrors: newE })
+  }
+
+  checkResponseErrors = async () => {
+    const { questionModuleResponses, openQuestionResponses, finalGradeResponse } = this.props.assesmentResponse
+    let fGrade = []
+    let fResponse = []
+    const grade = questionModuleResponses.filter(qm => !qm.grade)
+    const responseText = questionModuleResponses.filter(qm => qm.responseText === '')
+    fGrade = !finalGradeResponse.grade ? [...fGrade, finalGradeResponse] : []
+    fResponse = finalGradeResponse.responseText === '' ? [...fResponse, finalGradeResponse] : []
+    const openQErrors = openQuestionResponses.filter(oq => oq.responseText === '')
+
+    if (grade.length > 0 || responseText.length > 0 || fGrade.lenght > 0 || fResponse.length > 0 || openQErrors.length > 0) {
+      await this.setState({
+        responseErrors:
+        {
+          ...this.state.responseErrors,
+          openQErrors: {
+            ...this.state.responseErrors.openQErrors,
+            responseText: openQErrors
+          },
+          finalGErrors: {
+            ...this.state.responseErrors.finalGErrors,
+            grade: fGrade,
+            responseText: fResponse
+          },
+          qModErrors: { ...this.state.responseErrors.qModErrors, grade, responseText }
+        }
+      })
+      return true
+    }
+    return false
   }
 
   handleResponse = async () => {
+    console.log('nanigh')
+    const e = await this.checkResponseErrors()
+    if (e) {
+      return
+    }
     const { assesmentResponse } = this.props
     try {
-      await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
       this.setState({ redirect: true })
+      await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
     } catch (error) {
       console.log(error)
     }
@@ -107,6 +168,7 @@ export class SelfAssesmentForm extends React.Component {
       const { structure } = formData
       const { displayCoursename, type, formInfo } = structure
       const { openQ, questionHeaders, grade } = structure.headers
+      const { responseErrors } = this.state
 
       if (this.props.assesmentResponse.existingAnswer) {
         return (<UserResultsPage
@@ -114,7 +176,6 @@ export class SelfAssesmentForm extends React.Component {
           formInfo={this.props.formData}
         />)
       }
-
       if (!edit) {
         submitFunction = this.handleResponse
       } else if (this.props.new) {
@@ -122,7 +183,6 @@ export class SelfAssesmentForm extends React.Component {
       } else {
         submitFunction = this.handleUpdate
       }
-
 
       return (
         <div>
@@ -143,7 +203,6 @@ export class SelfAssesmentForm extends React.Component {
               null
             }
 
-
             <SelfAssesmentInfo
               formData={formInfo}
               edit={edit ? !this.state.preview : false}
@@ -156,6 +215,8 @@ export class SelfAssesmentForm extends React.Component {
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
                 QuestionModule={CategoryQuestionModule}
+                errors={responseErrors.qModErrors}
+                clearError={this.clearError}
               />
 
               :
@@ -166,6 +227,7 @@ export class SelfAssesmentForm extends React.Component {
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
                 QuestionModule={ObjectiveQuestionModule}
+                errors={responseErrors.qModErrors}
               />
 
             }
@@ -177,6 +239,7 @@ export class SelfAssesmentForm extends React.Component {
                 changedProp={dummyPropToEnsureChange}
                 QuestionModule={OpenQuestionModule}
                 question
+                errors={responseErrors.openQErrors}
               />
               :
               null
@@ -191,6 +254,8 @@ export class SelfAssesmentForm extends React.Component {
                 final
                 headerType="grade"
                 changedProp={dummyPropToEnsureChange}
+                errors={this.state.responseErrors.finalGErrors}
+                clearError={this.clearError}
               />
               :
               null}

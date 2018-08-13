@@ -30,7 +30,6 @@ router.get('/:selfAssesmentId', async (req, res) => {
     data = data.toJSON()
     data.response = JSON.parse(data.response)
     res.status(200).json({
-      message: 'homma meni wilduks, mutta tässä asssesmentti',
       data
     })
 

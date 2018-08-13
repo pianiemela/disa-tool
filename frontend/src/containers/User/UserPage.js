@@ -207,7 +207,7 @@ class UserPage extends Component {
                           {assessments.map(assessment =>
                             (
                               <div style={{ padding: '10px' }}>
-                                <List.Item  key={assessment.id} as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name} </List.Item>
+                                <List.Item key={assessment.id} as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name} </List.Item>
                                 <Label color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}>{assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}</Label>
                               </div>
                             ))}
