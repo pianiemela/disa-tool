@@ -221,7 +221,7 @@ export const loginAction = userData => async (dispatch) => {
   })
   try {
     const { data } = await login(userData)
-    saveToken(userData.data.token)
+    saveToken(data.token)
     dispatch({
       type: 'USER_LOGIN_SUCCESS',
       payload: data

@@ -20,7 +20,6 @@ const toastReducer = (state = INITIAL_STATE, action) => {
       }
     } else if (action.payload.message) {
       return {
-        toast: true,
         message: action.payload.message,
         options: options.message
       }
