@@ -2,6 +2,14 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
   switch (action.type) {
     case 'COURSES_GET_INSTANCE_DATA_SUCCESS':
       return action.payload
+    case 'ASSESMENT_RESPONSE_CREATE_SUCCESS': {
+      const { data } = action.payload
+      const oldAssesments = [...state.self_assessments]
+      const toReplace = oldAssesments.find(oA => oA.id === data.self_assessment_id)
+      toReplace.assessment_responses = [...toReplace.assessment_responses, data]
+      const newAssessments = oldAssesments.map(oA => (oA.id === data.self_assessment_id ? toReplace : oA))
+      return { ...state, self_assessments: newAssessments }
+    }
     case 'COURSES_GET_INSTANCE_DATA_FAILURE':
       return state
     case 'COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS':
@@ -11,7 +19,7 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
     case 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_SUCCESS': {
       const updatePeople = [...state.people]
       updatePeople.map((person) => {
-        const update = action.payload.find(cp => cp.person_id === person.id)
+        const update = action.payload.updatedPersons.find(cp => cp.person_id === person.id)
         if (update) {
           person.course_instances[0].course_person.role = update.role
         }

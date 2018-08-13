@@ -2,6 +2,8 @@ import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanc
 import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse } from '../api/selfassesment'
 import { getUser } from '../api/persons'
 import { postTaskResponses } from '../api/tasks'
+import { login } from '../api/login'
+import { saveToken, removeToken } from '../utils/utils'
 
 
 export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
@@ -99,22 +101,22 @@ export const getSelfAssesmentAction = selfAssesmentId => async (dispatch) => {
   }
 }
 
-export const createForm = data => async (dispatch) => {
+export const createForm = assessmentData => async (dispatch) => {
   dispatch({
     type: 'CREATE_SELF_ASSESMENT_ATTEMPT',
     payload: ''
   })
 
   try {
-    const res = await createSelfAssesment(data)
+    const { data } = await createSelfAssesment(assessmentData)
     dispatch({
       type: 'CREATE_SELF_ASSESMENT_SUCCESS',
-      payload: res
+      payload: data
     })
   } catch (error) {
     dispatch({
       type: 'CREATE_SELF_ASSESMENT_FAILURE',
-      payload: error
+      payload: error.response
 
     })
   }
@@ -127,30 +129,30 @@ export const getUserSelfAssesments = user => async (dispatch) => {
   })
 
   try {
-    const res = await getSelfAssesments(user)
+    const { data } = await getSelfAssesments(user)
     dispatch({
       type: 'GET_ALL_USER_SELFASSESMENTS_SUCCESS',
-      payload: res.data
+      payload: data
     })
   } catch (error) {
     dispatch({
       type: 'GET_ALL_USER_SELFASSESMENTS_FALURE',
-      payload: error
+      payload: error.response
     })
   }
 }
 
-export const updateSelfAssesmentAction = data => async (dispatch) => {
+export const updateSelfAssesmentAction = assessmentData => async (dispatch) => {
   try {
-    const res = await updateSelfAssesment(data)
+    const { data } = await updateSelfAssesment(assessmentData)
     dispatch({
       type: 'SELF_ASSESMENT_UPDATE_SUCCESS',
-      payload: res.data
+      payload: data
     })
   } catch (error) {
     dispatch({
       type: 'SELF_ASSESMENT_UPDATE_FAILURE',
-      payload: error
+      payload: error.response
     })
   }
 }
@@ -212,8 +214,28 @@ export const createSelfAssessmentResponseAction = responseData => async (dispatc
   }
 }
 
+export const loginAction = userData => async (dispatch) => {
+  dispatch({
+    type: 'USER_LOGIN_ATTEMPT',
+    payload: userData
+  })
+  try {
+    const { data } = await login(userData)
+    saveToken(data.token)
+    dispatch({
+      type: 'USER_LOGIN_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'USER_LOGIN_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
 export const logoutAction = (dispatch) => {
-  localStorage.removeItem('token')
+  removeToken()
   dispatch({
     type: 'USER_LOGOUT',
     payload: {}

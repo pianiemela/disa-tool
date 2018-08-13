@@ -21,11 +21,9 @@ export const gradeOptions = [
   }
 ]
 
-export const objectiveGrades = [
-  {
-    1: 'Osaamisessani on vielä kehitettävää',
-    2: 'Osaan kohtalaisesti',
-    3: 'Osaan hyvin'
-  }
-]
-
+export const objectiveGrades =
+{
+  0: 'Osaamisessani on vielä kehitettävää',
+  1: 'Osaan kohtalaisesti',
+  2: 'Osaan hyvin'
+}

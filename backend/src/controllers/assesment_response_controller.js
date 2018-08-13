@@ -29,10 +29,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
     let data = await assementResponseService.getOne(user, selfAssesmentId)
     data = data.toJSON()
     data.response = JSON.parse(data.response)
-    res.status(200).json({
-      message: 'homma meni wilduks, mutta tässä asssesmentti',
-      data
-    })
+    res.status(200).json({ data })
 
   } catch (error) {
     res.status(500).json({

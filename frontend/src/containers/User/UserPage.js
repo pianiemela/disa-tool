@@ -204,7 +204,13 @@ class UserPage extends Component {
                       <Item.Content>
                         <Header as="h3">Itsearvioinnit</Header>
                         <List selection size="big">
-                          {assessments.map(assessment => <List.Item key={assessment.id} as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name}</List.Item>)}
+                          {assessments.map(assessment =>
+                            (
+                              <div style={{ padding: '10px' }}>
+                                <List.Item  key={assessment.id} as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name} </List.Item>
+                                <Label color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}>{assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}</Label>
+                              </div>
+                            ))}
                         </List>
                       </Item.Content>
                     </Grid.Column>
@@ -224,7 +230,8 @@ class UserPage extends Component {
                               activeCourse={activeCourse}
                               updateHandler={this.updateTasksFromFile}
                             />
-                          } }]}
+                          }
+                        }]}
                       />
                     </Grid.Column>
                   </Grid.Row>

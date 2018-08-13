@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Dropdown, Header, Table, Button, Container } from 'semantic-ui-react'
+import { Dropdown, Header, Table, Button, Container, Popup, Input } from 'semantic-ui-react'
 import './matrix.css'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -20,12 +20,16 @@ export const Matrix = (props) => {
 
   // TODO: This should not be needed anymore, all tasks should have an up-to-date defaultMultiplier
   // Keeping this for now, just in case.
-  const calculateMultiplier = (activeTask) => {
-    const types = props.types.headers.map(header =>
-      header.types.find(type => activeTask.types.includes(type.id)))
-    const filtered = types.filter(type => type !== undefined && type.multiplier)
-    console.log(filtered, types)
-    return filtered.reduce((acc, curr) => acc * curr.multiplier, 1)
+  // const calculateMultiplier = (activeTask) => {
+  //   const types = props.types.headers.map(header =>
+  //     header.types.find(type => activeTask.types.includes(type.id)))
+  //   const filtered = types.filter(type => type !== undefined && type.multiplier)
+  //   console.log(filtered, types)
+  //   return filtered.reduce((acc, curr) => acc * curr.multiplier, 1)
+  // }
+
+  const handleClick = (e, data) => {
+    console.log(data)
   }
 
   const activeMap = {}
@@ -53,10 +57,13 @@ export const Matrix = (props) => {
         />
         <Header.Subheader>Kerroin:
           {props.activeTask ?
-            <Button
-              basic
-              content={props.activeTask.defaultMultiplier ?
-                props.activeTask.defaultMultiplier : calculateMultiplier(props.activeTask)}
+            <Popup
+              content={<div><Input action type="number" value={props.activeTask.defaultMultiplier}><input /><Button content="päivitä" onClick={handleClick} /></Input></div>}
+              trigger={<Button
+                basic
+                content={props.activeTask.defaultMultiplier}
+              />}
+              on="click"
             />
             : undefined}
         </Header.Subheader>
