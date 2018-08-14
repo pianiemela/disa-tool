@@ -279,16 +279,21 @@ const editTaskObjectives = {
       })
     ])
   },
-  execute: (instances, data) => Promise.all(instances.map(instance => instance.update({
-    multiplier: data.objectives.find(objective => objective.id === instance.dataValues.objective_id).multiplier
-  }))),
+  execute: (instances, data) => Promise.all(instances.map((instance) => {
+    const dataObjective = data.objectives.find(objective => objective.id === instance.dataValues.objective_id)
+    instance.update({
+      multiplier: dataObjective.multiplier,
+      modified: dataObjective.modified
+    })
+  })),
   value: (instances, data) => {
     const json = instances.map(instance => instance.toJSON())
     return {
       task_id: data.task_id,
       task_objectives: json.map(instance => ({
         multiplier: instance.multiplier,
-        objective_id: instance.objective_id
+        objective_id: instance.objective_id,
+        modified: instance.modified
       }))
     }
   }

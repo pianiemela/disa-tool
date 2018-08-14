@@ -9,11 +9,38 @@ import { editTaskObjectives } from '../../actions/tasks'
 import ModalForm from '../../../../utils/components/ModalForm'
 
 class EditTaskObjectivesForm extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      values: this.props.objectives.reduce(
+        (acc, curr) => ({
+          ...acc,
+          [curr.id]: {
+            multiplier: curr.multiplier,
+            modified: true
+          }
+        }),
+        {}
+      )
+    }
+  }
+
+  changeMultiplier = id => e => this.setState({
+    values: {
+      ...this.state.values,
+      [id]: {
+        ...this.state.values[id],
+        multiplier: e.target.value
+      }
+    }
+  })
+
   editTaskObjectivesSubmit = e => this.props.editTaskObjectives({
     task_id: this.props.taskId,
     objectives: this.props.objectives.map(objective => ({
       id: objective.id,
-      multiplier: e.target[`objective ${objective.id}`].value
+      multiplier: e.target[`objective ${objective.id}`].value,
+      modified: true
     }))
   })
 
@@ -28,7 +55,15 @@ class EditTaskObjectivesForm extends Component {
               {this.props.objectives.map(objective => (
                 <Form.Field key={objective.id}>
                   <Label>{objective.name}</Label>
-                  <Input name={`objective ${objective.id}`} type="number" min={0} max={1} step={0.01} />
+                  <Input
+                    value={this.state.values[objective.id].multiplier}
+                    onChange={this.changeMultiplier(objective.id)}
+                    name={`objective ${objective.id}`}
+                    type="number"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                  />
                 </Form.Field>
               ))}
               <Button color="green">Tallenna</Button>
