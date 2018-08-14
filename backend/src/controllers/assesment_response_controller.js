@@ -9,33 +9,16 @@ const { errors } = require('../messages/global.js')
 router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
-    const assesment = await selfAssesmentService.getOne(selfAssesmentId)
-
-    const hasPrivilege = await checkPrivilege(req,
-      [
-        {
-          key: 'student_on_course',
-          param: assesment.course_instance_id
-        }
-      ]
-    )
-    // if (!hasPrivilege) {
-    //   return res.status(403).json({
-    //     toast: errors.privilege.toast,
-    //     error: errors.unexpected[req.lang]
-    //   })
-    // }
     const user = await checkAuth(req)
     let data = await assementResponseService.getOne(user, selfAssesmentId)
-    data = data.toJSON()
-    data.response = JSON.parse(data.response)
-<<<<<<< HEAD
+    if (data) {
+      data = data.toJSON()
+      data.response = JSON.parse(data.response)
+      res.status(200).json({ data })
+    }
     res.status(200).json({
-      data
+      data: {}
     })
-=======
-    res.status(200).json({ data })
->>>>>>> 800718889d8eae0eace1b5bbce5dc82fc7f51310
 
   } catch (error) {
     res.status(500).json({
@@ -64,17 +47,18 @@ router.post('/', async (req, res) => {
       })
     }
 
-    let response = await assementResponseService.createOrUpdate(user, data.assessmentId, JSON.stringify(data))
+    let response = await assementResponseService.create(user, data.assessmentId, JSON.stringify(data))
     response = response.toJSON()
     response.response = JSON.parse(response.response)
-    res.status(200).json({
-      message: 'Self assessment response saved successfully!',
-      data: response
-    })
+    if (response) {
+      res.status(200).json({
+        message: 'Self assessment response saved successfully!',
+        data: response
+      })
+    }
   } catch (error) {
-    console.log(error)
     res.status(500).json({
-      error: errors.unexpected[req.lang]
+      error: error.message
     })
   }
 })

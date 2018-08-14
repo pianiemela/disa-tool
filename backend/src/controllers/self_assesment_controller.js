@@ -10,12 +10,13 @@ router.post('/create', async (req, res) => {
   try {
     let formData = req.body
     const { formInfo } = formData.structure
-    const hasPrivilege = checkPrivilege(req, [
+    const hasPrivilege = await checkPrivilege(req, [
       {
         key: 'teacher_on_course',
         param: formData.course_instance_id
       }
     ])
+
     if (!hasPrivilege) {
       return res.status(403).json({
         toast: errors.privilege.toast,
@@ -39,9 +40,8 @@ router.post('/create', async (req, res) => {
       })
     } else {
       res.status(500).json({
-        error: errors.unexpected[req.lang]
+        error: errors.unexpected[req.lanq]
       })
-      console.log(error)
     }
   }
 })
@@ -50,12 +50,12 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const data = await selfAssesmentService.getOne(selfAssesmentId)
-    const hasPrivilege = checkPrivilege(req, [
-      {
-        key: 'teacher_on_course',
-        param: data.course_instance_id
-      }
-    ])
+    // const hasPrivilege = checkPrivilege(req, [
+    //   {
+    //     key: 'teacher_on_course',
+    //     param: data.course_instance_id
+    //   }
+    // ])
     // if (!hasPrivilege) {
     //   return res.status(403).json({
     //     toast: errors.privilege.toast,
