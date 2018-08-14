@@ -1,4 +1,4 @@
-import { getData } from '../../../api/courseInstances'
+import { getData, matrix } from '../../../api/courseInstances'
 import apiPromise from '../../../utils/apiPromise'
 
 export const getCourseData = data => apiPromise(getData, data, {
@@ -11,3 +11,7 @@ export const setEditing = dispatch => (data) => {
     data
   })
 }
+
+export const getMatrix = data => apiPromise(matrix, data, {
+  success: { type: 'COURSE_GET_MATRIX' }
+})

@@ -14,6 +14,11 @@ const messages = {
     eng: '"Kurssi-instanssi luotu onnistuneesti." englanniksi.',
     fin: 'Kurssi-instanssi luotu onnistuneesti.',
     swe: '"Kurssi-instanssi luotu onnistuneesti." ruotsiksi.'
+  },
+  matrix: {
+    eng: '"Kurssin matriisi haettu onnistuneesti." englanniksi.',
+    fin: 'Kurssin matriisi haettu onnistuneesti.',
+    swe: '"Kurssin matriisi haettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -50,6 +55,14 @@ router.post('/create', async (req, res) => {
   res.status(200).json({
     message: messages.create[req.lang],
     created
+  })
+})
+
+router.get('/matrix/:id', async (req, res) => {
+  const data = await courseInstanceService.matrix(req.params.id, req.lang)
+  res.status(200).json({
+    message: messages.matrix[req.lang],
+    data
   })
 })
 

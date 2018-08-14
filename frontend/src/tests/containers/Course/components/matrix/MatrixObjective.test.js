@@ -1,11 +1,11 @@
 import React from 'react'
 import { MatrixObjective } from '../../../../../containers/Course/components/matrix/MatrixObjective'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
-import { findText } from '../../../../testUtils'
 
 const objective = {
   id: 1,
-  name: 'Test objective'
+  name: 'Test objective',
+  task_count: 0
 }
 
 describe('MatrixObjective component', () => {
@@ -23,6 +23,7 @@ describe('MatrixObjective component', () => {
       active={false}
       toggleObjective={toggleObjective}
       activeTaskId={null}
+      details={() => {}}
     />)
   })
 
@@ -69,44 +70,52 @@ describe('MatrixObjective component', () => {
     })
   })
 
-  describe('when activeTaskId is null', () => {
-    it('does not call toggleObjective prop when clicked.', () => {
-      wrapper.find('.objectiveButton').prop('onClick')()
-      expect(toggleObjective).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('when activeTaskId is not null', () => {
+  describe('when in task editing view', () => {
     beforeEach(() => {
       wrapper.setProps({
-        activeTaskId: 3
+        showDetails: true
       })
     })
 
-    it('calls toggleObjective prop when clicked.', () => {
-      wrapper.find('.objectiveButton').prop('onClick')()
-      expect(toggleObjective).toHaveBeenCalledWith({
-        task_id: 3,
-        objective_id: objective.id
-      })
-    })
-  })
-
-  describe('when not active', () => {
-    it('does not highlight button.', () => {
-      expect(wrapper.find('.objectiveButton').prop('active')).toEqual(false)
-    })
-  })
-
-  describe('when active', () => {
-    beforeEach(() => {
-      wrapper.setProps({
-        active: true
+    describe('when activeTaskId is null', () => {
+      it('does not call toggleObjective prop when clicked.', () => {
+        wrapper.find('.objectiveButton').prop('onClick')()
+        expect(toggleObjective).not.toHaveBeenCalled()
       })
     })
 
-    it('is coloured.', () => {
-      expect(wrapper.find('.objectiveButton').prop('active')).toEqual(true)
+    describe('when activeTaskId is not null', () => {
+      beforeEach(() => {
+        wrapper.setProps({
+          activeTaskId: 3
+        })
+      })
+
+      it('calls toggleObjective prop when clicked.', () => {
+        wrapper.find('.objectiveButton').prop('onClick')()
+        expect(toggleObjective).toHaveBeenCalledWith({
+          task_id: 3,
+          objective_id: objective.id
+        })
+      })
+    })
+
+    describe('when not active', () => {
+      it('does not highlight button.', () => {
+        expect(wrapper.find('.objectiveButton').prop('active')).toEqual(false)
+      })
+    })
+
+    describe('when active', () => {
+      beforeEach(() => {
+        wrapper.setProps({
+          active: true
+        })
+      })
+
+      it('is coloured.', () => {
+        expect(wrapper.find('.objectiveButton').prop('active')).toEqual(true)
+      })
     })
   })
 })

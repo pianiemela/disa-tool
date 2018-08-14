@@ -14,6 +14,11 @@ const messages = {
     eng: '"Oppimistavoite poistettu onnistuneesti." englanniksi.',
     fin: 'Oppimistavoite poistettu onnistuneesti.',
     swe: '"Oppimistavoite poistettu onnistuneesti." ruotsiksi.'
+  },
+  details: {
+    eng: '"Oppimistavoitteen tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Oppimistavoitteen tiedot haettu onnistuneesti.',
+    swe: '"Oppimistavoitteen tiedot haettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -73,6 +78,14 @@ router.delete('/:id', async (req, res) => {
   res.status(200).json({
     message: messages.delete[req.lang],
     deleted
+  })
+})
+
+router.get('/:id', async (req, res) => {
+  const data = await objectiveService.details(req.params.id, req.lang)
+  res.status(200).json({
+    message: messages.details[req.lang],
+    data
   })
 })
 

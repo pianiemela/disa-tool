@@ -22,7 +22,7 @@ router.put('/course_role', async (req, res) => {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
   }
   const updatedPersons = await personService.updatePersonRoleOnCourse(coursePersons)
-  res.status(200).json(updatedPersons)
+  res.status(200).json({ message: 'course teachers updated successfully', updatedPersons })
 })
 
 module.exports = router

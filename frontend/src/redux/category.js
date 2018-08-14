@@ -9,6 +9,11 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         categories: action.response.data.categories
       }
+    case 'COURSE_GET_MATRIX':
+      return {
+        ...state,
+        categories: action.response.data.categories
+      }
     case 'OBJECTIVE_CREATE':
       return {
         ...state,
@@ -85,6 +90,36 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           ...category,
           skill_levels: category.skill_levels
             .filter(level => level.id !== action.response.deleted.id)
+        }))
+      }
+    case 'TASK_ATTACH_OBJECTIVE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: category.skill_levels.map(level => ({
+            ...level,
+            objectives: level.objectives.map(objective => (
+              objective.id === action.response.created.objective_id ? {
+                ...objective,
+                task_count: objective.task_count + 1
+              } : objective))
+          }))
+        }))
+      }
+    case 'TASK_DETACH_OBJECTIVE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: category.skill_levels.map(level => ({
+            ...level,
+            objectives: level.objectives.map(objective => (
+              objective.id === action.response.deleted.objective_id ? {
+                ...objective,
+                task_count: objective.task_count - 1
+              } : objective))
+          }))
         }))
       }
     default:

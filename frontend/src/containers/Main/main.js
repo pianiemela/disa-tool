@@ -5,7 +5,9 @@ import { withRouter, Switch, Route } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
+import HomePage from '../Home/HomePage'
 import LoginPage from '../Login/LoginPage'
+import MatrixPage from '../Course/MatrixPage'
 import CoursePage from '../Course/CoursePage'
 import SelfAssesmentPage from '../SelfAssesment/SelfAssesmentPage'
 import SelfAssesmentForm from '../SelfAssesment/Userform/SelfAssesmentForm'
@@ -28,7 +30,6 @@ class Main extends PureComponent {
           position="top-center"
           autoClose={5000}
           hideProgressBar
-          closeButton={false}
         />
         <Switch>
           <Route exact path="/selfassesment/edit/:selfAssesmentId" render={({ match }) => <SelfAssesmentForm edit match={match} />} />
@@ -38,11 +39,13 @@ class Main extends PureComponent {
           <Route path="/selfassesment" component={SelfAssesmentPage} />
           <Route exact path="/user/course/:courseId" component={UserPage} />
           <Route exact path="/user" component={UserPage} />
+          <Route path="/course/matrix/:id" component={MatrixPage} />
           <Route path="/course/:id" component={CoursePage} />
           <Route path="/tasks-responses/upload/:courseId" component={UploadResponsesPage} />
           <Route exact path="/courses" component={CourseListPage} />
           <Route exact path="/courses/create" component={CreateCoursePage} />
-          <Route component={LoginPage} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route component={HomePage} />
         </Switch>
       </main>
     )

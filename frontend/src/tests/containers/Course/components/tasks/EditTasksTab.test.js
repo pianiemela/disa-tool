@@ -13,6 +13,7 @@ describe('EditTasksTab component', () => {
     wrapper = shallow(<EditTasksTab
       courseId={1}
       changeActive={changeActive}
+      tasks={[]}
     />)
   })
 

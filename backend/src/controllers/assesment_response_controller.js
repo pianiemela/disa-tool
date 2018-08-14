@@ -29,9 +29,13 @@ router.get('/:selfAssesmentId', async (req, res) => {
     let data = await assementResponseService.getOne(user, selfAssesmentId)
     data = data.toJSON()
     data.response = JSON.parse(data.response)
+<<<<<<< HEAD
     res.status(200).json({
       data
     })
+=======
+    res.status(200).json({ data })
+>>>>>>> 800718889d8eae0eace1b5bbce5dc82fc7f51310
 
   } catch (error) {
     res.status(500).json({
