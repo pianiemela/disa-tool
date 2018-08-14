@@ -12,7 +12,7 @@ import {
   toggleCourseActivityAction,
   postTaskResponseActions,
   updateCoursePersonRoleAction,
-  toggleAssessmentOpenAction
+  toggleAssessmentAction
 } from '../../actions/actions'
 import { CoursePeopleList } from './CoursePeopleList'
 import { CourseSideMenu } from './CourseSideMenu'
@@ -85,8 +85,17 @@ class UserPage extends Component {
     selectedType: this.state.selectedType === type ? undefined : type
   })
 
-  toggleAssessmentOpen = (e, { value }) => {
-    this.props.dispatchToggleAssessmentOpen(value)
+  toggleAssessment = (e, { value }) => {
+    switch (e.target.name) {
+      case 'assessmentOpen':
+        this.props.dispatchToggleAssessment(value, 'open')
+        break
+      case 'assessmentActive':
+        this.props.dispatchToggleAssessment(value, 'active')
+        break
+      default:
+        console.log('Something went wrong here now')
+    }
   }
 
   markTask = async (e, { task, person }) => {
@@ -235,31 +244,45 @@ class UserPage extends Component {
                         <Header as="h3">Itsearvioinnit</Header>
                         <List selection size="big">
                           {assessments.map(assessment => (
-                            <List.Item
-                              key={assessment.id}
-                            >
-                              <List.Content
-                                as={Link}
-                                to={`/selfAssesment/response/${assessment.id}`}
+                            !assessment.active && activeCourse.courseRole !== 'TEACHER' ? undefined : (
+                              <List.Item
+                                key={assessment.id}
                               >
-                                {assessment.name}
-                              </List.Content>
-                              <List.Content floated="right">
-                                {activeCourse.courseRole === 'TEACHER' ?
-                                  <Button
-                                    color={assessment.open ? 'green' : 'red'}
-                                    compact
-                                    content={assessment.open ? 'avoin' : 'suljettu'}
-                                    size="small"
-                                    value={assessment.id}
-                                    onClick={this.toggleAssessmentOpen}
-                                  /> :
-                                  <Label
-                                    color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}
-                                  >{assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}
-                                  </Label>}
-                              </List.Content>
-                            </List.Item>
+                                <List.Content
+                                  as={Link}
+                                  to={`/selfAssesment/response/${assessment.id}`}
+                                >
+                                  {assessment.name}
+                                </List.Content>
+                                <List.Content floated="right">
+                                  {activeCourse.courseRole === 'TEACHER' ?
+                                    <div>
+                                      <Button
+                                        name="assessmentActive"
+                                        color={assessment.active ? 'green' : 'red'}
+                                        compact
+                                        content={assessment.active ? 'näkyvillä' : 'piilotettu'}
+                                        size="small"
+                                        value={assessment.id}
+                                        onClick={this.toggleAssessment}
+                                      />
+                                      <Button
+                                        name="assessmentOpen"
+                                        color={assessment.open ? 'green' : 'red'}
+                                        compact
+                                        content={assessment.open ? 'avoin' : 'suljettu'}
+                                        disabled={!assessment.active}
+                                        size="small"
+                                        value={assessment.id}
+                                        onClick={this.toggleAssessment}
+                                      />
+                                    </div> :
+                                    <Label
+                                      color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}
+                                    >{assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}
+                                    </Label>}
+                                </List.Content>
+                              </List.Item>)
                           ))}
                         </List>
                       </Item.Content>
@@ -341,8 +364,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateCoursePersonRoleAction(coursePersons)),
   dispatchPostTaskResponses: tasks =>
     dispatch(postTaskResponseActions(tasks)),
-  dispatchToggleAssessmentOpen: assessmentId =>
-    dispatch(toggleAssessmentOpenAction(assessmentId))
+  dispatchToggleAssessment: (assessmentId, attribute) =>
+    dispatch(toggleAssessmentAction(assessmentId, attribute))
 })
 
 const mapStateToProps = state => ({

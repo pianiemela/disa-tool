@@ -1,5 +1,5 @@
 import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity, updateCoursePersonRole } from '../api/courses'
-import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse, toggleAssessmentOpen } from '../api/selfassesment'
+import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse, toggleAssessment } from '../api/selfassesment'
 import { getUser } from '../api/persons'
 import { postTaskResponses } from '../api/tasks'
 import { login } from '../api/login'
@@ -195,20 +195,20 @@ export const toggleCourseActivityAction = courseId => async (dispatch) => {
   }
 }
 
-export const toggleAssessmentOpenAction = assessmentId => async (dispatch) => {
+export const toggleAssessmentAction = (assessmentId, attribute) => async (dispatch) => {
   dispatch({
-    type: 'SELF_ASSESSMENT_TOGGLE_OPEN_ATTEMPT',
+    type: 'SELF_ASSESSMENT_TOGGLE_ATTEMPT',
     payload: assessmentId
   })
   try {
-    const { data } = await toggleAssessmentOpen(assessmentId)
+    const { data } = await toggleAssessment(assessmentId, { attribute })
     dispatch({
-      type: 'SELF_ASSESSMENT_TOGGLE_OPEN_SUCCESS',
+      type: 'SELF_ASSESSMENT_TOGGLE_SUCCESS',
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'SELF_ASSESSMENT_TOGGLE_OPEN_FAILURE',
+      type: 'SELF_ASSESSMENT_TOGGLE_FAILURE',
       payload: e.response
     })
   }

@@ -82,11 +82,12 @@ router.put('/update/:id', async (req, res) => {
   })
 })
 
-router.put('/toggle-open/:id', async (req, res) => {
+router.put('/toggle/:id', async (req, res) => {
   const { id } = req.params
-  const assessment = await selfAssesmentService.toggleAssessmentOpen(id)
+  const { attribute } = req.body
+  const assessment = await selfAssesmentService.toggleAssessment(id, attribute)
   return res.status(200).json({
-    message: `Self assesment is now ${assessment.open ? 'open' : 'closed'}`,
+    message: `Self assesment property ${attribute} is now ${assessment[attribute] ? 'enabled' : 'disabled'}`,
     assessment
   })
 })
