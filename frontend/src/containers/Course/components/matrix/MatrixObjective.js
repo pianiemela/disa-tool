@@ -22,6 +22,17 @@ export class MatrixObjective extends Component {
     }
   }
 
+  componentDidUpdate(oldProps) {
+    if (oldProps.lastTypeChange !== this.props.lastTypeChange) {
+      if (this.state.triggered) {
+        this.setState({
+          triggered: false,
+          loading: true
+        })
+      }
+    }
+  }
+
   toggleObjective = () => {
     if (this.props.activeTaskId !== null) {
       this.props.toggleObjective({
@@ -41,7 +52,7 @@ export class MatrixObjective extends Component {
     const objectiveDetails = (await this.props.details({ id: this.props.objective.id })).data.data
     let cumMultiplier = 0
     objectiveDetails.tasks.forEach((task) => {
-      cumMultiplier += task.type_multiplier * task.task_multiplier
+      cumMultiplier += task.multiplier
     })
     this.setState({
       cumulative_multiplier: cumMultiplier,
@@ -104,7 +115,7 @@ export class MatrixObjective extends Component {
                               {task.name}
                             </strong>
                             <span>
-                              : {(task.type_multiplier * task.task_multiplier).toFixed(2)}
+                              : {(Number(task.multiplier)).toFixed(2)}
                             </span>
                           </p>
                         </div>
@@ -156,6 +167,10 @@ MatrixObjective.defaultProps = {
   showDetails: false
 }
 
+const mapStateToProps = state => ({
+  lastTypeChange: state.task.lastTypeChange
+})
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
   removeObjective: asyncAction(removeObjective, dispatch),
   toggleObjective: ownProps.active ? (
@@ -166,4 +181,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   details
 })
 
-export default connect(null, mapDispatchToProps)(MatrixObjective)
+export default connect(mapStateToProps, mapDispatchToProps)(MatrixObjective)

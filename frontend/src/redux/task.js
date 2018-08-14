@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   tasks: [],
-  active: null
+  active: null,
+  lastTypeChange: null
 }
 
 const detachObjectiveFromMany = (state, action) => {
@@ -106,7 +107,8 @@ const detachOneType = (state, action) => ({
       }
     }
     return task
-  })
+  }),
+  lastTypeChange: new Date()
 })
 
 const attachType = (state, action) => ({
@@ -123,7 +125,8 @@ const attachType = (state, action) => ({
       }
     }
     return task
-  })
+  }),
+  lastTypeChange: new Date()
 })
 
 const taskReducer = (state = INITIAL_STATE, action) => {
