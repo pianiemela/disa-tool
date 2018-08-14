@@ -108,7 +108,7 @@ export class SelfAssesmentForm extends React.Component {
     let fGrade = []
     let fResponse = []
     const grade = questionModuleResponses.filter(qm => !qm.grade)
-    const responseText = questionModuleResponses.filter(qm => qm.responseText === '')
+    const responseText = questionModuleResponses.filter(qm => qm.responseText === '' && qm.textFieldOn)
     if (Object.keys(finalGradeResponse).length > 0) {
       fGrade = !finalGradeResponse.grade ? [...fGrade, finalGradeResponse] : []
       fResponse = finalGradeResponse.responseText === '' ? [...fResponse, finalGradeResponse] : []

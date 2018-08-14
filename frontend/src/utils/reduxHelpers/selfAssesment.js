@@ -117,6 +117,7 @@ export const initResponseForm = (data) => {
         response.questionModuleResponses.push({
           id: qm.id,
           responseText: '',
+          textFieldOn: qm.textFieldOn,
           grade: null,
           name: qm.name
         }) : null))
