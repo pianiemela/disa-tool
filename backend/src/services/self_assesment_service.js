@@ -102,11 +102,18 @@ const getOne = selfAssesmentId => (
   })
 )
 
+const toggleAssessmentOpen = async (id) => {
+  const assessment = await SelfAssessment.findById(id)
+  assessment.open = !assessment.open
+  return assessment.save({ returning: true })
+}
+
 
 module.exports = {
   addSelfAssesment,
   getUserSelfAssesments,
   getAssesmentsForCourse,
   updateSelfAssesment,
-  getOne
+  getOne,
+  toggleAssessmentOpen
 }

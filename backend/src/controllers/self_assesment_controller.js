@@ -82,6 +82,15 @@ router.put('/update/:id', async (req, res) => {
   })
 })
 
+router.put('/toggle-open/:id', async (req, res) => {
+  const { id } = req.params
+  const assessment = await selfAssesmentService.toggleAssessmentOpen(id)
+  return res.status(200).json({
+    message: `Self assesment is now ${assessment.open ? 'open' : 'closed'}`,
+    assessment
+  })
+})
+
 const destructureNamesAndInstructions = (createFormData, formInfo) => {
   const withNamesAndInstructions = createFormData
   formInfo.forEach((forminfoType) => {

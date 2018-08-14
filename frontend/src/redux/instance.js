@@ -10,6 +10,13 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
       const newAssessments = oldAssesments.map(oA => (oA.id === data.self_assessment_id ? toReplace : oA))
       return { ...state, self_assessments: newAssessments }
     }
+    case 'SELF_ASSESSMENT_TOGGLE_OPEN_SUCCESS': {
+      const { assessment } = action.payload
+      const selfAssessments = [...state.self_assessments]
+      const oldAssessment = selfAssessments.find(old => old.id === assessment.id)
+      oldAssessment.open = assessment.open
+      return { ...state, self_assessments: selfAssessments }
+    }
     case 'COURSES_GET_INSTANCE_DATA_FAILURE':
       return state
     case 'COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS':

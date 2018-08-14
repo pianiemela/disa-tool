@@ -1,5 +1,5 @@
-import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity } from '../api/courses'
-import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse } from '../api/selfassesment'
+import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity, updateCoursePersonRole } from '../api/courses'
+import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse, toggleAssessmentOpen } from '../api/selfassesment'
 import { getUser } from '../api/persons'
 import { postTaskResponses } from '../api/tasks'
 import { login } from '../api/login'
@@ -179,7 +179,7 @@ export const getCourseInstanceDataAction = courseId => async (dispatch) => {
 export const toggleCourseActivityAction = courseId => async (dispatch) => {
   dispatch({
     type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_ATTEMPT',
-    payload: ''
+    payload: courseId
   })
   try {
     const { data } = await toggleCourseInstanceActivity(courseId)
@@ -190,6 +190,25 @@ export const toggleCourseActivityAction = courseId => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
+export const toggleAssessmentOpenAction = assessmentId => async (dispatch) => {
+  dispatch({
+    type: 'SELF_ASSESSMENT_TOGGLE_OPEN_ATTEMPT',
+    payload: assessmentId
+  })
+  try {
+    const { data } = await toggleAssessmentOpen(assessmentId)
+    dispatch({
+      type: 'SELF_ASSESSMENT_TOGGLE_OPEN_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'SELF_ASSESSMENT_TOGGLE_OPEN_FAILURE',
       payload: e.response
     })
   }
@@ -256,6 +275,25 @@ export const postTaskResponseActions = tasks => async (dispatch) => {
   } catch (e) {
     dispatch({
       type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
+export const updateCoursePersonRoleAction = coursePersons => async (dispatch) => {
+  dispatch({
+    type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_ATTEMPT',
+    payload: coursePersons
+  })
+  try {
+    const { data } = await updateCoursePersonRole(coursePersons)
+    dispatch({
+      type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_FAILURE',
       payload: e.response
     })
   }
