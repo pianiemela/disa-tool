@@ -377,13 +377,14 @@ router.put('/:id', async (req, res) => {
 })
 
 router.post('/objectives/edit', async (req, res) => {
-  const [toEdit, task] = await taskService.editTaskObjectives.prepare(req.body)
-  if (!await checkPrivilege(req, [
-    {
-      key: 'teacher_on_course',
-      param: task.dataValues.course_instance_id
-    }
-  ])) {
+  const [toEdit, task, objectives] = await taskService.editTaskObjectives.prepare(req.body)
+  if (objectives.length < req.body.objectives.length
+    || !await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: task.dataValues.course_instance_id
+      }
+    ])) {
     res.status(403).json({
       error: errors.privilege[req.lang]
     })
