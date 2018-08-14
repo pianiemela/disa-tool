@@ -22,7 +22,7 @@ class MatrixPage extends Component {
     }
     return (
       <div className="MatrixPage">
-        <CourseHeader />
+        <CourseHeader renderReturnLink={false} />
         <Matrix courseId={this.props.courseId} editing={false} />
       </div>
     )
