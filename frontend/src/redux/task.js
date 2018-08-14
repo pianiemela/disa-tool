@@ -181,11 +181,14 @@ const taskReducer = (state = INITIAL_STATE, action) => {
         ...state,
         tasks: state.tasks.map(task => (task.id === action.response.edited.task_id ? {
           ...task,
-          objectives: task.objectives.map(objective => ({
-            ...objective,
-            multiplier: action.response.edited.task_objectives
-              .find(to => to.objective_id === objective.id).multiplier
-          }))
+          objectives: task.objectives.map((objective) => {
+            const editedObjective = action.response.edited.task_objectives
+              .find(to => to.objective_id === objective.id)
+            return editedObjective ? {
+              ...objective,
+              multiplier: editedObjective.multiplier
+            } : objective
+          })
         } : task)),
         lastMultiplierUpdate: new Date()
       }

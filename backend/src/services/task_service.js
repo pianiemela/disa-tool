@@ -282,7 +282,7 @@ const editTaskObjectives = {
   execute: (instances, data) => Promise.all(instances.map((instance) => {
     const dataObjective = data.objectives.find(objective => objective.id === instance.dataValues.objective_id)
     instance.update({
-      multiplier: dataObjective.multiplier,
+      multiplier: Number(dataObjective.multiplier),
       modified: dataObjective.modified
     })
   })),

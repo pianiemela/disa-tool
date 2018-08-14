@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Form, Input, Label } from 'semantic-ui-react'
+import { Button, Form, Input, Label, Container } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { editTaskObjectives } from '../../actions/tasks'
@@ -17,11 +17,28 @@ class EditTaskObjectivesForm extends Component {
           ...acc,
           [curr.id]: {
             multiplier: curr.multiplier,
-            modified: true
+            modified: null
           }
         }),
         {}
       )
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.taskId !== this.props.taskId) {
+      this.setState({
+        values: newProps.objectives.reduce(
+          (acc, curr) => ({
+            ...acc,
+            [curr.id]: {
+              multiplier: curr.multiplier,
+              modified: null
+            }
+          }),
+          {}
+        )
+      })
     }
   }
 
@@ -35,13 +52,22 @@ class EditTaskObjectivesForm extends Component {
     }
   })
 
-  editTaskObjectivesSubmit = e => this.props.editTaskObjectives({
+  changeModified = (id, modified) => () => this.setState({
+    values: {
+      ...this.state.values,
+      [id]: {
+        ...this.state.values[id],
+        modified
+      }
+    }
+  })
+
+  editTaskObjectivesSubmit = () => this.props.editTaskObjectives({
     task_id: this.props.taskId,
     objectives: this.props.objectives.map(objective => ({
-      id: objective.id,
-      multiplier: e.target[`objective ${objective.id}`].value,
-      modified: true
-    }))
+      ...this.state.values[objective.id],
+      id: objective.id
+    })).filter(objective => objective.modified !== null)
   })
 
   render() {
@@ -54,19 +80,50 @@ class EditTaskObjectivesForm extends Component {
             <div>
               {this.props.objectives.map(objective => (
                 <Form.Field key={objective.id}>
-                  <Label>{objective.name}</Label>
-                  <Input
-                    value={this.state.values[objective.id].multiplier}
-                    onChange={this.changeMultiplier(objective.id)}
-                    name={`objective ${objective.id}`}
-                    type="number"
-                    min={0}
-                    max={1}
-                    step={0.01}
-                  />
+                  <Container>
+                    <Label basic>{objective.name}</Label>
+                  </Container>
+                  <Container>
+                    <Button.Group size="small">
+                      <Button
+                        type="button"
+                        content="Pidä ennallaan"
+                        toggle
+                        active={this.state.values[objective.id].modified === null}
+                        onClick={this.changeModified(objective.id, null)}
+                      />
+                      <Button.Or text="tai" />
+                      <Button
+                        type="button"
+                        content="Palauta oletusarvoon"
+                        toggle
+                        active={this.state.values[objective.id].modified === false}
+                        onClick={this.changeModified(objective.id, false)}
+                      />
+                      <Button.Or text="tai" />
+                      <Button
+                        type="button"
+                        content="Muuta"
+                        toggle
+                        active={this.state.values[objective.id].modified === true}
+                        onClick={this.changeModified(objective.id, true)}
+                      />
+                    </Button.Group>
+                    <Input
+                      value={this.state.values[objective.id].multiplier}
+                      onChange={this.changeMultiplier(objective.id)}
+                      name={`objective ${objective.id}`}
+                      type="number"
+                      min={0}
+                      max={1}
+                      step={0.01}
+                      disabled={!this.state.values[objective.id].modified}
+                      style={{ width: '100px' }}
+                    />
+                  </Container>
                 </Form.Field>
               ))}
-              <Button color="green">Tallenna</Button>
+              <Button color="blue">Tallenna</Button>
             </div>
           }
           onSubmit={this.editTaskObjectivesSubmit}
