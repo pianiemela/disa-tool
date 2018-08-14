@@ -19,12 +19,12 @@ router.get('/:selfAssesmentId', async (req, res) => {
         }
       ]
     )
-    if (!hasPrivilege) {
-      return res.status(403).json({
-        toast: errors.privilege.toast,
-        error: errors.privilege
-      })
-    }
+    // if (!hasPrivilege) {
+    //   return res.status(403).json({
+    //     toast: errors.privilege.toast,
+    //     error: errors.unexpected[req.lang]
+    //   })
+    // }
     const user = await checkAuth(req)
     let data = await assementResponseService.getOne(user, selfAssesmentId)
     data = data.toJSON()
@@ -56,7 +56,7 @@ router.post('/', async (req, res) => {
     if (!hasPrivilege) {
       return res.status(403).json({
         toast: errors.privilege.toast,
-        error: errors.privilege
+        error: errors.unexpected[req.lang]
       })
     }
 
@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
     response = response.toJSON()
     response.response = JSON.parse(response.response)
     res.status(200).json({
-      message: 'hyvin meni',
+      message: 'Self assessment response saved successfully!',
       data: response
     })
   } catch (error) {
