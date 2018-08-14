@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Label, Popup, Header, Loader } from 'semantic-ui-react'
+import { Button, Label, Popup, Header, Loader, Segment } from 'semantic-ui-react'
 import MathJax from 'react-mathjax-preview'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -52,20 +52,29 @@ export class MatrixObjective extends Component {
 
   render() {
     return (
-      <div className="MatrixObjective">
+      <div className="MatrixObjective flexContainer">
         <div className="objectiveBlock flexContainer">
-          <Button
-            className="objectiveButton"
-            toggle
-            active={this.props.active}
-            compact
-            basic
-            fluid
-            style={{ borderRadius: '0px' }}
-            onClick={this.toggleObjective}
-          >
-            <MathJax math={this.props.objective.name} />
-          </Button>
+          {this.props.showDetails ? (
+            <Button
+              className="objectiveButton"
+              toggle
+              active={this.props.active}
+              compact
+              basic
+              fluid
+              style={{ borderRadius: '0px' }}
+              onClick={this.toggleObjective}
+            >
+              <MathJax math={this.props.objective.name} />
+            </Button>
+          ) : (
+            <Segment
+              className="objectiveSegment"
+              style={{ borderRadius: '0px' }}
+            >
+              <MathJax math={this.props.objective.name} />
+            </Segment>
+          )}
           {this.props.showDetails ? (
             <div>
               <Popup
