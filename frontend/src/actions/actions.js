@@ -11,8 +11,8 @@ export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
     type: 'GET_ASSESMENT_RESPONSE_ATTEMPT',
     payload: ''
   })
-  const { data } = await getSelfAssesmentResponse(assesmentId)
   try {
+    const { data } = await getSelfAssesmentResponse(assesmentId)
     dispatch({
       type: 'GET_ASSESMENT_RESPONSE_SUCCESS',
       payload: data

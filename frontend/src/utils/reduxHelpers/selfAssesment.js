@@ -128,19 +128,19 @@ export const initResponseForm = (data) => {
           name: qmO.name,
           header: qm.name
         })))
+  }
 
-    questions.map(q =>
-      response.openQuestionResponses.push({
-        id: q.id,
-        responseText: '',
-        name: q.name
-      }))
-
-    response.finalGradeResponse = {
+  questions.map(q =>
+    response.openQuestionResponses.push({
+      id: q.id,
       responseText: '',
-      grade: null,
-      headers: data.structure.finalGrade.headers
-    }
+      name: q.name
+    }))
+
+  response.finalGradeResponse = {
+    responseText: '',
+    grade: null,
+    headers: finalGrade.headers
   }
   return response
 }

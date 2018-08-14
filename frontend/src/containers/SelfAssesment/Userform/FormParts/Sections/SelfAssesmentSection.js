@@ -35,42 +35,51 @@ export class SelfAssesmentSection extends React.Component {
       edit,
       QuestionModule,
       formData,
-      headers } = this.props
+      headers,
+      errors,
+      clearError } = this.props
+
+    const { responseText, grade } = errors
     const { editHeaders } = this.state
     let header = this.props.headers[0].value
     let headerEditForm = null
+    let renderModules = null
 
     // If we are in edit form, show all the question modules despite their status of being included in the assessment
 
-    const editQuestionModules = (
-      (formData.map(questionModules =>
-        (<QuestionModule
-          key={questionModules.id}
-          data={questionModules}
-          edit={edit}
-          final={final}
-        />)))
-    )
-
-    /*
-    If we are in the response form, show just the modules that are included in the assesment.
-     The question boolean tells if we are dealing with open question modules.
-     In that case just show them all, since those modules don't have an includedInAssesment boolean
-     so the ternary would default to false and we'd never see them in the response form
-    */
-    const responseQuestionModules = (
-      (formData.map(questionModules =>
-        (questionModules.includedInAssesment || question ?
+    if (edit) {
+      renderModules = (
+        (formData.map(questionModules =>
           (<QuestionModule
             key={questionModules.id}
             data={questionModules}
             edit={edit}
             final={final}
-          />)
-          :
-          null
-        ))))
-
+          />)))
+      )
+    } else {
+      /*
+    If we are in the response form, show just the modules that are included in the assesment.
+     The question boolean tells if we are dealing with open question modules.
+     In that case just show them all, since those modules don't have an includedInAssesment boolean
+     so the ternary would default to false and we'd never see them in the response form
+    */
+      renderModules =
+        (formData.map(questionModules =>
+          (questionModules.includedInAssesment || question ?
+            (<QuestionModule
+              key={questionModules.id}
+              data={questionModules}
+              edit={edit}
+              final={final}
+              gradeError={final ? grade[0] : grade.find(e => e.id === questionModules.id)}
+              responseTextError={final ? responseText[0] : responseText.find(e => e.id === questionModules.id)}
+              clearError={clearError}
+            />)
+            :
+            null
+          )))
+    }
 
     if (final && edit) {
       header =
@@ -115,10 +124,8 @@ export class SelfAssesmentSection extends React.Component {
               {headerEditForm}
             </Card.Description>
             <Form>
-              {edit ?
-                editQuestionModules :
-                responseQuestionModules
-              }
+              {renderModules}
+
               {question && edit ?
                 <AddOpenQuestion />
                 :
@@ -136,7 +143,8 @@ export class SelfAssesmentSection extends React.Component {
 SelfAssesmentSection.defaultProps = {
   question: false,
   final: false,
-  headerType: null
+  headerType: null,
+  errors: { grade: [], responseText: [] }
 }
 
 SelfAssesmentSection.propTypes = {
@@ -150,7 +158,12 @@ SelfAssesmentSection.propTypes = {
   final: PropTypes.bool,
   dispatchHeaderChange: PropTypes.func.isRequired,
   headers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  headerType: PropTypes.string
+  headerType: PropTypes.string,
+  clearError: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    responseText: PropTypes.arrayOf(PropTypes.shape()),
+    grade: PropTypes.arrayOf(PropTypes.shape())
+  })
 }
 
 const mapDispatchToProps = dispatch => ({
