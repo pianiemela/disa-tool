@@ -56,7 +56,7 @@ class EditTaskObjectivesForm extends Component {
     values: {
       ...this.state.values,
       [id]: {
-        ...this.state.values[id],
+        multiplier: modified === false ? this.props.defaultMultiplier : this.state.values[id].multiplier,
         modified
       }
     }
@@ -140,7 +140,8 @@ EditTaskObjectivesForm.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     multiplier: PropTypes.number.isRequired
-  })).isRequired
+  })).isRequired,
+  defaultMultiplier: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -164,7 +165,8 @@ const mapStateToProps = (state, ownProps) => {
     )
   return {
     taskId: ownProps.taskId,
-    objectives
+    objectives,
+    defaultMultiplier: state.task.tasks.find(task => task.id === ownProps.taskId).defaultMultiplier
   }
 }
 
