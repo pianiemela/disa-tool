@@ -141,14 +141,18 @@ export class CategoryQuestionModule extends React.Component {
                             error={responseTextError !== undefined}
                             label="Perustelut arvosanalle"
                             placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
-                            onChange={(e) => {
+                            onBlur={!edit ? e =>
                               this.props.dispatchTextfieldResponseAction({
                                 id,
                                 value: e.target.value,
                                 final
                               })
+                              :
+                              null}
+                            onChange={!edit ? () =>
                               this.props.clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id })
-                            }
+                              :
+                              null
                             }
                           />
                           :

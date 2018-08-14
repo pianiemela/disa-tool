@@ -40,9 +40,10 @@ export class SelfAssesmentForm extends React.Component {
         finalGErrors:
           { grade: [], responseText: [] },
         openQErrors: {
-          responseText: []
+          responseText: [], grade: []
         }
-      }
+      },
+      validationMessage: ''
     }
   }
 
@@ -87,11 +88,11 @@ export class SelfAssesmentForm extends React.Component {
     await this.props.dispatchUpdateSelfAssesmentAction(formData)
   }
 
-  clearError = async (types) => {
+  clearError = (types) => {
     const newE = { ...this.state.responseErrors }
     const { type, errorType, id } = types
 
-    if (type === 'qModErrors' ||  'openQErrors') {
+    if (type === 'qModErrors' || 'openQErrors') {
       newE[type][errorType] = newE[type][errorType].filter(error => error.id !== id)
     }
 
@@ -112,8 +113,13 @@ export class SelfAssesmentForm extends React.Component {
     fResponse = finalGradeResponse.responseText === '' ? [...fResponse, finalGradeResponse] : []
     const openQErrors = openQuestionResponses.filter(oq => oq.responseText === '')
 
-    if (grade.length > 0 || responseText.length > 0 || fGrade.lenght > 0 || fResponse.length > 0 || openQErrors.length > 0) {
-      await this.setState({
+    if (
+      grade.length > 0
+      || responseText.length > 0
+      || fGrade.lenght > 0
+      || fResponse.length > 0
+      || openQErrors.length > 0) {
+      this.setState({
         responseErrors:
         {
           ...this.state.responseErrors,
@@ -127,15 +133,16 @@ export class SelfAssesmentForm extends React.Component {
             responseText: fResponse
           },
           qModErrors: { ...this.state.responseErrors.qModErrors, grade, responseText }
-        }
+        },
+        validationMessage: 'Et vastannut kaikkiin kysymyksiin, tarkista merkityt kohdat'
       })
+      window.scrollTo(0, 0)
       return true
     }
     return false
   }
 
   handleResponse = async () => {
-    console.log('nanigh')
     const e = await this.checkResponseErrors()
     if (e) {
       return
@@ -171,10 +178,12 @@ export class SelfAssesmentForm extends React.Component {
       const { responseErrors } = this.state
 
       if (this.props.assesmentResponse.existingAnswer) {
-        return (<UserResultsPage
-          assesmentResponse={this.props.assesmentResponse}
-          formInfo={this.props.formData}
-        />)
+        return (
+          <UserResultsPage
+            assesmentResponse={this.props.assesmentResponse}
+            formInfo={this.props.formData}
+          />
+        )
       }
       if (!edit) {
         submitFunction = this.handleResponse
@@ -190,6 +199,11 @@ export class SelfAssesmentForm extends React.Component {
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
             {this.state.preview ?
               <Message style={{ textAlign: 'center' }} color="green">Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan</Message>
+              :
+              null
+            }
+            {this.state.validationMessage ?
+              <Message style={{ textAlign: 'center' }} color="red">{this.state.validationMessage}</Message>
               :
               null
             }
@@ -240,6 +254,7 @@ export class SelfAssesmentForm extends React.Component {
                 QuestionModule={OpenQuestionModule}
                 question
                 errors={responseErrors.openQErrors}
+                clearError={this.clearError}
               />
               :
               null
@@ -322,7 +337,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 SelfAssesmentForm.defaultProps = {
-  formData: {} || []
+  formData: {} || [],
+  new: false
 }
 
 
@@ -331,7 +347,7 @@ SelfAssesmentForm.propTypes = {
   edit: PropTypes.bool.isRequired,
   dispatchCreateFormAction: PropTypes.func.isRequired,
   dispatchUpdateSelfAssesmentAction: PropTypes.func.isRequired,
-  new: PropTypes.bool.isRequired,
+  new: PropTypes.bool,
   dispatchInitNewFormAction: PropTypes.func.isRequired,
   dispatchGetAssesmentResponseAction: PropTypes.func.isRequired,
   dispatchGetSelfAssesmentAction: PropTypes.func.isRequired,

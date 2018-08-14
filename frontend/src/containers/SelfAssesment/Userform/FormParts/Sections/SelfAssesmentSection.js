@@ -72,7 +72,7 @@ export class SelfAssesmentSection extends React.Component {
               data={questionModules}
               edit={edit}
               final={final}
-              gradeError={final ? grade[0] : question ? null : grade.find(e => e.id === questionModules.id)}
+              gradeError={final ? grade[0] : grade.find(e => e.id === questionModules.id)}
               responseTextError={final ? responseText[0] : responseText.find(e => e.id === questionModules.id)}
               clearError={clearError}
             />)
@@ -159,7 +159,11 @@ SelfAssesmentSection.propTypes = {
   dispatchHeaderChange: PropTypes.func.isRequired,
   headers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   headerType: PropTypes.string,
-  errors: PropTypes.shape(PropTypes.arrayOf())
+  clearError: PropTypes.func.isRequired,
+  errors: PropTypes.shape({
+    responseText: PropTypes.arrayOf(PropTypes.shape()),
+    grade: PropTypes.arrayOf(PropTypes.shape())
+  })
 }
 
 const mapDispatchToProps = dispatch => ({
