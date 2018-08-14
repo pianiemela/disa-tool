@@ -91,7 +91,7 @@ SelfAssesmentPage.propTypes = {
   courses: PropTypes.arrayOf(PropTypes.shape()),
   match: PropTypes.shape({
     params: PropTypes.shape({
-      courseId: PropTypes.number
+      courseId: PropTypes.string
     }).isRequired
   }).isRequired,
   selfAssesments: PropTypes.arrayOf(PropTypes.shape()),

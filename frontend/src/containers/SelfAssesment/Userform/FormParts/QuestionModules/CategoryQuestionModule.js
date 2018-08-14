@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import UpOrDownToggle from '../UpOrDownToggle'
 import { gradeCategoryAction, textfieldResponseAction, toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
 import MultiLangInput from '../MultiLangInput'
-import { gradeOptions } from '../../../grades'
+import { gradeOptions } from '../../../utils'
 
 export class CategoryQuestionModule extends React.Component {
   constructor(props) {
@@ -25,14 +25,14 @@ export class CategoryQuestionModule extends React.Component {
   }
 
   render() {
-    const { edit, final } = this.props
+    const { edit, final, responseTextError, gradeError, clearError } = this.props
     const { name, textFieldOn, id, includedInAssesment } = this.props.data
+
     let disabled = false
     let headercolor = 'black'
     let buttonColor = 'green'
     let buttonText = 'Mukana itsearviossa'
     const { headers } = this.props.data
-
 
     if (!includedInAssesment) {
       disabled = true
@@ -76,99 +76,114 @@ export class CategoryQuestionModule extends React.Component {
     return (
       <div className="CategoryQuestion">
         <Form.Field>
-          <Card fluid>
-            <Card.Content>
-              <Card.Header style={{ color: headercolor }}>
-                {final ?
-                  finalGradeHeader
-                  :
-                  name
-                }
-              </Card.Header>
-              <Card.Description>
-                {finalGradeEdit}
-              </Card.Description>
-              <Grid verticalAlign="middle" padded columns={3}>
-                <Grid.Row >
-                  <Form.Field width={10}>
-                    <Grid.Column>
-                      {!edit ?
-                        <div>
-                          <label> Arvioi osaamisesi asteikolla 1-5</label>
-                          <Dropdown
-                            style={{ marginLeft: '20px' }}
-                            placeholder="Valitse arvosana"
-                            selection
-                            options={gradeOptions}
-                            onChange={!edit ? (e, { value }) => this.props.dispatchGradeCategoryAction({ id, value, final }) : null}
-                          />
-                        </div>
-                        :
-                        null
-                      }
-
-                    </Grid.Column>
-                  </Form.Field>
-
-                  <Grid.Column>
-                    {edit ?
-                      <Button
-                        className="toggleFormPartButton"
-                        size="large"
-                        basic
-                        color={buttonColor}
-                        onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
-                      >
-                        {buttonText}
-                      </Button>
-                      :
-                      null
-                    }
-                  </Grid.Column>
-
-                </Grid.Row>
-                <Grid.Row >
-                  <Form.Field disabled={disabled} width={10}>
-                    <Grid.Column>
-                      {!edit && textFieldOn ?
-                        <Form.TextArea
-                          autoHeight
-                          label="Perustelut arvosanalle"
-                          placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
-                          onChange={e => this.props.dispatchTextfieldResponseAction({
-                            id,
-                            value: e.target.value,
-                            final
-                          })}
-                        />
-                        :
-                        null
-                      }
-                      {edit && !final ?
-                        <Checkbox
-                          defaultChecked={textFieldOn}
-                          onChange={() => this.props.dispatchTextFieldOnOff(id)}
-                          label="Perustelut arvosanalle"
-                        />
-                        :
-                        null
-                      }
-                    </Grid.Column>
-                  </Form.Field>
-
-                  {final || !edit ?
-                    null
+          <div>
+            <Card fluid>
+              <Card.Content >
+                <Card.Header style={{ color: headercolor }}>
+                  {final ?
+                    finalGradeHeader
                     :
-                    <Grid.Column>
-                      <Form.Field disabled={disabled}>
-                        <UpOrDownToggle id={id} />
-                      </Form.Field>
-                    </Grid.Column>
+                    name
                   }
-                </Grid.Row>
-              </Grid>
-            </Card.Content>
-          </Card>
+                </Card.Header>
+                <Card.Description>
+                  {finalGradeEdit}
+                </Card.Description>
+                <Grid verticalAlign="middle" padded columns={3}>
+                  <Grid.Row >
+                    <Form.Field width={10}>
+                      <Grid.Column>
+                        {!edit ?
+                          <div>
+                            <label> Arvioi osaamisesi asteikolla 1-5</label>
+                            <Dropdown
+                              style={{ marginLeft: '20px' }}
+                              placeholder="Valitse arvosana"
+                              selection
+                              options={gradeOptions}
+                              error={gradeError !== undefined}
+                              onChange={!edit ? (e, { value }) => {
+                                this.props.dispatchGradeCategoryAction({ id, value, final })
+                                this.props.clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
+                              } : null}
+                            />
+                          </div>
+                          :
+                          null
+                        }
+
+                      </Grid.Column>
+                    </Form.Field>
+
+                    <Grid.Column>
+                      {edit ?
+                        <Button
+                          className="toggleFormPartButton"
+                          size="large"
+                          basic
+                          color={buttonColor}
+                          onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
+                        >
+                          {buttonText}
+                        </Button>
+                        :
+                        null
+                      }
+                    </Grid.Column>
+
+                  </Grid.Row>
+                  <Grid.Row >
+                    <Form.Field disabled={disabled} width={10}>
+                      <Grid.Column>
+                        {!edit && textFieldOn ?
+                          <Form.TextArea
+                            autoHeight
+                            error={responseTextError !== undefined}
+                            label="Perustelut arvosanalle"
+                            placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
+                            onBlur={!edit ? e =>
+                              this.props.dispatchTextfieldResponseAction({
+                                id,
+                                value: e.target.value,
+                                final
+                              })
+                              :
+                              null}
+                            onChange={!edit ? () =>
+                              this.props.clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id })
+                              :
+                              null
+                            }
+                          />
+                          :
+                          null
+                        }
+                        {edit && !final ?
+                          <Checkbox
+                            defaultChecked={textFieldOn}
+                            onChange={() => this.props.dispatchTextFieldOnOff(id)}
+                            label="Perustelut arvosanalle"
+                          />
+                          :
+                          null
+                        }
+                      </Grid.Column>
+                    </Form.Field>
+
+                    {final || !edit ?
+                      null
+                      :
+                      <Grid.Column>
+                        <Form.Field disabled={disabled}>
+                          <UpOrDownToggle id={id} />
+                        </Form.Field>
+                      </Grid.Column>
+                    }
+                  </Grid.Row>
+                </Grid>
+              </Card.Content>
+            </Card>
+          </div>
         </Form.Field >
       </div>
     )
