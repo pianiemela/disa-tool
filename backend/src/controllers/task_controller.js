@@ -377,7 +377,7 @@ router.put('/:id', async (req, res) => {
 })
 
 router.post('/objectives/edit', async (req, res) => {
-  const [toEdit, task, objectives] = await taskService.editTaskObjectives.prepare(req.body)
+  const [toEdit, task] = await taskService.editTaskObjectives.prepare(req.body)
   if (!await checkPrivilege(req, [
     {
       key: 'teacher_on_course',

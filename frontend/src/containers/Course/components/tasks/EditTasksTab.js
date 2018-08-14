@@ -8,6 +8,7 @@ import Tasklist from './Tasklist'
 import Matrix from '../matrix/Matrix'
 import Headerlist from '../types/Headerlist'
 import SelectTaskDropdown from './SelectTaskDropdown'
+import EditTaskObjectivesForm from './EditTaskObjectivesForm';
 
 export class EditTasksTab extends PureComponent {
   componentWillUnmount() {
@@ -26,6 +27,9 @@ export class EditTasksTab extends PureComponent {
           activeTask={this.props.activeTask}
           changeActive={this.changeActive}
         />
+        {this.props.activeTask ? (
+          <EditTaskObjectivesForm taskId={this.props.activeTask.id} />
+        ) : null}
         <Matrix editing={false} showDetails />
         <Headerlist
           courseId={this.props.courseId}

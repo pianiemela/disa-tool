@@ -280,7 +280,7 @@ const editTaskObjectives = {
     ])
   },
   execute: (instances, data) => Promise.all(instances.map(instance => instance.update({
-    multiplier: data.objectives.find(objective => objective.id === instance.dataValues.id).multiplier
+    multiplier: data.objectives.find(objective => objective.id === instance.dataValues.objective_id).multiplier
   }))),
   value: (instances, data) => {
     const json = instances.map(instance => instance.toJSON())

@@ -17,3 +17,5 @@ export const remove = data => deleteCall(`/tasks/${data.id}`)
 export const details = data => getJson(`/tasks/${data.id}`)
 
 export const edit = data => putJson(`/tasks/${data.id}`, { ...data, id: undefined })
+
+export const editObjectives = data => postJson('/tasks/objectives/edit', data)
