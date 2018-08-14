@@ -108,10 +108,12 @@ export class SelfAssesmentForm extends React.Component {
     let fGrade = []
     let fResponse = []
     const grade = questionModuleResponses.filter(qm => !qm.grade)
-    const responseText = questionModuleResponses.filter(qm => qm.responseText === '')
-    fGrade = !finalGradeResponse.grade ? [...fGrade, finalGradeResponse] : []
-    fResponse = finalGradeResponse.responseText === '' ? [...fResponse, finalGradeResponse] : []
-    const openQErrors = openQuestionResponses.filter(oq => oq.responseText === '')
+    const responseText = questionModuleResponses.filter(qm => qm.responseText === '' && qm.textFieldOn)
+    if (Object.keys(finalGradeResponse).length > 0) {
+      fGrade = !finalGradeResponse.grade ? [...fGrade, finalGradeResponse] : []
+      fResponse = finalGradeResponse.responseText === '' ? [...fResponse, finalGradeResponse] : []
+    }
+    const openQErrors = openQuestionResponses.length > 0 ? openQuestionResponses.filter(oq => oq.responseText === '') : []
 
     if (
       grade.length > 0
@@ -210,10 +212,15 @@ export class SelfAssesmentForm extends React.Component {
               :
               null
             }
+            {!formData.open && !edit ?
+              <Message style={{ textAlign: 'center' }} color="grey">Itsearviota ei ole vielä avattu vastattavaksi.</Message>
+              :
+              null
+            }
 
             {edit ?
               <Button
-                green
+                color="green"
                 onClick={() => this.togglePreview()}
               >{this.state.buttonText}
               </Button>
@@ -279,7 +286,7 @@ export class SelfAssesmentForm extends React.Component {
               :
               null}
 
-            {this.state.preview ?
+            {this.state.preview || (!formData.open && !edit) ?
               null
               :
               <Button
