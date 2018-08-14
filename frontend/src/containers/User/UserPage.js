@@ -262,6 +262,7 @@ class UserPage extends Component {
                                         color={assessment.active ? 'green' : 'red'}
                                         compact
                                         content={assessment.active ? 'näkyvillä' : 'piilotettu'}
+                                        disabled={assessment.open}
                                         size="small"
                                         value={assessment.id}
                                         onClick={this.toggleAssessment}
@@ -277,10 +278,16 @@ class UserPage extends Component {
                                         onClick={this.toggleAssessment}
                                       />
                                     </div> :
-                                    <Label
-                                      color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}
-                                    >{assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}
-                                    </Label>}
+                                    <div>
+                                      <Label
+                                        color={assessment.open ? 'green' : 'red'}
+                                        content={assessment.open ? 'avoin' : 'suljettu'}
+                                      />
+                                      <Label
+                                        color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}
+                                        content={assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}
+                                      />
+                                    </div>}
                                 </List.Content>
                               </List.Item>)
                           ))}
