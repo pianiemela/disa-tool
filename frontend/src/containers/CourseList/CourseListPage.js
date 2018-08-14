@@ -86,9 +86,20 @@ class CourseListPage extends Component {
                       <Header.Subheader>Tämä kurssi on tällä hetkellä </Header.Subheader>
                       {this.props.selectedInstance.active ? <span><b>käynnissä</b></span> : <span><b>ei käynnissä</b></span>}
                     </Header>
+                    <Button
+                      as={Link}
+                      to={`/course/matrix/${this.props.selectedInstance.id}`}
+                      color="blue"
+                      basic
+                      content="Kurssin tavoitematriisi"
+                    />
                     {this.props.selectedInstance.registered ?
-                      <p>Olet kurssilla <Button as={Link} to={`/user/course/${this.props.selectedInstance.id}`}>Kurssisivulle</Button></p> : <p>et ole kurssilla</p>}
-                    {this.props.selectedInstance.active ? <RegisterForm registered={this.props.selectedInstance.registered} instanceId={this.props.selectedInstance.id} /> : undefined}
+                      <p>Olet kurssilla
+                        <Button as={Link} to={`/user/course/${this.props.selectedInstance.id}`}>
+                          Kurssisivulle
+                        </Button>
+                      </p> : undefined}
+                    {this.props.selectedInstance.active && this.props.user.id ? <RegisterForm registered={this.props.selectedInstance.registered} instanceId={this.props.selectedInstance.id} /> : undefined}
                   </div> :
                   <div>Valitse vielä kurssi-instanssi.</div>
                 }
