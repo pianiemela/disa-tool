@@ -23,7 +23,7 @@ export class MatrixObjective extends Component {
   }
 
   componentDidUpdate(oldProps) {
-    if (oldProps.lastTypeChange !== this.props.lastTypeChange) {
+    if (oldProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
       if (this.state.triggered) {
         this.setState({
           triggered: false,
@@ -168,7 +168,7 @@ MatrixObjective.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  lastTypeChange: state.task.lastTypeChange
+  lastMultiplierUpdate: state.task.lastMultiplierUpdate
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

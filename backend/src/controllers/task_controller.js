@@ -389,7 +389,6 @@ router.post('/objectives/edit', async (req, res) => {
     })
     return
   }
-  console.log(toEdit)
   await taskService.editTaskObjectives.execute(toEdit, req.body)
   const edited = await taskService.editTaskObjectives.value(toEdit, req.body)
   res.status(200).json({
