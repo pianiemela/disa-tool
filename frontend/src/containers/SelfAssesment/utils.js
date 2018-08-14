@@ -27,3 +27,9 @@ export const objectiveGrades =
   1: 'Osaan kohtalaisesti',
   2: 'Osaan hyvin'
 }
+
+export const validationErrors = {
+  fin: 'Et vastannut kaikkiin kysymyksiin, tarkista merkityt kohdat',
+  swe: 'Du måste öögh ???',
+  eng: 'There were questions you did not respond to. Check the marked questions'
+}

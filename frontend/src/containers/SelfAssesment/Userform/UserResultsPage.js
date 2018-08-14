@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Form, List, Table, Container } from 'semantic-ui-react'
-import { objectiveGrades } from '../../SelfAssesment/grades'
+import { objectiveGrades } from '../../SelfAssesment/utils'
 
 const UserResultsPage = (props) => {
   const { assesmentResponse } = props

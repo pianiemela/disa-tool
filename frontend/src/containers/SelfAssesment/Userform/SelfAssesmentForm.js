@@ -25,7 +25,7 @@ import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
 import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
-
+import { validationErrors } from '../utils'
 
 export class SelfAssesmentForm extends React.Component {
   constructor(props) {
@@ -133,10 +133,18 @@ export class SelfAssesmentForm extends React.Component {
             responseText: fResponse
           },
           qModErrors: { ...this.state.responseErrors.qModErrors, grade, responseText }
-        },
-        validationMessage: 'Et vastannut kaikkiin kysymyksiin, tarkista merkityt kohdat'
+        }
       })
       window.scrollTo(0, 0)
+
+      await this.props.dispatchToast({
+        type: '',
+        payload: {
+          toast: validationErrors[localStorage.getItem('lang')],
+          type: 'error'
+        }
+      })
+
       return true
     }
     return false
@@ -202,11 +210,7 @@ export class SelfAssesmentForm extends React.Component {
               :
               null
             }
-            {this.state.validationMessage ?
-              <Message style={{ textAlign: 'center' }} color="red">{this.state.validationMessage}</Message>
-              :
-              null
-            }
+
             {edit ?
               <Button
                 green
@@ -333,7 +337,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(getAssesmentResponseAction(selfAssesmentId)),
 
   dispatchCreateSelfAssesmentResponseAction: data =>
-    dispatch(createSelfAssessmentResponseAction(data))
+    dispatch(createSelfAssessmentResponseAction(data)),
+
+  dispatchToast: data =>
+    dispatch(data)
 })
 
 SelfAssesmentForm.defaultProps = {

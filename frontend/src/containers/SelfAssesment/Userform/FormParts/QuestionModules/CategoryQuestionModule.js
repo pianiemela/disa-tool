@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import UpOrDownToggle from '../UpOrDownToggle'
 import { gradeCategoryAction, textfieldResponseAction, toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
 import MultiLangInput from '../MultiLangInput'
-import { gradeOptions } from '../../../grades'
+import { gradeOptions } from '../../../utils'
 
 export class CategoryQuestionModule extends React.Component {
   constructor(props) {
