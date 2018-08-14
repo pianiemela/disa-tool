@@ -236,7 +236,24 @@ class UserPage extends Component {
                   <Grid.Row>
                     <Grid.Column floated="left" width={8}>
                       <Item.Content>
-                        <ListTasks tasks={tasks} selectedType={selectedType} />
+                        <Header as="h3">Tehtävät</Header>
+                        <Accordion
+                          defaultActiveIndex={-1}
+                          styled
+                          fluid
+                          panels={[{
+                            key: 'ListTasks',
+                            title: 'Katso tehtävälistaa',
+                            content: {
+                              key: 'tasks',
+                              content: <ListTasks
+                                tasks={tasks}
+                                selectedType={selectedType}
+                              />
+                            }
+                          }]}
+                        />
+                        {/* <ListTasks tasks={tasks} selectedType={selectedType} /> */}
                       </Item.Content>
                     </Grid.Column>
                     <Grid.Column floated="right" width={8}>
