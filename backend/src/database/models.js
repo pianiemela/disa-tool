@@ -88,7 +88,7 @@ const Objective = sequelize.define('objective', {
 const TaskObjective = sequelize.define('task_objective', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
   multiplier: { type: Sequelize.DOUBLE },
-  modified: { type: Sequelize.BOOLEAN },
+  modified: { type: Sequelize.BOOLEAN, defaultValue: false },
   task_id: { type: Sequelize.BIGINT },
   objective_id: { type: Sequelize.BIGINT }
 },
