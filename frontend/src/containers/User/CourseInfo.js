@@ -6,7 +6,7 @@ export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }
   const renderTeacherOptions = () => (
     <Grid.Row>
       <Grid.Column width={3}>
-        <Button as={Link} to={`/selfAssesment/${course.id}`} color="green" basic>Luo uusi itsearviointi</Button>
+        <Button as={Link} to={`/selfAssesment/${course.id}`} color="green" basic>Muokkaa itsearviointeja</Button>
       </Grid.Column>
       <Grid.Column width={3}>
         <Button as={Link} to={`/course/${course.id}`} color="blue" basic>Muokkaa kurssia</Button>
@@ -20,7 +20,7 @@ export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }
       <Button floated="right" positive onClick={toggleActivation}>Käynnistä kurssi</Button>
   )
 
-  const renderCourseTeacehrs = () => (
+  const renderCourseTeachers = () => (
     <Grid.Row>
       <Grid.Column width={6}>
         <Header as="h3">Kurssin opettajat</Header>
@@ -65,9 +65,14 @@ export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }
           </Header>
         </Grid.Column>
       </Grid.Row>
-      {course.courseRole === 'TEACHER' ? renderTeacherOptions() : undefined}
-      {teachers ? renderCourseTeacehrs() : undefined}
+      <Grid.Row>
+        <Grid.Column width={3}>
+          <Button as={Link} to={`/course/matrix/${course.id}`} color="blue" basic>Kurssin tavoitematriisi</Button>
+        </Grid.Column>
+      </Grid.Row>
       <Divider />
+      {course.courseRole === 'TEACHER' ? renderTeacherOptions() : undefined}
+      {teachers ? renderCourseTeachers() : undefined}
     </Grid>
   )
 }

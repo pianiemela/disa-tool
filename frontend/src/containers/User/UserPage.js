@@ -5,15 +5,15 @@ import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
 import { Accordion, Button, Header, List, Menu, Grid, Item, Label, Icon, Dropdown } from 'semantic-ui-react'
 
-import { postTaskResponses } from '../../api/tasks'
 import {
   getUserCoursesAction,
   getUserSelfAssesments,
   getCourseInstanceDataAction,
   toggleCourseActivityAction,
-  postTaskResponseActions
+  postTaskResponseActions,
+  updateCoursePersonRoleAction,
+  toggleAssessmentAction
 } from '../../actions/actions'
-import { updateCoursePersonRoleAction } from './actions/courseInstances'
 import { CoursePeopleList } from './CoursePeopleList'
 import { CourseSideMenu } from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
@@ -61,7 +61,8 @@ class UserPage extends Component {
       const formattedRequest = this.state.newTeachers.map(teacher => (
         { person_id: teacher, course_instance_id: this.props.activeCourse.id, role: 'TEACHER' }
       ))
-      this.props.dispatchUpdateCoursePersonRole(formattedRequest).then(() => this.setState({ newTeachers: [] }))
+      this.props.dispatchUpdateCoursePersonRole(formattedRequest)
+        .then(() => this.setState({ newTeachers: [] }))
     }
   }
 
@@ -83,6 +84,19 @@ class UserPage extends Component {
   selectType = (e, { type }) => this.setState({
     selectedType: this.state.selectedType === type ? undefined : type
   })
+
+  toggleAssessment = (e, { value }) => {
+    switch (e.target.name) {
+      case 'assessmentOpen':
+        this.props.dispatchToggleAssessment(value, 'open')
+        break
+      case 'assessmentActive':
+        this.props.dispatchToggleAssessment(value, 'active')
+        break
+      default:
+        console.log('Something went wrong here now')
+    }
+  }
 
   markTask = async (e, { task, person }) => {
     const { updatedTasks } = this.state
@@ -113,10 +127,15 @@ class UserPage extends Component {
   updateTask = (e, { task }) => {
     switch (e.target.name) {
       case 'input':
-        this.setState({ popUp: { show: true, task: { ...this.state.popUp.task, points: e.target.value }, person: this.state.popUp.person } })
+        this.setState({ popUp: {
+          show: true,
+          task: { ...this.state.popUp.task, points: e.target.value },
+          person: this.state.popUp.person
+        } })
         break
       case 'update': {
-        const filteredTasks = this.state.updatedTasks.filter(et => et.taskId !== task.taskId || et.personId !== task.personId)
+        const filteredTasks = this.state.updatedTasks.filter(et =>
+          et.taskId !== task.taskId || et.personId !== task.personId)
         // input values are always strings, so convert to number
         task.points = Number(task.points)
         filteredTasks.push(task)
@@ -124,7 +143,8 @@ class UserPage extends Component {
         break
       }
       case 'cancel': {
-        const filteredTasks = this.state.updatedTasks.filter(et => et.taskId !== task.taskId || et.personId !== task.personId)
+        const filteredTasks = this.state.updatedTasks.filter(et =>
+          et.taskId !== task.taskId || et.personId !== task.personId)
         this.setState({ updatedTasks: filteredTasks, popUp: { show: false } })
         break
       }
@@ -161,11 +181,11 @@ class UserPage extends Component {
     // console.log(activeCourse)
     // console.log(this.props.match.params.courseId)
     return (
-      <Grid>
+      <Grid padded="horizontally">
         <Prompt when={updatedTasks.length > 0} message="Sinulla on tallentamattomia muutoksia" />
         <Grid.Row>
           <Grid.Column>
-            {this.props.user ? <h1>Hei {this.props.user.name}</h1> : <p>Hello bastard</p>}
+            {this.props.user ? <Header as="h1">Hei {this.props.user.name}</Header> : <p>Hello bastard</p>}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -189,8 +209,27 @@ class UserPage extends Component {
                   {activeCourse.courseRole === 'TEACHER' ?
                     <Grid.Row>
                       <Grid.Column>
-                        <Dropdown name="teacherSelector" fluid multiple selection search placeholder="Lisää opettaja" value={this.state.newTeachers} options={students.map(person => ({ key: person.id, text: person.name, value: person.id }))} onChange={this.handleTeacherAdding} />
-                        <Button name="teacherAddButton" basic color="pink" onClick={this.handleTeacherAdding}>Lisää opettaja</Button>
+                        <Dropdown
+                          name="teacherSelector"
+                          closeOnChange
+                          fluid
+                          multiple
+                          selection
+                          search
+                          placeholder="Lisää opettaja"
+                          value={this.state.newTeachers}
+                          options={students.map(person => (
+                            { key: person.id, text: person.name, value: person.id }
+                          ))}
+                          onChange={this.handleTeacherAdding}
+                        />
+                        <Button
+                          name="teacherAddButton"
+                          basic
+                          color="pink"
+                          content="Lisää opettaja"
+                          onClick={this.handleTeacherAdding}
+                        />
                       </Grid.Column>
                     </Grid.Row> : undefined
                   }
@@ -204,63 +243,102 @@ class UserPage extends Component {
                       <Item.Content>
                         <Header as="h3">Itsearvioinnit</Header>
                         <List selection size="big">
-                          {assessments.map(assessment =>
-                            (
-                              <div style={{ padding: '10px' }}>
-                                <List.Item key={assessment.id} as={Link} to={`/selfAssesment/response/${assessment.id}`}>{assessment.name} </List.Item>
-                                <Label color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}>{assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}</Label>
-                              </div>
-                            ))}
+                          {assessments.map(assessment => (
+                            !assessment.active && activeCourse.courseRole !== 'TEACHER' ? undefined : (
+                              <List.Item
+                                key={assessment.id}
+                              >
+                                <List.Content
+                                  as={Link}
+                                  to={`/selfAssesment/response/${assessment.id}`}
+                                >
+                                  {assessment.name}
+                                </List.Content>
+                                <List.Content floated="right">
+                                  {activeCourse.courseRole === 'TEACHER' ?
+                                    <div>
+                                      <Button
+                                        name="assessmentActive"
+                                        color={assessment.active ? 'green' : 'red'}
+                                        compact
+                                        content={assessment.active ? 'näkyvillä' : 'piilotettu'}
+                                        size="small"
+                                        value={assessment.id}
+                                        onClick={this.toggleAssessment}
+                                      />
+                                      <Button
+                                        name="assessmentOpen"
+                                        color={assessment.open ? 'green' : 'red'}
+                                        compact
+                                        content={assessment.open ? 'avoin' : 'suljettu'}
+                                        disabled={!assessment.active}
+                                        size="small"
+                                        value={assessment.id}
+                                        onClick={this.toggleAssessment}
+                                      />
+                                    </div> :
+                                    <Label
+                                      color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}
+                                    >{assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}
+                                    </Label>}
+                                </List.Content>
+                              </List.Item>)
+                          ))}
                         </List>
                       </Item.Content>
                     </Grid.Column>
                   </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column>
-                      <Accordion
-                        defaultActiveIndex={-1}
-                        styled
-                        fluid
-                        panels={[{
-                          key: 'UploadComponent',
-                          title: 'Lataa tehtäviä csv-tiedostosta',
-                          content: {
-                            key: 'uploader',
-                            content: <UploadResponsesPage
-                              activeCourse={activeCourse}
-                              updateHandler={this.updateTasksFromFile}
-                            />
-                          }
-                        }]}
-                      />
-                    </Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column style={{ overflowX: 'scroll' }}>
-                      {activeCourse.courseRole === 'TEACHER' ?
-                        <div>
-                          <CoursePeopleList
-                            popUp={popUp}
-                            updatedTasks={updatedTasks}
-                            markTask={this.markTask}
-                            updateTask={this.updateTask}
-                            selectType={this.selectType}
-                            selectedType={selectedType}
-                            types={activeCourse.type_headers}
-                            tasks={tasks}
-                            students={students}
+                  {activeCourse.courseRole === 'TEACHER' ?
+                    <Grid>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Accordion
+                            defaultActiveIndex={-1}
+                            styled
+                            fluid
+                            panels={[{
+                              key: 'UploadComponent',
+                              title: 'Lataa tehtäviä csv-tiedostosta',
+                              content: {
+                                key: 'uploader',
+                                content: <UploadResponsesPage
+                                  activeCourse={activeCourse}
+                                  updateHandler={this.updateTasksFromFile}
+                                />
+                              }
+                            }]}
                           />
-                          <Button color="green" onClick={this.submitTaskUpdates}>Tallenna muutokset</Button>
-                          <Button color="red" onClick={() => this.setState({ updatedTasks: [] })}>Peru kaikki muutokset</Button>
-                        </div>
-                        : <p>you are no teacher</p>}
-                    </Grid.Column>
-                  </Grid.Row>
-                  <Grid.Row>
-                    {/* <List items={activeCourse.people.filter(person =>
-                      person.course_instances[0].course_person.role === 'TEACHER').map(person => person.name)}
-                    /> */}
-                  </Grid.Row>
+                        </Grid.Column>
+                      </Grid.Row>
+                      <Grid.Row>
+                        <Grid.Column style={{ overflowX: 'scroll' }}>
+                          <div>
+                            <CoursePeopleList
+                              popUp={popUp}
+                              updatedTasks={updatedTasks}
+                              markTask={this.markTask}
+                              updateTask={this.updateTask}
+                              selectType={this.selectType}
+                              selectedType={selectedType}
+                              types={activeCourse.type_headers}
+                              tasks={tasks}
+                              students={students}
+                            />
+                            <Button
+                              color="green"
+                              content="Tallenna muutokset"
+                              onClick={this.submitTaskUpdates}
+                            />
+                            <Button
+                              color="red"
+                              content="Peru kaikki muutokset"
+                              onClick={() => this.setState({ updatedTasks: [] })}
+                            />
+                          </div>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+                  : undefined}
                 </Grid>
               </Item> :
               <Item>
@@ -285,7 +363,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchUpdateCoursePersonRole: coursePersons =>
     dispatch(updateCoursePersonRoleAction(coursePersons)),
   dispatchPostTaskResponses: tasks =>
-    dispatch(postTaskResponseActions(tasks))
+    dispatch(postTaskResponseActions(tasks)),
+  dispatchToggleAssessment: (assessmentId, attribute) =>
+    dispatch(toggleAssessmentAction(assessmentId, attribute))
 })
 
 const mapStateToProps = state => ({
@@ -297,7 +377,7 @@ const mapStateToProps = state => ({
 
 UserPage.propTypes = {
   user: shape({
-    name: string.isRequired
+    name: string
   }).isRequired,
   courses: arrayOf(shape({
     id: number.isRequired,
