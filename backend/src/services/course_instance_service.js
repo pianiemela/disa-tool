@@ -183,15 +183,15 @@ const matrix = async (id, lang) => {
         attributes: ['id', name],
         include: {
           model: Objective,
-          attributes: ['category_id', 'skill_level_id', name]
+          attributes: ['id', 'category_id', 'skill_level_id', name]
         }
       }
     ]
   })
   if (!result) return null
   result = result.toJSON()
-  console.log(result)
   result = mapObjectives(result)
+  result = mapCourse(result)
   return result
 }
 

@@ -9,6 +9,11 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
         ...state,
         categories: action.response.data.categories
       }
+    case 'COURSE_GET_MATRIX':
+      return {
+        ...state,
+        categories: action.response.data.categories
+      }
     case 'OBJECTIVE_CREATE':
       return {
         ...state,

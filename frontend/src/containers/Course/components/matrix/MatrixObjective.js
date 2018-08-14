@@ -131,7 +131,7 @@ MatrixObjective.propTypes = {
   objective: PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
-    task_count: PropTypes.number.isRequired
+    task_count: PropTypes.number
   }).isRequired,
   editing: PropTypes.bool.isRequired,
   removeObjective: PropTypes.func.isRequired,

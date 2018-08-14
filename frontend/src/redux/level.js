@@ -9,6 +9,11 @@ const levelReducer = (state = INITIAL_STATE, action) => {
         ...state,
         levels: action.response.data.levels
       }
+    case 'COURSE_GET_MATRIX':
+      return {
+        ...state,
+        levels: action.response.data.levels
+      }
     case 'LEVEL_CREATE':
       return {
         ...state,
