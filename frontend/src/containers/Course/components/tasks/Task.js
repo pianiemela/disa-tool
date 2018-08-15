@@ -24,6 +24,7 @@ export class Task extends Component {
         {this.props.editing ? (
           <div className="flexBlock">
             <EditTaskForm taskId={this.props.task.id} />
+            <Button onClick={this.props.openModal}>Muokkaa kertoimia</Button>
           </div>
          ) : null}
       </div>
@@ -71,7 +72,12 @@ Task.propTypes = {
   editing: PropTypes.bool.isRequired,
   removeTask: PropTypes.func.isRequired,
   active: PropTypes.bool.isRequired,
-  changeActive: PropTypes.func.isRequired
+  changeActive: PropTypes.func.isRequired,
+  openModal: PropTypes.func
+}
+
+Task.defaultProps = {
+  openModal: () => {}
 }
 
 const mapStateToProps = (state, ownProps) => ({

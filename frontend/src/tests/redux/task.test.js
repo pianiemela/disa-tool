@@ -3,7 +3,8 @@ import taskReducer from '../../redux/task'
 
 const INITIAL_STATE = {
   tasks: [],
-  active: null
+  active: null,
+  lastMultiplierUpdate: null
 }
 
 const courseGetDataResponse = {
@@ -55,6 +56,7 @@ const courseGetDataResponse = {
 }
 
 const courseGetDataExpectation = {
+  lastMultiplierUpdate: null,
   tasks: [
     {
       id: 5,
@@ -113,6 +115,7 @@ const taskCreateResponse = {
 }
 
 const taskCreateExpectation = {
+  lastMultiplierUpdate: null,
   tasks: [
     {
       id: 5,
@@ -174,6 +177,7 @@ const taskDeleteResponse = {
 }
 
 const taskDeleteExpectation = {
+  lastMultiplierUpdate: null,
   tasks: [
     {
       id: 5,
@@ -209,6 +213,7 @@ const taskAttachObjectiveResponse = {
 }
 
 const taskAttachObjectiveExpectation = {
+  lastMultiplierUpdate: null,
   tasks: [
     {
       id: 5,
@@ -267,6 +272,7 @@ const taskDetachObjectiveResponse = {
 }
 
 const taskDetachObjectiveExpectation = {
+  lastMultiplierUpdate: null,
   tasks: [
     {
       id: 5,
@@ -317,6 +323,7 @@ const taskAttachTypeResponse = {
 }
 
 const taskAttachTypeExpectation = {
+  lastMultiplierUpdate: expect.any(Date),
   tasks: [
     {
       id: 5,
@@ -372,6 +379,7 @@ const taskDetachTypeResponse = {
 }
 
 const taskDetachTypeExpectation = {
+  lastMultiplierUpdate: expect.any(Date),
   tasks: [
     {
       id: 5,
@@ -425,6 +433,7 @@ const objectiveDeleteResponse = {
 }
 
 const objectiveDeleteExpectation = {
+  lastMultiplierUpdate: null,
   tasks: [
     {
       id: 5,
@@ -471,6 +480,7 @@ const typeDeleteResponse = {
 }
 
 const typeDeleteExpectation = {
+  lastMultiplierUpdate: null,
   tasks: [
     {
       id: 5,
@@ -532,6 +542,7 @@ const categoryDeleteResponse = {
 }
 
 const categoryDeleteExpectation = {
+  lastMultiplierUpdate: null,
   tasks: [
     {
       id: 5,
@@ -582,6 +593,7 @@ const levelDeleteResponse = {
 }
 
 const levelDeleteExpectation = {
+  lastMultiplierUpdate: null,
   tasks: [
     {
       id: 5,
