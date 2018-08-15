@@ -149,14 +149,14 @@ export class UploadResponsesPage extends Component {
                   onChange={this.handleChange}
                 />
               </div>) : undefined}
-            <List>
+            <List size="small">
               {Object.keys(csvMappings).map(suggestion => (
                 <List.Item key={suggestion}>
-                  <List.Content>
+                  <List.Content style={{ padding: 0 }}>
                     {csvMappings[suggestion].active ?
                       <b>{csv.data[0][suggestion]} </b> :
                       <strike>{csv.data[0][suggestion]} </strike>}
-                     ------------
+                      ______________
                     <Dropdown
                       disabled={!csvMappings[suggestion].active}
                       search
@@ -175,7 +175,7 @@ export class UploadResponsesPage extends Component {
                       circular
                       color={csvMappings[suggestion].active ? 'green' : 'red'}
                       icon={csvMappings[suggestion].active ? 'checkmark' : 'minus'}
-                      size="small"
+                      size="mini"
                       value={suggestion}
                       onClick={this.toggleCsvHeader}
                     />
@@ -196,7 +196,7 @@ export class UploadResponsesPage extends Component {
                       basic
                       color="red"
                       icon="delete"
-                      size="small"
+                      size="tiny"
                       value={key}
                       onClick={this.removePointMapping}
                     />
@@ -220,7 +220,7 @@ export class UploadResponsesPage extends Component {
             panels={[{
               key: 'table',
               title: 'Katso csv-tiedoston sisältöä',
-              content: { content: this.renderCsvTable(csv) } }]}
+              content: { key: 'subtable', content: this.renderCsvTable(csv) } }]}
           />
         : undefined}
       </Grid>

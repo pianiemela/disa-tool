@@ -35,7 +35,6 @@ class UserPage extends Component {
     await this.props.dispatchGetUserCourses()
     // this.props.dispatchGetUserSelfAssesments()
     if (courseId && !activeCourse.id) {
-      // this.setState({ loading: true })
       this.props.dispatchGetCourseInstanceData(courseId)
     }
   }
@@ -173,7 +172,6 @@ class UserPage extends Component {
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    // if (this.state.loading) return <Loader />
     const students = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role !== 'TEACHER') : []
@@ -214,6 +212,7 @@ class UserPage extends Component {
                         <Dropdown
                           name="teacherSelector"
                           closeOnChange
+                          closeOnBlur
                           fluid
                           multiple
                           selection
@@ -264,9 +263,7 @@ class UserPage extends Component {
                         <List selection size="big">
                           {assessments.map(assessment => (
                             !assessment.active && activeCourse.courseRole !== 'TEACHER' ? undefined : (
-                              <List.Item
-                                key={assessment.id}
-                              >
+                              <List.Item key={assessment.id}>
                                 <List.Content
                                   as={Link}
                                   to={`/selfAssesment/response/${assessment.id}`}
