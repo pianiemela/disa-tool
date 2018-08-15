@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Loader } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
-import { getMatrix } from './actions/course'
+import { getMatrix, resetCourse } from './actions/course'
 
 import Matrix from './components/matrix/Matrix'
 import CourseHeader from './components/header/CourseHeader'
@@ -14,6 +14,10 @@ class MatrixPage extends Component {
     this.props.getMatrix({
       id: this.props.courseId
     })
+  }
+
+  componentWillUnmount() {
+    this.props.resetCourse()
   }
 
   render() {
@@ -32,7 +36,8 @@ class MatrixPage extends Component {
 MatrixPage.propTypes = {
   courseId: PropTypes.number.isRequired,
   getMatrix: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  resetCourse: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -41,7 +46,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getMatrix: asyncAction(getMatrix, dispatch)
+  getMatrix: asyncAction(getMatrix, dispatch),
+  resetCourse: resetCourse(dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MatrixPage)
