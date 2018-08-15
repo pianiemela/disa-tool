@@ -213,7 +213,7 @@ const taskAttachObjectiveResponse = {
 }
 
 const taskAttachObjectiveExpectation = {
-  lastMultiplierUpdate: null,
+  lastMultiplierUpdate: expect.any(Date),
   tasks: [
     {
       id: 5,
@@ -272,7 +272,7 @@ const taskDetachObjectiveResponse = {
 }
 
 const taskDetachObjectiveExpectation = {
-  lastMultiplierUpdate: null,
+  lastMultiplierUpdate: expect.any(Date),
   tasks: [
     {
       id: 5,
