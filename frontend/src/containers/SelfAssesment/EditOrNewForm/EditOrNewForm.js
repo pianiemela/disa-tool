@@ -1,15 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { Grid, List, Dropdown, Form } from 'semantic-ui-react'
-import SelfAssesmentForm from '../Userform/SelfAssesmentForm'
-import asyncAction from '../../../utils/asyncAction'
+import { Dropdown, Form } from 'semantic-ui-react'
 
-import CategorySelection from './CategorySelection'
-import DropDownSelection from './DropDownSelection'
+import AssessmentButtons from './AssessmentButtons'
 import SelfAssesmentList from './SelfAssesmentList'
 
-export class SelfAssesmentCreateForm extends React.Component {
+export class EditOrNewForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -40,9 +36,9 @@ export class SelfAssesmentCreateForm extends React.Component {
     this.setState({ dropDownValue: value })
   }
 
-  sendFormId = (editOrCreate, id) => {
+  sendFormId = (editOrCreate, type, id) => {
     if (editOrCreate === 'create') {
-      this.props.createForm(this.state.dropDownValue, this.state.selectedView)
+      this.props.createForm(this.state.dropDownValue, type)
     } else {
       this.props.editForm(id)
     }
@@ -79,7 +75,7 @@ export class SelfAssesmentCreateForm extends React.Component {
           />
         </Form.Field>
         <Form.Field>
-          <CategorySelection
+          <AssessmentButtons
             selectedView={selectedView}
             category="category"
             objectives="objectives"
@@ -92,12 +88,12 @@ export class SelfAssesmentCreateForm extends React.Component {
   }
 }
 
-SelfAssesmentCreateForm.propTypes = {
+EditOrNewForm.propTypes = {
   dropDownCourse: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   createForm: PropTypes.func.isRequired
 }
 
-SelfAssesmentCreateForm.defaultProps = {
+EditOrNewForm.defaultProps = {
   dropdownAssesments: []
 }
-export default SelfAssesmentCreateForm
+export default EditOrNewForm

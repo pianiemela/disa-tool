@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, Popup } from 'semantic-ui-react'
+import { List } from 'semantic-ui-react'
 
 const SelfAssesmentList = (props) => {
   const { selfAssesments, onClick } = props
@@ -12,7 +12,7 @@ const SelfAssesmentList = (props) => {
         {selfAssesments.map(sa => (
           <List.Item
             key={sa.id}
-            onClick={() => onClick('edit', sa.id)}
+            onClick={() => onClick('edit', null, sa.id)}
           >
             {sa.name}
           </List.Item>
