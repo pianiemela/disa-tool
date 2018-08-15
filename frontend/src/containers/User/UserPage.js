@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Prompt } from 'react-router'
 import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Accordion, Button, Header, List, Menu, Grid, Item, Label, Icon, Dropdown } from 'semantic-ui-react'
+import { Accordion, Button, Header, List, Loader, Grid, Item, Label, Icon, Dropdown } from 'semantic-ui-react'
 
 import {
   getUserCoursesAction,
@@ -35,6 +35,7 @@ class UserPage extends Component {
     await this.props.dispatchGetUserCourses()
     // this.props.dispatchGetUserSelfAssesments()
     if (courseId && !activeCourse.id) {
+      // this.setState({ loading: true })
       this.props.dispatchGetCourseInstanceData(courseId)
     }
   }
@@ -172,6 +173,7 @@ class UserPage extends Component {
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
+    // if (this.state.loading) return <Loader />
     const students = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role !== 'TEACHER') : []
@@ -313,7 +315,7 @@ class UserPage extends Component {
                     </Grid.Column>
                   </Grid.Row>
                   {activeCourse.courseRole === 'TEACHER' ?
-                    <Grid>
+                    <Grid style={{ overflowX: 'scroll' }}>
                       <Grid.Row>
                         <Grid.Column>
                           <Accordion
@@ -335,7 +337,7 @@ class UserPage extends Component {
                         </Grid.Column>
                       </Grid.Row>
                       <Grid.Row>
-                        <Grid.Column style={{ overflowX: 'scroll' }}>
+                        <Grid.Column>
                           <div>
                             <CoursePeopleList
                               popUp={popUp}
