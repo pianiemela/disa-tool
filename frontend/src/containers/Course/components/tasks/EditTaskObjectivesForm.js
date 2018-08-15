@@ -93,24 +93,21 @@ class EditTaskObjectivesForm extends Component {
                       <Button
                         type="button"
                         content="Pidä ennallaan"
-                        toggle
-                        active={this.state.values[objective.id].modified === null}
+                        color={this.state.values[objective.id].modified === null ? 'blue' : undefined}
                         onClick={this.changeModified(objective.id, null)}
                       />
                       <Button.Or text="tai" />
                       <Button
                         type="button"
                         content="Palauta oletusarvoon"
-                        toggle
-                        active={this.state.values[objective.id].modified === false}
+                        color={this.state.values[objective.id].modified === false ? 'blue' : undefined}
                         onClick={this.changeModified(objective.id, false)}
                       />
                       <Button.Or text="tai" />
                       <Button
                         type="button"
                         content="Muuta"
-                        toggle
-                        active={this.state.values[objective.id].modified === true}
+                        color={this.state.values[objective.id].modified === true ? 'blue' : undefined}
                         onClick={this.changeModified(objective.id, true)}
                       />
                     </Button.Group>
@@ -128,7 +125,7 @@ class EditTaskObjectivesForm extends Component {
                   </Container>
                 </Form.Field>
               ))}
-              <Button color="blue">Tallenna</Button>
+              <Button color="green">Tallenna</Button>
             </div>
           }
           onSubmit={this.editTaskObjectivesSubmit}
