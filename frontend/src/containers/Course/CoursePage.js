@@ -10,6 +10,7 @@ import { getCourseData, resetCourse } from './actions/course'
 import EditMatrixTab from './components/matrix/EditMatrixTab'
 import EditTypesTab from './components/types/EditTypesTab'
 import EditTasksTab from './components/tasks/EditTasksTab'
+import EditGradesTab from './components/grades/EditGradesTab'
 import Navbar from './components/navbar/Navbar'
 import CourseHeader from './components/header/CourseHeader'
 
@@ -36,6 +37,7 @@ export class CoursePage extends Component {
           <Route path={`${this.props.match.url}/matrix`} render={() => <EditMatrixTab courseId={this.props.match.params.id} />} />
           <Route path={`${this.props.match.url}/types`} render={() => <EditTypesTab courseId={this.props.match.params.id} />} />
           <Route path={`${this.props.match.url}/tasks`} render={() => <EditTasksTab courseId={this.props.match.params.id} />} />
+          <Route path={`${this.props.match.url}/grades`} render={() => <EditGradesTab courseId={this.props.match.params.id} />} />
           <Route component={() => <Redirect to={`${this.props.match.url}/tasks`} />} />
         </Switch>
       </div>
