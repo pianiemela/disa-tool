@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { shape, func } from 'prop-types'
-import { Button, Grid, Input, List, Table, Dropdown, Accordion } from 'semantic-ui-react'
+import { Button, Grid, Input, List, Message, Table, Dropdown, Accordion } from 'semantic-ui-react'
 import Papa from 'papaparse'
 
 export class UploadResponsesPage extends Component {
@@ -101,7 +101,10 @@ export class UploadResponsesPage extends Component {
       }
     }
     this.props.updateHandler(updatedTasks)
+    this.setState({ responsesCreated: true })
   }
+
+  removeMessage = () => this.setState({ responsesCreated: false })
 
   renderCsvTable = csv => (
     <Grid.Row>
@@ -124,7 +127,7 @@ export class UploadResponsesPage extends Component {
   )
 
   render() {
-    const { csv, csvMappings, studentHeader, pointsMapping, pointKey, pointValue } = this.state
+    const { csv, csvMappings, studentHeader, pointsMapping, pointKey, pointValue, responsesCreated } = this.state
     const { activeCourse } = this.props
     return !activeCourse.id ? <h1>Loading</h1> : (
       <Grid container>
@@ -212,6 +215,10 @@ export class UploadResponsesPage extends Component {
           <Grid.Column>
             <h3>Luo palautukset</h3>
             <Button onClick={this.createResponseData}>Luo palautukset</Button>
+            {responsesCreated ?
+              <Message positive onDismiss={this.removeMessage}>
+                Vastaukset luotu, ole hyvä ja tarkista ne tehtävätaulukosta ennen tallentamista.
+              </Message> : undefined}
           </Grid.Column>
         </Grid.Row>
         {csv ?
