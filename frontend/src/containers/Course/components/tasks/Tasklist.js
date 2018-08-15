@@ -13,6 +13,7 @@ export const Tasklist = props => (
       key={task.id}
       task={task}
       editing
+      openModal={props.openModal}
     />))}
     {props.editing ? (
       <AddTaskForm courseId={props.courseId} />
@@ -27,7 +28,12 @@ Tasklist.propTypes = {
     id: PropTypes.number
   })).isRequired,
   editing: PropTypes.bool.isRequired,
-  courseId: PropTypes.number.isRequired
+  courseId: PropTypes.number.isRequired,
+  openModal: PropTypes.func
+}
+
+Tasklist.defaultProps = {
+  openModal: () => {}
 }
 
 const mapStateToProps = (state, ownProps) => ({

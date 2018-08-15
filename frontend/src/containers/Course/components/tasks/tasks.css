@@ -23,3 +23,7 @@
 .flexBlock {
   display: inline-block;
 }
+
+.multiplierInput {
+  width: 100px !important;
+}

@@ -76,16 +76,17 @@ class EditTaskObjectivesForm extends Component {
 
   render() {
     return (
-      <div className="EditTaskObjectivesForm">
+      <div className="EditTaskObjectivesForm" style={{ display: 'none' }}>
         <ModalForm
+          expanded={this.props.expanded}
           header="Muokkaa kertoimia"
-          trigger={<Button icon={{ name: 'edit' }} />}
+          trigger={<div />}
           content={
             <div>
               {this.props.objectives.map(objective => (
                 <Form.Field key={objective.id}>
                   <Container>
-                    <Label basic>{objective.name}</Label>
+                    <Label basic size="large">{objective.name}</Label>
                   </Container>
                   <Container>
                     <Button.Group size="small">
@@ -114,6 +115,7 @@ class EditTaskObjectivesForm extends Component {
                       />
                     </Button.Group>
                     <Input
+                      className="multiplierInput"
                       value={this.state.values[objective.id].multiplier}
                       onChange={this.changeMultiplier(objective.id)}
                       name={`objective ${objective.id}`}
@@ -122,7 +124,6 @@ class EditTaskObjectivesForm extends Component {
                       max={1}
                       step={0.01}
                       disabled={!this.state.values[objective.id].modified}
-                      style={{ width: '100px' }}
                     />
                   </Container>
                 </Form.Field>
@@ -131,6 +132,7 @@ class EditTaskObjectivesForm extends Component {
             </div>
           }
           onSubmit={this.editTaskObjectivesSubmit}
+          onClose={this.props.onClose}
         />
       </div>
     )
@@ -145,7 +147,9 @@ EditTaskObjectivesForm.propTypes = {
     name: PropTypes.string.isRequired,
     multiplier: PropTypes.number.isRequired
   })).isRequired,
-  defaultMultiplier: PropTypes.number.isRequired
+  defaultMultiplier: PropTypes.number.isRequired,
+  expanded: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -169,6 +173,8 @@ const mapStateToProps = (state, ownProps) => {
     )
   return {
     taskId: ownProps.taskId,
+    expanded: ownProps.expanded,
+    onClose: ownProps.onClose,
     objectives,
     defaultMultiplier: state.task.tasks.find(task => task.id === ownProps.taskId).defaultMultiplier
   }

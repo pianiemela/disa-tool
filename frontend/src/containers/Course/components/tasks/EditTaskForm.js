@@ -81,8 +81,7 @@ export class EditTaskForm extends Component {
               header="Muokkaa tehtävää"
               trigger={<Button
                 className="editTaskButton"
-                icon={{ name: 'edit' }}
-                size="small"
+                content="Muokkaa tehtävää"
                 onClick={this.loadDetails}
               />}
               content={

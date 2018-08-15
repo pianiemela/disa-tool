@@ -17,6 +17,7 @@ class ModalForm extends Component {
   }
 
   collapse = () => {
+    this.props.onClose()
     this.setState({
       expanded: false
     })
@@ -39,7 +40,11 @@ class ModalForm extends Component {
       </div>
     )
     return (
-      <Modal trigger={trigger} open={this.state.expanded} onClose={this.collapse}>
+      <Modal
+        trigger={trigger}
+        open={this.props.expanded === null ? this.state.expanded : this.props.expanded}
+        onClose={this.collapse}
+      >
         <Modal.Header>{this.props.header}</Modal.Header>
         <Modal.Content>
           <Form onSubmit={this.handleSubmit} loading={this.props.loading}>
@@ -59,12 +64,16 @@ ModalForm.propTypes = {
   ]).isRequired,
   content: PropTypes.element.isRequired,
   onSubmit: PropTypes.func,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  expanded: PropTypes.bool,
+  onClose: PropTypes.func
 }
 
 ModalForm.defaultProps = {
   onSubmit: () => {},
-  loading: false
+  loading: false,
+  expanded: null,
+  onClose: () => {}
 }
 
 export default ModalForm
