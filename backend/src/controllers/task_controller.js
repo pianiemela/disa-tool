@@ -47,6 +47,11 @@ const messages = {
     eng: '"Tehtävän muutokset tallennettu onnistuneesti." englanniksi.',
     fin: 'Tehtävän muutokset tallennettu onnistuneesti.',
     swe: '"Tehtävän muutokset tallennettu onnistuneesti." ruotsiksi.'
+  },
+  objectiveEdit: {
+    eng: '"Tehtävän kertoimet muokattu onnistuneesti." englanniksi.',
+    fin: 'Tehtävän kertoimet muokattu onnistuneesti.',
+    swe: '"Tehtävän kertoimet muokattu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -369,6 +374,28 @@ router.put('/:id', async (req, res) => {
       console.log(e)
     }
   }
+})
+
+router.post('/objectives/edit', async (req, res) => {
+  const [toEdit, task, objectives] = await taskService.editTaskObjectives.prepare(req.body)
+  if (objectives.length < req.body.objectives.length
+    || !await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: task.dataValues.course_instance_id
+      }
+    ])) {
+    res.status(403).json({
+      error: errors.privilege[req.lang]
+    })
+    return
+  }
+  await taskService.editTaskObjectives.execute(toEdit, req.body)
+  const edited = await taskService.editTaskObjectives.value(toEdit, req.body)
+  res.status(200).json({
+    message: messages.objectiveEdit[req.lang],
+    edited
+  })
 })
 
 module.exports = router

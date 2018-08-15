@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   tasks: [],
-  active: null
+  active: null,
+  lastMultiplierUpdate: null
 }
 
 const detachObjectiveFromMany = (state, action) => {
@@ -106,7 +107,8 @@ const detachOneType = (state, action) => ({
       }
     }
     return task
-  })
+  }),
+  lastMultiplierUpdate: new Date()
 })
 
 const attachType = (state, action) => ({
@@ -123,7 +125,8 @@ const attachType = (state, action) => ({
       }
     }
     return task
-  })
+  }),
+  lastMultiplierUpdate: new Date()
 })
 
 const taskReducer = (state = INITIAL_STATE, action) => {
@@ -172,6 +175,22 @@ const taskReducer = (state = INITIAL_STATE, action) => {
           types: task.types,
           objectives: task.objectives
         } : task))
+      }
+    case 'TASK_EDIT_OBJECTIVE_MULTIPLIERS':
+      return {
+        ...state,
+        tasks: state.tasks.map(task => (task.id === action.response.edited.task_id ? {
+          ...task,
+          objectives: task.objectives.map((objective) => {
+            const editedObjective = action.response.edited.task_objectives
+              .find(to => to.objective_id === objective.id)
+            return editedObjective ? {
+              ...objective,
+              multiplier: editedObjective.multiplier
+            } : objective
+          })
+        } : task)),
+        lastMultiplierUpdate: new Date()
       }
     default:
       return state

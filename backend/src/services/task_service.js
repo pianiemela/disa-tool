@@ -90,11 +90,18 @@ const deleteTask = {
 
 const attachObjective = {
   prepare: async (data) => {
-    const task = await Task.findById(data.task_id)
+    const task = await Task.findById(data.task_id, {
+      include: {
+        model: Type,
+        attributes: ['multiplier']
+      }
+    })
     const objective = await Objective.findById(data.objective_id)
+    const multiplier = task.get({ plain: true }).types.reduce((acc, curr) => acc * curr.multiplier, 1)
     const instance = TaskObjective.build({
       task_id: data.task_id,
-      objective_id: data.objective_id
+      objective_id: data.objective_id,
+      multiplier
     })
     return {
       task: task.toJSON(),
@@ -146,7 +153,7 @@ const updateMultipliers = async (taskType, removing = false) => {
   const multiplier = taskTypes.reduce((acc, curr) => acc * curr.multiplier, 1)
   const taskObjectives = await TaskObjective.findAll({ where: { task_id: taskType.task_id } })
   const updatedObjectives = await Promise.all(taskObjectives.map(taskO => (
-    TaskObjective.update({ multiplier }, { where: { id: taskO.id }, returning: true })
+    TaskObjective.update({ multiplier }, { where: { id: taskO.id, modified: false }, returning: true })
       .then(res => res[1][0])
   )))
   return { taskObjectives: updatedObjectives, multiplier }
@@ -246,6 +253,52 @@ const edit = {
   }
 }
 
+const editTaskObjectives = {
+  prepare: (data) => {
+    const objectiveIds = data.objectives.map(objective => objective.id)
+    return Promise.all([
+      TaskObjective.findAll({
+        where: {
+          task_id: data.task_id,
+          objective_id: { [Op.in]: objectiveIds }
+        },
+        attributes: ['id', 'objective_id']
+      }),
+      Task.findById(data.task_id, { attributes: ['id', 'course_instance_id'] }),
+      Objective.findAll({
+        where: {
+          id: { [Op.in]: objectiveIds }
+        },
+        attributes: ['id'],
+        include: {
+          model: TaskObjective,
+          where: {
+            task_id: data.task_id
+          }
+        }
+      })
+    ])
+  },
+  execute: (instances, data) => Promise.all(instances.map((instance) => {
+    const dataObjective = data.objectives.find(objective => objective.id === instance.dataValues.objective_id)
+    instance.update({
+      multiplier: Number(dataObjective.multiplier),
+      modified: dataObjective.modified
+    })
+  })),
+  value: (instances, data) => {
+    const json = instances.map(instance => instance.toJSON())
+    return {
+      task_id: data.task_id,
+      task_objectives: json.map(instance => ({
+        multiplier: instance.multiplier,
+        objective_id: instance.objective_id,
+        modified: instance.modified
+      }))
+    }
+  }
+}
+
 module.exports = {
   getUserTasksForCourse,
   getTasksForCourse,
@@ -259,5 +312,6 @@ module.exports = {
   attachType,
   detachType,
   details,
-  edit
+  edit,
+  editTaskObjectives
 }
