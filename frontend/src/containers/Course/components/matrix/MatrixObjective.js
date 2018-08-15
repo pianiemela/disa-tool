@@ -22,8 +22,8 @@ export class MatrixObjective extends Component {
     }
   }
 
-  componentDidUpdate(oldProps) {
-    if (oldProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
+  componentWillReceiveProps(newProps) {
+    if (newProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
       if (this.state.triggered) {
         this.setState({
           triggered: false,
@@ -93,6 +93,9 @@ export class MatrixObjective extends Component {
                   content={this.props.objective.task_count}
                   onMouseOver={this.loadDetails}
                   onFocus={this.loadDetails}
+                  style={{
+                    color: this.props.objective.task_count === 0 ? 'red' : undefined
+                  }}
                 />}
                 content={
                   this.state.loading ? (
@@ -159,12 +162,14 @@ MatrixObjective.propTypes = {
   toggleObjective: PropTypes.func.isRequired,
   activeTaskId: PropTypes.number,
   details: PropTypes.func.isRequired,
-  showDetails: PropTypes.bool
+  showDetails: PropTypes.bool,
+  lastMultiplierUpdate: PropTypes.instanceOf(Date)
 }
 
 MatrixObjective.defaultProps = {
   activeTaskId: null,
-  showDetails: false
+  showDetails: false,
+  lastMultiplierUpdate: null
 }
 
 const mapStateToProps = state => ({
