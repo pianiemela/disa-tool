@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card, Form, List, Table, Container } from 'semantic-ui-react'
-import { objectiveGrades } from '../../SelfAssesment/grades'
+import { objectiveGrades } from '../../SelfAssesment/utils'
 
 const UserResultsPage = (props) => {
   const { assesmentResponse } = props
@@ -100,8 +100,13 @@ const UserResultsPage = (props) => {
               </Card.Header>
               <Card.Description textAlign="center">
                 <h4>Annoit itsellesi arvosanan: {questionModule.grade}</h4>
-                <h5>Perustelit sitä seuraavasti: </h5>
-                <p>{questionModule.responseText}</p>
+                {questionModule.textFieldOn ?
+                  <div>
+                    <h5>Perustelit sitä seuraavasti: </h5>
+                    <p>{questionModule.responseText}</p>
+                  </div>
+                  :
+                  null }
               </Card.Description>
             </Card.Content>
           </Card>

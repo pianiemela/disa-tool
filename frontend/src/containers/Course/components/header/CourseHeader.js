@@ -1,5 +1,5 @@
 import React from 'react'
-import { number, shape, string } from 'prop-types'
+import { number, shape, string, bool } from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Segment, Header } from 'semantic-ui-react'
@@ -9,7 +9,7 @@ export const CourseHeader = props => (
   <div className="CourseHeader">
     <Segment>
       <Header as="h1" textAlign="center">
-        <Button
+        {props.renderReturnLink ? (<Button
           as={Link}
           to={`/user/course/${props.course.id}`}
           basic
@@ -17,7 +17,7 @@ export const CourseHeader = props => (
           floated="left"
           icon="backward"
           content="Takaisin kurssisivulle"
-        />
+        />) : null}
         {props.course.name}
       </Header>
     </Segment>
@@ -28,7 +28,12 @@ CourseHeader.propTypes = {
   course: shape({
     id: number.isRequired,
     name: string.isRequired
-  }).isRequired
+  }).isRequired,
+  renderReturnLink: bool
+}
+
+CourseHeader.defaultProps = {
+  renderReturnLink: true
 }
 
 const mapStateToProps = state => ({

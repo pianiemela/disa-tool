@@ -113,35 +113,41 @@ export const initResponseForm = (data) => {
 
   if (type !== 'objectives') {
     questionModules.map(qm =>
-      response.questionModuleResponses.push({
-        id: qm.id,
-        responseText: '',
-        grade: null,
-        name: qm.name
-      }))
+      (qm.includedInAssesment ?
+        response.questionModuleResponses.push({
+          id: qm.id,
+          responseText: '',
+          textFieldOn: qm.textFieldOn,
+          grade: null,
+          name: qm.name
+        }) : null))
   } else {
     questionModules.map(qm =>
       qm.objectives.map(qmO =>
-        response.questionModuleResponses.push({
-          id: qmO.id,
-          grade: '1',
-          name: qmO.name,
-          header: qm.name
-        })))
-
-    questions.map(q =>
-      response.openQuestionResponses.push({
-        id: q.id,
-        responseText: '',
-        name: q.name
-      }))
-
-    response.finalGradeResponse = {
-      responseText: '',
-      grade: null,
-      headers: data.structure.finalGrade.headers
-    }
+        (qmO.includedInAssesment ?
+          response.questionModuleResponses.push({
+            id: qmO.id,
+            grade: '1',
+            name: qmO.name,
+            header: qm.name
+          }) : null)))
   }
+
+  questions.map(q =>
+    response.openQuestionResponses.push({
+      id: q.id,
+      responseText: '',
+      name: q.name
+    }))
+
+  response.finalGradeResponse = {}
+
+  if (finalGrade.includedInAssesment) {
+    response.finalGradeResponse.responseText = ''
+    response.finalGradeResponse.grade = null
+    response.finalGradeResponse.headers = finalGrade.headers
+  }
+
   return response
 }
 

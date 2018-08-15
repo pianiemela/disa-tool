@@ -7,35 +7,61 @@ const { checkAuth } = require('../services/auth.js')
 const selfAssesmentService = require('../services/self_assesment_service.js')
 
 router.post('/create', async (req, res) => {
-  let createFormData = req.body
-  const { formInfo } = createFormData.structure
-  createFormData = destructureNamesAndInstructions(createFormData, formInfo)
-  createFormData.structure = JSON.stringify(createFormData.structure)
-  const data = await selfAssesmentService.addSelfAssesment(createFormData, req.lang)
-  data.structure = JSON.parse(data.structure)
-
-  return res.status(200).json({
-    message: 'it is done my friend',
-    data
-  })
-})
-
-router.get('/:selfAssesmentId', async (req, res) => {
   try {
-    const { selfAssesmentId } = req.params
-    const data = await selfAssesmentService.getOne(selfAssesmentId)
-    const hasPrivilege = checkPrivilege(req, [
+    let formData = req.body
+    const { formInfo } = formData.structure
+    const hasPrivilege = await checkPrivilege(req, [
       {
         key: 'teacher_on_course',
-        param: data.course_instance_id
+        param: formData.course_instance_id
       }
     ])
+
     if (!hasPrivilege) {
       return res.status(403).json({
         toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
       })
     }
+
+    formData = destructureNamesAndInstructions(formData, formInfo)
+    formData.structure = JSON.stringify(formData.structure)
+    const data = await selfAssesmentService.addSelfAssesment(formData, req.lang)
+    formData.structure = JSON.parse(formData.structure)
+
+    return res.status(200).json({
+      message: 'Self assessment created succesfully!',
+      data
+    })
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lanq]
+      })
+    }
+  }
+})
+
+router.get('/:selfAssesmentId', async (req, res) => {
+  try {
+    const { selfAssesmentId } = req.params
+    const data = await selfAssesmentService.getOne(selfAssesmentId)
+    // const hasPrivilege = checkPrivilege(req, [
+    //   {
+    //     key: 'teacher_on_course',
+    //     param: data.course_instance_id
+    //   }
+    // ])
+    // if (!hasPrivilege) {
+    //   return res.status(403).json({
+    //     toast: errors.privilege.toast,
+    //     error: errors.privilege[req.lang]
+    //   })
+    // }
     data.structure = JSON.parse(data.structure)
     return res.status(200).json({
       data
@@ -79,6 +105,16 @@ router.put('/update/:id', async (req, res) => {
   return res.status(200).json({
     message: 'Self assesment updated succesfully',
     data
+  })
+})
+
+router.put('/toggle/:id', async (req, res) => {
+  const { id } = req.params
+  const { attribute } = req.body
+  const assessment = await selfAssesmentService.toggleAssessment(id, attribute)
+  return res.status(200).json({
+    message: `Self assesment property ${attribute} is now ${assessment[attribute] ? 'enabled' : 'disabled'}`,
+    assessment
   })
 })
 

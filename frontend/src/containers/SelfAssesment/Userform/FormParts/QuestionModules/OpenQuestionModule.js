@@ -6,7 +6,7 @@ import ModalForm from '../../../../../utils/components/ModalForm'
 import { removeOpenQuestion, openQuestionResponseAction } from '../../../actions/selfAssesment'
 
 const OpenQuestionModule = (props) => {
-  const { edit, textArea } = props
+  const { edit, textArea, responseTextError, clearError } = props
   const { id, name } = props.data
 
   return (
@@ -23,8 +23,18 @@ const OpenQuestionModule = (props) => {
                   <Form.TextArea
                     autoHeight
                     label="Vastaa avoimeen kysymykseen"
+                    error={responseTextError !== undefined}
                     placeholder="Kirjoita vastaus tähän"
-                    onChange={!edit ? e => props.dispatchopenQuestionResponseAction({ id, value: e.target.value }) : null}
+                    onBlur={!edit ? e =>
+                      props.dispatchopenQuestionResponseAction({ id, value: e.target.value })
+                      :
+                      null
+                    }
+                    onChange={!edit ? () =>
+                      // props.dispatchopenQuestionResponseAction({ id, value: e.target.value });
+                      props.clearError({ type: 'openQErrors', errorType: 'responseText', id })
+                      : null
+                    }
                   />
                 </Grid.Column>
                 <Grid.Column>

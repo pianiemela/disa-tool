@@ -12,6 +12,14 @@ const courseReducer = (state = INITIAL_STATE, action) => {
         course: action.response.data.course,
         loading: false
       }
+    case 'COURSE_GET_MATRIX':
+      return {
+        ...state,
+        course: action.response.data.course,
+        loading: false
+      }
+    case 'COURSE_RESET':
+      return INITIAL_STATE
     default:
       return state
   }

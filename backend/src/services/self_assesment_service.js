@@ -102,11 +102,18 @@ const getOne = selfAssesmentId => (
   })
 )
 
+const toggleAssessment = async (id, attribute) => {
+  const assessment = await SelfAssessment.findById(id)
+  assessment[attribute] = !assessment[attribute]
+  return assessment.save({ returning: true })
+}
+
 
 module.exports = {
   addSelfAssesment,
   getUserSelfAssesments,
   getAssesmentsForCourse,
   updateSelfAssesment,
-  getOne
+  getOne,
+  toggleAssessment
 }

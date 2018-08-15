@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 import HomePage from '../Home/HomePage'
 import LoginPage from '../Login/LoginPage'
+import MatrixPage from '../Course/MatrixPage'
 import CoursePage from '../Course/CoursePage'
 import SelfAssesmentPage from '../SelfAssesment/SelfAssesmentPage'
 import SelfAssesmentForm from '../SelfAssesment/Userform/SelfAssesmentForm'
@@ -31,13 +32,14 @@ class Main extends PureComponent {
           hideProgressBar
         />
         <Switch>
-          <Route exact path="/selfassesment/edit/:selfAssesmentId" component={({ match }) => <SelfAssesmentForm edit match={match} />} />
-          <Route exact path="/selfassesment/create/:courseInstanceId/:type" component={({ match }) => <SelfAssesmentForm edit new match={match} />} />
-          <Route exact path="/selfassesment/response/:selfAssesmentId" component={({ match }) => <SelfAssesmentForm edit={false} match={match} />} />
+          <Route exact path="/selfassesment/edit/:selfAssesmentId" render={({ match }) => <SelfAssesmentForm edit match={match} />} />
+          <Route exact path="/selfassesment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssesmentForm edit new match={match} />} />
+          <Route exact path="/selfassesment/response/:selfAssesmentId" render={({ match }) => <SelfAssesmentForm edit={false} match={match} />} />
           <Route exact path="/selfassesment/:courseId" component={SelfAssesmentPage} />
           <Route path="/selfassesment" component={SelfAssesmentPage} />
           <Route exact path="/user/course/:courseId" component={UserPage} />
           <Route exact path="/user" component={UserPage} />
+          <Route path="/course/matrix/:id" component={MatrixPage} />
           <Route path="/course/:id" component={CoursePage} />
           <Route path="/tasks-responses/upload/:courseId" component={UploadResponsesPage} />
           <Route exact path="/courses" component={CourseListPage} />

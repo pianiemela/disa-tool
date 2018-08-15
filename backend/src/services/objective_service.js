@@ -1,4 +1,4 @@
-const { Objective, TaskObjective, Category, SkillLevel } = require('../database/models.js')
+const { Objective, TaskObjective, Category, SkillLevel, Task, Type } = require('../database/models.js')
 
 const create = {
   prepare: async (data) => {
@@ -55,7 +55,47 @@ const deleteObjective = {
   execute: instance => instance.destroy()
 }
 
+const typeMultiplier = (task) => {
+  let multiplier = 1
+  task.types.forEach((type) => {
+    multiplier *= type.multiplier
+  })
+  return multiplier
+}
+
+const details = async (id, lang) => {
+  const name = [`${lang}_name`, 'name']
+  const result = (await Objective.findById(id, {
+    attributes: ['id', name],
+    include: {
+      required: false,
+      model: Task,
+      attributes: [name],
+      through: {
+        attributes: ['multiplier']
+      },
+      include: {
+        required: false,
+        model: Type,
+        attributes: ['multiplier'],
+        through: {
+          attributes: []
+        }
+      }
+    }
+  })).toJSON()
+  result.tasks = result.tasks.map(task => ({
+    ...task,
+    type_multiplier: typeMultiplier(task),
+    task_multiplier: task.task_objective.multiplier,
+    types: undefined,
+    task_objective: undefined
+  }))
+  return result
+}
+
 module.exports = {
   create,
-  delete: deleteObjective
+  delete: deleteObjective,
+  details
 }
