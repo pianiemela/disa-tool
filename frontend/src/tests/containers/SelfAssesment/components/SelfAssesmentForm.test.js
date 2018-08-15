@@ -60,14 +60,14 @@ describe('Self assesment form', () => {
         edit: true,
         new: true,
         type: 'category',
-        formData: { ...formData, structure: { ...formData.structure, type: 'category', openQuestions: { questions: [] }, finalGrade: { includedinAssesment: true } } }
+        formData: { ...formData, structure: { ...formData.structure, type: 'category', questionModules: [{ includedinAssesment: false }], openQuestions: { questions: [] }, finalGrade: { includedinAssesment: false } } }
       })
     })
     it('renders correctly', () => {
       expect(wrapper.find('.selfAssesmentForm').exists()).toEqual(true)
     })
     it('shows the correct label on the button', () => {
-      expect(wrapper.find(Button).at(1).props().children).toEqual('Tallenna')
+      expect(wrapper.find(Button).at(3).props().children).toEqual('Tallenna')
     })
 
     it('contains questionmodules of type category', () => {
@@ -77,7 +77,7 @@ describe('Self assesment form', () => {
     })
 
     it('calls the correct function on click', (done) => {
-      wrapper.find(Button).at(1).simulate('click')
+      wrapper.find(Button).at(3).simulate('click')
       setTimeout(() => {
         wrapper.update()
         expect(dispatchCreateFormAction).toHaveBeenCalled()
@@ -110,16 +110,16 @@ describe('Self assesment form', () => {
         edit: true,
         new: false,
         type: 'category',
-        formData: { ...formData, structure: { ...formData.structure, type: 'objective', openQuestions: { questions: [] }, finalGrade: { includedinAssesment: true } } }
+        formData: { ...formData, structure: { ...formData.structure, type: 'objectives', questionModules: [{ includedinAssesment: false }], openQuestions: { questions: [] }, finalGrade: { includedinAssesment: false } } }
       })
     })
 
     it('has the correct label on button', () => {
-      expect(wrapper.find(Button).at(1).props().children).toEqual('Päivitä')
+      expect(wrapper.find(Button).at(3).props().children).toEqual('Päivitä')
     })
 
     it('calls the correct function on click', (done) => {
-      wrapper.find(Button).at(1).simulate('click')
+      wrapper.find(Button).at(3).simulate('click')
       setTimeout(() => {
         wrapper.update()
         expect(dispatchUpdateSelfAssesmentAction).toHaveBeenCalled()
