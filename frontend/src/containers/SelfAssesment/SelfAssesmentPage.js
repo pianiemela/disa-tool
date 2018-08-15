@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
 
-import SelfAssesmentCreateForm from './CreateForm/SelfAssesmentCreateForm'
+import EditOrNewForm from './EditOrNewForm/EditOrNewForm'
 
 
 import {
@@ -48,7 +48,7 @@ export class SelfAssesmentPage extends React.Component {
     return (
       <Container>
         <div className="selfAssesmentCreateForm">
-          <SelfAssesmentCreateForm
+          <EditOrNewForm
             courses={this.props.courses}
             dropDownCourse={this.props.courseDropdownOptions}
             selectedCourse={this.props.match.params.courseId}

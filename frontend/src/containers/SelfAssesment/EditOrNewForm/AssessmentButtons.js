@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
-const CategorySelection = (props) => {
+const AssessmentButtons = (props) => {
   const { sendFormId, selectedView, category, objectives, toggleButton } = props
   return (
     <div>
@@ -13,7 +13,7 @@ const CategorySelection = (props) => {
           value={category}
           active={category === selectedView}
           toggle
-          onClick={toggleButton}
+          onClick={() => sendFormId('create', 'category', null)}
         >
           Itsearviolomake kategorioiden pohjalta
         </Button>
@@ -23,26 +23,16 @@ const CategorySelection = (props) => {
           value={objectives}
           active={objectives === selectedView}
           toggle
-          onClick={toggleButton}
+          onClick={() => sendFormId('create', 'objectives', null)}
         >
           Itsearviolomake tavoitteiden pohjalta
         </Button>
       </Form.Field>
-      <Form.Field>
-        <Button
-          style={{ marginTop: '25px' }}
-          type="submit"
-          onClick={() => sendFormId('create')}
-        >
-          Luo
-        </Button>
-      </Form.Field>
-
     </div>
   )
 }
 
-CategorySelection.propTypes = {
+AssessmentButtons.propTypes = {
   selectedView: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   objectives: PropTypes.string.isRequired,
@@ -50,5 +40,5 @@ CategorySelection.propTypes = {
   sendFormId: PropTypes.func.isRequired
 }
 
-export default CategorySelection
+export default AssessmentButtons
 
