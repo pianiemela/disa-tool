@@ -56,7 +56,11 @@ class EditTaskObjectivesForm extends Component {
     values: {
       ...this.state.values,
       [id]: {
-        multiplier: modified === false ? this.props.defaultMultiplier : this.state.values[id].multiplier,
+        multiplier: {
+          null: this.props.objectives.find(objective => objective.id === id).multiplier,
+          false: this.props.defaultMultiplier,
+          true: this.state.values[id].multiplier
+        }[modified],
         modified
       }
     }
