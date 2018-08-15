@@ -72,7 +72,8 @@ const detachOneObjective = (state, action) => ({
       }
     }
     return task
-  })
+  }),
+  lastMultiplierUpdate: new Date()
 })
 
 const attachObjective = (state, action) => ({
@@ -91,7 +92,8 @@ const attachObjective = (state, action) => ({
       }
     }
     return task
-  })
+  }),
+  lastMultiplierUpdate: new Date()
 })
 
 const detachOneType = (state, action) => ({

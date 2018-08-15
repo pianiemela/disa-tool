@@ -26,7 +26,7 @@ class EditTaskObjectivesForm extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.taskId !== this.props.taskId) {
+    if (newProps.taskId !== this.props.taskId || newProps.objectives.length !== this.props.objectives.length) {
       this.setState({
         values: newProps.objectives.reduce(
           (acc, curr) => ({

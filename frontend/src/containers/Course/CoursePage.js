@@ -5,7 +5,7 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
-import { getCourseData } from './actions/course'
+import { getCourseData, resetCourse } from './actions/course'
 
 import EditMatrixTab from './components/matrix/EditMatrixTab'
 import EditTypesTab from './components/types/EditTypesTab'
@@ -18,6 +18,10 @@ export class CoursePage extends Component {
     this.props.getCourseData({
       id: this.props.match.params.id
     })
+  }
+
+  componentWillUnmount() {
+    this.props.resetCourse()
   }
 
   render() {
@@ -50,7 +54,8 @@ CoursePage.propTypes = {
     pathname: PropTypes.string.isRequired
   }).isRequired,
   getCourseData: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  resetCourse: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -66,7 +71,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getCourseData: asyncAction(getCourseData, dispatch)
+  getCourseData: asyncAction(getCourseData, dispatch),
+  resetCourse: resetCourse(dispatch)
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CoursePage))

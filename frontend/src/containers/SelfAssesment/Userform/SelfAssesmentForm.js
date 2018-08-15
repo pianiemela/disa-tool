@@ -239,7 +239,7 @@ export class SelfAssesmentForm extends React.Component {
                 <Button onClick={() => { this.props.dispatchCreateSelfAssesmentResponseAction(this.props.assesmentResponse); this.setState({ redirect: true, softErrors: false }) }} positive icon="checkmark" labelPosition='right' content="Kyllä" />
               </Modal.Actions>
             </Modal>
-            )
+            
 
             {edit ?
               <Button
