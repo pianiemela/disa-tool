@@ -7,6 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { getGrades } from '../../actions/grades'
 
 import Gradelist from './Gradelist'
+import CreateGradeForm from './CreateGradeForm'
 
 class EditGradesTab extends Component {
   componentDidMount() {
@@ -25,6 +26,11 @@ class EditGradesTab extends Component {
           <Gradelist
             grades={this.props.grades}
             levels={this.props.levels}
+          />
+          <CreateGradeForm
+            courseId={this.props.courseId}
+            levels={this.props.levels}
+            grades={this.props.grades}
           />
         </Container>
       </div>
