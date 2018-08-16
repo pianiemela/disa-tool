@@ -64,7 +64,11 @@ export class SelfAssesmentForm extends React.Component {
         const courseInfo = await getCourseInstance(courseInstanceId)
 
         // dispatch the call to reducer to generate the required form data with given parameters
-        this.props.dispatchInitNewFormAction({ courseData: courseData.data, courseInfo: courseInfo.data.data, type })
+        this.props.dispatchInitNewFormAction({
+          courseData: courseData.data,
+          courseInfo: courseInfo.data.data,
+          type
+        })
       } else {
         // Fetch the selfassesment data by given id
         await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
@@ -108,7 +112,8 @@ export class SelfAssesmentForm extends React.Component {
   }
 
   checkResponseErrors = async () => {
-    const { questionModuleResponses, openQuestionResponses, finalGradeResponse } = this.props.assesmentResponse
+    const { questionModuleResponses, openQuestionResponses, finalGradeResponse }
+      = this.props.assesmentResponse
     let fGrade = []
     let fResponse = []
     const grade = questionModuleResponses.filter(qm => !qm.grade)
@@ -169,12 +174,8 @@ export class SelfAssesmentForm extends React.Component {
     if (this.state.softErrors) {
       return
     }
-    try {
-      this.setState({ redirect: true })
-      await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
-    } catch (error) {
-      console.log(error)
-    }
+    this.setState({ redirect: true })
+    await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
   }
 
   togglePreview = () => {
@@ -190,6 +191,11 @@ export class SelfAssesmentForm extends React.Component {
     if (this.state.redirect) {
       return <Redirect to="/user" />
     }
+    if (this.props.assesmentResponse.existingAnswer) {
+      return (<UserResultsPage
+        assesmentResponse={this.props.assesmentResponse}
+      />)
+    }
     const renderForm = () => {
       let submitFunction = null
       const { formData, edit } = this.props
@@ -197,7 +203,6 @@ export class SelfAssesmentForm extends React.Component {
       const { displayCoursename, type, formInfo } = structure
       const { openQ, questionHeaders, grade } = structure.headers
       const { responseErrors } = this.state
-
 
       if (!edit) {
         submitFunction = this.handleResponse
@@ -232,7 +237,7 @@ export class SelfAssesmentForm extends React.Component {
                 <Button onClick={() => this.close()} negative>Ei</Button>
                 <Button
                   onClick={() => {
-                    this.props.dispatchCreateSelfAssesmentResponseAction(this.props.assesmentResponse);
+                    this.props.dispatchCreateSelfAssesmentResponseAction(this.props.assesmentResponse)
                     this.setState({
                       redirect: true,
                       softErrors: false
@@ -268,7 +273,12 @@ export class SelfAssesmentForm extends React.Component {
                 formData={structure.questionModules}
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
-                QuestionModule={edit ? this.state.preview ? CategoryQuestionModule : EditCategoryQuestionModule : CategoryQuestionModule}
+                QuestionModule={(edit && !this.state.preview)
+                  ?
+                  EditCategoryQuestionModule
+                  :
+                  CategoryQuestionModule}
+                courseInstanceId={formData.course_instance_id}
                 errors={responseErrors.qModErrors}
                 clearError={this.clearError}
               />
@@ -305,7 +315,11 @@ export class SelfAssesmentForm extends React.Component {
                 headers={grade}
                 formData={[structure.finalGrade]}
                 edit={edit ? !this.state.preview : false}
-                QuestionModule={edit ? this.state.preview ? CategoryQuestionModule : EditCategoryQuestionModule : CategoryQuestionModule}
+                QuestionModule={(edit && !this.state.preview)
+                  ?
+                  EditCategoryQuestionModule
+                  :
+                  CategoryQuestionModule}
                 final
                 headerType="grade"
                 changedProp={dummyPropToEnsureChange}
@@ -335,14 +349,7 @@ export class SelfAssesmentForm extends React.Component {
       <div>
         {
           Object.keys(this.props.formData).length > 0 ?
-            (this.props.assesmentResponse.existingAnswer ?
-              <UserResultsPage
-                assesmentResponse={this.props.assesmentResponse}
-                formInfo={this.props.formData}
-              />
-              :
-              renderForm()
-            )
+            renderForm()
             :
             <Loader active>Loading</Loader>
         }
@@ -407,7 +414,8 @@ SelfAssesmentForm.propTypes = {
   dispatchCreateSelfAssesmentResponseAction: PropTypes.func.isRequired,
   assesmentResponse: PropTypes.shape({
     existingAnswer: PropTypes.bool
-  }).isRequired
+  }).isRequired,
+  dispatchToast: PropTypes.func.isRequired
 
 }
 

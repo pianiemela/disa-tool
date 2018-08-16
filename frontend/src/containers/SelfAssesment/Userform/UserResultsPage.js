@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Card, Form, List, Table, Container } from 'semantic-ui-react'
 import { objectiveGrades } from '../../SelfAssesment/utils'
 
@@ -17,16 +18,15 @@ const UserResultsPage = (props) => {
   }
 
   const deepCalculations = (data) => {
-    let nanighh = null
-    nanighh = Object.keys(data).reduce((eka, toka) => (
-      eka + parseInt(data[toka].grade)
-    ), 0)
-    nanighh = Math.round(nanighh / Object.keys(data).length)
-    if (isNaN(nanighh)) {
+    let assesmentGrade = null
+    assesmentGrade = Object.keys(data).reduce((eka, toka) => (
+      eka + parseInt(data[toka].grade, 0)), 0)
+    assesmentGrade = Math.round(assesmentGrade / Object.keys(data).length)
+    if ((assesmentGrade) !== Number) {
       return 'Etpä tainnut arvioida kaikkea'
     }
-    if (nanighh > 0) {
-      if (nanighh > 1) {
+    if (assesmentGrade > 0) {
+      if (assesmentGrade > 1) {
         return 'Arvioit osaavasi osion tavoitteet hyvin'
       }
       return 'Arvioit osaavasi osion tavoitteet kohtalaisesti'
@@ -106,7 +106,7 @@ const UserResultsPage = (props) => {
                     <p>{questionModule.responseText}</p>
                   </div>
                   :
-                  null }
+                  null}
               </Card.Description>
             </Card.Content>
           </Card>
@@ -114,6 +114,10 @@ const UserResultsPage = (props) => {
       </div >
     </Container >
   )
+}
+
+UserResultsPage.propTypes = {
+  assesmentResponse: PropTypes.shape().isRequired
 }
 
 export default UserResultsPage

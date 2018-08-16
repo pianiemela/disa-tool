@@ -37,7 +37,8 @@ export class SelfAssesmentSection extends React.Component {
       formData,
       headers,
       errors,
-      clearError } = this.props
+      clearError,
+      courseInstanceId } = this.props
 
     const { responseText, grade } = errors
     const { editHeaders } = this.state
@@ -45,11 +46,12 @@ export class SelfAssesmentSection extends React.Component {
     let headerEditForm = null
     let renderModules = null
 
-    // If we are in edit form, show all the question modules despite their status of being included in the assessment
-
+    /* If we are in edit form, show all the questionmodules
+    despite their status of being included in the assessment
+    */
     if (edit) {
       renderModules = (
-        <List divided verticalAlign='middle'>
+        <List divided verticalAlign="middle">
           {formData.map(questionModules =>
             (<QuestionModule
               key={questionModules.id}
@@ -74,8 +76,11 @@ export class SelfAssesmentSection extends React.Component {
               data={questionModules}
               edit={edit}
               final={final}
+              courseInstanceId={courseInstanceId}
               gradeError={final ? grade[0] : grade.find(e => e.id === questionModules.id)}
-              responseTextError={final ? responseText[0] : responseText.find(e => e.id === questionModules.id)}
+              responseTextError={final ?
+                responseText[0] :
+                responseText.find(e => e.id === questionModules.id)}
               clearError={clearError}
             />)
             :
@@ -146,7 +151,8 @@ SelfAssesmentSection.defaultProps = {
   question: false,
   final: false,
   headerType: null,
-  errors: { grade: [], responseText: [] }
+  errors: { grade: [], responseText: [] },
+  courseInstanceId: null
 }
 
 SelfAssesmentSection.propTypes = {
@@ -165,7 +171,8 @@ SelfAssesmentSection.propTypes = {
   errors: PropTypes.shape({
     responseText: PropTypes.arrayOf(PropTypes.shape()),
     grade: PropTypes.arrayOf(PropTypes.shape())
-  })
+  }),
+  courseInstanceId: PropTypes.number
 }
 
 const mapDispatchToProps = dispatch => ({
