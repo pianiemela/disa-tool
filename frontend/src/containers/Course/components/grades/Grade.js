@@ -17,7 +17,7 @@ const Grade = props => (
       <Header>{props.grade.name}</Header>
       <Grid columns={4}>
         <Grid.Row>
-          <Grid.Column>
+          <Grid.Column width={5}>
             <p>
               <span>Oppimistaso</span>
               <span>: </span>
@@ -26,14 +26,14 @@ const Grade = props => (
               </strong>
             </p>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column width={4}>
             <p>
               <span>Vaadittu suoritus</span>
               <span>: </span>
               <strong>{props.grade.needed_for_grade * 100}%</strong>
             </p>
           </Grid.Column>
-          <Grid.Column>
+          <Grid.Column width={5}>
             <p>
               <span>Esivaatimus</span>
               <span>: </span>
@@ -42,20 +42,26 @@ const Grade = props => (
               </strong>
             </p>
           </Grid.Column>
-          <Grid.Column>
-            <DeleteForm
-              onExecute={() => props.removeGrade({ id: props.grade.id })}
-              header="Poista arvosteluperuste"
-              prompt={[
-                'Poistetaanko arvosteluperuste',
-                props.grade.name
-              ]}
-            />
-            <EditGradeForm
-              gradeId={props.grade.id}
-              grades={props.grades.filter(grade => grade.id !== props.grade.id)}
-              levels={props.levels}
-            />
+          <Grid.Column width={2}>
+            <div className="flexContainer">
+              <div className="flexBlock">
+                <DeleteForm
+                  onExecute={() => props.removeGrade({ id: props.grade.id })}
+                  header="Poista arvosteluperuste"
+                  prompt={[
+                    'Poistetaanko arvosteluperuste',
+                    props.grade.name
+                  ]}
+                />
+              </div>
+              <div className="flexBlock">
+                <EditGradeForm
+                  gradeId={props.grade.id}
+                  grades={props.grades.filter(grade => grade.id !== props.grade.id)}
+                  levels={props.levels}
+                />
+              </div>
+            </div>
           </Grid.Column>
         </Grid.Row>
       </Grid>

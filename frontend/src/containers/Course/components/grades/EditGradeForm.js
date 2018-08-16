@@ -74,7 +74,7 @@ class EditGradeForm extends Component {
       <div className="EditGradeForm">
         <ModalForm
           header="Muokkaa arvosteluperustetta"
-          trigger={<Button icon={{ name: 'edit' }} onClick={this.loadDetails} />}
+          trigger={<Button icon={{ name: 'edit' }} size="small" onClick={this.loadDetails} />}
           content={
             <div>
               <MultilingualField

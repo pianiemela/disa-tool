@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Container, Loader } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
+import './grades.css'
 
 import { getGrades } from '../../actions/grades'
 
