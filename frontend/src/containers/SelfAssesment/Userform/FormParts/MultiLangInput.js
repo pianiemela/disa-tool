@@ -19,7 +19,7 @@ const MultiLangInput = (props) => {
     )
 
   return (
-    <div>
+    <div style={{ paddingTop: '10px' }}>
       {headers.map(h => (
         <Form.Field key={h.id}>
           <Input

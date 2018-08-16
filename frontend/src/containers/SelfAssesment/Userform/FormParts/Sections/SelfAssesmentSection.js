@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, Form, Button } from 'semantic-ui-react'
+import { Card, Form, Button, List } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import MultiLangInput from '../MultiLangInput'
 import AddOpenQuestion from '../addOpenQuestion'
@@ -49,13 +49,15 @@ export class SelfAssesmentSection extends React.Component {
 
     if (edit) {
       renderModules = (
-        (formData.map(questionModules =>
-          (<QuestionModule
-            key={questionModules.id}
-            data={questionModules}
-            edit={edit}
-            final={final}
-          />)))
+        <List divided verticalAlign='middle'>
+          {formData.map(questionModules =>
+            (<QuestionModule
+              key={questionModules.id}
+              data={questionModules}
+              edit={edit}
+              final={final}
+            />))}
+        </List>
       )
     } else {
       /*

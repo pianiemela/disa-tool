@@ -26,6 +26,7 @@ import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 import { validationErrors } from '../utils'
+import EditCategoryQuestionModule from './FormParts/QuestionModules/EditCategoryQuestionModule';
 
 export class SelfAssesmentForm extends React.Component {
   constructor(props) {
@@ -197,14 +198,7 @@ export class SelfAssesmentForm extends React.Component {
       const { openQ, questionHeaders, grade } = structure.headers
       const { responseErrors } = this.state
 
-      if (this.props.assesmentResponse.existingAnswer) {
-        return (
-          <UserResultsPage
-            assesmentResponse={this.props.assesmentResponse}
-            formInfo={this.props.formData}
-          />
-        )
-      }
+
       if (!edit) {
         submitFunction = this.handleResponse
       } else if (this.props.new) {
@@ -236,10 +230,22 @@ export class SelfAssesmentForm extends React.Component {
               </Modal.Content>
               <Modal.Actions>
                 <Button onClick={() => this.close()} negative>Ei</Button>
-                <Button onClick={() => { this.props.dispatchCreateSelfAssesmentResponseAction(this.props.assesmentResponse); this.setState({ redirect: true, softErrors: false }) }} positive icon="checkmark" labelPosition='right' content="Kyllä" />
+                <Button
+                  onClick={() => {
+                    this.props.dispatchCreateSelfAssesmentResponseAction(this.props.assesmentResponse);
+                    this.setState({
+                      redirect: true,
+                      softErrors: false
+                    })
+                  }}
+                  positive
+                  icon="checkmark"
+                  labelPosition="right"
+                  content="Kyllä"
+                />
               </Modal.Actions>
             </Modal>
-            
+
 
             {edit ?
               <Button
@@ -262,7 +268,7 @@ export class SelfAssesmentForm extends React.Component {
                 formData={structure.questionModules}
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
-                QuestionModule={CategoryQuestionModule}
+                QuestionModule={edit ? this.state.preview ? CategoryQuestionModule : EditCategoryQuestionModule : CategoryQuestionModule}
                 errors={responseErrors.qModErrors}
                 clearError={this.clearError}
               />
@@ -299,7 +305,7 @@ export class SelfAssesmentForm extends React.Component {
                 headers={grade}
                 formData={[structure.finalGrade]}
                 edit={edit ? !this.state.preview : false}
-                QuestionModule={CategoryQuestionModule}
+                QuestionModule={edit ? this.state.preview ? CategoryQuestionModule : EditCategoryQuestionModule : CategoryQuestionModule}
                 final
                 headerType="grade"
                 changedProp={dummyPropToEnsureChange}
@@ -329,7 +335,14 @@ export class SelfAssesmentForm extends React.Component {
       <div>
         {
           Object.keys(this.props.formData).length > 0 ?
-            renderForm()
+            (this.props.assesmentResponse.existingAnswer ?
+              <UserResultsPage
+                assesmentResponse={this.props.assesmentResponse}
+                formInfo={this.props.formData}
+              />
+              :
+              renderForm()
+            )
             :
             <Loader active>Loading</Loader>
         }
