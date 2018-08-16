@@ -133,7 +133,6 @@ CategoryQuestionModule.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.shape()),
     textFieldOn: PropTypes.bool
   }).isRequired,
-  edit: PropTypes.bool.isRequired,
   final: PropTypes.bool,
   dispatchHeaderChange: PropTypes.func.isRequired,
   dispatchTextfieldResponseAction: PropTypes.func.isRequired,
