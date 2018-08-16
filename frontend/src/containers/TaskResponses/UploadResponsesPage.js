@@ -66,7 +66,8 @@ export class UploadResponsesPage extends Component {
   }
 
   createNewStudent = (studentnumber) => {
-    return { id: `0${studentnumber}`, studentnumber: `0${studentnumber}`, task_responses: [] }
+    const number = String(studentnumber)[0] === '0' ? studentnumber : `0${studentnumber}`
+    return { id: number, studentnumber: number, task_responses: [] }
   }
 
   createResponseData = () => {
