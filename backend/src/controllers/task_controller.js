@@ -2,9 +2,10 @@ const router = require('express').Router()
 
 const { checkAuth } = require('../services/auth.js')
 
-const taskService = require('../services/task_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const taskService = require('../services/task_service.js')
+const personService = require('../services/person_service')
 
 // TODO: Move these to a common/utils file
 const messages = {
@@ -208,6 +209,7 @@ router.post('/objectives/detach', async (req, res) => {
   }
 })
 
+// TODO: Needs refactoring, optimizing and possibly better try catching.
 router.post('/responses', async (req, res) => {
   const { tasks, courseId } = req.body
   const isTeacher = await checkPrivilege(req, [{
@@ -219,8 +221,10 @@ router.post('/responses', async (req, res) => {
     return
   }
   try {
-    const { updateResponses, newResponses } = await taskService.validateTaskResponses(tasks, courseId)
-    const createdResponses = await taskService.createTaskResponses(newResponses)
+    const { updateResponses, newResponses, nonRegResponses } = await taskService.validateTaskResponses(tasks, courseId)
+    const newRegisters = await personService.addPersonsToCourseFromResponses(nonRegResponses, courseId)
+    const newRegisterResponses = taskService.mapPersonsAndResponses(nonRegResponses, newRegisters)
+    const createdResponses = await taskService.createTaskResponses([...newResponses, ...newRegisterResponses])
     const updatedResponses = await taskService.updateTaskResponses(updateResponses)
     res.status(201).json({ message: 'good job', createdResponses: [...createdResponses, ...updatedResponses] })
   } catch (e) {

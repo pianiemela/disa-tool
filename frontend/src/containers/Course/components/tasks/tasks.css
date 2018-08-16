@@ -7,6 +7,11 @@
   width: 100%;
 }
 
+.AddTaskForm {
+  margin-top: 10px;
+  text-align: center;
+}
+
 .addTaskButton {
   width: 500px;
 }
