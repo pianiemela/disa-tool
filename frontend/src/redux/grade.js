@@ -8,7 +8,7 @@ const gradeReducer = (state = INITIAL_STATE, action) => {
     case 'GRADE_GET_MANY':
       return {
         ...state,
-        grades: action.response.data.grades,
+        grades: action.response.data,
         loading: false
       }
     case 'COURSE_RESET':
