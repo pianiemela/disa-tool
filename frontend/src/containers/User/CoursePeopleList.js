@@ -26,7 +26,7 @@ const renderTypeTable = (types, students, tasks, selectType) => (
         {types.map(header => <Table.HeaderCell key={header.id} colSpan={`${header.types.length}`}>{header.name}</Table.HeaderCell>)}
       </Table.Row>
       <Table.Row>
-        {types.map(header => header.types.map(type => <Table.HeaderCell key={type.id}><Button onClick={selectType} type={type}>{type.name}</Button></Table.HeaderCell>))}
+        {types.map(header => header.types.map(type => <Table.HeaderCell key={type.id}><Button onClick={selectType} type={type} color={type.updated ? 'red' : 'grey'}>{type.name}</Button></Table.HeaderCell>))}
       </Table.Row>
     </Table.Header>
     <Table.Body>
@@ -63,7 +63,7 @@ const renderTaskTable = (selectedTasks, studentTasks, selectType, selectedType, 
     </Table.Header>
     <Table.Body>
       {studentTasks.map(student => (
-        <Table.Row key={student.person.id}>
+        <Table.Row key={student.person.id} negative={student.person.name === ''}>
           <Table.Cell>
             {student.person.studentnumber} - {student.person.name}
           </Table.Cell>
@@ -134,18 +134,32 @@ export const CoursePeopleList = ({
   updateTask
 }) => {
   if (!selectedType) {
-    // students.map((person) => {
-    //   types.map(header => header.types.map(type => (
-    //     getTasksForType(tasks, type.id).map(task => console.log(task.types))
-    //     // person.task_responses.filter(response => console.log(response))
-    //   )))
-    // })
-    return renderTypeTable(types, students, tasks, selectType)
+    // Find out what types the updated tasks are from and mark those types as updated. Use this info
+    // to display types including updated tasks to the user.
+    const typesWithUpdates = types.map(header => (
+      { ...header,
+        types: header.types.map(type => (
+          { ...type,
+            updated: getTasksForType(tasks, type.id).find(task =>
+              updatedTasks.find(ut => ut.taskId === task.id))
+          }))
+      }))
+    return renderTypeTable(typesWithUpdates, students, tasks, selectType)
   }
+  const nonRegisteredTasks = updatedTasks.filter(resp => resp.studentnumber)
+  const nonRegisteredStudents = []
+  for (let i = 0; i < nonRegisteredTasks.length; i += 1) {
+    const resp = nonRegisteredTasks[i]
+    if (nonRegisteredStudents.find(student => student.studentnumber === resp.studentnumber) === undefined) {
+      nonRegisteredStudents.push({ id: resp.personId, studentnumber: resp.studentnumber, task_responses: [], name: '' })
+    }
+  }
+  const allStudents = students.concat(nonRegisteredStudents)
   const selectedTasks = tasks.filter(task => task.types.find(type => type.id === selectedType.id))
-  const studentTasks = students.map(person => (
+  const studentTasks = allStudents.map(person => (
     { person, tasks: selectedTasks.map(task => findPersonTask(person, updatedTasks, task)) }
   ))
+  console.log(studentTasks)
   return renderTaskTable(selectedTasks, studentTasks, selectType, selectedType, markTask, updateTask, popUp)
 }
 

@@ -65,6 +65,10 @@ export class UploadResponsesPage extends Component {
     this.setState({ pointsMapping: mappings })
   }
 
+  createNewStudent = (studentnumber) => {
+    return { id: `0${studentnumber}`, studentnumber: `0${studentnumber}`, task_responses: [] }
+  }
+
   createResponseData = () => {
     const { csv, csvMappings, studentHeader, pointsMapping } = this.state
     const { activeCourse } = this.props
@@ -74,7 +78,7 @@ export class UploadResponsesPage extends Component {
     for (let i = 1; i < students.length; i += 1) {
       const row = students[i]
       const student = activeCourse.people.find(person =>
-        person.studentnumber.includes(String(row[studentHeader])))
+        person.studentnumber.includes(String(row[studentHeader]))) || this.createNewStudent(String(row[studentHeader]))
       if (student) {
         const studentTasks = tasks.map((task) => {
           const response = { personId: student.id, taskId: csvMappings[task].task.id }
@@ -93,6 +97,9 @@ export class UploadResponsesPage extends Component {
           if (existingResponse) {
             response.responseId = existingResponse.id
           }
+          if (typeof student.id === 'string') {
+            response.studentnumber = student.studentnumber
+          }
           if (response.taskId && response.personId && response.points) {
             return response
           }
@@ -102,6 +109,7 @@ export class UploadResponsesPage extends Component {
     }
     this.props.updateHandler(updatedTasks)
     this.setState({ responsesCreated: true })
+    console.log(updatedTasks)
   }
 
   removeMessage = () => this.setState({ responsesCreated: false })
