@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Form, List, Table, Container } from 'semantic-ui-react'
+import { Card, Table, Container } from 'semantic-ui-react'
 import { objectiveGrades } from '../../SelfAssesment/utils'
 
 const UserResultsPage = (props) => {
@@ -22,7 +22,7 @@ const UserResultsPage = (props) => {
     assesmentGrade = Object.keys(data).reduce((eka, toka) => (
       eka + parseInt(data[toka].grade, 0)), 0)
     assesmentGrade = Math.round(assesmentGrade / Object.keys(data).length)
-    if ((assesmentGrade) !== Number) {
+    if (!(Number.isInteger(assesmentGrade))) {
       return 'Etpä tainnut arvioida kaikkea'
     }
     if (assesmentGrade > 0) {
