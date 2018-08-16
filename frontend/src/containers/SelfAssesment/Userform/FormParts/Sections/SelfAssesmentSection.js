@@ -152,7 +152,8 @@ SelfAssesmentSection.defaultProps = {
   final: false,
   headerType: null,
   errors: { grade: [], responseText: [] },
-  courseInstanceId: null
+  courseInstanceId: null,
+  clearError: null
 }
 
 SelfAssesmentSection.propTypes = {
@@ -167,7 +168,7 @@ SelfAssesmentSection.propTypes = {
   dispatchHeaderChange: PropTypes.func.isRequired,
   headers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   headerType: PropTypes.string,
-  clearError: PropTypes.func.isRequired,
+  clearError: PropTypes.func,
   errors: PropTypes.shape({
     responseText: PropTypes.arrayOf(PropTypes.shape()),
     grade: PropTypes.arrayOf(PropTypes.shape())

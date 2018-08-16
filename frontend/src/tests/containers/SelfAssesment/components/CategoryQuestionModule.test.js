@@ -27,6 +27,7 @@ describe('Category question module', () => {
       dispatchHeaderChange={jest.fn()}
       dispatchTextfieldResponseAction={jest.fn()}
       dispatchGradeCategoryAction={jest.fn()}
+      clearError={jest.fn()}
     />)
   })
 
