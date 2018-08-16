@@ -28,7 +28,6 @@ class EditGradesTab extends Component {
             levels={this.props.levels}
           />
           <CreateGradeForm
-            courseId={this.props.courseId}
             levels={this.props.levels}
             grades={this.props.grades}
           />

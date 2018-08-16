@@ -13,6 +13,11 @@ const gradeReducer = (state = INITIAL_STATE, action) => {
       }
     case 'COURSE_RESET':
       return INITIAL_STATE
+    case 'GRADE_CREATE':
+      return {
+        ...state,
+        grades: [...state.grades, action.response.created]
+      }
     default:
       return state
   }

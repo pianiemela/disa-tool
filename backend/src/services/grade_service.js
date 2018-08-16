@@ -16,28 +16,25 @@ const getByCourse = async (id, lang) => {
 }
 
 const create = {
-  prepare: data => Grade.build(
-    {
-      eng_name: data.eng_name,
-      fin_name: data.fin_name,
-      swe_name: data.swe_name,
-      skill_level_id: data.skill_level_id,
-      needed_for_grade: data.needed_for_grade,
-      prerequisite: data.prerequisite
-    },
-    {
-      include: [
-        {
-          model: SkillLevel,
-          attributes: ['id', 'course_instance_id']
-        },
-        {
-          model: Grade,
-          attributes: ['id']
-        }
-      ]
+  prepare: async (data) => {
+    const [instance, skillLevel] = await Promise.all([
+      Grade.build({
+        eng_name: data.eng_name,
+        fin_name: data.fin_name,
+        swe_name: data.swe_name,
+        skill_level_id: data.skill_level_id,
+        needed_for_grade: data.needed_for_grade,
+        prerequisite: data.prerequisite
+      }),
+      SkillLevel.findById(data.skill_level_id, {
+        attributes: ['id', 'course_instance_id']
+      })
+    ])
+    return {
+      instance,
+      skillLevel: skillLevel.toJSON()
     }
-  ),
+  },
   execute: instance => instance.save(),
   value: (instance, lang) => {
     const json = instance.toJSON()

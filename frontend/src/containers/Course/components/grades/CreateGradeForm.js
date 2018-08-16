@@ -10,14 +10,27 @@ import ModalForm from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 class CreateGradeForm extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      values: {}
+    }
+  }
+
   addGradeSubmit = e => this.props.addGrade({
-    course_instance_id: this.props.courseId,
     eng_name: e.target.eng_name.value,
     fin_name: e.target.fin_name.value,
     swe_name: e.target.swe_name.value,
-    skill_level_id: e.target.skill_level.value,
+    skill_level_id: this.state.values.skill_level,
     needed_for_grade: e.target.needed_for_grade.value,
-    prerequisite: e.target.prerequisite.value
+    prerequisite: this.state.values.prerequisite
+  })
+
+  changeDropdown = field => (e, { value }) => this.setState({
+    values: {
+      ...this.state.values,
+      [field]: value
+    }
   })
 
   render() {
@@ -38,7 +51,8 @@ class CreateGradeForm extends Component {
               <Form.Field>
                 <Label content={label.skill_level} />
                 <Dropdown
-                  name="skill_level"
+                  value={this.state.values.skill_level}
+                  onChange={this.changeDropdown('skill_level')}
                   selection
                   options={this.props.levels.map(level => ({
                     key: level.id,
@@ -60,7 +74,8 @@ class CreateGradeForm extends Component {
               <Form.Field>
                 <Label content={label.prerequisite} />
                 <Dropdown
-                  name="prerequisite"
+                  value={this.state.values.prerequisite}
+                  onChange={this.changeDropdown('prerequisite')}
                   selection
                   options={[{ key: 0, value: null, text: '' }].concat(this.props.grades.map(grade => ({
                     key: grade.id,
@@ -80,7 +95,6 @@ class CreateGradeForm extends Component {
 }
 
 CreateGradeForm.propTypes = {
-  courseId: PropTypes.number.isRequired,
   levels: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired

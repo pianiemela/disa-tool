@@ -27,11 +27,11 @@ router.get('/course/:id', async (req, res) => {
 
 router.post('/create', async (req, res) => {
   try {
-    const toCreate = await gradeService.create.prepare(req.body)
+    const { instance: toCreate, skillLevel } = await gradeService.create.prepare(req.body)
     if (!await checkPrivilege(req, [
       {
         key: 'teacher_on_course',
-        param: toCreate.dataValues.skill_level.course_instance_id
+        param: skillLevel.course_instance_id
       }
     ])) {
       res.status(403).json({
