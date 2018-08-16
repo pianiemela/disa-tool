@@ -28,14 +28,16 @@ const validateTaskResponses = async (taskResponses, courseId) => {
       return null
     }
     return {
+      studentnumber: r.studentnumber,
       responseId: r.responseId,
       task_id: r.taskId,
       person_id: r.personId,
       points: r.points <= originalTask.max_points ? r.points : originalTask.max_points }
   })
-  const updateResponses = validatedResponses.filter(resp => resp.responseId !== undefined)
-  const newResponses = validatedResponses.filter(resp => resp.responseId === undefined)
-  return { updateResponses, newResponses }
+  const updateResponses = validatedResponses.filter(resp => resp.responseId !== undefined && resp.studentnumber === undefined)
+  const newResponses = validatedResponses.filter(resp => resp.responseId === undefined && resp.studentnumber === undefined)
+  const nonRegistered = validatedResponses.filter(resp => resp.responseId === undefined && resp.studentnumber !== undefined)
+  return { updateResponses, newResponses, nonRegistered }
 }
 
 const createTaskResponses = taskResponses => (
@@ -49,6 +51,14 @@ const updateTaskResponses = taskResponses => (
         .then(res => res[1][0])
     }
     TaskResponse.destroy({ where: { id: resp.responseId } })
+  }))
+)
+
+const mapPersonsAndResponses = (taskResponses, coursePersons) => (
+  taskResponses.map(resp => ({
+    person_id: coursePersons.find(person => person.studentnumber === resp.studentnumber).person_id,
+    task_id: resp.task_id,
+    points: resp.points
   }))
 )
 
@@ -305,6 +315,7 @@ module.exports = {
   validateTaskResponses,
   createTaskResponses,
   updateTaskResponses,
+  mapPersonsAndResponses,
   create,
   delete: deleteTask,
   attachObjective,

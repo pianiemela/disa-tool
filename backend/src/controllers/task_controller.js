@@ -2,9 +2,10 @@ const router = require('express').Router()
 
 const { checkAuth } = require('../services/auth.js')
 
-const taskService = require('../services/task_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const taskService = require('../services/task_service.js')
+const personService = require('../services/person_service')
 
 // TODO: Move these to a common/utils file
 const messages = {
@@ -219,8 +220,10 @@ router.post('/responses', async (req, res) => {
     return
   }
   try {
-    const { updateResponses, newResponses } = await taskService.validateTaskResponses(tasks, courseId)
-    const createdResponses = await taskService.createTaskResponses(newResponses)
+    const { updateResponses, newResponses, nonRegistered } = await taskService.validateTaskResponses(tasks, courseId)
+    const newRegisters = await personService.addPersonsToCourseFromResponses(nonRegistered, courseId)
+    const newRegisterResponses = taskService.mapPersonsAndResponses(nonRegistered, newRegisters)
+    const createdResponses = await taskService.createTaskResponses([...newResponses, ...newRegisterResponses])
     const updatedResponses = await taskService.updateTaskResponses(updateResponses)
     res.status(201).json({ message: 'good job', createdResponses: [...createdResponses, ...updatedResponses] })
   } catch (e) {
