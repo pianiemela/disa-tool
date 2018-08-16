@@ -48,7 +48,24 @@ const create = {
   }
 }
 
+const deleteGrade = {
+  prepare: id => Grade.findById(id, {
+    include: {
+      model: SkillLevel,
+      attributes: ['id', 'course_instance_id']
+    }
+  }),
+  value: (instance) => {
+    const json = instance.toJSON()
+    return {
+      id: json.id
+    }
+  },
+  execute: instance => instance.destroy()
+}
+
 module.exports = {
   getByCourse,
-  create
+  create,
+  delete: deleteGrade
 }
