@@ -40,7 +40,10 @@ const create = {
     const json = instance.toJSON()
     return {
       id: json.id,
-      name: json[`${lang}_name`]
+      name: json[`${lang}_name`],
+      skill_level_id: json.skill_level_id,
+      needed_for_grade: json.needed_for_grade,
+      prerequisite: json.prerequisite
     }
   }
 }

@@ -10,6 +10,7 @@ const Gradelist = props => (
         key={grade.id}
         grade={grade}
         levels={props.levels}
+        grades={props.grades}
       />
     ))}
   </div>

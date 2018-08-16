@@ -37,7 +37,7 @@ class CreateGradeForm extends Component {
     const label = {
       name: 'nimi',
       skill_level: 'oppimistaso',
-      needed_for_grade: 'tarvittava suoritus',
+      needed_for_grade: 'vaadittu suoritus',
       prerequisite: 'esivaatimus'
     }
     return (
