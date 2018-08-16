@@ -17,7 +17,7 @@ class ObjectiveQuestionModule extends React.Component {
     this.props.data.objectives.forEach((value) => {
       ratings[value.name] = 1
     })
-    this.setState({ ratings })
+    // this.setState({ ratings })
   }
 
   handleChange = (e, name, id) => {
