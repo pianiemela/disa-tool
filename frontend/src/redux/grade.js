@@ -18,6 +18,11 @@ const gradeReducer = (state = INITIAL_STATE, action) => {
         ...state,
         grades: [...state.grades, action.response.created]
       }
+    case 'GRADE_DELETE':
+      return {
+        ...state,
+        grades: state.grades.filter(grade => grade.id !== action.response.deleted.id)
+      }
     default:
       return state
   }
