@@ -27,6 +27,13 @@ const Navbar = props => (
         name="Types"
         active={props.pathname.includes('types')}
       />
+      <Menu.Item
+        className="gradesLink"
+        as={Link}
+        to={`${props.matchUrl}/grades`}
+        name="Grades"
+        active={props.pathname.includes('grades')}
+      />
     </Menu>
   </nav>
 )
