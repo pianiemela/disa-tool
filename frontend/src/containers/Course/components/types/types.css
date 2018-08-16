@@ -45,7 +45,10 @@
   margin: 2px 0px 2px 5px !important;
 }
 
+.CreateHeaderForm {
+  margin: 10px;
+}
+
 .addHeaderButton {
   width: 200px;
-  height: 50px;
 }

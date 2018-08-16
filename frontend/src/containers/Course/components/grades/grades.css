@@ -1,0 +1,21 @@
+.flexContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.flexBlock {
+  display: inline-block;
+  width: 100%;
+  flex-shrink: 1;
+  text-align: center;
+}
+
+.CreateGradeForm {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.addGradeButton {
+  width: 200px;
+}

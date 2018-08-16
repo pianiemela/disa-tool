@@ -44,15 +44,15 @@ export const Matrix = (props) => {
                     header="Poista oppimistaso"
                   />
                 ) : (
-                  null
-                )}
+                    null
+                  )}
               </Table.HeaderCell>
             ))}
             {props.editing ? (
               <CreateLevelForm courseId={props.courseId} />
             ) : (
-              null
-            )}
+                null
+              )}
           </Table.Row>
         </Table.Header>
 
@@ -71,8 +71,8 @@ export const Matrix = (props) => {
           {props.editing ? (
             <CreateCategoryForm courseId={props.courseId} />
           ) : (
-            <Table.Row />
-          )}
+              null
+            )}
         </Table.Body>
       </Table>
     </Container>
@@ -102,14 +102,14 @@ Matrix.defaultProps = {
   showDetails: false
 }
 
-const mapStateToProps = state => ({
-  categories: state.category.categories,
+const mapStateToProps = (state, ownProps) => ({
+  categories: ownProps.categoryId ? state.category.categories.filter(c => c.id === ownProps.categoryId) : state.category.categories,
   levels: state.level.levels,
   activeTask: state.task.active === null ? (
     null
   ) : (
-    state.task.tasks.find(task => task.id === state.task.active)
-  )
+      state.task.tasks.find(task => task.id === state.task.active)
+    )
 })
 
 const mapDispatchToProps = dispatch => ({
