@@ -9,7 +9,8 @@ module.exports = {
   entry: ['babel-polyfill', './src/index.js'],
   output: {
     filename: '[name].bundle.js',
-    path: path.join(__dirname, '../../backend/dist')
+    path: path.join(__dirname, '../../backend/dist'),
+    publicPath: '/'
   },
   optimization: {
     splitChunks: {
