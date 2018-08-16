@@ -27,7 +27,7 @@ const gradeReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         grades: state.grades.map(grade => (
-          grade.id !== action.response.edited.id ? action.response.edited : grade
+          grade.id === action.response.edited.id ? action.response.edited : grade
         ))
       }
     default:

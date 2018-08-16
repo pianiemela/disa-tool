@@ -19,6 +19,16 @@ const messages = {
     eng: '"Arvosteluperuste poistettu onnistuneesti." englanniksi.',
     fin: 'Arvosteluperuste poistettu onnistuneesti.',
     swe: '"Arvosteluperuste poistettu onnistuneesti." ruotsiksi.'
+  },
+  details: {
+    eng: '"Arvosteluperusteen tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Arvosteluperusteen tiedot haettu onnistuneesti.',
+    swe: '"Arvosteluperusteen tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  edit: {
+    eng: '"Arvosteluperuste muokattu onnistuneesti." englanniksi.',
+    fin: 'Arvosteluperuste muokattu onnistuneesti.',
+    swe: '"Arvosteluperuste muokattu onnistuneesti." ruotsiksi.'
   }
 }
 

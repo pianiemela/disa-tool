@@ -7,6 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { removeGrade } from '../../actions/grades'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
+import EditGradeForm from './EditGradeForm'
 
 const parseName = object => (object ? object.name : null)
 
@@ -49,6 +50,11 @@ const Grade = props => (
                 'Poistetaanko arvosteluperuste',
                 props.grade.name
               ]}
+            />
+            <EditGradeForm
+              gradeId={props.grade.id}
+              grades={props.grades.filter(grade => grade.id !== props.grade.id)}
+              levels={props.levels}
             />
           </Grid.Column>
         </Grid.Row>
