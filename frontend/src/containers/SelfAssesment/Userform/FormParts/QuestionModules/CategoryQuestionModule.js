@@ -1,14 +1,15 @@
-import { Form, Card, Grid, Dropdown } from 'semantic-ui-react'
+import { Form, Card, Grid, Dropdown, Accordion, Icon } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { gradeCategoryAction, textfieldResponseAction, toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
 import { gradeOptions } from '../../../utils'
+import MatrixPage from '../../../../Course/MatrixPage'
 
 export class CategoryQuestionModule extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { editHeaders: false, changedHeaders: {} }
+    this.state = { editHeaders: false, changedHeaders: {}, showMatrix: false }
   }
 
   toggleEdit = () => {
@@ -23,9 +24,8 @@ export class CategoryQuestionModule extends React.Component {
   }
 
   render() {
-    console.log(this.props)
-    const { edit, final, responseTextError, gradeError, clearError } = this.props
-    const { name, textFieldOn, id, includedInAssesment, headers } = this.props.data
+    const { edit, final, responseTextError, gradeError, clearError, courseInstanceId } = this.props
+    const { name, textFieldOn, id, headers } = this.props.data
 
     return (
       <div className="CategoryQuestion">
@@ -34,7 +34,28 @@ export class CategoryQuestionModule extends React.Component {
             <Card fluid>
               <Card.Content >
                 <Card.Header>
-                  {final ? headers[0].value : name}
+                  {final ? headers[0].value :
+                  <div>
+                    {name}
+                    <Accordion style={{ marginTop: '10px' }} fluid styled>
+                      <Accordion.Title
+                        active={this.state.showMatrix}
+                        onClick={() => this.setState({ showMatrix: !this.state.showMatrix })}
+                      >
+                        <Icon name="dropdown" />
+                          Osaamismatriisi
+                      </Accordion.Title>
+                      <Accordion.Content active={this.state.showMatrix}>
+                        <MatrixPage
+                          courseId={courseInstanceId}
+                          hideHeader
+                          categoryId={id}
+                        />
+                      </Accordion.Content>
+                    </Accordion>
+                  </div>
+                  }
+
                 </Card.Header>
                 <Grid verticalAlign="middle" padded columns={3}>
                   <Grid.Row >
@@ -50,7 +71,7 @@ export class CategoryQuestionModule extends React.Component {
                             error={gradeError !== undefined}
                             onChange={!edit ? (e, { value }) => {
                               this.props.dispatchGradeCategoryAction({ id, value, final })
-                              this.props.clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
+                              clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
                             } : null}
                           />
                         </div>
@@ -76,7 +97,7 @@ export class CategoryQuestionModule extends React.Component {
                               :
                               null}
                             onChange={!edit ? () =>
-                              this.props.clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id })
+                              clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id })
                               :
                               null
                             }
@@ -98,7 +119,10 @@ export class CategoryQuestionModule extends React.Component {
 }
 
 CategoryQuestionModule.defaultProps = {
-  final: false
+  final: false,
+  courseInstanceId: null,
+  responseTextError: undefined,
+  gradeError: undefined
 }
 
 
@@ -107,14 +131,18 @@ CategoryQuestionModule.propTypes = {
     name: PropTypes.string,
     id: PropTypes.number,
     headers: PropTypes.arrayOf(PropTypes.shape()),
-    textFieldOn: PropTypes.bool,
-    includedInAssesment: PropTypes.bool
+    textFieldOn: PropTypes.bool
   }).isRequired,
   edit: PropTypes.bool.isRequired,
   final: PropTypes.bool,
   dispatchHeaderChange: PropTypes.func.isRequired,
   dispatchTextfieldResponseAction: PropTypes.func.isRequired,
-  dispatchGradeCategoryAction: PropTypes.func.isRequired
+  dispatchGradeCategoryAction: PropTypes.func.isRequired,
+  responseTextError: PropTypes.shape(),
+  gradeError: PropTypes.shape(),
+  clearError: PropTypes.func.isRequired,
+  courseInstanceId: PropTypes.number
+
 }
 
 const mapStateToProps = state => ({

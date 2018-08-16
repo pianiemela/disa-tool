@@ -26,23 +26,31 @@ class MatrixPage extends Component {
     }
     return (
       <div className="MatrixPage">
-        <CourseHeader renderReturnLink={false} />
-        <Matrix courseId={this.props.courseId} editing={false} />
+        {this.props.hideHeader ? null : <CourseHeader renderReturnLink={false} />}
+        <Matrix courseId={this.props.courseId} editing={false} categoryId={this.props.categoryId} />
       </div>
     )
   }
+}
+
+
+MatrixPage.defaultProps = {
+  hideHeader: false,
+  categoryId: null
 }
 
 MatrixPage.propTypes = {
   courseId: PropTypes.number.isRequired,
   getMatrix: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
-  resetCourse: PropTypes.func.isRequired
+  resetCourse: PropTypes.func.isRequired,
+  hideHeader: PropTypes.bool,
+  categoryId: PropTypes.number
 }
 
 const mapStateToProps = (state, ownProps) => ({
   loading: state.course.loading,
-  courseId: Number(ownProps.match.params.id)
+  courseId: ownProps.match ? Number(ownProps.match.params.id) : ownProps.courseId
 })
 
 const mapDispatchToProps = dispatch => ({
