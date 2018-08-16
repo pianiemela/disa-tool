@@ -1,4 +1,4 @@
-import { getByCourse, create } from '../../../api/grades'
+import { getByCourse, create, remove } from '../../../api/grades'
 import apiPromise from '../../../utils/apiPromise'
 
 export const getGrades = data => apiPromise(getByCourse, data, { // eslint-disable-line
@@ -7,4 +7,8 @@ export const getGrades = data => apiPromise(getByCourse, data, { // eslint-disab
 
 export const addGrade = data => apiPromise(create, data, {
   success: { type: 'GRADE_CREATE' }
+})
+
+export const removeGrade = data => apiPromise(remove, data, {
+  success: { type: 'GRADE_DELETE' }
 })

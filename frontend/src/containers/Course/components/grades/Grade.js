@@ -1,6 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Segment, Header, Grid } from 'semantic-ui-react'
+import asyncAction from '../../../../utils/asyncAction'
+
+import { removeGrade } from '../../actions/grades'
+
+import DeleteForm from '../../../../utils/components/DeleteForm'
 
 const parseName = object => (object ? object.name : null)
 
@@ -8,7 +14,7 @@ const Grade = props => (
   <div className="Grade">
     <Segment>
       <Header>{props.grade.name}</Header>
-      <Grid columns={3}>
+      <Grid columns={4}>
         <Grid.Row>
           <Grid.Column>
             <p>
@@ -35,6 +41,16 @@ const Grade = props => (
               </strong>
             </p>
           </Grid.Column>
+          <Grid.Column>
+            <DeleteForm
+              onExecute={() => props.removeGrade({ id: props.grade.id })}
+              header="Poista arvosteluperuste"
+              prompt={[
+                'Poistetaanko arvosteluperuste',
+                props.grade.name
+              ]}
+            />
+          </Grid.Column>
         </Grid.Row>
       </Grid>
     </Segment>
@@ -56,7 +72,12 @@ Grade.propTypes = {
   grades: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
-  })).isRequired
+  })).isRequired,
+  removeGrade: PropTypes.func.isRequired
 }
 
-export default Grade
+const mapDispatchToProps = dispatch => ({
+  removeGrade: asyncAction(removeGrade, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(Grade)
