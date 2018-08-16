@@ -50,6 +50,7 @@ const create = {
 
 const deleteGrade = {
   prepare: id => Grade.findById(id, {
+    attributes: ['id', 'skill_level_id'],
     include: {
       model: SkillLevel,
       attributes: ['id', 'course_instance_id']
@@ -64,8 +65,29 @@ const deleteGrade = {
   execute: instance => instance.destroy()
 }
 
+const details = id => Grade.findById(id, {
+  attributes: {
+    exclude: ['created_at', 'updated_at']
+  }
+})
+
+const edit = {
+  prepare: deleteGrade.prepare,
+  execute: (instance, data) => instance.update({
+    eng_name: data.eng_name,
+    fin_name: data.fin_name,
+    swe_name: data.swe_name,
+    skill_level_id: data.skill_level_id,
+    needed_for_grade: data.needed_for_grade,
+    prerequisite: data.prerequisite
+  }),
+  value: create.value
+}
+
 module.exports = {
   getByCourse,
   create,
-  delete: deleteGrade
+  delete: deleteGrade,
+  details,
+  edit
 }
