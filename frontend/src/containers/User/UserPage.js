@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Prompt } from 'react-router'
 import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Accordion, Button, Header, List, Menu, Grid, Item, Label, Icon, Dropdown } from 'semantic-ui-react'
+import { Accordion, Button, Header, List, Loader, Grid, Item, Label, Icon, Dropdown } from 'semantic-ui-react'
 
 import {
   getUserCoursesAction,
@@ -212,6 +212,7 @@ class UserPage extends Component {
                         <Dropdown
                           name="teacherSelector"
                           closeOnChange
+                          closeOnBlur
                           fluid
                           multiple
                           selection
@@ -262,9 +263,7 @@ class UserPage extends Component {
                         <List selection size="big">
                           {assessments.map(assessment => (
                             !assessment.active && activeCourse.courseRole !== 'TEACHER' ? undefined : (
-                              <List.Item
-                                key={assessment.id}
-                              >
+                              <List.Item key={assessment.id}>
                                 <List.Content
                                   as={Link}
                                   to={`/selfAssesment/response/${assessment.id}`}
@@ -313,7 +312,7 @@ class UserPage extends Component {
                     </Grid.Column>
                   </Grid.Row>
                   {activeCourse.courseRole === 'TEACHER' ?
-                    <Grid>
+                    <Grid style={{ overflowX: 'scroll' }}>
                       <Grid.Row>
                         <Grid.Column>
                           <Accordion
@@ -335,7 +334,7 @@ class UserPage extends Component {
                         </Grid.Column>
                       </Grid.Row>
                       <Grid.Row>
-                        <Grid.Column style={{ overflowX: 'scroll' }}>
+                        <Grid.Column>
                           <div>
                             <CoursePeopleList
                               popUp={popUp}

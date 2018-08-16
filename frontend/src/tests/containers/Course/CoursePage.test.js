@@ -27,6 +27,7 @@ describe('Course page', () => {
       courseId={1}
       loading={false}
       getCourseData={getCourseData}
+      resetCourse={mockFn}
     />)
   })
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Header, Dropdown, Button, Popup, Input, Container } from 'semantic-ui-react'
+import { Header, Dropdown, Container } from 'semantic-ui-react'
 
 const SelectTaskDropdown = props => (
   <Container>
@@ -19,18 +19,6 @@ const SelectTaskDropdown = props => (
         value={props.activeTask ? props.activeTask.id : null}
         onChange={props.changeActive}
       />
-      <Header.Subheader>Kerroin:
-        {props.activeTask ?
-          <Popup
-            content={<div><Input action type="number" value={props.activeTask.defaultMultiplier}><input /><Button content="päivitä" /></Input></div>}
-            trigger={<Button
-              basic
-              content={props.activeTask.defaultMultiplier.toFixed(2)}
-            />}
-            on="click"
-          />
-          : undefined}
-      </Header.Subheader>
     </Header>
   </Container>
 )

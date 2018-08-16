@@ -55,14 +55,6 @@ const deleteObjective = {
   execute: instance => instance.destroy()
 }
 
-const typeMultiplier = (task) => {
-  let multiplier = 1
-  task.types.forEach((type) => {
-    multiplier *= type.multiplier
-  })
-  return multiplier
-}
-
 const details = async (id, lang) => {
   const name = [`${lang}_name`, 'name']
   const result = (await Objective.findById(id, {
@@ -73,21 +65,12 @@ const details = async (id, lang) => {
       attributes: [name],
       through: {
         attributes: ['multiplier']
-      },
-      include: {
-        required: false,
-        model: Type,
-        attributes: ['multiplier'],
-        through: {
-          attributes: []
-        }
       }
     }
   })).toJSON()
   result.tasks = result.tasks.map(task => ({
     ...task,
-    type_multiplier: typeMultiplier(task),
-    task_multiplier: task.task_objective.multiplier,
+    multiplier: task.task_objective.multiplier,
     types: undefined,
     task_objective: undefined
   }))

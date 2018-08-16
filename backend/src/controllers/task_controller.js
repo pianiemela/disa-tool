@@ -2,9 +2,10 @@ const router = require('express').Router()
 
 const { checkAuth } = require('../services/auth.js')
 
-const taskService = require('../services/task_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const taskService = require('../services/task_service.js')
+const personService = require('../services/person_service')
 
 // TODO: Move these to a common/utils file
 const messages = {
@@ -47,6 +48,11 @@ const messages = {
     eng: '"Tehtävän muutokset tallennettu onnistuneesti." englanniksi.',
     fin: 'Tehtävän muutokset tallennettu onnistuneesti.',
     swe: '"Tehtävän muutokset tallennettu onnistuneesti." ruotsiksi.'
+  },
+  objectiveEdit: {
+    eng: '"Tehtävän kertoimet muokattu onnistuneesti." englanniksi.',
+    fin: 'Tehtävän kertoimet muokattu onnistuneesti.',
+    swe: '"Tehtävän kertoimet muokattu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -203,6 +209,7 @@ router.post('/objectives/detach', async (req, res) => {
   }
 })
 
+// TODO: Needs refactoring, optimizing and possibly better try catching.
 router.post('/responses', async (req, res) => {
   const { tasks, courseId } = req.body
   const isTeacher = await checkPrivilege(req, [{
@@ -214,8 +221,10 @@ router.post('/responses', async (req, res) => {
     return
   }
   try {
-    const { updateResponses, newResponses } = await taskService.validateTaskResponses(tasks, courseId)
-    const createdResponses = await taskService.createTaskResponses(newResponses)
+    const { updateResponses, newResponses, nonRegResponses } = await taskService.validateTaskResponses(tasks, courseId)
+    const newRegisters = await personService.addPersonsToCourseFromResponses(nonRegResponses, courseId)
+    const newRegisterResponses = taskService.mapPersonsAndResponses(nonRegResponses, newRegisters)
+    const createdResponses = await taskService.createTaskResponses([...newResponses, ...newRegisterResponses])
     const updatedResponses = await taskService.updateTaskResponses(updateResponses)
     res.status(201).json({ message: 'good job', createdResponses: [...createdResponses, ...updatedResponses] })
   } catch (e) {
@@ -369,6 +378,28 @@ router.put('/:id', async (req, res) => {
       console.log(e)
     }
   }
+})
+
+router.post('/objectives/edit', async (req, res) => {
+  const [toEdit, task, objectives] = await taskService.editTaskObjectives.prepare(req.body)
+  if (objectives.length < req.body.objectives.length
+    || !await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: task.dataValues.course_instance_id
+      }
+    ])) {
+    res.status(403).json({
+      error: errors.privilege[req.lang]
+    })
+    return
+  }
+  await taskService.editTaskObjectives.execute(toEdit, req.body)
+  const edited = await taskService.editTaskObjectives.value(toEdit, req.body)
+  res.status(200).json({
+    message: messages.objectiveEdit[req.lang],
+    edited
+  })
 })
 
 module.exports = router

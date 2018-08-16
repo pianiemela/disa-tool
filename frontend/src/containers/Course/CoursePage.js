@@ -5,11 +5,12 @@ import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
-import { getCourseData } from './actions/course'
+import { getCourseData, resetCourse } from './actions/course'
 
 import EditMatrixTab from './components/matrix/EditMatrixTab'
 import EditTypesTab from './components/types/EditTypesTab'
 import EditTasksTab from './components/tasks/EditTasksTab'
+import EditGradesTab from './components/grades/EditGradesTab'
 import Navbar from './components/navbar/Navbar'
 import CourseHeader from './components/header/CourseHeader'
 
@@ -18,6 +19,10 @@ export class CoursePage extends Component {
     this.props.getCourseData({
       id: this.props.match.params.id
     })
+  }
+
+  componentWillUnmount() {
+    this.props.resetCourse()
   }
 
   render() {
@@ -32,6 +37,7 @@ export class CoursePage extends Component {
           <Route path={`${this.props.match.url}/matrix`} render={() => <EditMatrixTab courseId={this.props.match.params.id} />} />
           <Route path={`${this.props.match.url}/types`} render={() => <EditTypesTab courseId={this.props.match.params.id} />} />
           <Route path={`${this.props.match.url}/tasks`} render={() => <EditTasksTab courseId={this.props.match.params.id} />} />
+          <Route path={`${this.props.match.url}/grades`} render={() => <EditGradesTab courseId={this.props.match.params.id} />} />
           <Route component={() => <Redirect to={`${this.props.match.url}/tasks`} />} />
         </Switch>
       </div>
@@ -50,7 +56,8 @@ CoursePage.propTypes = {
     pathname: PropTypes.string.isRequired
   }).isRequired,
   getCourseData: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired
+  loading: PropTypes.bool.isRequired,
+  resetCourse: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
@@ -66,7 +73,8 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  getCourseData: asyncAction(getCourseData, dispatch)
+  getCourseData: asyncAction(getCourseData, dispatch),
+  resetCourse: resetCourse(dispatch)
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CoursePage))

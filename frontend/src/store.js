@@ -13,6 +13,7 @@ import { userCoursesReducer } from './redux/userCourses'
 import { instanceReducer } from './redux/instance'
 import listCourses from './redux/listCourses'
 import toast from './redux/toast'
+import grade from './redux/grade'
 
 const reducers = combineReducers({
   task,
@@ -25,7 +26,8 @@ const reducers = combineReducers({
   courses: userCoursesReducer,
   instance: instanceReducer,
   listCourses,
-  toast
+  toast,
+  grade
 })
 
 const store = process.env.NODE_ENV === 'development' ?

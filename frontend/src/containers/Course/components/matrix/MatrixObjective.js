@@ -22,6 +22,17 @@ export class MatrixObjective extends Component {
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    if (newProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
+      if (this.state.triggered) {
+        this.setState({
+          triggered: false,
+          loading: true
+        })
+      }
+    }
+  }
+
   toggleObjective = () => {
     if (this.props.activeTaskId !== null) {
       this.props.toggleObjective({
@@ -41,7 +52,7 @@ export class MatrixObjective extends Component {
     const objectiveDetails = (await this.props.details({ id: this.props.objective.id })).data.data
     let cumMultiplier = 0
     objectiveDetails.tasks.forEach((task) => {
-      cumMultiplier += task.type_multiplier * task.task_multiplier
+      cumMultiplier += task.multiplier
     })
     this.setState({
       cumulative_multiplier: cumMultiplier,
@@ -82,6 +93,9 @@ export class MatrixObjective extends Component {
                   content={this.props.objective.task_count}
                   onMouseOver={this.loadDetails}
                   onFocus={this.loadDetails}
+                  style={{
+                    color: this.props.objective.task_count === 0 ? 'red' : undefined
+                  }}
                 />}
                 content={
                   this.state.loading ? (
@@ -104,7 +118,7 @@ export class MatrixObjective extends Component {
                               {task.name}
                             </strong>
                             <span>
-                              : {(task.type_multiplier * task.task_multiplier).toFixed(2)}
+                              : {(Number(task.multiplier)).toFixed(2)}
                             </span>
                           </p>
                         </div>
@@ -148,13 +162,19 @@ MatrixObjective.propTypes = {
   toggleObjective: PropTypes.func.isRequired,
   activeTaskId: PropTypes.number,
   details: PropTypes.func.isRequired,
-  showDetails: PropTypes.bool
+  showDetails: PropTypes.bool,
+  lastMultiplierUpdate: PropTypes.instanceOf(Date)
 }
 
 MatrixObjective.defaultProps = {
   activeTaskId: null,
-  showDetails: false
+  showDetails: false,
+  lastMultiplierUpdate: null
 }
+
+const mapStateToProps = state => ({
+  lastMultiplierUpdate: state.task.lastMultiplierUpdate
+})
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   removeObjective: asyncAction(removeObjective, dispatch),
@@ -166,4 +186,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   details
 })
 
-export default connect(null, mapDispatchToProps)(MatrixObjective)
+export default connect(mapStateToProps, mapDispatchToProps)(MatrixObjective)

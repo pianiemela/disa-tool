@@ -15,3 +15,7 @@ export const setEditing = dispatch => (data) => {
 export const getMatrix = data => apiPromise(matrix, data, {
   success: { type: 'COURSE_GET_MATRIX' }
 })
+
+export const resetCourse = dispatch => () => dispatch({
+  type: 'COURSE_RESET'
+})

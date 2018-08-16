@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { shape, func } from 'prop-types'
-import { Button, Grid, Input, List, Table, Dropdown, Accordion } from 'semantic-ui-react'
+import { Button, Grid, Input, List, Message, Table, Dropdown, Accordion } from 'semantic-ui-react'
 import Papa from 'papaparse'
 
 export class UploadResponsesPage extends Component {
@@ -65,6 +65,10 @@ export class UploadResponsesPage extends Component {
     this.setState({ pointsMapping: mappings })
   }
 
+  createNewStudent = (studentnumber) => {
+    return { id: `0${studentnumber}`, studentnumber: `0${studentnumber}`, task_responses: [] }
+  }
+
   createResponseData = () => {
     const { csv, csvMappings, studentHeader, pointsMapping } = this.state
     const { activeCourse } = this.props
@@ -74,7 +78,7 @@ export class UploadResponsesPage extends Component {
     for (let i = 1; i < students.length; i += 1) {
       const row = students[i]
       const student = activeCourse.people.find(person =>
-        person.studentnumber.includes(String(row[studentHeader])))
+        person.studentnumber.includes(String(row[studentHeader]))) || this.createNewStudent(String(row[studentHeader]))
       if (student) {
         const studentTasks = tasks.map((task) => {
           const response = { personId: student.id, taskId: csvMappings[task].task.id }
@@ -93,6 +97,9 @@ export class UploadResponsesPage extends Component {
           if (existingResponse) {
             response.responseId = existingResponse.id
           }
+          if (typeof student.id === 'string') {
+            response.studentnumber = student.studentnumber
+          }
           if (response.taskId && response.personId && response.points) {
             return response
           }
@@ -101,7 +108,11 @@ export class UploadResponsesPage extends Component {
       }
     }
     this.props.updateHandler(updatedTasks)
+    this.setState({ responsesCreated: true })
+    console.log(updatedTasks)
   }
+
+  removeMessage = () => this.setState({ responsesCreated: false })
 
   renderCsvTable = csv => (
     <Grid.Row>
@@ -124,7 +135,7 @@ export class UploadResponsesPage extends Component {
   )
 
   render() {
-    const { csv, csvMappings, studentHeader, pointsMapping, pointKey, pointValue } = this.state
+    const { csv, csvMappings, studentHeader, pointsMapping, pointKey, pointValue, responsesCreated } = this.state
     const { activeCourse } = this.props
     return !activeCourse.id ? <h1>Loading</h1> : (
       <Grid container>
@@ -149,14 +160,14 @@ export class UploadResponsesPage extends Component {
                   onChange={this.handleChange}
                 />
               </div>) : undefined}
-            <List>
+            <List size="small">
               {Object.keys(csvMappings).map(suggestion => (
                 <List.Item key={suggestion}>
-                  <List.Content>
+                  <List.Content style={{ padding: 0 }}>
                     {csvMappings[suggestion].active ?
                       <b>{csv.data[0][suggestion]} </b> :
                       <strike>{csv.data[0][suggestion]} </strike>}
-                     ------------
+                      ______________
                     <Dropdown
                       disabled={!csvMappings[suggestion].active}
                       search
@@ -175,7 +186,7 @@ export class UploadResponsesPage extends Component {
                       circular
                       color={csvMappings[suggestion].active ? 'green' : 'red'}
                       icon={csvMappings[suggestion].active ? 'checkmark' : 'minus'}
-                      size="small"
+                      size="mini"
                       value={suggestion}
                       onClick={this.toggleCsvHeader}
                     />
@@ -196,7 +207,7 @@ export class UploadResponsesPage extends Component {
                       basic
                       color="red"
                       icon="delete"
-                      size="small"
+                      size="tiny"
                       value={key}
                       onClick={this.removePointMapping}
                     />
@@ -212,6 +223,10 @@ export class UploadResponsesPage extends Component {
           <Grid.Column>
             <h3>Luo palautukset</h3>
             <Button onClick={this.createResponseData}>Luo palautukset</Button>
+            {responsesCreated ?
+              <Message positive onDismiss={this.removeMessage}>
+                Vastaukset luotu, ole hyvä ja tarkista ne tehtävätaulukosta ennen tallentamista.
+              </Message> : undefined}
           </Grid.Column>
         </Grid.Row>
         {csv ?
@@ -220,7 +235,7 @@ export class UploadResponsesPage extends Component {
             panels={[{
               key: 'table',
               title: 'Katso csv-tiedoston sisältöä',
-              content: { content: this.renderCsvTable(csv) } }]}
+              content: { key: 'subtable', content: this.renderCsvTable(csv) } }]}
           />
         : undefined}
       </Grid>

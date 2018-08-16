@@ -10,23 +10,34 @@ const Navbar = props => (
         className="tasksLink"
         as={Link}
         to={`${props.matchUrl}/tasks`}
-        name=">Tasks"
         active={props.pathname.includes('tasks')}
-      />
+      >
+        <span>Tehtävät</span>
+      </Menu.Item>
       <Menu.Item
         className="matrixLink"
         as={Link}
         to={`${props.matchUrl}/matrix`}
-        name="Matrix"
         active={props.pathname.includes('matrix')}
-      />
+      >
+        <span>Matriisi</span>
+      </Menu.Item>
       <Menu.Item
         className="typesLink"
         as={Link}
         to={`${props.matchUrl}/types`}
-        name="Types"
         active={props.pathname.includes('types')}
-      />
+      >
+        <span>Tyypit</span>
+      </Menu.Item>
+      <Menu.Item
+        className="gradesLink"
+        as={Link}
+        to={`${props.matchUrl}/grades`}
+        active={props.pathname.includes('grades')}
+      >
+        <span>Arvosteluperusteet</span>
+      </Menu.Item>
     </Menu>
   </nav>
 )

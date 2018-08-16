@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, Form, Button } from 'semantic-ui-react'
+import { Card, Form, Button, List } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import MultiLangInput from '../MultiLangInput'
 import AddOpenQuestion from '../addOpenQuestion'
@@ -37,7 +37,8 @@ export class SelfAssesmentSection extends React.Component {
       formData,
       headers,
       errors,
-      clearError } = this.props
+      clearError,
+      courseInstanceId } = this.props
 
     const { responseText, grade } = errors
     const { editHeaders } = this.state
@@ -45,17 +46,20 @@ export class SelfAssesmentSection extends React.Component {
     let headerEditForm = null
     let renderModules = null
 
-    // If we are in edit form, show all the question modules despite their status of being included in the assessment
-
+    /* If we are in edit form, show all the questionmodules
+    despite their status of being included in the assessment
+    */
     if (edit) {
       renderModules = (
-        (formData.map(questionModules =>
-          (<QuestionModule
-            key={questionModules.id}
-            data={questionModules}
-            edit={edit}
-            final={final}
-          />)))
+        <List divided verticalAlign="middle">
+          {formData.map(questionModules =>
+            (<QuestionModule
+              key={questionModules.id}
+              data={questionModules}
+              edit={edit}
+              final={final}
+            />))}
+        </List>
       )
     } else {
       /*
@@ -72,8 +76,11 @@ export class SelfAssesmentSection extends React.Component {
               data={questionModules}
               edit={edit}
               final={final}
+              courseInstanceId={courseInstanceId}
               gradeError={final ? grade[0] : grade.find(e => e.id === questionModules.id)}
-              responseTextError={final ? responseText[0] : responseText.find(e => e.id === questionModules.id)}
+              responseTextError={final ?
+                responseText[0] :
+                responseText.find(e => e.id === questionModules.id)}
               clearError={clearError}
             />)
             :
@@ -144,7 +151,9 @@ SelfAssesmentSection.defaultProps = {
   question: false,
   final: false,
   headerType: null,
-  errors: { grade: [], responseText: [] }
+  errors: { grade: [], responseText: [] },
+  courseInstanceId: null,
+  clearError: null
 }
 
 SelfAssesmentSection.propTypes = {
@@ -159,11 +168,12 @@ SelfAssesmentSection.propTypes = {
   dispatchHeaderChange: PropTypes.func.isRequired,
   headers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   headerType: PropTypes.string,
-  clearError: PropTypes.func.isRequired,
+  clearError: PropTypes.func,
   errors: PropTypes.shape({
     responseText: PropTypes.arrayOf(PropTypes.shape()),
     grade: PropTypes.arrayOf(PropTypes.shape())
-  })
+  }),
+  courseInstanceId: PropTypes.number
 }
 
 const mapDispatchToProps = dispatch => ({

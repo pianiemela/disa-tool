@@ -29,8 +29,28 @@ const updatePersonRoleOnCourse = coursePersons => (
   )))
 )
 
+const addPersonsToCourseFromResponses = async (tasks, courseId) => {
+  const uniquePersons = []
+  for (let i = 0; i < tasks.length; i += 1) {
+    const resp = tasks[i]
+    if (uniquePersons.find(student => student.studentnumber === resp.studentnumber) === undefined) {
+      uniquePersons.push({ studentnumber: resp.studentnumber })
+    }
+  }
+  const coursePersons = await Promise.all(uniquePersons.map(async (person) => {
+    const newPerson = await Person.findOrCreate({
+      where: { studentnumber: person.studentnumber },
+      defaults: { name: 'NOT REGISTERED', role: 'STUDENT' }
+    })
+    return { person_id: newPerson[0].id, course_instance_id: courseId, role: 'STUDENT', studentnumber: newPerson[0].studentnumber }
+  }))
+  await CoursePerson.bulkCreate(coursePersons, { returning: true })
+  return coursePersons
+}
+
 module.exports = {
   getUser,
   getPeopleOnCourse,
-  updatePersonRoleOnCourse
+  updatePersonRoleOnCourse,
+  addPersonsToCourseFromResponses
 }

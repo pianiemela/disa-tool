@@ -30,6 +30,14 @@ class Nav extends Component {
     }
   }
 
+  componentDidUpdate = async () => {
+    const path = await window.location.pathname.split('/')
+    const item = path[1]
+    if (item && item !== this.state.activeItem) {
+      await this.setState({ activeItem: item })
+    }
+  }
+
   handleClick = (e, { name }) => {
     if (name === 'logout') {
       this.props.dispatchLogout()
