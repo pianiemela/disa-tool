@@ -55,6 +55,8 @@ describe('grade controller', () => {
 
     testTeacherOnCoursePrivilege(options)
 
+    testStatusCode({ ...options, route: '/api/grades/course/999999' }, 404)
+
     testBody(options, {
       common: {
         message: expect.any(String),

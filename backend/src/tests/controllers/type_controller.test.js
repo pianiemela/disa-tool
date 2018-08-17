@@ -153,6 +153,8 @@ describe('type_controller', () => {
 
     testHeaders(options)
 
+    testStatusCode({ ...options, route: '/api/types/999999' }, 404)
+
     testBody(options, {
       common: {
         message: expect.any(String),
@@ -192,6 +194,8 @@ describe('type_controller', () => {
     testTeacherOnCoursePrivilege(options)
 
     testHeaders(options)
+
+    testStatusCode({ ...options, route: '/api/types/headers/999999' }, 404)
 
     testBody(options, {
       common: {

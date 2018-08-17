@@ -55,6 +55,12 @@ router.post('/create', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const toDelete = await objectiveService.delete.prepare(req.params.id)
+  if (!toDelete) {
+    res.status(404).json({
+      error: errors.notfound[req.lang]
+    })
+    return
+  }
   if (!await checkPrivilege(
     req,
     [

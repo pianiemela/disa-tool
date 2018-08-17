@@ -100,6 +100,8 @@ describe('task_controller', () => {
     testTeacherOnCoursePrivilege(options)
 
     testHeaders(options)
+    
+    testStatusCode({ ...options, route: '/api/tasks/999999' }, 404)
 
     testBody(options, {
       common: {
