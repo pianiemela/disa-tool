@@ -82,7 +82,7 @@ const { details, edit } = editServices(
   Objective,
   {},
   {
-    attributes: ['id', 'category_id'],
+    attributes: ['id', 'category_id', 'skill_level_id'],
     include: {
       model: Category,
       attributes: ['id', 'course_instance_id']

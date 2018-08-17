@@ -153,4 +153,140 @@ describe('objective_controller', () => {
 
     testDatabaseDestroy(options, Objective, { delay: 2000 })
   })
+
+  describe('GET /:id', () => {
+    const options = {
+      route: '/api/objectives',
+      method: 'get',
+      preamble: {}
+    }
+    const ids = {}
+
+    beforeAll((done) => {
+      Objective.create({
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn',
+        skill_level_id: 1,
+        category_id: 1
+      }).then((result) => {
+        ids.objective = result.get({ plain: true }).id
+        options.route = `${options.route}/${ids.objective}`
+        done()
+      }).catch(done)
+    })
+
+    testHeaders(options)
+
+    testStatusCode(options, 200)
+
+    testStatusCode({ ...options, route: '/api/objectives/999999' }, 404)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        data: {
+          eng_name: 'en',
+          fin_name: 'fn',
+          swe_name: 'sn',
+          skill_level_id: 1,
+          category_id: 1
+        }
+      }
+    })
+  })
+
+  describe('PUT /:id', () => {
+    const data = {
+      eng_name: 'new en',
+      fin_name: 'new fn',
+      swe_name: 'new sn'
+    }
+    const options = {
+      route: '/api/objectives',
+      method: 'put',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+    const ids = {}
+    const databaseExpectation = {}
+
+    beforeAll((done) => {
+      Objective.create({
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn',
+        skill_level_id: 1,
+        category_id: 1
+      }).then((result) => {
+        ids.objective = result.get({ plain: true }).id
+        options.route = `${options.route}/${ids.objective}`
+        databaseExpectation.created_at = result.get({ plain: true }).created_at
+        done()
+      }).catch(done)
+    })
+
+    beforeEach((done) => {
+      Objective.findById(ids.objective).then(
+        instance => instance.update({
+          eng_name: 'en',
+          fin_name: 'fn',
+          swe_name: 'sn'
+        }).then(() => done()).catch(done)
+      ).catch(done)
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testStatusCode({ ...options, route: '/api/objectives/999999' }, 404)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        edited: {
+          id: asymmetricMatcher(actual => actual === ids.objective),
+          skill_level_id: 1,
+          category_id: 1
+        }
+      },
+      eng: {
+        edited: {
+          name: data.eng_name
+        }
+      },
+      fin: {
+        edited: {
+          name: data.fin_name
+        }
+      },
+      swe: {
+        edited: {
+          name: data.swe_name
+        }
+      }
+    })
+
+    testDatabaseSave(
+      options,
+      {
+        ...data,
+        id: asymmetricMatcher(actual => actual === ids.objective),
+        category_id: 1,
+        skill_level_id: 1,
+        created_at: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        )),
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+      },
+      Objective,
+      {
+        pathToId: ['body', 'edited', 'id'],
+        includeTimestamps: false
+      }
+    )
+  })
 })

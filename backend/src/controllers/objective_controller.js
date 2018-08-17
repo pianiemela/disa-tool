@@ -20,6 +20,11 @@ const messages = {
     eng: '"Oppimistavoitteen tiedot haettu onnistuneesti." englanniksi.',
     fin: 'Oppimistavoitteen tiedot haettu onnistuneesti.',
     swe: '"Oppimistavoitteen tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  edit: {
+    eng: '"Oppimistavoite muokattu onnistuneesti." englanniksi.',
+    fin: 'Oppimistavoite muokattu onnistuneesti.',
+    swe: '"Oppimistavoite muokattu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -99,7 +104,8 @@ router.get('/tasks/:id', async (req, res) => {
 editRoutes(router, {
   service: objectiveService,
   messages,
-  errors
+  errors,
+  pathToCourseInstanceId: ['category', 'course_instance_id']
 })
 
 module.exports = router
