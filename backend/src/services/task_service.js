@@ -155,18 +155,40 @@ const detachObjective = {
 }
 
 const updateMultipliers = async (taskType, removing = false) => {
-  const taskTypes = await Type.findAll({ include: { model: TaskType, where: { task_id: taskType.task_id } } })
+  const taskTypes = await TaskType.findAll({
+    attributes: ['id', 'task_id', 'type_id'],
+    where: {
+      task_id: taskType.task_id
+    },
+    include: {
+      model: Type,
+      attributes: ['id', 'multiplier']
+    }
+  })
   if (removing) {
-    const i = taskTypes.findIndex(tt => tt.id === taskType.type_id)
+    const i = taskTypes.findIndex(tt => tt.id === taskType.id)
     taskTypes.splice(i, 1)
   }
-  const multiplier = taskTypes.reduce((acc, curr) => acc * curr.multiplier, 1)
-  const taskObjectives = await TaskObjective.findAll({ where: { task_id: taskType.task_id } })
-  const updatedObjectives = await Promise.all(taskObjectives.map(taskO => (
-    TaskObjective.update({ multiplier }, { where: { id: taskO.id, modified: false }, returning: true })
-      .then(res => res[1][0])
-  )))
-  return { taskObjectives: updatedObjectives, multiplier }
+  const multiplier = taskTypes.reduce((acc, curr) => acc * curr.type.multiplier, 1)
+  const taskObjectives = (await TaskObjective.update(
+    {
+      multiplier
+    },
+    {
+      where: {
+        task_id: taskType.task_id,
+        modified: false
+      },
+      returning: true
+    }
+  ))[1].map((taskObjective) => {
+    const json = taskObjective.toJSON()
+    return {
+      id: json.objective_id,
+      multiplier: json.multiplier
+    }
+  })
+  return { taskObjectives, multiplier }
 }
 
 const attachType = {
