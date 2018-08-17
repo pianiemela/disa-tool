@@ -319,7 +319,8 @@ const taskAttachTypeResponse = {
   created: {
     task_id: 6,
     type_id: 200
-  }
+  },
+  taskObjectives: []
 }
 
 const taskAttachTypeExpectation = {
@@ -375,7 +376,8 @@ const taskDetachTypeResponse = {
   deleted: {
     task_id: 6,
     type_id: 100
-  }
+  },
+  taskObjectives: []
 }
 
 const taskDetachTypeExpectation = {
