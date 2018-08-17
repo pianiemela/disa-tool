@@ -3,6 +3,7 @@ const router = require('express').Router()
 const typeService = require('../services/type_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const editRoutes = require('../utils/editRoutes')
 
 const messages = {
   create: {
@@ -187,71 +188,11 @@ router.delete('/headers/:id', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
-  try {
-    const data = await typeService.details(req.params.id)
-    if (!data) {
-      res.status(404).json({
-        error: errors.notfound[req.lang]
-      })
-      return
-    }
-    res.status(200).json({
-      message: messages.details[req.lang],
-      data
-    })
-  } catch (e) {
-    if (process.env.NODE_ENV === 'development') {
-      res.status(500).json({
-        error: e
-      })
-    } else {
-      res.status(500).json({
-        error: errors.unexpected[req.lang]
-      })
-      console.log(e)
-    }
-  }
-})
-
-router.put('/:id', async (req, res) => {
-  try {
-    const toEdit = await typeService.edit.prepare(req.params.id)
-    if (!toEdit) {
-      res.status(404).json({
-        error: errors.notfound[req.lang]
-      })
-      return
-    }
-    if (!await checkPrivilege(req, [
-      {
-        key: 'teacher_on_course',
-        param: toEdit.dataValues.type_header.course_instance_id
-      }
-    ])) {
-      res.status(403).json({
-        error: errors.privilege[req.lang]
-      })
-      return
-    }
-    await typeService.edit.execute(toEdit, req.body)
-    const edited = typeService.edit.value(toEdit, req.lang)
-    res.status(200).json({
-      message: messages.edit[req.lang],
-      edited
-    })
-  } catch (e) {
-    if (process.env.NODE_ENV === 'development') {
-      res.status(500).json({
-        error: e
-      })
-    } else {
-      res.status(500).json({
-        error: errors.unexpected[req.lang]
-      })
-      console.log(e)
-    }
-  }
+editRoutes(router, {
+  service: typeService,
+  messages,
+  errors,
+  pathToCourseInstanceId: ['type_header', 'course_instance_id']
 })
 
 module.exports = router
