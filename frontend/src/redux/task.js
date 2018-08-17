@@ -170,7 +170,10 @@ const taskReducer = (state = INITIAL_STATE, action) => {
     case 'TASK_DETACH_OBJECTIVE':
       return detachOneObjective(state, action)
     case 'TASK_ATTACH_TYPE':
-      return attachType(state, action)
+      return attachType(
+        action.response.deleted ? detachOneType(state, action) : state,
+        action
+      )
     case 'TASK_DETACH_TYPE':
       return detachOneType(state, action)
     case 'OBJECTIVE_DELETE':
