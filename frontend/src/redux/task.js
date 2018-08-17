@@ -105,7 +105,13 @@ const detachOneType = (state, action) => ({
         defaultMultiplier: action.response.multiplier,
         types: task.types.filter(type => (
           type !== action.response.deleted.type_id
-        ))
+        )),
+        objectives: [
+          ...task.objectives
+            .filter(objective => !action.response.taskObjectives
+              .find(taskObjective => taskObjective.id === objective.id)),
+          ...action.response.taskObjectives
+        ]
       }
     }
     return task
@@ -123,6 +129,12 @@ const attachType = (state, action) => ({
         types: [
           ...task.types,
           action.response.created.type_id
+        ],
+        objectives: [
+          ...task.objectives
+            .filter(objective => !action.response.taskObjectives
+              .find(taskObjective => taskObjective.id === objective.id)),
+          ...action.response.taskObjectives
         ]
       }
     }
