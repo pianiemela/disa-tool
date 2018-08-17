@@ -282,6 +282,12 @@ router.post('/types/attach', async (req, res) => {
 router.post('/types/detach', async (req, res) => {
   try {
     const toDelete = await taskService.detachType.prepare(req.body)
+    if (!toDelete) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
     const validation = (
       toDelete.dataValues.task.course_instance_id === toDelete.dataValues.type.type_header.course_instance_id
       && checkPrivilege(req, [
