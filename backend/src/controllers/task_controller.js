@@ -215,6 +215,7 @@ router.post('/objectives/detach', async (req, res) => {
   }
 })
 
+// TODO: Needs refactoring, optimizing and possibly better try catching.
 router.post('/responses', async (req, res) => {
   const { tasks, courseId } = req.body
   const isTeacher = await checkPrivilege(req, [{
@@ -226,9 +227,9 @@ router.post('/responses', async (req, res) => {
     return
   }
   try {
-    const { updateResponses, newResponses, nonRegistered } = await taskService.validateTaskResponses(tasks, courseId)
-    const newRegisters = await personService.addPersonsToCourseFromResponses(nonRegistered, courseId)
-    const newRegisterResponses = taskService.mapPersonsAndResponses(nonRegistered, newRegisters)
+    const { updateResponses, newResponses, nonRegResponses } = await taskService.validateTaskResponses(tasks, courseId)
+    const newRegisters = await personService.addPersonsToCourseFromResponses(nonRegResponses, courseId)
+    const newRegisterResponses = taskService.mapPersonsAndResponses(nonRegResponses, newRegisters)
     const createdResponses = await taskService.createTaskResponses([...newResponses, ...newRegisterResponses])
     const updatedResponses = await taskService.updateTaskResponses(updateResponses)
     res.status(201).json({ message: 'good job', createdResponses: [...createdResponses, ...updatedResponses] })

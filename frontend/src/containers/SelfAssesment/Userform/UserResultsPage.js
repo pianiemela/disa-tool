@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Form, List, Table, Container } from 'semantic-ui-react'
+import { Card, Table, Container } from 'semantic-ui-react'
 import { objectiveGrades } from '../../SelfAssesment/utils'
 
 const UserResultsPage = (props) => {
@@ -22,7 +22,7 @@ const UserResultsPage = (props) => {
     assesmentGrade = Object.keys(data).reduce((eka, toka) => (
       eka + parseInt(data[toka].grade, 0)), 0)
     assesmentGrade = Math.round(assesmentGrade / Object.keys(data).length)
-    if ((assesmentGrade) !== Number) {
+    if (!(Number.isInteger(assesmentGrade))) {
       return 'Etpä tainnut arvioida kaikkea'
     }
     if (assesmentGrade > 0) {
@@ -40,7 +40,9 @@ const UserResultsPage = (props) => {
         <div>
           Olet jo vastannut tähän itsearviointiin. Voit tarkastella kootusti tuloksiasi alla.
           {Object.keys(objectives).map(objective => (
-            <div>
+            <div key={objective}>
+              <p>{objective.id}</p>
+
               <Table style={{ margin: '50px' }} fixed compact celled striped>
                 <Table.Header>
                   <Table.Row>
@@ -67,7 +69,7 @@ const UserResultsPage = (props) => {
                 </Table.Header>
                 <Table.Body>
                   {objectives[objective].map(singleO => (
-                    <Table.Row>
+                    <Table.Row key={singleO.id}>
                       <Table.Cell>
                         {singleO.name}
                       </Table.Cell>
@@ -81,7 +83,7 @@ const UserResultsPage = (props) => {
             </div>
           ))}
         </div >
-      </Container>
+      </Container >
     )
 
 
@@ -93,7 +95,7 @@ const UserResultsPage = (props) => {
       <div>
         <h2>Olet jo vastannut tähän itsearviointiin. Voit tarkastella kootusti tuloksiasi alla.</h2>
         {assesmentResponse.questionModuleResponses.map(questionModule => (
-          <Card fluid color="red" >
+          <Card key={questionModule.id} fluid color="red" >
             <Card.Content >
               <Card.Header textAlign="center">
                 <h3>{questionModule.name}</h3>

@@ -74,6 +74,13 @@ const login = async (body, lang) => {
       logged_in: loggedIn,
       created: true
     }
+  } if (person.name === 'NOT REGISTERED') {
+    person.set('name', `${result.data.first_names.includes('*') ? (
+      result.data.first_names.split('*')[1].split(' ')[0]
+    ) : (
+      result.data.first_names.split(' ')[0]
+    )} ${result.data.last_name}`)
+    await person.save()
   }
   return {
     message: messages.login[lang],

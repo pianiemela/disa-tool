@@ -36,8 +36,8 @@ const validateTaskResponses = async (taskResponses, courseId) => {
   })
   const updateResponses = validatedResponses.filter(resp => resp.responseId !== undefined && resp.studentnumber === undefined)
   const newResponses = validatedResponses.filter(resp => resp.responseId === undefined && resp.studentnumber === undefined)
-  const nonRegistered = validatedResponses.filter(resp => resp.responseId === undefined && resp.studentnumber !== undefined)
-  return { updateResponses, newResponses, nonRegistered }
+  const nonRegResponses = validatedResponses.filter(resp => resp.responseId === undefined && resp.studentnumber !== undefined)
+  return { updateResponses, newResponses, nonRegResponses }
 }
 
 const createTaskResponses = taskResponses => (
