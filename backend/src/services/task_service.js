@@ -154,7 +154,7 @@ const detachObjective = {
   execute: instance => instance.destroy()
 }
 
-const updateMultipliers = async (taskType, removing = false) => {
+const updateMultipliers = async (taskType) => {
   const taskTypes = await TaskType.findAll({
     attributes: ['id', 'task_id', 'type_id'],
     where: {
@@ -165,10 +165,6 @@ const updateMultipliers = async (taskType, removing = false) => {
       attributes: ['id', 'multiplier']
     }
   })
-  if (removing) {
-    const i = taskTypes.findIndex(tt => tt.id === taskType.id)
-    taskTypes.splice(i, 1)
-  }
   const multiplier = taskTypes.reduce((acc, curr) => acc * curr.type.multiplier, 1)
   const taskObjectives = (await TaskObjective.update(
     {
@@ -249,8 +245,9 @@ const detachType = {
     }
   },
   execute: async (instance) => {
-    const updates = await updateMultipliers(instance, true)
-    instance.destroy()
+    const instanceGhost = instance.toJSON()
+    await instance.destroy()
+    const updates = await updateMultipliers(instanceGhost)
     return updates
   }
 }
