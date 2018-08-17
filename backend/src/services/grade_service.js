@@ -1,4 +1,5 @@
 const { SkillLevel, Grade } = require('../database/models.js')
+const editServices = require('../utils/editServices.js')
 
 const getByCourse = async (id, lang) => {
   const name = [`${lang}_name`, 'name']
@@ -65,24 +66,32 @@ const deleteGrade = {
   execute: instance => instance.destroy()
 }
 
-const details = id => Grade.findById(id, {
-  attributes: {
-    exclude: ['created_at', 'updated_at']
+const { details, edit } = editServices(
+  Grade,
+  {},
+  {
+    attributes: ['id', 'skill_level_id'],
+    include: {
+      model: SkillLevel,
+      attributes: ['id', 'course_instance_id']
+    },
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name',
+      'skill_level_id',
+      'needed_for_grade',
+      'prerequisite'
+    ],
+    valueFields: [
+      'id',
+      ['lang_name', 'name'],
+      'skill_level_id',
+      'needed_for_grade',
+      'prerequisite'
+    ]
   }
-})
-
-const edit = {
-  prepare: deleteGrade.prepare,
-  execute: (instance, data) => instance.update({
-    eng_name: data.eng_name,
-    fin_name: data.fin_name,
-    swe_name: data.swe_name,
-    skill_level_id: data.skill_level_id,
-    needed_for_grade: data.needed_for_grade,
-    prerequisite: data.prerequisite
-  }),
-  value: create.value
-}
+)
 
 module.exports = {
   getByCourse,
