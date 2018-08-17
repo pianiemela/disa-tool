@@ -3,6 +3,7 @@ const router = require('express').Router()
 const objectiveService = require('../services/objective_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const editRoutes = require('../utils/editRoutes')
 
 const messages = {
   create: {
@@ -87,12 +88,18 @@ router.delete('/:id', async (req, res) => {
   })
 })
 
-router.get('/:id', async (req, res) => {
-  const data = await objectiveService.details(req.params.id, req.lang)
+router.get('/tasks/:id', async (req, res) => {
+  const data = await objectiveService.taskDetails(req.params.id, req.lang)
   res.status(200).json({
     message: messages.details[req.lang],
     data
   })
 })
+
+/* editRoutes(router, {
+  service: objectiveService,
+  messages,
+  errors
+}) */
 
 module.exports = router

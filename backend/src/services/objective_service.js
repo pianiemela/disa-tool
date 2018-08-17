@@ -55,7 +55,7 @@ const deleteObjective = {
   execute: instance => instance.destroy()
 }
 
-const details = async (id, lang) => {
+const taskDetails = async (id, lang) => {
   const name = [`${lang}_name`, 'name']
   const result = (await Objective.findById(id, {
     attributes: ['id', name],
@@ -80,5 +80,5 @@ const details = async (id, lang) => {
 module.exports = {
   create,
   delete: deleteObjective,
-  details
+  taskDetails
 }
