@@ -242,7 +242,7 @@ router.post('/responses', async (req, res) => {
 // TODO: Refactor to look nicer. Also, check for bugs.
 router.post('/types/attach', async (req, res) => {
   try {
-    const { task, type, instance: toCreate } = await taskService.attachType.prepare(req.body)
+    const { task, type, instance: toCreate, deleteInstance: toDelete } = await taskService.attachType.prepare(req.body)
     const validation = task.course_instance_id === type.type_header.course_instance_id
       && checkPrivilege(req, [
         {
@@ -257,11 +257,12 @@ router.post('/types/attach', async (req, res) => {
       })
       return
     }
-    const newTaskType = await taskService.attachType.execute(toCreate)
-    const created = await taskService.attachType.value(newTaskType.createdTaskType)
+    const newTaskType = await taskService.attachType.execute(toCreate, toDelete)
+    const { created, deleted } = await taskService.attachType.value(toCreate, toDelete)
     res.status(201).json({
       message: messages.attachType[req.lang],
       created,
+      deleted,
       taskObjectives: newTaskType.taskObjectives,
       multiplier: newTaskType.multiplier
     })

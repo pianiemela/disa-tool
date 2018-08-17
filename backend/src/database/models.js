@@ -54,37 +54,7 @@ const TaskType = sequelize.define('task_type', {
 {
   tableName: 'task_type',
   underscored: true,
-  timestamps: true,
-  hooks: {
-    beforeCreate: (instance) => {
-      // This destroys the previous TaskType
-      // if one had previously been defined between the task and a type of the same header.
-      Type.findById(instance.type_id, { attributes: ['id', 'type_header_id'] }).then((type) => {
-        Type.findOne({
-          attributes: ['id', 'type_header_id'],
-          where: {
-            type_header_id: type.type_header_id
-          },
-          include: {
-            model: TaskType,
-            where: {
-              id: { [sequelize.Op.not]: instance.id },
-              task_id: instance.task_id
-            },
-            attributes: ['id', 'task_id', 'type_id']
-          }
-        }).then((result) => {
-          if (!result) return
-          TaskType.destroy({
-            where: {
-              type_id: result.id,
-              task_id: instance.task_id
-            }
-          })
-        })
-      })
-    }
-  }
+  timestamps: true
 })
 
 const Category = sequelize.define('category', {

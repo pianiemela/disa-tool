@@ -199,22 +199,49 @@ const attachType = {
       task_id: data.task_id,
       type_id: data.type_id
     })
+    const deleteInstance = await TaskType.findOne({
+      where: {
+        task_id: task.id
+      },
+      attributes: ['id', 'task_id', 'type_id'],
+      include: {
+        model: Type,
+        where: {
+          type_header_id: type.type_header_id
+        },
+        attributes: ['id']
+      }
+    })
     return {
       task: task.toJSON(),
       type: type.toJSON(),
+      deleteInstance,
       instance
     }
   },
-  execute: async (instance) => {
+  execute: async (instance, deleteInstance) => {
+    if (deleteInstance) await deleteInstance.destroy()
     const createdTaskType = await instance.save({ returning: true })
     const { taskObjectives, multiplier } = await updateMultipliers(createdTaskType)
-    return { createdTaskType, taskObjectives, multiplier }
+    return { taskObjectives, multiplier }
   },
-  value: (instance) => {
+  value: (instance, deleteInstance) => {
     const json = instance.toJSON()
-    return {
+    const created = {
       task_id: json.task_id,
       type_id: json.type_id
+    }
+    let deleted
+    if (deleteInstance) {
+      const deleteJson = deleteInstance.toJSON()
+      deleted = {
+        task_id: deleteJson.task_id,
+        type_id: deleteJson.type_id
+      }
+    } else { deleted = null }
+    return {
+      created,
+      deleted
     }
   }
 }
