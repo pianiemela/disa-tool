@@ -3,6 +3,50 @@ const { Person, CourseInstance, TaskResponse, CoursePerson } = require('../datab
 
 const getUser = userId => Person.find({ where: { id: userId } })
 
+const getAllWithRoles = lang => (
+  Person.findAll({
+    include: [
+      {
+        model: CoursePerson,
+        include: [
+          {
+            model: CourseInstance,
+            attributes: [[`${lang}_name`, 'name']]
+          }
+        ]
+      }
+    ]
+  })
+)
+
+const getAllWithRolesWhere = (studentInfo, lang) => (
+  Person.findAll({
+    where: {
+      [Op.or]: [
+        {
+          studentnumber: studentInfo
+        },
+        {
+          name: {
+            [Op.iLike]: `%${studentInfo}%`
+          }
+        }
+      ]
+    },
+    include: [
+      {
+        model: CoursePerson,
+        include: [
+          {
+            model: CourseInstance,
+            attributes: [[`${lang}_name`, 'name']]
+          }
+        ]
+
+      }
+    ]
+  })
+)
 const getPeopleOnCourse = (courseId, tasks) => (
   Person.findAll({
     include: [
@@ -23,8 +67,10 @@ const updatePersonRoleOnCourse = coursePersons => (
   Promise.all(coursePersons.map(cp => (
     CoursePerson.update(
       { role: cp.role },
-      { where: { person_id: cp.person_id, course_instance_id: cp.course_instance_id },
-        returning: true }
+      {
+        where: { person_id: cp.person_id, course_instance_id: cp.course_instance_id },
+        returning: true
+      }
     ).then(res => res[1][0])
   )))
 )
@@ -52,5 +98,7 @@ module.exports = {
   getUser,
   getPeopleOnCourse,
   updatePersonRoleOnCourse,
-  addPersonsToCourseFromResponses
+  addPersonsToCourseFromResponses,
+  getAllWithRoles,
+  getAllWithRolesWhere
 }
