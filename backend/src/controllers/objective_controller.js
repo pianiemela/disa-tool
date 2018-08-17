@@ -96,10 +96,10 @@ router.get('/tasks/:id', async (req, res) => {
   })
 })
 
-/* editRoutes(router, {
+editRoutes(router, {
   service: objectiveService,
   messages,
   errors
-}) */
+})
 
 module.exports = router
