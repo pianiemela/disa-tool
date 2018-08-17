@@ -75,11 +75,11 @@ const login = async (body, lang) => {
       created: true
     }
   } if (person.name === 'NOT REGISTERED') {
-    person.name = `${result.data.first_names.includes('*') ? (
+    person.set('name', `${result.data.first_names.includes('*') ? (
       result.data.first_names.split('*')[1].split(' ')[0]
     ) : (
       result.data.first_names.split(' ')[0]
-    )} ${result.data.last_name}`
+    )} ${result.data.last_name}`)
     await person.save()
   }
   return {

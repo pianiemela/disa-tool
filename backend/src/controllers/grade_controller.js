@@ -33,11 +33,24 @@ const messages = {
 }
 
 router.get('/course/:id', async (req, res) => {
-  const data = await gradeService.getByCourse(req.params.id, req.lang)
-  res.status(200).json({
-    message: messages.course[req.lang],
-    data
-  })
+  try {
+    const data = await gradeService.getByCourse(req.params.id, req.lang)
+    res.status(200).json({
+      message: messages.course[req.lang],
+      data
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lang]
+      })
+      console.log(e)
+    }
+  }
 })
 
 router.post('/create', async (req, res) => {
@@ -77,6 +90,12 @@ router.post('/create', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const toDelete = await gradeService.delete.prepare(req.params.id)
+    if (!toDelete) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
     if (!await checkPrivilege(req, [
       {
         key: 'teacher_on_course',

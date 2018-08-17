@@ -143,6 +143,12 @@ router.post('/headers/create', async (req, res) => {
 router.delete('/headers/:id', async (req, res) => {
   try {
     const toDelete = await typeService.deleteHeader.prepare(req.params.id)
+    if (!toDelete) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
     if (!await checkPrivilege(
       req,
       [

@@ -4,7 +4,8 @@ const {
   testBody,
   testDatabaseSave,
   testDatabaseDestroy,
-  asymmetricMatcher
+  asymmetricMatcher,
+  testStatusCode
 } = require('../testUtils')
 const { SkillLevel, Objective } = require('../../database/models.js')
 
@@ -91,6 +92,8 @@ describe('skill_level_controller', () => {
     testTeacherOnCoursePrivilege(options)
 
     testHeaders(options)
+
+    testStatusCode({ ...options, route: '/api/skill-levels/999999' }, 404)
 
     testBody(options, {
       common: {
