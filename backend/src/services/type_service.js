@@ -126,6 +126,27 @@ const headerEdit = editServices(
   }
 )
 
+const getByCourse = async (id, lang) => {
+  const name = [`${lang}_name`, 'name']
+  const types = await Type.findAll({
+    attributes: ['id', name],
+    include: {
+      model: TypeHeader,
+      where: {
+        course_instance_id: id
+      },
+      attributes: ['id', 'course_instance_id', name]
+    }
+  })
+  return types.map((type) => {
+    const json = type.toJSON()
+    return {
+      id: json.id,
+      text: `${json.type_header.name} ${json.name}`
+    }
+  })
+}
+
 module.exports = {
   create,
   delete: deleteType,
@@ -133,5 +154,6 @@ module.exports = {
   deleteHeader,
   details,
   edit,
-  headerEdit
+  headerEdit,
+  getByCourse
 }

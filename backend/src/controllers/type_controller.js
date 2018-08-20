@@ -45,6 +45,11 @@ const messages = {
     eng: '"Tyyppiotsake muokattu onnistuneesti." englanniksi.',
     fin: 'Tyyppiotsake muokattu onnistuneesti.',
     swe: '"Tyyppiotsake muokattu onnistuneesti." ruotsiksi.'
+  },
+  getByCourse: {
+    eng: '"Tyypit haettu onnistuneesti." englanniksi.',
+    fin: 'Tyypit haettu onnistuneesti.',
+    swe: '"Tyypit haettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -213,6 +218,27 @@ editRoutes(router, {
   },
   errors,
   route: '/headers'
+})
+
+router.get('/course/:id', async (req, res) => {
+  try {
+    const data = await typeService.getByCourse(req.params.id, req.lang)
+    res.status(200).json({
+      message: messages.getByCourse[req.lang],
+      data
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lang]
+      })
+      console.log(e)
+    }
+  }
 })
 
 module.exports = router
