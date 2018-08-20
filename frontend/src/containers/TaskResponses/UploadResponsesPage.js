@@ -17,17 +17,17 @@ export class UploadResponsesPage extends Component {
     activeType: 0
   }
 
-  componentDidMount() {
-    getByCourse({ id: this.props.activeCourse.id }).then(response => this.setState({
-      types: this.state.types.concat(response.data.data)
-    }))
-  }
+  loadTypes = () => getByCourse({ id: this.props.activeCourse.id }).then(response => this.setState({
+    types: this.state.types.concat(response.data.data)
+  }))
 
   loadFile = async (e) => {
+    const typePromise = this.loadTypes()
     const { files } = e.target
     Papa.parse(files[0], {
       complete: results => this.setState({ csv: results }, () => this.mapCsvToTasks())
     })
+    await typePromise
   }
 
   mapCsvToTasks = () => {
