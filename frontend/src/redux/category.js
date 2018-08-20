@@ -122,6 +122,26 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           }))
         }))
       }
+    case 'OBJECTIVE_EDIT':
+      return {
+        ...state,
+        categories: state.categories.map(category => (
+          category.id === action.response.edited.category_id ? ({
+            ...category,
+            skill_levels: category.skill_levels.map(level => (
+              level.id === action.response.edited.skill_level_id ? ({
+                ...level,
+                objectives: level.objectives.map(objective => (
+                  objective.id === action.response.edited.id ? ({
+                    ...objective,
+                    name: action.response.edited.name
+                  }) : objective
+                ))
+              }) : level
+            ))
+          }) : category
+        ))
+      }
     default:
       return state
   }
