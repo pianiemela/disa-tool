@@ -357,4 +357,133 @@ describe('type_controller', () => {
       }
     )
   })
+
+  describe('GET /headers/:id', () => {
+    const data = {
+      eng_name: 'en',
+      fin_name: 'fn',
+      swe_name: 'sn',
+      course_instance_id: 1
+    }
+    const options = {
+      route: '/api/types/headers',
+      method: 'get',
+      preamble: {}
+    }
+    const ids = {}
+
+    beforeAll((done) => {
+      TypeHeader.create(data).then((result) => {
+        ids.header = result.get({ plain: true }).id
+        options.route = `${options.route}/${ids.header}`
+        done()
+      }).catch(done)
+    })
+
+    testHeaders(options)
+
+    testStatusCode(options, 200)
+
+    testStatusCode({ ...options, route: '/api/types/headers/999999' }, 404)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        data: {
+          ...data,
+          id: asymmetricMatcher(actual => actual === ids.header)
+        }
+      }
+    })
+  })
+
+  describe('PUT /:id', () => {
+    const data = {
+      eng_name: 'new en',
+      fin_name: 'new fn',
+      swe_name: 'new sn'
+    }
+    const options = {
+      route: '/api/types/headers',
+      method: 'put',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+    const ids = {}
+    const databaseExpectation = {}
+
+    beforeAll((done) => {
+      TypeHeader.create({
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn',
+        course_instance_id: 1
+      }).then((result) => {
+        ids.header = result.get({ plain: true }).id
+        options.route = `${options.route}/${ids.header}`
+        databaseExpectation.created_at = result.get({ plain: true }).created_at
+        done()
+      }).catch(done)
+    })
+
+    beforeEach((done) => {
+      TypeHeader.findById(ids.header).then(
+        instance => instance.update({
+          eng_name: 'en',
+          fin_name: 'fn',
+          swe_name: 'sn'
+        }).then(() => done()).catch(done)
+      ).catch(done)
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testStatusCode({ ...options, route: '/api/types/headers/999999' }, 404)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        edited: {
+          id: asymmetricMatcher(actual => actual === ids.header)
+        }
+      },
+      eng: {
+        edited: {
+          name: data.eng_name
+        }
+      },
+      fin: {
+        edited: {
+          name: data.fin_name
+        }
+      },
+      swe: {
+        edited: {
+          name: data.swe_name
+        }
+      }
+    })
+
+    testDatabaseSave(
+      options,
+      {
+        ...data,
+        id: asymmetricMatcher(actual => actual === ids.header),
+        course_instance_id: 1,
+        created_at: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        )),
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+      },
+      TypeHeader,
+      {
+        pathToId: ['body', 'edited', 'id'],
+        includeTimestamps: false
+      }
+    )
+  })
 })

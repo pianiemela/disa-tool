@@ -10,6 +10,7 @@ import { removeLevel } from '../../actions/levels'
 import MatrixCategory from './MatrixCategory'
 import CreateCategoryForm from './CreateCategoryForm'
 import CreateLevelForm from './CreateLevelForm'
+import EditLevelForm from './EditLevelForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
 export const Matrix = (props) => {
@@ -35,14 +36,21 @@ export const Matrix = (props) => {
               <Table.HeaderCell key={level.id} textAlign="center">
                 {level.name}
                 {props.editing ? (
-                  <DeleteForm
-                    onExecute={() => props.removeLevel({ id: level.id })}
-                    prompt={[
-                      'Poistetaanko oppimistaso',
-                      `"${level.name}"`
-                    ]}
-                    header="Poista oppimistaso"
-                  />
+                  <div className="flexContainer">
+                    <div className="paddedBlock">
+                      <DeleteForm
+                        onExecute={() => props.removeLevel({ id: level.id })}
+                        prompt={[
+                          'Poistetaanko oppimistaso',
+                          `"${level.name}"`
+                        ]}
+                        header="Poista oppimistaso"
+                      />
+                    </div>
+                    <div className="paddedBlock">
+                      <EditLevelForm levelId={level.id} />
+                    </div>
+                  </div>
                 ) : (
                     null
                   )}

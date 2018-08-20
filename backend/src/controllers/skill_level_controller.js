@@ -3,6 +3,7 @@ const router = require('express').Router()
 const levelService = require('../services/skill_level_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const editRoutes = require('../utils/editRoutes.js')
 
 const messages = {
   create: {
@@ -14,6 +15,16 @@ const messages = {
     eng: '"Oppimistaso poistettu onnistuneesti." englanniksi.',
     fin: 'Oppimistaso poistettu onnistuneesti.',
     swe: '"Oppimistaso poistettu onnistuneesti." ruotsiksi.'
+  },
+  details: {
+    eng: '"Oppimistason tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Oppimistason tiedot haettu onnistuneesti.',
+    swe: '"Oppimistason tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  edit: {
+    eng: '"Oppimistaso muokattu onnistuneesti." englanniksi.',
+    fin: 'Oppimistaso muokattu onnistuneesti.',
+    swe: '"Oppimistaso muokattu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -65,6 +76,12 @@ router.delete('/:id', async (req, res) => {
     message: messages.delete[req.lang],
     deleted
   })
+})
+
+editRoutes(router, {
+  service: levelService,
+  messages,
+  errors
 })
 
 module.exports = router

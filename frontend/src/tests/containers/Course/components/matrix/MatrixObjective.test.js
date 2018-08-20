@@ -23,7 +23,7 @@ describe('MatrixObjective component', () => {
       active={false}
       toggleObjective={toggleObjective}
       activeTaskId={null}
-      details={() => {}}
+      taskDetails={() => {}}
     />)
   })
 

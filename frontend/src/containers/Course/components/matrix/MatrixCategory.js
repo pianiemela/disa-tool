@@ -8,19 +8,28 @@ import MatrixLevel from './MatrixLevel'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import { removeCategory } from '../../actions/categories'
 
+import EditCategoryForm from './EditCategoryForm'
+
 export const MatrixCategory = props => (
   <Table.Row className="MatrixCategory">
     <Table.Cell>
       {props.category.name}
       {props.editing ? (
-        <DeleteForm
-          onExecute={() => props.removeCategory({ id: props.category.id })}
-          prompt={[
-            'Poistetaanko kategoria',
-            `"${props.category.name}"`
-          ]}
-          header="Poista kategoria"
-        />
+        <div className="flexContainer">
+          <div className="paddedBlock">
+            <DeleteForm
+              onExecute={() => props.removeCategory({ id: props.category.id })}
+              prompt={[
+                'Poistetaanko kategoria',
+                `"${props.category.name}"`
+              ]}
+              header="Poista kategoria"
+            />
+          </div>
+          <div className="paddedBlock">
+            <EditCategoryForm categoryId={props.category.id} />
+          </div>
+        </div>
       ) : (
         null
       )}

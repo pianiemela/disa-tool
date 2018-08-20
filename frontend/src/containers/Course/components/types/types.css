@@ -8,6 +8,8 @@
 
 .typeHeaderHeader {
   text-align: center;
+  display: inline-block;
+  width: 100%;
   flex-grow: 1;
 }
 

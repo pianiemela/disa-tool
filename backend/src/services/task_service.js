@@ -1,5 +1,6 @@
 const { Op } = require('sequelize')
 const { Task, TaskResponse, Type, Objective, TaskObjective, TaskType, TypeHeader } = require('../database/models.js')
+const editServices = require('../utils/editServices')
 
 const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
 const typeAttributes = lang => ['id', [`${lang}_header`, 'header'], [`${lang}_name`, 'name']]
@@ -124,7 +125,8 @@ const attachObjective = {
     const json = instance.toJSON()
     return {
       task_id: json.task_id,
-      objective_id: json.objective_id
+      objective_id: json.objective_id,
+      multiplier: json.multiplier
     }
   }
 }
@@ -279,35 +281,28 @@ const detachType = {
   }
 }
 
-const details = id => Task.findById(id, {
-  attributes: {
-    exclude: ['updated_at', 'created_at']
+const { details, edit } = editServices(
+  Task,
+  {},
+  {
+    attributes: ['id', 'course_instance_id'],
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name',
+      'eng_description',
+      'fin_description',
+      'swe_description',
+      'info'
+    ],
+    valueFields: [
+      'id',
+      ['lang_name', 'name'],
+      ['lang_description', 'description'],
+      'info'
+    ]
   }
-})
-
-const edit = {
-  prepare: id => Task.findById(id, {
-    attributes: ['id', 'course_instance_id']
-  }),
-  execute: (instance, data) => instance.update({
-    eng_name: data.eng_name,
-    fin_name: data.fin_name,
-    swe_name: data.swe_name,
-    eng_description: data.eng_description,
-    fin_description: data.fin_description,
-    swe_description: data.swe_description,
-    info: data.info
-  }),
-  value: (instance, lang) => {
-    const json = instance.toJSON()
-    return {
-      id: json.id,
-      name: json[`${lang}_name`],
-      description: json[`${lang}_description`],
-      info: json.info
-    }
-  }
-}
+)
 
 const editTaskObjectives = {
   prepare: (data) => {
