@@ -16,6 +16,7 @@ import UserPage from '../User/UserPage'
 import CourseListPage from '../CourseList/CourseListPage'
 import CreateCoursePage from '../CreateCourse/CreateCoursePage'
 import UploadResponsesPage from '../TaskResponses/UploadResponsesPage'
+import SelfAssesmentListPage from '../SelfAssesmentList/SelfAssesmentListPage'
 
 class Main extends PureComponent {
   componentWillReceiveProps(newProps) {
@@ -36,6 +37,7 @@ class Main extends PureComponent {
           <Route exact path="/selfassesment/edit/:selfAssesmentId" render={({ match }) => <SelfAssesmentForm edit match={match} />} />
           <Route exact path="/selfassesment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssesmentForm edit new match={match} />} />
           <Route exact path="/selfassesment/response/:selfAssesmentId" render={({ match }) => <SelfAssesmentForm edit={false} match={match} />} />
+          <Route exact path="/selfassesment/list/:selfAssesmentId" render={({ match }) => <SelfAssesmentListPage selfAssesmentId={match.params.selfAssesmentId} />} />
           <Route exact path="/selfassesment/:courseId" component={SelfAssesmentPage} />
           <Route path="/selfassesment" component={SelfAssesmentPage} />
           <Route exact path="/user/course/:courseId" component={UserPage} />

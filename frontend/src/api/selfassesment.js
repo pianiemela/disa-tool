@@ -13,3 +13,5 @@ export const getSelfAssesmentResponse = assesmentId => getJson(`/assesmentrespon
 export const createSelfAssessmentResponse = data => postJson('/assesmentresponse', data)
 
 export const toggleAssessment = (assessmentId, attribute) => putJson(`/selfassesment/toggle/${assessmentId}/`, attribute)
+
+export const getResponsesBySelfAssesment = data => getJson(`/assesmentresponse/self-assesment/${data.id}`)
