@@ -9,6 +9,7 @@ import { removeObjective } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
 import { taskDetails } from '../../../../api/objectives'
 
+import EditObjectiveForm from './EditObjectiveForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
 export class MatrixObjective extends Component {
@@ -133,8 +134,8 @@ export class MatrixObjective extends Component {
             null
           )}
         </div>
-        <div className="removeBlock">
-          {this.props.editing ? (
+        {this.props.editing ? (
+          <div className="removeBlock">
             <DeleteForm
               onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
               prompt={[
@@ -143,10 +144,11 @@ export class MatrixObjective extends Component {
               ]}
               header="Poista oppimistavoite"
             />
-          ) : (
-            null
-          )}
-        </div>
+            <EditObjectiveForm objectiveId={this.props.objective.id} />
+          </div>
+        ) : (
+          null
+        )}
       </div>
     )
   }
