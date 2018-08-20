@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Container, Form, Button, Icon, Loader, Grid, Accordion, Input, List, Label, Pagination, Segment, GridRow } from 'semantic-ui-react'
-import { getUsers } from '../../api/persons'
+import { PropTypes } from 'prop-types'
+import { Container, Form, Button, Icon, Loader, Grid, Accordion, List, Label, Pagination, Dropdown } from 'semantic-ui-react'
+import { getUsers, changeGlobalRole } from '../../api/persons'
+import { changeCourseRole } from '../../api/coursePersons'
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -16,19 +18,23 @@ class AdminPage extends React.Component {
   }
 
   handleSubmit = async (event) => {
-    let u = null
     const studentInfo = event.target.userInfo.value
+    if (!this.state.getAll && studentInfo === '') {
+      await this.props.dispatchToast({
+        type: '',
+        payload: {
+          toast: 'Syötä hakuparametri tai valitse kaikki',
+          type: 'error'
+        }
+      })
+      return
+    }
     this.setState({
       loading: true
     })
-
-    if (this.state.getAll) {
-      u = await getUsers({ getAll: true })
-    } else {
-      u = await getUsers({ studentInfo, getAll: false })
-    }
-    const { data } = u
-    this.setState({ users: data, loading: false })
+    const userResponse = this.state.getAll ? await getUsers({ getAll: true }) : await getUsers({ studentInfo, getAll: false })
+    const { data } = userResponse
+    this.setState({ users: data, loading: false, activePage: 1 })
   }
 
   handleClick = (e, titleProps) => {
@@ -40,22 +46,45 @@ class AdminPage extends React.Component {
 
   handlePaginationChange = (e, { activePage }) => this.setState({ activePage })
 
+  toggleEdit = () => this.setState({ edit: !this.state.edit })
+
+  changeRole = async (person_id, course_instance_id, role) => {
+    const res = course_instance_id ? await changeCourseRole({ person_id, course_instance_id, role }) : await changeGlobalRole({ person_id, role })
+    const { data } = res.data
+
+    if (data.course_instance_id) {
+      const person = this.state.users.find(u => u.id === data.person_id)
+      const personCourses = person.course_people.map(cpe => (cpe.course_instance_id === data.course_instance_id ? { ...cpe, role: data.role } : cpe))
+      person.course_people = personCourses
+      this.setState({ users: this.state.users.map(u => (u.id === data.person_id ? person : u)) })
+    } else {
+      this.setState({ users: this.state.users.map(u => (u.id === data.person_id ? { ...u, role: data.role } : u)) })
+    }
+
+    await this.props.dispatchToast({
+      type: '',
+      payload: {
+        toast: res.data.message,
+        type: 'message'
+      }
+    })
+  }
 
   render() {
     const { activeIndex, activePage, users } = this.state
     return (
       <Container style={{ paddingTop: '100px' }} >
-        <Grid divided='vertically'>
+        <Grid divided="vertically">
           <Grid.Row columns={2}>
             <Grid.Column width={8}>
               <Form onSubmit={this.handleSubmit}>
                 <h2>Hallinnoi käyttäjiä</h2>
 
                 <Form.Field width={8}>
-                  <input name="userInfo" disabled={this.state.getAll} placeholder='(Hae nimellä tai opiskelijanumerolla)' />
+                  <input name="userInfo" disabled={this.state.getAll} placeholder="(Hae nimellä tai opiskelijanumerolla)" />
                 </Form.Field>
-                <Form.Checkbox name="getAll" onChange={() => this.setState({ getAll: !this.state.getAll })} label='Hae kaikki käyttäjät' />
-                <Button type='submit' ><Icon name="search" />Hae</Button>
+                <Form.Checkbox name="getAll" onChange={() => this.setState({ getAll: !this.state.getAll })} label="Hae kaikki käyttäjät" />
+                <Button><Icon name="search" />Hae</Button>
               </Form>
             </Grid.Column>
           </Grid.Row>
@@ -73,7 +102,7 @@ class AdminPage extends React.Component {
                     (
                       <div key={u.id}>
                         <Accordion.Title active={activeIndex === u.id} index={u.id} onClick={this.handleClick}>
-                          <Icon name='dropdown' />
+                          <Icon name="dropdown" />
                           {u.name}
                         </Accordion.Title>
                         <Accordion.Content active={activeIndex === u.id}>
@@ -82,15 +111,29 @@ class AdminPage extends React.Component {
                               <List.Header>Roolit kursseilla</List.Header>
                             </List.Item>
                             {u.course_people.map(ucp => (
-                              <List.Item style={{ display: 'flex', alignItems: 'center' }} key={ucp.id}>
-                                <span style={{ flexGrow: 1 }} > {ucp.course_instance.name} </span>
+                              <List.Item key={ucp.id}>
+                                <List.Content floated="right">
+                                  <Button.Group>
+                                    <Button onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'TEACHER')} disabled={ucp.role !== 'STUDENT'} color="blue" >Student</Button>
+                                    <Button onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'STUDENT')} disabled={ucp.role !== 'TEACHER'} color="green">Teacher</Button>
+                                  </Button.Group>
+                                </List.Content>
                                 <List.Content>
-                                  <Label color='green'>
-                                    {ucp.role}
-                                  </Label>
+                                  {ucp.course_instance.name}
                                 </List.Content>
                               </List.Item>
                             ))}
+                            <List.Item>
+                              <List.Content floated="right">
+                                <Button.Group>
+                                  <Button onClick={() => this.changeRole(u.id, null, 'TEACHER')} disabled={u.role !== 'STUDENT'} color="blue" >Student</Button>
+                                  <Button onClick={() => this.changeRole(u.id, null, 'STUDENT')} disabled={u.role !== 'TEACHER'} color="green">Teacher</Button>
+                                </Button.Group>
+                              </List.Content>
+                              <List.Content>
+                                GLOBAL ROLE
+                              </List.Content>
+                            </List.Item>
                           </List>
                         </Accordion.Content>
                       </div>
@@ -122,13 +165,16 @@ class AdminPage extends React.Component {
   }
 }
 
-// const mapStatetoProps = state => ({
+AdminPage.propTypes = {
+  dispatchToast: PropTypes.func.isRequired
+}
 
-// })
+const mapDispatchToProps = dispatch => ({
+  dispatchGetUsersAction: data =>
+    dispatch(getUsers(data)),
+  dispatchToast: data =>
+    dispatch(data)
 
-// const mapDispatchToProps = dispatch => ({
-//   dispatchGetUsersAction: data =>
-//     dispatch(getUsers(data))
-// })
+})
 
-export default connect()(AdminPage)
+export default connect(null, mapDispatchToProps)(AdminPage)
