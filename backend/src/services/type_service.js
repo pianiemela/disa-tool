@@ -109,11 +109,29 @@ const { details, edit } = editServices(
   },
 )
 
+const headerEdit = editServices(
+  TypeHeader,
+  {},
+  {
+    attributes: ['id', 'course_instance_id'],
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name'
+    ],
+    valueFields: [
+      'id',
+      ['lang_name', 'name']
+    ]
+  }
+)
+
 module.exports = {
   create,
   delete: deleteType,
   createHeader,
   deleteHeader,
   details,
-  edit
+  edit,
+  headerEdit
 }

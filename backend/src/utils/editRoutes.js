@@ -9,10 +9,11 @@ module.exports = (router, config = {}) => {
     service,
     messages,
     errors,
-    pathToCourseInstanceId = ['course_instance_id']
+    pathToCourseInstanceId = ['course_instance_id'],
+    route = ''
   } = config
 
-  router.get('/:id', async (req, res) => {
+  router.get(`${route}/:id`, async (req, res) => {
     try {
       const data = await service.details(req.params.id)
       if (!data) {
@@ -39,7 +40,7 @@ module.exports = (router, config = {}) => {
     }
   })
 
-  router.put('/:id', async (req, res) => {
+  router.put(`${route}/:id`, async (req, res) => {
     try {
       const toEdit = await service.edit.prepare(req.params.id)
       if (!toEdit) {

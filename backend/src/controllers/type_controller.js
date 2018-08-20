@@ -35,6 +35,16 @@ const messages = {
     eng: '"Tyypin muutokset tallennettu onnistuneesti." englanniksi.',
     fin: 'Tyypin muutokset tallennettu onnistuneesti.',
     swe: '"Tyypin muutokset tallennettu onnistuneesti." ruotsiksi.'
+  },
+  headerDetails: {
+    eng: '"Tyyppiotsakkeen tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Tyyppiotsakkeen tiedot haettu onnistuneesti.',
+    swe: '"Tyyppiotsakkeen tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  headerEdit: {
+    eng: '"Tyyppiotsake muokattu onnistuneesti." englanniksi.',
+    fin: 'Tyyppiotsake muokattu onnistuneesti.',
+    swe: '"Tyyppiotsake muokattu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -193,6 +203,16 @@ editRoutes(router, {
   messages,
   errors,
   pathToCourseInstanceId: ['type_header', 'course_instance_id']
+})
+
+editRoutes(router, {
+  service: typeService.headerEdit,
+  messages: {
+    details: messages.headerDetails,
+    edit: messages.headerEdit
+  },
+  errors,
+  route: '/headers'
 })
 
 module.exports = router
