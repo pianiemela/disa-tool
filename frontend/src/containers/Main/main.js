@@ -11,6 +11,7 @@ import MatrixPage from '../Course/MatrixPage'
 import CoursePage from '../Course/CoursePage'
 import SelfAssesmentPage from '../SelfAssesment/SelfAssesmentPage'
 import SelfAssesmentForm from '../SelfAssesment/Userform/SelfAssesmentForm'
+import AdminPage from '../Admin/AdminPage'
 import UserPage from '../User/UserPage'
 import CourseListPage from '../CourseList/CourseListPage'
 import CreateCoursePage from '../CreateCourse/CreateCoursePage'
@@ -45,6 +46,7 @@ class Main extends PureComponent {
           <Route exact path="/courses" component={CourseListPage} />
           <Route exact path="/courses/create" component={CreateCoursePage} />
           <Route exact path="/login" component={LoginPage} />
+          <Route path="/admin" component={AdminPage} />
           <Route component={HomePage} />
         </Switch>
       </main>

@@ -263,6 +263,8 @@ TaskType.belongsTo(Task, { foreignKey: 'task_id', targetKey: 'id' })
 TaskType.belongsTo(Type, { foreignKey: 'type_id', targetKey: 'id' })
 
 CourseInstance.hasMany(Task, { foreignKey: 'course_instance_id', targetKey: 'id' })
+CourseInstance.hasMany(CoursePerson, { foreignKey: 'course_instance_id', targetKey: 'id' })
+CoursePerson.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 Task.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
 Category.hasMany(Objective, { foreignKey: 'category_id', targetKey: 'id' })
@@ -317,6 +319,7 @@ Person.belongsToMany(Task, { through: TaskResponse })
 Task.belongsToMany(Person, { through: TaskResponse })
 
 Person.hasMany(AssessmentResponse, { foreignKey: 'person_id', targetKey: 'id' })
+Person.hasMany(CoursePerson, { foreignKey: 'person_id', targetKey: 'id' })
 SelfAssessment.hasMany(AssessmentResponse, { foreignKey: 'self_assessment_id', targetKey: 'id' })
 AssessmentResponse.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
 AssessmentResponse.belongsTo(SelfAssessment, { foreignKey: 'self_assessment_id', targetKey: 'id' })

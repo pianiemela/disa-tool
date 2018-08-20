@@ -92,6 +92,16 @@ class Nav extends Component {
                 onChange={this.changeLanguage}
               />
             </Menu.Item>
+            {this.props.user.role === 'ADMIN' ?
+              <Menu.Item
+                as={Link}
+                to="/admin"
+                name="Admin"
+                onClick={this.handleClick}
+              />
+              :
+              null
+            }
             {this.props.user.id ?
               <Menu.Item
                 as={Link}
