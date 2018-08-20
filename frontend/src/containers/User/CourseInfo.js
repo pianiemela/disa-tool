@@ -6,7 +6,7 @@ export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }
   const renderTeacherOptions = () => (
     <Grid.Row>
       <Grid.Column width={3}>
-        <Button as={Link} to={`/selfAssesment/${course.id}`} color="green" basic>Muokkaa itsearviointeja</Button>
+        <Button as={Link} to={`/selfAssesment/${course.id}`} color="blue" basic>Muokkaa itsearviointeja</Button>
       </Grid.Column>
       <Grid.Column width={3}>
         <Button as={Link} to={`/course/${course.id}`} color="blue" basic>Muokkaa kurssia</Button>
