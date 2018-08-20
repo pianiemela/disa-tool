@@ -125,7 +125,8 @@ const attachObjective = {
     const json = instance.toJSON()
     return {
       task_id: json.task_id,
-      objective_id: json.objective_id
+      objective_id: json.objective_id,
+      multiplier: json.multiplier
     }
   }
 }

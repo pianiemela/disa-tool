@@ -86,7 +86,7 @@ const attachObjective = (state, action) => ({
           ...task.objectives,
           {
             id: action.response.created.objective_id,
-            multiplier: 1
+            multiplier: action.response.created.multiplier
           }
         ]
       }
