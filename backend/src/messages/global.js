@@ -1,4 +1,20 @@
-const messages = {}
+const messages = {
+  create: {
+    eng: '"Rekisteröityminen onnistui." englanniksi.',
+    fin: 'Rekisteröityminen onnistui.',
+    swe: '"Rekisteröityminen onnistui." ruotsiksi.'
+  },
+  delete: {
+    eng: '"Rekisteröityminen purettu onnistuneesti." englanniksi.',
+    fin: 'Rekisteröityminen purettu onnistuneesti.',
+    swe: '"Rekisteröityminen purettu onnistuneesti." ruotsiksi.'
+  },
+  update: {
+    eng: 'Role updated successfully!',
+    fin: 'Käyttäjän rooli päivitetty onnistuneesti!',
+    swe: 'Käyttäjän rooli päivitetty onnistuneesti! - ruotsiksi'
+  }
+}
 
 const errors = {
   privilege: {

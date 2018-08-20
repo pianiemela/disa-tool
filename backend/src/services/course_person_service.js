@@ -37,7 +37,19 @@ const deleteCourseperson = {
   execute: instance => instance.destroy(),
 }
 
+const updateRole = data => (
+  CoursePerson.update(
+    { role: data.role },
+    {
+      where: {
+        person_id: data.person_id, course_instance_id: data.course_instance_id
+      },
+      returning: true
+    })
+)
+
 module.exports = {
   create,
-  delete: deleteCourseperson
+  delete: deleteCourseperson,
+  updateRole
 }

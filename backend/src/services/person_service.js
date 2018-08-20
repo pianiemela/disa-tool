@@ -94,11 +94,22 @@ const addPersonsToCourseFromResponses = async (tasks, courseId) => {
   return coursePersons
 }
 
+const updateGlobal = async data => (
+  Person.update(
+    { role: data.role },
+    {
+      where: { person_id: data.id, course_instance_id: data.course_instance_id },
+      returning: true
+    }
+  )
+)
+
 module.exports = {
   getUser,
   getPeopleOnCourse,
   updatePersonRoleOnCourse,
   addPersonsToCourseFromResponses,
   getAllWithRoles,
-  getAllWithRolesWhere
+  getAllWithRolesWhere,
+  updateGlobal
 }
