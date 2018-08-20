@@ -8,6 +8,7 @@ import { removeHeader } from '../../actions/types'
 
 import Typelist from './Typelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'
+import EditHeaderForm from './EditHeaderForm'
 
 export const TypeHeader = (props) => {
   const activeMap = {}
@@ -22,14 +23,21 @@ export const TypeHeader = (props) => {
         <div className="flexContainer">
           <Header className="typeHeaderHeader">{props.header.name}</Header>
           {props.editing ? (
-            <DeleteForm
-              onExecute={() => props.removeHeader({ id: props.header.id })}
-              prompt={[
-                'Poistetaanko tyyppiotsake',
-                `"${props.header.name}"`
-              ]}
-              header="Poista tyyppiotsake"
-            />
+            <div className="flexContainer">
+              <div className="paddedBlock">
+                <DeleteForm
+                  onExecute={() => props.removeHeader({ id: props.header.id })}
+                  prompt={[
+                    'Poistetaanko tyyppiotsake',
+                    `"${props.header.name}"`
+                  ]}
+                  header="Poista tyyppiotsake"
+                />
+              </div>
+              <div className="paddedBlock">
+                <EditHeaderForm headerId={props.header.id} />
+              </div>
+            </div>
           ) : null}
         </div>
         <Typelist

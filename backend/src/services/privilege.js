@@ -27,11 +27,22 @@ const validateTeacher = async (param, user) => {
   return person.toJSON().role === 'TEACHER'
 }
 
+const validateAdmin = async (param, user) => {
+  if (!user) {
+    return false
+  }
+  const person = await Person.findById(user.id, {
+    attributes: ['role']
+  })
+  return person.toJSON().role === 'ADMIN'
+}
+
 const validators = {
   logged_in: (param, user) => user !== null,
   teacher_on_course: validatePerson('TEACHER'),
   student_on_course: validatePerson('STUDENT'),
-  global_teacher: validateTeacher
+  global_teacher: validateTeacher,
+  admin: validateAdmin
 }
 
 /**

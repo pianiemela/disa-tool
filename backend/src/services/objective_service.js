@@ -1,4 +1,5 @@
-const { Objective, TaskObjective, Category, SkillLevel, Task, Type } = require('../database/models.js')
+const { Objective, TaskObjective, Category, SkillLevel, Task } = require('../database/models.js')
+const editServices = require('../utils/editServices.js')
 
 const create = {
   prepare: async (data) => {
@@ -55,7 +56,7 @@ const deleteObjective = {
   execute: instance => instance.destroy()
 }
 
-const details = async (id, lang) => {
+const taskDetails = async (id, lang) => {
   const name = [`${lang}_name`, 'name']
   const result = (await Objective.findById(id, {
     attributes: ['id', name],
@@ -77,8 +78,33 @@ const details = async (id, lang) => {
   return result
 }
 
+const { details, edit } = editServices(
+  Objective,
+  {},
+  {
+    attributes: ['id', 'category_id', 'skill_level_id'],
+    include: {
+      model: Category,
+      attributes: ['id', 'course_instance_id']
+    },
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name'
+    ],
+    valueFields: [
+      'id',
+      ['lang_name', 'name'],
+      'category_id',
+      'skill_level_id'
+    ]
+  }
+)
+
 module.exports = {
   create,
   delete: deleteObjective,
-  details
+  taskDetails,
+  details,
+  edit
 }

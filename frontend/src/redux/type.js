@@ -52,6 +52,16 @@ const typeReducer = (state = INITIAL_STATE, action) => {
         ...state,
         headers: state.headers.filter(header => header.id !== action.response.deleted.id)
       }
+    case 'TYPE_HEADER_EDIT':
+      return {
+        ...state,
+        headers: state.headers.map(header => (
+          header.id === action.response.edited.id ? ({
+            ...header,
+            name: action.response.edited.name
+          }) : header
+        ))
+      }
     default:
       return state
   }

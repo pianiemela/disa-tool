@@ -4,7 +4,8 @@ const {
   testBody,
   testDatabaseSave,
   testDatabaseDestroy,
-  asymmetricMatcher
+  asymmetricMatcher,
+  testStatusCode
 } = require('../testUtils')
 const { SkillLevel, Objective } = require('../../database/models.js')
 
@@ -92,6 +93,8 @@ describe('skill_level_controller', () => {
 
     testHeaders(options)
 
+    testStatusCode({ ...options, route: '/api/skill-levels/999999' }, 404)
+
     testBody(options, {
       common: {
         message: expect.any(String),
@@ -126,5 +129,134 @@ describe('skill_level_controller', () => {
         ]
       })
     })
+  })
+
+  describe('GET /:id', () => {
+    const data = {
+      eng_name: 'en',
+      fin_name: 'fn',
+      swe_name: 'sn',
+      course_instance_id: 1
+    }
+    const options = {
+      route: '/api/skill-levels',
+      method: 'get',
+      preamble: {}
+    }
+    const ids = {}
+
+    beforeAll((done) => {
+      SkillLevel.create(data).then((result) => {
+        ids.level = result.get({ plain: true }).id
+        options.route = `${options.route}/${ids.level}`
+        done()
+      }).catch(done)
+    })
+
+    testHeaders(options)
+
+    testStatusCode(options, 200)
+
+    testStatusCode({ ...options, route: '/api/skill-levels/999999' }, 404)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        data: {
+          ...data,
+          id: asymmetricMatcher(actual => actual === ids.level)
+        }
+      }
+    })
+  })
+
+  describe('PUT /:id', () => {
+    const data = {
+      eng_name: 'new en',
+      fin_name: 'new fn',
+      swe_name: 'new sn'
+    }
+    const options = {
+      route: '/api/skill-levels',
+      method: 'put',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+    const ids = {}
+    const databaseExpectation = {}
+
+    beforeAll((done) => {
+      SkillLevel.create({
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn',
+        course_instance_id: 1
+      }).then((result) => {
+        ids.level = result.get({ plain: true }).id
+        options.route = `${options.route}/${ids.level}`
+        databaseExpectation.created_at = result.get({ plain: true }).created_at
+        done()
+      }).catch(done)
+    })
+
+    beforeEach((done) => {
+      SkillLevel.findById(ids.level).then(
+        instance => instance.update({
+          eng_name: 'en',
+          fin_name: 'fn',
+          swe_name: 'sn'
+        }).then(() => done()).catch(done)
+      ).catch(done)
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testStatusCode({ ...options, route: '/api/skill-levels/999999' }, 404)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        edited: {
+          id: asymmetricMatcher(actual => actual === ids.level)
+        }
+      },
+      eng: {
+        edited: {
+          name: data.eng_name
+        }
+      },
+      fin: {
+        edited: {
+          name: data.fin_name
+        }
+      },
+      swe: {
+        edited: {
+          name: data.swe_name
+        }
+      }
+    })
+
+    testDatabaseSave(
+      options,
+      {
+        ...data,
+        id: asymmetricMatcher(actual => actual === ids.level),
+        course_instance_id: 1,
+        created_at: asymmetricMatcher(actual => !(
+          actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
+        )),
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+      },
+      SkillLevel,
+      {
+        pathToId: ['body', 'edited', 'id'],
+        includeTimestamps: false
+      }
+    )
   })
 })

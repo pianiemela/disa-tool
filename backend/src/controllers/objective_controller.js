@@ -3,6 +3,7 @@ const router = require('express').Router()
 const objectiveService = require('../services/objective_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const editRoutes = require('../utils/editRoutes')
 
 const messages = {
   create: {
@@ -19,6 +20,11 @@ const messages = {
     eng: '"Oppimistavoitteen tiedot haettu onnistuneesti." englanniksi.',
     fin: 'Oppimistavoitteen tiedot haettu onnistuneesti.',
     swe: '"Oppimistavoitteen tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  edit: {
+    eng: '"Oppimistavoite muokattu onnistuneesti." englanniksi.',
+    fin: 'Oppimistavoite muokattu onnistuneesti.',
+    swe: '"Oppimistavoite muokattu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -55,6 +61,12 @@ router.post('/create', async (req, res) => {
 
 router.delete('/:id', async (req, res) => {
   const toDelete = await objectiveService.delete.prepare(req.params.id)
+  if (!toDelete) {
+    res.status(404).json({
+      error: errors.notfound[req.lang]
+    })
+    return
+  }
   if (!await checkPrivilege(
     req,
     [
@@ -81,12 +93,19 @@ router.delete('/:id', async (req, res) => {
   })
 })
 
-router.get('/:id', async (req, res) => {
-  const data = await objectiveService.details(req.params.id, req.lang)
+router.get('/tasks/:id', async (req, res) => {
+  const data = await objectiveService.taskDetails(req.params.id, req.lang)
   res.status(200).json({
     message: messages.details[req.lang],
     data
   })
+})
+
+editRoutes(router, {
+  service: objectiveService,
+  messages,
+  errors,
+  pathToCourseInstanceId: ['category', 'course_instance_id']
 })
 
 module.exports = router

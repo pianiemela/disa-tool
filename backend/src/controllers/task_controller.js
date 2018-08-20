@@ -6,6 +6,7 @@ const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
 const taskService = require('../services/task_service.js')
 const personService = require('../services/person_service')
+const editRoutes = require('../utils/editRoutes')
 
 // TODO: Move these to a common/utils file
 const messages = {
@@ -103,6 +104,12 @@ router.post('/create', async (req, res) => {
 router.delete('/:id', async (req, res) => {
   try {
     const toDelete = await taskService.delete.prepare(req.params.id)
+    if (!toDelete) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
     if (!await checkPrivilege(req, [
       {
         key: 'teacher_on_course',
@@ -236,7 +243,7 @@ router.post('/responses', async (req, res) => {
 // TODO: Refactor to look nicer. Also, check for bugs.
 router.post('/types/attach', async (req, res) => {
   try {
-    const { task, type, instance: toCreate } = await taskService.attachType.prepare(req.body)
+    const { task, type, instance: toCreate, deleteInstance: toDelete } = await taskService.attachType.prepare(req.body)
     const validation = task.course_instance_id === type.type_header.course_instance_id
       && checkPrivilege(req, [
         {
@@ -251,11 +258,12 @@ router.post('/types/attach', async (req, res) => {
       })
       return
     }
-    const newTaskType = await taskService.attachType.execute(toCreate)
-    const created = await taskService.attachType.value(newTaskType.createdTaskType)
+    const newTaskType = await taskService.attachType.execute(toCreate, toDelete)
+    const { created, deleted } = await taskService.attachType.value(toCreate, toDelete)
     res.status(201).json({
       message: messages.attachType[req.lang],
       created,
+      deleted,
       taskObjectives: newTaskType.taskObjectives,
       multiplier: newTaskType.multiplier
     })
@@ -276,6 +284,12 @@ router.post('/types/attach', async (req, res) => {
 router.post('/types/detach', async (req, res) => {
   try {
     const toDelete = await taskService.detachType.prepare(req.body)
+    if (!toDelete) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
     const validation = (
       toDelete.dataValues.task.course_instance_id === toDelete.dataValues.type.type_header.course_instance_id
       && checkPrivilege(req, [
@@ -313,71 +327,10 @@ router.post('/types/detach', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
-  try {
-    const data = await taskService.details(req.params.id)
-    if (!data) {
-      res.status(404).json({
-        error: errors.notfound[req.lang]
-      })
-      return
-    }
-    res.status(200).json({
-      message: messages.details[req.lang],
-      data
-    })
-  } catch (e) {
-    if (process.env.NODE_ENV === 'development') {
-      res.status(500).json({
-        error: e
-      })
-    } else {
-      res.status(500).json({
-        error: errors.unexpected[req.lang]
-      })
-      console.log(e)
-    }
-  }
-})
-
-router.put('/:id', async (req, res) => {
-  try {
-    const toEdit = await taskService.edit.prepare(req.params.id)
-    if (!toEdit) {
-      res.status(404).json({
-        error: errors.notfound[req.lang]
-      })
-      return
-    }
-    if (!await checkPrivilege(req, [
-      {
-        key: 'teacher_on_course',
-        param: toEdit.dataValues.course_instance_id
-      }
-    ])) {
-      res.status(403).json({
-        error: errors.privilege[req.lang]
-      })
-      return
-    }
-    await taskService.edit.execute(toEdit, req.body)
-    const edited = taskService.edit.value(toEdit, req.lang)
-    res.status(200).json({
-      message: messages.edit[req.lang],
-      edited
-    })
-  } catch (e) {
-    if (process.env.NODE_ENV === 'development') {
-      res.status(500).json({
-        error: e
-      })
-    } else {
-      res.status(500).json({
-        error: errors.unexpected[req.lang]
-      })
-      console.log(e)
-    }
-  }
+editRoutes(router, {
+  service: taskService,
+  messages,
+  errors
 })
 
 router.post('/objectives/edit', async (req, res) => {

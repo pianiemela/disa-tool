@@ -1,4 +1,4 @@
-import { create, remove } from '../../../api/categories'
+import { create, remove, edit } from '../../../api/categories'
 import apiPromise from '../../../utils/apiPromise'
 
 export const addCategory = data => apiPromise(create, data, {
@@ -7,4 +7,8 @@ export const addCategory = data => apiPromise(create, data, {
 
 export const removeCategory = data => apiPromise(remove, data, {
   success: { type: 'CATEGORY_DELETE' }
+})
+
+export const editCategory = data => apiPromise(edit, data, {
+  success: { type: 'CATEGORY_EDIT' }
 })

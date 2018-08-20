@@ -1,5 +1,6 @@
 const { Op } = require('sequelize')
 const { Task, TaskResponse, Type, Objective, TaskObjective, TaskType, TypeHeader } = require('../database/models.js')
+const editServices = require('../utils/editServices')
 
 const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
 const typeAttributes = lang => ['id', [`${lang}_header`, 'header'], [`${lang}_name`, 'name']]
@@ -124,7 +125,8 @@ const attachObjective = {
     const json = instance.toJSON()
     return {
       task_id: json.task_id,
-      objective_id: json.objective_id
+      objective_id: json.objective_id,
+      multiplier: json.multiplier
     }
   }
 }
@@ -154,19 +156,37 @@ const detachObjective = {
   execute: instance => instance.destroy()
 }
 
-const updateMultipliers = async (taskType, removing = false) => {
-  const taskTypes = await Type.findAll({ include: { model: TaskType, where: { task_id: taskType.task_id } } })
-  if (removing) {
-    const i = taskTypes.findIndex(tt => tt.id === taskType.type_id)
-    taskTypes.splice(i, 1)
-  }
-  const multiplier = taskTypes.reduce((acc, curr) => acc * curr.multiplier, 1)
-  const taskObjectives = await TaskObjective.findAll({ where: { task_id: taskType.task_id } })
-  const updatedObjectives = await Promise.all(taskObjectives.map(taskO => (
-    TaskObjective.update({ multiplier }, { where: { id: taskO.id, modified: false }, returning: true })
-      .then(res => res[1][0])
-  )))
-  return { taskObjectives: updatedObjectives, multiplier }
+const updateMultipliers = async (taskType) => {
+  const taskTypes = await TaskType.findAll({
+    attributes: ['id', 'task_id', 'type_id'],
+    where: {
+      task_id: taskType.task_id
+    },
+    include: {
+      model: Type,
+      attributes: ['id', 'multiplier']
+    }
+  })
+  const multiplier = taskTypes.reduce((acc, curr) => acc * curr.type.multiplier, 1)
+  const taskObjectives = (await TaskObjective.update(
+    {
+      multiplier
+    },
+    {
+      where: {
+        task_id: taskType.task_id,
+        modified: false
+      },
+      returning: true
+    }
+  ))[1].map((taskObjective) => {
+    const json = taskObjective.toJSON()
+    return {
+      id: json.objective_id,
+      multiplier: json.multiplier
+    }
+  })
+  return { taskObjectives, multiplier }
 }
 
 const attachType = {
@@ -181,22 +201,49 @@ const attachType = {
       task_id: data.task_id,
       type_id: data.type_id
     })
+    const deleteInstance = await TaskType.findOne({
+      where: {
+        task_id: task.id
+      },
+      attributes: ['id', 'task_id', 'type_id'],
+      include: {
+        model: Type,
+        where: {
+          type_header_id: type.type_header_id
+        },
+        attributes: ['id']
+      }
+    })
     return {
       task: task.toJSON(),
       type: type.toJSON(),
+      deleteInstance,
       instance
     }
   },
-  execute: async (instance) => {
+  execute: async (instance, deleteInstance) => {
+    if (deleteInstance) await deleteInstance.destroy()
     const createdTaskType = await instance.save({ returning: true })
     const { taskObjectives, multiplier } = await updateMultipliers(createdTaskType)
-    return { createdTaskType, taskObjectives, multiplier }
+    return { taskObjectives, multiplier }
   },
-  value: (instance) => {
+  value: (instance, deleteInstance) => {
     const json = instance.toJSON()
-    return {
+    const created = {
       task_id: json.task_id,
       type_id: json.type_id
+    }
+    let deleted
+    if (deleteInstance) {
+      const deleteJson = deleteInstance.toJSON()
+      deleted = {
+        task_id: deleteJson.task_id,
+        type_id: deleteJson.type_id
+      }
+    } else { deleted = null }
+    return {
+      created,
+      deleted
     }
   }
 }
@@ -227,41 +274,35 @@ const detachType = {
     }
   },
   execute: async (instance) => {
-    const updates = await updateMultipliers(instance, true)
-    instance.destroy()
+    const instanceGhost = instance.toJSON()
+    await instance.destroy()
+    const updates = await updateMultipliers(instanceGhost)
     return updates
   }
 }
 
-const details = id => Task.findById(id, {
-  attributes: {
-    exclude: ['updated_at', 'created_at']
+const { details, edit } = editServices(
+  Task,
+  {},
+  {
+    attributes: ['id', 'course_instance_id'],
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name',
+      'eng_description',
+      'fin_description',
+      'swe_description',
+      'info'
+    ],
+    valueFields: [
+      'id',
+      ['lang_name', 'name'],
+      ['lang_description', 'description'],
+      'info'
+    ]
   }
-})
-
-const edit = {
-  prepare: id => Task.findById(id, {
-    attributes: ['id', 'course_instance_id']
-  }),
-  execute: (instance, data) => instance.update({
-    eng_name: data.eng_name,
-    fin_name: data.fin_name,
-    swe_name: data.swe_name,
-    eng_description: data.eng_description,
-    fin_description: data.fin_description,
-    swe_description: data.swe_description,
-    info: data.info
-  }),
-  value: (instance, lang) => {
-    const json = instance.toJSON()
-    return {
-      id: json.id,
-      name: json[`${lang}_name`],
-      description: json[`${lang}_description`],
-      info: json.info
-    }
-  }
-}
+)
 
 const editTaskObjectives = {
   prepare: (data) => {

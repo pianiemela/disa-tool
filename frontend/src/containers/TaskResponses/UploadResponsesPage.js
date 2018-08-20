@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
-import { shape, func } from 'prop-types'
+import PropTypes from 'prop-types'
 import { Button, Grid, Input, List, Message, Table, Dropdown, Accordion } from 'semantic-ui-react'
 import Papa from 'papaparse'
+
+import { getByCourse } from '../../api/types'
 
 export class UploadResponsesPage extends Component {
   state = {
@@ -10,14 +12,22 @@ export class UploadResponsesPage extends Component {
     studentHeader: undefined,
     pointsMapping: {},
     pointKey: '',
-    pointValue: 0
+    pointValue: 0,
+    types: [{ id: 0, text: 'Kaikki' }],
+    activeType: 0
   }
 
+  loadTypes = () => getByCourse({ id: this.props.activeCourse.id }).then(response => this.setState({
+    types: this.state.types.concat(response.data.data)
+  }))
+
   loadFile = async (e) => {
+    const typePromise = this.loadTypes()
     const { files } = e.target
     Papa.parse(files[0], {
       complete: results => this.setState({ csv: results }, () => this.mapCsvToTasks())
     })
+    await typePromise
   }
 
   mapCsvToTasks = () => {
@@ -25,7 +35,7 @@ export class UploadResponsesPage extends Component {
     const { activeCourse } = this.props
     const headers = csv.data[0]
     const suggestions = {}
-    headers.map((header, i) => {
+    headers.forEach((header, i) => {
       const suggestion = activeCourse.tasks.find(task => task.name.includes(headers[i]))
       suggestions[i] = {
         task: suggestion || { name: 'ei ehdotusta' },
@@ -66,7 +76,8 @@ export class UploadResponsesPage extends Component {
   }
 
   createNewStudent = (studentnumber) => {
-    return { id: `0${studentnumber}`, studentnumber: `0${studentnumber}`, task_responses: [] }
+    const number = String(studentnumber)[0] === '0' ? studentnumber : `0${studentnumber}`
+    return { id: number, studentnumber: number, task_responses: [] }
   }
 
   createResponseData = () => {
@@ -135,7 +146,17 @@ export class UploadResponsesPage extends Component {
   )
 
   render() {
-    const { csv, csvMappings, studentHeader, pointsMapping, pointKey, pointValue, responsesCreated } = this.state
+    const {
+      csv,
+      csvMappings,
+      studentHeader,
+      pointsMapping,
+      pointKey,
+      pointValue,
+      responsesCreated,
+      types,
+      activeType
+    } = this.state
     const { activeCourse } = this.props
     return !activeCourse.id ? <h1>Loading</h1> : (
       <Grid container>
@@ -148,7 +169,19 @@ export class UploadResponsesPage extends Component {
         <Grid.Row>
           <Grid.Column>
             {csv ? (
-              <div>
+              <div style={{ marginBottom: '10px' }}>
+                <span>Tehtävien tyyppi: </span>
+                <Dropdown
+                  name="type"
+                  selection
+                  value={activeType}
+                  options={types.map(type => ({
+                    key: type.id,
+                    text: type.text,
+                    value: type.id
+                  }))}
+                  onChange={(e, { value }) => this.setState({ activeType: value })}
+                />
                 <h4>Opiskelijanumerot sarakkeessa: </h4>
                 <Dropdown
                   name="studentHeader"
@@ -177,7 +210,9 @@ export class UploadResponsesPage extends Component {
                       value={csvMappings[suggestion].task.id ?
                         csvMappings[suggestion].task.id : null}
                       placeholder="Valitse vastaava tehtävä"
-                      options={activeCourse.tasks.map(task =>
+                      options={activeCourse.tasks.filter(task => (
+                        activeType === 0 || task.types.find(type => type.id === activeType)
+                      )).map(task =>
                         ({ key: task.id, text: task.name, value: task.id }))}
                       onChange={this.handleMapTask}
                     />
@@ -244,8 +279,17 @@ export class UploadResponsesPage extends Component {
 }
 
 UploadResponsesPage.propTypes = {
-  activeCourse: shape().isRequired,
-  updateHandler: func.isRequired
+  activeCourse: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    tasks: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    })),
+    people: PropTypes.arrayOf(PropTypes.shape({
+      studentnumber: PropTypes.number.isRequired
+    }))
+  }).isRequired,
+  updateHandler: PropTypes.func.isRequired
 }
 
 export default UploadResponsesPage

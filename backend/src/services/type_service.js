@@ -1,4 +1,5 @@
 const { Type, TypeHeader, TaskType } = require('../database/models.js')
+const editServices = require('../utils/editServices')
 
 const create = {
   prepare: async (data) => {
@@ -81,34 +82,69 @@ const deleteHeader = {
   execute: instance => instance.destroy()
 }
 
-const details = id => Type.findById(id, {
-  attributes: {
-    exclude: ['updated_at', 'created_at', 'type_header_id']
-  }
-})
-
-const edit = {
-  prepare: id => Type.findById(id, {
+const { details, edit } = editServices(
+  Type,
+  {
+    attributes: {
+      exclude: ['updated_at', 'created_at', 'type_header_id']
+    }
+  },
+  {
     include: {
       model: TypeHeader,
       attributes: ['id', 'course_instance_id']
+    },
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name',
+      'multiplier'
+    ],
+    valueFields: [
+      'id',
+      ['lang_name', 'name'],
+      'multiplier',
+      'type_header_id'
+    ]
+  },
+)
+
+const headerEdit = editServices(
+  TypeHeader,
+  {},
+  {
+    attributes: ['id', 'course_instance_id'],
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name'
+    ],
+    valueFields: [
+      'id',
+      ['lang_name', 'name']
+    ]
+  }
+)
+
+const getByCourse = async (id, lang) => {
+  const name = [`${lang}_name`, 'name']
+  const types = await Type.findAll({
+    attributes: ['id', name],
+    include: {
+      model: TypeHeader,
+      where: {
+        course_instance_id: id
+      },
+      attributes: ['id', 'course_instance_id', name]
     }
-  }),
-  execute: (instance, data) => instance.update({
-    eng_name: data.eng_name,
-    fin_name: data.fin_name,
-    swe_name: data.swe_name,
-    multiplier: data.multiplier
-  }),
-  value: (instance, lang) => {
-    const json = instance.toJSON()
+  })
+  return types.map((type) => {
+    const json = type.toJSON()
     return {
       id: json.id,
-      name: json[`${lang}_name`],
-      multiplier: json.multiplier,
-      type_header_id: json.type_header_id
+      text: `${json.type_header.name} ${json.name}`
     }
-  }
+  })
 }
 
 module.exports = {
@@ -117,5 +153,7 @@ module.exports = {
   createHeader,
   deleteHeader,
   details,
-  edit
+  edit,
+  headerEdit,
+  getByCourse
 }

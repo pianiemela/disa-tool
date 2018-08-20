@@ -86,7 +86,7 @@ const attachObjective = (state, action) => ({
           ...task.objectives,
           {
             id: action.response.created.objective_id,
-            multiplier: 1
+            multiplier: action.response.created.multiplier
           }
         ]
       }
@@ -105,7 +105,13 @@ const detachOneType = (state, action) => ({
         defaultMultiplier: action.response.multiplier,
         types: task.types.filter(type => (
           type !== action.response.deleted.type_id
-        ))
+        )),
+        objectives: [
+          ...task.objectives
+            .filter(objective => !action.response.taskObjectives
+              .find(taskObjective => taskObjective.id === objective.id)),
+          ...action.response.taskObjectives
+        ]
       }
     }
     return task
@@ -123,6 +129,12 @@ const attachType = (state, action) => ({
         types: [
           ...task.types,
           action.response.created.type_id
+        ],
+        objectives: [
+          ...task.objectives
+            .filter(objective => !action.response.taskObjectives
+              .find(taskObjective => taskObjective.id === objective.id)),
+          ...action.response.taskObjectives
         ]
       }
     }
@@ -158,7 +170,10 @@ const taskReducer = (state = INITIAL_STATE, action) => {
     case 'TASK_DETACH_OBJECTIVE':
       return detachOneObjective(state, action)
     case 'TASK_ATTACH_TYPE':
-      return attachType(state, action)
+      return attachType(
+        action.response.deleted ? detachOneType(state, action) : state,
+        action
+      )
     case 'TASK_DETACH_TYPE':
       return detachOneType(state, action)
     case 'OBJECTIVE_DELETE':

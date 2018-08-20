@@ -1,4 +1,5 @@
 const { Category, Objective, SkillLevel, TaskObjective } = require('../database/models.js')
+const editServices = require('../utils/editServices.js')
 
 const getAllCategories = () => Category.findAll()
 
@@ -76,9 +77,28 @@ const deleteCategory = {
   execute: instance => instance.destroy()
 }
 
+const { details, edit } = editServices(
+  Category,
+  {},
+  {
+    attributes: ['id', 'course_instance_id'],
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name'
+    ],
+    valueFields: [
+      'id',
+      ['lang_name', 'name']
+    ]
+  }
+)
+
 module.exports = {
   getAllCategories,
   getCourseCategories,
   create,
-  delete: deleteCategory
+  delete: deleteCategory,
+  details,
+  edit
 }

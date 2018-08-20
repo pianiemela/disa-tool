@@ -7,8 +7,9 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { removeObjective } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
-import { details } from '../../../../api/objectives'
+import { taskDetails } from '../../../../api/objectives'
 
+import EditObjectiveForm from './EditObjectiveForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 
 export class MatrixObjective extends Component {
@@ -49,7 +50,9 @@ export class MatrixObjective extends Component {
     this.setState({
       triggered: true
     })
-    const objectiveDetails = (await this.props.details({ id: this.props.objective.id })).data.data
+    const objectiveDetails = (
+      await this.props.taskDetails({ id: this.props.objective.id })
+    ).data.data
     let cumMultiplier = 0
     objectiveDetails.tasks.forEach((task) => {
       cumMultiplier += task.multiplier
@@ -131,8 +134,8 @@ export class MatrixObjective extends Component {
             null
           )}
         </div>
-        <div className="removeBlock">
-          {this.props.editing ? (
+        {this.props.editing ? (
+          <div className="removeBlock">
             <DeleteForm
               onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
               prompt={[
@@ -141,10 +144,11 @@ export class MatrixObjective extends Component {
               ]}
               header="Poista oppimistavoite"
             />
-          ) : (
-            null
-          )}
-        </div>
+            <EditObjectiveForm objectiveId={this.props.objective.id} />
+          </div>
+        ) : (
+          null
+        )}
       </div>
     )
   }
@@ -161,7 +165,7 @@ MatrixObjective.propTypes = {
   active: PropTypes.bool.isRequired,
   toggleObjective: PropTypes.func.isRequired,
   activeTaskId: PropTypes.number,
-  details: PropTypes.func.isRequired,
+  taskDetails: PropTypes.func.isRequired,
   showDetails: PropTypes.bool,
   lastMultiplierUpdate: PropTypes.instanceOf(Date)
 }
@@ -183,7 +187,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   ) : (
     asyncAction(addObjectiveToTask, dispatch)
   ),
-  details
+  taskDetails
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MatrixObjective)

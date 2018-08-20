@@ -159,7 +159,6 @@ export const CoursePeopleList = ({
   const studentTasks = allStudents.map(person => (
     { person, tasks: selectedTasks.map(task => findPersonTask(person, updatedTasks, task)) }
   ))
-  console.log(studentTasks)
   return renderTaskTable(selectedTasks, studentTasks, selectType, selectedType, markTask, updateTask, popUp)
 }
 
