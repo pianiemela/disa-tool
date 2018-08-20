@@ -3,6 +3,7 @@ const router = require('express').Router()
 const categoryService = require('../services/category_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const editRoutes = require('../utils/editRoutes.js')
 
 const messages = {
   create: {
@@ -14,6 +15,16 @@ const messages = {
     eng: '"Kategoria poistettu onnistuneesti." englanniksi.',
     fin: 'Kategoria poistettu onnistuneesti.',
     swe: '"Kategoria poistettu onnistuneesti." ruotsiksi.'
+  },
+  details: {
+    eng: '"Kategorian tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Kategorian tiedot haettu onnistuneesti.',
+    swe: '"Kategorian tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  edit: {
+    eng: '"Kategoria muokattu onnistuneesti." englanniksi.',
+    fin: 'Kategoria muokattu onnistuneesti.',
+    swe: '"Kategoria muokattu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -71,6 +82,12 @@ router.delete('/:id', async (req, res) => {
     message: messages.delete[req.lang],
     deleted
   })
+})
+
+editRoutes(router, {
+  service: categoryService,
+  messages,
+  errors
 })
 
 module.exports = router

@@ -24,6 +24,16 @@ const levelReducer = (state = INITIAL_STATE, action) => {
         ...state,
         levels: state.levels.filter(level => level.id !== action.response.deleted.id)
       }
+    case 'LEVEL_EDIT':
+      return {
+        ...state,
+        levels: state.levels.map(level => (
+          level.id === action.response.edited.id ? ({
+            ...level,
+            name: action.response.edited.name
+          }) : level
+        ))
+      }
     default:
       return state
   }

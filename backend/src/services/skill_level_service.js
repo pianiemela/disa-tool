@@ -1,4 +1,5 @@
 const { Objective, SkillLevel, TaskObjective } = require('../database/models.js')
+const editServices = require('../utils/editServices.js')
 
 const create = {
   prepare: (data) => {
@@ -58,7 +59,26 @@ const deleteLevel = {
   }
 }
 
+const { details, edit } = editServices(
+  SkillLevel,
+  {},
+  {
+    attributes: ['id', 'course_instance_id'],
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name'
+    ],
+    valueFields: [
+      'id',
+      ['lang_name', 'name']
+    ]
+  }
+)
+
 module.exports = {
   create,
-  delete: deleteLevel
+  delete: deleteLevel,
+  details,
+  edit
 }

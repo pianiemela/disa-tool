@@ -142,6 +142,16 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           }) : category
         ))
       }
+    case 'CATEGORY_EDIT':
+      return {
+        ...state,
+        categories: state.categories.map(category => (
+          category.id === action.response.edited.id ? ({
+            ...category,
+            name: action.response.edited.name
+          }) : category
+        ))
+      }
     default:
       return state
   }
