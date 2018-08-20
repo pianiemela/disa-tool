@@ -41,20 +41,21 @@ export class LoginForm extends Component {
       return <Redirect to="/user" />
     }
     return (
-      <Container>
+      <Container className="LoginForm">
         <Segment>
           {this.props.user.id ?
             <h5>{`Olet jo kirjautunut sisään, ${this.props.user.name}.`}</h5> :
             <Form onSubmit={this.login}>
               <Form.Field width={16} inline>
                 <Label>käyttäjänimi</Label>
-                <Input name="username" type="text" onChange={this.changeField('username')} />
+                <Input className="usernameInput" name="username" type="text" onChange={this.changeField('username')} />
               </Form.Field>
               <Form.Field width={16} inline>
                 <Label>salasana</Label>
-                <Input name="password" type="password" onChange={this.changeField('password')} />
+                <Input className="passwordInput" name="password" type="password" onChange={this.changeField('password')} />
               </Form.Field>
               <Button
+                className="submitButton"
                 type="submit"
                 disabled={!Object.values(this.state.emptyFields).every(value => !value)}
                 color={!Object.values(this.state.emptyFields).every(value => !value) ? undefined : 'green'}
