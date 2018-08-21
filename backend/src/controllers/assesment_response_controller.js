@@ -1,9 +1,16 @@
 const router = require('express').Router()
 const { checkAuth } = require('../services/auth')
 const { checkPrivilege } = require('../services/privilege')
-const selfAssesmentService = require('../services/self_assesment_service')
 const assementResponseService = require('../services/assesment_response_service')
 const { errors } = require('../messages/global.js')
+
+const messages = {
+  getBySelfAssesment: {
+    eng: '"Vastaukset haettu onnistuneesti." englanniksi.',
+    fin: 'Vastaukset haettu onnistuneesti.',
+    swe: '"Vastaukset haettu onnistuneesti." ruotsiksi.'
+  }
+}
 
 
 router.get('/:selfAssesmentId', async (req, res) => {
@@ -60,6 +67,45 @@ router.post('/', async (req, res) => {
     res.status(500).json({
       error: error.message
     })
+  }
+})
+
+router.get('/self-assesment/:id', async (req, res) => {
+  const { data, courseInstanceId } = await assementResponseService.getBySelfAssesment(req.params.id)
+  if (!courseInstanceId) {
+    res.status(404).json({
+      error: errors.notfound[req.lang],
+      data: []
+    })
+    return
+  }
+  try {
+    if (!await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: courseInstanceId
+      }
+    ])) {
+      res.status(403).json({
+        error: errors.privilege[req.lang]
+      })
+      return
+    }
+    res.status(200).json({
+      message: messages.getBySelfAssesment[req.lang],
+      data
+    })
+  } catch (e) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error: e
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lang]
+      })
+      console.log(e)
+    }
   }
 })
 
