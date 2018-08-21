@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const { checkPrivilege } = require('../services/privilege.js')
-const { errors } = require('../messages/global.js')
+const { errors, messages } = require('../messages/global.js')
 
 const personService = require('../services/person_service')
 
@@ -49,5 +49,33 @@ router.put('/course_role', async (req, res) => {
   const updatedPersons = await personService.updatePersonRoleOnCourse(coursePersons)
   res.status(200).json({ message: 'course teachers updated successfully', updatedPersons })
 })
+
+router.put('/global-role', async (req, res) => {
+  try {
+    const bodyData = req.body
+    const hasPrivilege = checkPrivilege(req, [{
+      key: 'admin',
+      param: null
+    }])
+
+    if (!hasPrivilege) {
+      return res.status(403).json({
+        error: errors.privilege[req.lang]
+      })
+    }
+    const data = await personService.updateGlobal(bodyData)
+
+    res.status(200).json({
+      message: messages.update[req.lang],
+      data
+    })
+  } catch (error) {
+    res.status(500).json({
+      error: errors.unexpected[req.lang]
+    })
+    console.log(error)
+  }
+})
+
 
 module.exports = router

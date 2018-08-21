@@ -1,20 +1,26 @@
 const router = require('express').Router()
 
 const coursePersonService = require('../services/course_person_service.js')
-const { errors } = require('../messages/global.js')
+const { checkPrivilege } = require('../services/privilege.js')
+const { errors, messages } = require('../messages/global.js')
 
-const messages = {
-  create: {
-    eng: '"Rekisteröityminen onnistui." englanniksi.',
-    fin: 'Rekisteröityminen onnistui.',
-    swe: '"Rekisteröityminen onnistui." ruotsiksi.'
-  },
-  delete: {
-    eng: '"Rekisteröityminen purettu onnistuneesti." englanniksi.',
-    fin: 'Rekisteröityminen purettu onnistuneesti.',
-    swe: '"Rekisteröityminen purettu onnistuneesti." ruotsiksi.'
-  }
-}
+// const messages = {
+//   create: {
+//     eng: '"Rekisteröityminen onnistui." englanniksi.',
+//     fin: 'Rekisteröityminen onnistui.',
+//     swe: '"Rekisteröityminen onnistui." ruotsiksi.'
+//   },
+//   delete: {
+//     eng: '"Rekisteröityminen purettu onnistuneesti." englanniksi.',
+//     fin: 'Rekisteröityminen purettu onnistuneesti.',
+//     swe: '"Rekisteröityminen purettu onnistuneesti." ruotsiksi.'
+//   },
+//   update: {
+//     eng: 'Role updated successfully!',
+//     fin: 'Käyttäjän rooli päivitetty onnistuneesti!',
+//     swe: 'Käyttäjän rooli päivitetty onnistuneesti! - ruotsiksi'
+//   }
+// }
 
 router.post('/register', async (req, res) => {
   try {
@@ -59,6 +65,32 @@ router.post('/unregister', async (req, res) => {
       })
       console.log(e)
     }
+  }
+})
+
+router.put('/course-role', async (req, res) => {
+  try {
+    const bodyData = req.body
+    const hasPrivilege = checkPrivilege(req, [{
+      key: 'admin',
+      param: null
+    }])
+    if (!hasPrivilege) {
+      return res.status(403).json({
+        error: errors.privilege[req.lang]
+      })
+    }
+    const data = await coursePersonService.updateRole(bodyData)
+    
+    res.status(200).json({
+      message: messages.update[req.lang],
+      data
+    })
+  } catch (error) {
+    res.status(500).json({
+      error: errors.unexpected[req.lang]
+    })
+    console.log(error)
   }
 })
 

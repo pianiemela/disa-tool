@@ -37,7 +37,20 @@ const deleteCourseperson = {
   execute: instance => instance.destroy(),
 }
 
+const updateRole = async (data) => {
+  const found = await CoursePerson.find({
+    where: {
+      person_id: data.person_id, course_instance_id: data.course_instance_id
+    }
+  })
+  await found.update(
+    { role: data.role }
+  )
+  return found
+}
+
 module.exports = {
   create,
-  delete: deleteCourseperson
+  delete: deleteCourseperson,
+  updateRole
 }
