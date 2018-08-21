@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
-import { Container, Form, Button, Icon, Loader, Grid, Accordion, List, Label, Pagination, Dropdown } from 'semantic-ui-react'
+import { Container, Form, Button, Icon, Loader, Grid, Accordion, List, Pagination } from 'semantic-ui-react'
 import { getUsers, changeGlobalRole } from '../../api/persons'
 import { changeCourseRole } from '../../api/coursePersons'
 
@@ -54,11 +54,14 @@ class AdminPage extends React.Component {
 
     if (data.course_instance_id) {
       const person = this.state.users.find(u => u.id === data.person_id)
-      const personCourses = person.course_people.map(cpe => (cpe.course_instance_id === data.course_instance_id ? { ...cpe, role: data.role } : cpe))
-      person.course_people = personCourses
-      this.setState({ users: this.state.users.map(u => (u.id === data.person_id ? person : u)) })
+      const personCourses = person.course_people.map(cpe =>
+        (cpe.course_instance_id === data.course_instance_id ? { ...cpe, role: data.role } : cpe))
+      this.setState({ users: this.state.users.map(u => (u.id === data.person_id ? { ...u, course_people: personCourses } : u)) })
     } else {
-      this.setState({ users: this.state.users.map(u => (u.id === data.person_id ? { ...u, role: data.role } : u)) })
+      this.setState({
+        users: this.state.users.map(u =>
+          (u.id === data.id ? { ...u, role: data.role } : u))
+      })
     }
 
     await this.props.dispatchToast({
@@ -101,7 +104,11 @@ class AdminPage extends React.Component {
                   {this.state.users.slice((activePage - 1) * 20, activePage * 20).map(u =>
                     (
                       <div key={u.id}>
-                        <Accordion.Title active={activeIndex === u.id} index={u.id} onClick={this.handleClick}>
+                        <Accordion.Title
+                          active={activeIndex === u.id}
+                          index={u.id}
+                          onClick={this.handleClick}
+                        >
                           <Icon name="dropdown" />
                           {u.name}
                         </Accordion.Title>
@@ -113,10 +120,29 @@ class AdminPage extends React.Component {
                             {u.course_people.map(ucp => (
                               <List.Item key={ucp.id}>
                                 <List.Content floated="right">
-                                  <Button.Group>
-                                    <Button onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'TEACHER')} disabled={ucp.role !== 'STUDENT'} color="blue" >Student</Button>
-                                    <Button onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'STUDENT')} disabled={ucp.role !== 'TEACHER'} color="green">Teacher</Button>
-                                  </Button.Group>
+                                  {ucp.role === 'STUDENT' ?
+                                    <div>
+                                      <Button.Group>
+                                        <Button color="green" >Student</Button>
+                                        <Button
+                                          onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'TEACHER')}
+                                          inverted
+                                          color='green'>
+                                          Teacher
+                                      </Button>
+                                      </Button.Group>
+                                    </div>
+                                    :
+                                    <Button.Group>
+                                      <Button
+                                        onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'STUDENT')}
+                                        inverted
+                                        color='green'>
+                                        Student
+                                      </Button>
+                                      <Button color="green" >Teacher</Button>
+                                    </Button.Group>
+                                  }
                                 </List.Content>
                                 <List.Content>
                                   {ucp.course_instance.name}
@@ -125,10 +151,27 @@ class AdminPage extends React.Component {
                             ))}
                             <List.Item>
                               <List.Content floated="right">
-                                <Button.Group>
-                                  <Button onClick={() => this.changeRole(u.id, null, 'TEACHER')} disabled={u.role !== 'STUDENT'} color="blue" >Student</Button>
-                                  <Button onClick={() => this.changeRole(u.id, null, 'STUDENT')} disabled={u.role !== 'TEACHER'} color="green">Teacher</Button>
-                                </Button.Group>
+                                {u.role === 'STUDENT' ?
+                                  <Button.Group>
+                                    <Button color="green" >Student</Button>
+                                    <Button
+                                      onClick={() => this.changeRole(u.id, null, 'TEACHER')}
+                                      inverted
+                                      color='green'>
+                                      Teacher
+                                      </Button>
+                                  </Button.Group>
+                                  :
+                                  <Button.Group>
+                                    <Button
+                                      onClick={() => this.changeRole(u.id, null, 'STUDENT')}
+                                      inverted
+                                      color='green'>
+                                      Student
+                                      </Button>
+                                    <Button color="green" >Teacher</Button>
+                                  </Button.Group>
+                                }
                               </List.Content>
                               <List.Content>
                                 GLOBAL ROLE
