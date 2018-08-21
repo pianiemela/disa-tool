@@ -25,6 +25,9 @@ export const TypeHeader = (props) => {
           {props.editing ? (
             <div className="flexContainer">
               <div className="paddedBlock">
+                <EditHeaderForm headerId={props.header.id} />
+              </div>
+              <div className="paddedBlock">
                 <DeleteForm
                   onExecute={() => props.removeHeader({ id: props.header.id })}
                   prompt={[
@@ -33,9 +36,6 @@ export const TypeHeader = (props) => {
                   ]}
                   header="Poista tyyppiotsake"
                 />
-              </div>
-              <div className="paddedBlock">
-                <EditHeaderForm headerId={props.header.id} />
               </div>
             </div>
           ) : null}
