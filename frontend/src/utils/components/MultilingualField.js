@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Form, Segment, Label, Input } from 'semantic-ui-react'
+import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 
 class MultilingualField extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      multilingual: false,
       values: this.props.values
     }
   }
@@ -13,23 +14,80 @@ class MultilingualField extends Component {
   componentWillReceiveProps(newProps) {
     if (newProps.values !== this.props.values) {
       this.setState({
-        values: newProps.values
+        values: newProps.values,
+        multilingual: (
+          newProps.values.eng !== newProps.values.fin || newProps.values.fin !== newProps.values.swe
+        )
       })
     }
   }
 
-  changeValue = key => e => this.setState({
-    values: {
-      ...this.state.values,
-      [key]: e.target.value
+  changeValue = key => (key === 'all' ? (
+    e => this.setState({
+      values: {
+        eng: e.target.value,
+        fin: e.target.value,
+        swe: e.target.value
+      }
+    })
+  ) : (
+    e => this.setState({
+      values: {
+        ...this.state.values,
+        [key]: e.target.value
+      }
+    })
+  ))
+
+  allValue = () => {
+    if (this.state.values.eng !== '') {
+      return this.state.values.eng
     }
-  })
+    if (this.state.values.fin !== '') {
+      return this.state.values.fin
+    }
+    return this.state.values.swe
+  }
 
   render() {
     return (
       <Form.Field className="MultilingualField">
-        <Label style={{ fontSize: '18px' }}>{this.props.fieldDisplay}</Label>
-        <Segment style={{ marginTop: '0px' }}>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flexGrow: 1 }}>
+            <Label style={{ fontSize: '18px' }}>{this.props.fieldDisplay}</Label>
+          </div>
+          <Button.Group>
+            <Button
+              type="button"
+              toggle
+              active={!this.state.multilingual}
+              onClick={() => this.setState({ multilingual: false })}
+            >
+              Yksikielinen
+            </Button>
+            <Button.Or text="tai" />
+            <Button
+              type="button"
+              toggle
+              active={this.state.multilingual}
+              onClick={() => this.setState({ multilingual: true })}
+            >
+              Monikielinen
+            </Button>
+          </Button.Group>
+        </div>
+        {!this.state.multilingual ? (
+          <Input
+            name="all"
+            type="text"
+            fluid
+            value={this.allValue()}
+            onChange={this.changeValue('all')}
+          />
+        ) : (
+          null
+        )}
+        <Segment style={{ marginTop: '0px', display: this.state.multilingual ? 'block' : 'none' }}>
           <Form.Field>
             <Label>english</Label>
             <Input
