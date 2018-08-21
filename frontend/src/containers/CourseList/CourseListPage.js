@@ -66,7 +66,7 @@ class CourseListPage extends Component {
                   {instance.name}
                 </List.Item>
               ))}
-              {this.props.user && this.props.user.role === 'TEACHER' && this.props.selectedCourse ?
+              {this.props.user && (this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN') && this.props.selectedCourse ?
                 (
                   <List.Item style={{ color: 'green' }}>
                     <CreateInstanceForm course_id={this.props.selectedCourse.id} />

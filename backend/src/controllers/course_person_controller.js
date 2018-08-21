@@ -70,7 +70,7 @@ router.post('/unregister', async (req, res) => {
 
 router.put('/course-role', async (req, res) => {
   try {
-    const data = req.body
+    const bodyData = req.body
     const hasPrivilege = checkPrivilege(req, [{
       key: 'admin',
       param: null
@@ -80,7 +80,8 @@ router.put('/course-role', async (req, res) => {
         error: errors.privilege[req.lang]
       })
     }
-    coursePersonService.updateRole(data)
+    const data = await coursePersonService.updateRole(bodyData)
+    
     res.status(200).json({
       message: messages.update[req.lang],
       data

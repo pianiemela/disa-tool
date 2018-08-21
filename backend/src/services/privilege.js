@@ -24,7 +24,8 @@ const validateTeacher = async (param, user) => {
   const person = await Person.findById(user.id, {
     attributes: ['role']
   })
-  return person.toJSON().role === 'TEACHER'
+  const { role } = person.toJSON()
+  return role === 'TEACHER' || role === 'ADMIN'
 }
 
 const validateAdmin = async (param, user) => {

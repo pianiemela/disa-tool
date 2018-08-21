@@ -94,15 +94,18 @@ const addPersonsToCourseFromResponses = async (tasks, courseId) => {
   return coursePersons
 }
 
-const updateGlobal = async data => (
-  Person.update(
-    { role: data.role },
-    {
-      where: { person_id: data.id, course_instance_id: data.course_instance_id },
-      returning: true
+const updateGlobal = async (data) => {
+  const found = await Person.find({
+    where: {
+      id: data.person_id
     }
+  })
+
+  await found.update(
+    { role: data.role }
   )
-)
+  return found
+}
 
 module.exports = {
   getUser,
