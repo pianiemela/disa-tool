@@ -30,27 +30,57 @@ const generateFeedback = async (response) => {
       include: { model: Objective, include: Task }
     })
 
-    // Find grades with no pre-requisites
-    const startGrades = grades.filter(grade => !grade.prerequisite)
-    startGrades.map(async (grade) => {
+    // Check what grades meet requirements
+    const gradeQualifies = await Promise.all(grades.map(async (grade) => {
       const gradeObjectives = await Objective.findAll({
         where: {
-          skill_level_id: grade.skill_level_id, course_instance_id: response.response.course_instance_id
+          skill_level_id: grade.skill_level_id,
+          course_instance_id: response.response.course_instance_id,
+          category_id: category.id
         },
         include: Task
       })
-      gradeObjectives.map(async (objective) => {
+      // Get point sums for all objectives.
+      const objectivePoints = await Promise.all(gradeObjectives.map(async (objective) => {
         // filter out tasks with no responses
         const filteredTasks = objective.tasks.filter(task => TaskResponse.count({ where: { task_id: task.id } }))
         let maxPoints = 0
         let userPoints = 0
-        filteredTasks.forEach(task => {
+        // calculate users points and the maximum for the objective
+        filteredTasks.forEach((task) => {
           maxPoints += task.max_points * task.task_objective.multiplier
-          userPoints += userTasks.find(ut => ut.task_id === task.id).points * task.task_objective.multiplier || 0
+          const doneTask = userTasks.find(ut => ut.task_id === task.id)
+          userPoints += doneTask ? doneTask.points * task.task_objective.multiplier : 0
         })
-        console.log(maxPoints, userPoints)
+        return { userPoints, maxPoints }
+      }))
+      const userPoints = objectivePoints.reduce((acc, curr) => acc + curr.userPoints, 0)
+      const maxPoints = objectivePoints.reduce((acc, curr) => acc + curr.maxPoints, 0)
+      return {
+        grade: grade.id,
+        userPoints,
+        maxPoints,
+        qualifiedForGrade: userPoints / maxPoints >= grade.needed_for_grade,
+        prerequisite: grade.prerequisite
       }
+    }))
+
+    gradeQualifies.map((grade) => {
+      let preReq = grade.prerequisite || undefined
+      let depth = 0
+      while (preReq !== undefined) {
+        depth += 1
+        const found = gradeQualifies.find(g => g.grade === preReq) // eslint-disable-line
+
+        if (found && !found.qualifiedForGrade) {
+          grade.qualifiedForGrade = false
+        }
+        preReq = found.prerequisite || undefined
+      }
+      grade.depth = depth
     })
+
+    console.log(gradeQualifies)
     /*
     // Check grade pre-requisite,
     // until there is none, and then start going through the tasks?

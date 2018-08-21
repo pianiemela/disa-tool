@@ -1,7 +1,8 @@
 const router = require('express').Router()
 const { checkAuth } = require('../services/auth')
 const { checkPrivilege } = require('../services/privilege')
-const assementResponseService = require('../services/assesment_response_service')
+const selfAssesmentService = require('../services/self_assesment_service')
+const assessmentResponseService = require('../services/assesment_response_service')
 const { errors } = require('../messages/global.js')
 
 const messages = {
@@ -17,7 +18,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const user = await checkAuth(req)
-    let data = await assementResponseService.getOne(user, selfAssesmentId)
+    let data = await assessmentResponseService.getOne(user, selfAssesmentId)
     if (data) {
       data = data.toJSON()
       data.response = JSON.parse(data.response)
@@ -53,10 +54,11 @@ router.post('/', async (req, res) => {
         error: errors.unexpected[req.lang]
       })
     }
-
-    let response = await assementResponseService.create(user, data.assessmentId, JSON.stringify(data))
+    console.log('gotem')
+    let response = await assessmentResponseService.create(user, data.assessmentId, JSON.stringify(data))
     response = response.toJSON()
     response.response = JSON.parse(response.response)
+    const feedBack = await assessmentResponseService.generateFeedback(response)
     if (response) {
       res.status(200).json({
         message: 'Self assessment response saved successfully!',
@@ -71,7 +73,7 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/self-assesment/:id', async (req, res) => {
-  const { data, courseInstanceId } = await assementResponseService.getBySelfAssesment(req.params.id)
+  const { data, courseInstanceId } = await assessmentResponseService.getBySelfAssesment(req.params.id)
   if (!courseInstanceId) {
     res.status(404).json({
       error: errors.notfound[req.lang],
