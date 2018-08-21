@@ -23,22 +23,26 @@ const UserResultsPage = (props) => {
       eka + parseInt(data[toka].grade, 0)), 0)
     assesmentGrade = Math.round(assesmentGrade / Object.keys(data).length)
     if (!(Number.isInteger(assesmentGrade))) {
-      return 'Etpä tainnut arvioida kaikkea'
+      return 'Kaikkia ei ole arvioitu'
     }
     if (assesmentGrade > 0) {
       if (assesmentGrade > 1) {
-        return 'Arvioit osaavasi osion tavoitteet hyvin'
+        return 'Osaan osion tavoitteet hyvin'
       }
-      return 'Arvioit osaavasi osion tavoitteet kohtalaisesti'
+      return 'Osaan osion tavoitteet kohtalaisesti'
     }
-    return 'Arvioit että sinulla on vielä selkeästi kehitettävää osion tavoitteiden suhteen'
+    return 'Vielä selkeästi kehitettävää osion tavoitteiden suhteen'
   }
 
   const renderFunc = () =>
     (
       <Container>
         <div>
-          Olet jo vastannut tähän itsearviointiin. Voit tarkastella kootusti tuloksiasi alla.
+          {props.teacher ? null : (
+            <h2>
+              Olet jo vastannut tähän itsearviointiin. Voit tarkastella kootusti tuloksiasi alla.
+            </h2>
+          )}
           {Object.keys(objectives).map(objective => (
             <div key={objective}>
               <p>{objective.id}</p>
@@ -63,7 +67,7 @@ const UserResultsPage = (props) => {
                       Tavoite
                     </Table.HeaderCell>
                     <Table.HeaderCell>
-                      Arviosi osaamisesta
+                      Arvio osaamisesta
                     </Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -93,7 +97,11 @@ const UserResultsPage = (props) => {
   return (
     <Container textAlign="center">
       <div>
-        <h2>Olet jo vastannut tähän itsearviointiin. Voit tarkastella kootusti tuloksiasi alla.</h2>
+        {props.teacher ? null : (
+          <h2>
+            Olet jo vastannut tähän itsearviointiin. Voit tarkastella kootusti tuloksiasi alla.
+          </h2>
+        )}
         {assesmentResponse.questionModuleResponses.map(questionModule => (
           <Card key={questionModule.id} fluid color="red" >
             <Card.Content >
@@ -101,10 +109,12 @@ const UserResultsPage = (props) => {
                 <h3>{questionModule.name}</h3>
               </Card.Header>
               <Card.Description textAlign="center">
-                <h4>Annoit itsellesi arvosanan: {questionModule.grade}</h4>
+                <h4>
+                  Itsearvioitu arvosana: {questionModule.grade}
+                </h4>
                 {questionModule.textFieldOn ?
                   <div>
-                    <h5>Perustelit sitä seuraavasti: </h5>
+                    <h5>perustelut:</h5>
                     <p>{questionModule.responseText}</p>
                   </div>
                   :
@@ -119,7 +129,12 @@ const UserResultsPage = (props) => {
 }
 
 UserResultsPage.propTypes = {
-  assesmentResponse: PropTypes.shape().isRequired
+  assesmentResponse: PropTypes.shape().isRequired,
+  teacher: PropTypes.bool
+}
+
+UserResultsPage.defaultProps = {
+  teacher: false
 }
 
 export default UserResultsPage
