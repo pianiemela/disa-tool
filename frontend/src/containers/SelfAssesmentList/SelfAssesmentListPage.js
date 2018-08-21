@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Switch, Route, Redirect } from 'react-router-dom'
-import { Container, Loader, Accordion, Button, Icon } from 'semantic-ui-react'
+import { Container, Loader, Accordion, Button, Icon, Table } from 'semantic-ui-react'
 
 import { getResponsesBySelfAssesment } from '../../api/selfassesment'
 
@@ -43,6 +43,40 @@ class SelfAssesmentListPage extends Component {
                 <span>Tarkastele</span>
                 <Icon name="angle double right" />
               </Button>
+              {response.response.assessmentType === 'category' ? (
+                <Table collapsing compact="very">
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell>Kategoria</Table.HeaderCell>
+                      <Table.HeaderCell textAlign="center">Itsearvio</Table.HeaderCell>
+                      <Table.HeaderCell textAlign="center">Konearvio</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  {response.response.questionModuleResponses.map(qmResponse => (
+                    <Table.Row key={qmResponse.id}>
+                      <Table.Cell>{qmResponse.name}</Table.Cell>
+                      <Table.Cell textAlign="center">{qmResponse.grade}</Table.Cell>
+                      <Table.Cell textAlign="center">{ /* konearvio */ }</Table.Cell>
+                    </Table.Row>
+                  ))}
+                </Table>
+              ) : null}
+              {response.response.finalGradeResponse ? (
+                <Table collapsing compact="very">
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.HeaderCell />
+                      <Table.HeaderCell textAlign="center">Itsearvio</Table.HeaderCell>
+                      <Table.HeaderCell textAlign="center">Konearvio</Table.HeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Row>
+                    <Table.Cell><strong>Loppuarvosana</strong></Table.Cell>
+                    <Table.Cell textAlign="center">{response.response.finalGradeResponse.grade}</Table.Cell>
+                    <Table.Cell textAlign="center">{ /* konearvio */ }</Table.Cell>
+                  </Table.Row>
+                </Table>
+              ) : null}
             </Accordion.Content>
           )
         }))}
