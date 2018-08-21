@@ -15,6 +15,14 @@ const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
   throw Error('Olet jo vastannut tähän itsearvioon!')
 })
 
+const getCourseInstanceId = async (id) => {
+  const selfAssessment = await SelfAssessment.findById(id, {
+    attributes: ['id', 'course_instance_id']
+  })
+  if (!selfAssessment) return null
+  return selfAssessment.get({ plain: true }).course_instance_id
+}
+
 const getBySelfAssesment = async (id) => {
   const responses = await AssessmentResponse.findAll({
     attributes: ['id', 'response', 'person_id', 'self_assessment_id'],
@@ -26,13 +34,18 @@ const getBySelfAssesment = async (id) => {
       {
         model: SelfAssessment,
         where: {
-          course_instance_id: id
+          id
         },
         attributes: ['id', 'course_instance_id']
       }
     ]
   })
-  return responses.map((response) => {
+  const courseInstanceId = responses.length > 0 ? (
+    responses[0].dataValues.self_assessment.course_instance_id
+  ) : (
+    await getCourseInstanceId(id)
+  )
+  const data = responses.map((response) => {
     const json = response.toJSON()
     return {
       id: json.id,
@@ -40,6 +53,7 @@ const getBySelfAssesment = async (id) => {
       response: json.response
     }
   })
+  return { data, courseInstanceId }
 }
 
 module.exports = {

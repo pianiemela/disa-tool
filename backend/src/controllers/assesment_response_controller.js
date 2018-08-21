@@ -71,11 +71,19 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/self-assesment/:id', async (req, res) => {
+  const { data, courseInstanceId } = await assementResponseService.getBySelfAssesment(req.params.id)
+  if (!courseInstanceId) {
+    res.status(404).json({
+      error: errors.notfound[req.lang],
+      data: []
+    })
+    return
+  }
   try {
     if (!await checkPrivilege(req, [
       {
         key: 'teacher_on_course',
-        param: Number(req.params.id)
+        param: courseInstanceId
       }
     ])) {
       res.status(403).json({
@@ -83,7 +91,6 @@ router.get('/self-assesment/:id', async (req, res) => {
       })
       return
     }
-    const data = await assementResponseService.getBySelfAssesment(req.params.id)
     res.status(200).json({
       message: messages.getBySelfAssesment[req.lang],
       data
