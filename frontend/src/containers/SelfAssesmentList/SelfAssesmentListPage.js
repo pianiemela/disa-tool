@@ -61,13 +61,13 @@ class SelfAssesmentListPage extends Component {
     return (
       <div>
         <Container textAlign="center">
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
             {backButton}
             <h2 style={{ flexGrow: 1 }}>{this.state.activeResponse.person.name}</h2>
           </div>
         </Container>
         <UserResultsPage
-          assesmentResponse={JSON.parse(this.state.activeResponse.response)}
+          assesmentResponse={this.state.activeResponse.response}
           teacher
         />
         <Container>

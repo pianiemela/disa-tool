@@ -50,7 +50,7 @@ const getBySelfAssesment = async (id) => {
     return {
       id: json.id,
       person: json.person,
-      response: json.response
+      response: JSON.parse(json.response)
     }
   })
   return { data, courseInstanceId }
