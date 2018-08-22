@@ -2,16 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import MathJax from 'react-mathjax'
 
-const splitContent = (content, delimiter) => content
-  .map(chunk => chunk.split(delimiter))
-  .reduce((acc, curr) => acc.concat(curr), [])
-
-const MathJaxText = (props) => {
-  const chunks = props.delimiters.reduce((acc, curr) => splitContent(acc, curr), [props.content])
+const splitContent = (content, delimiter) => {
+  const chunks = content
+    .map((chunk, i) => (i % 2 === 0 ? chunk.split(delimiter) : [chunk]))
+    .reduce((acc, curr) => acc.concat(curr), [])
   if (chunks.length % 2 === 0) {
-    chunks[chunks.length - 2] = `${chunks[chunks.length - 2]}$${chunks[chunks.length - 1]}`
+    chunks[chunks.length - 2] = `${chunks[chunks.length - 2]}${delimiter}${chunks[chunks.length - 1]}`
     chunks.splice(chunks.length - 1, 1)
   }
+  return chunks
+}
+const MathJaxText = (props) => {
+  const chunks = props.delimiters.reduce((acc, curr) => splitContent(acc, curr), [props.content])
   const elements = chunks.map((chunk, i) => (i % 2 === 0 ? (
     <span key={i}>{chunk}</span>
   ) : (
