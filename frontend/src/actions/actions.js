@@ -298,3 +298,10 @@ export const updateCoursePersonRoleAction = coursePersons => async (dispatch) =>
     })
   }
 }
+
+export const resetErrorAction = () => async (dispatch) => {
+  dispatch({
+    type: 'RESET_ERROR',
+    payload: ''
+  })
+}

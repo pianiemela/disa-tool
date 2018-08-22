@@ -21,6 +21,7 @@ describe('Self assesment page', () => {
       dispatchGetUsercourses={dispatchGetUsercourses}
       dispatchGetUserSelfAssesments={dispatchGetUserSelfAssesments}
       courses={[]}
+      role={'TEACHER'}
     />)
     user = {
       id: 422,
