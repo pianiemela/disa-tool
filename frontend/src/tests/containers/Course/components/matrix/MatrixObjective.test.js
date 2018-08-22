@@ -7,6 +7,7 @@ const objective = {
   name: 'Test objective',
   task_count: 0
 }
+const mockFn = () => {}
 
 describe('MatrixObjective component', () => {
   let wrapper
@@ -23,7 +24,9 @@ describe('MatrixObjective component', () => {
       active={false}
       toggleObjective={toggleObjective}
       activeTaskId={null}
-      taskDetails={() => {}}
+      taskDetails={mockFn}
+      isCut={false}
+      cut={mockFn}
     />)
   })
 
