@@ -11,6 +11,8 @@ const objectiveReducer = (state = INITIAL_STATE, action) => {
       }
     case 'OBJECTIVE_MOVE':
       return INITIAL_STATE
+    case 'COURSE_RESET':
+      return INITIAL_STATE
     default:
       return state
   }
