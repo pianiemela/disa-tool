@@ -65,6 +65,7 @@ export class MatrixObjective extends Component {
   }
 
   render() {
+    if (this.props.isCut) return <Button icon={{ name: 'paste' }} onClick={() => this.props.cut(null)} />
     return (
       <div className="MatrixObjective flexContainer">
         <div className="objectiveBlock flexContainer">
@@ -144,6 +145,7 @@ export class MatrixObjective extends Component {
               ]}
               header="Poista oppimistavoite"
             />
+            <Button type="button" icon={{ name: 'cut' }} size="mini" onClick={() => this.props.cut(this.props.objective.id)} />
             <EditObjectiveForm objectiveId={this.props.objective.id} />
           </div>
         ) : (
@@ -167,7 +169,9 @@ MatrixObjective.propTypes = {
   activeTaskId: PropTypes.number,
   taskDetails: PropTypes.func.isRequired,
   showDetails: PropTypes.bool,
-  lastMultiplierUpdate: PropTypes.instanceOf(Date)
+  lastMultiplierUpdate: PropTypes.instanceOf(Date),
+  isCut: PropTypes.bool.isRequired,
+  cut: PropTypes.func.isRequired
 }
 
 MatrixObjective.defaultProps = {
@@ -176,8 +180,9 @@ MatrixObjective.defaultProps = {
   lastMultiplierUpdate: null
 }
 
-const mapStateToProps = state => ({
-  lastMultiplierUpdate: state.task.lastMultiplierUpdate
+const mapStateToProps = (state, ownProps) => ({
+  lastMultiplierUpdate: state.task.lastMultiplierUpdate,
+  isCut: state.objective.cut === ownProps.objective.id
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -187,7 +192,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   ) : (
     asyncAction(addObjectiveToTask, dispatch)
   ),
-  taskDetails
+  taskDetails,
+  cut: id => dispatch({ type: 'OBJECTIVE_CUT', cut: id })
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(MatrixObjective)

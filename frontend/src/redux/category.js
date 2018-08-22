@@ -152,6 +152,29 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           }) : category
         ))
       }
+    case 'OBJECTIVE_MOVE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: category.skill_levels.map(level => ({
+            ...level,
+            objectives: (category.id === action.response.edited.category_id
+                && level.id === action.response.edited.skill_level_id ? (
+                [
+                  ...level.objectives
+                    .filter(objective => objective.id !== action.response.edited.id),
+                  {
+                    id: action.response.edited.id,
+                    name: action.response.edited.name
+                  }
+                ]
+              ) : (
+                level.objectives.filter(objective => objective.id !== action.response.edited.id)
+              ))
+          }))
+        }))
+      }
     default:
       return state
   }

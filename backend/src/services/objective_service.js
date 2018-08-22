@@ -82,7 +82,7 @@ const { details, edit } = editServices(
   Objective,
   {},
   {
-    attributes: ['id', 'category_id', 'skill_level_id'],
+    attributes: ['id', 'category_id', 'skill_level_id', 'eng_name', 'fin_name', 'swe_name'],
     include: {
       model: Category,
       attributes: ['id', 'course_instance_id']
@@ -90,7 +90,9 @@ const { details, edit } = editServices(
     saveFields: [
       'eng_name',
       'fin_name',
-      'swe_name'
+      'swe_name',
+      'category_id',
+      'skill_level_id'
     ],
     valueFields: [
       'id',
