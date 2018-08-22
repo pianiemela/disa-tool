@@ -1,4 +1,14 @@
-const { AssessmentResponse, Category, Grade, Objective, Person, SelfAssessment, Task, SkillLevel, TaskResponse } = require('../database/models')
+const {
+  AssessmentResponse,
+  Category,
+  Grade,
+  Objective,
+  Person,
+  SelfAssessment,
+  Task,
+  SkillLevel,
+  TaskResponse
+} = require('../database/models')
 
 const getOne = async (user, selfAssesmentId) => AssessmentResponse.find({
   where: { person_id: user.id, self_assessment_id: selfAssesmentId }
@@ -8,6 +18,7 @@ const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
   where: { person_id: user.id, self_assessment_id: selfAssesmentId }
 }).then((found) => {
   if (!found) {
+    // TODO: NOTE THAT THIS NOW ONLY BUILDS! NEED TO SAVE SEPARATELY!
     return AssessmentResponse.build({
       response: data, self_assessment_id: selfAssesmentId, person_id: user.id
     })
@@ -21,12 +32,12 @@ const generateFeedback = async (response) => {
   })
   const userTasks = await TaskResponse.findAll({ where: { person_id: response.person_id } })
   // go through each question field
-  response.response.questionModuleResponses.map(async (resp) => {
+  const earnedGrades = await Promise.all(response.response.questionModuleResponses.map(async (resp) => {
     // find the grade user wants
     const wantedGrade = grades.find(grade => grade.id === resp.grade)
     // find current category, include objectives and tasks
     const category = await Category.find({
-      where: { fin_name: resp.name },
+      where: { id: resp.id },
       include: { model: Objective, include: Task }
     })
 
@@ -54,23 +65,27 @@ const generateFeedback = async (response) => {
         })
         return { userPoints, maxPoints }
       }))
+      // calculate sums over objectives
       const userPoints = objectivePoints.reduce((acc, curr) => acc + curr.userPoints, 0)
       const maxPoints = objectivePoints.reduce((acc, curr) => acc + curr.maxPoints, 0)
       return {
         grade: grade.id,
         userPoints,
         maxPoints,
+        // user is qualified for grade if the points exceed the needed level
         qualifiedForGrade: userPoints / maxPoints >= grade.needed_for_grade,
         prerequisite: grade.prerequisite
       }
     }))
 
+    // If any prerequisite is not met, user does not earn the grade,
+    // even if points otherwise would be enough
     gradeQualifies.map((grade) => {
       let preReq = grade.prerequisite || undefined
       let depth = 0
       while (preReq !== undefined) {
         depth += 1
-        const found = gradeQualifies.find(g => g.grade === preReq) // eslint-disable-line
+        const found = gradeQualifies.find(g => g.grade === preReq) // eslint-disable-line no-loop-func
 
         if (found && !found.qualifiedForGrade) {
           grade.qualifiedForGrade = false
@@ -80,51 +95,19 @@ const generateFeedback = async (response) => {
       grade.depth = depth
     })
 
-    console.log(gradeQualifies)
-    /*
-    // Check grade pre-requisite,
-    // until there is none, and then start going through the tasks?
-    const preReqGrades = []
-    let preReqGrade = wantedGrade.prerequisite || undefined
-    while (preReqGrade !== undefined) {
-      const newGrade = grades.find(grade => grade.id === preReqGrade)
-      preReqGrades.push(newGrade)
-      preReqGrade = newGrade.prerequisite || undefined
+    // Find the highest grade earned. This is the grade with biggest recursive depth,
+    // i.e. most levels of prerequisites
+    let earnedGrade = gradeQualifies[0]
+    for (let i = 1; i < gradeQualifies.length; i += 1) {
+      const grade = gradeQualifies[i]
+      if (grade.qualifiedForGrade && grade.depth >= earnedGrade.depth) {
+        earnedGrade = grade
+      }
     }
-    // now all prerequisites are neatly in a list. Now start popping through the list, until there are
-    // no grades left.
-    while (preReqGrades.length > 0) {
-      const curGrade = preReqGrades.pop()
-      // find all objectives that match the current grade's skill level. Include Tasks.
-      // We also need taskObjectives, since they have the multipliers.
-      const gradeObjectives = await Objective.findAll({  // eslint-disable-line
-        where: {
-          skill_level_id: curGrade.skill_level_id, course_instance_id: response.response.course_instance_id
-        },
-        include: Task
-      })
+    return { ...earnedGrade, wantedGrade: wantedGrade.id, categoryId: category.id }
+  }))
 
-      gradeObjectives.map(obj => obj.tasks.map(task => console.log(task.task_objective)))
-    }
-    const feedbackForSkillLevels = [{ id: 1, donePoints: {}, maxPoints: 10 }]
-    const categoryFeedback = [{
-      categoryId: 1,
-      skillLevels: [{
-        id: 1,
-        donePoints: {},
-        maxPoints: 10
-      }],
-      wantedGrade: 4,
-      validatedGrade: 3
-    }]
-    */
-    // For each popped grade, check if user's responses meet the requirement and make a note of it.
-    // If responses do not meet requirement, save a note of that, but continue still.
-    // After all is done, need to check any higher skill levels for possible "bonus" response points.
-  })
-  // console.log('NEEDED GRADES', preReqGrades)
-  // console.log(response.response.questionModuleResponses.map(resp => console.log(resp)))
-  // console.log(response)
+  return earnedGrades
 }
 
 const getCourseInstanceId = async (id) => {
@@ -158,11 +141,10 @@ const getBySelfAssesment = async (id) => {
     await getCourseInstanceId(id)
   )
   const data = responses.map((response) => {
-    const json = response.toJSON()
     return {
-      id: json.id,
-      person: json.person,
-      response: JSON.parse(json.response)
+      id: response.id,
+      person: response.person,
+      response: response.response
     }
   })
   return { data, courseInstanceId }

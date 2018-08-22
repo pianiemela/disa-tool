@@ -18,10 +18,8 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const user = await checkAuth(req)
-    let data = await assessmentResponseService.getOne(user, selfAssesmentId)
+    const data = await assessmentResponseService.getOne(user, selfAssesmentId)
     if (data) {
-      data = data.toJSON()
-      data.response = JSON.parse(data.response)
       res.status(200).json({ data })
     }
     res.status(200).json({
@@ -54,15 +52,15 @@ router.post('/', async (req, res) => {
         error: errors.unexpected[req.lang]
       })
     }
-    console.log('gotem')
-    let response = await assessmentResponseService.create(user, data.assessmentId, JSON.stringify(data))
-    response = response.toJSON()
-    response.response = JSON.parse(response.response)
-    const feedBack = await assessmentResponseService.generateFeedback(response)
+    const response = await assessmentResponseService.create(user, data.assessmentId, data)
+    const feedback = await assessmentResponseService.generateFeedback(response)
+    response.response.feedback = feedback
+    // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
+    const completeResponse = await response.save()
     if (response) {
       res.status(200).json({
         message: 'Self assessment response saved successfully!',
-        data: response
+        data: completeResponse
       })
     }
   } catch (error) {
