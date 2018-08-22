@@ -70,6 +70,8 @@ router.post('/create', async (req, res) => {
     }
     await gradeService.create.execute(toCreate)
     const created = gradeService.create.value(toCreate, req.lang)
+    const categoryGrades = await gradeService.createDefaultCategoryGrades(created, skillLevel.course_instance_id)
+    created.category_grades = categoryGrades
     res.status(200).json({
       message: messages.create[req.lang],
       created
