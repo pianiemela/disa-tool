@@ -266,7 +266,9 @@ class UserPage extends Component {
                               <List.Item key={assessment.id} style={{ display: 'flex' }}>
                                 <List.Content
                                   as={Link}
-                                  to={`/selfAssesment/list/${assessment.id}`}
+                                  to={activeCourse.courseRole === 'TEACHER' ?
+                                    `/selfAssesment/list/${assessment.id}` :
+                                    `/selfAssesment/response/${assessment.id}`}
                                   style={{ flexGrow: 1 }}
                                 >
                                   {assessment.name}
