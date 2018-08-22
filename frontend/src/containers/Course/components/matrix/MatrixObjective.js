@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button, Label, Popup, Header, Loader, Segment } from 'semantic-ui-react'
-import MathJax from 'react-mathjax-preview'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeObjective } from '../../actions/objectives'
@@ -11,6 +10,7 @@ import { taskDetails } from '../../../../api/objectives'
 
 import EditObjectiveForm from './EditObjectiveForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
+import MathJaxText from '../../../../utils/components/MathJaxText'
 
 export class MatrixObjective extends Component {
   constructor(props) {
@@ -79,14 +79,14 @@ export class MatrixObjective extends Component {
               style={{ borderRadius: '0px' }}
               onClick={this.toggleObjective}
             >
-              <MathJax math={this.props.objective.name} />
+              <MathJaxText content={this.props.objective.name} />
             </Button>
           ) : (
             <Segment
               className="objectiveSegment"
               style={{ borderRadius: '0px' }}
             >
-              <MathJax math={this.props.objective.name} />
+              <MathJaxText content={this.props.objective.name} />
             </Segment>
           )}
           {this.props.showDetails ? (

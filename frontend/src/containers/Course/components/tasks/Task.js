@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Button } from 'semantic-ui-react'
-import MathJax from 'react-mathjax-preview'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeTask, changeActive } from '../../actions/tasks'
 
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditTaskForm from './EditTaskForm'
+import MathJaxText from '../../../../utils/components/MathJaxText'
 
 export class Task extends Component {
   renderExpanded() {
@@ -18,7 +18,7 @@ export class Task extends Component {
     return (
       <div className="flexContainer">
         <div className="flexGrower flexBlock">
-          <MathJax math={this.props.task.description} />
+          <MathJaxText content={this.props.task.description} />
           <p>{this.props.task.info}</p>
         </div>
         {this.props.editing ? (

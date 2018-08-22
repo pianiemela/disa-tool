@@ -2,9 +2,10 @@ import { Form, Card, List, Grid } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import MathJax from 'react-mathjax-preview'
 
 import { gradeObjectiveAction } from '../../../actions/selfAssesment'
+
+import MathJaxText from '../../../../../utils/components/MathJaxText'
 
 class ObjectiveQuestionModule extends React.Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class ObjectiveQuestionModule extends React.Component {
                 <Grid key={o.id} verticalAlign="middle" columns={3}>
                   <Grid.Row style={{ padding: '20px' }}>
                     <Grid.Column>
-                      <List.Item as="li"><MathJax math={o.name} /></List.Item>
+                      <List.Item as="li"><MathJaxText content={o.name} /></List.Item>
                     </Grid.Column>
                     <Grid.Column>
                       <input
