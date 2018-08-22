@@ -72,10 +72,10 @@ const { details, edit } = editServices(
   {},
   {
     attributes: ['id', 'skill_level_id'],
-    include: {
+    include: [{
       model: SkillLevel,
       attributes: ['id', 'course_instance_id']
-    },
+    }, CategoryGrade],
     saveFields: [
       'eng_name',
       'fin_name',
