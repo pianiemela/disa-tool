@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import { Button, Header, List, Grid, Dropdown } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
+import parseQueryParams from '../../utils/parseQueryParams'
+
 import { getAllCourses, selectCourse } from './actions/courses'
 import { getInstancesOfCourse, selectInstance } from './actions/courseInstances'
 
@@ -14,6 +16,13 @@ import RegisterForm from './components/RegisterForm'
 class CourseListPage extends Component {
   componentDidMount = async () => {
     await this.props.getAllCourses()
+    if (this.props.location.query_params.course) {
+      this.props.selectCourse(Number(this.props.location.query_params.course))
+      await this.props.getInstancesOfCourse(Number(this.props.location.query_params.course))
+      if (this.props.location.query_params.instance) {
+        this.props.selectInstance(Number(this.props.location.query_params.instance))
+      }
+    }
   }
 
   handleChange = (e, data) => {
@@ -135,7 +144,10 @@ CourseListPage.propTypes = {
     registered: PropTypes.bool.isRequired
   }),
   selectCourse: PropTypes.func.isRequired,
-  selectInstance: PropTypes.func.isRequired
+  selectInstance: PropTypes.func.isRequired,
+  location: PropTypes.shape({
+    query_params: PropTypes.objectOf(PropTypes.string).isRequired
+  }).isRequired
 }
 
 CourseListPage.defaultProps = {
@@ -144,13 +156,13 @@ CourseListPage.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  ...ownProps,
   user: state.user,
   userCourses: state.courses,
   courses: state.listCourses.courses,
   instances: state.listCourses.instances,
   selectedCourse: state.listCourses.selectedCourse,
-  selectedInstance: state.listCourses.selectedInstance
+  selectedInstance: state.listCourses.selectedInstance,
+  location: parseQueryParams(ownProps.location)
 })
 
 const mapDispatchToProps = dispatch => ({

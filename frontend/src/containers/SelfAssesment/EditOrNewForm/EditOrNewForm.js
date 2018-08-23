@@ -11,13 +11,12 @@ export class EditOrNewForm extends React.Component {
     this.state = {
       active: [],
       selectedView: '',
-      dropDownValue: '',
-      selectedSelfAssesments: []
+      dropDownValue: ''
     }
   }
 
   componentDidMount() {
-    this.setState({ dropDownValue: parseInt(this.props.selectedCourse) })
+    this.setState({ dropDownValue: parseInt(this.props.selectedCourse, 10) })
   }
 
   handleClick = (e, titleProps) => {
@@ -30,9 +29,6 @@ export class EditOrNewForm extends React.Component {
   }
 
   handleDropdownChange = (e, { value }) => {
-    const selectedSelfAssesments = this.props.selfAssesments.filter(sa =>
-      sa.course_instance_id === value)
-    this.setState({ selectedSelfAssesments })
     this.setState({ dropDownValue: value })
   }
 
@@ -52,17 +48,15 @@ export class EditOrNewForm extends React.Component {
   render() {
     const { selectedView } = this.state
     const { dropDownCourse, selectedCourse } = this.props
-    let selfAssesments = this.state.selectedSelfAssesments
-    if (this.props.selectedCourse && selfAssesments.length === 0) {
-      selfAssesments = this.props.selfAssesments.filter(s => s.course_instance_id === parseInt(selectedCourse, 10))
-    }
+    const selectedSelfAssesments = this.props.selfAssesments.filter(s =>
+      s.course_instance_id === parseInt(this.state.dropDownValue, 10))
 
     return (
       <Form>
         <Form.Field style={{ marginTop: '20px' }}>
           <Dropdown
             selection
-            placeholder={"Valitse kurssi"}
+            placeholder="Valitse kurssi"
             onChange={this.handleDropdownChange}
             options={dropDownCourse}
             defaultValue={parseInt(selectedCourse, 10)}
@@ -71,7 +65,7 @@ export class EditOrNewForm extends React.Component {
         <Form.Field>
           <SelfAssesmentList
             onClick={this.sendFormId}
-            selfAssesments={selfAssesments}
+            selfAssesments={selectedSelfAssesments}
           />
         </Form.Field>
         <Form.Field>
@@ -90,10 +84,14 @@ export class EditOrNewForm extends React.Component {
 
 EditOrNewForm.propTypes = {
   dropDownCourse: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  createForm: PropTypes.func.isRequired
+  createForm: PropTypes.func.isRequired,
+  selfAssesments: PropTypes.arrayOf(PropTypes.shape()),
+  editForm: PropTypes.func.isRequired,
+  selectedCourse: PropTypes.string
 }
 
 EditOrNewForm.defaultProps = {
-  dropdownAssesments: []
+  selfAssesments: [],
+  selectedCourse: null
 }
 export default EditOrNewForm
