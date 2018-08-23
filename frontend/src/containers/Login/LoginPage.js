@@ -15,7 +15,7 @@ LoginPage.propTypes = {
 }
 
 LoginPage.defaultProps = {
-  redirectTo: null
+  redirectTo: undefined
 }
 
 export default LoginPage
