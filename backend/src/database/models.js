@@ -126,6 +126,18 @@ const Grade = sequelize.define('grade', {
   timestamps: true
 })
 
+const CategoryGrade = sequelize.define('category_grade', {
+  id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+  needed_for_grade: { type: Sequelize.DOUBLE },
+  grade_id: { type: Sequelize.BIGINT },
+  category_id: { type: Sequelize.BIGINT }
+},
+{
+  tableName: 'category_grade',
+  underscored: true,
+  timestamps: true
+})
+
 // const ObjectiveSkillLevel = sequelize.define('objective_skill_level', {
 //     id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
 //     objective_id: { type: Sequelize.BIGINT },
@@ -289,6 +301,11 @@ Grade.belongsTo(SkillLevel, { foreignKey: 'skill_level_id', targetKey: 'id' })
 
 Grade.hasOne(Grade, { foreignKey: 'prerequisite', targetKey: 'id' })
 
+CategoryGrade.belongsTo(Category, { foreignKey: 'category_id', targetKey: 'id' })
+CategoryGrade.belongsTo(Grade, { foreignKey: 'grade_id', targetKey: 'id' })
+Grade.hasMany(CategoryGrade, { foreignKey: 'grade_id', targetKey: 'id', onDelete: 'cascade', hooks: true })
+Category.hasMany(CategoryGrade, { foreignKey: 'category_id', targetKey: 'id', onDelete: 'cascade', hooks: true })
+
 // Objective.belongsToMany(SkillLevel, { through: ObjectiveSkillLevel })
 // SkillLevel.belongsToMany(Objective, { through: ObjectiveSkillLevel })
 
@@ -346,6 +363,7 @@ module.exports = {
   TaskObjective,
   SkillLevel,
   Grade,
+  CategoryGrade,
   Course,
   CourseInstance,
   Person,

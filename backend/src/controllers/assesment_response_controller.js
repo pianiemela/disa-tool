@@ -62,8 +62,9 @@ router.post('/', async (req, res) => {
       })
     }
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
-    const feedback = await assessmentResponseService.generateFeedback(response)
-    response.response.feedback = feedback
+    // const verification = await assessmentResponseService.verifyAssessmentGrade(response)
+    // response.response.verification = verification
+    // const feedback = await assessmentResponseService.generateFeedback(response)
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
     const completeResponse = await response.save()
     if (response) {
