@@ -47,7 +47,6 @@ export class SelfAssesmentPage extends React.Component {
   }
   render() {
     const { role } = this.props
-    console.log(role)
     if (this.props.error || (this.props.role && this.props.role !== 'TEACHER')) {
       return <Redirect to={'/user'} />
     }
@@ -127,6 +126,8 @@ SelfAssesmentPage.propTypes = {
   dispatchGetUsercourses: PropTypes.func.isRequired,
   dispatchGetUserSelfAssesments: PropTypes.func.isRequired,
   dispatchGetCourseInstanceData: PropTypes.func.isRequired,
+  dispatchClearError: PropTypes.func.isRequired,
+  error: PropTypes.bool,
   role: PropTypes.string
 }
 
@@ -134,7 +135,8 @@ SelfAssesmentPage.defaultProps = {
   courses: [],
   selfAssesments: [],
   courseDropdownOptions: [],
-  role: null
+  role: null,
+  error: false
 
 }
 
