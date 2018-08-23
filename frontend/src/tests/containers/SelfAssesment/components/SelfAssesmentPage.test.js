@@ -7,11 +7,14 @@ describe('Self assesment page', () => {
   let wrapper
   let dispatchGetUsercourses
   let dispatchGetUserSelfAssesments
+  let dispatchGetCourseInstanceData
   let user
 
   beforeEach(() => {
     dispatchGetUsercourses = jest.fn()
     dispatchGetUserSelfAssesments = jest.fn()
+    dispatchGetCourseInstanceData = jest.fn()
+
     wrapper = shallow(<SelfAssesmentPage
       match={{
         url: '/selfAssesment',
@@ -20,8 +23,11 @@ describe('Self assesment page', () => {
       user={user}
       dispatchGetUsercourses={dispatchGetUsercourses}
       dispatchGetUserSelfAssesments={dispatchGetUserSelfAssesments}
+      dispatchGetCourseInstanceData={dispatchGetCourseInstanceData}
+      dispatchClearError={jest.fn()}
       courses={[]}
-      role={'TEACHER'}
+      role="TEACHER"
+      error={false}
     />)
     user = {
       id: 422,
@@ -45,6 +51,9 @@ describe('Self assesment page', () => {
   })
   it('calls the dispatchGetUserSelfAssements function', () => {
     expect(dispatchGetUserSelfAssesments).toHaveBeenCalledTimes(1)
+  })
+  it('does not call dispatchGetCourseIntanceData when user has a role prop', () => {
+    expect(dispatchGetCourseInstanceData).toHaveBeenCalledTimes(0)
   })
 
   it('redirects when state new is true', () => {

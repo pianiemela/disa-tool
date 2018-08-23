@@ -12,6 +12,8 @@ const dispatchUpdateSelfAssesmentAction = jest.fn()
 const dispatchInitNewFormAction = jest.fn()
 const dispatchGetAssesmentResponseAction = jest.fn()
 const dispatchGetSelfAssesmentAction = jest.fn()
+const dispatchGetCourseInstanceData = jest.fn()
+
 // jest.mock('../../../api/courses')
 // jest.mock('../../../api/categories')
 
@@ -49,6 +51,7 @@ describe('Self assesment form', () => {
       dispatchInitNewFormAction={dispatchInitNewFormAction}
       dispatchGetAssesmentResponseAction={dispatchGetAssesmentResponseAction}
       dispatchGetSelfAssesmentAction={dispatchGetSelfAssesmentAction}
+      dispatchGetCourseInstanceData={dispatchGetCourseInstanceData}
       dispatchCreateSelfAssesmentResponseAction={jest.fn()}
       assesmentResponse={{}}
       dispatchToast={jest.fn()}
