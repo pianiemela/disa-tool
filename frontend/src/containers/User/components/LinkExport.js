@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Button, Popup, Grid } from 'semantic-ui-react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
@@ -14,7 +15,7 @@ const LinkExport = props => (
           <span>{props.url}</span>
         </Grid.Column>
         <Grid.Column width={1}>
-          <CopyToClipboard text={props.url}>
+          <CopyToClipboard text={props.url} onCopy={props.linkToast}>
             <div>
               <Popup
                 trigger={
@@ -38,7 +39,18 @@ LinkExport.propTypes = {
     PropTypes.element,
     PropTypes.string
   ]).isRequired,
-  url: PropTypes.string.isRequired
+  url: PropTypes.string.isRequired,
+  linkToast: PropTypes.func.isRequired
 }
 
-export default LinkExport
+const mapDispatchToProps = dispatch => ({
+  linkToast: () => dispatch({
+    type: 'TOAST',
+    payload: {
+      type: 'message',
+      toast: 'Linkki kopioitu leikepöydälle.'
+    }
+  })
+})
+
+export default connect(null, mapDispatchToProps)(LinkExport)
