@@ -22,6 +22,7 @@ describe('CreateObjectiveForm component', () => {
       category={category}
       level={level}
       courseId={1}
+      moveObjective={mockFn}
     />)
   })
 

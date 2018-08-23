@@ -12,3 +12,7 @@ export const removeObjective = data => apiPromise(remove, data, {
 export const editObjective = data => apiPromise(edit, data, {
   success: { type: 'OBJECTIVE_EDIT' }
 })
+
+export const moveObjective = data => apiPromise(edit, data, {
+  success: { type: 'OBJECTIVE_MOVE' }
+})

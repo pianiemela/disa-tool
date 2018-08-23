@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { func, shape, number } from 'prop-types'
+import { func, shape, number, string } from 'prop-types'
 import { connect } from 'react-redux'
 import { Container, Form, Label, Input, Button, Segment } from 'semantic-ui-react'
 import { Redirect } from 'react-router'
@@ -38,7 +38,7 @@ export class LoginForm extends Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/user" />
+      return <Redirect to={this.props.redirectTo} />
     }
     return (
       <Container className="LoginForm">
@@ -71,11 +71,13 @@ export class LoginForm extends Component {
 
 LoginForm.propTypes = {
   user: shape({ id: number }),
-  loginAction: func.isRequired
+  loginAction: func.isRequired,
+  redirectTo: string
 }
 
 LoginForm.defaultProps = {
-  user: {}
+  user: {},
+  redirectTo: '/user'
 }
 
 const mapStateToProps = state => ({

@@ -28,6 +28,7 @@ describe('Category question module', () => {
       dispatchTextfieldResponseAction={jest.fn()}
       dispatchGradeCategoryAction={jest.fn()}
       clearError={jest.fn()}
+      grades={[]}
     />)
   })
 

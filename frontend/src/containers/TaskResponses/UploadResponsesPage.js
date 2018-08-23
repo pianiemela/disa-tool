@@ -286,7 +286,7 @@ UploadResponsesPage.propTypes = {
       name: PropTypes.string.isRequired
     })),
     people: PropTypes.arrayOf(PropTypes.shape({
-      studentnumber: PropTypes.number.isRequired
+      studentnumber: PropTypes.string.isRequired
     }))
   }).isRequired,
   updateHandler: PropTypes.func.isRequired

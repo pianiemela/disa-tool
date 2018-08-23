@@ -38,7 +38,8 @@ export class SelfAssesmentSection extends React.Component {
       headers,
       errors,
       clearError,
-      courseInstanceId } = this.props
+      courseInstanceId,
+      grades } = this.props
 
     const { responseText, grade } = errors
     const { editHeaders } = this.state
@@ -82,6 +83,7 @@ export class SelfAssesmentSection extends React.Component {
                 responseText[0] :
                 responseText.find(e => e.id === questionModules.id)}
               clearError={clearError}
+              grades={grades}
             />)
             :
             null

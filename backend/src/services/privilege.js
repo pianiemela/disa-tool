@@ -24,7 +24,8 @@ const validateTeacher = async (param, user) => {
   const person = await Person.findById(user.id, {
     attributes: ['role']
   })
-  return person.toJSON().role === 'TEACHER'
+  const { role } = person.toJSON()
+  return role === 'TEACHER' || role === 'ADMIN'
 }
 
 const validateAdmin = async (param, user) => {
@@ -59,6 +60,22 @@ const checkPrivilege = async (req, privileges) => {
   return (await Promise.all(results)).every(value => value)
 }
 
+const isTeacherOnCourse = async (req, res, courseId) => {
+  if (!await checkPrivilege(req, [
+    {
+      key: 'teacher_on_course',
+      param: courseId
+    }
+  ])) {
+    res.status(403).json({
+      error: 'you are not a teacher on this course'
+    })
+    return false
+  }
+  return true
+}
+
 module.exports = {
-  checkPrivilege
+  checkPrivilege,
+  isTeacherOnCourse
 }

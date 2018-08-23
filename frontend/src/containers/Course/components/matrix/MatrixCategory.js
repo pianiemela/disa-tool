@@ -17,6 +17,9 @@ export const MatrixCategory = props => (
       {props.editing ? (
         <div className="flexContainer">
           <div className="paddedBlock">
+            <EditCategoryForm categoryId={props.category.id} />
+          </div>
+          <div className="paddedBlock">
             <DeleteForm
               onExecute={() => props.removeCategory({ id: props.category.id })}
               prompt={[
@@ -25,9 +28,6 @@ export const MatrixCategory = props => (
               ]}
               header="Poista kategoria"
             />
-          </div>
-          <div className="paddedBlock">
-            <EditCategoryForm categoryId={props.category.id} />
           </div>
         </div>
       ) : (

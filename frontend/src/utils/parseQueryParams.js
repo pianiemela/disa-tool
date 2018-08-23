@@ -5,14 +5,14 @@ const parseQueryParams = (location) => {
       query_params: {}
     }
   }
-  const queryParams = {}
-  location.search
+  const queryParams = location.search
     .substring(1, location.length)
     .split('&')
     .map(string => string.split('='))
-    .forEach((param) => {
-      queryParams[param[0]] = param[1] // eslint-disable-line
-    })
+    .reduce((acc, curr) => ({
+      ...acc,
+      [curr[0]]: curr[1]
+    }), {})
   return {
     ...location,
     query_params: queryParams

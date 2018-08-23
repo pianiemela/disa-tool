@@ -16,6 +16,8 @@
 
 [Grade| -id;-eng_name;-fin_name;-swe_name;-needed_for_grade;-skill_level_id;-prerequisite]
 
+[CategoryGrade| -id;-needed_for_grade;-category_id;-grade_id]
+
 [Course| -id;-eng_name;-fin_name;-swe_name]
 
 [CourseInstance| -id;-eng_name;-fin_name;-swe_name;-active;-course_id]
@@ -67,3 +69,6 @@
 [CourseInstance]1-*[TypeHeader]
 [CourseInstance]1-*[Category]
 [CourseInstance]1-*[SkillLevel]
+
+[CategoryGrade]1-*[Category]
+[CategoryGrade]1-*[Grade]

@@ -3,8 +3,8 @@ import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAss
 import { getUser } from '../api/persons'
 import { postTaskResponses } from '../api/tasks'
 import { login } from '../api/login'
+import { updateCategoryGrades } from '../api/grades'
 import { saveToken, removeToken } from '../utils/utils'
-
 
 export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
   dispatch({
@@ -294,6 +294,32 @@ export const updateCoursePersonRoleAction = coursePersons => async (dispatch) =>
   } catch (e) {
     dispatch({
       type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
+export const resetErrorAction = () => async (dispatch) => {
+  dispatch({
+    type: 'RESET_ERROR',
+    payload: ''
+  })
+}
+
+export const updateCategoryGradesAction = categoryGrades => async (dispatch) => {
+  dispatch({
+    type: 'GRADE_UPDATE_CATEGORY_GRADES_ATTEMPT',
+    payload: categoryGrades
+  })
+  try {
+    const { data } = await updateCategoryGrades(categoryGrades)
+    dispatch({
+      type: 'GRADE_UPDATE_CATEGORY_GRADES_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'GRADE_UPDATE_CATEGORY_GRADES_FAILURE',
       payload: e.response
     })
   }

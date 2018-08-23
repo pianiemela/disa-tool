@@ -38,6 +38,9 @@ export const Matrix = (props) => {
                 {props.editing ? (
                   <div className="flexContainer">
                     <div className="paddedBlock">
+                      <EditLevelForm levelId={level.id} />
+                    </div>
+                    <div className="paddedBlock">
                       <DeleteForm
                         onExecute={() => props.removeLevel({ id: level.id })}
                         prompt={[
@@ -46,9 +49,6 @@ export const Matrix = (props) => {
                         ]}
                         header="Poista oppimistaso"
                       />
-                    </div>
-                    <div className="paddedBlock">
-                      <EditLevelForm levelId={level.id} />
                     </div>
                   </div>
                 ) : (

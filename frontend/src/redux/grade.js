@@ -30,6 +30,17 @@ const gradeReducer = (state = INITIAL_STATE, action) => {
           grade.id === action.response.edited.id ? action.response.edited : grade
         ))
       }
+    case 'GRADE_UPDATE_CATEGORY_GRADES_SUCCESS': {
+      const { updatedCategoryGrades } = action.payload
+      const grades = state.grades.map((grade) => {
+        const updatedValues = grade.category_grades.map(cg => (
+          updatedCategoryGrades.find(u => u.id === cg.id) || cg
+        ))
+        return { ...grade, category_grades: updatedValues }
+      })
+      return { ...state, grades }
+    }
+
     default:
       return state
   }

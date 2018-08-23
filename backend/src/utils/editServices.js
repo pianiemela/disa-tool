@@ -14,8 +14,10 @@ const reduceFields = (data, fields, lang = 'fin') => {
   const reduced = {}
   fields.forEach((field) => {
     if (Array.isArray(field)) {
+      if (data[field[0].replace(/lang/, lang)] === undefined) return
       reduced[field[1]] = data[field[0].replace(/lang/, lang)]
     } else {
+      if (data[field] === undefined) return
       reduced[field] = data[field]
     }
   })

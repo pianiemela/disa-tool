@@ -263,10 +263,13 @@ class UserPage extends Component {
                         <List selection size="big">
                           {assessments.map(assessment => (
                             !assessment.active && activeCourse.courseRole !== 'TEACHER' ? undefined : (
-                              <List.Item key={assessment.id}>
+                              <List.Item key={assessment.id} style={{ display: 'flex' }}>
                                 <List.Content
                                   as={Link}
-                                  to={`/selfAssesment/response/${assessment.id}`}
+                                  to={activeCourse.courseRole === 'TEACHER' ?
+                                    `/selfAssesment/list/${assessment.id}` :
+                                    `/selfAssesment/response/${assessment.id}`}
+                                  style={{ flexGrow: 1 }}
                                 >
                                   {assessment.name}
                                 </List.Content>

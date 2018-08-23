@@ -52,7 +52,7 @@ router.put('/course_role', async (req, res) => {
 
 router.put('/global-role', async (req, res) => {
   try {
-    const data = req.body
+    const bodyData = req.body
     const hasPrivilege = checkPrivilege(req, [{
       key: 'admin',
       param: null
@@ -63,7 +63,8 @@ router.put('/global-role', async (req, res) => {
         error: errors.privilege[req.lang]
       })
     }
-    personService.updateGlobal(data)
+    const data = await personService.updateGlobal(bodyData)
+
     res.status(200).json({
       message: messages.update[req.lang],
       data

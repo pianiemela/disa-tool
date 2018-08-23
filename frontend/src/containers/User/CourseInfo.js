@@ -1,15 +1,19 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Button, Divider, Grid, Header, List } from 'semantic-ui-react'
+import LinkExportList from './components/LinkExportList'
 
 export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }) => {
   const renderTeacherOptions = () => (
     <Grid.Row>
       <Grid.Column width={3}>
-        <Button as={Link} to={`/selfAssesment/${course.id}`} color="green" basic>Muokkaa itsearviointeja</Button>
+        <Button as={Link} to={`/selfAssesment/${course.id}`} color="blue" basic>Muokkaa itsearviointeja</Button>
       </Grid.Column>
       <Grid.Column width={3}>
         <Button as={Link} to={`/course/${course.id}`} color="blue" basic>Muokkaa kurssia</Button>
+      </Grid.Column>
+      <Grid.Column width={10}>
+        <LinkExportList course={course} />
       </Grid.Column>
     </Grid.Row>
   )
@@ -67,7 +71,7 @@ export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }
       </Grid.Row>
       <Grid.Row>
         <Grid.Column width={3}>
-          <Button as={Link} to={`/course/matrix/${course.id}`} color="blue" basic>Kurssin tavoitematriisi</Button>
+          <Button as={Link} to={`/courses/matrix/${course.id}`} color="blue" basic>Kurssin tavoitematriisi</Button>
         </Grid.Column>
       </Grid.Row>
       <Divider />
