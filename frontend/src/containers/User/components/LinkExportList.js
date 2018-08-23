@@ -4,8 +4,6 @@ import { Segment, Button } from 'semantic-ui-react'
 
 import LinkExport from './LinkExport'
 
-const BASE_URL = 'localhost:8080'
-
 class LinkExportList extends Component {
   constructor(props) {
     super(props)
@@ -33,8 +31,8 @@ class LinkExportList extends Component {
         content="Sulje"
       />
       <Segment>
-        <LinkExport title="Rekisteröityminen: " url={`${BASE_URL}/courses?course=${this.props.course.course_id}&instance=${this.props.course.id}`} />
-        <LinkExport title="Matriisi: " url={`${BASE_URL}/course/matrix/${this.props.course.id}`} />
+        <LinkExport title="Rekisteröityminen: " url={`/courses?course=${this.props.course.course_id}&instance=${this.props.course.id}`} />
+        <LinkExport title="Matriisi: " url={`/course/matrix/${this.props.course.id}`} />
       </Segment>
     </div>
   )
