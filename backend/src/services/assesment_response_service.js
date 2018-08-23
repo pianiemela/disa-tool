@@ -1,6 +1,7 @@
 const {
   AssessmentResponse,
   Category,
+  CategoryGrade,
   Grade,
   Objective,
   Person,
@@ -27,22 +28,30 @@ const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
 })
 
 const verifyAssessmentGrade = async (response) => {
-  const grades = await Grade.findAll({
-    include: { model: SkillLevel, where: { course_instance_id: response.response.course_instance_id } }
+  const courseGrades = await Grade.findAll({
+    include: [
+      { model: SkillLevel, where: { course_instance_id: response.response.course_instance_id } },
+      CategoryGrade
+    ]
+  })
+  const categories = await Category.findAll({
+    where: { course_instance_id: response.response.course_instance_id },
+    include: CategoryGrade
   })
   const userTasks = await TaskResponse.findAll({ where: { person_id: response.person_id } })
   // go through each question field
-  const earnedGrades = await Promise.all(response.response.questionModuleResponses.map(async (resp) => {
+  const earnedGrades = await Promise.all(response.response.questionModuleResponses.map(async (categoryResp) => {
+    const categoryGrades = categories.find(category => category.id === categoryResp.id).category_grades
     // find the grade user wants
-    const wantedGrade = grades.find(grade => grade.id === resp.grade)
+    const wantedGrade = categoryGrades.find(grade => grade.grade_id === categoryResp.grade)
     // find current category, include objectives and tasks
     const category = await Category.find({
-      where: { id: resp.id },
+      where: { id: categoryResp.id },
       include: { model: Objective, include: Task }
     })
 
     // Check what grades meet requirements
-    const gradeQualifies = await Promise.all(grades.map(async (grade) => {
+    const gradeQualifies = await Promise.all(courseGrades.map(async (grade) => {
       const gradeObjectives = await Objective.findAll({
         where: {
           skill_level_id: grade.skill_level_id,
@@ -68,45 +77,50 @@ const verifyAssessmentGrade = async (response) => {
       // calculate sums over objectives
       const userPoints = objectivePoints.reduce((acc, curr) => acc + curr.userPoints, 0)
       const maxPoints = objectivePoints.reduce((acc, curr) => acc + curr.maxPoints, 0)
+      // Get the right category grade for the correct pass level
+      const categoryGrade = categoryGrades.find(cg => cg.grade_id === grade.id)
       return {
-        grade: grade.id,
+        categoryGradeId: categoryGrade.id,
+        gradeId: grade.id,
         userPoints,
         maxPoints,
         // user is qualified for grade if the points exceed the needed level
         qualifiedForGrade: userPoints / maxPoints >= grade.needed_for_grade,
-        prerequisite: grade.prerequisite,
-        skillLevel: grade.skill_level_id,
-        needed: grade.needed_for_grade
+        prerequisiteId: grade.prerequisite,
+        skillLevelId: grade.skill_level_id,
+        needed: categoryGrade.needed_for_grade
       }
     }))
 
     // If any prerequisite is not met, user does not earn the grade,
     // even if points otherwise would be enough
     gradeQualifies.map((grade) => {
-      let preReq = grade.prerequisite || undefined
+      let preReq = grade.prerequisiteId || undefined
       let depth = 0
       while (preReq !== undefined) {
         depth += 1
-        const found = gradeQualifies.find(g => g.grade === preReq) // eslint-disable-line no-loop-func
+        const found = gradeQualifies.find(g => g.gradeId === preReq) // eslint-disable-line no-loop-func
 
         if (found && !found.qualifiedForGrade) {
           grade.qualifiedForGrade = false
         }
-        preReq = found.prerequisite || undefined
+        preReq = found.prerequisiteId || undefined
       }
       grade.depth = depth
     })
 
     // Find the highest grade earned. This is the grade with biggest recursive depth,
     // i.e. most levels of prerequisites
-    let earnedGrade = gradeQualifies[0]
+    let earnedGrade = { gradeId: null }
     for (let i = 1; i < gradeQualifies.length; i += 1) {
       const grade = gradeQualifies[i]
       if (grade.qualifiedForGrade && grade.depth >= earnedGrade.depth) {
         earnedGrade = grade
       }
     }
-    return { gradeQualifies, earnedGradeId: earnedGrade.grade, wantedGradeId: wantedGrade.id, categoryId: category.id }
+    const gradeForName = courseGrades.find(grade => grade.id === earnedGrade.gradeId)
+    earnedGrade.name = gradeForName || null
+    return { gradeQualifies, earnedGrade, wantedGradeId: wantedGrade.id, categoryId: category.id }
   }))
 
   return earnedGrades

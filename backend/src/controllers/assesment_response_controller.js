@@ -64,15 +64,15 @@ router.post('/', async (req, res) => {
       })
     }
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
-    // const verification = await assessmentResponseService.verifyAssessmentGrade(response)
-    // response.response.verification = verification
-    // const feedback = await assessmentResponseService.generateFeedback(response)
+    const verification = await assessmentResponseService.verifyAssessmentGrade(response)
+    response.response.verification = verification
+    const feedback = await assessmentResponseService.generateFeedback(response)
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
-    const completeResponse = await response.save()
+    // const completeResponse = await response.save()
     if (response) {
       res.status(200).json({
         message: 'Self assessment response saved successfully!',
-        data: completeResponse
+        data: response
       })
     }
   } catch (error) {
