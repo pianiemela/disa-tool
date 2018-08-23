@@ -114,8 +114,8 @@ export class CategoryGradeTable extends Component {
                 ))}
           </Table.Body>
         </Table>
-        <Button color="green" content="tallenna" onClick={this.submitChanges} />
-        <Button color="red" content="peru muutokset" onClick={this.cancelChanges} />
+        <Button color="green" content="Tallenna" onClick={this.submitChanges} />
+        <Button color="red" content="Peru muutokset" onClick={this.cancelChanges} />
       </Container>
     )
   }
