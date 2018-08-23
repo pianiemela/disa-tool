@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Switch, Route, Redirect } from 'react-router-dom'
-import { Container, Loader, Accordion, Button, Icon, Table } from 'semantic-ui-react'
+import { connect } from 'react-redux'
+import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom'
+import { Container, Loader, Accordion, Button, Icon, Table, Segment, Header } from 'semantic-ui-react'
 
 import { getResponsesBySelfAssesment } from '../../api/selfassesment'
 
 import UserResultsPage from '../SelfAssesment/Userform/UserResultsPage'
+import LinkExport from '../User/components/LinkExport'
 
 class SelfAssesmentListPage extends Component {
   constructor(props) {
@@ -52,13 +54,15 @@ class SelfAssesmentListPage extends Component {
                       <Table.HeaderCell textAlign="center">Konearvio</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
-                  {response.response.questionModuleResponses.map(qmResponse => (
-                    <Table.Row key={qmResponse.id}>
-                      <Table.Cell>{qmResponse.name}</Table.Cell>
-                      <Table.Cell textAlign="center">{qmResponse.grade}</Table.Cell>
-                      <Table.Cell textAlign="center">{ /* konearvio */ }</Table.Cell>
-                    </Table.Row>
-                  ))}
+                  <Table.Body>
+                    {response.response.questionModuleResponses.map(qmResponse => (
+                      <Table.Row key={qmResponse.id}>
+                        <Table.Cell>{qmResponse.name}</Table.Cell>
+                        <Table.Cell textAlign="center">{qmResponse.grade}</Table.Cell>
+                        <Table.Cell textAlign="center">{ /* konearvio */ }</Table.Cell>
+                      </Table.Row>
+                    ))}
+                  </Table.Body>
                 </Table>
               ) : null}
               {response.response.finalGradeResponse ? (
@@ -70,11 +74,13 @@ class SelfAssesmentListPage extends Component {
                       <Table.HeaderCell textAlign="center">Konearvio</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
-                  <Table.Row>
-                    <Table.Cell><strong>Loppuarvosana</strong></Table.Cell>
-                    <Table.Cell textAlign="center">{response.response.finalGradeResponse.grade}</Table.Cell>
-                    <Table.Cell textAlign="center">{ /* konearvio */ }</Table.Cell>
-                  </Table.Row>
+                  <Table.Body>
+                    <Table.Row>
+                      <Table.Cell><strong>Loppuarvosana</strong></Table.Cell>
+                      <Table.Cell textAlign="center">{response.response.finalGradeResponse.grade}</Table.Cell>
+                      <Table.Cell textAlign="center">{ /* konearvio */ }</Table.Cell>
+                    </Table.Row>
+                  </Table.Body>
                 </Table>
               ) : null}
             </Accordion.Content>
@@ -115,6 +121,12 @@ class SelfAssesmentListPage extends Component {
     if (this.state.loading) return <Loader active />
     return (
       <div className="SelfAssesmentListPage">
+        <Container>
+          <Segment style={{ display: 'flex' }}>
+            <Header style={{ whiteSpace: 'nowrap', marginRight: '80px' }}>{this.props.selfAssesment.name}</Header>
+            <LinkExport style={{ flexShrink: 1 }} title="Linkki vastauslomakkeeseen: " url={`/selfassesment/response/${this.props.selfAssesmentId}`} />
+          </Segment>
+        </Container>
         <Switch>
           <Route exact path={`/selfassesment/list/${this.props.selfAssesmentId}`} render={this.renderList} />
           <Route exact path={`/selfassesment/list/${this.props.selfAssesmentId}/:id`} render={this.renderResponse} />
@@ -125,7 +137,20 @@ class SelfAssesmentListPage extends Component {
 }
 
 SelfAssesmentListPage.propTypes = {
-  selfAssesmentId: PropTypes.number.isRequired
+  selfAssesmentId: PropTypes.number.isRequired,
+  selfAssesment: PropTypes.shape({
+    name: PropTypes.string.isRequired
+  })
 }
 
-export default SelfAssesmentListPage
+SelfAssesmentListPage.defaultProps = {
+  selfAssesment: {
+    name: ''
+  }
+}
+
+const mapStateToProps = (state, ownProps) => ({
+  selfAssesment: state.instance.self_assessments.find(sa => sa.id === ownProps.selfAssesmentId)
+})
+
+export default withRouter(connect(mapStateToProps, null)(SelfAssesmentListPage))
