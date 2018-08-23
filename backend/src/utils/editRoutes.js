@@ -10,6 +10,7 @@ module.exports = (router, config = {}) => {
     messages,
     errors,
     pathToCourseInstanceId = ['course_instance_id'],
+    pathsToCourseInstanceIdMatches = [],
     route = ''
   } = config
 
@@ -54,12 +55,21 @@ module.exports = (router, config = {}) => {
       pathToCourseInstanceId.forEach((step) => {
         courseInstanceId = courseInstanceId[step]
       })
-      if (!await checkPrivilege(req, [
-        {
-          key: 'teacher_on_course',
-          param: courseInstanceId
-        }
-      ])) {
+      const courseInstanceIdMatch = pathsToCourseInstanceIdMatches.reduce((acc, curr) => {
+        let id = toEdit.dataValues
+        curr.forEach((step) => {
+          id = id[step]
+        })
+        return id === courseInstanceId && acc
+      }, true)
+      if (!courseInstanceIdMatch
+        || !await checkPrivilege(req, [
+          {
+            key: 'teacher_on_course',
+            param: courseInstanceId
+          }
+        ])
+      ) {
         res.status(403).json({
           error: errors.privilege[req.lang]
         })

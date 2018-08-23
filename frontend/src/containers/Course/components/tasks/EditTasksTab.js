@@ -10,6 +10,7 @@ import Matrix from '../matrix/Matrix'
 import Headerlist from '../types/Headerlist'
 import SelectTaskDropdown from './SelectTaskDropdown'
 import EditTaskObjectivesForm from './EditTaskObjectivesForm'
+import TypesDisplay from './TypesDisplay'
 
 export class EditTasksTab extends Component {
   constructor(props) {
@@ -51,12 +52,15 @@ export class EditTasksTab extends Component {
         />
         {this.props.activeTask ? (
           <Container>
-            <Button onClick={this.openEditTaskObjectivesForm}>Muokkaa kertoimia</Button>
             <EditTaskObjectivesForm
               taskId={this.props.activeTask.id}
               expanded={this.state.editTaskObjectivesFormExpanded}
               onClose={this.closeEditTaskObjectivesForm}
             />
+            <div className="flexContainer">
+              <Button className="nowrap" onClick={this.openEditTaskObjectivesForm}>Muokkaa kertoimia</Button>
+              <TypesDisplay types={this.props.activeTask.types} />
+            </div>
           </Container>
         ) : null}
         <Matrix editing={false} showDetails />
@@ -80,7 +84,8 @@ EditTasksTab.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeTask: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    defaultMultiplier: PropTypes.number
+    defaultMultiplier: PropTypes.number,
+    types: PropTypes.arrayOf(PropTypes.number).isRequired
   })
 }
 

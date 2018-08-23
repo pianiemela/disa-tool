@@ -105,7 +105,8 @@ editRoutes(router, {
   service: objectiveService,
   messages,
   errors,
-  pathToCourseInstanceId: ['category', 'course_instance_id']
+  pathToCourseInstanceId: ['category', 'course_instance_id'],
+  pathsToCourseInstanceIdMatches: [['skill_level', 'course_instance_id']]
 })
 
 module.exports = router
