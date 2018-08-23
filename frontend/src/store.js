@@ -15,6 +15,7 @@ import listCourses from './redux/listCourses'
 import toast from './redux/toast'
 import grade from './redux/grade'
 import objective from './redux/objective'
+import error from './redux/error'
 
 const reducers = combineReducers({
   task,
@@ -29,7 +30,8 @@ const reducers = combineReducers({
   listCourses,
   toast,
   grade,
-  objective
+  objective,
+  error
 })
 
 const store = process.env.NODE_ENV === 'development' ?

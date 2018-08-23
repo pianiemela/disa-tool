@@ -3,14 +3,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { gradeCategoryAction, textfieldResponseAction, toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
-import { gradeOptions } from '../../../utils'
 import MatrixPage from '../../../../Course/MatrixPage'
 
 export class CategoryQuestionModule extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { editHeaders: false, changedHeaders: {}, showMatrix: false }
+    this.state = {
+      editHeaders: false,
+      changedHeaders: {},
+      showMatrix: false,
+    }
   }
+
 
   toggleEdit = () => {
     this.setState({ editHeaders: !this.state.editHeaders })
@@ -24,7 +28,7 @@ export class CategoryQuestionModule extends React.Component {
   }
 
   render() {
-    const { edit, final, responseTextError, gradeError, clearError, courseInstanceId } = this.props
+    const { edit, final, responseTextError, gradeError, clearError, courseInstanceId, grades } = this.props
     const { name, textFieldOn, id, headers } = this.props.data
 
     return (
@@ -62,12 +66,12 @@ export class CategoryQuestionModule extends React.Component {
                     <Form.Field width={10}>
                       <Grid.Column>
                         <div>
-                          <label> Arvioi osaamisesi asteikolla 1-5</label>
+                          <label> Arvioi osaamisesi asteikolla 0-5</label>
                           <Dropdown
                             style={{ marginLeft: '20px' }}
                             placeholder="Valitse arvosana"
                             selection
-                            options={gradeOptions}
+                            options={grades}
                             error={gradeError !== undefined}
                             onChange={!edit ? (e, { value }) => {
                               this.props.dispatchGradeCategoryAction({ id, value, final })
