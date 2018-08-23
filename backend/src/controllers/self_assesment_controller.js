@@ -88,9 +88,8 @@ router.put('/update/:id', async (req, res) => {
   try {
     let data = req.body
     checkAuth(req)
-
     const hasPrivilege = await checkPrivilege(req, [
-      { key: 'teacher_on_course' }
+      { key: 'teacher_on_course', param: data.course_instance_id }
     ])
     if (!hasPrivilege) {
       return res.status(403).json({
