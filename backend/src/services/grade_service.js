@@ -1,3 +1,4 @@
+const { Op } = require('sequelize')
 const { SkillLevel, Grade, CategoryGrade, Category } = require('../database/models.js')
 const editServices = require('../utils/editServices.js')
 
@@ -89,7 +90,8 @@ const { details, edit } = editServices(
       ['lang_name', 'name'],
       'skill_level_id',
       'needed_for_grade',
-      'prerequisite'
+      'prerequisite',
+      'category_grades'
     ]
   }
 )
@@ -104,11 +106,29 @@ const createDefaultCategoryGrades = async (grade, courseInstanceId) => {
   return CategoryGrade.bulkCreate(categoryGrades, { returning: true })
 }
 
+const filterCategoryGradesOnCourse = async (courseId, categoryGrades) => {
+  const grades = await CategoryGrade.findAll({
+    where: { id: { [Op.in]: categoryGrades.map(cg => cg.id) } },
+    include: Category
+  })
+  return grades.filter(cg => cg.category.course_instance_id === courseId)
+}
+
+const updateCategoryGrades = (oldCategoryGrades, newValues) => (
+  Promise.all(oldCategoryGrades.map(async (cg) => {
+    const newValue = newValues.find(val => val.id === cg.id)
+    cg.set('needed_for_grade', newValue.neededForGrade)
+    return cg.save({ returning: true })
+  }))
+)
+
 module.exports = {
   getByCourse,
   create,
   delete: deleteGrade,
   details,
   edit,
-  createDefaultCategoryGrades
+  createDefaultCategoryGrades,
+  filterCategoryGradesOnCourse,
+  updateCategoryGrades
 }

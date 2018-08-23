@@ -21,7 +21,7 @@ class EditGradesTab extends Component {
   }
 
   render() {
-    const { grades, levels, categories, loading } = this.props
+    const { courseId, grades, levels, categories, loading } = this.props
     if (loading) return <Loader active />
     return (
       <div className="EditGradesTab">
@@ -34,7 +34,12 @@ class EditGradesTab extends Component {
             levels={levels}
             grades={grades}
           />
-          <CategoryGradeTable grades={grades} levels={levels} categories={categories} />
+          <CategoryGradeTable
+            courseId={courseId}
+            grades={grades}
+            levels={levels}
+            categories={categories}
+          />
         </Container>
       </div>
     )
