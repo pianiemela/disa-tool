@@ -71,7 +71,7 @@ export const CourseInfo = ({ course, toggleActivation, teachers, deleteTeacher }
       </Grid.Row>
       <Grid.Row>
         <Grid.Column width={3}>
-          <Button as={Link} to={`/course/matrix/${course.id}`} color="blue" basic>Kurssin tavoitematriisi</Button>
+          <Button as={Link} to={`/courses/matrix/${course.id}`} color="blue" basic>Kurssin tavoitematriisi</Button>
         </Grid.Column>
       </Grid.Row>
       <Divider />

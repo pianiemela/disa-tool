@@ -68,7 +68,7 @@ class Main extends PureComponent {
   ]
 
   anonymousRoutes = [
-    <Route path="/course/matrix/:id" component={MatrixPage} key={keygen.anonymous()} />,
+    <Route path="/courses/matrix/:id" component={MatrixPage} key={keygen.anonymous()} />,
     <Route exact path="/courses" component={CourseListPage} key={keygen.anonymous()} />,
     <Route exact path="/login" component={LoginPage} key={keygen.anonymous()} />,
     <Route exact path="/" component={HomePage} key={keygen.anonymous()} />

@@ -32,7 +32,7 @@ class LinkExportList extends Component {
       />
       <Segment>
         <LinkExport title="Rekisteröityminen: " url={`/courses?course=${this.props.course.course_id}&instance=${this.props.course.id}`} />
-        <LinkExport title="Matriisi: " url={`/course/matrix/${this.props.course.id}`} />
+        <LinkExport title="Matriisi: " url={`/courses/matrix/${this.props.course.id}`} />
       </Segment>
     </div>
   )

@@ -97,7 +97,7 @@ class CourseListPage extends Component {
                     </Header>
                     <Button
                       as={Link}
-                      to={`/course/matrix/${this.props.selectedInstance.id}`}
+                      to={`/courses/matrix/${this.props.selectedInstance.id}`}
                       color="blue"
                       basic
                       content="Kurssin tavoitematriisi"
