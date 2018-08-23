@@ -21,6 +21,10 @@
   justify-content: center;
 }
 
+.centerAlign {
+  align-items: center;
+}
+
 .flexGrower {
   flex-grow: 1;
 }
@@ -32,3 +36,8 @@
 .multiplierInput {
   width: 100px !important;
 }
+
+.nowrap {
+  white-space: nowrap;
+}
+

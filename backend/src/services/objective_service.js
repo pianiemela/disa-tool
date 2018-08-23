@@ -83,10 +83,16 @@ const { details, edit } = editServices(
   {},
   {
     attributes: ['id', 'category_id', 'skill_level_id', 'eng_name', 'fin_name', 'swe_name'],
-    include: {
-      model: Category,
-      attributes: ['id', 'course_instance_id']
-    },
+    include: [
+      {
+        model: Category,
+        attributes: ['id', 'course_instance_id']
+      },
+      {
+        model: SkillLevel,
+        attributes: ['id', 'course_instance_id']
+      }
+    ],
     saveFields: [
       'eng_name',
       'fin_name',
