@@ -26,7 +26,7 @@ const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
   throw Error('Olet jo vastannut tähän itsearvioon!')
 })
 
-const generateFeedback = async (response) => {
+const verifyAssessmentGrade = async (response) => {
   const grades = await Grade.findAll({
     include: { model: SkillLevel, where: { course_instance_id: response.response.course_instance_id } }
   })
@@ -74,7 +74,9 @@ const generateFeedback = async (response) => {
         maxPoints,
         // user is qualified for grade if the points exceed the needed level
         qualifiedForGrade: userPoints / maxPoints >= grade.needed_for_grade,
-        prerequisite: grade.prerequisite
+        prerequisite: grade.prerequisite,
+        skillLevel: grade.skill_level_id,
+        needed: grade.needed_for_grade
       }
     }))
 
@@ -104,10 +106,16 @@ const generateFeedback = async (response) => {
         earnedGrade = grade
       }
     }
-    return { ...earnedGrade, wantedGrade: wantedGrade.id, categoryId: category.id }
+    return { gradeQualifies, earnedGradeId: earnedGrade.grade, wantedGradeId: wantedGrade.id, categoryId: category.id }
   }))
 
   return earnedGrades
+}
+
+const generateFeedback = (response) => {
+  const { verification } = response.response
+  console.log(verification)
+  return 'hello'
 }
 
 const getCourseInstanceId = async (id) => {
@@ -154,5 +162,6 @@ module.exports = {
   getOne,
   create,
   generateFeedback,
+  verifyAssessmentGrade,
   getBySelfAssesment
 }

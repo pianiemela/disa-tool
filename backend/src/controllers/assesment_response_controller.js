@@ -29,7 +29,9 @@ router.get('/:selfAssesmentId', async (req, res) => {
     // so now we'll fetch each ids name value and return them to the user instead
     const { response } = data.dataValues
     const grades = await gradeService.getByCourse(response.course_instance_id, req.lang)
-    response.questionModuleResponses = response.questionModuleResponses.map(qmRes => ({ ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name }))
+    response.questionModuleResponses = response.questionModuleResponses.map(qmRes => (
+      { ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name }
+    ))
     data.dataValues.response = response
 
     return res.status(200).json({ data })
@@ -62,8 +64,9 @@ router.post('/', async (req, res) => {
       })
     }
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
-    const feedback = await assessmentResponseService.generateFeedback(response)
-    response.response.feedback = feedback
+    // const verification = await assessmentResponseService.verifyAssessmentGrade(response)
+    // response.response.verification = verification
+    // const feedback = await assessmentResponseService.generateFeedback(response)
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
     const completeResponse = await response.save()
     if (response) {

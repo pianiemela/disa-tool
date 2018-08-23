@@ -9,3 +9,6 @@ export const remove = data => deleteCall(`/grades/${data.id}`)
 export const details = data => getJson(`/grades/${data.id}`)
 
 export const edit = data => putJson(`/grades/${data.id}`, { ...data, id: undefined })
+
+export const updateCategoryGrades = categoryGrades =>
+  putJson('/grades/category-grades', categoryGrades)
