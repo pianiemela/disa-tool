@@ -29,7 +29,9 @@ router.get('/:selfAssesmentId', async (req, res) => {
     // so now we'll fetch each ids name value and return them to the user instead
     const { response } = data.dataValues
     const grades = await gradeService.getByCourse(response.course_instance_id, req.lang)
-    response.questionModuleResponses = response.questionModuleResponses.map(qmRes => ({ ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name }))
+    response.questionModuleResponses = response.questionModuleResponses.map(qmRes => (
+      { ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name }
+    ))
     data.dataValues.response = response
 
     return res.status(200).json({ data })

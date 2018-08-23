@@ -137,7 +137,7 @@ router.put('/category-grades', async (req, res) => {
   }
   const filteredCategoryGrades = await gradeService.filterCategoryGradesOnCourse(courseId, categoryGrades)
   const updatedCategoryGrades = await gradeService.updateCategoryGrades(filteredCategoryGrades, categoryGrades)
-  res.status(200).json(updatedCategoryGrades)
+  res.status(200).json({ message: 'category grades updated', updatedCategoryGrades })
 })
 
 editRoutes(router, {
