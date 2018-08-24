@@ -26,6 +26,7 @@
     "papaparse": "^4.6.0",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.4.1",
     "react-localize-redux": "^3.2.0",
     "react-mathjax": "^1.0.1",

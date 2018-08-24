@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { arrayOf, func, number, shape } from 'prop-types'
 import { Button, Container, Header, Table, Input } from 'semantic-ui-react'
 
 import { updateCategoryGradesAction } from '../../../../actions/actions'
@@ -9,17 +10,15 @@ export class CategoryGradeTable extends Component {
     updatedGrades: []
   }
 
-  componentDidMount() {
-    console.log(this.props.grades)
-  }
-
   findValue = (categoryId, grade) => {
     const { updatedGrades } = this.state
-    const updated = updatedGrades.find(ug => ug.gradeId === grade.id && ug.categoryId === categoryId)
+    const updated = updatedGrades.find(ug =>
+      ug.gradeId === grade.id && ug.categoryId === categoryId)
     if (updated) {
       return updated.neededForGrade
     }
-    const existing = grade.category_grades.find(cg => cg.category_id === categoryId && cg.grade_id === grade.id)
+    const existing = grade.category_grades.find(cg =>
+      cg.category_id === categoryId && cg.grade_id === grade.id)
     if (existing) {
       return existing.needed_for_grade
     }
@@ -28,11 +27,13 @@ export class CategoryGradeTable extends Component {
 
   findName = (categoryId, grade) => {
     const { updatedGrades } = this.state
-    const updated = updatedGrades.find(ug => ug.gradeId === grade.id && ug.categoryId === categoryId)
+    const updated = updatedGrades.find(ug =>
+      ug.gradeId === grade.id && ug.categoryId === categoryId)
     if (updated) {
       return updated.id
     }
-    const existing = grade.category_grades.find(cg => cg.category_id === categoryId && cg.grade_id === grade.id)
+    const existing = grade.category_grades.find(cg =>
+      cg.category_id === categoryId && cg.grade_id === grade.id)
     if (existing) {
       return existing.id
     }
@@ -73,6 +74,7 @@ export class CategoryGradeTable extends Component {
       courseId: this.props.courseId,
       categoryGrades: this.state.updatedGrades
     })
+    this.setState({ updatedGrades: [] })
   }
 
   render() {
@@ -120,7 +122,15 @@ export class CategoryGradeTable extends Component {
 }
 
 CategoryGradeTable.defaultProps = {
-  grades: []
+  grades: [],
+  categories: []
+}
+
+CategoryGradeTable.propTypes = {
+  categories: arrayOf(shape()),
+  courseId: number.isRequired,
+  grades: arrayOf(shape()),
+  dispatchUpdateCategoryGrades: func.isRequired
 }
 
 export default connect(null, {

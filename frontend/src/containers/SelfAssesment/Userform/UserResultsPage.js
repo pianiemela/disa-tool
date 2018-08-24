@@ -8,7 +8,6 @@ const UserResultsPage = (props) => {
   const { assessmentType } = assessmentResponse
   const { assessmentInfo } = props
   const objectives = {}
-  console.log(assessmentResponse)
 
   if (assessmentResponse.assessmentType === 'objectives') {
     assessmentResponse.questionModuleResponses.forEach((asr) => {
@@ -128,22 +127,20 @@ const UserResultsPage = (props) => {
           null}
         {
           assessmentResponse.openQuestionResponses.map(openQ => (
-            <div>
-              <Card key={openQ.id} fluid color="red" >
-                <Card.Content >
-                  <Card.Header textAlign="center">
-                    <h3>{openQ.name}</h3>
-                  </Card.Header>
-                  <Card.Description textAlign="center">
-                    <div>
-                      <h5>Vastaus:</h5>
-                      <p>{openQ.responseText}</p>
-                    </div>
+            <Card key={openQ.id} fluid color="red" >
+              <Card.Content >
+                <Card.Header textAlign="center">
+                  <h3>{openQ.name}</h3>
+                </Card.Header>
+                <Card.Description textAlign="center">
+                  <div>
+                    <h5>Vastaus:</h5>
+                    <p>{openQ.responseText}</p>
+                  </div>
 
-                  </Card.Description>
-                </Card.Content>
-              </Card>
-            </div>
+                </Card.Description>
+              </Card.Content>
+            </Card>
           ))
         }
 
