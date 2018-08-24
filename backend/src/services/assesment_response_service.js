@@ -144,9 +144,9 @@ const generateFeedback = (response, lang) => {
       && grade.userPoints > 0
       && category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade // filter out any duplicate stats for same skill level
     ))
-    const earnedPercentage = earnedStats.userPoints / earnedStats.maxPoints * 100 || null
+    const earnedPercentage = (earnedStats.userPoints / earnedStats.maxPoints * 100).toFixed(2) || null
     const extraDone = higherLevelTasksDone.map(level => (
-      { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100) }
+      { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100).toFixed(2) }
     ))
     const text = `Annoit itsellesi arvosanan ${wantedGrade.name},
     mutta tehtyjen tehtävien perusteella arvosanasi olisi ${earnedGrade.name},

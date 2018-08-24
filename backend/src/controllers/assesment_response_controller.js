@@ -69,11 +69,11 @@ router.post('/', async (req, res) => {
     const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
     response.response.feedback = feedback
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
-    // const completeResponse = await response.save()
+    const completeResponse = await response.save()
     if (response) {
       res.status(200).json({
         message: 'Self assessment response saved successfully!',
-        data: response
+        data: completeResponse
       })
     }
   } catch (error) {
