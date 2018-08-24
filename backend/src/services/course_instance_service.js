@@ -103,6 +103,7 @@ const mapTasks = (value) => {
         if (type) {
           return type.multiplier
         }
+        return undefined
       })
       return types.filter(type => type !== undefined)
     }).reduce((acc, curr) => acc * curr, 1),

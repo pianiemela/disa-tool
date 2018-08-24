@@ -76,12 +76,13 @@ router.put('/course-role', async (req, res) => {
       param: null
     }])
     if (!hasPrivilege) {
-      return res.status(403).json({
+      res.status(403).json({
         error: errors.privilege[req.lang]
       })
+      return
     }
     const data = await coursePersonService.updateRole(bodyData)
-    
+
     res.status(200).json({
       message: messages.update[req.lang],
       data

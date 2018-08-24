@@ -22,7 +22,6 @@ const getOne = async (user, selfAssesmentId, lang) => {
   const assesmentResponse = found.get({ plain: true })
   assesmentResponse.response = filteredResponse
   return assesmentResponse
-
 }
 
 const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
@@ -102,18 +101,21 @@ const verifyAssessmentGrade = async (response) => {
     // If any prerequisite is not met, user does not earn the grade,
     // even if points otherwise would be enough
     gradeQualifies.map((grade) => {
+      const returnValue = { ...grade }
       let preReq = grade.prerequisite || undefined
       let depth = 0
+      const gradeFinder = g => g.grade === preReq
       while (preReq !== undefined) {
         depth += 1
-        const found = gradeQualifies.find(g => g.grade === preReq) // eslint-disable-line no-loop-func
+        const found = gradeQualifies.find(gradeFinder)
 
         if (found && !found.qualifiedForGrade) {
-          grade.qualifiedForGrade = false
+          returnValue.qualifiedForGrade = false
         }
         preReq = found.prerequisite || undefined
       }
-      grade.depth = depth
+      returnValue.depth = depth
+      return returnValue
     })
 
     // Find the highest grade earned. This is the grade with biggest recursive depth,
@@ -167,13 +169,11 @@ const getBySelfAssesment = async (id) => {
   ) : (
     await getCourseInstanceId(id)
   )
-  const data = responses.map((response) => {
-    return {
-      id: response.id,
-      person: response.person,
-      response: response.response
-    }
-  })
+  const data = responses.map(response => ({
+    id: response.id,
+    person: response.person,
+    response: response.response
+  }))
   return { data, courseInstanceId }
 }
 
@@ -197,7 +197,9 @@ const getGradesAndHeader = async (data, lang) => {
   // get the grades and map all grades from ids to values
 
   const grades = await gradeService.getByCourse(response.course_instance_id, lang)
-  response.questionModuleResponses = response.questionModuleResponses.map(qmRes => ({ ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name }))
+  response.questionModuleResponses = response.questionModuleResponses.map(
+    qmRes => ({ ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name })
+  )
   const { grade } = response.finalGradeResponse
 
   // if we dont have a grade value for final grade, it didnt exist in the assessment so we can just return

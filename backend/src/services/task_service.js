@@ -35,9 +35,15 @@ const validateTaskResponses = async (taskResponses, courseId) => {
       person_id: r.personId,
       points: r.points <= originalTask.max_points ? r.points : originalTask.max_points }
   })
-  const updateResponses = validatedResponses.filter(resp => resp.responseId !== undefined && resp.studentnumber === undefined)
-  const newResponses = validatedResponses.filter(resp => resp.responseId === undefined && resp.studentnumber === undefined)
-  const nonRegResponses = validatedResponses.filter(resp => resp.responseId === undefined && resp.studentnumber !== undefined)
+  const updateResponses = validatedResponses.filter(
+    resp => resp.responseId !== undefined && resp.studentnumber === undefined
+  )
+  const newResponses = validatedResponses.filter(
+    resp => resp.responseId === undefined && resp.studentnumber === undefined
+  )
+  const nonRegResponses = validatedResponses.filter(
+    resp => resp.responseId === undefined && resp.studentnumber !== undefined
+  )
   return { updateResponses, newResponses, nonRegResponses }
 }
 
@@ -45,15 +51,13 @@ const createTaskResponses = taskResponses => (
   TaskResponse.bulkCreate(taskResponses, { returning: true })
 )
 
-const updateTaskResponses = taskResponses => (
-  Promise.all(taskResponses.map((resp) => {
-    if (resp.points !== null) {
-      return TaskResponse.update({ points: resp.points }, { where: { id: resp.responseId }, returning: true })
-        .then(res => res[1][0])
-    }
-    TaskResponse.destroy({ where: { id: resp.responseId } })
-  }))
-)
+const updateTaskResponses = taskResponses => Promise.all(taskResponses.map((resp) => {
+  if (resp.points !== null) {
+    return TaskResponse.update({ points: resp.points }, { where: { id: resp.responseId }, returning: true })
+      .then(res => res[1][0])
+  }
+  TaskResponse.destroy({ where: { id: resp.responseId } })
+}))
 
 const mapPersonsAndResponses = (taskResponses, coursePersons) => (
   taskResponses.map(resp => ({
@@ -332,7 +336,7 @@ const editTaskObjectives = {
   },
   execute: (instances, data) => Promise.all(instances.map((instance) => {
     const dataObjective = data.objectives.find(objective => objective.id === instance.dataValues.objective_id)
-    instance.update({
+    return instance.update({
       multiplier: Number(dataObjective.multiplier),
       modified: dataObjective.modified
     })

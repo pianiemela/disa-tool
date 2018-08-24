@@ -26,11 +26,16 @@ router.post('/users', async (req, res) => {
         toast: errors.privilege.toast, error: errors.privilege[req.lang]
       })
     }
-    data = getAll ? await personService.getAllWithRoles(req.lang) : await personService.getAllWithRolesWhere(studentInfo, req.lang)
+    data = getAll ? (
+      await personService.getAllWithRoles(req.lang)
+    ) : (
+      await personService.getAllWithRolesWhere(studentInfo, req.lang)
+    )
     console.log(data)
   } catch (error) {
     console.log(error)
     res.status(500).json({ toast: errors.unexpected.toast, error: errors.unexpected[req.lang] })
+    return
   }
 
   res.status(200).json(
@@ -59,9 +64,10 @@ router.put('/global-role', async (req, res) => {
     }])
 
     if (!hasPrivilege) {
-      return res.status(403).json({
+      res.status(403).json({
         error: errors.privilege[req.lang]
       })
+      return
     }
     const data = await personService.updateGlobal(bodyData)
 
@@ -76,6 +82,5 @@ router.put('/global-role', async (req, res) => {
     console.log(error)
   }
 })
-
 
 module.exports = router

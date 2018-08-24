@@ -8,7 +8,7 @@ const checkAuth = (req) => {
       return null
     }
     if (authorization.substring(0, 7) === 'Bearer ') {
-      token = authorization.split(' ')[1]
+      token = authorization.split(' ')[1] // eslint-disable-line
     } else {
       return null
     }
