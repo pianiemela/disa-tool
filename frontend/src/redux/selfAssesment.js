@@ -24,16 +24,6 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
 
     case 'GET_SELF_ASSESMENT_SUCCESS': {
       const { data } = action.payload
-      const formInfo = []
-      formInfo.push(
-        data.eng_name,
-        data.fin_name,
-        data.swe_name,
-        data.eng_description,
-        data.fin_description,
-        data.swe_description
-      )
-      data.formInfo = formInfo
       return { ...state, createForm: data, assesmentResponse: {} }
     }
 

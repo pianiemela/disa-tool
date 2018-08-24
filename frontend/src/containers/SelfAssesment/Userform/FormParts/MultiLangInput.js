@@ -24,7 +24,7 @@ const MultiLangInput = (props) => {
       {headers.map(h => (
         <Form.Field key={h.id}>
           <Input
-            label={display(h.displayName)}
+            label={display(h.prefix)}
             onChange={handleChange ? e => handleChange(h.id, e.target.value) : null}
             onBlur={handleBlur ? e => handleBlur(h.id, e.target.value) : null}
             defaultValue={h.value}

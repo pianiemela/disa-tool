@@ -81,10 +81,6 @@ class SelfAssesmentInfo extends React.Component {
                   <TextArea
                     autoHeight
                     value={descriptions[2].value}
-                  // style={{
-                  // fontFamily: 'Lato, sans-serif',
-                  // color: 'black'
-                  // }}
                   >
                     {descriptions[2].value}
                   </TextArea>
@@ -94,7 +90,7 @@ class SelfAssesmentInfo extends React.Component {
                   <Form.Field
                     key={d.id}
                   >
-                    <label>{d.displayName}</label>
+                    <label>{d.prefix}</label>
                     <TextArea
                       autoHeight
                       value={values[d.id] ? values[d.id] : d.value}

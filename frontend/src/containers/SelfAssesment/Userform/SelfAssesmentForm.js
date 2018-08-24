@@ -207,7 +207,8 @@ export class SelfAssesmentForm extends React.Component {
     }
     if (this.props.assesmentResponse.existingAnswer) {
       return (<UserResultsPage
-        assesmentResponse={this.props.assesmentResponse}
+        assessmentResponse={this.props.assesmentResponse}
+        assessmentInfo={this.props.formData}
       />)
     }
     const renderForm = () => {
@@ -251,9 +252,10 @@ export class SelfAssesmentForm extends React.Component {
                 <Button onClick={() => this.close()} negative>Ei</Button>
                 <Button
                   onClick={() => {
-                    this.props.dispatchCreateSelfAssesmentResponseAction((
-                      this.props.assesmentResponse
-                    ))
+                    this.props.dispatchCreateSelfAssesmentResponseAction(
+                      this.props.assesmentResponse,
+                      this.props.formData.structure.headers.grade
+                    )
                     this.setState({
                       redirect: true,
                       softErrors: false
@@ -404,8 +406,8 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetAssesmentResponseAction: selfAssesmentId =>
     dispatch(getAssesmentResponseAction(selfAssesmentId)),
 
-  dispatchCreateSelfAssesmentResponseAction: data =>
-    dispatch(createSelfAssessmentResponseAction(data)),
+  dispatchCreateSelfAssesmentResponseAction: (data, finalGradeHeaders) =>
+    dispatch(createSelfAssessmentResponseAction(data, finalGradeHeaders)),
 
   dispatchToast: data =>
     dispatch(data),
