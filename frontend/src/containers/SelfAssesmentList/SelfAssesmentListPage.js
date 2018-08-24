@@ -107,7 +107,7 @@ class SelfAssesmentListPage extends Component {
           </div>
         </Container>
         <UserResultsPage
-          assesmentResponse={this.state.activeResponse.response}
+          assessmentResponse={this.state.activeResponse.response}
           teacher
         />
         <Container>

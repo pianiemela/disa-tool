@@ -32,7 +32,11 @@ class AdminPage extends React.Component {
     this.setState({
       loading: true
     })
-    const userResponse = this.state.getAll ? await getUsers({ getAll: true }) : await getUsers({ studentInfo, getAll: false })
+    const userResponse = this.state.getAll ? (
+      await getUsers({ getAll: true })
+    ) : (
+      await getUsers({ studentInfo, getAll: false })
+    )
     const { data } = userResponse
     this.setState({ users: data, loading: false, activePage: 1 })
   }
@@ -48,15 +52,24 @@ class AdminPage extends React.Component {
 
   toggleEdit = () => this.setState({ edit: !this.state.edit })
 
-  changeRole = async (person_id, course_instance_id, role) => {
-    const res = course_instance_id ? await changeCourseRole({ person_id, course_instance_id, role }) : await changeGlobalRole({ person_id, role })
+  changeRole = async (personId, courseInstanceId, role) => {
+    const res = courseInstanceId ? (
+      await changeCourseRole({ personId, courseInstanceId, role })
+    ) : (
+      await changeGlobalRole({ personId, role })
+    )
     const { data } = res.data
 
     if (data.course_instance_id) {
       const person = this.state.users.find(u => u.id === data.person_id)
       const personCourses = person.course_people.map(cpe =>
         (cpe.course_instance_id === data.course_instance_id ? { ...cpe, role: data.role } : cpe))
-      this.setState({ users: this.state.users.map(u => (u.id === data.person_id ? { ...u, course_people: personCourses } : u)) })
+      this.setState({
+        users: this.state.users.map(u => (u.id === data.person_id ? {
+          ...u,
+          course_people: personCourses
+        } : u))
+      })
     } else {
       this.setState({
         users: this.state.users.map(u =>
@@ -127,9 +140,10 @@ class AdminPage extends React.Component {
                                         <Button
                                           onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'TEACHER')}
                                           inverted
-                                          color='green'>
+                                          color="green"
+                                        >
                                           Teacher
-                                      </Button>
+                                        </Button>
                                       </Button.Group>
                                     </div>
                                     :
@@ -137,7 +151,8 @@ class AdminPage extends React.Component {
                                       <Button
                                         onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'STUDENT')}
                                         inverted
-                                        color='green'>
+                                        color="green"
+                                      >
                                         Student
                                       </Button>
                                       <Button color="green" >Teacher</Button>
@@ -157,18 +172,20 @@ class AdminPage extends React.Component {
                                     <Button
                                       onClick={() => this.changeRole(u.id, null, 'TEACHER')}
                                       inverted
-                                      color='green'>
+                                      color="green"
+                                    >
                                       Teacher
-                                      </Button>
+                                    </Button>
                                   </Button.Group>
                                   :
                                   <Button.Group>
                                     <Button
                                       onClick={() => this.changeRole(u.id, null, 'STUDENT')}
                                       inverted
-                                      color='green'>
+                                      color="green"
+                                    >
                                       Student
-                                      </Button>
+                                    </Button>
                                     <Button color="green" >Teacher</Button>
                                   </Button.Group>
                                 }

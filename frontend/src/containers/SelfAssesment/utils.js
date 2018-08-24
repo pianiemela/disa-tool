@@ -5,8 +5,9 @@ const findPre = (a, b, data) => {
   if (iterator.prerequisite === b.id) {
     return true
   }
+  const prerequisiteFinder = d => d.id === iterator.prerequisite
   while (iterator.prerequisite) {
-    iterator = data.find(d => d.id === iterator.prerequisite)
+    iterator = data.find(prerequisiteFinder)
     if (a.id === b.id) {
       return true
     }

@@ -48,15 +48,13 @@ export class SelfAssesmentPage extends React.Component {
   render() {
     const { role } = this.props
     if (this.props.error || (this.props.role && this.props.role !== 'TEACHER')) {
-      return <Redirect to={'/user'} />
+      return <Redirect to="/user" />
     }
     if (this.state.new) {
-      console.log('redirecting to create page...')
       return <Redirect to={`/selfassesment/create/${this.state.courseInstanceId}/${this.state.type}`} />
     }
 
     if (this.state.edit) {
-      console.log('redirecting to edit page...')
       return <Redirect to={`/selfassesment/edit/${this.state.assesmentId}`} />
     }
 
@@ -91,7 +89,6 @@ const createOptions = (data) => {
 const mapStateToProps = state => (
   {
     role: state.instance.courseRole,
-    user: state.user,
     courses: state.courses,
     courseDropdownOptions: createOptions(state.courses),
     selfAssesmentDropdownOptions: createOptions(state.selfAssesment.userSelfAssesments),

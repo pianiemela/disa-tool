@@ -6,7 +6,6 @@ import { objectiveGrades } from '../../SelfAssesment/utils'
 const UserResultsPage = (props) => {
   const { assessmentResponse } = props
   const { assessmentType } = assessmentResponse
-  const { assessmentInfo } = props
   const objectives = {}
 
   if (assessmentResponse.assessmentType === 'objectives') {
@@ -65,10 +64,10 @@ const UserResultsPage = (props) => {
                 <Table.Row>
                   <Table.HeaderCell>
                     Tavoite
-                    </Table.HeaderCell>
+                  </Table.HeaderCell>
                   <Table.HeaderCell>
                     Arvio osaamisesta
-                    </Table.HeaderCell>
+                  </Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>

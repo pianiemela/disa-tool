@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Header, Button, Card, TextArea } from 'semantic-ui-react'
 import { changeTextField } from '../../../actions/selfAssesment'
@@ -26,7 +27,6 @@ class SelfAssesmentInfo extends React.Component {
   }
 
   render() {
-
     const editButton = toggleEdit => (
       <Button
         style={{ marginLeft: '10px' }}
@@ -106,6 +106,15 @@ class SelfAssesmentInfo extends React.Component {
     )
   }
 }
+
+SelfAssesmentInfo.propTypes = {
+  dispatchTextFieldChange: PropTypes.func.isRequired,
+  formData: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired
+  })).isRequired,
+  edit: PropTypes.bool.isRequired
+}
+
 const mapDispatchToProps = dispatch => ({
   dispatchTextFieldChange: (type, value) =>
     dispatch(changeTextField(type, value))

@@ -19,14 +19,13 @@ router.get('/:selfAssesmentId', async (req, res) => {
     const user = await checkAuth(req)
     const data = await assessmentResponseService.getOne(user, selfAssesmentId, req.lang)
     if (!data) {
-      return res.status(200).json({
+      res.status(200).json({
         data: {}
       })
+      return
     }
 
-    return res.status(200).json({ data })
-
-
+    res.status(200).json({ data })
   } catch (error) {
     res.status(500).json({
       error: errors.unexpected[req.lang]
@@ -48,10 +47,11 @@ router.post('/', async (req, res) => {
       ]
     )
     if (!hasPrivilege) {
-      return res.status(403).json({
+      res.status(403).json({
         toast: errors.unexpected.toast,
         error: errors.privilege[req.lang]
       })
+      return
     }
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
 

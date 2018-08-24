@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Prompt } from 'react-router'
 import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Accordion, Button, Header, List, Loader, Grid, Item, Label, Icon, Dropdown } from 'semantic-ui-react'
+import { Accordion, Button, Header, List, Grid, Item, Label, Dropdown } from 'semantic-ui-react'
 
 import {
   getUserCoursesAction,
@@ -425,7 +425,17 @@ UserPage.propTypes = {
     name: string.isRequired
   })),
   activeCourse: shape(),
-  dispatchGetCourseInstanceData: func.isRequired
+  dispatchGetCourseInstanceData: func.isRequired,
+  match: shape({
+    params: shape({
+      courseId: string
+    }).isRequired
+  }).isRequired,
+  dispatchGetUserCourses: func.isRequired,
+  dispatchToggleActivity: func.isRequired,
+  dispatchUpdateCoursePersonRole: func.isRequired,
+  dispatchToggleAssessment: func.isRequired,
+  dispatchPostTaskResponses: func.isRequired
 }
 
 UserPage.defaultProps = {

@@ -2,8 +2,6 @@ const router = require('express').Router()
 const { checkAuth } = require('../services/auth')
 
 const courseService = require('../services/course_service')
-const taskService = require('../services/task_service')
-const selfAssesmentService = require('../services/self_assesment_service')
 const personService = require('../services/person_service')
 const { errors } = require('../messages/global')
 const { checkPrivilege } = require('../services/privilege')

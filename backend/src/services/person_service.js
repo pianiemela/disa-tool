@@ -88,7 +88,12 @@ const addPersonsToCourseFromResponses = async (tasks, courseId) => {
       where: { studentnumber: person.studentnumber },
       defaults: { name: 'NOT REGISTERED', role: 'STUDENT' }
     })
-    return { person_id: newPerson[0].id, course_instance_id: courseId, role: 'STUDENT', studentnumber: newPerson[0].studentnumber }
+    return {
+      person_id: newPerson[0].id,
+      course_instance_id: courseId,
+      role: 'STUDENT',
+      studentnumber: newPerson[0].studentnumber
+    }
   }))
   await CoursePerson.bulkCreate(coursePersons, { returning: true })
   return coursePersons
