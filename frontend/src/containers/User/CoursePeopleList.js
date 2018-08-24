@@ -1,13 +1,14 @@
 import React from 'react'
 import { shape, arrayOf } from 'prop-types'
-import { List, Label, Button, Icon, Input, Popup, Table } from 'semantic-ui-react'
+import { Button, Input, Popup, Table } from 'semantic-ui-react'
 
 const getTasksForType = (tasks, typeId) => (
   tasks.filter(task => task.types.find(type => type.id === typeId))
 )
 
 const findPersonTask = (person, updatedTasks, task) => {
-  const taskUpdated = updatedTasks.find(updatedTask => person.id === updatedTask.personId && updatedTask.taskId === task.id)
+  const taskUpdated = updatedTasks
+    .find(updatedTask => person.id === updatedTask.personId && updatedTask.taskId === task.id)
   if (taskUpdated) {
     return { id: taskUpdated.taskId, text: taskUpdated.points, color: 'black' }
   }
@@ -48,7 +49,15 @@ const renderTypeTable = (types, students, tasks, selectType) => (
   </Table>
 )
 
-const renderTaskTable = (selectedTasks, studentTasks, selectType, selectedType, markTask, updateTask, popUp) => (
+const renderTaskTable = (
+  selectedTasks,
+  studentTasks,
+  selectType,
+  selectedType,
+  markTask,
+  updateTask,
+  popUp
+) => (
   <Table compact>
     <Table.Header>
       <Table.Row>
@@ -67,9 +76,9 @@ const renderTaskTable = (selectedTasks, studentTasks, selectType, selectedType, 
           <Table.Cell>
             {student.person.studentnumber} - {student.person.name}
           </Table.Cell>
-          {student.tasks.map((task, i) => (
+          {student.tasks.map(task => (
             // what is a good key for cells?
-            <Table.Cell key={`${student.person.id},${task.id},${i}`} selectable textAlign="center">
+            <Table.Cell key={task.id} selectable textAlign="center">
               <Popup
                 trigger={
                   <Button
@@ -150,7 +159,10 @@ export const CoursePeopleList = ({
   const nonRegisteredStudents = []
   for (let i = 0; i < nonRegisteredTasks.length; i += 1) {
     const resp = nonRegisteredTasks[i]
-    if (nonRegisteredStudents.find(student => student.studentnumber === resp.studentnumber) === undefined) {
+    if (
+      nonRegisteredStudents
+        .find(student => student.studentnumber === resp.studentnumber) === undefined
+    ) {
       nonRegisteredStudents.push({ id: resp.personId, studentnumber: resp.studentnumber, task_responses: [], name: '' })
     }
   }
@@ -159,7 +171,15 @@ export const CoursePeopleList = ({
   const studentTasks = allStudents.map(person => (
     { person, tasks: selectedTasks.map(task => findPersonTask(person, updatedTasks, task)) }
   ))
-  return renderTaskTable(selectedTasks, studentTasks, selectType, selectedType, markTask, updateTask, popUp)
+  return renderTaskTable(
+    selectedTasks,
+    studentTasks,
+    selectType,
+    selectedType,
+    markTask,
+    updateTask,
+    popUp
+  )
 }
 
 CoursePeopleList.propTypes = {

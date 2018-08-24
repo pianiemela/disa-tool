@@ -88,8 +88,11 @@ export class UploadResponsesPage extends Component {
     const updatedTasks = []
     for (let i = 1; i < students.length; i += 1) {
       const row = students[i]
-      const student = activeCourse.people.find(person =>
-        person.studentnumber.includes(String(row[studentHeader]))) || this.createNewStudent(String(row[studentHeader]))
+      const student = (
+        activeCourse.people
+          .find(person => person.studentnumber.includes(String(row[studentHeader])))
+        || this.createNewStudent(String(row[studentHeader]))
+      )
       if (student) {
         const studentTasks = tasks.map((task) => {
           const response = { personId: student.id, taskId: csvMappings[task].task.id }
@@ -135,10 +138,11 @@ export class UploadResponsesPage extends Component {
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {csv.data.map((row, i) => (i === 0 ? undefined :
-            <Table.Row key={i}>
-              {row.map((cell, j) => <Table.Cell key={j}>{cell}</Table.Cell>)}
-            </Table.Row>))}
+            {csv.data.map((row, i) => (i === 0 ? undefined : (
+              <Table.Row key={i}>
+                {row.map((cell, j) => <Table.Cell key={j}>{cell}</Table.Cell>)}
+              </Table.Row>
+          )))}
           </Table.Body>
         </Table>
       </Grid.Column>

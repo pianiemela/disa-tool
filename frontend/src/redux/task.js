@@ -15,7 +15,8 @@ const detachObjectiveFromMany = (state, action) => {
       if (deleteFrom[task.id]) {
         return {
           ...task,
-          objectives: task.objectives.filter(objective => objective.id !== action.response.deleted.id)
+          objectives: task.objectives
+            .filter(objective => objective.id !== action.response.deleted.id)
         }
       }
       return task

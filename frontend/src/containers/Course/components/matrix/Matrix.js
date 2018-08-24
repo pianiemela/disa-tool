@@ -111,13 +111,15 @@ Matrix.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  categories: ownProps.categoryId ? state.category.categories.filter(c => c.id === ownProps.categoryId) : state.category.categories,
+  categories: ownProps.categoryId ? (
+    state.category.categories.filter(c => c.id === ownProps.categoryId)
+  ) : state.category.categories,
   levels: state.level.levels,
   activeTask: state.task.active === null ? (
     null
   ) : (
-      state.task.tasks.find(task => task.id === state.task.active)
-    )
+    state.task.tasks.find(task => task.id === state.task.active)
+  )
 })
 
 const mapDispatchToProps = dispatch => ({

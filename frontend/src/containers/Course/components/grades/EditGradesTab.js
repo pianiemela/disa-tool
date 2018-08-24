@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Container, Loader, Table } from 'semantic-ui-react'
+import { Container, Loader } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 import './grades.css'
 

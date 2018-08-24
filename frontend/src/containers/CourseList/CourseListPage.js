@@ -93,7 +93,11 @@ class CourseListPage extends Component {
                     <h2>{this.props.selectedInstance.name}</h2>
                     <Header as="h2" color={this.props.selectedInstance.active ? 'green' : 'red'}>
                       <Header.Subheader>Tämä kurssi on tällä hetkellä </Header.Subheader>
-                      {this.props.selectedInstance.active ? <span><b>käynnissä</b></span> : <span><b>ei käynnissä</b></span>}
+                      {this.props.selectedInstance.active ? (
+                        <span><b>käynnissä</b></span>
+                      ) : (
+                        <span><b>ei käynnissä</b></span>
+                      )}
                     </Header>
                     <Button
                       as={Link}
@@ -108,7 +112,12 @@ class CourseListPage extends Component {
                           Kurssisivulle
                         </Button>
                       </p> : undefined}
-                    {this.props.selectedInstance.active && this.props.user.id ? <RegisterForm registered={this.props.selectedInstance.registered} instanceId={this.props.selectedInstance.id} /> : undefined}
+                    {this.props.selectedInstance.active && this.props.user.id ? (
+                      <RegisterForm
+                        registered={this.props.selectedInstance.registered}
+                        instanceId={this.props.selectedInstance.id}
+                      />
+                    ) : undefined}
                   </div> :
                   <div>Valitse vielä kurssi-instanssi.</div>
                 }
@@ -147,6 +156,10 @@ CourseListPage.propTypes = {
   selectInstance: PropTypes.func.isRequired,
   location: PropTypes.shape({
     query_params: PropTypes.objectOf(PropTypes.string).isRequired
+  }).isRequired,
+  user: PropTypes.shape({
+    role: PropTypes.string,
+    id: PropTypes.number
   }).isRequired
 }
 

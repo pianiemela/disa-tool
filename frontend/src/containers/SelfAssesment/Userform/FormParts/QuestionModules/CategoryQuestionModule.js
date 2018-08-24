@@ -2,7 +2,13 @@ import { Form, Card, Grid, Dropdown, Accordion, Icon } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { gradeCategoryAction, textfieldResponseAction, toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
+import {
+  gradeCategoryAction,
+  textfieldResponseAction,
+  toggleTextField,
+  toggleFormPartAction,
+  changeHeaderAction
+} from '../../../actions/selfAssesment'
 import MatrixPage from '../../../../Course/MatrixPage'
 
 export class CategoryQuestionModule extends React.Component {
@@ -11,7 +17,7 @@ export class CategoryQuestionModule extends React.Component {
     this.state = {
       editHeaders: false,
       changedHeaders: {},
-      showMatrix: false,
+      showMatrix: false
     }
   }
 
@@ -144,8 +150,13 @@ CategoryQuestionModule.propTypes = {
   responseTextError: PropTypes.shape(),
   gradeError: PropTypes.shape(),
   clearError: PropTypes.func.isRequired,
-  courseInstanceId: PropTypes.number
-
+  courseInstanceId: PropTypes.number,
+  edit: PropTypes.bool.isRequired,
+  grades: PropTypes.arrayOf(PropTypes.shape({
+    key: PropTypes.number,
+    value: PropTypes.number,
+    text: PropTypes.string
+  })).isRequired
 }
 
 const mapStateToProps = state => ({

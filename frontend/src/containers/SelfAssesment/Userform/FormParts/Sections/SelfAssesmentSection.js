@@ -39,7 +39,8 @@ export class SelfAssesmentSection extends React.Component {
       errors,
       clearError,
       courseInstanceId,
-      grades } = this.props
+      grades
+    } = this.props
 
     const { responseText, grade } = errors
     const { editHeaders } = this.state
@@ -155,27 +156,35 @@ SelfAssesmentSection.defaultProps = {
   headerType: null,
   errors: { grade: [], responseText: [] },
   courseInstanceId: null,
-  clearError: null
+  clearError: null,
+  grades: null
 }
 
 SelfAssesmentSection.propTypes = {
-  formData: PropTypes.oneOfType([
-    PropTypes.shape(),
-    PropTypes.arrayOf(PropTypes.shape())
-  ]).isRequired,
+  formData: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    includedInAssesment: PropTypes.bool
+  })).isRequired,
   edit: PropTypes.bool.isRequired,
   question: PropTypes.bool,
   QuestionModule: PropTypes.func.isRequired,
   final: PropTypes.bool,
   dispatchHeaderChange: PropTypes.func.isRequired,
-  headers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  headers: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired
+  })).isRequired,
   headerType: PropTypes.string,
   clearError: PropTypes.func,
   errors: PropTypes.shape({
-    responseText: PropTypes.arrayOf(PropTypes.shape()),
-    grade: PropTypes.arrayOf(PropTypes.shape())
+    responseText: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired
+    })),
+    grade: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired
+    }))
   }),
-  courseInstanceId: PropTypes.number
+  courseInstanceId: PropTypes.number,
+  grades: PropTypes.arrayOf(PropTypes.object)
 }
 
 const mapDispatchToProps = dispatch => ({

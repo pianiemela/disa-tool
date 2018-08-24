@@ -1,12 +1,13 @@
 import React from 'react'
-import { Icon, Label, List, Header } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
+import { Icon, Label, List } from 'semantic-ui-react'
 
 
-export const ListTasks = ({ tasks, selectedType }) => (
+export const ListTasks = props => (
   <div>
     <p><Icon name="checkmark" color="green" /> tehty, <Icon name="delete" color="red" /> ei tehty</p>
     <List divided size="tiny">
-      {tasks.map(task => (
+      {props.tasks.map(task => (
         <List.Item key={task.id}>
           {task.task_responses.length > 0 ?
             <List.Icon verticalAlign="middle" name="checkmark" color="green" /> :
@@ -14,10 +15,10 @@ export const ListTasks = ({ tasks, selectedType }) => (
           <List.Content>
             {task.name} {task.types.map(type => (
               <Label
-                basic={!selectedType || type.id !== selectedType.id}
+                basic={!props.selectedType || type.id !== props.selectedType.id}
                 size="mini"
                 key={type.id}
-                color={selectedType && type.id === selectedType.id ?
+                color={props.selectedType && type.id === props.selectedType.id ?
                   'green' : undefined}
               >
                 {type.header} {type.name}
@@ -28,4 +29,18 @@ export const ListTasks = ({ tasks, selectedType }) => (
     </List>
   </div>
 )
+
+ListTasks.propTypes = {
+  tasks: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    task_responses: PropTypes.array.isRequired,
+    name: PropTypes.string.isRequired,
+    types: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      header: PropTypes.string,
+      name: PropTypes.string
+    })).isRequired
+  })).isRequired
+}
+
 export default ListTasks

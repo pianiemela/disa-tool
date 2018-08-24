@@ -83,8 +83,12 @@ ObjectiveQuestionModule.propTypes = {
   data: PropTypes.shape({
     options: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
-    objectives: PropTypes.arrayOf(PropTypes.shape())
-  })
+    objectives: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    }))
+  }),
+  dispatchGradeObjectiveAction: PropTypes.func.isRequired
 }
 
 export default connect(null, mapDispatchToProps)(ObjectiveQuestionModule)

@@ -6,7 +6,7 @@ import ModalForm from '../../../../../utils/components/ModalForm'
 import { removeOpenQuestion, openQuestionResponseAction } from '../../../actions/selfAssesment'
 
 const OpenQuestionModule = (props) => {
-  const { edit, textArea, responseTextError, clearError } = props
+  const { edit, responseTextError } = props
   const { id, name } = props.data
 
   return (
@@ -79,7 +79,15 @@ const OpenQuestionModule = (props) => {
 OpenQuestionModule.propTypes = {
   edit: PropTypes.bool.isRequired,
   dispatchRemoveOpenQuestion: PropTypes.func.isRequired,
-  data: PropTypes.shape().isRequired
+  data: PropTypes.shape().isRequired,
+  dispatchopenQuestionResponseAction: PropTypes.func.isRequired,
+  clearError: PropTypes.func,
+  responseTextError: PropTypes.shape()
+}
+
+OpenQuestionModule.defaultProps = {
+  responseTextError: undefined,
+  clearError: undefined
 }
 
 const mapDispatchToProps = dispatch => ({
