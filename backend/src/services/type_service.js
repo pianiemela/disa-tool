@@ -39,7 +39,7 @@ const deleteType = {
         model: TypeHeader,
         attributes: ['course_instance_id']
       }
-  ]
+    ]
   }),
   value: (instance) => {
     const json = instance.toJSON()

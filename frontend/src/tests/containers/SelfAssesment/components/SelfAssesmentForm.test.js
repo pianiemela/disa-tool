@@ -1,10 +1,7 @@
 import React from 'react'
-import { Redirect } from 'react-router'
 import { Button } from 'semantic-ui-react'
 import { SelfAssesmentForm } from '../../../../containers/SelfAssesment/Userform/SelfAssesmentForm'
 import SelfAssesmentSection from '../../../../containers/SelfAssesment/Userform/FormParts/Sections/SelfAssesmentSection'
-import { getCourseInstance } from '../../../../api/courses'
-import { getCourseData } from '../../../../api/categories'
 
 
 const dispatchCreateFormAction = jest.fn()
@@ -55,7 +52,8 @@ describe('Self assesment form', () => {
       dispatchCreateSelfAssesmentResponseAction={jest.fn()}
       assesmentResponse={{}}
       dispatchToast={jest.fn()}
-
+      dispatchClearError={() => {}}
+      error={false}
     />)
   })
 

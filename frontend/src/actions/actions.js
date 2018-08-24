@@ -214,12 +214,14 @@ export const toggleAssessmentAction = (assessmentId, attribute) => async (dispat
   }
 }
 
-export const createSelfAssessmentResponseAction = responseData => async (dispatch) => {
+export const createSelfAssessmentResponseAction = (responseData, finalGradeHeaders) => async (dispatch) => {
   dispatch({
     type: 'ASSESMENT_RESPONSE_CREATE_ATTEMPT',
     payload: ''
   })
+  console.log(finalGradeHeaders)
   try {
+    if (finalGradeHeaders) responseData.finalHeaders = finalGradeHeaders
     const { data } = await createSelfAssessmentResponse(responseData)
     dispatch({
       type: 'ASSESMENT_RESPONSE_CREATE_SUCCESS',

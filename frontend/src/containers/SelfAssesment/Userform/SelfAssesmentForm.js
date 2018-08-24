@@ -27,7 +27,7 @@ import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 import { validationErrors, gradeOptions } from '../utils'
-import EditCategoryQuestionModule from './FormParts/QuestionModules/EditCategoryQuestionModule';
+import EditCategoryQuestionModule from './FormParts/QuestionModules/EditCategoryQuestionModule'
 
 export class SelfAssesmentForm extends React.Component {
   constructor(props) {
@@ -82,7 +82,7 @@ export class SelfAssesmentForm extends React.Component {
       await this.props.dispatchGetAssesmentResponseAction(selfAssesmentId)
     }
     if (!this.props.role) {
-      const id = courseInstanceId ? courseInstanceId : this.props.formData.course_instance_id
+      const id = courseInstanceId || this.props.formData.course_instance_id
       await this.props.dispatchGetCourseInstanceData(id)
     }
     // Fetch the grades for the course
@@ -207,7 +207,8 @@ export class SelfAssesmentForm extends React.Component {
     }
     if (this.props.assesmentResponse.existingAnswer) {
       return (<UserResultsPage
-        assesmentResponse={this.props.assesmentResponse}
+        assessmentResponse={this.props.assesmentResponse}
+        assessmentInfo={this.props.formData}
       />)
     }
     const renderForm = () => {
@@ -251,7 +252,10 @@ export class SelfAssesmentForm extends React.Component {
                 <Button onClick={() => this.close()} negative>Ei</Button>
                 <Button
                   onClick={() => {
-                    this.props.dispatchCreateSelfAssesmentResponseAction(this.props.assesmentResponse)
+                    this.props.dispatchCreateSelfAssesmentResponseAction(
+                      this.props.assesmentResponse,
+                      this.props.formData.structure.headers.grade
+                    )
                     this.setState({
                       redirect: true,
                       softErrors: false
@@ -402,8 +406,8 @@ const mapDispatchToProps = dispatch => ({
   dispatchGetAssesmentResponseAction: selfAssesmentId =>
     dispatch(getAssesmentResponseAction(selfAssesmentId)),
 
-  dispatchCreateSelfAssesmentResponseAction: data =>
-    dispatch(createSelfAssessmentResponseAction(data)),
+  dispatchCreateSelfAssesmentResponseAction: (data, finalGradeHeaders) =>
+    dispatch(createSelfAssessmentResponseAction(data, finalGradeHeaders)),
 
   dispatchToast: data =>
     dispatch(data),
@@ -440,8 +444,10 @@ SelfAssesmentForm.propTypes = {
     existingAnswer: PropTypes.bool
   }).isRequired,
   dispatchToast: PropTypes.func.isRequired,
-  role: PropTypes.string
-
+  role: PropTypes.string,
+  dispatchGetCourseInstanceData: PropTypes.func.isRequired,
+  dispatchClearError: PropTypes.func.isRequired,
+  error: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentForm)

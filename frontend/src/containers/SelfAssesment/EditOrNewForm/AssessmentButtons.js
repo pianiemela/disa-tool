@@ -3,7 +3,7 @@ import { Button, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 
 const AssessmentButtons = (props) => {
-  const { sendFormId, selectedView, category, objectives, toggleButton } = props
+  const { sendFormId, selectedView, category, objectives } = props
   return (
     <div>
       <Form.Field>
@@ -36,9 +36,7 @@ AssessmentButtons.propTypes = {
   selectedView: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   objectives: PropTypes.string.isRequired,
-  toggleButton: PropTypes.func.isRequired,
   sendFormId: PropTypes.func.isRequired
 }
 
 export default AssessmentButtons
-

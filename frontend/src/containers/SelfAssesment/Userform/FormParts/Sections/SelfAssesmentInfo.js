@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Header, Button, Card, TextArea } from 'semantic-ui-react'
 import { changeTextField } from '../../../actions/selfAssesment'
@@ -26,7 +27,6 @@ class SelfAssesmentInfo extends React.Component {
   }
 
   render() {
-
     const editButton = toggleEdit => (
       <Button
         style={{ marginLeft: '10px' }}
@@ -81,10 +81,6 @@ class SelfAssesmentInfo extends React.Component {
                   <TextArea
                     autoHeight
                     value={descriptions[2].value}
-                  // style={{
-                  // fontFamily: 'Lato, sans-serif',
-                  // color: 'black'
-                  // }}
                   >
                     {descriptions[2].value}
                   </TextArea>
@@ -94,7 +90,7 @@ class SelfAssesmentInfo extends React.Component {
                   <Form.Field
                     key={d.id}
                   >
-                    <label>{d.displayName}</label>
+                    <label>{d.prefix}</label>
                     <TextArea
                       autoHeight
                       value={values[d.id] ? values[d.id] : d.value}
@@ -110,6 +106,15 @@ class SelfAssesmentInfo extends React.Component {
     )
   }
 }
+
+SelfAssesmentInfo.propTypes = {
+  dispatchTextFieldChange: PropTypes.func.isRequired,
+  formData: PropTypes.arrayOf(PropTypes.shape({
+    type: PropTypes.string.isRequired
+  })).isRequired,
+  edit: PropTypes.bool.isRequired
+}
+
 const mapDispatchToProps = dispatch => ({
   dispatchTextFieldChange: (type, value) =>
     dispatch(changeTextField(type, value))

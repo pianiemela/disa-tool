@@ -19,12 +19,12 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const user = await checkAuth(req)
-    const data = await assessmentResponseService.getOne(user, selfAssesmentId)
-
+    const data = await assessmentResponseService.getOne(user, selfAssesmentId, req.lang)
     if (!data) {
-      return res.status(200).json({
+      res.status(200).json({
         data: {}
       })
+      return
     }
     // We save the assessmentresponse grades as grades id's to make generating feedback easier,
     // so now we'll fetch each ids name value and return them to the user instead
@@ -64,10 +64,11 @@ router.post('/', async (req, res) => {
       ]
     )
     if (!hasPrivilege) {
-      return res.status(403).json({
+      res.status(403).json({
         toast: errors.unexpected.toast,
-        error: errors.unexpected[req.lang]
+        error: errors.privilege[req.lang]
       })
+      return
     }
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
     const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
