@@ -217,13 +217,6 @@ const getBySelfAssesment = async (id) => {
   return { data, courseInstanceId }
 }
 
-module.exports = {
-  getOne,
-  create,
-  generateFeedback,
-  verifyAssessmentGrade,
-  getBySelfAssesment
-}
 
 const swapHeaders = (data) => {
   const h = {}
@@ -243,14 +236,20 @@ const getGradesAndHeader = async (data, lang) => {
   const { grade } = response.finalGradeResponse
 
   // if we dont have a grade value for final grade, it didnt exist in the assessment so we can just return
-
   if (!grade) {
     return response
   }
-
   // ...else we get the correct header name by lang and change the final grade from id to value
 
   response.finalGradeResponse = { ...response.finalGradeResponse, grade: grades.find(g => g.id === grade).name }
   response.finalGradeResponse.name = data.response.finalGradeResponse.headers[`${lang}_name`]
   return response
+}
+
+module.exports = {
+  getOne,
+  create,
+  generateFeedback,
+  verifyAssessmentGrade,
+  getBySelfAssesment
 }

@@ -94,7 +94,7 @@ const UserResultsPage = (props) => {
         {/* {props.teacher ? null : (
         )} */}
         {assessmentResponse.questionModuleResponses.map(questionModule => (
-          <Card.Group key={questionModule.id}>
+          <Card.Group key={questionModule.id} itemsPerRow={assessmentResponse.feedback ? 2 : 1}>
             <Card fluid color="red" >
               <Card.Content >
                 <Card.Header textAlign="center">

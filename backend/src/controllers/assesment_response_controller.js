@@ -26,23 +26,14 @@ router.get('/:selfAssesmentId', async (req, res) => {
       })
       return
     }
-    // We save the assessmentresponse grades as grades id's to make generating feedback easier,
-    // so now we'll fetch each ids name value and return them to the user instead
-    const { response } = data.dataValues
-    const grades = await gradeService.getByCourse(response.course_instance_id, req.lang)
-    response.questionModuleResponses = response.questionModuleResponses.map(qmRes => (
-      { ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name }
-    ))
-    data.dataValues.response = response
-
-    const isTeacher = !isTeacherOnCourse(req, response.course_instance_id)
+    const isTeacher = !isTeacherOnCourse(req, data.course_instance_id)
     if (!isTeacher) {
-      delete data.dataValues.response.verification
+      delete data.response.verification
     }
-    if (!selfAssessmentService.isFeedbackActive(selfAssesmentId) && !isTeacher) {
-      delete data.dataValues.response.feedback
+    if (!await selfAssessmentService.isFeedbackActive(selfAssesmentId) && !isTeacher) {
+      delete data.response.feedback
     }
-    return res.status(200).json({ data })
+    res.status(200).json({ data })
   } catch (error) {
     res.status(500).json({
       error: errors.unexpected[req.lang]
@@ -81,7 +72,7 @@ router.post('/', async (req, res) => {
     if (!isTeacher) {
       delete response.response.verification
     }
-    if (!selfAssessmentService.isFeedbackActive(data.assessmentId) && !isTeacher) {
+    if (!await selfAssessmentService.isFeedbackActive(data.assessmentId) && !isTeacher) {
       delete response.response.feedback
     }
     if (response) {
