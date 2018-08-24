@@ -52,7 +52,8 @@ describe('Self assesment form', () => {
       dispatchCreateSelfAssesmentResponseAction={jest.fn()}
       assesmentResponse={{}}
       dispatchToast={jest.fn()}
-
+      dispatchClearError={() => {}}
+      error={false}
     />)
   })
 
