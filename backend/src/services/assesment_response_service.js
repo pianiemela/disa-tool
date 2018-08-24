@@ -45,6 +45,7 @@ const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
   throw Error('Olet jo vastannut tähän itsearvioon!')
 })
 
+// TODO: Heavy refactoring and testing
 const verifyAssessmentGrade = async (response, lang) => {
   const courseGrades = await Grade.findAll({
     include: [
@@ -120,12 +121,14 @@ const verifyAssessmentGrade = async (response, lang) => {
       let preReq = grade.prerequisiteId || undefined
       let depth = 0
       while (preReq !== undefined) {
+        // increment recursion depth by one
         depth += 1
+        // find the pre-requisite in the grade list and check if user qualifies for it
         const found = gradeQualifies.find(g => g.gradeId === preReq) // eslint-disable-line no-loop-func
-
         if (found && !found.qualifiedForGrade) {
           grade.qualifiedForGrade = false
         }
+        // go down the rabbit hole
         preReq = found.prerequisiteId || undefined
       }
       grade.depth = depth
@@ -148,24 +151,32 @@ const verifyAssessmentGrade = async (response, lang) => {
   return { categoryVerifications: earnedGrades, overallVerification: {} }
 }
 
+// TODO: Refactor. Needs possibly a separate file that contains all possible text variations.
 const generateFeedback = (response, lang) => {
   const { categoryVerifications } = response.response.verification
+  // generate feedback for each category
   const feedbacks = categoryVerifications.map((category) => {
     const { categoryId, earnedGrade, wantedGrade } = category
-    if (category.maxPoints === 0) { // no feedback for categories with no tasks
+    if (category.gradeQualifies.every(g => g.maxPoints === 0)) { // no feedback for categories with no tasks
       return { categoryId }
     }
-    const earnedStats = category.gradeQualifies.find(grade => grade.gradeId === earnedGrade.gradeId) || { skillLevelId: 0 }
+    const earnedStats = category.gradeQualifies.find(grade => grade.gradeId === earnedGrade.gradeId)
+    || { skillLevelId: 0 }
     const higherLevelTasksDone = category.gradeQualifies.filter(grade => (
+      // does user not qualify for this grade, i.e. is not the earned grade or below it
       !grade.qualifiedForGrade
       && grade.skillLevelId !== earnedStats.skillLevelId
+      // does user have points for this skill level
       && grade.userPoints > 0
-      && category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade // filter out any duplicate stats for same skill level
+      // filter out any duplicate stats for same skill level
+      && category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade
     ))
+    // calculate percentages that for the earned grade and higher levels that user has done
     const earnedPercentage = (earnedStats.userPoints / earnedStats.maxPoints * 100).toFixed(2) || null
     const extraDone = higherLevelTasksDone.map(level => (
       { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100).toFixed(2) }
     ))
+    // TODO: This thing needs a complete overhaul and be more individualised
     const text = `Annoit itsellesi arvosanan ${wantedGrade.name},
     mutta tehtyjen tehtävien perusteella arvosanasi olisi ${earnedGrade.name},
     koska olet tehnyt ${earnedPercentage} % tämän tason tehtävistä.
