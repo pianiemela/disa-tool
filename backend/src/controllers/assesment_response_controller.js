@@ -35,9 +35,14 @@ router.get('/:selfAssesmentId', async (req, res) => {
     ))
     data.dataValues.response = response
 
+    const isTeacher = !isTeacherOnCourse(req, response.course_instance_id)
+    if (!isTeacher) {
+      delete data.dataValues.response.verification
+    }
+    if (!selfAssessmentService.isFeedbackActive(selfAssesmentId) && !isTeacher) {
+      delete data.dataValues.response.feedback
+    }
     return res.status(200).json({ data })
-
-
   } catch (error) {
     res.status(500).json({
       error: errors.unexpected[req.lang]
