@@ -2,7 +2,6 @@ const router = require('express').Router()
 const { checkAuth } = require('../services/auth')
 const { checkPrivilege } = require('../services/privilege')
 const assessmentResponseService = require('../services/assesment_response_service')
-const gradeService = require('../services/grade_service')
 const { errors } = require('../messages/global.js')
 
 const messages = {
@@ -18,19 +17,12 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const user = await checkAuth(req)
-    const data = await assessmentResponseService.getOne(user, selfAssesmentId)
-
+    const data = await assessmentResponseService.getOne(user, selfAssesmentId, req.lang)
     if (!data) {
       return res.status(200).json({
         data: {}
       })
     }
-    // We save the assessmentresponse grades as grades id's to make generating feedback easier,
-    // so now we'll fetch each ids name value and return them to the user instead
-    const { response } = data.dataValues
-    const grades = await gradeService.getByCourse(response.course_instance_id, req.lang)
-    response.questionModuleResponses = response.questionModuleResponses.map(qmRes => ({ ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name }))
-    data.dataValues.response = response
 
     return res.status(200).json({ data })
 
@@ -58,10 +50,11 @@ router.post('/', async (req, res) => {
     if (!hasPrivilege) {
       return res.status(403).json({
         toast: errors.unexpected.toast,
-        error: errors.unexpected[req.lang]
+        error: errors.privilege[req.lang]
       })
     }
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
+
     // const verification = await assessmentResponseService.verifyAssessmentGrade(response)
     // response.response.verification = verification
     // const feedback = await assessmentResponseService.generateFeedback(response)
