@@ -27,7 +27,7 @@ const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
   throw Error('Olet jo vastannut tähän itsearvioon!')
 })
 
-const verifyAssessmentGrade = async (response) => {
+const verifyAssessmentGrade = async (response, lang) => {
   const courseGrades = await Grade.findAll({
     include: [
       { model: SkillLevel, where: { course_instance_id: response.response.course_instance_id } },
@@ -43,7 +43,10 @@ const verifyAssessmentGrade = async (response) => {
   const earnedGrades = await Promise.all(response.response.questionModuleResponses.map(async (categoryResp) => {
     const categoryGrades = categories.find(category => category.id === categoryResp.id).category_grades
     // find the grade user wants
-    const wantedGrade = categoryGrades.find(grade => grade.grade_id === categoryResp.grade)
+    const wantedGrade = {
+      id: categoryGrades.find(grade => grade.grade_id === categoryResp.grade).id,
+      name: courseGrades.find(grade => grade.id === categoryResp.grade)[`${lang}_name`]
+    }
     // find current category, include objectives and tasks
     const category = await Category.find({
       where: { id: categoryResp.id },
@@ -88,6 +91,7 @@ const verifyAssessmentGrade = async (response) => {
         qualifiedForGrade: userPoints / maxPoints >= grade.needed_for_grade,
         prerequisiteId: grade.prerequisite,
         skillLevelId: grade.skill_level_id,
+        skillLevelName: grade.skill_level[`${lang}_name`],
         needed: categoryGrade.needed_for_grade
       }
     }))
@@ -111,25 +115,50 @@ const verifyAssessmentGrade = async (response) => {
 
     // Find the highest grade earned. This is the grade with biggest recursive depth,
     // i.e. most levels of prerequisites
-    let earnedGrade = { gradeId: null }
-    for (let i = 1; i < gradeQualifies.length; i += 1) {
+    let earnedGrade = { gradeId: null, depth: -1 }
+    for (let i = 0; i < gradeQualifies.length; i += 1) {
       const grade = gradeQualifies[i]
       if (grade.qualifiedForGrade && grade.depth >= earnedGrade.depth) {
         earnedGrade = grade
       }
     }
     const gradeForName = courseGrades.find(grade => grade.id === earnedGrade.gradeId)
-    earnedGrade.name = gradeForName || null
-    return { gradeQualifies, earnedGrade, wantedGradeId: wantedGrade.id, categoryId: category.id }
+    earnedGrade.name = gradeForName ? gradeForName[`${lang}_name`] : null
+    return { gradeQualifies, earnedGrade, wantedGrade, categoryId: category.id, categoryName: category.name }
   }))
 
-  return earnedGrades
+  return { categoryVerifications: earnedGrades, overallVerification: {} }
 }
 
-const generateFeedback = (response) => {
-  const { verification } = response.response
-  console.log(verification)
-  return 'hello'
+const generateFeedback = (response, lang) => {
+  const { categoryVerifications } = response.response.verification
+  const feedbacks = categoryVerifications.map((category) => {
+    const { categoryId, earnedGrade, wantedGrade } = category
+    if (category.maxPoints === 0) { // no feedback for categories with no tasks
+      return { categoryId }
+    }
+    const earnedStats = category.gradeQualifies.find(grade => grade.gradeId === earnedGrade.gradeId) || { skillLevelId: 0 }
+    const higherLevelTasksDone = category.gradeQualifies.filter(grade => (
+      !grade.qualifiedForGrade
+      && grade.skillLevelId !== earnedStats.skillLevelId
+      && grade.userPoints > 0
+      && category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade // filter out any duplicate stats for same skill level
+    ))
+    const earnedPercentage = earnedStats.userPoints / earnedStats.maxPoints * 100 || null
+    const extraDone = higherLevelTasksDone.map(level => (
+      { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100) }
+    ))
+    const text = `Annoit itsellesi arvosanan ${wantedGrade.name},
+    mutta tehtyjen tehtävien perusteella arvosanasi olisi ${earnedGrade.name},
+    koska olet tehnyt ${earnedPercentage} % tämän tason tehtävistä.
+    Olet kuitenkin tehnyt tehtäviä korkeammilta tasoilta:
+    ${extraDone.map(extra => ` ${extra.skillLevel}: ${extra.done} %`)},
+    joten on mahdollista, että osaat osion tavoitteet ilmoittamallasi tasolla.
+    On kuitenkin tärkeää hallita perusteet huolella ennen siirtymistä vaikeampiin
+    tehtäviin ja siksi olisi tärkeää tehdä myös alemman tason tehtäviä huolellisesti.`
+    return { categoryId, text }
+  })
+  return feedbacks
 }
 
 const getCourseInstanceId = async (id) => {
