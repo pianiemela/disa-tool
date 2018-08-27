@@ -53,12 +53,16 @@ const mergeRecursive = (a, b) => {
   return merged
 }
 
-const testTeacherPrivilege = (options, description) => {
+const testTeacherPrivilege = (options, description, codes = {}) => {
+  const {
+    success = 200,
+    failure = 403
+  } = codes
   describe(description, () => {
     it('is not granted when no authorization is provided', (done) => {
       makeRequest(options).set('Authorization', '').then((response) => {
         try {
-          expect(response.status).toEqual(403)
+          expect(response.status).toEqual(failure)
           done()
         } catch (e) {
           done(e)
@@ -69,7 +73,7 @@ const testTeacherPrivilege = (options, description) => {
     it('is not granted when invalid authorization is provided', (done) => {
       makeRequest(options).set('Authorization', `Bearer ${tokens.student}`).then((response) => {
         try {
-          expect(response.status).toEqual(403)
+          expect(response.status).toEqual(failure)
           done()
         } catch (e) {
           done(e)
@@ -80,7 +84,7 @@ const testTeacherPrivilege = (options, description) => {
     it('is granted when valid authorization is provided', (done) => {
       makeRequest(options).set('Authorization', `Bearer ${tokens.teacher}`).then((response) => {
         try {
-          expect(response.status).toEqual(200)
+          expect(response.status).toEqual(success)
           done()
         } catch (e) {
           done(e)
@@ -90,9 +94,17 @@ const testTeacherPrivilege = (options, description) => {
   })
 }
 
-const testTeacherOnCoursePrivilege = options => testTeacherPrivilege(options, 'teacher_on_course privilege')
+const testTeacherOnCoursePrivilege = (options, codes) => testTeacherPrivilege(
+  options,
+  'teacher_on_course privilege',
+  codes
+)
 
-const testGlobalTeacherPrivilege = options => testTeacherPrivilege(options, 'global_teacher privilege')
+const testGlobalTeacherPrivilege = (options, codes) => testTeacherPrivilege(
+  options,
+  'global_teacher privilege',
+  codes
+)
 
 const testHeaders = (options) => {
   it('responds with appropriate headers.', (done) => {
@@ -107,7 +119,7 @@ const testHeaders = (options) => {
       } catch (e) {
         done(e)
       }
-    })
+    }).catch(done)
   })
 }
 
@@ -162,7 +174,7 @@ const testBody = (options, match) => {
         } catch (e) {
           done(e)
         }
-      })
+      }).catch(done)
     })
 
     it('in Finnish.', (done) => {
@@ -179,7 +191,7 @@ const testBody = (options, match) => {
         } catch (e) {
           done(e)
         }
-      })
+      }).catch(done)
     })
 
     it('in Swedish.', (done) => {
@@ -196,7 +208,7 @@ const testBody = (options, match) => {
         } catch (e) {
           done(e)
         }
-      })
+      }).catch(done)
     })
   })
 }
@@ -247,11 +259,11 @@ const testDatabaseSave = (options, match, model, config = {}) => {
           } catch (e) {
             done(e)
           }
-        })
+        }).catch(done)
       } catch (e) {
         done(e)
       }
-    })
+    }).catch(done)
   })
 }
 
@@ -288,7 +300,7 @@ const testDatabaseDestroy = (options, model, config = {}) => {
       } catch (e) {
         done(e)
       }
-    })
+    }).catch(done)
   })
 
   const checkDestruction = (response, cascadeStep, done) => {
@@ -303,14 +315,14 @@ const testDatabaseDestroy = (options, model, config = {}) => {
       } catch (e) {
         done(e)
       }
-    })
+    }).catch(done)
   }
 
   it('destroys a row from the database', (done) => {
     checkCascade.push(() => done())
     makeRequest(options).then((response) => {
       setTimeout(checkDestruction, delay, response, 0, done)
-    })
+    }).catch(done)
   })
 }
 
@@ -328,7 +340,7 @@ const testStatusCode = (options, code) => {
       } catch (e) {
         done(e)
       }
-    })
+    }).catch(done)
   })
 }
 

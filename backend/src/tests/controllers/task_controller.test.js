@@ -7,7 +7,7 @@ const {
   asymmetricMatcher,
   testStatusCode
 } = require('../testUtils')
-const { Task, TaskType, TaskObjective, TaskResponse, CoursePerson } = require('../../database/models.js')
+const { Task, TaskType, TaskObjective, TaskResponse, CoursePerson, Person } = require('../../database/models.js')
 
 describe('task_controller', () => {
   describe('POST /create', () => {
@@ -160,51 +160,237 @@ describe('task_controller', () => {
         courseId: 1,
         tasks: [{ points: 1 }]
       }
+      const options = {
+        route: '/api/tasks/responses',
+        method: 'post',
+        preamble: {
+          send: data,
+          set: ['Authorization', `Bearer ${tokens.teacher}`]
+        }
+      }
       // instead of database calls you could use hard coded person 422 and task 1.
-      beforeAll(async () => {
-        const task = await Task.findOne({ where: { course_instance_id: courseInstanceId } })
-        const coursePerson = await CoursePerson.findOne({ where: { course_instance_id: courseInstanceId } })
-        data.tasks[0].personId = coursePerson.person_id
-        data.tasks[0].taskId = task.id
-      })
-      afterAll(async () => {
-        const task = await Task.findOne({ where: { course_instance_id: courseInstanceId } })
-        const coursePerson = await CoursePerson.findOne({ where: { course_instance_id: courseInstanceId } })
-        await TaskResponse.destroy({ where: { person_id: coursePerson.person_id, task_id: task.id } })
+      beforeAll((done) => {
+        Task.findOne({
+          where: {
+            course_instance_id: courseInstanceId
+          },
+          attributes: ['id', 'course_instance_id'],
+          include: {
+            model: Person,
+            attributes: ['id', 'studentnumber']
+          }
+        }).then((result) => {
+          data.tasks[0].personId = result.get({ plain: true }).people[0].id
+          data.tasks[0].taskId = result.get({ plain: true }).id
+          TaskResponse.destroy({ where: {} })
+            .then(() => done())
+            .catch(done)
+        }).catch(done)
       })
 
-      describe('teacher can add', () => {
-        const options = {
-          route: '/api/tasks/responses',
-          method: 'post',
-          preamble: {
-            send: data,
-            set: ['Authorization', `Bearer ${tokens.teacher}`]
-          }
-        }
-        testStatusCode(options, 201)
-        // it('increases database length by one', async (done) => {
-        //   const afterResponses = await TaskResponse.findAll()
-        //   expect(afterResponses.length).toEqual(responses.length + 1)
-        //   done()
-        // })
+      afterEach((done) => {
+        TaskResponse.destroy({ where: {} })
+          .then(() => done())
+          .catch(done)
       })
-      describe('student cannot add', () => {
-        const options = {
-          route: '/api/tasks/responses',
-          method: 'post',
-          preamble: {
-            send: data,
-            set: ['Authorization', `Bearer ${tokens.student}`]
-          }
+
+      testHeaders(options)
+
+      testTeacherOnCoursePrivilege(options, { success: 201 })
+
+      testBody(options, {
+        common: {
+          message: expect.any(String),
+          createdResponses: [
+            {
+              id: expect.any(Number),
+              points: data.tasks[0].points,
+              task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
+              person_id: asymmetricMatcher(actual => actual === data.tasks[0].personId)
+            }
+          ]
         }
-        testStatusCode(options, 403)
-        // it('does not affect database length', async (done) => {
-        //   const afterResponses = await TaskResponse.findAll()
-        //   expect(afterResponses.length).toEqual(responses)
-        //   done()
-        // })
       })
+
+      testDatabaseSave(
+        options,
+        {
+          id: expect.any(Number),
+          points: data.tasks[0].points,
+          task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
+          person_id: asymmetricMatcher(actual => actual === data.tasks[0].personId)
+        },
+        TaskResponse,
+        {
+          pathToId: ['body', 'createdResponses', 0, 'id']
+        }
+      )
+    })
+
+    describe('updating an existing response', () => {
+      const data = {
+        courseId: 1,
+        tasks: [{
+          points: 1
+        }]
+      }
+      const options = {
+        route: '/api/tasks/responses',
+        method: 'post',
+        preamble: {
+          send: data,
+          set: ['Authorization', `Bearer ${tokens.teacher}`]
+        }
+      }
+      const databaseExpectation = {}
+
+      beforeAll((done) => {
+        Task.create({
+          course_instance_id: 1,
+          eng_name: '',
+          fin_name: '',
+          swe_name: '',
+          eng_description: '',
+          fin_description: '',
+          swe_description: '',
+          info: '',
+          max_points: 2
+        }).then((task) => {
+          data.tasks[0].taskId = task.get({ plain: true }).id
+          Person.create({
+            studentnumber: '019999999',
+            name: ''
+          }).then((person) => {
+            data.tasks[0].personId = person.get({ plain: true }).id
+            TaskResponse.create({
+              points: 0,
+              task_id: data.tasks[0].taskId,
+              person_id: data.tasks[0].personId
+            }).then((trResult) => {
+              data.tasks[0].responseId = trResult.get({ plain: true }).id
+              databaseExpectation.created_at = trResult.get({ plain: true }).created_at
+              done()
+            }).catch(done)
+          }).catch(done)
+        }).catch(done)
+      })
+      afterEach((done) => {
+        TaskResponse.findById(data.tasks[0].responseId).then((result) => {
+          result.update({
+            points: 0
+          }).then(() => done()).catch(done)
+        }).catch(done)
+      })
+
+      testHeaders(options)
+
+      testTeacherOnCoursePrivilege(options, { success: 201 })
+
+      testBody(options, {
+        common: {
+          message: expect.any(String),
+          createdResponses: [
+            {
+              id: asymmetricMatcher(actual => actual === data.tasks[0].responseId),
+              points: data.tasks[0].points,
+              task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
+              person_id: asymmetricMatcher(actual => actual === data.tasks[0].personId)
+            }
+          ]
+        }
+      })
+
+      testDatabaseSave(
+        options,
+        {
+          id: asymmetricMatcher(actual => actual === data.tasks[0].responseId),
+          points: data.tasks[0].points,
+          task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
+          person_id: asymmetricMatcher(actual => actual === data.tasks[0].personId),
+          created_at: asymmetricMatcher(actual => !(
+            actual > databaseExpectation.created_at || actual < databaseExpectation.created_at
+          )),
+          updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+        },
+        TaskResponse,
+        {
+          pathToId: ['body', 'createdResponses', 0, 'id'],
+          includeTimestamps: false
+        }
+      )
+    })
+
+    describe('adding new response to person who does not exist in database', () => {
+      const courseInstanceId = 1
+      const studentnumber = '019999999'
+      const data = {
+        courseId: courseInstanceId,
+        tasks: [{ points: 1, studentnumber }]
+      }
+      const options = {
+        route: '/api/tasks/responses',
+        method: 'post',
+        preamble: {
+          send: data,
+          set: ['Authorization', `Bearer ${tokens.teacher}`]
+        }
+      }
+      // instead of database calls you could use hard coded person 422 and task 1.
+      beforeAll((done) => {
+        Task.findOne({
+          where: {
+            course_instance_id: courseInstanceId
+          },
+          attributes: ['id', 'course_instance_id'],
+          include: {
+            model: Person,
+            attributes: ['id', 'studentnumber']
+          }
+        }).then((result) => {
+          data.tasks[0].taskId = result.get({ plain: true }).id
+          done()
+        }).catch(done)
+      })
+
+      afterEach((done) => {
+        Promise.all([
+          TaskResponse.destroy({ where: {} }).catch(done),
+          Person.destroy({ where: { studentnumber } }).catch(done)
+        ])
+          .then(() => done())
+      })
+
+      testHeaders(options)
+
+      testTeacherOnCoursePrivilege(options, { success: 201 })
+
+      testBody(options, {
+        common: {
+          message: expect.any(String),
+          createdResponses: [
+            {
+              id: expect.any(Number),
+              points: data.tasks[0].points,
+              task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
+              person_id: expect.any(Number)
+            }
+          ]
+        }
+      })
+
+      testDatabaseSave(
+        options,
+        {
+          id: expect.any(Number),
+          points: data.tasks[0].points,
+          task_id: asymmetricMatcher(actual => actual === data.tasks[0].taskId),
+          person_id: expect.any(Number)
+        },
+        TaskResponse,
+        {
+          pathToId: ['body', 'createdResponses', 0, 'id']
+        }
+      )
     })
   })
 
