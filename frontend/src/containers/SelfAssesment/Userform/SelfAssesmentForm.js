@@ -190,10 +190,7 @@ export class SelfAssesmentForm extends React.Component {
       return
     }
     this.setState({ redirect: true })
-    await this.props.dispatchCreateSelfAssesmentResponseAction(
-      assesmentResponse,
-      this.props.formData.structure.headers.grade
-    )
+    this.props.dispatchCreateSelfAssesmentResponseAction({ ...this.props.assesmentResponse, finalHeaders: this.props.formData.structure.headers.grade })
   }
 
   togglePreview = () => {
@@ -256,10 +253,7 @@ export class SelfAssesmentForm extends React.Component {
                 <Button onClick={() => this.close()} negative>Ei</Button>
                 <Button
                   onClick={() => {
-                    this.props.dispatchCreateSelfAssesmentResponseAction(
-                      this.props.assesmentResponse,
-                      structure.headers.grade
-                    )
+                    this.props.dispatchCreateSelfAssesmentResponseAction({ ...this.props.assesmentResponse, finalHeaders: structure.headers.grade })
                     this.setState({
                       redirect: true,
                       softErrors: false
