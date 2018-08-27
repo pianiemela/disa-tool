@@ -1,4 +1,4 @@
-import { Card, Grid, Checkbox, Button, List } from 'semantic-ui-react'
+import { Card, Grid, Checkbox, Button, Divider } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -69,41 +69,38 @@ export class CategoryQuestionModule extends React.Component {
       )
 
     return (
-      <List.Item>
-        <List.Content>
-          <Grid columns="4" padded >
-            <Grid.Column width={final ? 8 : null}>
-              <h3 style={{ color: headercolor }}>
-                {final ? finalGradeHeader : name}
-              </h3>
-              <Checkbox
-                style={{ marginTop: '10px' }}
-                defaultChecked={textFieldOn}
-                onChange={() => this.props.dispatchTextFieldOnOff(id)}
-                label="Perustelut arvosanalle"
-                disabled={disabled}
-              />
-              {finalGradeEdit}
-            </Grid.Column>
-            <Grid.Column floated="right">
-              <Button
-                style={{ marginTop: '20px' }}
-                className="toggleFormPartButton"
-                size="large"
-                basic
-                color={buttonColor}
-                onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
-              >{buttonText}
-              </Button>
-            </Grid.Column>
-            <Grid.Column verticalAlign="middle">
-              {!final ? <UpOrDownToggle id={id} /> : null}
-            </Grid.Column>
-
-          </Grid>
-
-        </List.Content>
-      </List.Item >
+      <div>
+        <Grid columns="4" padded >
+          <Grid.Column width={final ? 8 : null}>
+            <h3 style={{ color: headercolor }}>
+              {final ? finalGradeHeader : name}
+            </h3>
+            <Checkbox
+              style={{ marginTop: '10px' }}
+              defaultChecked={textFieldOn}
+              onChange={() => this.props.dispatchTextFieldOnOff(id)}
+              label="Perustelut arvosanalle"
+              disabled={disabled}
+            />
+            {finalGradeEdit}
+          </Grid.Column>
+          <Grid.Column floated="right">
+            <Button
+              style={{ marginTop: '20px' }}
+              className="toggleFormPartButton"
+              size="large"
+              basic
+              color={buttonColor}
+              onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
+            >{buttonText}
+            </Button>
+          </Grid.Column>
+          <Grid.Column verticalAlign="middle">
+            {!final ? <UpOrDownToggle id={id} /> : null}
+          </Grid.Column>
+        </Grid>
+        <Divider fitted />
+      </div>
     )
   }
 }

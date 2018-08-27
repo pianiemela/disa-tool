@@ -191,8 +191,20 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'TOGGLE_FORM_PART': {
-      const { id } = action.payload
+      const { id, type } = action.payload
       const { finalGrade } = state.createForm.structure
+      if (type === 'objective') {
+        const copy = { ...state.createForm }
+        const { structure } = copy
+
+        structure.questionModules = structure.questionModules.map(qm =>
+          ({
+            ...qm,
+            objectives: qm.objectives.map(qmo =>
+              (qmo.id === id ? { ...qmo, includedInAssesment: !qmo.includedInAssesment } : qmo))
+          }))
+        return { ...state, createForm: copy }
+      }
 
       if (id === finalGrade.id) {
         return {
