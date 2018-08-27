@@ -1,6 +1,8 @@
 import React from 'react'
 import { shape, arrayOf } from 'prop-types'
-import { Button, Input, Popup, Table } from 'semantic-ui-react'
+import { Button, Table } from 'semantic-ui-react'
+
+import TaskUpdatePopup from './components/TaskUpdatePopup'
 
 const getTasksForType = (tasks, typeId) => (
   tasks.filter(task => task.types.find(type => type.id === typeId))
@@ -10,11 +12,11 @@ const findPersonTask = (person, updatedTasks, task) => {
   const taskUpdated = updatedTasks
     .find(updatedTask => person.id === updatedTask.personId && updatedTask.taskId === task.id)
   if (taskUpdated) {
-    return { id: taskUpdated.taskId, text: taskUpdated.points, color: 'black' }
+    return { id: taskUpdated.taskId, text: String(taskUpdated.points), color: 'black' }
   }
   const taskMarked = person.task_responses.find(response => response.task_id === task.id)
   if (taskMarked) {
-    return { ...taskMarked, text: taskMarked.points, color: 'green' }
+    return { ...taskMarked, text: String(taskMarked.points), color: 'green' }
   }
   return { ...task, text: '-', color: 'grey' }
 }
@@ -79,49 +81,12 @@ const renderTaskTable = (
           {student.tasks.map(task => (
             // what is a good key for cells?
             <Table.Cell key={task.id} selectable textAlign="center">
-              <Popup
-                trigger={
-                  <Button
-                    content={task.text}
-                    basic
-                    size="small"
-                    icon="edit"
-                    color={task.color}
-                    onClick={markTask}
-                    task={task}
-                    person={student.person}
-                  />}
-                on="click"
-                content={
-                  <div>
-                    <Input
-                      name="input"
-                      onChange={updateTask}
-                      value={popUp.show ? popUp.task.points : 0}
-                    />
-                    <Button
-                      basic
-                      name="update"
-                      size="tiny"
-                      content="päivitä"
-                      color="green"
-                      task={popUp.task}
-                      onClick={updateTask}
-                    />
-                    <Button
-                      basic
-                      name="cancel"
-                      size="tiny"
-                      color="red"
-                      content="peru muutokset"
-                      task={popUp.task}
-                      onClick={updateTask}
-                    />
-                  </div>}
-                open={
-                  popUp.show &&
-                  popUp.task.taskId === task.id &&
-                  popUp.person.id === student.person.id}
+              <TaskUpdatePopup
+                task={task}
+                person={student.person}
+                popUp={popUp}
+                markTask={markTask}
+                updateTask={updateTask}
               />
             </Table.Cell>
           ))}
