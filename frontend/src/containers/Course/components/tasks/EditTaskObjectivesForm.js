@@ -248,7 +248,14 @@ const mapStateToProps = (state, ownProps) => {
     expanded: ownProps.expanded,
     onClose: ownProps.onClose,
     objectives,
-    defaultMultiplier: state.task.tasks.find(task => task.id === ownProps.taskId).defaultMultiplier
+    defaultMultiplier: state.task.tasks.find(task => task.id === ownProps.taskId).types
+      .reduce((acc, typeId) => (
+        acc * state.type.headers.reduce((multiplier, header) => {
+          const type = header.types.find(htype => htype.id === typeId)
+          if (!type) return multiplier
+          return type.multiplier
+        }, 0)
+      ), 1)
   }
 }
 
