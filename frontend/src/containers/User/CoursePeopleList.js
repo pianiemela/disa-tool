@@ -13,13 +13,32 @@ const findPersonTask = (person, updatedTasks, task) => {
   const taskUpdated = updatedTasks
     .find(updatedTask => person.id === updatedTask.personId && updatedTask.taskId === task.id)
   if (taskUpdated) {
-    return { taskId: task.id, id: taskUpdated.taskId, text: String(taskUpdated.points), color: 'black' }
+    return { taskId: task.id, id: taskUpdated.taskId, text: String(taskUpdated.points), color: 'brown' }
   }
   const taskMarked = person.task_responses.find(response => response.task_id === task.id)
   if (taskMarked) {
-    return { ...taskMarked, taskId: task.id, text: String(taskMarked.points), color: 'green' }
+    return { ...taskMarked, taskId: task.id, text: String(taskMarked.points), color: 'black' }
   }
   return { ...task, taskId: task.id, text: '-', color: 'grey' }
+}
+
+const createSetOfNonRegisteredStudents = (updatedTasks) => {
+  const nonRegisteredTasks = updatedTasks.filter(resp => resp.studentnumber)
+  const nonRegisteredStudents = []
+  for (let i = 0; i < nonRegisteredTasks.length; i += 1) {
+    const resp = nonRegisteredTasks[i]
+    const isStudentInList = nonRegisteredStudents.find(student =>
+      student.studentnumber === resp.studentnumber)
+    if (isStudentInList === undefined) {
+      nonRegisteredStudents.push({
+        id: resp.personId,
+        studentnumber: resp.studentnumber,
+        task_responses: [],
+        name: ''
+      })
+    }
+  }
+  return nonRegisteredStudents
 }
 
 export const CoursePeopleList = ({
@@ -53,17 +72,7 @@ export const CoursePeopleList = ({
       />
     )
   }
-  const nonRegisteredTasks = updatedTasks.filter(resp => resp.studentnumber)
-  const nonRegisteredStudents = []
-  for (let i = 0; i < nonRegisteredTasks.length; i += 1) {
-    const resp = nonRegisteredTasks[i]
-    if (
-      nonRegisteredStudents
-        .find(student => student.studentnumber === resp.studentnumber) === undefined
-    ) {
-      nonRegisteredStudents.push({ id: resp.personId, studentnumber: resp.studentnumber, task_responses: [], name: '' })
-    }
-  }
+  const nonRegisteredStudents = createSetOfNonRegisteredStudents(updatedTasks)
   const allStudents = students.concat(nonRegisteredStudents)
   const selectedTasks = tasks.filter(task => task.types.find(type => type.id === selectedType.id))
   const studentTasks = allStudents.map(person => (
