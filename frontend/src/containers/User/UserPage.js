@@ -19,6 +19,7 @@ import { CourseSideMenu } from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
 import { CourseInfo } from './CourseInfo'
 import { UploadResponsesPage } from '../TaskResponses/UploadResponsesPage'
+import TaskResponseEdit from './TaskResponseEdit'
 
 class UserPage extends Component {
   state = {
@@ -81,9 +82,6 @@ class UserPage extends Component {
     this.props.dispatchGetCourseInstanceData(course.id)
   }
 
-  selectType = (e, { type }) => this.setState({
-    selectedType: this.state.selectedType === type ? undefined : type
-  })
 
   toggleAssessment = (e, { value }) => {
     switch (e.target.name) {
@@ -101,75 +99,6 @@ class UserPage extends Component {
     }
   }
 
-  markTask = async (e, { task, person }) => {
-    const { updatedTasks } = this.state
-    const taskUpdated = updatedTasks.find(t => t.taskId === task.id && t.personId === person.id)
-    if (taskUpdated) {
-      await this.setState({ popUp: { show: true, task: taskUpdated, person } })
-    } else if (task.task_id && task.person_id && task.points) {
-      const existingTask = {
-        responseId: task.id,
-        taskId: task.task_id,
-        personId: task.person_id,
-        points: task.points
-      }
-      this.setState({
-        updatedTasks: [...this.state.updatedTasks, existingTask],
-        popUp: { show: true, task: existingTask, person }
-      })
-    } else {
-      this.setState({
-        updatedTasks: [
-          ...this.state.updatedTasks,
-          { taskId: task.id, personId: person.id, points: task.max_points }
-        ]
-      })
-    }
-  }
-
-  updateTask = (e, { task }) => {
-    switch (e.target.name) {
-      case 'input':
-        this.setState({
-          popUp: {
-            show: true,
-            task: { ...this.state.popUp.task, points: e.target.value },
-            person: this.state.popUp.person
-          }
-        })
-        break
-      case 'update': {
-        const filteredTasks = this.state.updatedTasks.filter(et =>
-          et.taskId !== task.taskId || et.personId !== task.personId)
-        // input values are always strings, so convert to number
-        task.points = Number(task.points)
-        filteredTasks.push(task)
-        this.setState({ updatedTasks: filteredTasks, popUp: { show: false } })
-        break
-      }
-      case 'cancel': {
-        const filteredTasks = this.state.updatedTasks.filter(et =>
-          et.taskId !== task.taskId || et.personId !== task.personId)
-        this.setState({ updatedTasks: filteredTasks, popUp: { show: false } })
-        break
-      }
-      default:
-        this.setState({ popUp: { show: false } })
-    }
-  }
-
-  updateTasksFromFile = (updatedTasks) => {
-    this.setState({ updatedTasks })
-  }
-
-  submitTaskUpdates = () => {
-    this.props.dispatchPostTaskResponses({
-      tasks: this.state.updatedTasks,
-      courseId: this.props.activeCourse.id
-    })
-    this.setState({ updatedTasks: [] })
-  }
-
   render() {
     const { activeCourse, courses } = this.props
     const { selectedType, updatedTasks, popUp } = this.state
@@ -177,10 +106,11 @@ class UserPage extends Component {
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    const students = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
+    const isTeacher = activeCourse.courseRole === 'TEACHER'
+    const students = activeCourse.id && isTeacher ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role !== 'TEACHER') : []
-    const teachers = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
+    const teachers = activeCourse.id && isTeacher ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role === 'TEACHER') : []
     // console.log(activeCourse)
@@ -211,7 +141,7 @@ class UserPage extends Component {
                     teachers={teachers}
                     deleteTeacher={this.handleTeacherRemoving}
                   />
-                  {activeCourse.courseRole === 'TEACHER' ?
+                  {isTeacher ?
                     <Grid.Row>
                       <Grid.Column>
                         <Dropdown
@@ -329,57 +259,8 @@ class UserPage extends Component {
                       </Item.Content>
                     </Grid.Column>
                   </Grid.Row>
-                  {activeCourse.courseRole === 'TEACHER' ?
-                    <Grid style={{ overflowX: 'scroll' }}>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Accordion
-                            defaultActiveIndex={-1}
-                            styled
-                            fluid
-                            panels={[{
-                              key: 'UploadComponent',
-                              title: 'Lataa tehtäviä csv-tiedostosta',
-                              content: {
-                                key: 'uploader',
-                                content: <UploadResponsesPage
-                                  activeCourse={activeCourse}
-                                  updateHandler={this.updateTasksFromFile}
-                                />
-                              }
-                            }]}
-                          />
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <div>
-                            <CoursePeopleList
-                              popUp={popUp}
-                              updatedTasks={updatedTasks}
-                              markTask={this.markTask}
-                              updateTask={this.updateTask}
-                              selectType={this.selectType}
-                              selectedType={selectedType}
-                              types={activeCourse.type_headers}
-                              tasks={tasks}
-                              students={students}
-                            />
-                            <Button
-                              color="green"
-                              content="Tallenna muutokset"
-                              onClick={this.submitTaskUpdates}
-                            />
-                            <Button
-                              color="red"
-                              content="Peru kaikki muutokset"
-                              onClick={() => this.setState({ updatedTasks: [] })}
-                            />
-                          </div>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
-                    : undefined}
+                  {isTeacher ?
+                    <TaskResponseEdit tasks={tasks} students={students} /> : undefined}
                 </Grid>
               </Item> :
               <Item>
