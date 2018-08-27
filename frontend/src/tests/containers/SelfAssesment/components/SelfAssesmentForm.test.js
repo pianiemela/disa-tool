@@ -104,7 +104,7 @@ describe('Self assesment form', () => {
     })
     it('contains question modules of type objective', () => {
       const { displayName } = wrapper.find(SelfAssesmentSection).at(0).prop('QuestionModule')
-      expect(displayName).toBe('Connect(ObjectiveQuestionModule)')
+      expect(displayName).toBe('Connect(EditObjectiveModule)')
       expect(wrapper.find(SelfAssesmentSection).length).toBe(3)
     })
   })

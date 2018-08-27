@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Container, Loader } from 'semantic-ui-react'
+import { Container, Loader, Header } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 import './grades.css'
 
@@ -26,6 +26,14 @@ class EditGradesTab extends Component {
     return (
       <div className="EditGradesTab">
         <Container>
+          <Header
+            as="h1"
+            content="Muokkaa tässä kurssin arvosanarajoja"
+            subheader="Ylemmässä listassa voit määritellä kurssilla olevat arvosanat,
+            listassa olevat 'vaadittu suoritus'-luvut viittaavat loppuarvosanan vaadittuun
+             suoritusosuuteen. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja.
+             Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
+          />
           <Gradelist
             grades={grades}
             levels={levels}

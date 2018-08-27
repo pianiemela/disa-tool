@@ -1,7 +1,9 @@
 const router = require('express').Router()
 const { checkAuth } = require('../services/auth')
-const { checkPrivilege } = require('../services/privilege')
+const { checkPrivilege, isTeacherOnCourse } = require('../services/privilege')
 const assessmentResponseService = require('../services/assesment_response_service')
+const gradeService = require('../services/grade_service')
+const selfAssessmentService = require('../services/self_assesment_service')
 const { errors } = require('../messages/global.js')
 
 const messages = {
@@ -24,7 +26,16 @@ router.get('/:selfAssesmentId', async (req, res) => {
       })
       return
     }
-
+    // TODO: Maybe further refactor these checks to one helper.
+    // only send verification data to teacher
+    const isTeacher = !isTeacherOnCourse(req, data.course_instance_id)
+    if (!isTeacher) {
+      delete data.response.verification
+    }
+    // only send feedback to student if it is active
+    if (!await selfAssessmentService.isFeedbackActive(selfAssesmentId) && !isTeacher) {
+      delete data.response.feedback
+    }
     res.status(200).json({ data })
   } catch (error) {
     res.status(500).json({
@@ -54,12 +65,21 @@ router.post('/', async (req, res) => {
       return
     }
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
-
-    // const verification = await assessmentResponseService.verifyAssessmentGrade(response)
-    // response.response.verification = verification
-    // const feedback = await assessmentResponseService.generateFeedback(response)
+    const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
+    response.response.verification = verification
+    const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
+    response.response.feedback = feedback
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
     const completeResponse = await response.save()
+    // only send verification data to teacher
+    const isTeacher = !isTeacherOnCourse(req, data.course_instance_id)
+    if (!isTeacher) {
+      delete response.response.verification
+    }
+    // only send feedback to student if it is active
+    if (!await selfAssessmentService.isFeedbackActive(data.assessmentId) && !isTeacher) {
+      delete response.response.feedback
+    }
     if (response) {
       res.status(200).json({
         message: 'Self assessment response saved successfully!',

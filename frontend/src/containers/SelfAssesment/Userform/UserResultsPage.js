@@ -45,8 +45,7 @@ const UserResultsPage = (props) => {
         {Object.keys(objectives).map(objective => (
           <div key={objective}>
             <p>{objective.id}</p>
-
-            <Table style={{ margin: '50px' }} fixed compact celled striped>
+            <Table fixed compact celled striped>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell colSpan="2">
@@ -91,35 +90,51 @@ const UserResultsPage = (props) => {
   const displayCategoryFeedback = () =>
     (
       <div>
-        {/* {props.teacher ? null : (
-        )} */}
+        {props.teacher ? null : (
+          <h2>
+            Olet jo vastannut tähän itsearviointiin. Voit tarkastella kootusti tuloksiasi alla.
+          </h2>
+        )}
         {assessmentResponse.questionModuleResponses.map(questionModule => (
-          <Card key={questionModule.id} fluid color="red" >
-            <Card.Content >
-              <Card.Header textAlign="center">
-                <h3>{questionModule.name}</h3>
-              </Card.Header>
-              <Card.Description textAlign="center">
-                <h4>
+          <Card.Group key={questionModule.id} itemsPerRow={assessmentResponse.feedback ? 2 : 1}>
+            <Card fluid color="red" >
+              <Card.Content >
+                <Card.Header textAlign="center">
+                  <h3>{questionModule.name}</h3>
+                </Card.Header>
+                <Card.Description textAlign="center">
+                  <h4>
                   Itsearvioitu arvosana: {questionModule.grade}
-                </h4>
-                {questionModule.textFieldOn ?
-                  <div>
-                    <h5>perustelut:</h5>
-                    <p>{questionModule.responseText}</p>
-                  </div>
+                  </h4>
+                  {questionModule.textFieldOn ?
+                    <div>
+                      <h5>perustelut:</h5>
+                      <p>{questionModule.responseText}</p>
+                    </div>
                   :
                   null}
-              </Card.Description>
-            </Card.Content>
-          </Card>
+                </Card.Description>
+              </Card.Content>
+            </Card>
+            {assessmentResponse.feedback ?
+              <Card fluid color="red">
+                <Card.Content >
+                  <Card.Header textAlign="center">
+                    <h3>Palaute</h3>
+                  </Card.Header>
+                  <Card.Description textAlign="center">
+                    {assessmentResponse.feedback.find(f => f.categoryId === questionModule.id).text}
+                  </Card.Description>
+                </Card.Content>
+              </Card> : undefined}
+          </Card.Group>
         ))}
       </div >
     )
 
   const displayOpenQuestionsAndFinalGrade = () =>
     (
-      <div>
+      <div style={{ marginTop: '50px' }}>
         {assessmentResponse.openQuestionResponses.length > 0 ?
           <h2> Avoimet kysymykset</h2>
           :
@@ -174,7 +189,6 @@ const UserResultsPage = (props) => {
     )
   return (
     <Container textAlign="center">
-      <h2>Vastaukset ja palaute itsearviosta</h2>
       {assessmentType === 'objectives' ? displayObjectivesFeedback() : displayCategoryFeedback()}
       {displayOpenQuestionsAndFinalGrade()}
     </Container>

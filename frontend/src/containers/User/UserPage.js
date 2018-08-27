@@ -93,6 +93,9 @@ class UserPage extends Component {
       case 'assessmentActive':
         this.props.dispatchToggleAssessment(value, 'active')
         break
+      case 'feedbackOpen':
+        this.props.dispatchToggleAssessment(value, 'immediate_feedback')
+        break
       default:
         console.log('Something went wrong here now')
     }
@@ -127,11 +130,13 @@ class UserPage extends Component {
   updateTask = (e, { task }) => {
     switch (e.target.name) {
       case 'input':
-        this.setState({ popUp: {
-          show: true,
-          task: { ...this.state.popUp.task, points: e.target.value },
-          person: this.state.popUp.person
-        } })
+        this.setState({
+          popUp: {
+            show: true,
+            task: { ...this.state.popUp.task, points: e.target.value },
+            person: this.state.popUp.person
+          }
+        })
         break
       case 'update': {
         const filteredTasks = this.state.updatedTasks.filter(et =>
@@ -296,6 +301,16 @@ class UserPage extends Component {
                                         value={assessment.id}
                                         onClick={this.toggleAssessment}
                                       />
+                                      <Button
+                                        name="feedbackOpen"
+                                        color={assessment.immediate_feedback ? 'green' : 'red'}
+                                        compact
+                                        content={assessment.immediate_feedback ? 'palaute' : 'palaute'}
+                                        disabled={!assessment.active || !assessment.open}
+                                        size="small"
+                                        value={assessment.id}
+                                        onClick={this.toggleAssessment}
+                                      />
                                     </div> :
                                     <div>
                                       <Label
@@ -364,7 +379,7 @@ class UserPage extends Component {
                         </Grid.Column>
                       </Grid.Row>
                     </Grid>
-                  : undefined}
+                    : undefined}
                 </Grid>
               </Item> :
               <Item>

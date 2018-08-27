@@ -123,14 +123,17 @@ export const initResponseForm = (data) => {
         }) : null))
   } else {
     questionModules.map(qm =>
-      qm.objectives.map(qmO =>
-        (qmO.includedInAssesment ?
-          response.questionModuleResponses.push({
-            id: qmO.id,
-            grade: '1',
-            name: qmO.name,
-            header: qm.name
-          }) : null)))
+      (qm.includedInAssesment ?
+        qm.objectives.map(qmO =>
+          (qmO.includedInAssesment ?
+            response.questionModuleResponses.push({
+              id: qmO.id,
+              grade: '1',
+              name: qmO.name,
+              header: qm.name
+            }) : null))
+        :
+        null))
   }
 
   questions.map(q =>
