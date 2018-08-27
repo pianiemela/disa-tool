@@ -45,8 +45,7 @@ const UserResultsPage = (props) => {
         {Object.keys(objectives).map(objective => (
           <div key={objective}>
             <p>{objective.id}</p>
-
-            <Table style={{ margin: '50px' }} fixed compact celled striped>
+            <Table fixed compact celled striped>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell colSpan="2">
@@ -91,8 +90,11 @@ const UserResultsPage = (props) => {
   const displayCategoryFeedback = () =>
     (
       <div>
-        {/* {props.teacher ? null : (
-        )} */}
+        {props.teacher ? null : (
+          <h2>
+            Olet jo vastannut tähän itsearviointiin. Voit tarkastella kootusti tuloksiasi alla.
+          </h2>
+        )}
         {assessmentResponse.questionModuleResponses.map(questionModule => (
           <Card.Group key={questionModule.id} itemsPerRow={assessmentResponse.feedback ? 2 : 1}>
             <Card fluid color="red" >
@@ -132,7 +134,7 @@ const UserResultsPage = (props) => {
 
   const displayOpenQuestionsAndFinalGrade = () =>
     (
-      <div>
+      <div style={{ marginTop: '50px' }}>
         {assessmentResponse.openQuestionResponses.length > 0 ?
           <h2> Avoimet kysymykset</h2>
           :
@@ -187,7 +189,6 @@ const UserResultsPage = (props) => {
     )
   return (
     <Container textAlign="center">
-      <h2>Vastaukset ja palaute itsearviosta</h2>
       {assessmentType === 'objectives' ? displayObjectivesFeedback() : displayCategoryFeedback()}
       {displayOpenQuestionsAndFinalGrade()}
     </Container>

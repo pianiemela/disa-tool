@@ -27,7 +27,8 @@ import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 import { validationErrors, gradeOptions } from '../utils'
-import EditCategoryQuestionModule from './FormParts/QuestionModules/EditCategoryQuestionModule'
+import EditCategoryModule from './FormParts/QuestionModules/EditCategoryModule'
+import EditObjectiveModule from './FormParts/QuestionModules/EditObjectiveModule'
 
 export class SelfAssesmentForm extends React.Component {
   constructor(props) {
@@ -42,7 +43,7 @@ export class SelfAssesmentForm extends React.Component {
         finalGErrors:
           { grade: [], responseText: [] },
         openQErrors: {
-          responseText: [], grade: []
+          grade: [], responseText: []
         }
       },
       softErrors: false,
@@ -189,7 +190,7 @@ export class SelfAssesmentForm extends React.Component {
       return
     }
     this.setState({ redirect: true })
-    await this.props.dispatchCreateSelfAssesmentResponseAction(assesmentResponse)
+    this.props.dispatchCreateSelfAssesmentResponseAction({ ...this.props.assesmentResponse, finalHeaders: this.props.formData.structure.headers.grade })
   }
 
   togglePreview = () => {
@@ -202,7 +203,7 @@ export class SelfAssesmentForm extends React.Component {
         null
       )
     )
-    if (this.state.redirect || this.props.error || ((this.props.new || this.props.edit) && this.props.role && this.props.role !== 'TEACHER')) {
+    if (this.state.redirect || this.props.error || ((this.props.new || this.props.edit) && this.props.roleError)) {
       return <Redirect to="/user" />
     }
     if (this.props.assesmentResponse.existingAnswer) {
@@ -252,10 +253,7 @@ export class SelfAssesmentForm extends React.Component {
                 <Button onClick={() => this.close()} negative>Ei</Button>
                 <Button
                   onClick={() => {
-                    this.props.dispatchCreateSelfAssesmentResponseAction(
-                      this.props.assesmentResponse,
-                      this.props.formData.structure.headers.grade
-                    )
+                    this.props.dispatchCreateSelfAssesmentResponseAction({ ...this.props.assesmentResponse, finalHeaders: structure.headers.grade })
                     this.setState({
                       redirect: true,
                       softErrors: false
@@ -293,7 +291,7 @@ export class SelfAssesmentForm extends React.Component {
                 changedProp={dummyPropToEnsureChange}
                 QuestionModule={(edit && !this.state.preview)
                   ?
-                  EditCategoryQuestionModule
+                  EditCategoryModule
                   :
                   CategoryQuestionModule}
                 courseInstanceId={formData.course_instance_id}
@@ -309,7 +307,11 @@ export class SelfAssesmentForm extends React.Component {
                 formData={structure.questionModules}
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
-                QuestionModule={ObjectiveQuestionModule}
+                QuestionModule={(edit && !this.state.preview)
+                  ?
+                  EditObjectiveModule
+                  :
+                  ObjectiveQuestionModule}
                 errors={responseErrors.qModErrors}
               />
 
@@ -336,7 +338,7 @@ export class SelfAssesmentForm extends React.Component {
                 edit={edit ? !this.state.preview : false}
                 QuestionModule={(edit && !this.state.preview)
                   ?
-                  EditCategoryQuestionModule
+                  EditCategoryModule
                   :
                   CategoryQuestionModule}
                 final
@@ -379,12 +381,13 @@ export class SelfAssesmentForm extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   formData: state.selfAssesment.createForm,
   courseInstance: state.instance,
   assesmentResponse: state.selfAssesment.assesmentResponse,
   role: state.instance.courseRole,
-  error: state.error.redirect
+  error: state.error.redirect,
+  roleError: state.instance.courseRole && state.instance.courseRole !== 'TEACHER'
 })
 
 const mapDispatchToProps = dispatch => ({

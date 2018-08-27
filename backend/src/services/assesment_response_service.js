@@ -237,13 +237,14 @@ const swapHeaders = (data) => {
 
 const getGradesAndHeader = async (data, lang) => {
   const { response } = data
+  const grades = await gradeService.getByCourse(response.course_instance_id, lang)
 
   // get the grades and map all grades from ids to values
-
-  const grades = await gradeService.getByCourse(response.course_instance_id, lang)
-  response.questionModuleResponses = response.questionModuleResponses.map(
-    qmRes => ({ ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name })
-  )
+  if (response.assessmentType !== 'objectives') {
+    response.questionModuleResponses = response.questionModuleResponses.map(
+      qmRes => ({ ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name })
+    )
+  }
   const { grade } = response.finalGradeResponse
 
   // if we dont have a grade value for final grade, it didnt exist in the assessment so we can just return
