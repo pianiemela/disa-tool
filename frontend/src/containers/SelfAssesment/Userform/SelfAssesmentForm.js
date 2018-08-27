@@ -27,7 +27,7 @@ import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 import { validationErrors, gradeOptions } from '../utils'
-import EditCategoryQuestionModule from './FormParts/QuestionModules/EditCategoryQuestionModule'
+import EditCategoryModule from './FormParts/QuestionModules/EditCategoryModule'
 import EditObjectiveModule from './FormParts/QuestionModules/EditObjectiveModule'
 
 export class SelfAssesmentForm extends React.Component {
@@ -291,7 +291,7 @@ export class SelfAssesmentForm extends React.Component {
                 changedProp={dummyPropToEnsureChange}
                 QuestionModule={(edit && !this.state.preview)
                   ?
-                  EditCategoryQuestionModule
+                  EditCategoryModule
                   :
                   CategoryQuestionModule}
                 courseInstanceId={formData.course_instance_id}
@@ -338,7 +338,7 @@ export class SelfAssesmentForm extends React.Component {
                 edit={edit ? !this.state.preview : false}
                 QuestionModule={(edit && !this.state.preview)
                   ?
-                  EditCategoryQuestionModule
+                  EditCategoryModule
                   :
                   CategoryQuestionModule}
                 final

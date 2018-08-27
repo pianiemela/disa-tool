@@ -6,7 +6,7 @@ import UpOrDownToggle from '../UpOrDownToggle'
 import { gradeCategoryAction, textfieldResponseAction, toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
 import MultiLangInput from '../MultiLangInput'
 
-export class CategoryQuestionModule extends React.Component {
+export class EditCategorymodule extends React.Component {
   constructor(props) {
     super(props)
     this.state = { editHeaders: false, changedHeaders: {} }
@@ -105,12 +105,12 @@ export class CategoryQuestionModule extends React.Component {
   }
 }
 
-CategoryQuestionModule.defaultProps = {
+EditCategorymodule.defaultProps = {
   final: false
 }
 
 
-CategoryQuestionModule.propTypes = {
+EditCategorymodule.propTypes = {
   data: PropTypes.shape({
     name: PropTypes.string,
     id: PropTypes.number,
@@ -141,4 +141,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(gradeCategoryAction(data))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryQuestionModule)
+export default connect(mapStateToProps, mapDispatchToProps)(EditCategorymodule)
