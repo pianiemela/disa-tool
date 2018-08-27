@@ -96,25 +96,38 @@ const UserResultsPage = (props) => {
           </h2>
         )}
         {assessmentResponse.questionModuleResponses.map(questionModule => (
-          <Card key={questionModule.id} fluid color="red" >
-            <Card.Content >
-              <Card.Header textAlign="center">
-                <h3>{questionModule.name}</h3>
-              </Card.Header>
-              <Card.Description textAlign="center">
-                <h4>
+          <Card.Group key={questionModule.id} itemsPerRow={assessmentResponse.feedback ? 2 : 1}>
+            <Card fluid color="red" >
+              <Card.Content >
+                <Card.Header textAlign="center">
+                  <h3>{questionModule.name}</h3>
+                </Card.Header>
+                <Card.Description textAlign="center">
+                  <h4>
                   Itsearvioitu arvosana: {questionModule.grade}
-                </h4>
-                {questionModule.textFieldOn ?
-                  <div>
-                    <h5>perustelut:</h5>
-                    <p>{questionModule.responseText}</p>
-                  </div>
+                  </h4>
+                  {questionModule.textFieldOn ?
+                    <div>
+                      <h5>perustelut:</h5>
+                      <p>{questionModule.responseText}</p>
+                    </div>
                   :
                   null}
-              </Card.Description>
-            </Card.Content>
-          </Card>
+                </Card.Description>
+              </Card.Content>
+            </Card>
+            {assessmentResponse.feedback ?
+              <Card fluid color="red">
+                <Card.Content >
+                  <Card.Header textAlign="center">
+                    <h3>Palaute</h3>
+                  </Card.Header>
+                  <Card.Description textAlign="center">
+                    {assessmentResponse.feedback.find(f => f.categoryId === questionModule.id).text}
+                  </Card.Description>
+                </Card.Content>
+              </Card> : undefined}
+          </Card.Group>
         ))}
       </div >
     )

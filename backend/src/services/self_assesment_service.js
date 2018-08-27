@@ -107,6 +107,11 @@ const toggleAssessment = async (id, attribute) => {
   return assessment.save({ returning: true })
 }
 
+const isFeedbackActive = async (id) => {
+  const assessment = await SelfAssessment.findById(id)
+  return assessment.immediate_feedback
+}
+
 
 module.exports = {
   addSelfAssesment,
@@ -114,5 +119,6 @@ module.exports = {
   getAssesmentsForCourse,
   updateSelfAssesment,
   getOne,
-  toggleAssessment
+  toggleAssessment,
+  isFeedbackActive
 }
