@@ -178,9 +178,6 @@ SelfAssesmentSection.propTypes = {
   errors: PropTypes.shape({
     responseText: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired
-    })),
-    grade: PropTypes.arrayOf(PropTypes.shape({
-      id: PropTypes.number.isRequired
     }))
   }),
   courseInstanceId: PropTypes.number,
