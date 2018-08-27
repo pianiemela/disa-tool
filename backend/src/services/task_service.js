@@ -22,11 +22,16 @@ const getTasksForCourse = (courseId, lang, userId) => (
 )
 
 const validateTaskResponses = async (taskResponses, courseId) => {
-  const tasks = await Task.findAll({ where: { id: { [Op.in]: taskResponses.map(resp => resp.taskId) } } })
+  const inFilter = Object.keys(taskResponses.reduce((acc, curr) => ({ ...acc, [curr.taskId]: null }), {}))
+  const tasks = await Task.findAll({
+    where: {
+      id: { [Op.in]: inFilter },
+      course_instance_id: courseId
+    }
+  })
   const validatedResponses = taskResponses.reduce((acc, curr) => {
     const originalTask = tasks.find(t => t.dataValues.id === curr.taskId)
     if (!originalTask) return acc
-    if (originalTask.course_instance_id !== courseId) return acc
     return [
       ...acc,
       {

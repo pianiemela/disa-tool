@@ -392,6 +392,96 @@ describe('task_controller', () => {
         }
       )
     })
+
+    describe('validation', () => {
+      const baseData = {
+        courseId: 1,
+        tasks: [{
+          points: 1
+        }]
+      }
+      const baseOptions = {
+        route: '/api/tasks/responses',
+        method: 'post',
+        preamble: {
+          set: ['Authorization', `Bearer ${tokens.teacher}`]
+        }
+      }
+
+      describe('Disallow responses pointing to a non-existent task.', () => {
+        const data = {
+          ...baseData,
+          tasks: [{
+            ...baseData.tasks[0],
+            personId: 421,
+            taskId: 999999
+          }]
+        }
+        const options = {
+          ...baseOptions,
+          preamble: {
+            ...baseOptions.preamble,
+            send: data
+          }
+        }
+
+        testBody(options, {
+          common: {
+            message: expect.any(String),
+            createdResponses: asymmetricMatcher(actual => actual.length === 0)
+          }
+        })
+      })
+
+      describe('Disallow responses pointing to an alien task.', () => {
+        const data = {
+          ...baseData,
+          tasks: [{
+            ...baseData.tasks[0],
+            personId: 421
+          }]
+        }
+        const options = {
+          ...baseOptions,
+          preamble: {
+            ...baseOptions.preamble,
+            send: data
+          }
+        }
+
+        beforeAll((done) => {
+          Task.findOne({
+            where: {
+              course_instance_id: 2
+            }
+          }).then((result) => {
+            data.tasks[0].taskId = result.get({ plain: true }).id
+            CoursePerson.create({
+              course_instance_id: 2,
+              person_id: 424,
+              role: 'TEACHER'
+            }).then(() => done()).catch(done)
+          }).catch(done)
+        })
+
+        afterAll((done) => {
+          CoursePerson.destroy({
+            where: {
+              course_instance_id: 2,
+              person_id: 424,
+              role: 'TEACHER'
+            }
+          }).then(() => done()).catch(done)
+        })
+
+        testBody(options, {
+          common: {
+            message: expect.any(String),
+            createdResponses: asymmetricMatcher(actual => actual.length === 0)
+          }
+        })
+      })
+    })
   })
 
   describe('GET /:id', () => {
