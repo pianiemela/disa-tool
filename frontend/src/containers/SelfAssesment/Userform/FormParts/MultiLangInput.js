@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Input, Form } from 'semantic-ui-react'
 
 const MultiLangInput = (props) => {
@@ -23,7 +24,7 @@ const MultiLangInput = (props) => {
       {headers.map(h => (
         <Form.Field key={h.id}>
           <Input
-            label={display(h.displayName)}
+            label={display(h.prefix)}
             onChange={handleChange ? e => handleChange(h.id, e.target.value) : null}
             onBlur={handleBlur ? e => handleBlur(h.id, e.target.value) : null}
             defaultValue={h.value}
@@ -33,6 +34,20 @@ const MultiLangInput = (props) => {
       }
     </div>
   )
+}
+
+MultiLangInput.propTypes = {
+  headers: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    displayName: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired
+  })).isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleBlur: PropTypes.func
+}
+
+MultiLangInput.defaultProps = {
+  handleBlur: undefined
 }
 
 export default MultiLangInput

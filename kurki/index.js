@@ -11,6 +11,7 @@ const sequelize = new Sequelize(process.env.DB_URL, {
 
 const Person = sequelize.define('person', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+  username: { type: Sequelize.STRING, unique: true },
   studentnumber: { type: Sequelize.STRING },
   name: { type: Sequelize.STRING },
   role: { type: Sequelize.STRING }
@@ -35,7 +36,7 @@ app.post('/login', async (req, res) => {
     if (user) {
       const name = user.name.split(' ')
       res.json({
-        username: user.id,
+        username: user.username,
         student_number: user.studentnumber,
         first_names: name[0],
         last_name: name[name.length - 1]

@@ -25,7 +25,7 @@ describe('MultilingualField component', () => {
     let engField
     let finField
     let sweField
-  
+
     beforeEach(() => {
       const fields = wrapper.find(Segment).find(Form.Field)
       fields.forEach((field) => {

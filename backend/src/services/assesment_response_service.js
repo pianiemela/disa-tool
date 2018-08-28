@@ -1,6 +1,7 @@
 const {
   AssessmentResponse,
   Category,
+  CategoryGrade,
   Grade,
   Objective,
   Person,
@@ -9,40 +10,70 @@ const {
   SkillLevel,
   TaskResponse
 } = require('../database/models')
+const gradeService = require('../services/grade_service')
 
-const getOne = async (user, selfAssesmentId) => AssessmentResponse.find({
-  where: { person_id: user.id, self_assessment_id: selfAssesmentId }
-})
+const getOne = async (user, selfAssesmentId, lang) => {
+  const found = await AssessmentResponse.find({
+    where: { person_id: user.id, self_assessment_id: selfAssesmentId }
+  })
+  if (!found) {
+    return found
+  }
+  const filteredResponse = await getGradesAndHeader(found.get({ plain: true }), lang)
+  const assesmentResponse = found.get({ plain: true })
+  assesmentResponse.response = filteredResponse
+  return assesmentResponse
+}
 
 const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
   where: { person_id: user.id, self_assessment_id: selfAssesmentId }
 }).then((found) => {
   if (!found) {
+    /* Swap the final grade category headers to final grade 'main' header
+      (from 'Anna itsellesi arvosana kurssista' => 'Loppuarvosana' etc)
+     and remove the redundant category header
+    */
+    const filteredData = { ...data }
+    filteredData.finalGradeResponse.headers = swapHeaders(filteredData)
+    delete filteredData.finalHeaders
+
     // TODO: NOTE THAT THIS NOW ONLY BUILDS! NEED TO SAVE SEPARATELY!
     return AssessmentResponse.build({
-      response: data, self_assessment_id: selfAssesmentId, person_id: user.id
+      response: filteredData, self_assessment_id: selfAssesmentId, person_id: user.id
     })
   }
   throw Error('Olet jo vastannut tähän itsearvioon!')
 })
 
-const verifyAssessmentGrade = async (response) => {
-  const grades = await Grade.findAll({
-    include: { model: SkillLevel, where: { course_instance_id: response.response.course_instance_id } }
+// TODO: Heavy refactoring and testing
+const verifyAssessmentGrade = async (response, lang) => {
+  const courseGrades = await Grade.findAll({
+    include: [
+      { model: SkillLevel, where: { course_instance_id: response.response.course_instance_id } },
+      CategoryGrade
+    ]
+  })
+  const categories = await Category.findAll({
+    where: { course_instance_id: response.response.course_instance_id },
+    include: CategoryGrade
   })
   const userTasks = await TaskResponse.findAll({ where: { person_id: response.person_id } })
   // go through each question field
-  const earnedGrades = await Promise.all(response.response.questionModuleResponses.map(async (resp) => {
+  const earnedGrades = await Promise.all(response.response.questionModuleResponses.map(async (categoryResp) => {
+    const categoryGrades = categories.find(category => category.id === categoryResp.id).category_grades
     // find the grade user wants
-    const wantedGrade = grades.find(grade => grade.id === resp.grade)
+    const wantedGrade = {
+      id: categoryGrades.find(grade => grade.grade_id === categoryResp.grade).id,
+      name: courseGrades.find(grade => grade.id === categoryResp.grade)[`${lang}_name`]
+    }
     // find current category, include objectives and tasks
     const category = await Category.find({
-      where: { id: resp.id },
+      where: { id: categoryResp.id },
       include: { model: Objective, include: Task }
     })
 
     // Check what grades meet requirements
-    const gradeQualifies = await Promise.all(grades.map(async (grade) => {
+    const gradeQualifies = await Promise.all(courseGrades.map(async (grade) => {
       const gradeObjectives = await Objective.findAll({
         where: {
           skill_level_id: grade.skill_level_id,
@@ -68,54 +99,95 @@ const verifyAssessmentGrade = async (response) => {
       // calculate sums over objectives
       const userPoints = objectivePoints.reduce((acc, curr) => acc + curr.userPoints, 0)
       const maxPoints = objectivePoints.reduce((acc, curr) => acc + curr.maxPoints, 0)
+      // Get the right category grade for the correct pass level
+      const categoryGrade = categoryGrades.find(cg => cg.grade_id === grade.id)
       return {
-        grade: grade.id,
+        categoryGradeId: categoryGrade.id,
+        gradeId: grade.id,
         userPoints,
         maxPoints,
         // user is qualified for grade if the points exceed the needed level
         qualifiedForGrade: userPoints / maxPoints >= grade.needed_for_grade,
-        prerequisite: grade.prerequisite,
-        skillLevel: grade.skill_level_id,
-        needed: grade.needed_for_grade
+        prerequisiteId: grade.prerequisite,
+        skillLevelId: grade.skill_level_id,
+        skillLevelName: grade.skill_level[`${lang}_name`],
+        needed: categoryGrade.needed_for_grade
       }
     }))
 
     // If any prerequisite is not met, user does not earn the grade,
     // even if points otherwise would be enough
     gradeQualifies.map((grade) => {
-      let preReq = grade.prerequisite || undefined
+      let preReq = grade.prerequisiteId || undefined
       let depth = 0
       while (preReq !== undefined) {
+        // increment recursion depth by one
         depth += 1
-        const found = gradeQualifies.find(g => g.grade === preReq) // eslint-disable-line no-loop-func
-
+        // find the pre-requisite in the grade list and check if user qualifies for it
+        const found = gradeQualifies.find(g => g.gradeId === preReq) // eslint-disable-line no-loop-func
         if (found && !found.qualifiedForGrade) {
           grade.qualifiedForGrade = false
         }
-        preReq = found.prerequisite || undefined
+        // go down the rabbit hole
+        preReq = found.prerequisiteId || undefined
       }
       grade.depth = depth
     })
 
     // Find the highest grade earned. This is the grade with biggest recursive depth,
     // i.e. most levels of prerequisites
-    let earnedGrade = gradeQualifies[0]
-    for (let i = 1; i < gradeQualifies.length; i += 1) {
+    let earnedGrade = { gradeId: null, depth: -1 }
+    for (let i = 0; i < gradeQualifies.length; i += 1) {
       const grade = gradeQualifies[i]
       if (grade.qualifiedForGrade && grade.depth >= earnedGrade.depth) {
         earnedGrade = grade
       }
     }
-    return { gradeQualifies, earnedGradeId: earnedGrade.grade, wantedGradeId: wantedGrade.id, categoryId: category.id }
+    const gradeForName = courseGrades.find(grade => grade.id === earnedGrade.gradeId)
+    earnedGrade.name = gradeForName ? gradeForName[`${lang}_name`] : null
+    return { gradeQualifies, earnedGrade, wantedGrade, categoryId: category.id, categoryName: category.name }
   }))
 
-  return earnedGrades
+  return { categoryVerifications: earnedGrades, overallVerification: {} }
 }
 
-const generateFeedback = (response) => {
-  const { verification } = response.response
-  console.log(verification)
-  return 'hello'
+// TODO: Refactor. Needs possibly a separate file that contains all possible text variations.
+const generateFeedback = (response, lang) => {
+  const { categoryVerifications } = response.response.verification
+  // generate feedback for each category
+  const feedbacks = categoryVerifications.map((category) => {
+    const { categoryId, earnedGrade, wantedGrade } = category
+    if (category.gradeQualifies.every(g => g.maxPoints === 0)) { // no feedback for categories with no tasks
+      return { categoryId }
+    }
+    const earnedStats = category.gradeQualifies.find(grade => grade.gradeId === earnedGrade.gradeId)
+    || { skillLevelId: 0 }
+    const higherLevelTasksDone = category.gradeQualifies.filter(grade => (
+      // does user not qualify for this grade, i.e. is not the earned grade or below it
+      !grade.qualifiedForGrade
+      && grade.skillLevelId !== earnedStats.skillLevelId
+      // does user have points for this skill level
+      && grade.userPoints > 0
+      // filter out any duplicate stats for same skill level
+      && category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade
+    ))
+    // calculate percentages that for the earned grade and higher levels that user has done
+    const earnedPercentage = (earnedStats.userPoints / earnedStats.maxPoints * 100).toFixed(2) || null
+    const extraDone = higherLevelTasksDone.map(level => (
+      { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100).toFixed(2) }
+    ))
+    // TODO: This thing needs a complete overhaul and be more individualised
+    const text = `Annoit itsellesi arvosanan ${wantedGrade.name},
+    mutta tehtyjen tehtävien perusteella arvosanasi olisi ${earnedGrade.name},
+    koska olet tehnyt ${earnedPercentage} % tämän tason tehtävistä.
+    Olet kuitenkin tehnyt tehtäviä korkeammilta tasoilta:
+    ${extraDone.map(extra => ` ${extra.skillLevel}: ${extra.done} %`)},
+    joten on mahdollista, että osaat osion tavoitteet ilmoittamallasi tasolla.
+    On kuitenkin tärkeää hallita perusteet huolella ennen siirtymistä vaikeampiin
+    tehtäviin ja siksi olisi tärkeää tehdä myös alemman tason tehtäviä huolellisesti.`
+    return { categoryId, text }
+  })
+  return feedbacks
 }
 
 const getCourseInstanceId = async (id) => {
@@ -148,14 +220,42 @@ const getBySelfAssesment = async (id) => {
   ) : (
     await getCourseInstanceId(id)
   )
-  const data = responses.map((response) => {
-    return {
-      id: response.id,
-      person: response.person,
-      response: response.response
-    }
-  })
+  const data = responses.map(response => ({
+    id: response.id,
+    person: response.person,
+    response: response.response
+  }))
   return { data, courseInstanceId }
+}
+
+
+const swapHeaders = (data) => {
+  const h = {}
+  data.finalHeaders.forEach(finalH => h[finalH.type] = finalH.value) // eslint-disable-line
+  return h
+}
+
+const getGradesAndHeader = async (data, lang) => {
+  const { response } = data
+  const grades = await gradeService.getByCourse(response.course_instance_id, lang)
+
+  // get the grades and map all grades from ids to values
+  if (response.assessmentType !== 'objectives') {
+    response.questionModuleResponses = response.questionModuleResponses.map(
+      qmRes => ({ ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name })
+    )
+  }
+  const { grade } = response.finalGradeResponse
+
+  // if we dont have a grade value for final grade, it didnt exist in the assessment so we can just return
+  if (!grade) {
+    return response
+  }
+  // ...else we get the correct header name by lang and change the final grade from id to value
+
+  response.finalGradeResponse = { ...response.finalGradeResponse, grade: grades.find(g => g.id === grade).name }
+  response.finalGradeResponse.name = data.response.finalGradeResponse.headers[`${lang}_name`]
+  return response
 }
 
 module.exports = {

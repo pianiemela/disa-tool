@@ -18,7 +18,7 @@ class ObjectiveQuestionModule extends React.Component {
     this.props.data.objectives.forEach((value) => {
       ratings[value.name] = 1
     })
-    // this.setState({ ratings })
+    this.setState({ ratings })
   }
 
   handleChange = (e, name, id) => {
@@ -37,28 +37,30 @@ class ObjectiveQuestionModule extends React.Component {
           <Card.Content>
             <Card.Header>{name}</Card.Header>
             <List>
-              {objectives.map(o => (
-                <Grid key={o.id} verticalAlign="middle" columns={3}>
-                  <Grid.Row style={{ padding: '20px' }}>
-                    <Grid.Column>
-                      <List.Item as="li"><MathJaxText content={o.name} /></List.Item>
-                    </Grid.Column>
-                    <Grid.Column>
-                      <input
-                        style={{}}
-                        value={ratings[o.name] ? ratings[o.name] : 1}
-                        onChange={e => this.handleChange(e, o.name, o.id)}
-                        type="range"
-                        min={0}
-                        max={2}
-                      />
-                    </Grid.Column>
-                    <Grid.Column>
-                      {options[ratings[o.name]]}
-                    </Grid.Column>
-                  </Grid.Row>
-                </Grid>
-              ))}
+              {objectives.map(o =>
+                (o.includedInAssesment ?
+                  <Grid key={o.id} verticalAlign="middle" columns={3}>
+                    <Grid.Row style={{ padding: '20px' }}>
+                      <Grid.Column>
+                        <List.Item as="li"><MathJaxText content={o.name} /></List.Item>
+                      </Grid.Column>
+                      <Grid.Column>
+                        <input
+                          style={{}}
+                          value={ratings[o.name] ? ratings[o.name] : 1}
+                          onChange={e => this.handleChange(e, o.name, o.id)}
+                          type="range"
+                          min={0}
+                          max={2}
+                        />
+                      </Grid.Column>
+                      <Grid.Column>
+                        {options[ratings[o.name]]}
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+                  :
+                  null))}
             </List>
           </Card.Content>
         </Card>
@@ -83,8 +85,12 @@ ObjectiveQuestionModule.propTypes = {
   data: PropTypes.shape({
     options: PropTypes.arrayOf(PropTypes.string),
     name: PropTypes.string,
-    objectives: PropTypes.arrayOf(PropTypes.shape())
-  })
+    objectives: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    }))
+  }),
+  dispatchGradeObjectiveAction: PropTypes.func.isRequired
 }
 
 export default connect(null, mapDispatchToProps)(ObjectiveQuestionModule)

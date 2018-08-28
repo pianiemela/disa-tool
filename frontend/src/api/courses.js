@@ -1,4 +1,4 @@
-import { getJson, postJson, putJson } from '../utils/utils'
+import { getJson, putJson } from '../utils/utils'
 
 export const getUsersCourses = () => getJson('/courses/user')
 

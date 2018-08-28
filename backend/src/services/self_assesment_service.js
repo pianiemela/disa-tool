@@ -11,15 +11,14 @@ const assessmentAttributes = lang => [
   'structure',
   'open',
   'active',
-  'immediate_feedback',
+  'show_feedback',
   'course_instance_id']
 
 const addSelfAssesment = async (data, lang) => {
   const name = [`${lang}_name`, 'name']
   const instructions = [`${lang}_instructions`, 'instructions']
-  const created = await SelfAssessment.create(data).then(created => SelfAssessment.findOne({
-    attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
-    where: { id: created.id }
+  const created = await SelfAssessment.create(data).then(createdSA => SelfAssessment.findById(createdSA.id, {
+    attributes: ['id', name, instructions, 'structure', 'open', 'active', 'show_feedback', 'course_instance_id']
   }))
 
   return created
@@ -30,7 +29,7 @@ const getUserSelfAssesments = async (user, lang) => {
   const instructions = [`${lang}_instructions`, 'instructions']
 
   const data = await SelfAssessment.findAll({
-    attributes: ['id', name, instructions, 'structure', 'open', 'active', 'immediate_feedback', 'course_instance_id'],
+    attributes: ['id', name, instructions, 'structure', 'open', 'active', 'show_feedback', 'course_instance_id'],
     include: [
       {
         model: CourseInstance,
@@ -67,7 +66,7 @@ const updateSelfAssesment = async (data, lang) => {
       structure: data.structure,
       open: data.open,
       active: data.active,
-      immediate_feedback: data.immediate_feedback
+      show_feedback: data.show_feedback
     },
     {
       where: { id: data.id }
@@ -81,7 +80,7 @@ const updateSelfAssesment = async (data, lang) => {
         'structure',
         'open',
         'active',
-        'immediate_feedback',
+        'show_feedback',
         'course_instance_id'
       ]
   })
@@ -108,6 +107,11 @@ const toggleAssessment = async (id, attribute) => {
   return assessment.save({ returning: true })
 }
 
+const isFeedbackActive = async (id) => {
+  const assessment = await SelfAssessment.findById(id)
+  return assessment.show_feedback
+}
+
 
 module.exports = {
   addSelfAssesment,
@@ -115,5 +119,6 @@ module.exports = {
   getAssesmentsForCourse,
   updateSelfAssesment,
   getOne,
-  toggleAssessment
+  toggleAssessment,
+  isFeedbackActive
 }

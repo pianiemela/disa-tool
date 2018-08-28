@@ -24,16 +24,6 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
 
     case 'GET_SELF_ASSESMENT_SUCCESS': {
       const { data } = action.payload
-      const formInfo = []
-      formInfo.push(
-        data.eng_name,
-        data.fin_name,
-        data.swe_name,
-        data.eng_description,
-        data.fin_description,
-        data.swe_description
-      )
-      data.formInfo = formInfo
       return { ...state, createForm: data, assesmentResponse: {} }
     }
 
@@ -201,8 +191,20 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'TOGGLE_FORM_PART': {
-      const { id } = action.payload
+      const { id, type } = action.payload
       const { finalGrade } = state.createForm.structure
+      if (type === 'objective') {
+        const copy = { ...state.createForm }
+        const { structure } = copy
+
+        structure.questionModules = structure.questionModules.map(qm =>
+          ({
+            ...qm,
+            objectives: qm.objectives.map(qmo =>
+              (qmo.id === id ? { ...qmo, includedInAssesment: !qmo.includedInAssesment } : qmo))
+          }))
+        return { ...state, createForm: copy }
+      }
 
       if (id === finalGrade.id) {
         return {

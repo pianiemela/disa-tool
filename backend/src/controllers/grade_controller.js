@@ -2,7 +2,7 @@ const router = require('express').Router()
 
 const gradeService = require('../services/grade_service.js')
 const { errors } = require('../messages/global.js')
-const { checkPrivilege, isTeacherOnCourse } = require('../services/privilege')
+const { checkPrivilege, onlyTeacherOnCourseHasAccess } = require('../services/privilege')
 const editRoutes = require('../utils/editRoutes.js')
 
 const messages = {
@@ -132,7 +132,7 @@ router.delete('/:id', async (req, res) => {
 
 router.put('/category-grades', async (req, res) => {
   const { courseId, categoryGrades } = req.body
-  if (await !isTeacherOnCourse(req, res, courseId)) {
+  if (await !onlyTeacherOnCourseHasAccess(req, res, courseId)) {
     return
   }
   const filteredCategoryGrades = await gradeService.filterCategoryGradesOnCourse(courseId, categoryGrades)

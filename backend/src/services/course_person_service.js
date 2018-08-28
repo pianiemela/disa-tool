@@ -34,7 +34,7 @@ const deleteCourseperson = {
       role: json.role
     }
   },
-  execute: instance => instance.destroy(),
+  execute: instance => instance.destroy()
 }
 
 const updateRole = async (data) => {

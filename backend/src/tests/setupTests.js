@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const supertest = require('supertest')
+const supertest = require('supertest') // eslint-disable-line import/no-extraneous-dependencies
 const app = require('../app.js')
 
 require('dotenv').config()

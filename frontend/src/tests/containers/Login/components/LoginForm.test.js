@@ -81,7 +81,7 @@ describe('LoginForm component', () => {
         expect(wrapper.find('.submitButton').prop('disabled')).toEqual(true)
       })
     })
-    
+
     describe('when both fields are entered', () => {
       beforeEach(() => {
         wrapper.setState({

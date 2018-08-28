@@ -1,10 +1,7 @@
 import React from 'react'
-import { Redirect } from 'react-router'
 import { Button } from 'semantic-ui-react'
 import { SelfAssesmentForm } from '../../../../containers/SelfAssesment/Userform/SelfAssesmentForm'
 import SelfAssesmentSection from '../../../../containers/SelfAssesment/Userform/FormParts/Sections/SelfAssesmentSection'
-import { getCourseInstance } from '../../../../api/courses'
-import { getCourseData } from '../../../../api/categories'
 
 
 const dispatchCreateFormAction = jest.fn()
@@ -21,7 +18,7 @@ const formData = {
   course_instance_id: 2,
   open: false,
   active: false,
-  immediate_feedback: false,
+  show_feedback: false,
   structure: {
     headers: {
       openQ: {},
@@ -55,7 +52,8 @@ describe('Self assesment form', () => {
       dispatchCreateSelfAssesmentResponseAction={jest.fn()}
       assesmentResponse={{}}
       dispatchToast={jest.fn()}
-
+      dispatchClearError={() => {}}
+      error={false}
     />)
   })
 
@@ -78,7 +76,7 @@ describe('Self assesment form', () => {
 
     it('contains questionmodules of type category', () => {
       const { displayName } = wrapper.find(SelfAssesmentSection).at(0).prop('QuestionModule')
-      expect(displayName).toBe('Connect(CategoryQuestionModule)')
+      expect(displayName).toBe('Connect(EditCategorymodule)')
       expect(wrapper.find(SelfAssesmentSection).length).toBe(3)
     })
 
@@ -106,7 +104,7 @@ describe('Self assesment form', () => {
     })
     it('contains question modules of type objective', () => {
       const { displayName } = wrapper.find(SelfAssesmentSection).at(0).prop('QuestionModule')
-      expect(displayName).toBe('Connect(ObjectiveQuestionModule)')
+      expect(displayName).toBe('Connect(EditObjectiveModule)')
       expect(wrapper.find(SelfAssesmentSection).length).toBe(3)
     })
   })

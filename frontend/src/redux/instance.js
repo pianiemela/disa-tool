@@ -7,7 +7,8 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
       const oldAssesments = [...state.self_assessments]
       const toReplace = oldAssesments.find(oA => oA.id === data.self_assessment_id)
       toReplace.assessment_responses = [...toReplace.assessment_responses, data]
-      const newAssessments = oldAssesments.map(oA => (oA.id === data.self_assessment_id ? toReplace : oA))
+      const newAssessments = oldAssesments
+        .map(oA => (oA.id === data.self_assessment_id ? toReplace : oA))
       return { ...state, self_assessments: newAssessments }
     }
     case 'CREATE_SELF_ASSESMENT_SUCCESS': {
@@ -21,6 +22,7 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
       const oldAssessment = selfAssessments.find(old => old.id === assessment.id)
       oldAssessment.open = assessment.open
       oldAssessment.active = assessment.active
+      oldAssessment.show_feedback = assessment.show_feedback
       return { ...state, self_assessments: selfAssessments }
     }
     case 'COURSES_GET_INSTANCE_DATA_FAILURE':
@@ -31,7 +33,7 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
       return state
     case 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_SUCCESS': {
       const updatePeople = [...state.people]
-      updatePeople.map((person) => {
+      updatePeople.forEach((person) => {
         const update = action.payload.updatedPersons.find(cp => cp.person_id === person.id)
         if (update) {
           person.course_instances[0].course_person.role = update.role
@@ -42,7 +44,7 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
     case 'COURSE_INSTANCE_POST_TASK_RESPONSES_SUCCESS': {
       const people = [...state.people]
       const updatedTasks = action.payload.createdResponses
-      updatedTasks.map((task) => {
+      updatedTasks.forEach((task) => {
         const student = people.find(p => p.id === task.person_id)
         if (student) {
           const oldTask = student.task_responses.find(t => t.id === task.id)

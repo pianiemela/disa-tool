@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, Form, Button, List } from 'semantic-ui-react'
+import { Card, Form, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import MultiLangInput from '../MultiLangInput'
 import AddOpenQuestion from '../addOpenQuestion'
@@ -39,7 +39,8 @@ export class SelfAssesmentSection extends React.Component {
       errors,
       clearError,
       courseInstanceId,
-      grades } = this.props
+      grades
+    } = this.props
 
     const { responseText, grade } = errors
     const { editHeaders } = this.state
@@ -52,16 +53,15 @@ export class SelfAssesmentSection extends React.Component {
     */
     if (edit) {
       renderModules = (
-        <List divided verticalAlign="middle">
-          {formData.map(questionModules =>
-            (<QuestionModule
+        formData.map(questionModules =>
+          (
+            <QuestionModule
               key={questionModules.id}
               data={questionModules}
               edit={edit}
               final={final}
-            />))}
-        </List>
-      )
+            />
+          )))
     } else {
       /*
     If we are in the response form, show just the modules that are included in the assesment.
@@ -155,27 +155,32 @@ SelfAssesmentSection.defaultProps = {
   headerType: null,
   errors: { grade: [], responseText: [] },
   courseInstanceId: null,
-  clearError: null
+  clearError: null,
+  grades: null
 }
 
 SelfAssesmentSection.propTypes = {
-  formData: PropTypes.oneOfType([
-    PropTypes.shape(),
-    PropTypes.arrayOf(PropTypes.shape())
-  ]).isRequired,
+  formData: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    includedInAssesment: PropTypes.bool
+  })).isRequired,
   edit: PropTypes.bool.isRequired,
   question: PropTypes.bool,
   QuestionModule: PropTypes.func.isRequired,
   final: PropTypes.bool,
   dispatchHeaderChange: PropTypes.func.isRequired,
-  headers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  headers: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.string.isRequired
+  })).isRequired,
   headerType: PropTypes.string,
   clearError: PropTypes.func,
   errors: PropTypes.shape({
-    responseText: PropTypes.arrayOf(PropTypes.shape()),
-    grade: PropTypes.arrayOf(PropTypes.shape())
+    responseText: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.number.isRequired
+    }))
   }),
-  courseInstanceId: PropTypes.number
+  courseInstanceId: PropTypes.number,
+  grades: PropTypes.arrayOf(PropTypes.object)
 }
 
 const mapDispatchToProps = dispatch => ({

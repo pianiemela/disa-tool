@@ -60,13 +60,8 @@ const checkPrivilege = async (req, privileges) => {
   return (await Promise.all(results)).every(value => value)
 }
 
-const isTeacherOnCourse = async (req, res, courseId) => {
-  if (!await checkPrivilege(req, [
-    {
-      key: 'teacher_on_course',
-      param: courseId
-    }
-  ])) {
+const onlyTeacherOnCourseHasAccess = async (req, res, courseId) => {
+  if (!await isTeacherOnCourse(req, courseId)) {
     res.status(403).json({
       error: 'you are not a teacher on this course'
     })
@@ -75,7 +70,15 @@ const isTeacherOnCourse = async (req, res, courseId) => {
   return true
 }
 
+const isTeacherOnCourse = (req, courseId) => (
+  checkPrivilege(req, [{
+    key: 'teacher_on_course',
+    param: courseId
+  }])
+)
+
 module.exports = {
   checkPrivilege,
+  onlyTeacherOnCourseHasAccess,
   isTeacherOnCourse
 }

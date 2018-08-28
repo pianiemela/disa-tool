@@ -12,7 +12,6 @@ const options = {
 }
 
 const toastReducer = (state = INITIAL_STATE, action) => {
-
   if (action.payload) {
     if (action.payload.toast) {
       return {

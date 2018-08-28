@@ -1,4 +1,14 @@
-const { Course, CourseInstance, Person, Task, TaskResponse, Type, SelfAssessment, AssessmentResponse, TypeHeader } = require('../database/models.js')
+const {
+  Course,
+  CourseInstance,
+  Person,
+  Task,
+  TaskResponse,
+  Type,
+  SelfAssessment,
+  AssessmentResponse,
+  TypeHeader
+} = require('../database/models.js')
 
 const instanceAttributes = lang => ['id', 'course_id', [`${lang}_name`, 'name'], 'active']
 const courseAttributes = lang => ['id', [`${lang}_name`, 'name']]
@@ -9,7 +19,7 @@ const assessmentAttributes = lang => [
   'structure',
   'open',
   'active',
-  'immediate_feedback',
+  'show_feedback',
   'course_instance_id']
 const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
 const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]

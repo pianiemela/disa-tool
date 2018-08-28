@@ -11,7 +11,6 @@ const {
   CoursePerson
 } = require('../database/models.js')
 
-
 const getOne = courseInstanceId => CourseInstance.findOne({ where: { id: courseInstanceId } })
 
 const getCourseInstanceData = async (courseInstanceId, lang) => {
@@ -34,6 +33,7 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
         include: {
           model: Objective,
           attributes: ['id', name, 'skill_level_id', 'category_id'],
+          order: [['id', 'ASC']],
           separate: true
         }
       },
@@ -44,11 +44,13 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
           {
             model: TaskObjective,
             attributes: ['task_id', 'multiplier', 'objective_id'],
+            order: [['objective_id', 'ASC']],
             separate: true
           },
           {
             model: TaskType,
             attributes: ['task_id', 'type_id'],
+            order: [['type_id', 'ASC']],
             separate: true
           }
         ]
@@ -58,9 +60,17 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
         attributes: ['id', name],
         include: {
           model: Type,
-          attributes: ['id', name, 'multiplier']
+          attributes: ['id', name, 'multiplier', 'type_header_id'],
+          order: [['id', 'ASC']],
+          separate: true
         }
       }
+    ],
+    order: [
+      [Category, 'id', 'ASC'],
+      [SkillLevel, 'id', 'ASC'],
+      [Task, 'id', 'ASC'],
+      [TypeHeader, 'id', 'ASC']
     ]
   })).toJSON()
 
@@ -103,6 +113,7 @@ const mapTasks = (value) => {
         if (type) {
           return type.multiplier
         }
+        return undefined
       })
       return types.filter(type => type !== undefined)
     }).reduce((acc, curr) => acc * curr, 1),
@@ -183,9 +194,15 @@ const matrix = async (id, lang) => {
         attributes: ['id', name],
         include: {
           model: Objective,
-          attributes: ['id', 'category_id', 'skill_level_id', name]
+          attributes: ['id', 'category_id', 'skill_level_id', name],
+          order: [['id', 'ASC']],
+          separate: true
         }
       }
+    ],
+    order: [
+      [Category, 'id', 'ASC'],
+      [SkillLevel, 'id', 'ASC']
     ]
   })
   if (!result) return null
