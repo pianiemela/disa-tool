@@ -39,6 +39,7 @@ jobs:
 services:
   - docker
 after_success:
+  - cd ..
   - "[[ $TRAVIS_BRANCH =~ (^master) ]] && docker build -t toska/disa-tool:staging ."
   - "[[ $TRAVIS_BRANCH =~ (^master) ]] && docker login -u $DOCKER_USER -p $DOCKER_PASS"
   - "[[ $TRAVIS_BRANCH =~ (^master) ]] && docker push toska/disa-tool:staging"
