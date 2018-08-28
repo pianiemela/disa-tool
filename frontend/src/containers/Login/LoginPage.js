@@ -4,7 +4,7 @@ import { withLocalize } from 'react-localize-redux'
 
 import LoginForm from './components/form/LoginForm'
 
-const LoginPage = props => (
+export const LoginPage = props => (
   <div className="LoginPage">
     <h1>{props.translate('Login.LoginPage.login')}</h1>
     <LoginForm redirectTo={props.redirectTo} />
