@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu, Dropdown } from 'semantic-ui-react'
 import { func, shape, number } from 'prop-types'
+import { withLocalize, Translate } from 'react-localize-redux'
 
 import { logoutAction } from '../../actions/actions'
 import { getLanguage, saveLanguage } from '../../utils/utils'
@@ -10,7 +11,7 @@ import { getLanguage, saveLanguage } from '../../utils/utils'
 const languageOptions = [
   { key: 'fin', value: 'fin', text: 'Suomi' },
   { key: 'swe', value: 'swe', text: 'Svenska', disabled: true },
-  { key: 'eng', value: 'eng', text: 'English', disabled: true }
+  { key: 'eng', value: 'eng', text: 'English' }
 ]
 
 class Nav extends Component {
@@ -48,6 +49,7 @@ class Nav extends Component {
   changeLanguage = async (e, { value }) => {
     await this.setState({ language: value })
     saveLanguage(this.state.language)
+    this.props.setActiveLanguage(this.state.language)
   }
 
   render() {
@@ -110,7 +112,7 @@ class Nav extends Component {
                 active={activeItem === 'logout'}
                 onClick={this.handleClick}
               >
-                Kirjaudu ulos
+                <Translate id="Nav.navbar.logout" />
               </Menu.Item> :
               <Menu.Item
                 as={Link}
@@ -140,7 +142,8 @@ const mapDispatchToProps = dispatch => ({
 
 Nav.propTypes = {
   dispatchLogout: func.isRequired,
-  user: shape({ id: number }).isRequired
+  user: shape({ id: number }).isRequired,
+  setActiveLanguage: func.isRequired
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav))
+export default withLocalize(withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav)))
