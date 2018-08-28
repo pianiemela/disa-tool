@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Button, Form, Input, Label, Container } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
+import { objectivesDetails } from '../../../../api/tasks'
 import { editTaskObjectives } from '../../actions/tasks'
 
 import ModalForm from '../../../../utils/components/ModalForm'
@@ -13,34 +14,14 @@ class EditTaskObjectivesForm extends Component {
     super(props)
     this.state = {
       detailed: true,
-      values: this.props.objectives.reduce(
-        (acc, curr) => ({
-          ...acc,
-          [curr.id]: {
-            multiplier: curr.multiplier,
-            modified: null
-          }
-        }),
-        {}
-      )
-    }
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.taskId !== this.props.taskId
-      || newProps.objectives.length !== this.props.objectives.length) {
-      this.setState({
-        values: newProps.objectives.reduce(
-          (acc, curr) => ({
-            ...acc,
-            [curr.id]: {
-              multiplier: curr.multiplier,
-              modified: null
-            }
-          }),
-          {}
-        )
-      })
+      triggered: false,
+      loading: true,
+      values: {
+        0: {
+          multiplier: this.props.defaultMultiplier,
+          modified: false
+        }
+      }
     }
   }
 
@@ -58,43 +39,43 @@ class EditTaskObjectivesForm extends Component {
     values: {
       ...this.state.values,
       [id]: {
-        multiplier: {
-          null: this.props.objectives.find(objective => objective.id === id).multiplier,
-          false: this.props.defaultMultiplier,
-          true: this.state.values[id].multiplier
-        }[modified],
+        multiplier: modified ? this.state.values[id].multiplier : this.props.defaultMultiplier,
         modified
       }
     }
   })
 
-  changeAllMultipliers = e => this.setState({
-    values: Object.keys(this.state.values).reduce((acc, curr) => ({
-      ...acc,
-      [curr]: {
-        ...this.state.values[curr],
-        multiplier: e.target.value
-      }
-    }), {})
-  })
+  editTaskObjectivesSubmit = () => {
+    this.props.editTaskObjectives({
+      task_id: this.props.taskId,
+      objectives: this.props.objectives.map(objective => ({
+        ...(this.state.detailed ? this.state.values[objective.id] : this.state.values[0]),
+        id: objective.id
+      })).filter(objective => objective.modified !== null)
+    })
+    this.setState({
+      loading: true,
+      triggered: false
+    })
+  }
 
-  changeAllModified = modified => () => this.setState({
-    values: Object.keys(this.state.values).reduce((acc, curr) => ({
-      ...acc,
-      [curr]: {
-        modified,
-        multiplier: modified ? this.state.values[curr].multiplier : this.props.defaultMultiplier
-      }
-    }), {})
-  })
-
-  editTaskObjectivesSubmit = () => this.props.editTaskObjectives({
-    task_id: this.props.taskId,
-    objectives: this.props.objectives.map(objective => ({
-      ...this.state.values[objective.id],
-      id: objective.id
-    })).filter(objective => objective.modified !== null)
-  })
+  loadDetails = async () => {
+    if (this.state.triggered) return
+    this.setState({
+      triggered: true
+    })
+    const details = (await this.props.objectivesDetails({ id: this.props.taskId })).data.data
+    this.setState({
+      loading: false,
+      values: details.reduce((acc, curr) => ({
+        ...acc,
+        [curr.objective_id]: {
+          modified: curr.modified,
+          multiplier: curr.multiplier
+        }
+      }), this.state.values)
+    })
+  }
 
   render() {
     return (
@@ -132,35 +113,28 @@ class EditTaskObjectivesForm extends Component {
                       <Button.Group size="small">
                         <Button
                           type="button"
-                          content="Pidä ennallaan"
-                          color={this.state.values[objective.id].modified === null ? 'blue' : undefined}
-                          onClick={this.changeModified(objective.id, null)}
-                        />
-                        <Button.Or text="tai" />
-                        <Button
-                          type="button"
-                          content="Palauta oletusarvoon"
-                          color={this.state.values[objective.id].modified === false ? 'blue' : undefined}
+                          content="Oletusarvo"
+                          color={this.state.loading || this.state.values[objective.id].modified ? undefined : 'blue'}
                           onClick={this.changeModified(objective.id, false)}
                         />
                         <Button.Or text="tai" />
                         <Button
                           type="button"
                           content="Muuta"
-                          color={this.state.values[objective.id].modified === true ? 'blue' : undefined}
+                          color={!this.state.loading && this.state.values[objective.id].modified ? 'blue' : undefined}
                           onClick={this.changeModified(objective.id, true)}
                         />
                       </Button.Group>
                       <Input
                         className="multiplierInput"
-                        value={this.state.values[objective.id].multiplier}
+                        value={this.state.loading ? 0 : this.state.values[objective.id].multiplier}
                         onChange={this.changeMultiplier(objective.id)}
                         name={`objective ${objective.id}`}
                         type="number"
                         min={0}
                         max={1}
                         step={0.01}
-                        disabled={!this.state.values[objective.id].modified}
+                        disabled={this.state.loading || !this.state.values[objective.id].modified}
                       />
                     </Container>
                   </Form.Field>
@@ -176,20 +150,20 @@ class EditTaskObjectivesForm extends Component {
                         type="button"
                         content="Palauta oletusarvoon"
                         color={Object.values(this.state.values)[0].modified === false ? 'blue' : undefined}
-                        onClick={this.changeAllModified(false)}
+                        onClick={this.changeModified(0, false)}
                       />
                       <Button.Or text="tai" />
                       <Button
                         type="button"
                         content="Muuta"
                         color={Object.values(this.state.values)[0].modified === true ? 'blue' : undefined}
-                        onClick={this.changeAllModified(true)}
+                        onClick={this.changeModified(0, true)}
                       />
                     </Button.Group>
                     <Input
                       className="multiplierInput"
                       value={Object.values(this.state.values)[0].multiplier}
-                      onChange={this.changeAllMultipliers}
+                      onChange={this.changeMultiplier(0)}
                       name="all"
                       type="number"
                       min={0}
@@ -205,6 +179,8 @@ class EditTaskObjectivesForm extends Component {
           }
           onSubmit={this.editTaskObjectivesSubmit}
           onClose={this.props.onClose}
+          onOpen={this.loadDetails}
+          loading={this.state.loading}
         />
       </div>
     )
@@ -221,7 +197,8 @@ EditTaskObjectivesForm.propTypes = {
   })).isRequired,
   defaultMultiplier: PropTypes.number.isRequired,
   expanded: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  objectivesDetails: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -248,12 +225,20 @@ const mapStateToProps = (state, ownProps) => {
     expanded: ownProps.expanded,
     onClose: ownProps.onClose,
     objectives,
-    defaultMultiplier: state.task.tasks.find(task => task.id === ownProps.taskId).defaultMultiplier
+    defaultMultiplier: state.task.tasks.find(task => task.id === ownProps.taskId).types
+      .reduce((acc, typeId) => (
+        acc * state.type.headers.reduce((multiplier, header) => {
+          const type = header.types.find(htype => htype.id === typeId)
+          if (!type) return multiplier
+          return type.multiplier
+        }, 0)
+      ), 1)
   }
 }
 
 const mapDispatchToProps = dispatch => ({
-  editTaskObjectives: asyncAction(editTaskObjectives, dispatch)
+  editTaskObjectives: asyncAction(editTaskObjectives, dispatch),
+  objectivesDetails
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditTaskObjectivesForm)

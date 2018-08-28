@@ -19,3 +19,5 @@ export const details = data => getJson(`/tasks/${data.id}`)
 export const edit = data => putJson(`/tasks/${data.id}`, { ...data, id: undefined })
 
 export const editObjectives = data => postJson('/tasks/objectives/edit', data)
+
+export const objectivesDetails = data => getJson(`/tasks/${data.id}/objectives`)

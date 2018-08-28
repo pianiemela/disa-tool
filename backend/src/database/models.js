@@ -267,6 +267,29 @@ const AssessmentResponse = sequelize.define('assessment_response', {
   timestamps: true
 })
 
+Type.addHook('afterUpdate', 'updateMultipliers', (type) => {
+  Task.findAll({
+    attributes: ['id'],
+    include: {
+      model: Type,
+      attributes: ['id', 'multiplier']
+    }
+  }).then((tasks) => {
+    const updatedTasks = tasks.filter(task => task.dataValues.types.find(ttype => ttype.id === type.id))
+    updatedTasks.forEach((task) => {
+      const defaultMultiplier = task.dataValues.types.reduce((acc, curr) => acc * curr.multiplier, 1)
+      TaskObjective.update({
+        multiplier: defaultMultiplier
+      }, {
+        where: {
+          task_id: task.dataValues.id,
+          modified: false
+        }
+      })
+    })
+  })
+})
+
 Task.belongsToMany(Type, { through: TaskType })
 Type.belongsToMany(Task, { through: TaskType })
 // Redundancy here affords us flexibility in using joins or subqueries.
