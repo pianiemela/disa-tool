@@ -367,6 +367,17 @@ const editTaskObjectives = {
   }
 }
 
+const taskObjectivesDetails = id => new Promise((resolve) => {
+  TaskObjective.findAll({
+    where: {
+      task_id: id
+    },
+    attributes: ['task_id', 'objective_id', 'multiplier', 'modified']
+  }).then(result => resolve(
+    result.map(row => row.toJSON())
+  ))
+})
+
 module.exports = {
   getUserTasksForCourse,
   getTasksForCourse,
@@ -382,5 +393,6 @@ module.exports = {
   detachType,
   details,
   edit,
-  editTaskObjectives
+  editTaskObjectives,
+  taskObjectivesDetails
 }

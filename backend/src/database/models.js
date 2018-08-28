@@ -267,7 +267,6 @@ const AssessmentResponse = sequelize.define('assessment_response', {
 })
 
 Type.addHook('afterUpdate', 'updateMultipliers', (type) => {
-  console.log(type)
   Task.findAll({
     attributes: ['id'],
     include: {
