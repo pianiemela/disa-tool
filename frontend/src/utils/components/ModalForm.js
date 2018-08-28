@@ -10,6 +10,12 @@ class ModalForm extends Component {
     }
   }
 
+  componentDidUpdate(oldProps, oldState) {
+    if (oldProps.expanded === null ) {
+      if (!oldState.expanded && this.state.expanded) this.props.onOpen()
+    } else if (!oldState.expanded && this.props.expanded) this.props.onOpen()
+  }
+
   expand = () => {
     this.setState({
       expanded: true
@@ -66,14 +72,16 @@ ModalForm.propTypes = {
   onSubmit: PropTypes.func,
   loading: PropTypes.bool,
   expanded: PropTypes.bool,
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
+  onOpen: PropTypes.func
 }
 
 ModalForm.defaultProps = {
   onSubmit: () => {},
   loading: false,
   expanded: null,
-  onClose: () => {}
+  onClose: () => {},
+  onOpen: () => {}
 }
 
 export default ModalForm
