@@ -189,6 +189,7 @@ const CourseInstance = sequelize.define('course_instance', {
 
 const Person = sequelize.define('person', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+  username: { type: Sequelize.STRING, unique: true },
   studentnumber: { type: Sequelize.STRING, unique: true },
   name: { type: Sequelize.STRING },
   role: { type: Sequelize.STRING }
