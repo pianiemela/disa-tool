@@ -8,5 +8,15 @@
       "user": ["Personal page", "Oma sivu"],
       "home": ["DISA-tool", "DISA-työkalu"]
     }
+  },
+  "Login": {
+    "LoginForm": {
+      "already_logged_in": ["You are already logged in", "Olet jo kirjautunut sisään"],
+      "username": ["username", "käyttäjänimi"],
+      "password": ["password", "salasana"]
+    },
+    "LoginPage": {
+      "login": ["Log in", "Kirjaudu sisään"]
+    }
   }
 }

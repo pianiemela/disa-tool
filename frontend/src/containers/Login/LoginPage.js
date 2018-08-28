@@ -1,21 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withLocalize } from 'react-localize-redux'
 
 import LoginForm from './components/form/LoginForm'
 
 const LoginPage = props => (
   <div className="LoginPage">
-    <h1>Kirjaudu sisään</h1>
+    <h1>{props.translate('Login.LoginPage.login')}</h1>
     <LoginForm redirectTo={props.redirectTo} />
   </div>
 )
 
 LoginPage.propTypes = {
-  redirectTo: PropTypes.string
+  redirectTo: PropTypes.string,
+  translate: PropTypes.func.isRequired
 }
 
 LoginPage.defaultProps = {
   redirectTo: undefined
 }
 
-export default LoginPage
+export default withLocalize(LoginPage)
