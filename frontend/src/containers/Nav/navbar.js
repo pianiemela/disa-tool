@@ -3,7 +3,7 @@ import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Menu, Dropdown } from 'semantic-ui-react'
 import { func, shape, number } from 'prop-types'
-import { withLocalize, Translate } from 'react-localize-redux'
+import { withLocalize } from 'react-localize-redux'
 
 import { logoutAction } from '../../actions/actions'
 import { getLanguage, saveLanguage } from '../../utils/utils'
@@ -65,7 +65,7 @@ class Nav extends Component {
             active={activeItem === 'home'}
             onClick={this.handleClick}
           >
-              DISA-työkalu
+            {this.props.translate('Nav.navbar.home')}
           </Menu.Item>
           {this.props.user.id ?
             <Menu.Item
@@ -75,7 +75,7 @@ class Nav extends Component {
               active={activeItem === 'user'}
               onClick={this.handleClick}
             >
-                Oma sivu
+              {this.props.translate('Nav.navbar.user')}
             </Menu.Item> : undefined}
           <Menu.Item
             as={Link}
@@ -84,7 +84,7 @@ class Nav extends Component {
             active={activeItem === 'courses'}
             onClick={this.handleClick}
           >
-              Kurssit
+            {this.props.translate('Nav.navbar.courses')}
           </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item>
@@ -98,7 +98,7 @@ class Nav extends Component {
               <Menu.Item
                 as={Link}
                 to="/admin"
-                name="Admin"
+                name={this.props.translate('Nav.navbar.admin')}
                 onClick={this.handleClick}
               />
               :
@@ -112,7 +112,7 @@ class Nav extends Component {
                 active={activeItem === 'logout'}
                 onClick={this.handleClick}
               >
-                <Translate id="Nav.navbar.logout" />
+                {this.props.translate('Nav.navbar.logout')}
               </Menu.Item> :
               <Menu.Item
                 as={Link}
@@ -121,7 +121,7 @@ class Nav extends Component {
                 active={activeItem === 'login'}
                 onClick={this.handleClick}
               >
-                Kirjaudu sisään
+                {this.props.translate('Nav.navbar.login')}
               </Menu.Item>
             }
           </Menu.Menu>
@@ -143,6 +143,7 @@ const mapDispatchToProps = dispatch => ({
 Nav.propTypes = {
   dispatchLogout: func.isRequired,
   user: shape({ id: number }).isRequired,
+  translate: func.isRequired,
   setActiveLanguage: func.isRequired
 }
 

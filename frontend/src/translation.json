@@ -1,7 +1,12 @@
 {
   "Nav": {
     "navbar": {
-      "logout": ["Log out", "Kirjaudu ulos"]
+      "logout": ["Log out", "Kirjaudu ulos"],
+      "login": ["Log in", "Kirjaudu sisään"],
+      "admin": ["Admin", "Admin"],
+      "courses": ["Courses", "Kurssit"],
+      "user": ["Personal page", "Oma sivu"],
+      "home": ["DISA-tool", "DISA-työkalu"]
     }
   }
 }
