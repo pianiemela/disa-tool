@@ -18,7 +18,7 @@ const formData = {
   course_instance_id: 2,
   open: false,
   active: false,
-  immediate_feedback: false,
+  show_feedback: false,
   structure: {
     headers: {
       openQ: {},

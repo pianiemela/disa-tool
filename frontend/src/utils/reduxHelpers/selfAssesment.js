@@ -18,7 +18,7 @@ export const initForm = (payload) => {
   data.open = false
   data.active = false
 
-  data.immediate_feedback = false
+  data.show_feedback = false
   data.type = type
   data.structure = {}
   const { structure } = data

@@ -28,7 +28,7 @@
 
 [CoursePerson| -id;-course_instance_id;-person_id;-role]
 
-[SelfAssessment| -id;-eng_name;-fin_name;-swe_name;-eng_instructions;-fin_instructions;-swe_instructions;-structure;-open;-active;-immediate_feedback;-course_instance_id]
+[SelfAssessment| -id;-eng_name;-fin_name;-swe_name;-eng_instructions;-fin_instructions;-swe_instructions;-structure;-open;-active;-show_feedback;-course_instance_id]
 
 [TaskResponse| -id;-points;-task_id;-person_id]
 

@@ -49,12 +49,13 @@ const login = async (body, lang) => {
   }
   const person = await Person.findOne({
     where: {
-      studentnumber: result.data.student_number
+      username: result.data.username
     },
-    attributes: ['id', 'name', 'studentnumber', 'role']
+    attributes: ['id', 'username', 'name', 'studentnumber', 'role']
   })
   if (!person) {
     const created = await Person.create({
+      username: result.data.username,
       studentnumber: result.data.student_number,
       name: `${result.data.first_names.includes('*') ? (
         result.data.first_names.split('*')[1].split(' ')[0]
@@ -65,6 +66,7 @@ const login = async (body, lang) => {
     })
     const loggedIn = {
       id: created.id,
+      username: created.username,
       studentnumber: created.studentnumber,
       name: created.name,
       role: created.role

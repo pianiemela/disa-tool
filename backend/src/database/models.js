@@ -189,6 +189,7 @@ const CourseInstance = sequelize.define('course_instance', {
 
 const Person = sequelize.define('person', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+  username: { type: Sequelize.STRING, unique: true },
   studentnumber: { type: Sequelize.STRING, unique: true },
   name: { type: Sequelize.STRING },
   role: { type: Sequelize.STRING }
@@ -233,7 +234,7 @@ const SelfAssessment = sequelize.define('self_assessment', {
   structure: { type: Sequelize.JSON },
   open: { type: Sequelize.BOOLEAN },
   active: { type: Sequelize.BOOLEAN },
-  immediate_feedback: { type: Sequelize.BOOLEAN },
+  show_feedback: { type: Sequelize.BOOLEAN },
   course_instance_id: { type: Sequelize.BIGINT }
 },
 {
