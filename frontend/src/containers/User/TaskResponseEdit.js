@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Prompt } from 'react-router'
 import { Accordion, Button, Grid } from 'semantic-ui-react'
 
 import UploadResponsesPage from '../TaskResponses/UploadResponsesPage'
@@ -92,6 +93,7 @@ class TaskResponseEdit extends Component {
     const { selectedType, updatedTasks, popUp } = this.state
     return (
       <Grid style={{ overflowX: 'scroll' }}>
+        <Prompt when={updatedTasks.length > 0} message="Sinulla on tallentamattomia muutoksia" />
         <Grid.Row>
           <Grid.Column>
             <Accordion

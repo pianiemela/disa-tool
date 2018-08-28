@@ -222,6 +222,7 @@ router.post('/objectives/detach', async (req, res) => {
 })
 
 // TODO: Needs refactoring, optimizing and possibly better try catching.
+// Send at least the number of students added to the course.
 router.post('/responses', async (req, res) => {
   const { tasks, courseId } = req.body
   const isTeacher = await checkPrivilege(req, [{

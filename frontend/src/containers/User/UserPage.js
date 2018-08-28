@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Prompt } from 'react-router'
 import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
 import { Accordion, Button, Header, List, Grid, Item, Label, Dropdown } from 'semantic-ui-react'
@@ -10,22 +9,18 @@ import {
   getUserSelfAssesments,
   getCourseInstanceDataAction,
   toggleCourseActivityAction,
-  postTaskResponseActions,
   updateCoursePersonRoleAction,
   toggleAssessmentAction
 } from '../../actions/actions'
-import { CoursePeopleList } from './CoursePeopleList'
 import { CourseSideMenu } from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
 import { CourseInfo } from './CourseInfo'
-import { UploadResponsesPage } from '../TaskResponses/UploadResponsesPage'
 import TaskResponseEdit from './TaskResponseEdit'
 
 class UserPage extends Component {
   state = {
+    // Selected type will now never change. Is it really needed in the task listing?
     selectedType: undefined,
-    updatedTasks: [],
-    popUp: { show: false, task: undefined, person: undefined },
     newTeachers: []
   }
 
@@ -92,7 +87,7 @@ class UserPage extends Component {
         this.props.dispatchToggleAssessment(value, 'active')
         break
       case 'feedbackOpen':
-        this.props.dispatchToggleAssessment(value, 'immediate_feedback')
+        this.props.dispatchToggleAssessment(value, 'show_feedback')
         break
       default:
         console.log('Something went wrong here now')
@@ -101,7 +96,7 @@ class UserPage extends Component {
 
   render() {
     const { activeCourse, courses } = this.props
-    const { selectedType, updatedTasks, popUp } = this.state
+    const { selectedType } = this.state
     const { self_assessments: assessments, tasks } = activeCourse
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
@@ -117,7 +112,6 @@ class UserPage extends Component {
     // console.log(this.props.match.params.courseId)
     return (
       <Grid padded="horizontally">
-        <Prompt when={updatedTasks.length > 0} message="Sinulla on tallentamattomia muutoksia" />
         <Grid.Row>
           <Grid.Column>
             {this.props.user ? <Header as="h1">Hei {this.props.user.name}</Header> : <p>Hello bastard</p>}
@@ -233,9 +227,9 @@ class UserPage extends Component {
                                       />
                                       <Button
                                         name="feedbackOpen"
-                                        color={assessment.immediate_feedback ? 'green' : 'red'}
+                                        color={assessment.show_feedback ? 'green' : 'red'}
                                         compact
-                                        content={assessment.immediate_feedback ? 'palaute' : 'palaute'}
+                                        content={assessment.show_feedback ? 'palaute' : 'palaute'}
                                         disabled={!assessment.active || !assessment.open}
                                         size="small"
                                         value={assessment.id}
@@ -284,8 +278,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(toggleCourseActivityAction(courseId)),
   dispatchUpdateCoursePersonRole: coursePersons =>
     dispatch(updateCoursePersonRoleAction(coursePersons)),
-  dispatchPostTaskResponses: tasks =>
-    dispatch(postTaskResponseActions(tasks)),
   dispatchToggleAssessment: (assessmentId, attribute) =>
     dispatch(toggleAssessmentAction(assessmentId, attribute))
 })
@@ -315,8 +307,7 @@ UserPage.propTypes = {
   dispatchGetUserCourses: func.isRequired,
   dispatchToggleActivity: func.isRequired,
   dispatchUpdateCoursePersonRole: func.isRequired,
-  dispatchToggleAssessment: func.isRequired,
-  dispatchPostTaskResponses: func.isRequired
+  dispatchToggleAssessment: func.isRequired
 }
 
 UserPage.defaultProps = {

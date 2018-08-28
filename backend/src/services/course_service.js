@@ -19,7 +19,7 @@ const assessmentAttributes = lang => [
   'structure',
   'open',
   'active',
-  'immediate_feedback',
+  'show_feedback',
   'course_instance_id']
 const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
 const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]

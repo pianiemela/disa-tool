@@ -22,7 +22,7 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
       const oldAssessment = selfAssessments.find(old => old.id === assessment.id)
       oldAssessment.open = assessment.open
       oldAssessment.active = assessment.active
-      oldAssessment.immediate_feedback = assessment.immediate_feedback
+      oldAssessment.show_feedback = assessment.show_feedback
       return { ...state, self_assessments: selfAssessments }
     }
     case 'COURSES_GET_INSTANCE_DATA_FAILURE':

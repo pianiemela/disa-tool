@@ -234,7 +234,7 @@ const SelfAssessment = sequelize.define('self_assessment', {
   structure: { type: Sequelize.JSON },
   open: { type: Sequelize.BOOLEAN },
   active: { type: Sequelize.BOOLEAN },
-  immediate_feedback: { type: Sequelize.BOOLEAN },
+  show_feedback: { type: Sequelize.BOOLEAN },
   course_instance_id: { type: Sequelize.BIGINT }
 },
 {
