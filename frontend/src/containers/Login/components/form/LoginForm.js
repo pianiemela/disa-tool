@@ -61,7 +61,7 @@ export class LoginForm extends Component {
                 disabled={!Object.values(this.state.emptyFields).every(value => !value)}
                 color={!Object.values(this.state.emptyFields).every(value => !value) ? undefined : 'green'}
               >
-                Login
+                {this.props.translate('Login.LoginForm.login_button')}
               </Button>
             </Form>}
         </Segment>
