@@ -83,15 +83,11 @@ class ObjectiveQuestionModule extends React.Component {
                                     />
                                   </div>))}
                             </div>
-                            {gradeError.errors[o.id] ?
-                              <Message
-                                error
-                                style={{ textAlign: 'center' }}
-                                content={gradeError.errors[o.id].error}
-                              />
-                              :
-                              null
-                            }
+                            <Message
+                              error
+                              style={{ textAlign: 'center' }}
+                              content={gradeError.errors[o.id] ? gradeError.errors[o.id].error : null}
+                            />
                           </Grid.Column>
                         </Grid.Row>
                       </Grid>

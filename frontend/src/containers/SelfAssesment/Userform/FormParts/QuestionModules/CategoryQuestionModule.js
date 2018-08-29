@@ -34,26 +34,32 @@ export class CategoryQuestionModule extends React.Component {
   }
 
   render() {
-    const { edit, final, responseTextError, gradeError, clearError, courseInstanceId, grades } = this.props
+    const { edit,
+      final,
+      responseTextError,
+      gradeError,
+      clearError,
+      courseInstanceId,
+      grades } = this.props
     const { name, textFieldOn, id, headers } = this.props.data
-
     return (
       <div className="CategoryQuestion">
-        <Form.Field>
-          <div>
-            <Card fluid>
-              <Card.Content >
-                <Card.Header>
-                  {final ? headers[0].value :
-                  <div>
-                    {name}
+        <Form error={gradeError !== undefined}>
+          <Form.Field>
+            <div>
+              <Card fluid>
+                <Card.Content >
+                  <Card.Header>
+                    {final ? headers[0].value :
+                      name
+                    }
                     <Accordion style={{ marginTop: '10px' }} fluid styled>
                       <Accordion.Title
                         active={this.state.showMatrix}
                         onClick={() => this.setState({ showMatrix: !this.state.showMatrix })}
                       >
                         <Icon name="dropdown" />
-                          Osaamismatriisi
+                        Osaamismatriisi
                       </Accordion.Title>
                       <Accordion.Content active={this.state.showMatrix}>
                         <MatrixPage
@@ -63,70 +69,68 @@ export class CategoryQuestionModule extends React.Component {
                         />
                       </Accordion.Content>
                     </Accordion>
-                  </div>
-                  }
-
-                </Card.Header>
-                <Grid verticalAlign="middle" padded columns={3}>
-                  <Grid.Row >
-                    <Form.Field width={10}>
-                      <Grid.Column>
-                        <div>
-                          <label> Arvioi osaamisesi asteikolla 0-5</label>
-                          <Dropdown
-                            style={{ marginLeft: '20px' }}
-                            placeholder="Valitse arvosana"
-                            selection
-                            options={grades}
-                            error={gradeError !== undefined}
-                            onChange={!edit ? (e, { value }) => {
-                              this.props.dispatchGradeCategoryAction({ id, value, final })
-                              clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
-                            } : null}
+                  </Card.Header>
+                  <Grid verticalAlign="middle" padded columns={3}>
+                    <Grid.Row >
+                      <Form.Field width={10}>
+                        <Grid.Column>
+                          <div>
+                            <label> Arvioi osaamisesi asteikolla 0-5</label>
+                            <Dropdown
+                              style={{ marginLeft: '20px' }}
+                              placeholder="Valitse arvosana"
+                              selection
+                              options={grades}
+                              error={gradeError !== undefined}
+                              onChange={!edit ? (e, { value }) => {
+                                this.props.dispatchGradeCategoryAction({ id, value, final })
+                                clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
+                              } : null}
+                            />
+                          </div>
+                          <Message
+                            error
+                            content={gradeError ? gradeError.error : null}
                           />
-                        </div>
-                        <Message
-                          error
-                          header={gradeError ? gradeError.error : null}
-                        />
-                      </Grid.Column>
-                    </Form.Field>
-                    <Grid.Column />
-                  </Grid.Row>
-                  <Grid.Row >
-                    <Form.Field width={10}>
-                      <Grid.Column>
-                        {textFieldOn ?
-                          <Form.TextArea
-                            autoHeight
-                            error={responseTextError !== undefined}
-                            label="Perustelut arvosanalle"
-                            placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
-                            onBlur={!edit ? e =>
-                              this.props.dispatchTextfieldResponseAction({
-                                id,
-                                value: e.target.value,
-                                final
-                              })
-                              :
-                              null}
-                            onChange={!edit ? () =>
-                              clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id })
-                              :
-                              null
-                            }
-                          />
-                          :
-                          null
-                        }
-                      </Grid.Column>
-                    </Form.Field>
-                  </Grid.Row>
-                </Grid>
-              </Card.Content>
-            </Card>
-          </div>
-        </Form.Field >
+                        </Grid.Column>
+                      </Form.Field>
+                      <Grid.Column />
+                    </Grid.Row>
+                    <Grid.Row >
+                      <Form.Field width={10}>
+                        <Grid.Column>
+                          {textFieldOn ?
+                            <Form.TextArea
+                              autoHeight
+                              error={responseTextError !== undefined}
+                              label="Perustelut arvosanalle"
+                              placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
+                              onBlur={!edit ? e =>
+                                this.props.dispatchTextfieldResponseAction({
+                                  id,
+                                  value: e.target.value,
+                                  final
+                                })
+                                :
+                                null}
+                              onChange={!edit ? () =>
+                                clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id })
+                                :
+                                null
+                              }
+                            />
+                            :
+                            null
+                          }
+                        </Grid.Column>
+                      </Form.Field>
+                    </Grid.Row>
+                  </Grid>
+                </Card.Content>
+              </Card>
+            </div>
+          </Form.Field >
+        </Form>
       </div>
     )
   }
