@@ -189,6 +189,7 @@ const CourseInstance = sequelize.define('course_instance', {
 
 const Person = sequelize.define('person', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+  username: { type: Sequelize.STRING, unique: true },
   studentnumber: { type: Sequelize.STRING, unique: true },
   name: { type: Sequelize.STRING },
   role: { type: Sequelize.STRING }
@@ -233,7 +234,7 @@ const SelfAssessment = sequelize.define('self_assessment', {
   structure: { type: Sequelize.JSON },
   open: { type: Sequelize.BOOLEAN },
   active: { type: Sequelize.BOOLEAN },
-  immediate_feedback: { type: Sequelize.BOOLEAN },
+  show_feedback: { type: Sequelize.BOOLEAN },
   course_instance_id: { type: Sequelize.BIGINT }
 },
 {
@@ -264,6 +265,29 @@ const AssessmentResponse = sequelize.define('assessment_response', {
   tableName: 'assessment_response',
   underscored: true,
   timestamps: true
+})
+
+Type.addHook('afterUpdate', 'updateMultipliers', (type) => {
+  Task.findAll({
+    attributes: ['id'],
+    include: {
+      model: Type,
+      attributes: ['id', 'multiplier']
+    }
+  }).then((tasks) => {
+    const updatedTasks = tasks.filter(task => task.dataValues.types.find(ttype => ttype.id === type.id))
+    updatedTasks.forEach((task) => {
+      const defaultMultiplier = task.dataValues.types.reduce((acc, curr) => acc * curr.multiplier, 1)
+      TaskObjective.update({
+        multiplier: defaultMultiplier
+      }, {
+        where: {
+          task_id: task.dataValues.id,
+          modified: false
+        }
+      })
+    })
+  })
 })
 
 Task.belongsToMany(Type, { through: TaskType })

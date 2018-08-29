@@ -22,19 +22,27 @@ const getTasksForCourse = (courseId, lang, userId) => (
 )
 
 const validateTaskResponses = async (taskResponses, courseId) => {
-  const tasks = await Task.findAll({ where: { id: { [Op.in]: taskResponses.map(resp => resp.taskId) } } })
-  const validatedResponses = taskResponses.map((r) => {
-    const originalTask = tasks.find(t => t.dataValues.id === r.taskId)
-    if (originalTask.course_instance_id !== courseId) {
-      return null
+  const inFilter = Object.keys(taskResponses.reduce((acc, curr) => ({ ...acc, [curr.taskId]: null }), {}))
+  const tasks = await Task.findAll({
+    where: {
+      id: { [Op.in]: inFilter },
+      course_instance_id: courseId
     }
-    return {
-      studentnumber: r.studentnumber,
-      responseId: r.responseId,
-      task_id: r.taskId,
-      person_id: r.personId,
-      points: r.points <= originalTask.max_points ? r.points : originalTask.max_points }
   })
+  const validatedResponses = taskResponses.reduce((acc, curr) => {
+    const originalTask = tasks.find(t => t.dataValues.id === curr.taskId)
+    if (!originalTask) return acc
+    return [
+      ...acc,
+      {
+        studentnumber: curr.studentnumber,
+        responseId: curr.responseId,
+        task_id: curr.taskId,
+        person_id: curr.personId,
+        points: curr.points <= originalTask.max_points ? curr.points : originalTask.max_points
+      }
+    ]
+  }, [])
   const updateResponses = validatedResponses.filter(
     resp => resp.responseId !== undefined && resp.studentnumber === undefined
   )
@@ -59,13 +67,18 @@ const updateTaskResponses = taskResponses => Promise.all(taskResponses.map((resp
   TaskResponse.destroy({ where: { id: resp.responseId } })
 }))
 
-const mapPersonsAndResponses = (taskResponses, coursePersons) => (
-  taskResponses.map(resp => ({
-    person_id: coursePersons.find(person => person.studentnumber === resp.studentnumber).person_id,
-    task_id: resp.task_id,
-    points: resp.points
-  }))
-)
+const mapPersonsAndResponses = (taskResponses, coursePersons) => taskResponses.reduce((acc, curr) => {
+  const coursePerson = coursePersons.find(person => person.studentnumber === curr.studentnumber)
+  if (!coursePerson) return acc
+  return [
+    ...acc,
+    {
+      person_id: coursePerson.person_id,
+      task_id: curr.task_id,
+      points: curr.points
+    }
+  ]
+}, [])
 
 const create = {
   prepare: data => Task.build({
@@ -354,6 +367,17 @@ const editTaskObjectives = {
   }
 }
 
+const taskObjectivesDetails = id => new Promise((resolve) => {
+  TaskObjective.findAll({
+    where: {
+      task_id: id
+    },
+    attributes: ['task_id', 'objective_id', 'multiplier', 'modified']
+  }).then(result => resolve(
+    result.map(row => row.toJSON())
+  ))
+})
+
 module.exports = {
   getUserTasksForCourse,
   getTasksForCourse,
@@ -369,5 +393,6 @@ module.exports = {
   detachType,
   details,
   edit,
-  editTaskObjectives
+  editTaskObjectives,
+  taskObjectivesDetails
 }

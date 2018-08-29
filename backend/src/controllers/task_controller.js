@@ -54,6 +54,11 @@ const messages = {
     eng: '"Tehtävän kertoimet muokattu onnistuneesti." englanniksi.',
     fin: 'Tehtävän kertoimet muokattu onnistuneesti.',
     swe: '"Tehtävän kertoimet muokattu onnistuneesti." ruotsiksi.'
+  },
+  objectivesDetails: {
+    eng: '"Tehtävän kertoimien tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Tehtävän kertoimien tiedot haettu onnistuneesti.',
+    swe: '"Tehtävän kertoimien tiedot haettu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -217,6 +222,7 @@ router.post('/objectives/detach', async (req, res) => {
 })
 
 // TODO: Needs refactoring, optimizing and possibly better try catching.
+// Send at least the number of students added to the course.
 router.post('/responses', async (req, res) => {
   const { tasks, courseId } = req.body
   const isTeacher = await checkPrivilege(req, [{
@@ -352,6 +358,14 @@ router.post('/objectives/edit', async (req, res) => {
   res.status(200).json({
     message: messages.objectiveEdit[req.lang],
     edited
+  })
+})
+
+router.get('/:id/objectives', async (req, res) => {
+  const data = await taskService.taskObjectivesDetails(Number(req.params.id))
+  res.status(200).json({
+    message: messages.objectivesDetails[req.lang],
+    data
   })
 })
 

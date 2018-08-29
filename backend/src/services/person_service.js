@@ -89,14 +89,22 @@ const addPersonsToCourseFromResponses = async (tasks, courseId) => {
       defaults: { name: 'NOT REGISTERED', role: 'STUDENT' }
     })
     return {
-      person_id: newPerson[0].id,
-      course_instance_id: courseId,
-      role: 'STUDENT',
-      studentnumber: newPerson[0].studentnumber
+      data: {
+        person_id: newPerson[0].id,
+        course_instance_id: courseId,
+        role: 'STUDENT',
+        studentnumber: newPerson[0].studentnumber
+      },
+      created: newPerson[1]
     }
   }))
-  await CoursePerson.bulkCreate(coursePersons, { returning: true })
-  return coursePersons
+  await CoursePerson.bulkCreate(
+    coursePersons
+      .filter(person => person.created)
+      .map(person => person.data),
+    { returning: true }
+  )
+  return coursePersons.map(person => person.data)
 }
 
 const updateGlobal = async (data) => {

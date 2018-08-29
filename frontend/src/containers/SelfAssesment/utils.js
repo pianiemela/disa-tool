@@ -85,7 +85,7 @@ export const checkResponseErrors = (assesmentResponse) => {
   if (assessmentType === 'category') {
     grade = questionModuleResponses.reduce((acc, qm) => exists(qm, 'grade', acc), [])
     responseTextMax = questionModuleResponses.reduce((acc, qm) => maxLength(qm, 'responseText', 2000, acc), [])
-    responseTextMin = questionModuleResponses.reduce((acc, qm) => minLength(qm, 'responseText', 1, acc), [])
+    responseTextMin = (questionModuleResponses.filter(qm => qm.textFieldOn)).reduce((acc, qm) => minLength(qm, 'responseText', 1, acc), [])
   }
 
   if (assessmentType === 'objectives') {

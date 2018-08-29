@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { func, shape, number, string } from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Container, Form, Label, Input, Button, Segment } from 'semantic-ui-react'
 import { Redirect } from 'react-router'
 import './form.css'
@@ -44,14 +45,14 @@ export class LoginForm extends Component {
       <Container className="LoginForm">
         <Segment>
           {this.props.user.id ?
-            <h5>{`Olet jo kirjautunut sisään, ${this.props.user.name}.`}</h5> :
+            <h5>{`${this.props.translate('Login.LoginForm.already_logged_in')}, ${this.props.user.name}.`}</h5> :
             <Form onSubmit={this.login}>
               <Form.Field width={16} inline>
-                <Label>käyttäjänimi</Label>
+                <Label>{this.props.translate('Login.LoginForm.username')}</Label>
                 <Input className="usernameInput" name="username" type="text" onChange={this.changeField('username')} />
               </Form.Field>
               <Form.Field width={16} inline>
-                <Label>salasana</Label>
+                <Label>{this.props.translate('Login.LoginForm.password')}</Label>
                 <Input className="passwordInput" name="password" type="password" onChange={this.changeField('password')} />
               </Form.Field>
               <Button
@@ -60,7 +61,7 @@ export class LoginForm extends Component {
                 disabled={!Object.values(this.state.emptyFields).every(value => !value)}
                 color={!Object.values(this.state.emptyFields).every(value => !value) ? undefined : 'green'}
               >
-                Login
+                {this.props.translate('Login.LoginForm.login_button')}
               </Button>
             </Form>}
         </Segment>
@@ -72,7 +73,8 @@ export class LoginForm extends Component {
 LoginForm.propTypes = {
   user: shape({ id: number }),
   loginAction: func.isRequired,
-  redirectTo: string
+  redirectTo: string,
+  translate: func.isRequired
 }
 
 LoginForm.defaultProps = {
@@ -84,4 +86,4 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-export default connect(mapStateToProps, { loginAction })(LoginForm)
+export default withLocalize(connect(mapStateToProps, { loginAction })(LoginForm))

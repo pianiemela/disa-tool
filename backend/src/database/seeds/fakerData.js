@@ -77,6 +77,7 @@ const getStudentsAndTeachers = () => {
     const studentnumber = '0' + number.toString()
     persons.push({
       studentnumber,
+      username: faker.internet.userName(),
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       role: 'STUDENT'
     })
@@ -86,6 +87,7 @@ const getStudentsAndTeachers = () => {
     const studentnumber = '0' + number.toString()
     persons.push({
       studentnumber,
+      username: faker.internet.userName(),
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       role: 'TEACHER'
     })
@@ -93,24 +95,28 @@ const getStudentsAndTeachers = () => {
   }
 // kurki test users
   persons.push({
+    username: 'teppot',
     studentnumber: '012345678',
     name: 'Teppo Testaaja',
     role: 'STUDENT'
   })
 
   persons.push({
+    username: 'angelam',
     studentnumber: '012345688',
     name: 'Angela Merkel',
     role: 'STUDENT'
   })
 
   persons.push({
+    username: 'kimgjon',
     studentnumber: '012345609',
     name: 'Kimg Jon-un',
     role: 'TEACHER'
   })
 
   persons.push({
+    username: 'terhit',
     studentnumber: '012345679',
     name: 'Terhi Testaaja',
     role: 'TEACHER'

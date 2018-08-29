@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Table, Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -19,20 +20,22 @@ export class CreateLevelForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.matrix.CreateLevelForm.${id}`)
+
   render() {
-    const contentPrompt = 'Luo uusi oppimistaso'
+    const contentPrompt = this.translate('prompt_1')
     return (
       <Table.HeaderCell className="CreateLevelForm">
         <ModalForm
-          header="Luo uusi oppimistaso"
+          header={this.translate('header')}
           trigger={<Button className="addLevelButton" icon={{ name: 'add' }} />}
           content={
             <div>
               <p>
                 {contentPrompt}.
               </p>
-              <MultilingualField field="name" fieldDisplay="nimi" />
-              <Button type="submit" color="green">Tallenna</Button>
+              <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+              <Button type="submit" color="green">{this.translate('save')}</Button>
             </div>
           }
           onSubmit={this.addLevelSubmit}
@@ -44,11 +47,12 @@ export class CreateLevelForm extends Component {
 
 CreateLevelForm.propTypes = {
   courseId: PropTypes.number.isRequired,
-  addLevel: PropTypes.func.isRequired
+  addLevel: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   addLevel: asyncAction(addLevel, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(CreateLevelForm)
+export default connect(null, mapDispatchToProps)(withLocalize(CreateLevelForm))

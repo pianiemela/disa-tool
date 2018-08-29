@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Prompt } from 'react-router'
 import { Link, Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
 import { Accordion, Button, Header, List, Grid, Item, Label, Dropdown } from 'semantic-ui-react'
@@ -10,21 +9,18 @@ import {
   getUserSelfAssesments,
   getCourseInstanceDataAction,
   toggleCourseActivityAction,
-  postTaskResponseActions,
   updateCoursePersonRoleAction,
   toggleAssessmentAction
 } from '../../actions/actions'
-import { CoursePeopleList } from './CoursePeopleList'
 import { CourseSideMenu } from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
 import { CourseInfo } from './CourseInfo'
-import { UploadResponsesPage } from '../TaskResponses/UploadResponsesPage'
+import TaskResponseEdit from './TaskResponseEdit'
 
 class UserPage extends Component {
   state = {
+    // Selected type will now never change. Is it really needed in the task listing?
     selectedType: undefined,
-    updatedTasks: [],
-    popUp: { show: false, task: undefined, person: undefined },
     newTeachers: []
   }
 
@@ -81,9 +77,6 @@ class UserPage extends Component {
     this.props.dispatchGetCourseInstanceData(course.id)
   }
 
-  selectType = (e, { type }) => this.setState({
-    selectedType: this.state.selectedType === type ? undefined : type
-  })
 
   toggleAssessment = (e, { value }) => {
     switch (e.target.name) {
@@ -94,100 +87,31 @@ class UserPage extends Component {
         this.props.dispatchToggleAssessment(value, 'active')
         break
       case 'feedbackOpen':
-        this.props.dispatchToggleAssessment(value, 'immediate_feedback')
+        this.props.dispatchToggleAssessment(value, 'show_feedback')
         break
       default:
         console.log('Something went wrong here now')
     }
   }
 
-  markTask = async (e, { task, person }) => {
-    const { updatedTasks } = this.state
-    const taskUpdated = updatedTasks.find(t => t.taskId === task.id && t.personId === person.id)
-    if (taskUpdated) {
-      await this.setState({ popUp: { show: true, task: taskUpdated, person } })
-    } else if (task.task_id && task.person_id && task.points) {
-      const existingTask = {
-        responseId: task.id,
-        taskId: task.task_id,
-        personId: task.person_id,
-        points: task.points
-      }
-      this.setState({
-        updatedTasks: [...this.state.updatedTasks, existingTask],
-        popUp: { show: true, task: existingTask, person }
-      })
-    } else {
-      this.setState({
-        updatedTasks: [
-          ...this.state.updatedTasks,
-          { taskId: task.id, personId: person.id, points: task.max_points }
-        ]
-      })
-    }
-  }
-
-  updateTask = (e, { task }) => {
-    switch (e.target.name) {
-      case 'input':
-        this.setState({
-          popUp: {
-            show: true,
-            task: { ...this.state.popUp.task, points: e.target.value },
-            person: this.state.popUp.person
-          }
-        })
-        break
-      case 'update': {
-        const filteredTasks = this.state.updatedTasks.filter(et =>
-          et.taskId !== task.taskId || et.personId !== task.personId)
-        // input values are always strings, so convert to number
-        task.points = Number(task.points)
-        filteredTasks.push(task)
-        this.setState({ updatedTasks: filteredTasks, popUp: { show: false } })
-        break
-      }
-      case 'cancel': {
-        const filteredTasks = this.state.updatedTasks.filter(et =>
-          et.taskId !== task.taskId || et.personId !== task.personId)
-        this.setState({ updatedTasks: filteredTasks, popUp: { show: false } })
-        break
-      }
-      default:
-        this.setState({ popUp: { show: false } })
-    }
-  }
-
-  updateTasksFromFile = (updatedTasks) => {
-    this.setState({ updatedTasks })
-  }
-
-  submitTaskUpdates = () => {
-    this.props.dispatchPostTaskResponses({
-      tasks: this.state.updatedTasks,
-      courseId: this.props.activeCourse.id
-    })
-    this.setState({ updatedTasks: [] })
-  }
-
   render() {
     const { activeCourse, courses } = this.props
-    const { selectedType, updatedTasks, popUp } = this.state
+    const { selectedType } = this.state
     const { self_assessments: assessments, tasks } = activeCourse
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
-    const students = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
+    const isTeacher = activeCourse.courseRole === 'TEACHER'
+    const students = activeCourse.id && isTeacher ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role !== 'TEACHER') : []
-    const teachers = activeCourse.id && activeCourse.courseRole === 'TEACHER' ?
+    const teachers = activeCourse.id && isTeacher ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role === 'TEACHER') : []
     // console.log(activeCourse)
     // console.log(this.props.match.params.courseId)
     return (
       <Grid padded="horizontally">
-        <Prompt when={updatedTasks.length > 0} message="Sinulla on tallentamattomia muutoksia" />
         <Grid.Row>
           <Grid.Column>
             {this.props.user ? <Header as="h1">Hei {this.props.user.name}</Header> : <p>Hello bastard</p>}
@@ -211,7 +135,7 @@ class UserPage extends Component {
                     teachers={teachers}
                     deleteTeacher={this.handleTeacherRemoving}
                   />
-                  {activeCourse.courseRole === 'TEACHER' ?
+                  {isTeacher ?
                     <Grid.Row>
                       <Grid.Column>
                         <Dropdown
@@ -303,9 +227,9 @@ class UserPage extends Component {
                                       />
                                       <Button
                                         name="feedbackOpen"
-                                        color={assessment.immediate_feedback ? 'green' : 'red'}
+                                        color={assessment.show_feedback ? 'green' : 'red'}
                                         compact
-                                        content={assessment.immediate_feedback ? 'palaute' : 'palaute'}
+                                        content={assessment.show_feedback ? 'palaute' : 'palaute'}
                                         disabled={!assessment.active || !assessment.open}
                                         size="small"
                                         value={assessment.id}
@@ -329,57 +253,8 @@ class UserPage extends Component {
                       </Item.Content>
                     </Grid.Column>
                   </Grid.Row>
-                  {activeCourse.courseRole === 'TEACHER' ?
-                    <Grid style={{ overflowX: 'scroll' }}>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <Accordion
-                            defaultActiveIndex={-1}
-                            styled
-                            fluid
-                            panels={[{
-                              key: 'UploadComponent',
-                              title: 'Lataa tehtäviä csv-tiedostosta',
-                              content: {
-                                key: 'uploader',
-                                content: <UploadResponsesPage
-                                  activeCourse={activeCourse}
-                                  updateHandler={this.updateTasksFromFile}
-                                />
-                              }
-                            }]}
-                          />
-                        </Grid.Column>
-                      </Grid.Row>
-                      <Grid.Row>
-                        <Grid.Column>
-                          <div>
-                            <CoursePeopleList
-                              popUp={popUp}
-                              updatedTasks={updatedTasks}
-                              markTask={this.markTask}
-                              updateTask={this.updateTask}
-                              selectType={this.selectType}
-                              selectedType={selectedType}
-                              types={activeCourse.type_headers}
-                              tasks={tasks}
-                              students={students}
-                            />
-                            <Button
-                              color="green"
-                              content="Tallenna muutokset"
-                              onClick={this.submitTaskUpdates}
-                            />
-                            <Button
-                              color="red"
-                              content="Peru kaikki muutokset"
-                              onClick={() => this.setState({ updatedTasks: [] })}
-                            />
-                          </div>
-                        </Grid.Column>
-                      </Grid.Row>
-                    </Grid>
-                    : undefined}
+                  {isTeacher ?
+                    <TaskResponseEdit tasks={tasks} students={students} /> : undefined}
                 </Grid>
               </Item> :
               <Item>
@@ -403,8 +278,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(toggleCourseActivityAction(courseId)),
   dispatchUpdateCoursePersonRole: coursePersons =>
     dispatch(updateCoursePersonRoleAction(coursePersons)),
-  dispatchPostTaskResponses: tasks =>
-    dispatch(postTaskResponseActions(tasks)),
   dispatchToggleAssessment: (assessmentId, attribute) =>
     dispatch(toggleAssessmentAction(assessmentId, attribute))
 })
@@ -434,8 +307,7 @@ UserPage.propTypes = {
   dispatchGetUserCourses: func.isRequired,
   dispatchToggleActivity: func.isRequired,
   dispatchUpdateCoursePersonRole: func.isRequired,
-  dispatchToggleAssessment: func.isRequired,
-  dispatchPostTaskResponses: func.isRequired
+  dispatchToggleAssessment: func.isRequired
 }
 
 UserPage.defaultProps = {

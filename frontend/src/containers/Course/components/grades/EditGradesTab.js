@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Container, Loader, Header } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 import './grades.css'
@@ -20,6 +21,8 @@ class EditGradesTab extends Component {
     }
   }
 
+  translate = id => this.props.translate(`Course.grades.EditGradesTab.${id}`)
+
   render() {
     const { courseId, grades, levels, categories, loading } = this.props
     if (loading) return <Loader active />
@@ -28,11 +31,8 @@ class EditGradesTab extends Component {
         <Container>
           <Header
             as="h1"
-            content="Muokkaa tässä kurssin arvosanarajoja"
-            subheader="Ylemmässä listassa voit määritellä kurssilla olevat arvosanat,
-            listassa olevat 'vaadittu suoritus'-luvut viittaavat loppuarvosanan vaadittuun
-             suoritusosuuteen. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja.
-             Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
+            content={this.translate('header')}
+            subheader={this.translate('subheader')}
           />
           <Gradelist
             grades={grades}
@@ -60,7 +60,8 @@ EditGradesTab.propTypes = {
   getGrades: PropTypes.func.isRequired,
   grades: PropTypes.arrayOf(PropTypes.object).isRequired,
   levels: PropTypes.arrayOf(PropTypes.object).isRequired,
-  categories: PropTypes.arrayOf(PropTypes.object).isRequired
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -74,4 +75,4 @@ const mapDispatchToProps = dispatch => ({
   getGrades: asyncAction(getGrades, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditGradesTab)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(EditGradesTab))
