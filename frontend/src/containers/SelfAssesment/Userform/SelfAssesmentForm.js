@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { Button, Loader, Container, Message, Modal } from 'semantic-ui-react'
+import { Button, Loader, Container, Message, Modal, Form } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import UserResultsPage from './UserResultsPage'
 import { getCourseInstance } from '../../../api/courses'
@@ -26,9 +26,10 @@ import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
 import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
 import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
-import { validationErrors, gradeOptions } from '../utils'
 import EditCategoryModule from './FormParts/QuestionModules/EditCategoryModule'
 import EditObjectiveModule from './FormParts/QuestionModules/EditObjectiveModule'
+
+import { maxLength, minLength, exists, validationErrors, gradeOptions } from '../utils'
 
 export class SelfAssesmentForm extends React.Component {
   constructor(props) {
@@ -130,16 +131,22 @@ export class SelfAssesmentForm extends React.Component {
     const { questionModuleResponses, openQuestionResponses, finalGradeResponse }
       = this.props.assesmentResponse
     let fGrade = []
-    let fResponse = []
-    const grade = questionModuleResponses.filter(qm => !qm.grade)
-    const responseText = questionModuleResponses.filter(qm => qm.responseText === '' && qm.textFieldOn)
-    if (Object.keys(finalGradeResponse).length > 0) {
-      fGrade = !finalGradeResponse.grade ? [...fGrade, finalGradeResponse] : []
-      fResponse = finalGradeResponse.responseText === '' ? [...fResponse, finalGradeResponse] : []
-    }
-    const openQErrors = openQuestionResponses.length > 0 ? openQuestionResponses.filter(oq => oq.responseText === '') : []
+    let finalResponseMax = []
+    let finalResponseMin = []
 
-    if (grade.length > 0 || fGrade.length > 0 || openQErrors.length > 0) {
+    const grade = questionModuleResponses.reduce((acc, qm) => exists(qm, 'grade', acc), [])
+    const responseTextMax = questionModuleResponses.reduce((acc, qm) => maxLength(qm, 'responseText', 2000, acc), [])
+    const responseTextMin = questionModuleResponses.reduce((acc, qm) => minLength(qm, 'responseText', 1, acc), [])
+
+    if (Object.keys(finalGradeResponse).length > 0) {
+      fGrade = exists(finalGradeResponse, 'grade', [])
+      finalResponseMax = questionModuleResponses.reduce((acc, qm) => maxLength(qm, 'responseText', 2000, acc), [])
+      finalResponseMin = questionModuleResponses.reduce((acc, qm) => minLength(qm, 'responseText', 10, acc), [])
+    }
+    const openQMin = openQuestionResponses.reduce((acc, openQ) => minLength(openQ, 'responseText', 10, acc), [])
+    const openQErrors = openQuestionResponses.reduce((acc, openQ) => maxLength(openQ, 'responseText', 2000, acc), []).concat(openQMin)
+
+    if (grade.length > 0 || fGrade.length > 0 || openQErrors.length > 0 || responseTextMax.length > 0 || finalResponseMax.length > 0) {
       this.setState({
         responseErrors:
         {
@@ -151,9 +158,9 @@ export class SelfAssesmentForm extends React.Component {
           finalGErrors: {
             ...this.state.responseErrors.finalGErrors,
             grade: fGrade,
-            responseText: []
+            responseText: finalResponseMax
           },
-          qModErrors: { ...this.state.responseErrors.qModErrors, grade, responseText: [] }
+          qModErrors: { ...this.state.responseErrors.qModErrors, grade, responseText: responseTextMax }
         }
       })
       window.scrollTo(0, 0)
@@ -167,7 +174,7 @@ export class SelfAssesmentForm extends React.Component {
       })
       return true
     }
-    if (responseText.length > 0 || fResponse.length > 0) {
+    if (responseTextMin.length > 0 || finalResponseMin.length > 0) {
       this.setState({
         softErrors: true
       })
@@ -180,7 +187,6 @@ export class SelfAssesmentForm extends React.Component {
   }
 
   handleResponse = async () => {
-    const { assesmentResponse } = this.props
     const e = await this.checkResponseErrors()
 
     if (e) {
@@ -190,7 +196,10 @@ export class SelfAssesmentForm extends React.Component {
       return
     }
     this.setState({ redirect: true })
-    this.props.dispatchCreateSelfAssesmentResponseAction({ ...this.props.assesmentResponse, finalHeaders: this.props.formData.structure.headers.grade })
+    this.props.dispatchCreateSelfAssesmentResponseAction({
+      ...this.props.assesmentResponse,
+      finalHeaders: this.props.formData.structure.headers.grade
+    })
   }
 
   togglePreview = () => {
@@ -203,7 +212,8 @@ export class SelfAssesmentForm extends React.Component {
         null
       )
     )
-    if (this.state.redirect || this.props.error || ((this.props.new || this.props.edit) && this.props.roleError)) {
+    if (this.state.redirect || this.props.error ||
+      ((this.props.new || this.props.edit) && this.props.roleError)) {
       return <Redirect to="/user" />
     }
     if (this.props.assesmentResponse.existingAnswer) {
@@ -253,7 +263,10 @@ export class SelfAssesmentForm extends React.Component {
                 <Button onClick={() => this.close()} negative>Ei</Button>
                 <Button
                   onClick={() => {
-                    this.props.dispatchCreateSelfAssesmentResponseAction({ ...this.props.assesmentResponse, finalHeaders: structure.headers.grade })
+                    this.props.dispatchCreateSelfAssesmentResponseAction({
+                      ...this.props.assesmentResponse,
+                      finalHeaders: structure.headers.grade
+                    })
                     this.setState({
                       redirect: true,
                       softErrors: false
@@ -345,7 +358,7 @@ export class SelfAssesmentForm extends React.Component {
                 headerType="grade"
                 courseInstanceId={formData.course_instance_id}
                 changedProp={dummyPropToEnsureChange}
-                errors={this.state.responseErrors.finalGErrors}
+                errors={responseErrors.finalGErrors}
                 clearError={this.clearError}
                 grades={this.state.grades}
               />
@@ -381,7 +394,7 @@ export class SelfAssesmentForm extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   formData: state.selfAssesment.createForm,
   courseInstance: state.instance,
   assesmentResponse: state.selfAssesment.assesmentResponse,
@@ -450,7 +463,8 @@ SelfAssesmentForm.propTypes = {
   role: PropTypes.string,
   dispatchGetCourseInstanceData: PropTypes.func.isRequired,
   dispatchClearError: PropTypes.func.isRequired,
-  error: PropTypes.bool.isRequired
+  error: PropTypes.bool.isRequired,
+  roleError: PropTypes.bool.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentForm)

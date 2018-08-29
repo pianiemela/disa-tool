@@ -1,4 +1,4 @@
-import { Form, Card, Grid, Dropdown, Accordion, Icon } from 'semantic-ui-react'
+import { Form, Card, Grid, Dropdown, Accordion, Icon, Message } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -85,6 +85,10 @@ export class CategoryQuestionModule extends React.Component {
                             } : null}
                           />
                         </div>
+                        <Message
+                          error
+                          header={gradeError ? gradeError.error : null}
+                        />
                       </Grid.Column>
                     </Form.Field>
                     <Grid.Column />

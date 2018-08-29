@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Form, Card, Grid, Icon, Popup, Button } from 'semantic-ui-react'
+import { Form, Card, Grid, Icon, Popup, Button, Message } from 'semantic-ui-react'
 import ModalForm from '../../../../../utils/components/ModalForm'
 import { removeOpenQuestion, openQuestionResponseAction } from '../../../actions/selfAssesment'
 
@@ -31,11 +31,15 @@ const OpenQuestionModule = (props) => {
                       null
                     }
                     onChange={!edit ? () =>
-                      // props.dispatchopenQuestionResponseAction({ id, value: e.target.value });
                       props.clearError({ type: 'openQErrors', errorType: 'responseText', id })
                       : null
                     }
                   />
+                  <Message
+                    error
+                    header={responseTextError ? responseTextError.error : null}
+                  />
+
                 </Grid.Column>
                 <Grid.Column>
                   {edit ?

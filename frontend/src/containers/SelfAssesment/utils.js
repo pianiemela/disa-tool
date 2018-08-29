@@ -1,5 +1,6 @@
 import { getByCourse } from '../../api/grades'
 
+const lang = localStorage.getItem('lang')
 const findPre = (a, b, data) => {
   let iterator = { ...a }
   if (iterator.prerequisite === b.id) {
@@ -54,14 +55,14 @@ export const validationErrors = {
 }
 
 const errorMessages = {
-  maxLength: 'Can\'t have input over',
-  minLength: 'Input must be atleast',
-  exists: 'You must fill the field'
+  max: { eng: 'Input can\'t be over', swe: 'Ruotsiksi sama errori', fin: 'Vastaus saa olla pituudeltaan enintään' },
+  min: { eng: 'Input can\'t be under', swe: 'Ruotsiksi sama errori', fin: 'Vastauksen tulee olla pituudeltaan vähintään' },
+  exists: { eng: 'You must select an value', swe: 'Ruotsiksi sama', fin: 'Valitse arvo' }
 }
 
-export const maxLength = (toCheck, length) =>
-  (toCheck.length > length ? errorMessages[maxLength] + length : null)
-export const minLength = (toCheck, length) =>
-  (toCheck.length >= length ? errorMessages[minLength] + length : null)
-export const exists = toCheck =>
-  (!toCheck ? errorMessages[exists] : null)
+export const maxLength = (toCheck, toCheckAttribute, max, acc) =>
+  (toCheck[toCheckAttribute].length > max ? [...acc, { id: toCheck.id, error: `${errorMessages.max[lang]} ${max}` }] : acc)
+export const minLength = (toCheck, toCheckAttribute, min, acc) =>
+  (toCheck[toCheckAttribute].length < min ? [...acc, { id: toCheck.id, error: `${errorMessages.min[lang]} ${min}` }] : acc)
+export const exists = (toCheck, toCheckAttribute, acc) =>
+  (!toCheck[toCheckAttribute] ? [...acc, { id: toCheck.id, error: errorMessages.exists[lang] }] : acc)
