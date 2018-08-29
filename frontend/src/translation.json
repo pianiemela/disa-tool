@@ -140,6 +140,9 @@
         "header": ["Create a new objective", "Luo uusi oppimistavoite"],
         "prompt_1": ["Add a new objective to category", "Lisää uusi oppimistavoite kategoriaan"],
         "prompt_2": ["and level", "tasolle"]
+      },
+      "EditCategoryForm": {
+        "header": ["Edit category", "Muokkaa katgoriaa"]
       }
     }
   }
