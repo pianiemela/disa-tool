@@ -167,6 +167,15 @@
         "delete_prompt_1": ["Really remove objective", "Poistetaanko oppimistavoite"],
         "cumulative": ["Cumulative multiplier: ", "Kerroin yhteensä: "]
       }
+    },
+    "tasks": {
+      "common": {
+        "description": ["description", "kuvaus"]
+      },
+      "AddTaskForm": {
+        "header": ["Add new task", "Lisää uusi tehtävä"],
+        "prompt_1": ["Add a new task to the course", "Lisää uusi tehtävä kurssille"]
+      }
     }
   }
 }
