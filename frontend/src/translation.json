@@ -211,6 +211,10 @@
       },
       "EditHeaderForm": {
         "header": ["Edit type header", "Muokkaa tyyppiotsaketta"]
+      },
+      "EditTypeForm": {
+        "header": ["Edit type", "Muokkaa tyyppiä"],
+        "prompt_1": ["Edit type", "Muokkaa tyyppiä"]
       }
     }
   }
