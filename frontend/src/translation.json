@@ -208,6 +208,9 @@
       "CreateTypeForm": {
         "header": ["Add new type", "Lisää uusi tyyppi"],
         "prompt_1": ["Add new type", "Lisää uusi tyyppi"]
+      },
+      "EditHeaderForm": {
+        "header": ["Edit type header", "Muokkaa tyyppiotsaketta"]
       }
     }
   }
