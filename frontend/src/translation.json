@@ -5,7 +5,8 @@
     "skill_level": ["skill level", "taitotaso"],
     "skill_levels": ["skill levels", "taitotasot"],
     "category": ["category", "osio"],
-    "objective": ["objective", "oppimistavoite"]
+    "objective": ["objective", "oppimistavoite"],
+    "tasks": ["tasks", "tehtävät"]
   },
   "Nav": {
     "navbar": {
@@ -160,6 +161,11 @@
       "MatrixCategory": {
         "delete_header": ["Delete category", "Poista osio"],
         "delete_prompt_1": ["Really remove category", "Poistetaanko osio"]
+      },
+      "MatrixObjective": {
+        "delete_header": ["Delete objective", "Poista oppimistavoite"],
+        "delete_prompt_1": ["Really remove objective", "Poistetaanko oppimistavoite"],
+        "cumulative": ["Cumulative multiplier: ", "Kerroin yhteensä: "]
       }
     }
   }
