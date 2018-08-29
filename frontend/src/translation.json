@@ -126,6 +126,12 @@
         "delete_header": ["Delete grade", "Poista arvosana"],
         "delete_prompt_1": ["Really remove grade", "Poistetaanko arvosteluperuste"]
       }
+    },
+    "matrix": {
+      "CreateCategoryForm": {
+        "header": ["Create a new category", "Luo uusi kategoria"],
+        "prompt_1": ["Create a new category", "Luo uusi kategoria"]
+      }
     }
   }
 }

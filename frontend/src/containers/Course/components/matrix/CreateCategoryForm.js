@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Table, Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -20,20 +21,20 @@ export class CreateCategoryForm extends Component {
   }
 
   render() {
-    const contentPrompt = 'Luo uusi kategoria'
+    const contentPrompt = this.props.translate('Course.matrix.CreateCategoryForm.prompt_1')
     return (
       <Table.Row className="CreateCategoryForm">
         <Table.Cell>
           <ModalForm
-            header="Luo uusi kategoria"
+            header={this.props.translate('Course.matrix.CreateCategoryForm.header')}
             trigger={<Button className="addCategoryButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>
                   {contentPrompt}.
                 </p>
-                <MultilingualField field="name" fieldDisplay="nimi" />
-                <Button type="submit" color="green">Tallenna</Button>
+                <MultilingualField field="name" fieldDisplay={this.props.translate('common.name')} />
+                <Button type="submit" color="green">{this.props.translate('common.save')}</Button>
               </div>
             }
             onSubmit={this.addCategorySubmit}
@@ -46,11 +47,12 @@ export class CreateCategoryForm extends Component {
 
 CreateCategoryForm.propTypes = {
   courseId: PropTypes.number.isRequired,
-  addCategory: PropTypes.func.isRequired
+  addCategory: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   addCategory: asyncAction(addCategory, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(CreateCategoryForm)
+export default connect(null, mapDispatchToProps)(withLocalize(CreateCategoryForm))
