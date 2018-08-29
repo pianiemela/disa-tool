@@ -1,0 +1,83 @@
+{
+  "Nav": {
+    "navbar": {
+      "logout": ["Log out", "Kirjaudu ulos"],
+      "login": ["Log in", "Kirjaudu sisään"],
+      "admin": ["Admin", "Admin"],
+      "courses": ["Courses", "Kurssit"],
+      "user": ["Personal page", "Oma sivu"],
+      "home": ["DISA-tool", "DISA-työkalu"]
+    }
+  },
+  "Login": {
+    "LoginForm": {
+      "already_logged_in": ["You are already logged in", "Olet jo kirjautunut sisään"],
+      "username": ["username", "käyttäjänimi"],
+      "password": ["password", "salasana"],
+      "login_button": ["Log in", "Kirjaudu sisään"]
+    },
+    "LoginPage": {
+      "login": ["Log in", "Kirjaudu sisään"]
+    }
+  },
+  "Home": {
+    "HomePage": {
+      "header1": ["Welcome to the DISA-tool", "Tervetuloa DISA-työkaluun"],
+      "introduction": [
+        "Teachers and students can create and inspect course learning objectives using the DISA-tool as well as evaluate and track the completion of those objectives. The software is a work in progress in trial use. As such some issues may come up. You can report any issues to your course teachers or straight to",
+        "DISA-työkalun avulla opettajat ja opiskelijat voivat luoda ja tarkastella kurssin osaamistavoitteita sekä arvioida ja seurata näiden tavoitteiden toteutumista. Sovellus on vasta työn alla ja kokeilukäytössä, joten vikoja voi tulla vastaan. Näistä voi ilmoittaa kurssien opettajille tai suoraan"
+      ],
+      "developers": ["the developers", "kehittäjille"],
+      "log_in_prompt": ["Log in using your University of Helsinki credentials", "Kirjaudu sisään Helsingin yliopiston tunnuksilla"],
+      "anon_info": [
+        "Without logging in you can still browse courses and inspect their learning objectives.",
+        "Kirjautumattomana voit selata kursseja ja tarkastella niiden osaamistavoitteita."
+      ],
+      "student_header": ["For students", "Opiskelijalle"],
+      "student_info": [
+        "When logged in you'll be able to register to courses. When registered, you can view your task performance and submit course self assessments.",
+        "Kirjautuneena pääset rekisteröitymään kursseille. Kun olet rekisteröitynyt, pääset katselemaan tehtäväsuorituksiasi ja vastaamaan kurssin itsearviointeihin."
+      ],
+      "teacher_header": ["For teachers", "Opettajalle"],
+      "teacher_info": [
+        "If you wish to use the tool on your course, please ask an administrator to add you as a teacher. Afterwards, you can create objectives and tasks for your course. You can also inspect the progress of your students and give them self assessments to fill out.",
+        "Jos haluat käyttää työkalua kurssillasi, pyydä pääkäyttäjää lisäämään sinut opettajaksi. Tämän jälkeen voit luoda kurssillesi tavoitteita ja tehtäviä. Voit myös tarkkailla opiskelijoiden edistymistä ja teettää heillä itsearviointeja."
+      ],
+      "background_header": ["Background", "Taustaa"],
+      "background_info_1_1": [
+        "DISA-tool was started due to ",
+        "DISA-työkalu on saanut alkunsa matematiikan ja tilastotieteen laitoksella tehtävästä "
+      ],
+      "background_link_1": ["a study on self assessments", "itsearviointitutkimuksesta"],
+      "background_link_1_href": [
+        "https://tuhat.helsinki.fi/portal/en/projects/digital-selfassessm(384b2b6c-1992-48cd-aa60-0e9169c2efe9).html",
+        "https://tuhat.helsinki.fi/portal/fi/projects/digital-selfassessm(384b2b6c-1992-48cd-aa60-0e9169c2efe9).html"
+      ],
+      "background_info_1_2": [
+        " conducted by the mathematics and statistics faculty. The study found that both learning objective matrices and self assessment exercises have positive effects on the learning strategies and motivation of students as well as their view of their own abilities.",
+        ". Tutkimuksessa on havaittu, että osaamistavoitematriiseilla sekä itsearviointiharjoituksilla on myönteistä vaikutusta opiskelijoiden oppimisstrategioihin, motivaatioon ja käsitykseen omasta osaamisestaan."
+      ],
+      "background_info_2_1": [
+        "The Centre for University Teaching and Learning ",
+        "Tutkimuksessa ovat mukana Helsingin yliopiston yliopistopedagogiikan keskus "
+      ],
+      "background_link_2_1": [
+        "https://www.helsinki.fi/en/centre-for-university-teaching-and-learning-hype",
+        "https://www.helsinki.fi/fi/yliopistopedagogiikan-keskus-hype"
+      ],
+      "background_info_2_2": [
+        " and ",
+        " sekä "
+      ],
+      "background_link_2_2": ["the Faculty of Educational Sciences", "kasvatustieteellinen tiedekunta"],
+      "background_link_2_2_href": [
+        "https://www.helsinki.fi/en/faculty-of-educational-sciences",
+        "https://www.helsinki.fi/fi/kasvatustieteellinen-tiedekunta"
+      ],
+      "background_info_2_3": [
+        " are a part of the study. DISA-tool is developed by the University of Helsinki Faculty of Computer Science Software Development Academy (TOSKA) with the support of the University of Helsinki.",
+        " Työkalua kehittää Helsingin yliopiston Tietojenkäsittelytieteen Osaston Sovelluskehitysakatemia (TOSKA) Helsingin yliopiston tukemana."
+      ]
+    }
+  }
+}

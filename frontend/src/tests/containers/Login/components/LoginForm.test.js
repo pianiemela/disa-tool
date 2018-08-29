@@ -17,6 +17,7 @@ describe('LoginForm component', () => {
           reject()
         }
       })}
+      translate={() => ''}
     />)
   })
 
@@ -119,12 +120,14 @@ describe('LoginForm component', () => {
   })
 
   describe('if user prop is present', () => {
+    beforeEach(() => {
+      wrapper.setProps({
+        user: { id: 1 }
+      })
+    })
+
     it('component redirects.', async () => {
-      const f = shallow(<LoginForm
-        user={{ id: 1 }}
-        loginAction={() => {}}
-      />)
-      expect(f.find('Redirect').exists())
+      expect(wrapper.find('Redirect').exists())
     })
   })
 })
