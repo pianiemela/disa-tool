@@ -64,17 +64,19 @@ class EditGradeForm extends Component {
     }
   })
 
+  translate = id => this.props.translate(`Course.grades.EditGradeForm.${id}`)
+
   render() {
     const label = {
-      name: this.props.translate('common.name'),
-      skill_level: this.props.translate('common.skill_level'),
-      needed_for_grade: this.props.translate('Course.grades.common.needed_for_grade'),
-      prerequisite: this.props.translate('Course.grades.common.prerequisite')
+      name: this.translate('name'),
+      skill_level: this.translate('skill_level'),
+      needed_for_grade: this.translate('needed_for_grade'),
+      prerequisite: this.translate('prerequisite')
     }
     return (
       <div className="EditGradeForm">
         <ModalForm
-          header={this.props.translate('Course.grades.EditGradeForm.header')}
+          header={this.translate('header')}
           trigger={<Button icon={{ name: 'edit' }} size="small" onClick={this.loadDetails} />}
           content={
             <div>
@@ -120,7 +122,7 @@ class EditGradeForm extends Component {
                   })))}
                 />
               </Form.Field>
-              <Button color="green">{this.props.translate('common.save')}</Button>
+              <Button color="green">{this.translate('save')}</Button>
             </div>
           }
           onSubmit={this.editGradeSubmit}
@@ -151,4 +153,4 @@ const mapDispatchToProps = dispatch => ({
   editGrade: asyncAction(editGrade, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(withLocalize(EditGradeForm))
+export default withLocalize(connect(null, mapDispatchToProps)(EditGradeForm))

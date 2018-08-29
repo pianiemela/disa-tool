@@ -6,24 +6,28 @@ import { Link } from 'react-router-dom'
 import { Button, Segment, Header } from 'semantic-ui-react'
 import './header.css'
 
-export const CourseHeader = props => (
-  <div className="CourseHeader">
-    <Segment>
-      <Header as="h1" textAlign="center">
-        {props.renderReturnLink ? (<Button
-          as={Link}
-          to={`/user/course/${props.course.id}`}
-          basic
-          color="blue"
-          floated="left"
-          icon="backward"
-          content={props.translate('Course.header.CourseHeader.back_button')}
-        />) : null}
-        {props.course.name}
-      </Header>
-    </Segment>
-  </div>
-)
+export const CourseHeader = (props) => {
+  const translate = id => props.translate(`Course.header.CourseHeader.${id}`)
+
+  return (
+    <div className="CourseHeader">
+      <Segment>
+        <Header as="h1" textAlign="center">
+          {props.renderReturnLink ? (<Button
+            as={Link}
+            to={`/user/course/${props.course.id}`}
+            basic
+            color="blue"
+            floated="left"
+            icon="backward"
+            content={translate('back_button')}
+          />) : null}
+          {props.course.name}
+        </Header>
+      </Segment>
+    </div>
+  )
+}
 
 CourseHeader.propTypes = {
   course: shape({

@@ -12,63 +12,67 @@ import EditGradeForm from './EditGradeForm'
 
 const parseName = object => (object ? object.name : null)
 
-const Grade = props => (
-  <div className="Grade">
-    <Segment>
-      <Header>{props.grade.name}</Header>
-      <Grid columns={4}>
-        <Grid.Row>
-          <Grid.Column width={5}>
-            <p>
-              <span>{props.translate('common.skill_level')}</span>
-              <span>: </span>
-              <strong>
-                {parseName(props.levels.find(level => level.id === props.grade.skill_level_id))}
-              </strong>
-            </p>
-          </Grid.Column>
-          <Grid.Column width={4}>
-            <p>
-              <span>{props.translate('Course.grades.common.needed_for_grade')}</span>
-              <span>: </span>
-              <strong>{props.grade.needed_for_grade * 100}%</strong>
-            </p>
-          </Grid.Column>
-          <Grid.Column width={5}>
-            <p>
-              <span>{props.translate('Course.grades.common.prerequisite')}</span>
-              <span>: </span>
-              <strong>
-                {parseName(props.grades.find(grade => grade.id === props.grade.prerequisite))}
-              </strong>
-            </p>
-          </Grid.Column>
-          <Grid.Column width={2}>
-            <div className="flexContainer">
-              <div className="flexBlock">
-                <DeleteForm
-                  onExecute={() => props.removeGrade({ id: props.grade.id })}
-                  header={props.translate('Course.grades.Grade.delete_header')}
-                  prompt={[
-                    props.translate('Course.grades.Grade.delete_prompt_1'),
-                    props.grade.name
-                  ]}
-                />
+const Grade = (props) => {
+  const translate = id => props.translate(`Course.grades.Grade.${id}`)
+
+  return (
+    <div className="Grade">
+      <Segment>
+        <Header>{props.grade.name}</Header>
+        <Grid columns={4}>
+          <Grid.Row>
+            <Grid.Column width={5}>
+              <p>
+                <span>{translate('skill_level')}</span>
+                <span>: </span>
+                <strong>
+                  {parseName(props.levels.find(level => level.id === props.grade.skill_level_id))}
+                </strong>
+              </p>
+            </Grid.Column>
+            <Grid.Column width={4}>
+              <p>
+                <span>{translate('needed_for_grade')}</span>
+                <span>: </span>
+                <strong>{props.grade.needed_for_grade * 100}%</strong>
+              </p>
+            </Grid.Column>
+            <Grid.Column width={5}>
+              <p>
+                <span>{translate('prerequisite')}</span>
+                <span>: </span>
+                <strong>
+                  {parseName(props.grades.find(grade => grade.id === props.grade.prerequisite))}
+                </strong>
+              </p>
+            </Grid.Column>
+            <Grid.Column width={2}>
+              <div className="flexContainer">
+                <div className="flexBlock">
+                  <DeleteForm
+                    onExecute={() => props.removeGrade({ id: props.grade.id })}
+                    header={translate('delete_header')}
+                    prompt={[
+                      translate('delete_prompt_1'),
+                      props.grade.name
+                    ]}
+                  />
+                </div>
+                <div className="flexBlock">
+                  <EditGradeForm
+                    gradeId={props.grade.id}
+                    grades={props.grades.filter(grade => grade.id !== props.grade.id)}
+                    levels={props.levels}
+                  />
+                </div>
               </div>
-              <div className="flexBlock">
-                <EditGradeForm
-                  gradeId={props.grade.id}
-                  grades={props.grades.filter(grade => grade.id !== props.grade.id)}
-                  levels={props.levels}
-                />
-              </div>
-            </div>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
-  </div>
-)
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
+    </div>
+  )
+}
 
 Grade.propTypes = {
   grade: PropTypes.shape({
@@ -94,4 +98,4 @@ const mapDispatchToProps = dispatch => ({
   removeGrade: asyncAction(removeGrade, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(withLocalize(Grade))
+export default withLocalize(connect(null, mapDispatchToProps)(Grade))

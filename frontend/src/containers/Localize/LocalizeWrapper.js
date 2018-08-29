@@ -33,9 +33,17 @@ class LocalizeWrapper extends PureComponent {
     // Recursively look through tree structure in translation.json for "common" translations
     // in nodes below until the root or a suitable translation is reached.
     const path = translationId.split('.')
-    if (path.length <= 1) return `missing translation: ${translationId}`
-    if (path.length >= 3) path[path.length - 3] = 'common'
-    path.splice(path.length - 2, 1)
+    switch (path.length) {
+      case 1:
+        return `missing translation: ${translationId}`
+      case 2:
+        if (path[0] === 'common') return `missing translation: ${path[1]}`
+        path[0] = 'common'
+        break
+      default:
+        if (path[path.length - 2] === 'common') path.splice(path.length - 3, 1)
+        else path[path.length - 2] = 'common'
+    }
     return this.props.translate(path.join('.'))
   }
 

@@ -21,6 +21,8 @@ class EditGradesTab extends Component {
     }
   }
 
+  translate = id => this.props.translate(`Course.grades.EditGradesTab.${id}`)
+
   render() {
     const { courseId, grades, levels, categories, loading } = this.props
     if (loading) return <Loader active />
@@ -29,8 +31,8 @@ class EditGradesTab extends Component {
         <Container>
           <Header
             as="h1"
-            content={this.props.translate('Course.grades.EditGradesTab.header')}
-            subheader={this.props.translate('Course.grades.EditGradesTab.subheader')}
+            content={this.translate('header')}
+            subheader={this.translate('subheader')}
           />
           <Gradelist
             grades={grades}
@@ -73,4 +75,4 @@ const mapDispatchToProps = dispatch => ({
   getGrades: asyncAction(getGrades, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withLocalize(EditGradesTab))
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(EditGradesTab))

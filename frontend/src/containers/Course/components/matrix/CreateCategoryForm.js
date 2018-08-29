@@ -20,21 +20,23 @@ export class CreateCategoryForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.matrix.CreateCategoryForm.${id}`)
+
   render() {
-    const contentPrompt = this.props.translate('Course.matrix.CreateCategoryForm.prompt_1')
+    const contentPrompt = this.translate('prompt_1')
     return (
       <Table.Row className="CreateCategoryForm">
         <Table.Cell>
           <ModalForm
-            header={this.props.translate('Course.matrix.CreateCategoryForm.header')}
+            header={this.translate('header')}
             trigger={<Button className="addCategoryButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>
                   {contentPrompt}.
                 </p>
-                <MultilingualField field="name" fieldDisplay={this.props.translate('common.name')} />
-                <Button type="submit" color="green">{this.props.translate('common.save')}</Button>
+                <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+                <Button type="submit" color="green">{this.translate('save')}</Button>
               </div>
             }
             onSubmit={this.addCategorySubmit}

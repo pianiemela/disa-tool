@@ -30,6 +30,8 @@ export class CreateObjectiveForm extends Component {
       })
     }
 
+    translate = id => this.props.translate(`Course.matrix.CreateObjectiveForm.${id}`)
+
     render() {
       if (this.props.cut) {
         return (
@@ -39,23 +41,23 @@ export class CreateObjectiveForm extends Component {
         )
       }
       const contentPrompt = [
-        this.props.translate('Course.matrix.CreateObjectiveForm.prompt_1'),
+        this.translate('prompt_1'),
         `"${this.props.category.name}"`,
-        this.props.translate('Course.matrix.CreateObjectiveForm.prompt_2'),
+        this.translate('prompt_2'),
         `"${this.props.level.name}"`
       ].join(' ')
       return (
         <div className="CreateObjectiveForm">
           <ModalForm
-            header={this.props.translate('Course.matrix.CreateObjectiveForm.header')}
+            header={this.translate('header')}
             trigger={<Button className="addObjectiveButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>
                   {contentPrompt}.
                 </p>
-                <MultilingualField field="name" fieldDisplay={this.props.translate('common.name')} />
-                <Button type="submit" color="green">{this.props.translate('common.save')}</Button>
+                <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+                <Button type="submit" color="green">{this.translate('save')}</Button>
               </div>
             }
             onSubmit={this.addObjectiveSubmit}
@@ -96,4 +98,4 @@ const mapDispatchToProps = dispatch => ({
   moveObjective: asyncAction(moveObjective, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withLocalize(CreateObjectiveForm))
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(CreateObjectiveForm))
