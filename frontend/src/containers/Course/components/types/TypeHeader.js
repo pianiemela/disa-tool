@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Segment, Header } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -17,6 +18,8 @@ export const TypeHeader = (props) => {
       activeMap[type] = true
     })
   }
+  const translate = id => props.translate(`Course.types.TypeHeader.${id}`)
+
   return (
     <div className="TypeHeader">
       <Segment>
@@ -31,10 +34,10 @@ export const TypeHeader = (props) => {
                 <DeleteForm
                   onExecute={() => props.removeHeader({ id: props.header.id })}
                   prompt={[
-                    'Poistetaanko tyyppiotsake',
+                    translate('delete_prompt_1'),
                     `"${props.header.name}"`
                   ]}
-                  header="Poista tyyppiotsake"
+                  header={translate('delete_header')}
                 />
               </div>
             </div>
@@ -63,7 +66,8 @@ TypeHeader.propTypes = {
   activeTask: PropTypes.shape({
     id: PropTypes.number.isRequired,
     types: PropTypes.arrayOf(PropTypes.number).isRequired
-  })
+  }),
+  translate: PropTypes.func.isRequired
 }
 
 TypeHeader.defaultProps = {
@@ -74,4 +78,4 @@ const mapDispatchToProps = dispatch => ({
   removeHeader: asyncAction(removeHeader, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(TypeHeader)
+export default withLocalize(connect(null, mapDispatchToProps)(TypeHeader))

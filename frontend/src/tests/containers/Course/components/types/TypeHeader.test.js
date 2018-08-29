@@ -21,6 +21,7 @@ describe('TypeHeader component', () => {
       header={header}
       editing={false}
       removeHeader={removeHeader}
+      translate={() => ''}
     />)
   })
 
