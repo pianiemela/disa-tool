@@ -14,6 +14,7 @@ describe('EditTasksTab component', () => {
       courseId={1}
       changeActive={changeActive}
       tasks={[]}
+      translate={() => ''}
     />)
   })
 

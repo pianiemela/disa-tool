@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button, Form, Label, Input } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -20,16 +21,18 @@ export class CreateTypeForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.types.CreateTypeForm.${id}`)
+
   render() {
-    const contentPrompt = 'Lisää uusi tyyppi'
+    const contentPrompt = this.translate('prompt_1')
     const label = {
-      name: 'nimi',
-      multiplier: 'kerroin'
+      name: this.translate('name'),
+      multiplier: this.translate('multiplier')
     }
     return (
       <div className="CreateTypeForm">
         <ModalForm
-          header="Lisää uusi tyyppi"
+          header={this.translate('header')}
           trigger={<Button onClick={this.expand} className="addTypeButton" icon={{ name: 'add' }} />}
           content={
             <div>
@@ -38,10 +41,10 @@ export class CreateTypeForm extends Component {
               </p>
               <MultilingualField field="name" fieldDisplay={label.name} />
               <Form.Field inline>
-                <Label>{label.multiplier}</Label>
+                <Label size="large">{label.multiplier}</Label>
                 <Input name="multiplier" type="number" min={0} max={1} step={0.01} />
               </Form.Field>
-              <Button type="submit" color="green">Tallenna</Button>
+              <Button type="submit" color="green">{this.translate('save')}</Button>
             </div>
           }
           onSubmit={this.addTypeSubmit}
@@ -53,11 +56,12 @@ export class CreateTypeForm extends Component {
 
 CreateTypeForm.propTypes = {
   addType: PropTypes.func.isRequired,
-  headerId: PropTypes.number.isRequired
+  headerId: PropTypes.number.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   addType: asyncAction(addType, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(CreateTypeForm)
+export default withLocalize(connect(null, mapDispatchToProps)(CreateTypeForm))

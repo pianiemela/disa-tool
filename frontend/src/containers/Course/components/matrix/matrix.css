@@ -15,3 +15,7 @@
   display: inline-block;
   padding: 0px 5px 0px 5px;
 }
+
+.capitalize {
+  text-transform: capitalize;
+}

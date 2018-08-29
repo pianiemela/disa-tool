@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -11,6 +12,8 @@ import EditTaskForm from './EditTaskForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
 
 export class Task extends Component {
+  translate = id => this.props.translate(`Course.tasks.Task.${id}`)
+
   renderExpanded() {
     if (!this.props.active) {
       return null
@@ -24,7 +27,7 @@ export class Task extends Component {
         {this.props.editing ? (
           <div className="flexBlock">
             <EditTaskForm taskId={this.props.task.id} />
-            <Button onClick={this.props.openModal}>Muokkaa kertoimia</Button>
+            <Button onClick={this.props.openModal}>{this.translate('edit_multipliers_button')}</Button>
           </div>
          ) : null}
       </div>
@@ -49,10 +52,10 @@ export class Task extends Component {
           <DeleteForm
             onExecute={() => this.props.removeTask({ id: this.props.task.id })}
             prompt={[
-              'Poistetaanko tehtävä',
+              this.translate('delete_prompt_1'),
               `"${this.props.task.name}"`
             ]}
-            header="Poista tehtävä"
+            header={this.translate('delete_header')}
           />
         ) : (
           null
@@ -73,7 +76,8 @@ Task.propTypes = {
   removeTask: PropTypes.func.isRequired,
   active: PropTypes.bool.isRequired,
   changeActive: PropTypes.func.isRequired,
-  openModal: PropTypes.func
+  openModal: PropTypes.func,
+  translate: PropTypes.func.isRequired
 }
 
 Task.defaultProps = {
@@ -90,4 +94,4 @@ const mapDispatchToProps = dispatch => ({
   changeActive: changeActive(dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Task)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(Task))

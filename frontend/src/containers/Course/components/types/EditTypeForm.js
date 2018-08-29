@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button, Form, Label, Input } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -56,16 +57,18 @@ export class EditTypeForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.types.EditTypeForm.${id}`)
+
   render() {
-    const contentPrompt = 'Muokkaa tyyppiä'
+    const contentPrompt = this.translate('prompt_1')
     const label = {
-      name: 'nimi',
-      multiplier: 'kerroin'
+      name: this.translate('name'),
+      multiplier: this.translate('multiplier')
     }
     return (
       <div className="EditTypeForm">
         <ModalForm
-          header="Muokkaa tyyppiä"
+          header={this.translate('header')}
           trigger={<Button onClick={this.loadDetails} className="editTypeButton" icon={{ name: 'edit' }} size="mini" />}
           content={
             <div>
@@ -74,7 +77,7 @@ export class EditTypeForm extends Component {
               </p>
               <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
               <Form.Field inline>
-                <Label>{label.multiplier}</Label>
+                <Label size="large">{label.multiplier}</Label>
                 <Input
                   name="multiplier"
                   type="number"
@@ -87,7 +90,7 @@ export class EditTypeForm extends Component {
                   })}
                 />
               </Form.Field>
-              <Button type="submit" color="green">Tallenna</Button>
+              <Button type="submit" color="green">{this.translate('save')}</Button>
             </div>
           }
           onSubmit={this.editTypeSubmit}
@@ -101,7 +104,8 @@ export class EditTypeForm extends Component {
 EditTypeForm.propTypes = {
   editType: PropTypes.func.isRequired,
   details: PropTypes.func.isRequired,
-  typeId: PropTypes.number.isRequired
+  typeId: PropTypes.number.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -109,4 +113,4 @@ const mapDispatchToProps = dispatch => ({
   details
 })
 
-export default connect(null, mapDispatchToProps)(EditTypeForm)
+export default withLocalize(connect(null, mapDispatchToProps)(EditTypeForm))

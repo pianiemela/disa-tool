@@ -53,6 +53,7 @@ describe('Task component', () => {
       removeTask={removeTask}
       active={false}
       changeActive={changeActive}
+      translate={() => ''}
     />)
   })
 

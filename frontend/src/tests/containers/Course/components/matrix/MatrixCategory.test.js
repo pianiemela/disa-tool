@@ -33,6 +33,7 @@ describe('MatrixCategory component', () => {
       removeCategory={mockFn}
       activeMap={{}}
       activeTaskId={null}
+      translate={() => ''}
     />)
   })
 

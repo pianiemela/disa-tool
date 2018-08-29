@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Table, Container } from 'semantic-ui-react'
 import './matrix.css'
 import asyncAction from '../../../../utils/asyncAction'
@@ -22,14 +23,19 @@ export const Matrix = (props) => {
       activeMap[objective.id] = true
     })
   }
+  const translate = id => props.translate(`Course.matrix.Matrix.${id}`)
 
   return (
     <Container>
       <Table celled structured>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell rowSpan="2">Osio</Table.HeaderCell>
-            <Table.HeaderCell colSpan="3" textAlign="center">Taitotasot</Table.HeaderCell>
+            <Table.HeaderCell rowSpan="2">
+              <span className="capitalize">{translate('category')}</span>
+            </Table.HeaderCell>
+            <Table.HeaderCell colSpan="3" textAlign="center">
+              <span className="capitalize">{translate('skill_levels')}</span>
+            </Table.HeaderCell>
           </Table.Row>
           <Table.Row>
             {props.levels.map(level => (
@@ -44,10 +50,10 @@ export const Matrix = (props) => {
                       <DeleteForm
                         onExecute={() => props.removeLevel({ id: level.id })}
                         prompt={[
-                          'Poistetaanko oppimistaso',
+                          translate('delete_prompt_1'),
                           `"${level.name}"`
                         ]}
-                        header="Poista oppimistaso"
+                        header={translate('delete_header')}
                       />
                     </div>
                   </div>
@@ -101,7 +107,8 @@ Matrix.propTypes = {
     id: PropTypes.number.isRequired,
     objectives: PropTypes.arrayOf(PropTypes.object).isRequired
   }),
-  showDetails: PropTypes.bool
+  showDetails: PropTypes.bool,
+  translate: PropTypes.func.isRequired
 }
 
 Matrix.defaultProps = {
@@ -128,4 +135,4 @@ const mapDispatchToProps = dispatch => ({
   removeLevel: asyncAction(removeLevel, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Matrix)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(Matrix))

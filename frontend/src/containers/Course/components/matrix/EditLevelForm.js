@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -48,16 +49,18 @@ class EditLevelForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.matrix.EditLevelForm.${id}`)
+
   render() {
     return (
       <div className="EditLevelForm">
         <ModalForm
-          header="Muokkaa oppimistavoitetta"
+          header={this.translate('header')}
           trigger={<Button onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
           content={
             <div>
-              <MultilingualField field="name" fieldDisplay="nimi" values={this.state.values.name} />
-              <Button color="green">Tallenna</Button>
+              <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
+              <Button color="green">{this.translate('save')}</Button>
             </div>
           }
           onSubmit={this.editLevelSubmit}
@@ -71,7 +74,8 @@ class EditLevelForm extends Component {
 EditLevelForm.propTypes = {
   editLevel: PropTypes.func.isRequired,
   levelId: PropTypes.number.isRequired,
-  details: PropTypes.func.isRequired
+  details: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -79,4 +83,4 @@ const mapDispatchToProps = dispatch => ({
   details
 })
 
-export default connect(null, mapDispatchToProps)(EditLevelForm)
+export default withLocalize(connect(null, mapDispatchToProps)(EditLevelForm))
