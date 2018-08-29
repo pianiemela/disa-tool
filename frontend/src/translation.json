@@ -225,5 +225,13 @@
         "delete_prompt_1": ["Really remove type header", "Poistetaanko tyyppiotsake"]
       }
     }
+  },
+  "utils": {
+    "components": {
+      "DeleteForm": {
+        "remove": ["Remove", "Poista"],
+        "cancel": ["Cancel", "Peru"]
+      }
+    }
   }
 }

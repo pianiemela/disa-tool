@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 
 import ModalForm from './ModalForm'
@@ -8,6 +9,8 @@ export class DeleteForm extends Component {
   removeLevel = () => {
     this.props.onExecute()
   }
+
+  translate = id => this.props.translate(`utils.components.DeleteForm.${id}`)
 
   render() {
     const contentPrompt = this.props.prompt.join(' ')
@@ -20,12 +23,8 @@ export class DeleteForm extends Component {
             <div>
               <p>{contentPrompt}?</p>
               <div className="choiceContainer">
-                <Button color="red" onClick={this.removeLevel}>
-                  Poista
-                </Button>
-                <Button>
-                  Peru
-                </Button>
+                <Button color="red" onClick={this.removeLevel}>{this.translate('remove')}</Button>
+                <Button>{this.translate('cancel')}</Button>
               </div>
             </div>
           }
@@ -42,7 +41,8 @@ DeleteForm.propTypes = {
   header: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.element
-  ]).isRequired
+  ]).isRequired,
+  translate: PropTypes.func.isRequired
 }
 
-export default DeleteForm
+export default withLocalize(DeleteForm)
