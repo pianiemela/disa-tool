@@ -180,6 +180,13 @@
         "header": ["Edit task", "Muokkaa tehtävää"],
         "prompt_1": ["Edit task", "Muokkaa tehtävää"],
         "trigger": ["Edit task", "Muokkaa tehtävää"]
+      },
+      "EditTaskObjectivesForm": {
+        "header": ["Edit multipliers", "Muokkaa kertoimia"],
+        "detailed": ["Individual", "Yksittäin"],
+        "all": ["All", "Kaikki"],
+        "default": ["Default", "Oletusarvo"],
+        "modify": ["Modify", "Muuta"]
       }
     }
   }
