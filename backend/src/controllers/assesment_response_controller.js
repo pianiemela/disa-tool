@@ -64,6 +64,19 @@ router.post('/', async (req, res) => {
       })
       return
     }
+
+    if (data.assessmentType === 'objectives') {
+      const response = await assessmentResponseService.create(user, data.assessmentId, data)
+      const completeResponse = await response.save()
+      if (response) {
+        res.status(200).json({
+          message: 'Self assessment response saved successfully!',
+          data: completeResponse
+        })
+      }
+      return
+    }
+
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
     const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
     response.response.verification = verification
