@@ -10,6 +10,16 @@ const sequelize = new Sequelize(dbUrl, {
   operatorsAliases: false
 })
 
+const syncDatabase = async () => {
+  try {
+    await sequelize.sync()
+    console.log('synced database')
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 module.exports = {
-  sequelize
+  sequelize,
+  syncDatabase
 }
