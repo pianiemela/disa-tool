@@ -175,6 +175,11 @@
       "AddTaskForm": {
         "header": ["Add new task", "Lisää uusi tehtävä"],
         "prompt_1": ["Add a new task to the course", "Lisää uusi tehtävä kurssille"]
+      },
+      "EditTaskForm": {
+        "header": ["Edit task", "Muokkaa tehtävää"],
+        "prompt_1": ["Edit task", "Muokkaa tehtävää"],
+        "trigger": ["Edit task", "Muokkaa tehtävää"]
       }
     }
   }

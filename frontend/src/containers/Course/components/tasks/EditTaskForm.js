@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button, Grid, Form, Input, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -66,11 +67,13 @@ export class EditTaskForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.tasks.EditTaskForm.${id}`)
+
   render() {
-    const contentPrompt = 'Muokkaa tehtävää'
+    const contentPrompt = this.translate('prompt_1')
     const label = {
-      name: 'nimi',
-      description: 'kuvaus',
+      name: this.translate('name'),
+      description: this.translate('description'),
       info: 'info'
     }
     return (
@@ -78,10 +81,10 @@ export class EditTaskForm extends Component {
         <Grid.Column>
           <div className="EditTaskForm">
             <ModalForm
-              header="Muokkaa tehtävää"
+              header={this.translate('header')}
               trigger={<Button
                 className="editTaskButton"
-                content="Muokkaa tehtävää"
+                content={this.translate('trigger')}
                 onClick={this.loadDetails}
               />}
               content={
@@ -102,7 +105,7 @@ export class EditTaskForm extends Component {
                       })}
                     />
                   </Form.Field>
-                  <Button type="submit" color="green">Tallenna</Button>
+                  <Button type="submit" color="green">{this.translate('save')}</Button>
                 </div>
               }
               onSubmit={this.editTaskSubmit}
@@ -118,7 +121,8 @@ export class EditTaskForm extends Component {
 EditTaskForm.propTypes = {
   taskId: PropTypes.number.isRequired,
   editTask: PropTypes.func.isRequired,
-  details: PropTypes.func.isRequired
+  details: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -126,4 +130,4 @@ const mapDispatchToProps = dispatch => ({
   details
 })
 
-export default connect(null, mapDispatchToProps)(EditTaskForm)
+export default withLocalize(connect(null, mapDispatchToProps)(EditTaskForm))
