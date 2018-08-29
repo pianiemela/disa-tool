@@ -10,6 +10,7 @@ describe('CourseHeader component', () => {
   beforeEach(() => {
     wrapper = shallow(<CourseHeader
       course={{ id: 1, name: courseName }}
+      translate={() => ''}
     />)
   })
 
