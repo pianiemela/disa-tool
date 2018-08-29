@@ -107,7 +107,7 @@ class EditTaskObjectivesForm extends Component {
                 </Button.Group>
               </Container>
               {this.state.detailed ? (
-                this.props.objectives.map(objective => (
+                this.props.objectives.map(objective => (this.state.values[objective.id] ? (
                   <Form.Field key={objective.id}>
                     <Container>
                       <Label basic size="large">{objective.name}</Label>
@@ -140,7 +140,7 @@ class EditTaskObjectivesForm extends Component {
                         disabled={this.state.loading || !this.state.values[objective.id].modified}
                       />
                     </Container>
-                  </Form.Field>
+                  </Form.Field>) : null
                 ))
               ) : (
                 <Form.Field>
