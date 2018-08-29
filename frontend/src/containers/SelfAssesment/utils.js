@@ -58,7 +58,7 @@ export const validationErrors = {
 const errorMessages = {
   max: { eng: 'Input length can\'t be over', swe: 'Ruotsiksi sama errori', fin: 'Vastaus saa olla pituudeltaan enintään' },
   min: { eng: 'Input length can\'t be under', swe: 'Ruotsiksi sama errori', fin: 'Vastauksen tulee olla pituudeltaan vähintään' },
-  exists: { eng: 'You must select an value', swe: 'Ruotsiksi sama', fin: 'Valitse arvo' }
+  exists: { eng: 'You must select a value', swe: 'Ruotsiksi sama', fin: 'Valitse arvo' }
 }
 
 export const maxLength = (toCheck, toCheckAttribute, max, acc) =>
