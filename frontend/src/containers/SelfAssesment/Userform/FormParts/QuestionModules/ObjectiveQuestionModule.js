@@ -1,4 +1,4 @@
-import { Form, Card, List, Grid } from 'semantic-ui-react'
+import { Form, Card, List, Grid, Segment, Message } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
@@ -6,6 +6,9 @@ import { connect } from 'react-redux'
 import { gradeObjectiveAction } from '../../../actions/selfAssesment'
 
 import MathJaxText from '../../../../../utils/components/MathJaxText'
+import { objectiveGrades } from '../../../utils'
+import '../../../Userform/selfAssesment.css'
+
 
 class ObjectiveQuestionModule extends React.Component {
   constructor(props) {
@@ -16,55 +19,90 @@ class ObjectiveQuestionModule extends React.Component {
   componentDidMount() {
     const ratings = {}
     this.props.data.objectives.forEach((value) => {
-      ratings[value.name] = 1
+      ratings[value.id] = -1
     })
     this.setState({ ratings })
   }
 
-  handleChange = (e, name, id) => {
-    const { ratings } = this.state
-    ratings[name] = e.target.value
+  handleChange = (objective, value) => {
+    const { ratings } = { ...this.state }
+    ratings[objective] = value
+    this.props.dispatchGradeObjectiveAction({ id: objective, value, final: false })
     this.setState({ ratings })
-    this.props.dispatchGradeObjectiveAction({ value: e.target.value, id })
   }
 
   render() {
+    const { objectives, name, id } = this.props.data
+    const { gradeError, clearError } = this.props
     const { ratings } = this.state
-    const { objectives, options, name } = this.props.data
+
     return (
-      <Form.Field>
-        <Card fluid>
-          <Card.Content>
-            <Card.Header>{name}</Card.Header>
-            <List>
+      <Card fluid>
+        <Card.Content>
+          <Grid columns="equal">
+            <Grid.Column>
+              <h3>{name}</h3>
+            </Grid.Column>
+            <Grid.Column>
+              <div style={{ display: 'flex' }}>
+                {Object.keys(objectiveGrades).map(o =>
+                  (
+                    <div key={o} style={{ flexGrow: 1 }}>
+                      {objectiveGrades[o]}
+                    </div>))}
+              </div>
+            </Grid.Column>
+          </Grid>
+          <Form error={gradeError !== undefined}>
+            <List divided>
               {objectives.map(o =>
                 (o.includedInAssesment ?
-                  <Grid key={o.id} verticalAlign="middle" columns={3}>
-                    <Grid.Row style={{ padding: '20px' }}>
-                      <Grid.Column>
-                        <List.Item as="li"><MathJaxText content={o.name} /></List.Item>
-                      </Grid.Column>
-                      <Grid.Column>
-                        <input
-                          style={{}}
-                          value={ratings[o.name] ? ratings[o.name] : 1}
-                          onChange={e => this.handleChange(e, o.name, o.id)}
-                          type="range"
-                          min={0}
-                          max={2}
-                        />
-                      </Grid.Column>
-                      <Grid.Column>
-                        {options[ratings[o.name]]}
-                      </Grid.Column>
-                    </Grid.Row>
-                  </Grid>
+                  <List.Item key={o.id}>
+                    <List.Content>
+                      <Grid verticalAlign="middle" columns="equal">
+                        <Grid.Row style={{ padding: '20px' }}>
+                          <Grid.Column>
+                            <Segment>
+                              <MathJaxText content={o.name} />
+                            </Segment>
+                          </Grid.Column >
+                          <Grid.Column>
+                            <div style={{ display: 'flex' }}>
+                              {Object.keys(objectiveGrades).map(og =>
+                                (
+                                  <div key={og} style={{ flexGrow: 1, textAlign: 'center' }}>
+                                    <Form.Checkbox
+                                      error={gradeError.errors[o.id] !== undefined} //eslint-disable-line
+                                      objective={o.id}
+                                      value={og}
+                                      checked={ratings[o.id] === og}
+                                      onChange={(e, { objective, value }) => {
+                                        this.handleChange(objective, value); clearError({ type: 'qModErrors', errorType: 'grade', id, objective })
+                                      }}
+                                      radio
+                                    />
+                                  </div>))}
+                            </div>
+                            {gradeError.errors[o.id] ?
+                              <Message
+                                error
+                                style={{ textAlign: 'center' }}
+                                content={gradeError.errors[o.id].error}
+                              />
+                              :
+                              null
+                            }
+                          </Grid.Column>
+                        </Grid.Row>
+                      </Grid>
+                    </List.Content>
+                  </List.Item>
                   :
                   null))}
             </List>
-          </Card.Content>
-        </Card>
-      </Form.Field >
+          </Form>
+        </Card.Content>
+      </Card >
     )
   }
 }
@@ -78,8 +116,10 @@ ObjectiveQuestionModule.defaultProps = {
   data: {
     options: [],
     name: 'Nothing',
-    objectives: []
-  }
+    objectives: [],
+    id: null
+  },
+  gradeError: { errors: {} }
 }
 ObjectiveQuestionModule.propTypes = {
   data: PropTypes.shape({
@@ -88,9 +128,14 @@ ObjectiveQuestionModule.propTypes = {
     objectives: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired
-    }))
+    })),
+    id: PropTypes.number
   }),
-  dispatchGradeObjectiveAction: PropTypes.func.isRequired
+  dispatchGradeObjectiveAction: PropTypes.func.isRequired,
+  gradeError: PropTypes.shape({
+    errors: PropTypes.shape()
+  }),
+  clearError: PropTypes.func.isRequired
 }
 
 export default connect(null, mapDispatchToProps)(ObjectiveQuestionModule)

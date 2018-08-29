@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { Button, Loader, Container, Message, Modal, Form } from 'semantic-ui-react'
+import { Button, Loader, Container, Message, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import UserResultsPage from './UserResultsPage'
 import { getCourseInstance } from '../../../api/courses'
@@ -29,7 +29,7 @@ import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 import EditCategoryModule from './FormParts/QuestionModules/EditCategoryModule'
 import EditObjectiveModule from './FormParts/QuestionModules/EditObjectiveModule'
 
-import { maxLength, minLength, exists, validationErrors, gradeOptions } from '../utils'
+import { validationErrors, gradeOptions, checkResponseErrors } from '../utils'
 
 export class SelfAssesmentForm extends React.Component {
   constructor(props) {
@@ -224,11 +224,13 @@ export class SelfAssesmentForm extends React.Component {
       return <Redirect to="/user" />
     }
     if (this.props.assesmentResponse.existingAnswer) {
-      return (<UserResultsPage
-        assessmentResponse={this.props.assesmentResponse}
-        assessmentInfo={this.props.formData}
-      />)
+      return (
+        <UserResultsPage
+          assessmentResponse={this.props.assesmentResponse}
+          assessmentInfo={this.props.formData}
+        />)
     }
+
     const renderForm = () => {
       let submitFunction = null
       const { formData, edit } = this.props
@@ -333,9 +335,10 @@ export class SelfAssesmentForm extends React.Component {
                   :
                   ObjectiveQuestionModule}
                 errors={responseErrors.qModErrors}
+                clearError={this.clearError}
               />
-
             }
+
             {structure.openQuestions.questions.length > 0 || (edit && !this.state.preview) ?
               <SelfAssesmentSection
                 headers={openQ}
@@ -446,7 +449,8 @@ const mapDispatchToProps = dispatch => ({
 SelfAssesmentForm.defaultProps = {
   formData: {} || [],
   new: false,
-  role: null
+  role: null,
+  roleError: undefined
 }
 
 
@@ -471,7 +475,7 @@ SelfAssesmentForm.propTypes = {
   dispatchGetCourseInstanceData: PropTypes.func.isRequired,
   dispatchClearError: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
-  roleError: PropTypes.bool.isRequired
+  roleError: PropTypes.bool
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentForm)
