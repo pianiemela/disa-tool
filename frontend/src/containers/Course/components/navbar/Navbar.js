@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withLocalize } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
 import { Menu } from 'semantic-ui-react'
 
-const Navbar = props => (
+export const Navbar = props => (
   <nav className="Navbar">
     <Menu pointing>
       <Menu.Item
@@ -12,7 +13,7 @@ const Navbar = props => (
         to={`${props.matchUrl}/tasks`}
         active={props.pathname.includes('tasks')}
       >
-        <span>Tehtävät</span>
+        <span>{props.translate('Course.navbar.Navbar.tasks')}</span>
       </Menu.Item>
       <Menu.Item
         className="matrixLink"
@@ -20,7 +21,7 @@ const Navbar = props => (
         to={`${props.matchUrl}/matrix`}
         active={props.pathname.includes('matrix')}
       >
-        <span>Matriisi</span>
+        <span>{props.translate('Course.navbar.Navbar.matrix')}</span>
       </Menu.Item>
       <Menu.Item
         className="typesLink"
@@ -28,7 +29,7 @@ const Navbar = props => (
         to={`${props.matchUrl}/types`}
         active={props.pathname.includes('types')}
       >
-        <span>Tyypit</span>
+        <span>{props.translate('Course.navbar.Navbar.types')}</span>
       </Menu.Item>
       <Menu.Item
         className="gradesLink"
@@ -36,7 +37,7 @@ const Navbar = props => (
         to={`${props.matchUrl}/grades`}
         active={props.pathname.includes('grades')}
       >
-        <span>Arvosteluperusteet</span>
+        <span>{props.translate('Course.navbar.Navbar.grades')}</span>
       </Menu.Item>
     </Menu>
   </nav>
@@ -44,7 +45,8 @@ const Navbar = props => (
 
 Navbar.propTypes = {
   matchUrl: PropTypes.string.isRequired,
-  pathname: PropTypes.string.isRequired
+  pathname: PropTypes.string.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
-export default Navbar
+export default withLocalize(Navbar)
