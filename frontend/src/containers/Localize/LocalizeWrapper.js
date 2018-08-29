@@ -18,7 +18,8 @@ class LocalizeWrapper extends PureComponent {
       ],
       translation,
       options: {
-        renderToStaticMarkup
+        renderToStaticMarkup,
+        onMissingTranslation: this.missingTranslationHandler
       }
     })
   }
@@ -26,6 +27,16 @@ class LocalizeWrapper extends PureComponent {
   componentDidMount() {
     const code = getLanguage()
     this.props.setActiveLanguage(code || 'fin')
+  }
+
+  missingTranslationHandler = ({ translationId }) => {
+    // Recursively look through tree structure in translation.json for "common" translations
+    // in nodes below until the root or a suitable translation is reached.
+    const path = translationId.split('.')
+    if (path.length <= 1) return `missing translation: ${translationId}`
+    if (path.length >= 3) path[path.length - 3] = 'common'
+    path.splice(path.length - 2, 1)
+    return this.props.translate(path.join('.'))
   }
 
   render() {
@@ -40,7 +51,8 @@ class LocalizeWrapper extends PureComponent {
 LocalizeWrapper.propTypes = {
   children: PropTypes.arrayOf(PropTypes.element).isRequired,
   initialize: PropTypes.func.isRequired,
-  setActiveLanguage: PropTypes.func.isRequired
+  setActiveLanguage: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 export default withLocalize(LocalizeWrapper)
