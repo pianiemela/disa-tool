@@ -196,6 +196,12 @@
         "delete_header": ["Delete task", "Poista tehtävä"],
         "delete_prompt_1": ["Really remove task", "Poistetaanko tehtävä"]
       }
+    },
+    "types": {
+      "CreateHeaderForm": {
+        "header": ["Add new type header", "Lisää uusi tyyppiotsake"],
+        "prompt_1": ["Add new type header", "Lisää uusi tyyppiotsake"]
+      }
     }
   }
 }

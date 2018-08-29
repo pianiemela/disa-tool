@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -19,15 +20,17 @@ export class CreateHeaderForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.types.CreateHeaderForm.${id}`)
+
   render() {
-    const contentPrompt = 'Lisää uusi tyyppiotsake'
+    const contentPrompt = this.translate('prompt_1')
     const label = {
-      name: 'nimi'
+      name: this.translate('name')
     }
     return (
       <div className="CreateHeaderForm">
         <ModalForm
-          header="Lisää uusi tyyppiotsake"
+          header={this.translate('header')}
           trigger={<Button onClick={this.expand} className="addHeaderButton" icon={{ name: 'add' }} />}
           content={
             <div>
@@ -35,7 +38,7 @@ export class CreateHeaderForm extends Component {
                 {contentPrompt}.
               </p>
               <MultilingualField field="name" fieldDisplay={label.name} />
-              <Button type="submit" color="green">Tallenna</Button>
+              <Button type="submit" color="green">{this.translate('save')}</Button>
             </div>
           }
           onSubmit={this.addHeaderSubmit}
@@ -47,11 +50,12 @@ export class CreateHeaderForm extends Component {
 
 CreateHeaderForm.propTypes = {
   addHeader: PropTypes.func.isRequired,
-  courseId: PropTypes.number.isRequired
+  courseId: PropTypes.number.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   addHeader: asyncAction(addHeader, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(CreateHeaderForm)
+export default withLocalize(connect(null, mapDispatchToProps)(CreateHeaderForm))
