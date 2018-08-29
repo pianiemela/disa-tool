@@ -170,7 +170,8 @@
     },
     "tasks": {
       "common": {
-        "description": ["description", "kuvaus"]
+        "description": ["description", "kuvaus"],
+        "edit_multipliers_button": ["Edit multipliers", "Muokkaa kertoimia"]
       },
       "AddTaskForm": {
         "header": ["Add new task", "Lisää uusi tehtävä"],
