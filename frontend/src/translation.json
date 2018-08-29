@@ -135,6 +135,11 @@
       "CreateLevelForm": {
         "header": ["Create a new skill level", "Luo uusi oppimistaso"],
         "prompt_1": ["Create a new skill level", "Luo uusi oppimistaso"]
+      },
+      "CreateObjectiveForm": {
+        "header": ["Create a new objective", "Luo uusi oppimistavoite"],
+        "prompt_1": ["Add a new objective to category", "Lisää uusi oppimistavoite kategoriaan"],
+        "prompt_2": ["and level", "tasolle"]
       }
     }
   }

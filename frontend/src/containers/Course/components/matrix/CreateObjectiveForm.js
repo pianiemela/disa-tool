@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -38,23 +39,23 @@ export class CreateObjectiveForm extends Component {
         )
       }
       const contentPrompt = [
-        'Lisää uusi oppimistavoite kategoriaan',
+        this.props.translate('Course.matrix.CreateObjectiveForm.prompt_1'),
         `"${this.props.category.name}"`,
-        'tasolle',
+        this.props.translate('Course.matrix.CreateObjectiveForm.prompt_2'),
         `"${this.props.level.name}"`
       ].join(' ')
       return (
         <div className="CreateObjectiveForm">
           <ModalForm
-            header="Luo uusi oppimistavoite"
+            header={this.props.translate('Course.matrix.CreateObjectiveForm.header')}
             trigger={<Button className="addObjectiveButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>
                   {contentPrompt}.
                 </p>
-                <MultilingualField field="name" fieldDisplay="nimi" />
-                <Button type="submit" color="green">Tallenna</Button>
+                <MultilingualField field="name" fieldDisplay={this.props.translate('common.name')} />
+                <Button type="submit" color="green">{this.props.translate('common.save')}</Button>
               </div>
             }
             onSubmit={this.addObjectiveSubmit}
@@ -76,7 +77,8 @@ CreateObjectiveForm.propTypes = {
   }).isRequired,
   courseId: PropTypes.number.isRequired,
   cut: PropTypes.number,
-  moveObjective: PropTypes.func.isRequired
+  moveObjective: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 CreateObjectiveForm.defaultProps = {
@@ -94,4 +96,4 @@ const mapDispatchToProps = dispatch => ({
   moveObjective: asyncAction(moveObjective, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateObjectiveForm)
+export default connect(mapStateToProps, mapDispatchToProps)(withLocalize(CreateObjectiveForm))
