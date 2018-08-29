@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button, Form, Input, Label, Dropdown } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -35,15 +36,15 @@ class CreateGradeForm extends Component {
 
   render() {
     const label = {
-      name: 'nimi',
-      skill_level: 'oppimistaso',
-      needed_for_grade: 'vaadittu suoritus',
-      prerequisite: 'esivaatimus'
+      name: this.props.translate('common.name'),
+      skill_level: this.props.translate('common.skill_level'),
+      needed_for_grade: this.props.translate('Course.grades.common.needed_for_grade'),
+      prerequisite: this.props.translate('Course.grades.common.prerequisite')
     }
     return (
       <div className="CreateGradeForm">
         <ModalForm
-          header="Luo uusi arvosteluperuste"
+          header={this.props.translate('Course.grades.CreateGradeForm.header')}
           trigger={<Button className="addGradeButton" icon={{ name: 'add' }} />}
           content={
             <div>
@@ -84,7 +85,7 @@ class CreateGradeForm extends Component {
                   })))}
                 />
               </Form.Field>
-              <Button color="green">Tallenna</Button>
+              <Button color="green">{this.props.translate('common.save')}</Button>
             </div>
           }
           onSubmit={this.addGradeSubmit}
@@ -103,11 +104,12 @@ CreateGradeForm.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
   })).isRequired,
-  addGrade: PropTypes.func.isRequired
+  addGrade: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   addGrade: asyncAction(addGrade, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(CreateGradeForm)
+export default connect(null, mapDispatchToProps)(withLocalize(CreateGradeForm))

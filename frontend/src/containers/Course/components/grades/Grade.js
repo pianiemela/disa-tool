@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Segment, Header, Grid } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -19,7 +20,7 @@ const Grade = props => (
         <Grid.Row>
           <Grid.Column width={5}>
             <p>
-              <span>Oppimistaso</span>
+              <span>{props.translate('common.skill_level')}</span>
               <span>: </span>
               <strong>
                 {parseName(props.levels.find(level => level.id === props.grade.skill_level_id))}
@@ -28,14 +29,14 @@ const Grade = props => (
           </Grid.Column>
           <Grid.Column width={4}>
             <p>
-              <span>Vaadittu suoritus</span>
+              <span>{props.translate('Course.grades.common.needed_for_grade')}</span>
               <span>: </span>
               <strong>{props.grade.needed_for_grade * 100}%</strong>
             </p>
           </Grid.Column>
           <Grid.Column width={5}>
             <p>
-              <span>Esivaatimus</span>
+              <span>{props.translate('Course.grades.common.prerequisite')}</span>
               <span>: </span>
               <strong>
                 {parseName(props.grades.find(grade => grade.id === props.grade.prerequisite))}
@@ -47,9 +48,9 @@ const Grade = props => (
               <div className="flexBlock">
                 <DeleteForm
                   onExecute={() => props.removeGrade({ id: props.grade.id })}
-                  header="Poista arvosteluperuste"
+                  header={props.translate('Course.grades.Grade.delete_header')}
                   prompt={[
-                    'Poistetaanko arvosteluperuste',
+                    props.translate('Course.grades.Grade.delete_prompt_1'),
                     props.grade.name
                   ]}
                 />
@@ -85,11 +86,12 @@ Grade.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
   })).isRequired,
-  removeGrade: PropTypes.func.isRequired
+  removeGrade: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   removeGrade: asyncAction(removeGrade, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(Grade)
+export default connect(null, mapDispatchToProps)(withLocalize(Grade))

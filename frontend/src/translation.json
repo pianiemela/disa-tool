@@ -1,4 +1,9 @@
 {
+  "common": {
+    "save": ["Save", "Tallenna"],
+    "name": ["name", "nimi"],
+    "skill_level": ["skill level", "oppimistaso"]
+  },
   "Nav": {
     "navbar": {
       "logout": ["Log out", "Kirjaudu ulos"],
@@ -78,6 +83,49 @@
         " are a part of the study. DISA-tool is developed by the University of Helsinki Faculty of Computer Science Software Development Academy (TOSKA) with the support of the University of Helsinki.",
         " Työkalua kehittää Helsingin yliopiston Tietojenkäsittelytieteen Osaston Sovelluskehitysakatemia (TOSKA) Helsingin yliopiston tukemana."
       ]
+    }
+  },
+  "Course": {
+    "header": {
+      "CourseHeader": {
+        "back_button": ["Back to course page", "Takaisin kurssisivulle"]
+      }
+    },
+    "navbar": {
+      "Navbar": {
+        "tasks": ["Tasks", "Tehtävät"],
+        "matrix": ["Matrix", "Matriisi"],
+        "types": ["Types", "Tyypit"],
+        "grades": ["Grading criteria", "Arvosteluperusteet"]
+      }
+    },
+    "grades": {
+      "common": {
+        "needed_for_grade": ["required completion", "vaadittu suoritus"],
+        "prerequisite": ["prerequisite", "esivaatimus"]
+      },
+      "CategoryGradeTable": {
+        "header": ["Edit grades by category", "Muokkaa arvosanoja osioittain"],
+        "header_cell": ["Grade/Category", "Arvosana/Osio"],
+        "cancel_button": ["Undo changes", "Peru muutokset"]
+      },
+      "CreateGradeForm": {
+        "header": ["Create a new grade", "Luo uusi arvosana"]
+      },
+      "EditGradeForm": {
+        "header": ["Edit grade", "Muokkaa arvosanaa"]
+      },
+      "EditGradesTab": {
+        "header": ["Edit course grading criteria here", "Muokkaa tässä kurssin arvosanarajoja"],
+        "subheader": [
+          "You can define the grades of your course in the upper list. The 'required completion' fields in the list refer to the requirements of the final grade of the course. In the lower table you can edit grading criteria by category. If you do, remember to press the Save button when you're done.",
+          "Ylemmässä listassa voit määritellä kurssilla olevat arvosanat, listassa olevat 'vaadittu suoritus'-luvut viittaavat loppuarvosanan vaadittuun suoritusosuuteen. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja. Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
+        ]
+      },
+      "Grade": {
+        "delete_header": ["Delete grade", "Poista arvosana"],
+        "delete_prompt_1": ["Really remove grade", "Poistetaanko arvosteluperuste"]
+      }
     }
   }
 }

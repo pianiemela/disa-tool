@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button, Form, Input, Dropdown, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -65,15 +66,15 @@ class EditGradeForm extends Component {
 
   render() {
     const label = {
-      name: 'nimi',
-      skill_level: 'oppimistaso',
-      needed_for_grade: 'vaadittu suoritus',
-      prerequisite: 'esivaatimus'
+      name: this.props.translate('common.name'),
+      skill_level: this.props.translate('common.skill_level'),
+      needed_for_grade: this.props.translate('Course.grades.common.needed_for_grade'),
+      prerequisite: this.props.translate('Course.grades.common.prerequisite')
     }
     return (
       <div className="EditGradeForm">
         <ModalForm
-          header="Muokkaa arvosteluperustetta"
+          header={this.props.translate('Course.grades.EditGradeForm.header')}
           trigger={<Button icon={{ name: 'edit' }} size="small" onClick={this.loadDetails} />}
           content={
             <div>
@@ -119,7 +120,7 @@ class EditGradeForm extends Component {
                   })))}
                 />
               </Form.Field>
-              <Button color="green">Tallenna</Button>
+              <Button color="green">{this.props.translate('common.save')}</Button>
             </div>
           }
           onSubmit={this.editGradeSubmit}
@@ -141,7 +142,8 @@ EditGradeForm.propTypes = {
   grades: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired
-  })).isRequired
+  })).isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -149,4 +151,4 @@ const mapDispatchToProps = dispatch => ({
   editGrade: asyncAction(editGrade, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(EditGradeForm)
+export default connect(null, mapDispatchToProps)(withLocalize(EditGradeForm))
