@@ -19,7 +19,17 @@ const syncDatabase = async () => {
   }
 }
 
+const forceSyncDatabase = async () => {
+  try {
+    await sequelize.sync({ force: true })
+    console.log('forced database')
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 module.exports = {
   sequelize,
-  syncDatabase
+  syncDatabase,
+  forceSyncDatabase
 }
