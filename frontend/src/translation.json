@@ -188,6 +188,9 @@
         "all": ["All", "Kaikki"],
         "default": ["Default", "Oletusarvo"],
         "modify": ["Modify", "Muuta"]
+      },
+      "SelectTaskDropDown": {
+        "placeholder": ["Select a task here", "Valitse tehtävä tästä"]
       }
     }
   }
