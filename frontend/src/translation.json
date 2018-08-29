@@ -198,9 +198,16 @@
       }
     },
     "types": {
+      "common": {
+        "multiplier": ["multiplier", "kerroin"]
+      },
       "CreateHeaderForm": {
         "header": ["Add new type header", "Lisää uusi tyyppiotsake"],
         "prompt_1": ["Add new type header", "Lisää uusi tyyppiotsake"]
+      },
+      "CreateTypeForm": {
+        "header": ["Add new type", "Lisää uusi tyyppi"],
+        "prompt_1": ["Add new type", "Lisää uusi tyyppi"]
       }
     }
   }
