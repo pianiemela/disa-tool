@@ -131,6 +131,10 @@
       "CreateCategoryForm": {
         "header": ["Create a new category", "Luo uusi kategoria"],
         "prompt_1": ["Create a new category", "Luo uusi kategoria"]
+      },
+      "CreateLevelForm": {
+        "header": ["Create a new skill level", "Luo uusi oppimistaso"],
+        "prompt_1": ["Create a new skill level", "Luo uusi oppimistaso"]
       }
     }
   }
