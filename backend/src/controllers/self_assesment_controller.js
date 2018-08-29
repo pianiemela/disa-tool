@@ -26,9 +26,7 @@ router.post('/create', async (req, res) => {
     }
 
     formData = destructureNamesAndInstructions(formData, formInfo)
-    formData.structure = JSON.stringify(formData.structure)
     const data = await selfAssesmentService.addSelfAssesment(formData, req.lang)
-    formData.structure = JSON.parse(formData.structure)
 
     res.status(200).json({
       message: 'Self assessment created succesfully!',
@@ -50,9 +48,8 @@ router.post('/create', async (req, res) => {
 router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
-    const data = await selfAssesmentService.getOne(selfAssesmentId)
+    const data = await selfAssesmentService.getOne(selfAssesmentId, req.lang)
 
-    data.structure = JSON.parse(data.structure)
     return res.status(200).json({
       data
     })
@@ -74,12 +71,6 @@ router.get('/:selfAssesmentId', async (req, res) => {
 router.get('/', async (req, res) => {
   const user = await checkAuth(req)
   const data = await selfAssesmentService.getUserSelfAssesments(user, req.lang)
-  // Parse structure to JS object
-  data.forEach((uSA) => {
-    const parsedStructure = uSA
-    parsedStructure.structure = JSON.parse(uSA.structure)
-    return parsedStructure
-  })
   return res.status(200).json({
     data
   })
@@ -100,9 +91,7 @@ router.put('/update/:id', async (req, res) => {
     }
     const { formInfo } = data.structure
     data = destructureNamesAndInstructions(data, formInfo)
-    data.structure = JSON.stringify(data.structure)
     data = await selfAssesmentService.updateSelfAssesment(data, req.lang)
-    data.structure = JSON.parse(data.structure)
     res.status(200).json({
       message: 'Self assesment updated succesfully',
       data
