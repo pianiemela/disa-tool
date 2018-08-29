@@ -215,6 +215,10 @@
       "EditTypeForm": {
         "header": ["Edit type", "Muokkaa tyyppiä"],
         "prompt_1": ["Edit type", "Muokkaa tyyppiä"]
+      },
+      "Type": {
+        "delete_header": ["Delete type", "Poista tyyppi"],
+        "delete_prompt_1": ["Really remove type", "Poistetaanko tyyppi"]
       }
     }
   }
