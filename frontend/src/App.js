@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { LocalizeProvider } from 'react-localize-redux'
 
 import { getUserAction } from './actions/actions'
 import Nav from './containers/Nav/navbar'
 import Main from './containers/Main/main'
+import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
 
 class App extends Component {
   componentDidMount() {
@@ -14,10 +16,12 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <Nav />
-        <Main />
-      </div>
+      <LocalizeProvider>
+        <LocalizeWrapper>
+          <Nav />
+          <Main />
+        </LocalizeWrapper>
+      </LocalizeProvider>
     )
   }
 }

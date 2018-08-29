@@ -1,12 +1,14 @@
 import React from 'react'
-import LoginPage from '../../../containers/Login/LoginPage'
+import { LoginPage } from '../../../containers/Login/LoginPage'
 import LoginForm from '../../../containers/Login/components/form/LoginForm'
 
 describe('LoginPage component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<LoginPage />)
+    wrapper = shallow(<LoginPage
+      translate={() => ''}
+    />)
   })
 
   it('renders.', () => {
