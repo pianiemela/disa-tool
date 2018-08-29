@@ -191,6 +191,10 @@
       },
       "SelectTaskDropDown": {
         "placeholder": ["Select a task here", "Valitse tehtävä tästä"]
+      },
+      "Task": {
+        "delete_header": ["Delete task", "Poista tehtävä"],
+        "delete_prompt_1": ["Really remove task", "Poistetaanko tehtävä"]
       }
     }
   }
