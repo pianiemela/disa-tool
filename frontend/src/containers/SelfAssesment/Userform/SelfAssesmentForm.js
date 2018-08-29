@@ -52,7 +52,6 @@ export class SelfAssesmentForm extends React.Component {
     }
   }
 
-
   async componentDidMount() {
     const { courseInstanceId, type, selfAssesmentId } = this.props.match.params
     if (this.props.edit) {
@@ -111,42 +110,45 @@ export class SelfAssesmentForm extends React.Component {
 
   clearError = (types) => {
     const newE = { ...this.state.responseErrors }
-    const { type, errorType, id } = types
+    const { type, errorType, id, objective } = types
 
-    if (type === 'qModErrors' || 'openQErrors') {
-      newE[type][errorType] = newE[type][errorType].filter(error => error.id !== id)
-    }
+    if (objective) {
+      const toReplace = newE[type][errorType].find(e => e.id === id)
+      delete toReplace.errors[objective]
+      newE[type][errorType] = newE[type][errorType].map(e => (e.id === id ? toReplace : e))
+    } else {
+      if (type === 'qModErrors' || 'openQErrors') {
+        newE[type][errorType] = newE[type][errorType].filter(error => error.id !== id)
+      }
 
-    if (type === 'finalGErrors') {
-      newE[type][errorType] = []
+      if (type === 'finalGErrors') {
+        newE[type][errorType] = []
+      }
     }
 
     this.setState({ responseErrors: newE })
   }
+
   close = () => {
     this.setState({ softErrors: false })
   }
 
   checkResponseErrors = async () => {
-    const { questionModuleResponses, openQuestionResponses, finalGradeResponse }
-      = this.props.assesmentResponse
-    let fGrade = []
-    let finalResponseMax = []
-    let finalResponseMin = []
+    const {
+      grade,
+      fGrade,
+      openQErrors,
+      responseTextMax,
+      finalResponseMax,
+      responseTextMin,
+      finalResponseMin }
+      = checkResponseErrors(this.props.assesmentResponse)
 
-    const grade = questionModuleResponses.reduce((acc, qm) => exists(qm, 'grade', acc), [])
-    const responseTextMax = questionModuleResponses.reduce((acc, qm) => maxLength(qm, 'responseText', 2000, acc), [])
-    const responseTextMin = questionModuleResponses.reduce((acc, qm) => minLength(qm, 'responseText', 1, acc), [])
-
-    if (Object.keys(finalGradeResponse).length > 0) {
-      fGrade = exists(finalGradeResponse, 'grade', [])
-      finalResponseMax = questionModuleResponses.reduce((acc, qm) => maxLength(qm, 'responseText', 2000, acc), [])
-      finalResponseMin = questionModuleResponses.reduce((acc, qm) => minLength(qm, 'responseText', 10, acc), [])
-    }
-    const openQMin = openQuestionResponses.reduce((acc, openQ) => minLength(openQ, 'responseText', 10, acc), [])
-    const openQErrors = openQuestionResponses.reduce((acc, openQ) => maxLength(openQ, 'responseText', 2000, acc), []).concat(openQMin)
-
-    if (grade.length > 0 || fGrade.length > 0 || openQErrors.length > 0 || responseTextMax.length > 0 || finalResponseMax.length > 0) {
+    if (grade.length > 0
+      || fGrade.length > 0
+      || openQErrors.length > 0
+      || responseTextMax.length > 0
+      || finalResponseMax.length > 0) {
       this.setState({
         responseErrors:
         {
@@ -160,7 +162,11 @@ export class SelfAssesmentForm extends React.Component {
             grade: fGrade,
             responseText: finalResponseMax
           },
-          qModErrors: { ...this.state.responseErrors.qModErrors, grade, responseText: responseTextMax }
+          qModErrors: {
+            ...this.state.responseErrors.qModErrors,
+            grade,
+            responseText: responseTextMax
+          }
         }
       })
       window.scrollTo(0, 0)
@@ -174,6 +180,7 @@ export class SelfAssesmentForm extends React.Component {
       })
       return true
     }
+
     if (responseTextMin.length > 0 || finalResponseMin.length > 0) {
       this.setState({
         softErrors: true
