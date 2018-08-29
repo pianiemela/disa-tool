@@ -11,6 +11,7 @@ describe('CreateHeaderForm component', () => {
     wrapper = shallow(<CreateHeaderForm
       addHeader={mockFn}
       courseId={1}
+      translate={() => ''}
     />)
   })
 
