@@ -40,7 +40,7 @@ const deleteCourseperson = {
 const updateRole = async (data) => {
   const found = await CoursePerson.find({
     where: {
-      person_id: data.person_id, course_instance_id: data.course_instance_id
+      person_id: data.personId, course_instance_id: data.courseInstanceId
     }
   })
   await found.update(

@@ -11,6 +11,7 @@ describe('AddTaskForm component', () => {
     wrapper = shallow(<AddTaskForm
       addTask={mockFn}
       courseId={1}
+      translate={() => ''}
     />)
   })
 

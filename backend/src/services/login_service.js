@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
 const https = require('https')
+const { Op } = require('sequelize')
 
 const { Person } = require('../database/models.js')
 
@@ -49,7 +50,9 @@ const login = async (body, lang) => {
   }
   const person = await Person.findOne({
     where: {
-      username: result.data.username
+      [Op.or]: [
+        { username: result.data.username },
+        { studentnumber: result.data.student_number }]
     },
     attributes: ['id', 'username', 'name', 'studentnumber', 'role']
   })
@@ -82,6 +85,7 @@ const login = async (body, lang) => {
     ) : (
       result.data.first_names.split(' ')[0]
     )} ${result.data.last_name}`)
+    person.set('username', result.data.username)
     await person.save()
   }
   return {

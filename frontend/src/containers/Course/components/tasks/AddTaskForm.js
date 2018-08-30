@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button, Grid, Form, Input, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -23,11 +24,13 @@ export class AddTaskForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.tasks.AddTaskForm.${id}`)
+
   render() {
-    const contentPrompt = 'Lisää uusi tehtävä kurssille'
+    const contentPrompt = this.translate('prompt_1')
     const label = {
-      name: 'nimi',
-      description: 'kuvaus',
+      name: this.translate('name'),
+      description: this.translate('description'),
       info: 'info'
     }
     return (
@@ -35,7 +38,7 @@ export class AddTaskForm extends Component {
         <Grid.Column>
           <div className="AddTaskForm">
             <ModalForm
-              header="Lisää uusi tehtävä"
+              header={this.translate('header')}
               trigger={<Button className="addTaskButton" icon={{ name: 'add' }} />}
               content={
                 <div>
@@ -48,7 +51,7 @@ export class AddTaskForm extends Component {
                     <Label>{label.info}</Label>
                     <Input name="info" type="text" />
                   </Form.Field>
-                  <Button type="submit" color="green">Tallenna</Button>
+                  <Button type="submit" color="green">{this.translate('save')}</Button>
                 </div>
               }
               onSubmit={this.addTaskSubmit}
@@ -62,11 +65,12 @@ export class AddTaskForm extends Component {
 
 AddTaskForm.propTypes = {
   courseId: PropTypes.number.isRequired,
-  addTask: PropTypes.func.isRequired
+  addTask: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   addTask: asyncAction(addTask, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(AddTaskForm)
+export default withLocalize(connect(null, mapDispatchToProps)(AddTaskForm))

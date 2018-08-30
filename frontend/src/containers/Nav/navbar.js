@@ -15,9 +15,12 @@ const languageOptions = [
 ]
 
 class Nav extends Component {
-  state = {
-    activeItem: 'home',
-    language: 'fin'
+  constructor(props) {
+    super(props)
+    this.state = {
+      activeItem: 'home',
+      language: 'fin'
+    }
   }
 
   componentDidMount = async () => {
@@ -50,7 +53,10 @@ class Nav extends Component {
     await this.setState({ language: value })
     saveLanguage(this.state.language)
     this.props.setActiveLanguage(this.state.language)
+    window.location.reload()
   }
+
+  translate = id => this.props.translate(`Nav.navbar.${id}`)
 
   render() {
     const { activeItem, language } = this.state
@@ -65,7 +71,7 @@ class Nav extends Component {
             active={activeItem === 'home'}
             onClick={this.handleClick}
           >
-            {this.props.translate('Nav.navbar.home')}
+            {this.translate('home')}
           </Menu.Item>
           {this.props.user.id ?
             <Menu.Item
@@ -75,7 +81,7 @@ class Nav extends Component {
               active={activeItem === 'user'}
               onClick={this.handleClick}
             >
-              {this.props.translate('Nav.navbar.user')}
+              {this.translate('user')}
             </Menu.Item> : undefined}
           <Menu.Item
             as={Link}
@@ -84,7 +90,7 @@ class Nav extends Component {
             active={activeItem === 'courses'}
             onClick={this.handleClick}
           >
-            {this.props.translate('Nav.navbar.courses')}
+            {this.translate('courses')}
           </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item>
@@ -98,7 +104,7 @@ class Nav extends Component {
               <Menu.Item
                 as={Link}
                 to="/admin"
-                name={this.props.translate('Nav.navbar.admin')}
+                name={this.translate('admin')}
                 onClick={this.handleClick}
               />
               :
@@ -112,7 +118,7 @@ class Nav extends Component {
                 active={activeItem === 'logout'}
                 onClick={this.handleClick}
               >
-                {this.props.translate('Nav.navbar.logout')}
+                {this.translate('logout')}
               </Menu.Item> :
               <Menu.Item
                 as={Link}
@@ -121,7 +127,7 @@ class Nav extends Component {
                 active={activeItem === 'login'}
                 onClick={this.handleClick}
               >
-                {this.props.translate('Nav.navbar.login')}
+                {this.translate('login')}
               </Menu.Item>
             }
           </Menu.Menu>

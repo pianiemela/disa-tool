@@ -11,6 +11,7 @@ describe('CreateTypeForm component', () => {
     wrapper = shallow(<CreateTypeForm
       addType={mockFn}
       headerId={1}
+      translate={() => ''}
     />)
   })
 

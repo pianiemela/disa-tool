@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -29,6 +30,8 @@ export class CreateObjectiveForm extends Component {
       })
     }
 
+    translate = id => this.props.translate(`Course.matrix.CreateObjectiveForm.${id}`)
+
     render() {
       if (this.props.cut) {
         return (
@@ -38,23 +41,23 @@ export class CreateObjectiveForm extends Component {
         )
       }
       const contentPrompt = [
-        'Lisää uusi oppimistavoite kategoriaan',
+        this.translate('prompt_1'),
         `"${this.props.category.name}"`,
-        'tasolle',
+        this.translate('prompt_2'),
         `"${this.props.level.name}"`
       ].join(' ')
       return (
         <div className="CreateObjectiveForm">
           <ModalForm
-            header="Luo uusi oppimistavoite"
+            header={this.translate('header')}
             trigger={<Button className="addObjectiveButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>
                   {contentPrompt}.
                 </p>
-                <MultilingualField field="name" fieldDisplay="nimi" />
-                <Button type="submit" color="green">Tallenna</Button>
+                <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+                <Button type="submit" color="green">{this.translate('save')}</Button>
               </div>
             }
             onSubmit={this.addObjectiveSubmit}
@@ -76,7 +79,8 @@ CreateObjectiveForm.propTypes = {
   }).isRequired,
   courseId: PropTypes.number.isRequired,
   cut: PropTypes.number,
-  moveObjective: PropTypes.func.isRequired
+  moveObjective: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 CreateObjectiveForm.defaultProps = {
@@ -94,4 +98,4 @@ const mapDispatchToProps = dispatch => ({
   moveObjective: asyncAction(moveObjective, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateObjectiveForm)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(CreateObjectiveForm))

@@ -15,3 +15,23 @@
   display: inline-block;
   padding: 0px 5px 0px 5px;
 }
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+.objectiveControlButton {
+  margin: 10px;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+  }
+  to {}
+}
+
+.appearAnimation {
+  animation-name: appear;
+  animation-duration: 0.6s;
+}

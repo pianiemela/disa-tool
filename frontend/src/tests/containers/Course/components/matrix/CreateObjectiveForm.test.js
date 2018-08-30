@@ -23,6 +23,7 @@ describe('CreateObjectiveForm component', () => {
       level={level}
       courseId={1}
       moveObjective={mockFn}
+      translate={() => ''}
     />)
   })
 

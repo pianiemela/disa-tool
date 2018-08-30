@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button, Container } from 'semantic-ui-react'
 
 import { changeActive } from '../../actions/tasks'
@@ -42,6 +43,8 @@ export class EditTasksTab extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.tasks.EditTasksTab.${id}`)
+
   render() {
     return (
       <div className="EditTasksTab">
@@ -58,7 +61,7 @@ export class EditTasksTab extends Component {
               onClose={this.closeEditTaskObjectivesForm}
             />
             <div className="flexContainer">
-              <Button className="nowrap" onClick={this.openEditTaskObjectivesForm}>Muokkaa kertoimia</Button>
+              <Button className="nowrap" onClick={this.openEditTaskObjectivesForm}>{this.translate('edit_multipliers_button')}</Button>
               <TypesDisplay types={this.props.activeTask.types} />
             </div>
           </Container>
@@ -86,7 +89,8 @@ EditTasksTab.propTypes = {
     id: PropTypes.number.isRequired,
     defaultMultiplier: PropTypes.number,
     types: PropTypes.arrayOf(PropTypes.number).isRequired
-  })
+  }),
+  translate: PropTypes.func.isRequired
 }
 
 EditTasksTab.defaultProps = {
@@ -106,4 +110,4 @@ const mapDispatchToProps = dispatch => ({
   changeActive: changeActive(dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTasksTab)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(EditTasksTab))

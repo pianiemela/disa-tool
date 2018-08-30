@@ -1,5 +1,5 @@
 import React from 'react'
-import Navbar from '../../../../../containers/Course/components/navbar/Navbar'
+import { Navbar } from '../../../../../containers/Course/components/navbar/Navbar'
 
 describe('Navbar component', () => {
   let wrapper
@@ -8,6 +8,7 @@ describe('Navbar component', () => {
     wrapper = shallow(<Navbar
       matchUrl="course/12"
       pathname="course/12"
+      translate={() => ''}
     />)
   })
 

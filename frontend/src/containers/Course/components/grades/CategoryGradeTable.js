@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { arrayOf, func, number, shape } from 'prop-types'
 import { Button, Container, Header, Table, Input } from 'semantic-ui-react'
 
@@ -77,14 +78,16 @@ export class CategoryGradeTable extends Component {
     this.setState({ updatedGrades: [] })
   }
 
+  translate = id => this.props.translate(`Course.grades.CategoryGradeTable.${id}`)
+
   render() {
     return (
       <Container>
-        <Header as="h3" content="Muokkaa arvosanoja osoioittain" />
+        <Header as="h3" content={this.translate('header')} />
         <Table definition>
           <Table.Header>
             <Table.Row>
-              <Table.HeaderCell>Arvosana/Osio</Table.HeaderCell>
+              <Table.HeaderCell>{this.translate('header_cell')}</Table.HeaderCell>
               {this.props.grades.map(grade => (
                 <Table.HeaderCell key={grade.id}>
                   {grade.name}
@@ -114,8 +117,8 @@ export class CategoryGradeTable extends Component {
                 ))}
           </Table.Body>
         </Table>
-        <Button color="green" content="Tallenna" onClick={this.submitChanges} />
-        <Button color="red" content="Peru muutokset" onClick={this.cancelChanges} />
+        <Button color="green" content={this.translate('save')} onClick={this.submitChanges} />
+        <Button color="red" content={this.translate('cancel_button')} onClick={this.cancelChanges} />
       </Container>
     )
   }
@@ -130,9 +133,10 @@ CategoryGradeTable.propTypes = {
   categories: arrayOf(shape()),
   courseId: number.isRequired,
   grades: arrayOf(shape()),
-  dispatchUpdateCategoryGrades: func.isRequired
+  dispatchUpdateCategoryGrades: func.isRequired,
+  translate: func.isRequired
 }
 
-export default connect(null, {
+export default withLocalize(connect(null, {
   dispatchUpdateCategoryGrades: updateCategoryGradesAction
-})(CategoryGradeTable)
+})(CategoryGradeTable))

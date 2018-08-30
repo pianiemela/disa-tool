@@ -128,9 +128,10 @@ export const initResponseForm = (data) => {
           (qmO.includedInAssesment ?
             response.questionModuleResponses.push({
               id: qmO.id,
-              grade: '1',
+              grade: null,
               name: qmO.name,
-              header: qm.name
+              header: qm.name,
+              category: qm.id
             }) : null))
         :
         null))

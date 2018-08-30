@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Label, Popup, Header, Loader, Segment } from 'semantic-ui-react'
+import { withLocalize } from 'react-localize-redux'
+import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeObjective } from '../../actions/objectives'
@@ -19,19 +20,29 @@ export class MatrixObjective extends Component {
       triggered: false,
       loading: true,
       cumulative_multiplier: 0,
-      tasks: []
+      tasks: [],
+      hasBeenCut: false
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
+  componentDidUpdate(oldProps) {
+    if (oldProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
       if (this.state.triggered) {
-        this.setState({
-          triggered: false,
-          loading: true
-        })
+        this.reset()
       }
     }
+    if (this.props.isCut && !this.state.hasBeenCut) this.markCut()
+  }
+
+  reset() {
+    this.setState({
+      triggered: false,
+      loading: true
+    })
+  }
+
+  markCut() {
+    this.setState({ hasBeenCut: true })
   }
 
   toggleObjective = () => {
@@ -64,6 +75,8 @@ export class MatrixObjective extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.matrix.MatrixObjective.${id}`)
+
   render() {
     if (this.props.isCut) return <Button icon={{ name: 'paste' }} onClick={() => this.props.cut(null)} />
     return (
@@ -84,7 +97,7 @@ export class MatrixObjective extends Component {
             </Button>
           ) : (
             <Segment
-              className="objectiveSegment"
+              className={`objectiveSegment${this.state.hasBeenCut ? ' appearAnimation' : ''}`}
               style={{ borderRadius: '0px' }}
             >
               <MathJaxText content={this.props.objective.name} />
@@ -106,27 +119,29 @@ export class MatrixObjective extends Component {
                     <Loader active inline />
                   ) : (
                     <div>
-                      <p>
-                        <span>
-                          {'Kerroin yhteensä: '}
-                        </span>
-                        <strong>
-                          {this.state.cumulative_multiplier.toFixed(2)}
-                        </strong>
-                      </p>
-                      <Header>Tehtävät</Header>
-                      {this.state.tasks.map(task => (
-                        <div key={task.name}>
-                          <p>
-                            <strong>
-                              {task.name}
-                            </strong>
-                            <span>
-                              : {(Number(task.multiplier)).toFixed(2)}
-                            </span>
-                          </p>
-                        </div>
-                      ))}
+                      <div>
+                        <span>{this.translate('cumulative')}</span>
+                        <Label>
+                          <strong>{this.state.cumulative_multiplier.toFixed(2)}</strong>
+                        </Label>
+                      </div>
+                      <Header>
+                        <span className="capitalize">{this.translate('tasks')}</span>
+                      </Header>
+                      <Grid>
+                        {this.state.tasks.map(task => (
+                          <Grid.Row key={task.name}>
+                            <Grid.Column width={12}>
+                              <span>{task.name}</span>
+                            </Grid.Column>
+                            <Grid.Column width={4} textAlign="left">
+                              <Label>
+                                {(Number(task.multiplier)).toFixed(2)}
+                              </Label>
+                            </Grid.Column>
+                          </Grid.Row>
+                        ))}
+                      </Grid>
                     </div>
                   )}
               />
@@ -138,15 +153,22 @@ export class MatrixObjective extends Component {
         {this.props.editing ? (
           <div className="removeBlock">
             <DeleteForm
+              style={{ margin: '5px auto 5px auto' }}
               onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
               prompt={[
-                'Poistetaanko oppimistavoite',
+                this.translate('delete_prompt_1'),
                 `"${this.props.objective.name}"`
               ]}
-              header="Poista oppimistavoite"
+              header={this.translate('delete_header')}
             />
-            <Button type="button" icon={{ name: 'cut' }} size="mini" onClick={() => this.props.cut(this.props.objective.id)} />
-            <EditObjectiveForm objectiveId={this.props.objective.id} />
+            <Button
+              style={{ margin: '5px auto 5px auto' }}
+              type="button"
+              icon={{ name: 'cut' }}
+              size="mini"
+              onClick={() => this.props.cut(this.props.objective.id)}
+            />
+            <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
           </div>
         ) : (
           null
@@ -171,7 +193,8 @@ MatrixObjective.propTypes = {
   showDetails: PropTypes.bool,
   lastMultiplierUpdate: PropTypes.instanceOf(Date),
   isCut: PropTypes.bool.isRequired,
-  cut: PropTypes.func.isRequired
+  cut: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 MatrixObjective.defaultProps = {
@@ -196,4 +219,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   cut: id => dispatch({ type: 'OBJECTIVE_CUT', cut: id })
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MatrixObjective)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(MatrixObjective))

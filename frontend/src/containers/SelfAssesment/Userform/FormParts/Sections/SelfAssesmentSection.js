@@ -132,19 +132,16 @@ export class SelfAssesmentSection extends React.Component {
             <Card.Description>
               {headerEditForm}
             </Card.Description>
-            <Form>
-              {renderModules}
+            {renderModules}
 
-              {question && edit ?
-                <AddOpenQuestion />
-                :
-                null
-              }
-            </Form>
+            {question && edit ?
+              <AddOpenQuestion />
+              :
+              null
+            }
           </Card.Content>
         </Card>
       </div >
-
     )
   }
 }
