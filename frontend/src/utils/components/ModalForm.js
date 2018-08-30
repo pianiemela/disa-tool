@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { LocalizeProvider } from 'react-localize-redux'
-import { Modal, Form, Divider } from 'semantic-ui-react'
+import { Modal, Form, Divider, Button } from 'semantic-ui-react'
 
 import LocalizeWrapper from '../../containers/Localize/LocalizeWrapper'
 
@@ -90,6 +90,11 @@ class ModalForm extends Component {
     )
   }
 }
+
+export const saveActions = translate => [
+  <Button color="green">{translate('save')}</Button>,
+  <Button type="cancel">{translate('cancel')}</Button>
+]
 
 ModalForm.propTypes = {
   trigger: PropTypes.element.isRequired,

@@ -8,7 +8,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { objectivesDetails } from '../../../../api/tasks'
 import { editTaskObjectives } from '../../actions/tasks'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 
 class EditTaskObjectivesForm extends Component {
   constructor(props) {
@@ -179,10 +179,7 @@ class EditTaskObjectivesForm extends Component {
               )}
             </div>
           }
-          actions={[
-            <Button color="green">{this.translate('save')}</Button>,
-            <Button type="cancel">{this.translate('cancel')}</Button>
-          ]}
+          actions={saveActions(this.translate)}
           onSubmit={this.editTaskObjectivesSubmit}
           onClose={this.props.onClose}
           onOpen={this.loadDetails}

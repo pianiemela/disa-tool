@@ -7,7 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { addTask } from '../../actions/tasks'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class AddTaskForm extends Component {
@@ -51,9 +51,9 @@ export class AddTaskForm extends Component {
                     <Label>{label.info}</Label>
                     <Input name="info" type="text" />
                   </Form.Field>
-                  <Button type="submit" color="green">{this.translate('save')}</Button>
                 </div>
               }
+              actions={saveActions(this.translate)}
               onSubmit={this.addTaskSubmit}
             />
           </div>
