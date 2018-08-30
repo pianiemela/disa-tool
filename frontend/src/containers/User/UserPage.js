@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
 import { Accordion, Button, Header, Grid, Item, Dropdown } from 'semantic-ui-react'
+import { withLocalize } from 'react-localize-redux'
 
 import {
   getUserCoursesAction,
@@ -44,6 +45,8 @@ class UserPage extends Component {
       this.props.dispatchGetCourseInstanceData(courseId)
     }
   }
+
+  t = id => this.props.translate(`UserPage.common.${id}`)
 
   handleActivityToggle = async () => {
     const { activeCourse } = this.props
@@ -115,7 +118,8 @@ class UserPage extends Component {
       <Grid padded="horizontally">
         <Grid.Row>
           <Grid.Column>
-            {this.props.user ? <Header as="h1">Hei {this.props.user.name}</Header> : <p>Hello bastard</p>}
+            {this.props.user ? <Header as="h1">{this.t('hello')} {this.props.user.name}</Header> :
+            <p>Hello bastard</p>}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -147,7 +151,7 @@ class UserPage extends Component {
                           multiple
                           selection
                           search
-                          placeholder="Lisää opettaja"
+                          placeholder={this.t('select_teacher')}
                           value={this.state.newTeachers}
                           options={students.map(person => (
                             { key: person.id, text: person.name, value: person.id }
@@ -158,7 +162,7 @@ class UserPage extends Component {
                           name="teacherAddButton"
                           basic
                           color="pink"
-                          content="Lisää opettaja"
+                          content={this.t('add_teacher')}
                           onClick={this.handleTeacherAdding}
                         />
                       </Grid.Column>
@@ -167,14 +171,14 @@ class UserPage extends Component {
                   <Grid.Row>
                     <Grid.Column floated="left" width={8}>
                       <Item.Content>
-                        <Header as="h3">Tehtävät</Header>
+                        <Header as="h3">{this.t('tasks')}</Header>
                         <Accordion
                           defaultActiveIndex={-1}
                           styled
                           fluid
                           panels={[{
                             key: 'ListTasks',
-                            title: 'Katso tehtävälistaa',
+                            title: this.t('open_task_list'),
                             content: {
                               key: 'tasks',
                               content: <ListTasks
@@ -188,7 +192,7 @@ class UserPage extends Component {
                     </Grid.Column>
                     <Grid.Column floated="right" width={8}>
                       <Item.Content>
-                        <Header as="h3">Itsearvioinnit</Header>
+                        <Header as="h3">{this.t('self_assessments')}</Header>
                         <CourseSelfAssessmentsList
                           assessments={assessments}
                           isTeacher={isTeacher}
@@ -202,7 +206,7 @@ class UserPage extends Component {
                 </Grid>
               </Item> :
               <Item>
-                <Item.Content>Kurssia ei valittu</Item.Content>
+                <Item.Content>{this.t('no_course_selected')}</Item.Content>
               </Item>}
           </Grid.Column>
         </Grid.Row>
@@ -259,4 +263,4 @@ UserPage.defaultProps = {
   activeCourse: { tasks: [], self_assessments: [], people: [] }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
+export default connect(mapStateToProps, mapDispatchToProps)(withLocalize(UserPage))
