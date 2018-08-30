@@ -1,15 +1,16 @@
 import React from 'react'
 import { Form, Input, Label, Segment } from 'semantic-ui-react'
-import MultiplingualField from '../../../utils/components/MultilingualField'
+import { MultilingualField } from '../../../utils/components/MultilingualField'
 import { findText } from '../../testUtils'
 
 describe('MultilingualField component', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<MultiplingualField
+    wrapper = shallow(<MultilingualField
       field="test"
       fieldDisplay="test label"
+      translate={() => ''}
     />)
   })
 
