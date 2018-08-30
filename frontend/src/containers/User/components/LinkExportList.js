@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Segment, Button } from 'semantic-ui-react'
+import { withLocalize } from 'react-localize-redux'
 
 import LinkExport from './LinkExport'
 
@@ -12,12 +13,14 @@ class LinkExportList extends Component {
     }
   }
 
+  t = id => this.props.translate(`UserPage.CourseInfo.Links.${id}`)
+
   renderCollapsed = () => (
     <Button
       onClick={() => this.setState({ expanded: true })}
       basic
       color="blue"
-      content="Kurssin linkit"
+      content={this.t('course_links')}
       style={{ whiteSpace: 'nowrap' }}
     />
   )
@@ -28,11 +31,17 @@ class LinkExportList extends Component {
         onClick={() => this.setState({ expanded: false })}
         basic
         color="blue"
-        content="Sulje"
+        content={this.t('close')}
       />
       <Segment>
-        <LinkExport title="Rekisteröityminen: " url={`/courses?course=${this.props.course.course_id}&instance=${this.props.course.id}`} />
-        <LinkExport title="Matriisi: " url={`/courses/matrix/${this.props.course.id}`} />
+        <LinkExport
+          title={this.t('registration')}
+          url={`/courses?course=${this.props.course.course_id}&instance=${this.props.course.id}`}
+        />
+        <LinkExport
+          title={this.t('matrix')}
+          url={`/courses/matrix/${this.props.course.id}`}
+        />
       </Segment>
     </div>
   )
@@ -53,4 +62,4 @@ LinkExportList.propTypes = {
   }).isRequired
 }
 
-export default LinkExportList
+export default withLocalize(LinkExportList)

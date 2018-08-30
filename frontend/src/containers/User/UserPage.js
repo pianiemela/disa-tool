@@ -16,7 +16,7 @@ import {
 import CourseSideMenu from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
 import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
-import { CourseInfo } from './CourseInfo'
+import CourseInfo from './CourseInfo'
 import TaskResponseEdit from './TaskResponseEdit'
 
 class UserPage extends Component {
@@ -263,4 +263,4 @@ UserPage.defaultProps = {
   activeCourse: { tasks: [], self_assessments: [], people: [] }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withLocalize(UserPage))
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(UserPage))
