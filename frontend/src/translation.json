@@ -6,7 +6,8 @@
     "skill_levels": ["skill levels", "taitotasot"],
     "category": ["category", "osio"],
     "objective": ["objective", "oppimistavoite"],
-    "tasks": ["tasks", "tehtävät"]
+    "tasks": ["tasks", "tehtävät"],
+    "or": ["or", "tai"]
   },
   "Nav": {
     "navbar": {
@@ -231,6 +232,10 @@
       "DeleteForm": {
         "remove": ["Remove", "Poista"],
         "cancel": ["Cancel", "Peru"]
+      },
+      "MultilingualField": {
+        "monolingual": ["Monolingual", "Yksikielinen"],
+        "multilingual": ["Multilingual", "Monikielinen"]
       }
     }
   }

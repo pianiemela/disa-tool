@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { LocalizeProvider } from 'react-localize-redux'
 import { Modal, Form } from 'semantic-ui-react'
+
+import LocalizeWrapper from '../../containers/Localize/LocalizeWrapper'
 
 class ModalForm extends Component {
   constructor(props) {
@@ -8,10 +11,13 @@ class ModalForm extends Component {
     this.state = {
       expanded: false
     }
+    if (this.props.children && this.props.content) {
+      console.error('Both props children and content defined in ModalForm. content will not be rendered.')
+    }
   }
 
   componentDidUpdate(oldProps, oldState) {
-    if (oldProps.expanded === null ) {
+    if (oldProps.expanded === null) {
       if (!oldState.expanded && this.state.expanded) this.props.onOpen()
     } else if (!oldState.expanded && this.props.expanded) this.props.onOpen()
   }
@@ -45,6 +51,8 @@ class ModalForm extends Component {
         })}
       </div>
     )
+    // The children/content are wrapped in a separate context.
+    // This is a hack and should be fixed to use the outside context instead.
     return (
       <Modal
         trigger={trigger}
@@ -54,7 +62,11 @@ class ModalForm extends Component {
         <Modal.Header>{this.props.header}</Modal.Header>
         <Modal.Content>
           <Form onSubmit={this.handleSubmit} loading={this.props.loading}>
-            {this.props.content}
+            <LocalizeProvider>
+              <LocalizeWrapper>
+                {this.props.children || this.props.content}
+              </LocalizeWrapper>
+            </LocalizeProvider>
           </Form>
         </Modal.Content>
       </Modal>
@@ -68,7 +80,14 @@ ModalForm.propTypes = {
     PropTypes.element,
     PropTypes.string
   ]).isRequired,
-  content: PropTypes.element.isRequired,
+  content: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element)
+  ]),
+  children: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.arrayOf(PropTypes.element)
+  ]),
   onSubmit: PropTypes.func,
   loading: PropTypes.bool,
   expanded: PropTypes.bool,
@@ -81,7 +100,9 @@ ModalForm.defaultProps = {
   loading: false,
   expanded: null,
   onClose: () => {},
-  onOpen: () => {}
+  onOpen: () => {},
+  content: null,
+  children: null
 }
 
 export default ModalForm

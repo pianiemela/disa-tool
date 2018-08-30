@@ -57,15 +57,14 @@ class EditLevelForm extends Component {
         <ModalForm
           header={this.translate('header')}
           trigger={<Button onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
-          content={
-            <div>
-              <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
-              <Button color="green">{this.translate('save')}</Button>
-            </div>
-          }
           onSubmit={this.editLevelSubmit}
           loading={this.state.loading}
-        />
+        >
+          <div>
+            <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
+            <Button color="green">{this.translate('save')}</Button>
+          </div>
+        </ModalForm>
       </div>
     )
   }

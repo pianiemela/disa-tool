@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { withLocalize } from 'react-localize-redux'
 import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 
 class MultilingualField extends Component {
@@ -49,6 +50,8 @@ class MultilingualField extends Component {
     return this.state.values.swe
   }
 
+  translate = id => this.props.translate(`utils.components.MultilingualField.${id}`)
+
   render() {
     return (
       <Form.Field className="MultilingualField">
@@ -63,16 +66,16 @@ class MultilingualField extends Component {
               active={!this.state.multilingual}
               onClick={() => this.setState({ multilingual: false })}
             >
-              Yksikielinen
+              {this.translate('monolingual')}
             </Button>
-            <Button.Or text="tai" />
+            <Button.Or text={this.translate('or')} />
             <Button
               type="button"
               toggle
               active={this.state.multilingual}
               onClick={() => this.setState({ multilingual: true })}
             >
-              Monikielinen
+              {this.translate('multilingual')}
             </Button>
           </Button.Group>
         </div>
@@ -131,7 +134,8 @@ MultilingualField.propTypes = {
     eng: PropTypes.string,
     fin: PropTypes.string,
     swe: PropTypes.string
-  })
+  }),
+  translate: PropTypes.func.isRequired
 }
 
 MultilingualField.defaultProps = {
@@ -142,4 +146,4 @@ MultilingualField.defaultProps = {
   }
 }
 
-export default MultilingualField
+export default withLocalize(MultilingualField)
