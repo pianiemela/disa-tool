@@ -180,8 +180,8 @@ class EditTaskObjectivesForm extends Component {
             </div>
           }
           actions={[
-            <Button key={0} color="green">{this.translate('save')}</Button>,
-            <Button key={1} type="cancel">{this.translate('cancel')}</Button>
+            <Button color="green">{this.translate('save')}</Button>,
+            <Button type="cancel">{this.translate('cancel')}</Button>
           ]}
           onSubmit={this.editTaskObjectivesSubmit}
           onClose={this.props.onClose}

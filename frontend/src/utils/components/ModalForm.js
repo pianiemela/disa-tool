@@ -45,9 +45,12 @@ class ModalForm extends Component {
     cancel: this.collapse
   }
 
-  mapAction = button => (button.props.type ? React.cloneElement(button, {
-    onClick: this.actionHandlers[button.props.type]
-  }) : button)
+  mapAction = (button, i) => (button.props.type ? React.cloneElement(button, {
+    onClick: this.actionHandlers[button.props.type],
+    key: i
+  }) : React.cloneElement(button, {
+    key: i
+  }))
 
   render() {
     const style = this.props.trigger.props.style || {}
@@ -76,7 +79,7 @@ class ModalForm extends Component {
                 {this.props.actions.length > 0 ? (
                   <div>
                     <Divider />
-                    {this.props.actions.map(button => this.mapAction(button))}
+                    {this.props.actions.map(this.mapAction)}
                   </div>
                 ) : null}
               </LocalizeWrapper>
