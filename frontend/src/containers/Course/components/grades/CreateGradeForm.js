@@ -7,7 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { addGrade } from '../../actions/grades'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 class CreateGradeForm extends Component {
@@ -87,9 +87,9 @@ class CreateGradeForm extends Component {
                   })))}
                 />
               </Form.Field>
-              <Button color="green">{this.translate('save')}</Button>
             </div>
           }
+          actions={saveActions(this.translate)}
           onSubmit={this.addGradeSubmit}
         />
       </div>

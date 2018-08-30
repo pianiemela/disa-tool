@@ -7,7 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { addType } from '../../actions/types'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class CreateTypeForm extends Component {
@@ -44,9 +44,9 @@ export class CreateTypeForm extends Component {
                 <Label size="large">{label.multiplier}</Label>
                 <Input name="multiplier" type="number" min={0} max={1} step={0.01} />
               </Form.Field>
-              <Button type="submit" color="green">{this.translate('save')}</Button>
             </div>
           }
+          actions={saveActions(this.translate)}
           onSubmit={this.addTypeSubmit}
         />
       </div>

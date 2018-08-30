@@ -8,7 +8,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { details } from '../../../../api/grades'
 import { editGrade } from '../../actions/grades'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 class EditGradeForm extends Component {
@@ -122,9 +122,9 @@ class EditGradeForm extends Component {
                   })))}
                 />
               </Form.Field>
-              <Button color="green">{this.translate('save')}</Button>
             </div>
           }
+          actions={saveActions(this.translate)}
           onSubmit={this.editGradeSubmit}
           loading={this.state.loading}
         />

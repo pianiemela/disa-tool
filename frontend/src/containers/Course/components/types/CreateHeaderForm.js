@@ -7,7 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { addHeader } from '../../actions/types'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class CreateHeaderForm extends Component {
@@ -38,9 +38,9 @@ export class CreateHeaderForm extends Component {
                 {contentPrompt}.
               </p>
               <MultilingualField field="name" fieldDisplay={label.name} />
-              <Button type="submit" color="green">{this.translate('save')}</Button>
             </div>
           }
+          actions={saveActions(this.translate)}
           onSubmit={this.addHeaderSubmit}
         />
       </div>

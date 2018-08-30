@@ -8,7 +8,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { headerDetails } from '../../../../api/types'
 import { editHeader } from '../../actions/types'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 class EditHeaderForm extends Component {
@@ -60,9 +60,9 @@ class EditHeaderForm extends Component {
           content={
             <div>
               <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
-              <Button color="green">{this.translate('save')}</Button>
             </div>
           }
+          actions={saveActions(this.translate)}
           onSubmit={this.editHeaderSubmit}
           loading={this.state.loading}
         />

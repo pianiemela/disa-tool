@@ -8,7 +8,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { editTask } from '../../actions/tasks'
 import { details } from '../../../../api/tasks'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class EditTaskForm extends Component {
@@ -106,9 +106,9 @@ export class EditTaskForm extends Component {
                       })}
                     />
                   </Form.Field>
-                  <Button type="submit" color="green">{this.translate('save')}</Button>
                 </div>
               }
+              actions={saveActions(this.translate)}
               onSubmit={this.editTaskSubmit}
               loading={this.state.loading}
             />
