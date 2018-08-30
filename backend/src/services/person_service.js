@@ -101,7 +101,7 @@ const addPersonsToCourseFromResponses = async (tasks, courseId) => {
 const updateGlobal = async (data) => {
   const found = await Person.find({
     where: {
-      id: data.person_id
+      id: data.personId
     }
   })
 
