@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Button } from 'semantic-ui-react'
+import { Button, Grid } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { removeTask, changeActive } from '../../actions/tasks'
@@ -19,18 +19,26 @@ export class Task extends Component {
       return null
     }
     return (
-      <div className="flexContainer">
-        <div className="flexGrower flexBlock">
-          <MathJaxText content={this.props.task.description} />
-          <p>{this.props.task.info}</p>
-        </div>
-        {this.props.editing ? (
-          <div className="flexBlock">
-            <EditTaskForm taskId={this.props.task.id} />
-            <Button onClick={this.props.openModal}>{this.translate('edit_multipliers_button')}</Button>
-          </div>
-         ) : null}
-      </div>
+      <Grid stretched>
+        <Grid.Row>
+          <Grid.Column width={13}>
+            <MathJaxText content={this.props.task.description} />
+            <p>{this.props.task.info}</p>
+          </Grid.Column>
+          <Grid.Column stretched width={3} textAlign="center" verticalAlign="middle">
+            {this.props.editing ? (
+              <div>
+                <div className="taskControlButton">
+                  <EditTaskForm taskId={this.props.task.id} />
+                </div>
+                <div className="taskControlButton">
+                  <Button onClick={this.props.openModal}>{this.translate('edit_multipliers_button')}</Button>
+                </div>
+              </div>
+            ) : null}
+          </Grid.Column>
+        </Grid.Row>
+      </Grid>
     )
   }
 

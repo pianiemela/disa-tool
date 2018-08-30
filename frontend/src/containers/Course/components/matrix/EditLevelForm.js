@@ -56,7 +56,7 @@ class EditLevelForm extends Component {
       <div className="EditLevelForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
+          trigger={<Button basic circular onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
           onSubmit={this.editLevelSubmit}
           loading={this.state.loading}
         >

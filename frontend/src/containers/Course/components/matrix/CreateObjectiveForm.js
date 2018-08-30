@@ -36,7 +36,7 @@ export class CreateObjectiveForm extends Component {
       if (this.props.cut) {
         return (
           <div className="CreateObjectiveForm">
-            <Button className="addObjectiveButton" icon={{ name: 'paste' }} onClick={this.paste} />
+            <Button basic className="addObjectiveButton" icon={{ name: 'paste' }} onClick={this.paste} />
           </div>
         )
       }
@@ -50,7 +50,7 @@ export class CreateObjectiveForm extends Component {
         <div className="CreateObjectiveForm">
           <ModalForm
             header={this.translate('header')}
-            trigger={<Button className="addObjectiveButton" icon={{ name: 'add' }} />}
+            trigger={<Button basic className="addObjectiveButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>

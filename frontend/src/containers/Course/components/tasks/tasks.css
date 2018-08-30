@@ -41,3 +41,10 @@
   white-space: nowrap;
 }
 
+.taskControlButton {
+  margin: 10px;
+}
+
+.MatrixObjective {
+  margin: 5px 0px 5px 0px;
+}

@@ -28,7 +28,7 @@ export class CreateLevelForm extends Component {
       <Table.HeaderCell className="CreateLevelForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button className="addLevelButton" icon={{ name: 'add' }} />}
+          trigger={<Button basic className="addLevelButton" icon={{ name: 'add' }} />}
           content={
             <div>
               <p>

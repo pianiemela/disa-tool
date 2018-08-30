@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
-  cut: null
+  cut: null,
+  last_cut: null
 }
 
 const objectiveReducer = (state = INITIAL_STATE, action) => {
@@ -10,7 +11,11 @@ const objectiveReducer = (state = INITIAL_STATE, action) => {
         cut: action.cut
       }
     case 'OBJECTIVE_MOVE':
-      return INITIAL_STATE
+      return {
+        ...state,
+        cut: null,
+        last_cut: state.cut
+      }
     case 'COURSE_RESET':
       return INITIAL_STATE
     default:

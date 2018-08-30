@@ -29,7 +29,7 @@ export class CreateCategoryForm extends Component {
         <Table.Cell>
           <ModalForm
             header={this.translate('header')}
-            trigger={<Button className="addCategoryButton" icon={{ name: 'add' }} />}
+            trigger={<Button basic className="addCategoryButton" icon={{ name: 'add' }} />}
             content={
               <div>
                 <p>
