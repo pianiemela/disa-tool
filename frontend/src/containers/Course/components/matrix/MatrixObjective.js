@@ -20,19 +20,29 @@ export class MatrixObjective extends Component {
       triggered: false,
       loading: true,
       cumulative_multiplier: 0,
-      tasks: []
+      tasks: [],
+      hasBeenCut: false
     }
   }
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
+  componentDidUpdate(oldProps) {
+    if (oldProps.lastMultiplierUpdate !== this.props.lastMultiplierUpdate) {
       if (this.state.triggered) {
-        this.setState({
-          triggered: false,
-          loading: true
-        })
+        this.reset()
       }
     }
+    if (this.props.isCut && !this.state.hasBeenCut) this.markCut()
+  }
+
+  reset() {
+    this.setState({
+      triggered: false,
+      loading: true
+    })
+  }
+
+  markCut() {
+    this.setState({ hasBeenCut: true })
   }
 
   toggleObjective = () => {
@@ -87,7 +97,7 @@ export class MatrixObjective extends Component {
             </Button>
           ) : (
             <Segment
-              className="objectiveSegment"
+              className={`objectiveSegment${this.state.hasBeenCut ? ' appearAnimation' : ''}`}
               style={{ borderRadius: '0px' }}
             >
               <MathJaxText content={this.props.objective.name} />
@@ -143,6 +153,7 @@ export class MatrixObjective extends Component {
         {this.props.editing ? (
           <div className="removeBlock">
             <DeleteForm
+              style={{ margin: '5px auto 5px auto' }}
               onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
               prompt={[
                 this.translate('delete_prompt_1'),
@@ -150,8 +161,14 @@ export class MatrixObjective extends Component {
               ]}
               header={this.translate('delete_header')}
             />
-            <Button type="button" icon={{ name: 'cut' }} size="mini" onClick={() => this.props.cut(this.props.objective.id)} />
-            <EditObjectiveForm objectiveId={this.props.objective.id} />
+            <Button
+              style={{ margin: '5px auto 5px auto' }}
+              type="button"
+              icon={{ name: 'cut' }}
+              size="mini"
+              onClick={() => this.props.cut(this.props.objective.id)}
+            />
+            <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
           </div>
         ) : (
           null
