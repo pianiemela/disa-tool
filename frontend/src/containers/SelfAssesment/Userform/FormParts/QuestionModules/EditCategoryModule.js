@@ -26,18 +26,7 @@ export class EditCategorymodule extends React.Component {
   render() {
     const { name, textFieldOn, id, includedInAssesment } = this.props.data
     const { final } = this.props
-    let disabled = false
-    let headercolor = 'black'
-    let buttonColor = 'green'
-    let buttonText = 'Mukana itsearviossa'
     const { headers } = this.props.data
-
-    if (!includedInAssesment) {
-      disabled = true
-      headercolor = 'grey'
-      buttonColor = 'red'
-      buttonText = 'Ei mukana itsearviossa'
-    }
 
     const finalGradeHeader =
       (
@@ -72,7 +61,7 @@ export class EditCategorymodule extends React.Component {
       <div>
         <Grid columns="4" padded >
           <Grid.Column width={final ? 8 : null}>
-            <h3 style={{ color: headercolor }}>
+            <h3 style={{ color: includedInAssesment ? 'black' : 'grey' }}>
               {final ? finalGradeHeader : name}
             </h3>
             <Checkbox
@@ -80,7 +69,7 @@ export class EditCategorymodule extends React.Component {
               defaultChecked={textFieldOn}
               onChange={() => this.props.dispatchTextFieldOnOff(id)}
               label="Perustelut arvosanalle"
-              disabled={disabled}
+              disabled={!includedInAssesment}
             />
             {finalGradeEdit}
           </Grid.Column>
@@ -90,9 +79,9 @@ export class EditCategorymodule extends React.Component {
               className="toggleFormPartButton"
               size="large"
               basic
-              color={buttonColor}
+              color={includedInAssesment ? 'green' : 'red'}
               onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
-            >{buttonText}
+            >{includedInAssesment ? 'Mukana itsearviossa' : 'Ei mukana itsearviossa'}
             </Button>
           </Grid.Column>
           <Grid.Column verticalAlign="middle">

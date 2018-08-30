@@ -97,7 +97,7 @@ class EditTaskObjectivesForm extends Component {
                     content={this.translate('all')}
                     color={this.state.detailed ? undefined : 'blue'}
                   />
-                  <Button.Or text="tai" />
+                  <Button.Or text={this.translate('or')} />
                   <Button
                     type="button"
                     onClick={() => this.setState({ detailed: true })}
@@ -107,7 +107,7 @@ class EditTaskObjectivesForm extends Component {
                 </Button.Group>
               </Container>
               {this.state.detailed ? (
-                this.props.objectives.map(objective => (
+                this.props.objectives.map(objective => (this.state.values[objective.id] ? (
                   <Form.Field key={objective.id}>
                     <Container>
                       <Label basic size="large">{objective.name}</Label>
@@ -120,7 +120,7 @@ class EditTaskObjectivesForm extends Component {
                           color={this.state.loading || this.state.values[objective.id].modified ? undefined : 'blue'}
                           onClick={this.changeModified(objective.id, false)}
                         />
-                        <Button.Or text="tai" />
+                        <Button.Or text={this.translate('or')} />
                         <Button
                           type="button"
                           content={this.translate('modify')}
@@ -140,7 +140,7 @@ class EditTaskObjectivesForm extends Component {
                         disabled={this.state.loading || !this.state.values[objective.id].modified}
                       />
                     </Container>
-                  </Form.Field>
+                  </Form.Field>) : null
                 ))
               ) : (
                 <Form.Field>
@@ -155,7 +155,7 @@ class EditTaskObjectivesForm extends Component {
                         color={Object.values(this.state.values)[0].modified === false ? 'blue' : undefined}
                         onClick={this.changeModified(0, false)}
                       />
-                      <Button.Or text="tai" />
+                      <Button.Or text={this.translate('or')} />
                       <Button
                         type="button"
                         content={this.translate('modify')}
