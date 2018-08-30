@@ -227,6 +227,12 @@
       }
     }
   },
+  "UserPage": {
+    "CourseSideMenu": {
+      "active_courses": ["Active courses", "Aktiiviset kurssit"],
+      "closed_courses": ["Closed courses", "Suljetut kurssit"]
+    }
+  },
   "utils": {
     "components": {
       "DeleteForm": {

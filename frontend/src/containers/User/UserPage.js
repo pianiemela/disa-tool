@@ -12,7 +12,7 @@ import {
   updateCoursePersonRoleAction,
   toggleAssessmentAction
 } from '../../actions/actions'
-import { CourseSideMenu } from './CourseSideMenu'
+import CourseSideMenu from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
 import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
 import { CourseInfo } from './CourseInfo'
@@ -52,14 +52,14 @@ class UserPage extends Component {
   }
 
   handleTeacherAdding = (e, { value }) => {
-    if (e.target.name !== 'teacherAddButton') {
-      this.setState({ newTeachers: value })
-    } else {
+    if (e.target.name === 'teacherAddButton') {
       const formattedRequest = this.state.newTeachers.map(teacher => (
         { person_id: teacher, course_instance_id: this.props.activeCourse.id, role: 'TEACHER' }
       ))
       this.props.dispatchUpdateCoursePersonRole(formattedRequest)
         .then(() => this.setState({ newTeachers: [] }))
+    } else {
+      this.setState({ newTeachers: value })
     }
   }
 
