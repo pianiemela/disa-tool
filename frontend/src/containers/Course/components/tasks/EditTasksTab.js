@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Button, Container } from 'semantic-ui-react'
+import { Button, Container, Segment } from 'semantic-ui-react'
 
 import { changeActive } from '../../actions/tasks'
 
@@ -55,15 +55,17 @@ export class EditTasksTab extends Component {
         />
         {this.props.activeTask ? (
           <Container>
-            <EditTaskObjectivesForm
-              taskId={this.props.activeTask.id}
-              expanded={this.state.editTaskObjectivesFormExpanded}
-              onClose={this.closeEditTaskObjectivesForm}
-            />
-            <div className="flexContainer">
-              <Button basic className="nowrap" onClick={this.openEditTaskObjectivesForm}>{this.translate('edit_multipliers_button')}</Button>
-              <TypesDisplay types={this.props.activeTask.types} />
-            </div>
+            <Segment className="square">
+              <EditTaskObjectivesForm
+                taskId={this.props.activeTask.id}
+                expanded={this.state.editTaskObjectivesFormExpanded}
+                onClose={this.closeEditTaskObjectivesForm}
+              />
+              <div className="flexContainer">
+                <Button basic className="nowrap" onClick={this.openEditTaskObjectivesForm}>{this.translate('edit_multipliers_button')}</Button>
+                <TypesDisplay types={this.props.activeTask.types} />
+              </div>
+            </Segment>
           </Container>
         ) : null}
         <Matrix editing={false} showDetails />

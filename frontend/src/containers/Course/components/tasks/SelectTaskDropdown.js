@@ -11,6 +11,7 @@ const SelectTaskDropdown = (props) => {
       <Header as="h2">
         <Dropdown
           fluid
+          selection
           options={[{ key: 0, text: '', value: null }].concat(props.tasks.map(task => ({
             key: task.id,
             text: task.name,
@@ -22,6 +23,8 @@ const SelectTaskDropdown = (props) => {
           selectOnBlur={false}
           value={props.activeTask ? props.activeTask.id : null}
           onChange={props.changeActive}
+          icon={{ name: 'search' }}
+          className="squareBottom"
         />
       </Header>
     </Container>

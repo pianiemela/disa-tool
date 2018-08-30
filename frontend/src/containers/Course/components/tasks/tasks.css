@@ -48,3 +48,12 @@
 .MatrixObjective {
   margin: 5px 0px 5px 0px;
 }
+
+.squareBottom {
+  border-bottom-right-radius: 0px !important;
+  border-bottom-left-radius: 0px !important;
+}
+
+.square {
+  border-radius: 0px !important;
+}
