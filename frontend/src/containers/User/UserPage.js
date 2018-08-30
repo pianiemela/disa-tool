@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Accordion, Button, Header, List, Grid, Item, Label, Dropdown } from 'semantic-ui-react'
+import { Accordion, Button, Header, Grid, Item, Dropdown } from 'semantic-ui-react'
 
 import {
   getUserCoursesAction,
@@ -14,6 +14,7 @@ import {
 } from '../../actions/actions'
 import { CourseSideMenu } from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
+import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
 import { CourseInfo } from './CourseInfo'
 import TaskResponseEdit from './TaskResponseEdit'
 
@@ -183,73 +184,16 @@ class UserPage extends Component {
                             }
                           }]}
                         />
-                        {/* <ListTasks tasks={tasks} selectedType={selectedType} /> */}
                       </Item.Content>
                     </Grid.Column>
                     <Grid.Column floated="right" width={8}>
                       <Item.Content>
                         <Header as="h3">Itsearvioinnit</Header>
-                        <List selection size="big">
-                          {assessments.map(assessment => (
-                            !assessment.active && activeCourse.courseRole !== 'TEACHER' ? undefined : (
-                              <List.Item key={assessment.id} style={{ display: 'flex' }}>
-                                <List.Content
-                                  as={Link}
-                                  to={activeCourse.courseRole === 'TEACHER' ?
-                                    `/selfAssesment/list/${assessment.id}` :
-                                    `/selfAssesment/response/${assessment.id}`}
-                                  style={{ flexGrow: 1 }}
-                                >
-                                  {assessment.name}
-                                </List.Content>
-                                <List.Content floated="right">
-                                  {activeCourse.courseRole === 'TEACHER' ?
-                                    <div>
-                                      <Button
-                                        name="assessmentActive"
-                                        color={assessment.active ? 'green' : 'red'}
-                                        compact
-                                        content={assessment.active ? 'näkyvillä' : 'piilotettu'}
-                                        disabled={assessment.open}
-                                        size="small"
-                                        value={assessment.id}
-                                        onClick={this.toggleAssessment}
-                                      />
-                                      <Button
-                                        name="assessmentOpen"
-                                        color={assessment.open ? 'green' : 'red'}
-                                        compact
-                                        content={assessment.open ? 'avoin' : 'suljettu'}
-                                        disabled={!assessment.active}
-                                        size="small"
-                                        value={assessment.id}
-                                        onClick={this.toggleAssessment}
-                                      />
-                                      <Button
-                                        name="feedbackOpen"
-                                        color={assessment.show_feedback ? 'green' : 'red'}
-                                        compact
-                                        content={assessment.show_feedback ? 'palaute' : 'palaute'}
-                                        disabled={!assessment.active || !assessment.open}
-                                        size="small"
-                                        value={assessment.id}
-                                        onClick={this.toggleAssessment}
-                                      />
-                                    </div> :
-                                    <div>
-                                      <Label
-                                        color={assessment.open ? 'green' : 'red'}
-                                        content={assessment.open ? 'avoin' : 'suljettu'}
-                                      />
-                                      <Label
-                                        color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}
-                                        content={assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}
-                                      />
-                                    </div>}
-                                </List.Content>
-                              </List.Item>)
-                          ))}
-                        </List>
+                        <CourseSelfAssessmentsList
+                          assessments={assessments}
+                          isTeacher={isTeacher}
+                          toggleAssessment={this.toggleAssessment}
+                        />
                       </Item.Content>
                     </Grid.Column>
                   </Grid.Row>
