@@ -25,6 +25,7 @@ describe('Type component', () => {
       activeTaskId={null}
       active={false}
       toggleType={toggleType}
+      translate={() => ''}
     />)
   })
 

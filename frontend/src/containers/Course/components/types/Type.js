@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Segment, Header, Label } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -19,6 +20,8 @@ export class Type extends Component {
       })
     }
   }
+
+  translate = id => this.props.translate(`Course.types.Type.${id}`)
 
   render() {
     return (
@@ -45,10 +48,10 @@ export class Type extends Component {
               <DeleteForm
                 onExecute={() => this.props.removeType({ id: this.props.type.id })}
                 prompt={[
-                  'Poistetaanko tyyppi',
+                  this.translate('delete_prompt_1'),
                   `"${this.props.type.name}"`
                 ]}
-                header="Poista tyyppi"
+                header={this.translate('delete_header')}
               />
             </div>
           </div>
@@ -70,7 +73,8 @@ Type.propTypes = {
   removeType: PropTypes.func.isRequired,
   active: PropTypes.bool.isRequired,
   activeTaskId: PropTypes.number,
-  toggleType: PropTypes.func.isRequired
+  toggleType: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 Type.defaultProps = {
@@ -83,4 +87,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   toggleType: asyncAction(ownProps.active ? removeTypeFromTask : addTypeToTask, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(Type)
+export default withLocalize(connect(null, mapDispatchToProps)(Type))

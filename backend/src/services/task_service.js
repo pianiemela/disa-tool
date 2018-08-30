@@ -22,50 +22,57 @@ const getTasksForCourse = (courseId, lang, userId) => (
 )
 
 const validateTaskResponses = async (taskResponses, courseId) => {
-  const inFilter = Object.keys(taskResponses.reduce((acc, curr) => ({ ...acc, [curr.taskId]: null }), {}))
-  const tasks = await Task.findAll({
-    where: {
-      id: { [Op.in]: inFilter },
-      course_instance_id: courseId
-    }
-  })
-  const validatedResponses = taskResponses.reduce((acc, curr) => {
-    const originalTask = tasks.find(t => t.dataValues.id === curr.taskId)
-    if (!originalTask) return acc
-    return [
-      ...acc,
-      {
-        studentnumber: curr.studentnumber,
-        responseId: curr.responseId,
-        task_id: curr.taskId,
-        person_id: curr.personId,
-        points: curr.points <= originalTask.max_points ? curr.points : originalTask.max_points
+  // find only tasks that are on this course
+  const tasks = await Task.findAll({ where: {
+    id: { [Op.in]: taskResponses.map(resp => resp.taskId) },
+    course_instance_id: courseId
+  } })
+  const registeredResponses = []
+  const nonRegisteredResponses = []
+  for (let i = 0; i < taskResponses.length; i += 1) {
+    const resp = taskResponses[i]
+    const originalTask = tasks.find(t => t.id === resp.taskId)
+    // not in task-list, not on the course
+    if (originalTask) {
+      const respObject = {
+        studentnumber: resp.studentnumber,
+        responseId: resp.responseId,
+        task_id: resp.taskId,
+        person_id: resp.personId,
+        points: resp.points <= originalTask.max_points ? resp.points : originalTask.max_points
       }
-    ]
-  }, [])
-  const updateResponses = validatedResponses.filter(
-    resp => resp.responseId !== undefined && resp.studentnumber === undefined
-  )
-  const newResponses = validatedResponses.filter(
-    resp => resp.responseId === undefined && resp.studentnumber === undefined
-  )
-  const nonRegResponses = validatedResponses.filter(
-    resp => resp.responseId === undefined && resp.studentnumber !== undefined
-  )
-  return { updateResponses, newResponses, nonRegResponses }
+      // if there's a student number, assume it is a non-registered user.
+      if (resp.studentnumber) {
+        nonRegisteredResponses.push(respObject)
+      } else {
+        registeredResponses.push(respObject)
+      }
+    }
+  }
+  return { registeredResponses, nonRegisteredResponses }
 }
 
-const createTaskResponses = taskResponses => (
-  TaskResponse.bulkCreate(taskResponses, { returning: true })
-)
-
-const updateTaskResponses = taskResponses => Promise.all(taskResponses.map((resp) => {
-  if (resp.points !== null) {
-    return TaskResponse.update({ points: resp.points }, { where: { id: resp.responseId }, returning: true })
-      .then(res => res[1][0])
-  }
-  TaskResponse.destroy({ where: { id: resp.responseId } })
-}))
+const createOrUpdateTaskResponses = (taskResponses) => {
+  // Check for any duplicate responses and remove them
+  const uniqueResponses = taskResponses.filter((resp, i) => taskResponses
+    .findIndex(r => resp.person_id === r.person_id && resp.task_id === r.task_id) === i)
+  // go through each response
+  return Promise.all(uniqueResponses.map(async (resp) => {
+    if (resp.person_id && resp.task_id && resp.points) {
+      // find an existing response or build a new one
+      const response = await TaskResponse.findOrBuild({
+        where: {
+          person_id: resp.person_id,
+          task_id: resp.task_id
+        } }).spread(r => r)
+      // findOr-functions return an array with the object and a created-boolean,
+      // which is why the result needs to be srpead.
+      response.points = resp.points
+      await response.save()
+      return response
+    }
+  }))
+}
 
 const mapPersonsAndResponses = (taskResponses, coursePersons) => taskResponses.reduce((acc, curr) => {
   const coursePerson = coursePersons.find(person => person.studentnumber === curr.studentnumber)
@@ -382,8 +389,7 @@ module.exports = {
   getUserTasksForCourse,
   getTasksForCourse,
   validateTaskResponses,
-  createTaskResponses,
-  updateTaskResponses,
+  createOrUpdateTaskResponses,
   mapPersonsAndResponses,
   create,
   delete: deleteTask,

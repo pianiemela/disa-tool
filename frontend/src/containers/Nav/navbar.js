@@ -15,9 +15,12 @@ const languageOptions = [
 ]
 
 class Nav extends Component {
-  state = {
-    activeItem: 'home',
-    language: 'fin'
+  constructor(props) {
+    super(props)
+    this.state = {
+      activeItem: 'home',
+      language: 'fin'
+    }
   }
 
   componentDidMount = async () => {
@@ -50,6 +53,7 @@ class Nav extends Component {
     await this.setState({ language: value })
     saveLanguage(this.state.language)
     this.props.setActiveLanguage(this.state.language)
+    window.location.reload()
   }
 
   translate = id => this.props.translate(`Nav.navbar.${id}`)

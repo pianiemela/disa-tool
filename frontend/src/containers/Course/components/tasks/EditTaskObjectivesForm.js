@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button, Form, Input, Label, Container } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
@@ -77,12 +78,14 @@ class EditTaskObjectivesForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`Course.tasks.EditTaskObjectivesForm.${id}`)
+
   render() {
     return (
       <div className="EditTaskObjectivesForm" style={{ display: 'none' }}>
         <ModalForm
           expanded={this.props.expanded}
-          header="Muokkaa kertoimia"
+          header={this.translate('header')}
           trigger={<div />}
           content={
             <div>
@@ -91,20 +94,20 @@ class EditTaskObjectivesForm extends Component {
                   <Button
                     type="button"
                     onClick={() => this.setState({ detailed: false })}
-                    content="Kaikki"
+                    content={this.translate('all')}
                     color={this.state.detailed ? undefined : 'blue'}
                   />
-                  <Button.Or text="tai" />
+                  <Button.Or text={this.translate('or')} />
                   <Button
                     type="button"
                     onClick={() => this.setState({ detailed: true })}
-                    content="Yksittäin"
+                    content={this.translate('detailed')}
                     color={this.state.detailed ? 'blue' : undefined}
                   />
                 </Button.Group>
               </Container>
               {this.state.detailed ? (
-                this.props.objectives.map(objective => (
+                this.props.objectives.map(objective => (this.state.values[objective.id] ? (
                   <Form.Field key={objective.id}>
                     <Container>
                       <Label basic size="large">{objective.name}</Label>
@@ -113,14 +116,14 @@ class EditTaskObjectivesForm extends Component {
                       <Button.Group size="small">
                         <Button
                           type="button"
-                          content="Oletusarvo"
+                          content={this.translate('default')}
                           color={this.state.loading || this.state.values[objective.id].modified ? undefined : 'blue'}
                           onClick={this.changeModified(objective.id, false)}
                         />
-                        <Button.Or text="tai" />
+                        <Button.Or text={this.translate('or')} />
                         <Button
                           type="button"
-                          content="Muuta"
+                          content={this.translate('modify')}
                           color={!this.state.loading && this.state.values[objective.id].modified ? 'blue' : undefined}
                           onClick={this.changeModified(objective.id, true)}
                         />
@@ -137,25 +140,25 @@ class EditTaskObjectivesForm extends Component {
                         disabled={this.state.loading || !this.state.values[objective.id].modified}
                       />
                     </Container>
-                  </Form.Field>
+                  </Form.Field>) : null
                 ))
               ) : (
                 <Form.Field>
                   <Container>
-                    <Label basic size="large">Kaikki</Label>
+                    <Label basic size="large">{this.translate('all')}</Label>
                   </Container>
                   <Container>
                     <Button.Group size="small">
                       <Button
                         type="button"
-                        content="Palauta oletusarvoon"
+                        content={this.translate('default')}
                         color={Object.values(this.state.values)[0].modified === false ? 'blue' : undefined}
                         onClick={this.changeModified(0, false)}
                       />
-                      <Button.Or text="tai" />
+                      <Button.Or text={this.translate('or')} />
                       <Button
                         type="button"
-                        content="Muuta"
+                        content={this.translate('modify')}
                         color={Object.values(this.state.values)[0].modified === true ? 'blue' : undefined}
                         onClick={this.changeModified(0, true)}
                       />
@@ -174,7 +177,7 @@ class EditTaskObjectivesForm extends Component {
                   </Container>
                 </Form.Field>
               )}
-              <Button color="green">Tallenna</Button>
+              <Button color="green">{this.translate('save')}</Button>
             </div>
           }
           onSubmit={this.editTaskObjectivesSubmit}
@@ -198,7 +201,8 @@ EditTaskObjectivesForm.propTypes = {
   defaultMultiplier: PropTypes.number.isRequired,
   expanded: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  objectivesDetails: PropTypes.func.isRequired
+  objectivesDetails: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -241,4 +245,4 @@ const mapDispatchToProps = dispatch => ({
   objectivesDetails
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditTaskObjectivesForm)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(EditTaskObjectivesForm))
