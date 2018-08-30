@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { LocalizeProvider } from 'react-localize-redux'
-import { Modal, Form } from 'semantic-ui-react'
+import { Modal, Form, Divider } from 'semantic-ui-react'
 
 import LocalizeWrapper from '../../containers/Localize/LocalizeWrapper'
 
@@ -41,6 +41,14 @@ class ModalForm extends Component {
     this.collapse()
   }
 
+  actionHandlers = {
+    cancel: this.collapse
+  }
+
+  mapAction = button => (button.props.type ? React.cloneElement(button, {
+    onClick: this.actionHandlers[button.props.type]
+  }) : button)
+
   render() {
     const style = this.props.trigger.props.style || {}
     // TODO: Apply trigger margin as margin in this div.
@@ -65,6 +73,12 @@ class ModalForm extends Component {
             <LocalizeProvider>
               <LocalizeWrapper>
                 {this.props.children || this.props.content}
+                {this.props.actions.length > 0 ? (
+                  <div>
+                    <Divider />
+                    {this.props.actions.map(button => this.mapAction(button))}
+                  </div>
+                ) : null}
               </LocalizeWrapper>
             </LocalizeProvider>
           </Form>
@@ -88,6 +102,7 @@ ModalForm.propTypes = {
     PropTypes.element,
     PropTypes.arrayOf(PropTypes.element)
   ]),
+  actions: PropTypes.arrayOf(PropTypes.element),
   onSubmit: PropTypes.func,
   loading: PropTypes.bool,
   expanded: PropTypes.bool,
@@ -102,7 +117,8 @@ ModalForm.defaultProps = {
   onClose: () => {},
   onOpen: () => {},
   content: null,
-  children: null
+  children: null,
+  actions: []
 }
 
 export default ModalForm

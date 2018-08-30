@@ -7,7 +7,8 @@
     "category": ["category", "osio"],
     "objective": ["objective", "oppimistavoite"],
     "tasks": ["tasks", "tehtävät"],
-    "or": ["or", "tai"]
+    "or": ["or", "tai"],
+    "cancel": ["Cancel", "Peru"]
   },
   "Nav": {
     "navbar": {
@@ -230,8 +231,7 @@
   "utils": {
     "components": {
       "DeleteForm": {
-        "remove": ["Remove", "Poista"],
-        "cancel": ["Cancel", "Peru"]
+        "remove": ["Remove", "Poista"]
       },
       "MultilingualField": {
         "monolingual": ["Monolingual", "Yksikielinen"],
