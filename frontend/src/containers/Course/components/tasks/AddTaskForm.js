@@ -39,7 +39,7 @@ export class AddTaskForm extends Component {
           <div className="AddTaskForm">
             <ModalForm
               header={this.translate('header')}
-              trigger={<Button className="addTaskButton" icon={{ name: 'add' }} />}
+              trigger={<Button basic className="addTaskButton" icon={{ name: 'add' }} />}
               content={
                 <div>
                   <p>

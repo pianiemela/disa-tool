@@ -61,7 +61,7 @@ export class EditTasksTab extends Component {
               onClose={this.closeEditTaskObjectivesForm}
             />
             <div className="flexContainer">
-              <Button className="nowrap" onClick={this.openEditTaskObjectivesForm}>{this.translate('edit_multipliers_button')}</Button>
+              <Button basic className="nowrap" onClick={this.openEditTaskObjectivesForm}>{this.translate('edit_multipliers_button')}</Button>
               <TypesDisplay types={this.props.activeTask.types} />
             </div>
           </Container>

@@ -69,7 +69,7 @@ export class EditTypeForm extends Component {
       <div className="EditTypeForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button onClick={this.loadDetails} className="editTypeButton" icon={{ name: 'edit' }} size="mini" />}
+          trigger={<Button basic circular onClick={this.loadDetails} className="editTypeButton" icon={{ name: 'edit' }} size="mini" />}
           content={
             <div>
               <p>

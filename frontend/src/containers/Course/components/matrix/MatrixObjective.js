@@ -39,10 +39,6 @@ export class MatrixObjective extends Component {
     })
   }
 
-  markCut() {
-    this.setState({ hasBeenCut: true })
-  }
-
   toggleObjective = () => {
     if (this.props.activeTaskId !== null) {
       this.props.toggleObjective({
@@ -105,6 +101,8 @@ export class MatrixObjective extends Component {
             <div>
               <Popup
                 trigger={<Label
+                  size="large"
+                  circular
                   content={this.props.objective.task_count}
                   onMouseOver={this.loadDetails}
                   onFocus={this.loadDetails}

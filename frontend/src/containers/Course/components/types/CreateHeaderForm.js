@@ -31,7 +31,7 @@ export class CreateHeaderForm extends Component {
       <div className="CreateHeaderForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button onClick={this.expand} className="addHeaderButton" icon={{ name: 'add' }} />}
+          trigger={<Button basic onClick={this.expand} className="addHeaderButton" icon={{ name: 'add' }} />}
           content={
             <div>
               <p>

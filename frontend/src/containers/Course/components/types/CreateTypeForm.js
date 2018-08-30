@@ -33,7 +33,7 @@ export class CreateTypeForm extends Component {
       <div className="CreateTypeForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button onClick={this.expand} className="addTypeButton" icon={{ name: 'add' }} />}
+          trigger={<Button basic onClick={this.expand} className="addTypeButton" icon={{ name: 'add' }} />}
           content={
             <div>
               <p>

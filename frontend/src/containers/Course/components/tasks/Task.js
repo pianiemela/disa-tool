@@ -32,7 +32,7 @@ export class Task extends Component {
                   <EditTaskForm taskId={this.props.task.id} />
                 </div>
                 <div className="taskControlButton">
-                  <Button onClick={this.props.openModal}>{this.translate('edit_multipliers_button')}</Button>
+                  <Button basic onClick={this.props.openModal}>{this.translate('edit_multipliers_button')}</Button>
                 </div>
               </div>
             ) : null}

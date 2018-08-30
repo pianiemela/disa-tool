@@ -47,7 +47,7 @@ class CreateGradeForm extends Component {
       <div className="CreateGradeForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button className="addGradeButton" icon={{ name: 'add' }} />}
+          trigger={<Button basic className="addGradeButton" icon={{ name: 'add' }} />}
           content={
             <div>
               <MultilingualField field="name" fieldDisplay={label.name} />

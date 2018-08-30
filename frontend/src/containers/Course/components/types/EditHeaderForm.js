@@ -56,7 +56,7 @@ class EditHeaderForm extends Component {
       <div className="EditHeaderForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
+          trigger={<Button basic circular onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
           content={
             <div>
               <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />

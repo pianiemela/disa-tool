@@ -83,6 +83,7 @@ export class EditTaskForm extends Component {
             <ModalForm
               header={this.translate('header')}
               trigger={<Button
+                basic
                 className="editTaskButton"
                 content={this.translate('trigger')}
                 onClick={this.loadDetails}
