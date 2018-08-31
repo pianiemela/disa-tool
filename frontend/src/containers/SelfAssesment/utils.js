@@ -50,9 +50,9 @@ export const objectiveGrades =
 }
 
 export const validationErrors = {
-  fin: 'Et vastannut kaikkiin kysymyksiin, tarkista merkityt kohdat',
+  fin: 'Tapahtui virhe, tarkista merkityt kohdat',
   swe: 'Du måste öögh ???',
-  eng: 'There were questions you did not respond to. Check the marked questions'
+  eng: 'There were some errors. Check the marked questions'
 }
 
 const errorMessages = {
@@ -66,7 +66,10 @@ export const maxLength = (toCheck, toCheckAttribute, max, acc) =>
 export const minLength = (toCheck, toCheckAttribute, min, acc) =>
   (toCheck[toCheckAttribute].length < min ? [...acc, { id: toCheck.id, error: `${errorMessages.min[lang]} ${min}` }] : acc)
 export const exists = (toCheck, toCheckAttribute, acc) =>
-  (!toCheck[toCheckAttribute] ? [...acc, { id: toCheck.id, error: errorMessages.exists[lang] }] : acc)
+  (!toCheck[toCheckAttribute] ?
+    [...acc, { id: toCheck.id, error: errorMessages.exists[lang] }]
+    :
+    acc)
 
 
 export const checkResponseErrors = (assesmentResponse) => {
@@ -92,9 +95,16 @@ export const checkResponseErrors = (assesmentResponse) => {
     questionModuleResponses.forEach((qmRes) => {
       if (!qmRes.grade) {
         if (grade.find(qm => qm.id === qmRes.category)) {
-          grade = grade.map(e => (e.id === qmRes.category ? { ...e, errors: { ...e.errors, [qmRes.id]: { error: errorMessages.exists[lang] } } } : e))
+          grade = grade.map(e => (e.id === qmRes.category
+            ? { ...e, errors: { ...e.errors, [qmRes.id]: { error: errorMessages.exists[lang] } } }
+            :
+            e))
         } else {
-          grade = [...grade, { id: qmRes.category, errors: { [qmRes.id]: { error: errorMessages.exists[lang] } } }]
+          grade = [...grade, {
+            id: qmRes.category,
+            errors:
+              { [qmRes.id]: { error: errorMessages.exists[lang] } }
+          }]
         }
       }
     })
@@ -109,5 +119,13 @@ export const checkResponseErrors = (assesmentResponse) => {
   openQMin = openQuestionResponses.reduce((acc, openQ) => minLength(openQ, 'responseText', 5, acc), [])
   openQErrors = openQuestionResponses.reduce((acc, openQ) => maxLength(openQ, 'responseText', 2000, acc), []).concat(openQMin)
 
-  return { grade, fGrade, openQErrors, responseTextMax, finalResponseMax, responseTextMin, finalResponseMin }
+  return {
+    grade,
+    fGrade,
+    openQErrors,
+    responseTextMax,
+    finalResponseMax,
+    responseTextMin,
+    finalResponseMin
+  }
 }
