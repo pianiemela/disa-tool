@@ -201,7 +201,7 @@ describe('category_controller', () => {
       }).catch(done)
     })
 
-    beforeEach((done) => {
+    afterEach((done) => {
       Category.findById(ids.category).then(
         instance => instance.update({
           eng_name: 'en',

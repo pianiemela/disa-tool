@@ -202,7 +202,7 @@ describe('grade controller', () => {
       })
     })
 
-    beforeEach((done) => {
+    afterEach((done) => {
       Grade.findById(ids.grade).then(instance => instance.update({
         eng_name: 'en',
         fin_name: 'fn',

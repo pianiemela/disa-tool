@@ -228,7 +228,7 @@ describe('objective_controller', () => {
       }).catch(done)
     })
 
-    beforeEach((done) => {
+    afterEach((done) => {
       Objective.findById(ids.objective).then(
         instance => instance.update({
           eng_name: 'en',
