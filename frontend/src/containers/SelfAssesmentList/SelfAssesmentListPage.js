@@ -6,7 +6,7 @@ import { Container, Loader, Accordion, Button, Icon, Table, Segment, Header } fr
 
 import { getResponsesBySelfAssesment } from '../../api/selfassesment'
 
-import UserResultsPage from '../SelfAssesment/Userform/UserResultsPage'
+import FeedbackPage from '../SelfAssesment/FeedbackPage/FeedbackPage'
 import LinkExport from '../User/components/LinkExport'
 
 class SelfAssesmentListPage extends Component {
@@ -106,7 +106,7 @@ class SelfAssesmentListPage extends Component {
             <h2 style={{ flexGrow: 1 }}>{this.state.activeResponse.person.name}</h2>
           </div>
         </Container>
-        <UserResultsPage
+        <FeedbackPage
           assessmentResponse={this.state.activeResponse.response}
           teacher
         />

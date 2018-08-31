@@ -1,64 +1,142 @@
 {
   "common": {
-    "save": ["Save", "Tallenna"],
-    "name": ["name", "nimi"],
-    "skill_level": ["skill level", "taitotaso"],
-    "skill_levels": ["skill levels", "taitotasot"],
-    "category": ["category", "osio"],
-    "objective": ["objective", "oppimistavoite"],
-    "tasks": ["tasks", "tehtävät"],
-    "or": ["or", "tai"]
+    "save": [
+      "Save",
+      "Tallenna"
+    ],
+    "name": [
+      "name",
+      "nimi"
+    ],
+    "skill_level": [
+      "skill level",
+      "taitotaso"
+    ],
+    "skill_levels": [
+      "skill levels",
+      "taitotasot"
+    ],
+    "category": [
+      "category",
+      "osio"
+    ],
+    "objective": [
+      "objective",
+      "oppimistavoite"
+    ],
+    "tasks": [
+      "tasks",
+      "tehtävät"
+    ],
+    "or": [
+      "or",
+      "tai"
+    ]
   },
   "Nav": {
     "navbar": {
-      "logout": ["Log out", "Kirjaudu ulos"],
-      "login": ["Log in", "Kirjaudu sisään"],
-      "admin": ["Admin", "Admin"],
-      "courses": ["Courses", "Kurssit"],
-      "user": ["Personal page", "Oma sivu"],
-      "home": ["DISA-tool", "DISA-työkalu"]
+      "logout": [
+        "Log out",
+        "Kirjaudu ulos"
+      ],
+      "login": [
+        "Log in",
+        "Kirjaudu sisään"
+      ],
+      "admin": [
+        "Admin",
+        "Admin"
+      ],
+      "courses": [
+        "Courses",
+        "Kurssit"
+      ],
+      "user": [
+        "Personal page",
+        "Oma sivu"
+      ],
+      "home": [
+        "DISA-tool",
+        "DISA-työkalu"
+      ]
     }
   },
   "Login": {
     "LoginForm": {
-      "already_logged_in": ["You are already logged in", "Olet jo kirjautunut sisään"],
-      "username": ["username", "käyttäjänimi"],
-      "password": ["password", "salasana"],
-      "login_button": ["Log in", "Kirjaudu sisään"]
+      "already_logged_in": [
+        "You are already logged in",
+        "Olet jo kirjautunut sisään"
+      ],
+      "username": [
+        "username",
+        "käyttäjänimi"
+      ],
+      "password": [
+        "password",
+        "salasana"
+      ],
+      "login_button": [
+        "Log in",
+        "Kirjaudu sisään"
+      ]
     },
     "LoginPage": {
-      "login": ["Log in", "Kirjaudu sisään"]
+      "login": [
+        "Log in",
+        "Kirjaudu sisään"
+      ]
     }
   },
   "Home": {
     "HomePage": {
-      "header1": ["Welcome to the DISA-tool", "Tervetuloa DISA-työkaluun"],
+      "header1": [
+        "Welcome to the DISA-tool",
+        "Tervetuloa DISA-työkaluun"
+      ],
       "introduction": [
         "Teachers and students can create and inspect course learning objectives using the DISA-tool as well as evaluate and track the completion of those objectives. The software is a work in progress in trial use. As such some issues may come up. You can report any issues to your course teachers or straight to",
         "DISA-työkalun avulla opettajat ja opiskelijat voivat luoda ja tarkastella kurssin osaamistavoitteita sekä arvioida ja seurata näiden tavoitteiden toteutumista. Sovellus on vasta työn alla ja kokeilukäytössä, joten vikoja voi tulla vastaan. Näistä voi ilmoittaa kurssien opettajille tai suoraan"
       ],
-      "developers": ["the developers", "kehittäjille"],
-      "log_in_prompt": ["Log in using your University of Helsinki credentials", "Kirjaudu sisään Helsingin yliopiston tunnuksilla"],
+      "developers": [
+        "the developers",
+        "kehittäjille"
+      ],
+      "log_in_prompt": [
+        "Log in using your University of Helsinki credentials",
+        "Kirjaudu sisään Helsingin yliopiston tunnuksilla"
+      ],
       "anon_info": [
         "Without logging in you can still browse courses and inspect their learning objectives.",
         "Kirjautumattomana voit selata kursseja ja tarkastella niiden osaamistavoitteita."
       ],
-      "student_header": ["For students", "Opiskelijalle"],
+      "student_header": [
+        "For students",
+        "Opiskelijalle"
+      ],
       "student_info": [
         "When logged in you'll be able to register to courses. When registered, you can view your task performance and submit course self assessments.",
         "Kirjautuneena pääset rekisteröitymään kursseille. Kun olet rekisteröitynyt, pääset katselemaan tehtäväsuorituksiasi ja vastaamaan kurssin itsearviointeihin."
       ],
-      "teacher_header": ["For teachers", "Opettajalle"],
+      "teacher_header": [
+        "For teachers",
+        "Opettajalle"
+      ],
       "teacher_info": [
         "If you wish to use the tool on your course, please ask an administrator to add you as a teacher. Afterwards, you can create objectives and tasks for your course. You can also inspect the progress of your students and give them self assessments to fill out.",
         "Jos haluat käyttää työkalua kurssillasi, pyydä pääkäyttäjää lisäämään sinut opettajaksi. Tämän jälkeen voit luoda kurssillesi tavoitteita ja tehtäviä. Voit myös tarkkailla opiskelijoiden edistymistä ja teettää heillä itsearviointeja."
       ],
-      "background_header": ["Background", "Taustaa"],
+      "background_header": [
+        "Background",
+        "Taustaa"
+      ],
       "background_info_1_1": [
         "DISA-tool was started due to ",
         "DISA-työkalu on saanut alkunsa matematiikan ja tilastotieteen laitoksella tehtävästä "
       ],
-      "background_link_1": ["a study on self assessments", "itsearviointitutkimuksesta"],
+      "background_link_1": [
+        "a study on self assessments",
+        "itsearviointitutkimuksesta"
+      ],
       "background_link_1_href": [
         "https://tuhat.helsinki.fi/portal/en/projects/digital-selfassessm(384b2b6c-1992-48cd-aa60-0e9169c2efe9).html",
         "https://tuhat.helsinki.fi/portal/fi/projects/digital-selfassessm(384b2b6c-1992-48cd-aa60-0e9169c2efe9).html"
@@ -79,7 +157,10 @@
         " and ",
         " sekä "
       ],
-      "background_link_2_2": ["the Faculty of Educational Sciences", "kasvatustieteellinen tiedekunta"],
+      "background_link_2_2": [
+        "the Faculty of Educational Sciences",
+        "kasvatustieteellinen tiedekunta"
+      ],
       "background_link_2_2_href": [
         "https://www.helsinki.fi/en/faculty-of-educational-sciences",
         "https://www.helsinki.fi/fi/kasvatustieteellinen-tiedekunta"
@@ -93,149 +174,428 @@
   "Course": {
     "header": {
       "CourseHeader": {
-        "back_button": ["Back to course page", "Takaisin kurssisivulle"]
+        "back_button": [
+          "Back to course page",
+          "Takaisin kurssisivulle"
+        ]
       }
     },
     "navbar": {
       "Navbar": {
-        "tasks": ["Tasks", "Tehtävät"],
-        "matrix": ["Matrix", "Matriisi"],
-        "types": ["Types", "Tyypit"],
-        "grades": ["Grading criteria", "Arvosteluperusteet"]
+        "tasks": [
+          "Tasks",
+          "Tehtävät"
+        ],
+        "matrix": [
+          "Matrix",
+          "Matriisi"
+        ],
+        "types": [
+          "Types",
+          "Tyypit"
+        ],
+        "grades": [
+          "Grading criteria",
+          "Arvosteluperusteet"
+        ]
       }
     },
     "grades": {
       "common": {
-        "needed_for_grade": ["required completion", "vaadittu suoritus"],
-        "prerequisite": ["prerequisite", "esivaatimus"]
+        "needed_for_grade": [
+          "required completion",
+          "vaadittu suoritus"
+        ],
+        "prerequisite": [
+          "prerequisite",
+          "esivaatimus"
+        ]
       },
       "CategoryGradeTable": {
-        "header": ["Edit grades by category", "Muokkaa arvosanoja osioittain"],
-        "header_cell": ["Grade/Category", "Arvosana/Osio"],
-        "cancel_button": ["Undo changes", "Peru muutokset"]
+        "header": [
+          "Edit grades by category",
+          "Muokkaa arvosanoja osioittain"
+        ],
+        "header_cell": [
+          "Grade/Category",
+          "Arvosana/Osio"
+        ],
+        "cancel_button": [
+          "Undo changes",
+          "Peru muutokset"
+        ]
       },
       "CreateGradeForm": {
-        "header": ["Create a new grade", "Luo uusi arvosana"]
+        "header": [
+          "Create a new grade",
+          "Luo uusi arvosana"
+        ]
       },
       "EditGradeForm": {
-        "header": ["Edit grade", "Muokkaa arvosanaa"]
+        "header": [
+          "Edit grade",
+          "Muokkaa arvosanaa"
+        ]
       },
       "EditGradesTab": {
-        "header": ["Edit course grading criteria here", "Muokkaa tässä kurssin arvosanarajoja"],
+        "header": [
+          "Edit course grading criteria here",
+          "Muokkaa tässä kurssin arvosanarajoja"
+        ],
         "subheader": [
           "You can define the grades of your course in the upper list. The 'required completion' fields in the list refer to the requirements of the final grade of the course. In the lower table you can edit grading criteria by category. If you do, remember to press the Save button when you're done.",
           "Ylemmässä listassa voit määritellä kurssilla olevat arvosanat, listassa olevat 'vaadittu suoritus'-luvut viittaavat loppuarvosanan vaadittuun suoritusosuuteen. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja. Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
         ]
       },
       "Grade": {
-        "delete_header": ["Delete grade", "Poista arvosana"],
-        "delete_prompt_1": ["Really remove grade", "Poistetaanko arvosteluperuste"]
+        "delete_header": [
+          "Delete grade",
+          "Poista arvosana"
+        ],
+        "delete_prompt_1": [
+          "Really remove grade",
+          "Poistetaanko arvosteluperuste"
+        ]
       }
     },
     "matrix": {
       "CreateCategoryForm": {
-        "header": ["Create a new category", "Luo uusi osio"],
-        "prompt_1": ["Create a new category", "Luo uusi osio"]
+        "header": [
+          "Create a new category",
+          "Luo uusi osio"
+        ],
+        "prompt_1": [
+          "Create a new category",
+          "Luo uusi osio"
+        ]
       },
       "CreateLevelForm": {
-        "header": ["Create a new skill level", "Luo uusi taitotaso"],
-        "prompt_1": ["Create a new skill level", "Luo uusi taitotaso"]
+        "header": [
+          "Create a new skill level",
+          "Luo uusi taitotaso"
+        ],
+        "prompt_1": [
+          "Create a new skill level",
+          "Luo uusi taitotaso"
+        ]
       },
       "CreateObjectiveForm": {
-        "header": ["Create a new objective", "Luo uusi oppimistavoite"],
-        "prompt_1": ["Add a new objective to category", "Lisää uusi oppimistavoite osioon"],
-        "prompt_2": ["and level", "tasolle"]
+        "header": [
+          "Create a new objective",
+          "Luo uusi oppimistavoite"
+        ],
+        "prompt_1": [
+          "Add a new objective to category",
+          "Lisää uusi oppimistavoite osioon"
+        ],
+        "prompt_2": [
+          "and level",
+          "tasolle"
+        ]
       },
       "EditCategoryForm": {
-        "header": ["Edit category", "Muokkaa osiota"]
+        "header": [
+          "Edit category",
+          "Muokkaa osiota"
+        ]
       },
       "EditLevelForm": {
-        "header": ["Edit skill level", "Muokkaa taitotasoa"]
+        "header": [
+          "Edit skill level",
+          "Muokkaa taitotasoa"
+        ]
       },
       "EditObjectiveForm": {
-        "header": ["Edit objective", "Muokkaa oppimistavoitetta"]
+        "header": [
+          "Edit objective",
+          "Muokkaa oppimistavoitetta"
+        ]
       },
       "Matrix": {
-        "delete_header": ["Delete skill level", "Poista oppimistaso"],
-        "delete_prompt_1": ["Really remove skill level", "Poistetaanko taitotaso"]
+        "delete_header": [
+          "Delete skill level",
+          "Poista oppimistaso"
+        ],
+        "delete_prompt_1": [
+          "Really remove skill level",
+          "Poistetaanko taitotaso"
+        ]
       },
       "MatrixCategory": {
-        "delete_header": ["Delete category", "Poista osio"],
-        "delete_prompt_1": ["Really remove category", "Poistetaanko osio"]
+        "delete_header": [
+          "Delete category",
+          "Poista osio"
+        ],
+        "delete_prompt_1": [
+          "Really remove category",
+          "Poistetaanko osio"
+        ]
       },
       "MatrixObjective": {
-        "delete_header": ["Delete objective", "Poista oppimistavoite"],
-        "delete_prompt_1": ["Really remove objective", "Poistetaanko oppimistavoite"],
-        "cumulative": ["Cumulative multiplier: ", "Kerroin yhteensä: "]
+        "delete_header": [
+          "Delete objective",
+          "Poista oppimistavoite"
+        ],
+        "delete_prompt_1": [
+          "Really remove objective",
+          "Poistetaanko oppimistavoite"
+        ],
+        "cumulative": [
+          "Cumulative multiplier: ",
+          "Kerroin yhteensä: "
+        ]
       }
     },
     "tasks": {
       "common": {
-        "description": ["description", "kuvaus"],
-        "edit_multipliers_button": ["Edit multipliers", "Muokkaa kertoimia"]
+        "description": [
+          "description",
+          "kuvaus"
+        ],
+        "edit_multipliers_button": [
+          "Edit multipliers",
+          "Muokkaa kertoimia"
+        ]
       },
       "AddTaskForm": {
-        "header": ["Add new task", "Lisää uusi tehtävä"],
-        "prompt_1": ["Add a new task to the course", "Lisää uusi tehtävä kurssille"]
+        "header": [
+          "Add new task",
+          "Lisää uusi tehtävä"
+        ],
+        "prompt_1": [
+          "Add a new task to the course",
+          "Lisää uusi tehtävä kurssille"
+        ]
       },
       "EditTaskForm": {
-        "header": ["Edit task", "Muokkaa tehtävää"],
-        "prompt_1": ["Edit task", "Muokkaa tehtävää"],
-        "trigger": ["Edit task", "Muokkaa tehtävää"]
+        "header": [
+          "Edit task",
+          "Muokkaa tehtävää"
+        ],
+        "prompt_1": [
+          "Edit task",
+          "Muokkaa tehtävää"
+        ],
+        "trigger": [
+          "Edit task",
+          "Muokkaa tehtävää"
+        ]
       },
       "EditTaskObjectivesForm": {
-        "header": ["Edit multipliers", "Muokkaa kertoimia"],
-        "detailed": ["Individual", "Yksittäin"],
-        "all": ["All", "Kaikki"],
-        "default": ["Default", "Oletusarvo"],
-        "modify": ["Modify", "Muuta"]
+        "header": [
+          "Edit multipliers",
+          "Muokkaa kertoimia"
+        ],
+        "detailed": [
+          "Individual",
+          "Yksittäin"
+        ],
+        "all": [
+          "All",
+          "Kaikki"
+        ],
+        "default": [
+          "Default",
+          "Oletusarvo"
+        ],
+        "modify": [
+          "Modify",
+          "Muuta"
+        ]
       },
       "SelectTaskDropDown": {
-        "placeholder": ["Select a task here", "Valitse tehtävä tästä"]
+        "placeholder": [
+          "Select a task here",
+          "Valitse tehtävä tästä"
+        ]
       },
       "Task": {
-        "delete_header": ["Delete task", "Poista tehtävä"],
-        "delete_prompt_1": ["Really remove task", "Poistetaanko tehtävä"]
+        "delete_header": [
+          "Delete task",
+          "Poista tehtävä"
+        ],
+        "delete_prompt_1": [
+          "Really remove task",
+          "Poistetaanko tehtävä"
+        ]
       }
     },
     "types": {
       "common": {
-        "multiplier": ["multiplier", "kerroin"]
+        "multiplier": [
+          "multiplier",
+          "kerroin"
+        ]
       },
       "CreateHeaderForm": {
-        "header": ["Add new type header", "Lisää uusi tyyppiotsake"],
-        "prompt_1": ["Add new type header", "Lisää uusi tyyppiotsake"]
+        "header": [
+          "Add new type header",
+          "Lisää uusi tyyppiotsake"
+        ],
+        "prompt_1": [
+          "Add new type header",
+          "Lisää uusi tyyppiotsake"
+        ]
       },
       "CreateTypeForm": {
-        "header": ["Add new type", "Lisää uusi tyyppi"],
-        "prompt_1": ["Add new type", "Lisää uusi tyyppi"]
+        "header": [
+          "Add new type",
+          "Lisää uusi tyyppi"
+        ],
+        "prompt_1": [
+          "Add new type",
+          "Lisää uusi tyyppi"
+        ]
       },
       "EditHeaderForm": {
-        "header": ["Edit type header", "Muokkaa tyyppiotsaketta"]
+        "header": [
+          "Edit type header",
+          "Muokkaa tyyppiotsaketta"
+        ]
       },
       "EditTypeForm": {
-        "header": ["Edit type", "Muokkaa tyyppiä"],
-        "prompt_1": ["Edit type", "Muokkaa tyyppiä"]
+        "header": [
+          "Edit type",
+          "Muokkaa tyyppiä"
+        ],
+        "prompt_1": [
+          "Edit type",
+          "Muokkaa tyyppiä"
+        ]
       },
       "Type": {
-        "delete_header": ["Delete type", "Poista tyyppi"],
-        "delete_prompt_1": ["Really remove type", "Poistetaanko tyyppi"]
+        "delete_header": [
+          "Delete type",
+          "Poista tyyppi"
+        ],
+        "delete_prompt_1": [
+          "Really remove type",
+          "Poistetaanko tyyppi"
+        ]
       },
       "TypeHeader": {
-        "delete_header": ["Delete type header", "Poista tyyppiotsake"],
-        "delete_prompt_1": ["Really remove type header", "Poistetaanko tyyppiotsake"]
+        "delete_header": [
+          "Delete type header",
+          "Poista tyyppiotsake"
+        ],
+        "delete_prompt_1": [
+          "Really remove type header",
+          "Poistetaanko tyyppiotsake"
+        ]
+      }
+    }
+  },
+  "SelfAssessment": {
+    "EditOrNewForm": {
+      "SelfAssessmentList": {
+        "header": [
+          "Self assessments of the selected course - click to edit",
+          "Valitun kurssin itsearviot - klikkaa muokataksesi"
+        ]
+      },
+      "AssessmentButtons": {
+        "categoryButton": [
+          "Category based self assessment",
+          "Itsearvio kategorioiden pohjalta"
+        ],
+        "objectiveButton": [
+          "Objective based self assessment",
+          "Itsearvio tavoitteiden pohjalta"
+        ]
+      }
+    },
+    "FeedbackPage": {
+      "CategoryFeedback": {
+        "message": [
+          "You've already responded to this assessment. You can see your responses below",
+          "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
+        ],
+        "grade": [
+          "Assessed grade",
+          "Itsearvioitu arvosana"
+        ],
+        "explanation": [
+          "explanation",
+          "perustelut"
+        ],
+        "feedback": [
+          "Feedback",
+          "Palaute"
+        ]
+      },
+      "ObjectivesFeedback": {
+        "message": [
+          "You've already responded to this assessment. You can see your responses below",
+          "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
+        ],
+        "objective": [
+          "Objective",
+          "Tavoite"
+        ],
+        "assessment": [
+          "Your assessment",
+          "Arvio osaamisesta"
+        ],
+        "objectiveAssessment": {
+          "good": [
+            "Osaan osion tavoitteet hyvin",
+            "I know the the objectives of this category well"
+          ],
+          "decent": [
+            "I know the the objectives of this category decently",
+            "Osaan osion tavoitteet kohtalaisesti"
+          ],
+          "poor": [
+            "I still have a lot of room for development regarding the objectives",
+            "Vielä selkeästi kehitettävää osion tavoitteiden suhteen"
+          ]
+        }
+      },
+      "QuestionAndGradeFeedback": {
+        "header": [
+          "Open questions",
+          "Avoimet kysymykset"
+        ],
+        "response": [
+          "Response",
+          "Vastaus"
+        ],
+        "grade": [
+          "Grade",
+          "Arvosana"
+        ],
+        "assessedGrade": [
+          "Assessed grade",
+          "Itsearvioitu arvosana"
+        ],
+        "explanation": [
+          "explanation",
+          "perustelut"
+        ]
       }
     }
   },
   "utils": {
     "components": {
       "DeleteForm": {
-        "remove": ["Remove", "Poista"],
-        "cancel": ["Cancel", "Peru"]
+        "remove": [
+          "Remove",
+          "Poista"
+        ],
+        "cancel": [
+          "Cancel",
+          "Peru"
+        ]
       },
       "MultilingualField": {
-        "monolingual": ["Monolingual", "Yksikielinen"],
-        "multilingual": ["Multilingual", "Monikielinen"]
+        "monolingual": [
+          "Monolingual",
+          "Yksikielinen"
+        ],
+        "multilingual": [
+          "Multilingual",
+          "Monikielinen"
+        ]
       }
     }
   }

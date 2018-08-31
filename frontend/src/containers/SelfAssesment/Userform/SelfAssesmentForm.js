@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import { Button, Loader, Container, Message, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import UserResultsPage from './UserResultsPage'
+import FeedbackPage from '../FeedbackPage/FeedbackPage'
 import { getCourseInstance } from '../../../api/courses'
 import { getCourseData } from '../../../api/categories'
 import {
@@ -28,6 +28,7 @@ import './selfAssesment.css'
 import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
 import EditCategoryModule from './FormParts/QuestionModules/EditCategoryModule'
 import EditObjectiveModule from './FormParts/QuestionModules/EditObjectiveModule'
+import { withLocalize } from 'react-localize-redux'
 
 import { validationErrors, gradeOptions, checkResponseErrors } from '../utils'
 
@@ -225,7 +226,7 @@ export class SelfAssesmentForm extends React.Component {
     }
     if (this.props.assesmentResponse.existingAnswer) {
       return (
-        <UserResultsPage
+        <FeedbackPage
           assessmentResponse={this.props.assesmentResponse}
           assessmentInfo={this.props.formData}
         />)
@@ -478,4 +479,4 @@ SelfAssesmentForm.propTypes = {
   roleError: PropTypes.bool
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentForm)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentForm))
