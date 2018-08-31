@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Accordion, Button, Header, List, Grid, Item, Label, Dropdown } from 'semantic-ui-react'
+import { Accordion, Button, Header, Grid, Item, Dropdown } from 'semantic-ui-react'
+import { withLocalize } from 'react-localize-redux'
 
 import {
   getUserCoursesAction,
@@ -12,9 +13,10 @@ import {
   updateCoursePersonRoleAction,
   toggleAssessmentAction
 } from '../../actions/actions'
-import { CourseSideMenu } from './CourseSideMenu'
+import CourseSideMenu from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
-import { CourseInfo } from './CourseInfo'
+import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
+import CourseInfo from './CourseInfo'
 import TaskResponseEdit from './TaskResponseEdit'
 
 class UserPage extends Component {
@@ -44,6 +46,8 @@ class UserPage extends Component {
     }
   }
 
+  t = id => this.props.translate(`UserPage.common.${id}`)
+
   handleActivityToggle = async () => {
     const { activeCourse } = this.props
     console.log('props', activeCourse.id)
@@ -51,14 +55,14 @@ class UserPage extends Component {
   }
 
   handleTeacherAdding = (e, { value }) => {
-    if (e.target.name !== 'teacherAddButton') {
-      this.setState({ newTeachers: value })
-    } else {
+    if (e.target.name === 'teacherAddButton') {
       const formattedRequest = this.state.newTeachers.map(teacher => (
         { person_id: teacher, course_instance_id: this.props.activeCourse.id, role: 'TEACHER' }
       ))
       this.props.dispatchUpdateCoursePersonRole(formattedRequest)
         .then(() => this.setState({ newTeachers: [] }))
+    } else {
+      this.setState({ newTeachers: value })
     }
   }
 
@@ -114,7 +118,8 @@ class UserPage extends Component {
       <Grid padded="horizontally">
         <Grid.Row>
           <Grid.Column>
-            {this.props.user ? <Header as="h1">Hei {this.props.user.name}</Header> : <p>Hello bastard</p>}
+            {this.props.user ? <Header as="h1">{this.t('hello')} {this.props.user.name}</Header> :
+            <p>Hello bastard</p>}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -146,7 +151,7 @@ class UserPage extends Component {
                           multiple
                           selection
                           search
-                          placeholder="Lisää opettaja"
+                          placeholder={this.t('select_teacher')}
                           value={this.state.newTeachers}
                           options={students.map(person => (
                             { key: person.id, text: person.name, value: person.id }
@@ -157,7 +162,7 @@ class UserPage extends Component {
                           name="teacherAddButton"
                           basic
                           color="pink"
-                          content="Lisää opettaja"
+                          content={this.t('add_teacher')}
                           onClick={this.handleTeacherAdding}
                         />
                       </Grid.Column>
@@ -166,14 +171,14 @@ class UserPage extends Component {
                   <Grid.Row>
                     <Grid.Column floated="left" width={8}>
                       <Item.Content>
-                        <Header as="h3">Tehtävät</Header>
+                        <Header as="h3">{this.t('tasks')}</Header>
                         <Accordion
                           defaultActiveIndex={-1}
                           styled
                           fluid
                           panels={[{
                             key: 'ListTasks',
-                            title: 'Katso tehtävälistaa',
+                            title: this.t('open_task_list'),
                             content: {
                               key: 'tasks',
                               content: <ListTasks
@@ -183,73 +188,16 @@ class UserPage extends Component {
                             }
                           }]}
                         />
-                        {/* <ListTasks tasks={tasks} selectedType={selectedType} /> */}
                       </Item.Content>
                     </Grid.Column>
                     <Grid.Column floated="right" width={8}>
                       <Item.Content>
-                        <Header as="h3">Itsearvioinnit</Header>
-                        <List selection size="big">
-                          {assessments.map(assessment => (
-                            !assessment.active && activeCourse.courseRole !== 'TEACHER' ? undefined : (
-                              <List.Item key={assessment.id} style={{ display: 'flex' }}>
-                                <List.Content
-                                  as={Link}
-                                  to={activeCourse.courseRole === 'TEACHER' ?
-                                    `/selfAssesment/list/${assessment.id}` :
-                                    `/selfAssesment/response/${assessment.id}`}
-                                  style={{ flexGrow: 1 }}
-                                >
-                                  {assessment.name}
-                                </List.Content>
-                                <List.Content floated="right">
-                                  {activeCourse.courseRole === 'TEACHER' ?
-                                    <div>
-                                      <Button
-                                        name="assessmentActive"
-                                        color={assessment.active ? 'green' : 'red'}
-                                        compact
-                                        content={assessment.active ? 'näkyvillä' : 'piilotettu'}
-                                        disabled={assessment.open}
-                                        size="small"
-                                        value={assessment.id}
-                                        onClick={this.toggleAssessment}
-                                      />
-                                      <Button
-                                        name="assessmentOpen"
-                                        color={assessment.open ? 'green' : 'red'}
-                                        compact
-                                        content={assessment.open ? 'avoin' : 'suljettu'}
-                                        disabled={!assessment.active}
-                                        size="small"
-                                        value={assessment.id}
-                                        onClick={this.toggleAssessment}
-                                      />
-                                      <Button
-                                        name="feedbackOpen"
-                                        color={assessment.show_feedback ? 'green' : 'red'}
-                                        compact
-                                        content={assessment.show_feedback ? 'palaute' : 'palaute'}
-                                        disabled={!assessment.active || !assessment.open}
-                                        size="small"
-                                        value={assessment.id}
-                                        onClick={this.toggleAssessment}
-                                      />
-                                    </div> :
-                                    <div>
-                                      <Label
-                                        color={assessment.open ? 'green' : 'red'}
-                                        content={assessment.open ? 'avoin' : 'suljettu'}
-                                      />
-                                      <Label
-                                        color={assessment.assessment_responses.length > 0 ? 'green' : 'red'}
-                                        content={assessment.assessment_responses.length > 0 ? 'Vastattu' : 'Vastaamatta'}
-                                      />
-                                    </div>}
-                                </List.Content>
-                              </List.Item>)
-                          ))}
-                        </List>
+                        <Header as="h3">{this.t('self_assessments')}</Header>
+                        <CourseSelfAssessmentsList
+                          assessments={assessments}
+                          isTeacher={isTeacher}
+                          toggleAssessment={this.toggleAssessment}
+                        />
                       </Item.Content>
                     </Grid.Column>
                   </Grid.Row>
@@ -258,7 +206,7 @@ class UserPage extends Component {
                 </Grid>
               </Item> :
               <Item>
-                <Item.Content>Kurssia ei valittu</Item.Content>
+                <Item.Content>{this.t('no_course_selected')}</Item.Content>
               </Item>}
           </Grid.Column>
         </Grid.Row>
@@ -315,4 +263,4 @@ UserPage.defaultProps = {
   activeCourse: { tasks: [], self_assessments: [], people: [] }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(UserPage))

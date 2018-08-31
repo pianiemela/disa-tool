@@ -7,7 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { addCategory } from '../../actions/categories'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class CreateCategoryForm extends Component {
@@ -29,18 +29,13 @@ export class CreateCategoryForm extends Component {
         <Table.Cell>
           <ModalForm
             header={this.translate('header')}
-            trigger={<Button className="addCategoryButton" icon={{ name: 'add' }} />}
-            content={
-              <div>
-                <p>
-                  {contentPrompt}.
-                </p>
-                <MultilingualField field="name" fieldDisplay={this.translate('name')} />
-                <Button type="submit" color="green">{this.translate('save')}</Button>
-              </div>
-            }
+            trigger={<Button basic className="addCategoryButton" icon={{ name: 'add' }} />}
+            actions={saveActions(this.translate)}
             onSubmit={this.addCategorySubmit}
-          />
+          >
+            <p>{contentPrompt}.</p>
+            <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+          </ModalForm>
         </Table.Cell>
       </Table.Row>
     )

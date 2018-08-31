@@ -7,7 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { addHeader } from '../../actions/types'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class CreateHeaderForm extends Component {
@@ -31,18 +31,13 @@ export class CreateHeaderForm extends Component {
       <div className="CreateHeaderForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button onClick={this.expand} className="addHeaderButton" icon={{ name: 'add' }} />}
-          content={
-            <div>
-              <p>
-                {contentPrompt}.
-              </p>
-              <MultilingualField field="name" fieldDisplay={label.name} />
-              <Button type="submit" color="green">{this.translate('save')}</Button>
-            </div>
-          }
+          trigger={<Button basic onClick={this.expand} className="addHeaderButton" icon={{ name: 'add' }} />}
+          actions={saveActions(this.translate)}
           onSubmit={this.addHeaderSubmit}
-        />
+        >
+          <p>{contentPrompt}.</p>
+          <MultilingualField field="name" fieldDisplay={label.name} />
+        </ModalForm>
       </div>
     )
   }

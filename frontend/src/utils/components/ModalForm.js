@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { LocalizeProvider } from 'react-localize-redux'
-import { Modal, Form } from 'semantic-ui-react'
+import { Modal, Form, Divider, Button } from 'semantic-ui-react'
 
 import LocalizeWrapper from '../../containers/Localize/LocalizeWrapper'
 
@@ -11,9 +11,6 @@ class ModalForm extends Component {
     this.state = {
       expanded: false
     }
-    if (this.props.children && this.props.content) {
-      console.error('Both props children and content defined in ModalForm. content will not be rendered.')
-    }
   }
 
   componentDidUpdate(oldProps, oldState) {
@@ -22,11 +19,7 @@ class ModalForm extends Component {
     } else if (!oldState.expanded && this.props.expanded) this.props.onOpen()
   }
 
-  expand = () => {
-    this.setState({
-      expanded: true
-    })
-  }
+  expand = () => this.setState({ expanded: true })
 
   collapse = () => {
     this.props.onClose()
@@ -40,6 +33,17 @@ class ModalForm extends Component {
     this.props.onSubmit(e)
     this.collapse()
   }
+
+  actionHandlers = {
+    cancel: this.collapse
+  }
+
+  mapAction = (button, i) => (button.props.type ? React.cloneElement(button, {
+    onClick: this.actionHandlers[button.props.type],
+    key: i
+  }) : React.cloneElement(button, {
+    key: i
+  }))
 
   render() {
     const style = this.props.trigger.props.style || {}
@@ -65,6 +69,12 @@ class ModalForm extends Component {
             <LocalizeProvider>
               <LocalizeWrapper>
                 {this.props.children || this.props.content}
+                {this.props.actions.length > 0 ? (
+                  <div>
+                    <Divider />
+                    {this.props.actions.map(this.mapAction)}
+                  </div>
+                ) : null}
               </LocalizeWrapper>
             </LocalizeProvider>
           </Form>
@@ -74,21 +84,25 @@ class ModalForm extends Component {
   }
 }
 
+/**
+ * Import this function, call it and pass the result as the actions prop to ModalForm.
+ * Renders default "save" and "cancel buttons".
+ * @param {function} translate
+ */
+export const saveActions = translate => [
+  <Button color="green" style={{ margin: '0px 15px 0px 15px' }}>{translate('save')}</Button>,
+  <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }}>{translate('cancel')}</Button>
+]
+
 ModalForm.propTypes = {
   trigger: PropTypes.element.isRequired,
-  header: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.string
-  ]).isRequired,
-  content: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
-  ]),
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
-  ]),
-  onSubmit: PropTypes.func,
+  header: PropTypes.node.isRequired,
+  content: PropTypes.node,
+  children: PropTypes.node, // children will override content if both are provided.
+  actions: PropTypes.arrayOf(PropTypes.element), // Actions should be button-like elements.
+  // The "type" prop of each element determines their onClick function.
+  // key-props will be automatically provided to actions.
+  onSubmit: PropTypes.func, // Does not override default befaviour of closing Modal.
   loading: PropTypes.bool,
   expanded: PropTypes.bool,
   onClose: PropTypes.func,
@@ -102,7 +116,8 @@ ModalForm.defaultProps = {
   onClose: () => {},
   onOpen: () => {},
   content: null,
-  children: null
+  children: null,
+  actions: []
 }
 
 export default ModalForm

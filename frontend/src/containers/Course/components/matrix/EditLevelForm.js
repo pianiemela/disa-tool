@@ -8,7 +8,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { details } from '../../../../api/skillLevels'
 import { editLevel } from '../../actions/levels'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 class EditLevelForm extends Component {
@@ -56,14 +56,12 @@ class EditLevelForm extends Component {
       <div className="EditLevelForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
+          trigger={<Button basic circular onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
           onSubmit={this.editLevelSubmit}
           loading={this.state.loading}
+          actions={saveActions(this.translate)}
         >
-          <div>
-            <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
-            <Button color="green">{this.translate('save')}</Button>
-          </div>
+          <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
         </ModalForm>
       </div>
     )

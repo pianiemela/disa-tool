@@ -20,8 +20,7 @@ export class MatrixObjective extends Component {
       triggered: false,
       loading: true,
       cumulative_multiplier: 0,
-      tasks: [],
-      hasBeenCut: false
+      tasks: []
     }
   }
 
@@ -31,7 +30,6 @@ export class MatrixObjective extends Component {
         this.reset()
       }
     }
-    if (this.props.isCut && !this.state.hasBeenCut) this.markCut()
   }
 
   reset() {
@@ -39,10 +37,6 @@ export class MatrixObjective extends Component {
       triggered: false,
       loading: true
     })
-  }
-
-  markCut() {
-    this.setState({ hasBeenCut: true })
   }
 
   toggleObjective = () => {
@@ -78,7 +72,7 @@ export class MatrixObjective extends Component {
   translate = id => this.props.translate(`Course.matrix.MatrixObjective.${id}`)
 
   render() {
-    if (this.props.isCut) return <Button icon={{ name: 'paste' }} onClick={() => this.props.cut(null)} />
+    if (this.props.isCut) return <Button basic icon={{ name: 'paste' }} onClick={() => this.props.cut(null)} />
     return (
       <div className="MatrixObjective flexContainer">
         <div className="objectiveBlock flexContainer">
@@ -97,7 +91,7 @@ export class MatrixObjective extends Component {
             </Button>
           ) : (
             <Segment
-              className={`objectiveSegment${this.state.hasBeenCut ? ' appearAnimation' : ''}`}
+              className={`objectiveSegment${this.props.wasCut ? ' appearAnimation' : ''}`}
               style={{ borderRadius: '0px' }}
             >
               <MathJaxText content={this.props.objective.name} />
@@ -107,6 +101,8 @@ export class MatrixObjective extends Component {
             <div>
               <Popup
                 trigger={<Label
+                  size="large"
+                  circular
                   content={this.props.objective.task_count}
                   onMouseOver={this.loadDetails}
                   onFocus={this.loadDetails}
@@ -162,6 +158,8 @@ export class MatrixObjective extends Component {
               header={this.translate('delete_header')}
             />
             <Button
+              basic
+              circular
               style={{ margin: '5px auto 5px auto' }}
               type="button"
               icon={{ name: 'cut' }}
@@ -193,6 +191,7 @@ MatrixObjective.propTypes = {
   showDetails: PropTypes.bool,
   lastMultiplierUpdate: PropTypes.instanceOf(Date),
   isCut: PropTypes.bool.isRequired,
+  wasCut: PropTypes.bool.isRequired,
   cut: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired
 }
@@ -205,7 +204,8 @@ MatrixObjective.defaultProps = {
 
 const mapStateToProps = (state, ownProps) => ({
   lastMultiplierUpdate: state.task.lastMultiplierUpdate,
-  isCut: state.objective.cut === ownProps.objective.id
+  isCut: state.objective.cut === ownProps.objective.id,
+  wasCut: state.objective.last_cut === ownProps.objective.id
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({

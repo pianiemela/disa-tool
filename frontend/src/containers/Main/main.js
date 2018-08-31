@@ -45,6 +45,7 @@ class Keygen {
 const keygen = new Keygen()
 
 class Main extends PureComponent {
+  // TODO: Remove componentWillReceiveProps
   componentWillReceiveProps(newProps) {
     if (this.props.toast !== newProps.toast) {
       toast(newProps.toast.message, newProps.toast.options)

@@ -1,5 +1,6 @@
 {
   "common": {
+<<<<<<< HEAD
     "save": [
       "Save",
       "Tallenna"
@@ -32,6 +33,17 @@
       "or",
       "tai"
     ]
+=======
+    "save": ["Save", "Tallenna"],
+    "name": ["name", "nimi"],
+    "skill_level": ["skill level", "taitotaso"],
+    "skill_levels": ["skill levels", "taitotasot"],
+    "category": ["category", "osio"],
+    "objective": ["objective", "oppimistavoite"],
+    "tasks": ["tasks", "tehtävät"],
+    "or": ["or", "tai"],
+    "cancel": ["Cancel", "Peru"]
+>>>>>>> 37c5e5a32eb285aacafd7a59fa9c01e6172d25f0
   },
   "Nav": {
     "navbar": {
@@ -697,17 +709,42 @@
       }
     }
   },
+  "UserPage": {
+    "common": {
+      "hello": ["Hello", "Hei"],
+      "add_teacher": ["Add teacher", "Lisää opettaja"],
+      "select_teacher": ["Select teacher(s)", "Valitse lisättävät opettajat"],
+      "tasks": ["Tasks", "Tehtävät"],
+      "self_assessments": ["Self-assessments", "Itsearvioinnit"],
+      "open_task_list": ["Look at tasks", "Katso tehtävälistaa"],
+      "no_course_selected": ["No course selected", "Kurssia ei valittu"]
+    },
+    "CourseSideMenu": {
+      "active_courses": ["Open courses", "Avoimet kurssit"],
+      "closed_courses": ["Closed courses", "Suljetut kurssit"]
+    },
+    "CourseInfo": {
+      "edit_self_assessments": ["Edit self-assessments", "Muokkaa itsearviointeja"],
+      "edit_course": ["Edit course", "Muokkaa kurssia"],
+      "close_course": ["Close course", "Sulje kurssi"],
+      "start_course": ["Open course", "Avaa kurssi"],
+      "course_teachers": ["Course teachers", "Kurssin opettajat"],
+      "this_course_is": ["This course is ", "Tämä kurssi on "],
+      "open": ["open", "avoinna"],
+      "closed": ["closed", "suljettu"],
+      "course_matrix": ["Course-objective matrix", "Kurssin tavoitematriisi"],
+      "Links": {
+        "course_links": ["Course links", "Kurssin linkit"],
+        "registration": ["Registration: ", "Rekisteröityminen: "],
+        "matrix": ["Matrix: ", "Matriisi: "],
+        "close": ["Close", "Sulje"]
+      }
+    }
+  },
   "utils": {
     "components": {
       "DeleteForm": {
-        "remove": [
-          "Remove",
-          "Poista"
-        ],
-        "cancel": [
-          "Cancel",
-          "Peru"
-        ]
+        "remove": ["Remove", "Poista"]
       },
       "MultilingualField": {
         "monolingual": [

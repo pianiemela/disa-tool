@@ -12,6 +12,8 @@ const splitContent = (content, delimiter) => {
   }
   return chunks
 }
+
+// Outputs a <span> containing alternating <span> and <MathJax.Node> elements.
 const MathJaxText = (props) => {
   const chunks = props.delimiters.reduce((acc, curr) => splitContent(acc, curr), [props.content])
   const elements = chunks.map((chunk, i) => (i % 2 === 0 ? (
