@@ -2,7 +2,10 @@ const {
   SelfAssessment,
   AssessmentResponse,
   Person,
-  CourseInstance } = require('../database/models.js')
+  CourseInstance,
+} = require('../database/models.js')
+
+const categoryService = require('../services/category_service')
 
 const assessmentAttributes = lang => [
   'id',
@@ -95,11 +98,14 @@ const getAssesmentsForCourse = (courseId, lang, userId) => (
   })
 )
 
-const getOne = selfAssesmentId => (
-  SelfAssessment.findOne({
+const getOne = async (selfAssesmentId, lang) => {
+  const assessment = await SelfAssessment.findOne({
     where: { id: selfAssesmentId }
   })
-)
+
+  const assessmentValues = assessment.get({ plain: true })
+  return setAssessmentLanguage(assessmentValues, lang)
+}
 
 const toggleAssessment = async (id, attribute) => {
   const assessment = await SelfAssessment.findById(id)
@@ -110,6 +116,56 @@ const toggleAssessment = async (id, attribute) => {
 const isFeedbackActive = async (id) => {
   const assessment = await SelfAssessment.findById(id)
   return assessment.show_feedback
+}
+
+const setAssessmentLanguage = async (selfAssessment, lang) => {
+  const assessmentCopy = { ...selfAssessment }
+  const { structure } = assessmentCopy
+  const { course_instance_id } = assessmentCopy //eslint-disable-line
+  const { type } = structure
+
+  const name = `${lang}_name`
+  const instructions = `${lang}_instructions`
+
+  assessmentCopy.name = assessmentCopy[name]
+  const oldInst = structure.formInfo.find(h => h.type === instructions)
+  assessmentCopy.instructions = { ...instructions, header: oldInst.header, value: oldInst.value }
+
+  structure.finalGrade.name = (structure.finalGrade.headers.find(h => h.type === name)).value
+  structure.openQuestions.name = (structure.headers.openQ.find(h => h.type === name)).value
+  structure.questionModuleName = (structure.headers.questionHeaders.find(h => h.type === name)).value
+  structure.finalGrade = {
+    ...structure.finalGrade,
+    header: structure.headers.grade.find(h => h.type === name).value,
+    value: structure.finalGrade.headers.find(h => h.type === name).value
+  }
+
+  const categories = (await categoryService.getCourseCategories(course_instance_id, lang)).map(category => category.get({ plain: true }))
+  const categoryNames = {}
+  const objNames = {}
+
+  categories.forEach(cat => (categoryNames[cat.id] = cat.name)) //eslint-disable-line
+  categories.forEach(cat => cat.objectives.forEach(o => objNames[o.id] = o.name))  //eslint-disable-line
+
+  if (type === 'category') {
+    structure.questionModules = structure.questionModules.map(
+      qMod => ({
+        ...qMod, name: categoryNames[qMod.id.toString()]
+      }))
+
+    return assessmentCopy
+  }
+
+  structure.questionModules = assessmentCopy.structure.questionModules.map(qMod => ({
+    ...qMod,
+    name: categoryNames[qMod.id.toString()],
+    objectives: qMod.objectives.map(categoryOb => (
+      { ...categoryOb, name: objNames[categoryOb.id] }
+    ))
+  }))
+
+  assessmentCopy.structure = structure
+  return assessmentCopy
 }
 
 

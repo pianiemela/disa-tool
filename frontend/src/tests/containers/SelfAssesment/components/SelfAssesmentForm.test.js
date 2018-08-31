@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from 'semantic-ui-react'
-import { SelfAssesmentForm } from '../../../../containers/SelfAssesment/Userform/SelfAssesmentForm'
-import SelfAssesmentSection from '../../../../containers/SelfAssesment/Userform/FormParts/Sections/SelfAssesmentSection'
+import { SelfAssessmentForm } from '../../../../containers/SelfAssesment/Userform/SelfAssessmentForm'
+import SelfAssessmentSection from '../../../../containers/SelfAssesment/Userform/FormParts/Sections/SelfAssessmentSection'
 
 
 const dispatchCreateFormAction = jest.fn()
@@ -33,7 +33,7 @@ describe('Self assesment form', () => {
   let wrapper
 
   beforeEach(() => {
-    wrapper = shallow(<SelfAssesmentForm
+    wrapper = shallow(<SelfAssessmentForm
       match={{
         params: {
           courseInstanceId: 1,
@@ -68,16 +68,16 @@ describe('Self assesment form', () => {
       })
     })
     it('renders correctly', () => {
-      expect(wrapper.find('.selfAssesmentForm').exists()).toEqual(true)
+      expect(wrapper.find('.SelfAssessmentForm').exists()).toEqual(true)
     })
     it('shows the correct label on the button', () => {
       expect(wrapper.find(Button).at(3).props().children).toEqual('Tallenna')
     })
 
     it('contains questionmodules of type category', () => {
-      const { displayName } = wrapper.find(SelfAssesmentSection).at(0).prop('QuestionModule')
+      const { displayName } = wrapper.find(SelfAssessmentSection).at(0).prop('QuestionModule')
       expect(displayName).toBe('Connect(EditCategorymodule)')
-      expect(wrapper.find(SelfAssesmentSection).length).toBe(3)
+      expect(wrapper.find(SelfAssessmentSection).length).toBe(3)
     })
 
     // it('calls the correct function on click', (done) => {
@@ -103,9 +103,9 @@ describe('Self assesment form', () => {
       })
     })
     it('contains question modules of type objective', () => {
-      const { displayName } = wrapper.find(SelfAssesmentSection).at(0).prop('QuestionModule')
+      const { displayName } = wrapper.find(SelfAssessmentSection).at(0).prop('QuestionModule')
       expect(displayName).toBe('Connect(EditObjectiveModule)')
-      expect(wrapper.find(SelfAssesmentSection).length).toBe(3)
+      expect(wrapper.find(SelfAssessmentSection).length).toBe(3)
     })
   })
 

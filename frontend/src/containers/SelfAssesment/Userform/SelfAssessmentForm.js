@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import { Button, Loader, Container, Message, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import UserResultsPage from './UserResultsPage'
+import { withLocalize } from 'react-localize-redux'
+import FeedbackPage from '../FeedbackPage/FeedbackPage'
 import { getCourseInstance } from '../../../api/courses'
 import { getCourseData } from '../../../api/categories'
 import {
@@ -23,15 +24,15 @@ import {
 import ObjectiveQuestionModule from './FormParts/QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './FormParts/QuestionModules/CategoryQuestionModule'
 import OpenQuestionModule from './FormParts/QuestionModules/OpenQuestionModule'
-import SelfAssesmentInfo from './FormParts/Sections/SelfAssesmentInfo'
+import SelfAssessmentInfo from './FormParts/Sections/SelfAssessmentInfo'
 import './selfAssesment.css'
-import SelfAssesmentSection from './FormParts/Sections/SelfAssesmentSection'
+import SelfAssessmentSection from './FormParts/Sections/SelfAssessmentSection'
 import EditCategoryModule from './FormParts/QuestionModules/EditCategoryModule'
 import EditObjectiveModule from './FormParts/QuestionModules/EditObjectiveModule'
 
 import { validationErrors, gradeOptions, checkResponseErrors } from '../utils'
 
-export class SelfAssesmentForm extends React.Component {
+export class SelfAssessmentForm extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -214,6 +215,8 @@ export class SelfAssesmentForm extends React.Component {
   }
 
   render() {
+    const translate = translateId => this.props.translate(`SelfAssessment.Userform.SelfAssessmentForm.${translateId}`)
+
     const dummyPropToEnsureChange = () => (
       (
         null
@@ -225,7 +228,7 @@ export class SelfAssesmentForm extends React.Component {
     }
     if (this.props.assesmentResponse.existingAnswer) {
       return (
-        <UserResultsPage
+        <FeedbackPage
           assessmentResponse={this.props.assesmentResponse}
           assessmentInfo={this.props.formData}
         />)
@@ -235,8 +238,8 @@ export class SelfAssesmentForm extends React.Component {
       let submitFunction = null
       const { formData, edit } = this.props
       const { structure } = formData
-      const { displayCoursename, type, formInfo } = structure
-      const { openQ, questionHeaders, grade } = structure.headers
+      const { displayCoursename, type } = structure
+      const { grade } = structure.headers
       const { responseErrors } = this.state
 
       if (!edit) {
@@ -249,27 +252,27 @@ export class SelfAssesmentForm extends React.Component {
 
       return (
         <div>
-          <Container className="selfAssesmentForm">
+          <Container className="selfAssessmentForm">
             <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
             {this.state.preview ?
-              <Message style={{ textAlign: 'center' }} color="green">Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan</Message>
+              <Message style={{ textAlign: 'center' }} color="green">{translate('previewMessage')}</Message>
               :
               null
             }
             {!formData.open && !edit ?
-              <Message style={{ textAlign: 'center' }} color="grey">Itsearviota ei ole vielä avattu vastattavaksi.</Message>
+              <Message style={{ textAlign: 'center' }} color="grey">{this.props.translate('notOpenMessage')}</Message>
               :
               null
             }
 
             <Modal size="small" open={this.state.softErrors} onClose={this.close}>
-              <Modal.Header>Tallenna vastauksesi</Modal.Header>
+              <Modal.Header>{translate('modalHeader')}</Modal.Header>
               <Modal.Content>
-                <p>Sinulla on tyhjiä perustelukenttiä vastauksille.</p>
-                <p>Haluatko tallentaa vastauksen tästä huolimatta?</p>
+                <p>{translate('modalContent1')} .</p>
+                <p>{translate('modalContent2')}?</p>
               </Modal.Content>
               <Modal.Actions>
-                <Button onClick={() => this.close()} negative>Ei</Button>
+                <Button onClick={() => this.close()} negative>{translate('modalButton2')}</Button>
                 <Button
                   onClick={() => {
                     this.props.dispatchCreateSelfAssesmentResponseAction({
@@ -284,7 +287,7 @@ export class SelfAssesmentForm extends React.Component {
                   positive
                   icon="checkmark"
                   labelPosition="right"
-                  content="Kyllä"
+                  content={translate('modalButton1')}
                 />
               </Modal.Actions>
             </Modal>
@@ -300,14 +303,14 @@ export class SelfAssesmentForm extends React.Component {
               null
             }
 
-            <SelfAssesmentInfo
-              formData={formInfo}
+            <SelfAssessmentInfo
+              formData={formData}
               edit={edit ? !this.state.preview : false}
             />
 
             {type === 'category' ?
-              <SelfAssesmentSection
-                headers={questionHeaders}
+              <SelfAssessmentSection
+                name={structure.questionModuleName}
                 formData={structure.questionModules}
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
@@ -324,8 +327,8 @@ export class SelfAssesmentForm extends React.Component {
 
               :
 
-              <SelfAssesmentSection
-                headers={questionHeaders}
+              <SelfAssessmentSection
+                name={structure.questionModuleName}
                 formData={structure.questionModules}
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
@@ -340,8 +343,8 @@ export class SelfAssesmentForm extends React.Component {
             }
 
             {structure.openQuestions.questions.length > 0 || (edit && !this.state.preview) ?
-              <SelfAssesmentSection
-                headers={openQ}
+              <SelfAssessmentSection
+                name={structure.openQuestions.name}
                 formData={structure.openQuestions.questions}
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
@@ -355,7 +358,7 @@ export class SelfAssesmentForm extends React.Component {
             }
 
             {structure.finalGrade.includedInAssesment || (edit && !this.state.preview) ?
-              <SelfAssesmentSection
+              <SelfAssessmentSection
                 headers={grade}
                 formData={[structure.finalGrade]}
                 edit={edit ? !this.state.preview : false}
@@ -446,7 +449,7 @@ const mapDispatchToProps = dispatch => ({
 
 })
 
-SelfAssesmentForm.defaultProps = {
+SelfAssessmentForm.defaultProps = {
   formData: {} || [],
   new: false,
   role: null,
@@ -454,7 +457,7 @@ SelfAssesmentForm.defaultProps = {
 }
 
 
-SelfAssesmentForm.propTypes = {
+SelfAssessmentForm.propTypes = {
   formData: PropTypes.shape(),
   edit: PropTypes.bool.isRequired,
   dispatchCreateFormAction: PropTypes.func.isRequired,
@@ -475,7 +478,8 @@ SelfAssesmentForm.propTypes = {
   dispatchGetCourseInstanceData: PropTypes.func.isRequired,
   dispatchClearError: PropTypes.func.isRequired,
   error: PropTypes.bool.isRequired,
-  roleError: PropTypes.bool
+  roleError: PropTypes.bool,
+  translate: PropTypes.func.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentForm)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(SelfAssessmentForm))
