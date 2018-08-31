@@ -301,13 +301,13 @@ export class SelfAssesmentForm extends React.Component {
             }
 
             <SelfAssesmentInfo
-              formData={formInfo}
+              formData={formData}
               edit={edit ? !this.state.preview : false}
             />
 
             {type === 'category' ?
               <SelfAssesmentSection
-                headers={questionHeaders}
+                name={structure.questionModuleName}
                 formData={structure.questionModules}
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
@@ -325,7 +325,7 @@ export class SelfAssesmentForm extends React.Component {
               :
 
               <SelfAssesmentSection
-                headers={questionHeaders}
+                name={structure.questionModuleName}
                 formData={structure.questionModules}
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}
@@ -341,7 +341,7 @@ export class SelfAssesmentForm extends React.Component {
 
             {structure.openQuestions.questions.length > 0 || (edit && !this.state.preview) ?
               <SelfAssesmentSection
-                headers={openQ}
+                name={structure.openQuestions.name}
                 formData={structure.openQuestions.questions}
                 edit={edit ? !this.state.preview : false}
                 changedProp={dummyPropToEnsureChange}

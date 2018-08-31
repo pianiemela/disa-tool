@@ -35,16 +35,15 @@ export class SelfAssesmentSection extends React.Component {
       edit,
       QuestionModule,
       formData,
-      headers,
       errors,
       clearError,
       courseInstanceId,
-      grades
+      grades,
+      name
     } = this.props
 
     const { responseText, grade } = errors
     const { editHeaders } = this.state
-    let header = this.props.headers[0].value
     let headerEditForm = null
     let renderModules = null
 
@@ -90,19 +89,25 @@ export class SelfAssesmentSection extends React.Component {
           )))
     }
 
-    if (final && edit) {
-      header =
-        (
-          <div>
-            {header}
+    const header = final ?
+      (
+        <div>
+          {formData[0].header}
+          {edit ?
             <Button
               onClick={() => this.toggleEdit()}
               style={{ marginLeft: '10px' }}
             >
               {editHeaders ? 'Näytä' : 'Muokkaa'}
             </Button>
-          </div>)
-    }
+
+            :
+            null
+          }
+        </div>)
+      :
+      name
+
 
     if (editHeaders) {
       headerEditForm =
@@ -153,7 +158,8 @@ SelfAssesmentSection.defaultProps = {
   errors: { grade: [], responseText: [] },
   courseInstanceId: null,
   clearError: null,
-  grades: null
+  grades: null,
+  name: ''
 }
 
 SelfAssesmentSection.propTypes = {
@@ -166,9 +172,6 @@ SelfAssesmentSection.propTypes = {
   QuestionModule: PropTypes.func.isRequired,
   final: PropTypes.bool,
   dispatchHeaderChange: PropTypes.func.isRequired,
-  headers: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string.isRequired
-  })).isRequired,
   headerType: PropTypes.string,
   clearError: PropTypes.func,
   errors: PropTypes.shape({
@@ -177,7 +180,8 @@ SelfAssesmentSection.propTypes = {
     }))
   }),
   courseInstanceId: PropTypes.number,
-  grades: PropTypes.arrayOf(PropTypes.object)
+  grades: PropTypes.arrayOf(PropTypes.object),
+  name: PropTypes.string
 }
 
 const mapDispatchToProps = dispatch => ({

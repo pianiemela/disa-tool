@@ -23,7 +23,7 @@ const MultiLangInput = (props) => {
     <div style={{ paddingTop: '10px' }}>
       {headers.map(h => (
         <Form.Field key={h.id}>
-          <Input
+          <Input style={{ width: '100%', marginTop: '10px' }}
             label={display(h.prefix)}
             onChange={handleChange ? e => handleChange(h.id, e.target.value) : null}
             onBlur={handleBlur ? e => handleBlur(h.id, e.target.value) : null}

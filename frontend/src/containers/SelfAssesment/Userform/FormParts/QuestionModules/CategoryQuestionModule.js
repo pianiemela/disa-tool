@@ -41,7 +41,7 @@ export class CategoryQuestionModule extends React.Component {
       clearError,
       courseInstanceId,
       grades } = this.props
-    const { name, textFieldOn, id, headers } = this.props.data
+    const { name, textFieldOn, id} = this.props.data
     return (
       <div className="CategoryQuestion">
         <Form error={gradeError !== undefined}>
@@ -50,9 +50,7 @@ export class CategoryQuestionModule extends React.Component {
               <Card fluid>
                 <Card.Content >
                   <Card.Header>
-                    {final ? headers[0].value :
-                      name
-                    }
+                    {name}
                     <Accordion style={{ marginTop: '10px' }} fluid styled>
                       <Accordion.Title
                         active={this.state.showMatrix}

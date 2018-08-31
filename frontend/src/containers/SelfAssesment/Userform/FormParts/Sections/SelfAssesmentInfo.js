@@ -10,8 +10,8 @@ class SelfAssesmentInfo extends React.Component {
     super(props)
     this.state = {
       values: {},
-      editHeaders: false,
-      editDescriptions: false
+      editName: false,
+      editInstructions: false
     }
   }
 
@@ -22,8 +22,10 @@ class SelfAssesmentInfo extends React.Component {
   }
   toggleEdit = (type) => {
     const { values } = this.state
-    this.props.dispatchTextFieldChange({ values })
-    this.setState({ [type]: !this.state[type] })
+    let variable = type.slice(4)
+    variable = variable.charAt(0).toLowerCase() + variable.slice(1)
+    this.props.dispatchTextFieldChange({ values, type: variable })
+    this.setState({ [type]: !this.state[type], values: {} })
   }
 
   render() {
@@ -32,28 +34,30 @@ class SelfAssesmentInfo extends React.Component {
         style={{ marginLeft: '10px' }}
         onClick={() => this.toggleEdit(toggleEdit)}
       >
-        {!this.state.editHeaders ? 'Muokkaa' : 'Näytä'}
+        {!this.state.editName ? 'Muokkaa' : 'Näytä'}
       </Button>
     )
-
-
-    const descriptions = this.props.formData.filter(d => d.type.includes('instruction'))
-    const names = this.props.formData.filter(d => d.type.includes('name'))
+    const { formData } = this.props
+    const { structure } = formData
+    const { formInfo } = structure
+    const instructions = formInfo.filter(d => d.type.includes('instruction'))
+    const names = formInfo.filter(d => d.type.includes('name'))
     const { values } = this.state
     const { edit } = this.props
+
     return (
 
       <Form style={{ padding: '20px' }}>
         <Form.Field>
           <Header as="h3" textAlign="center">
-            {names[2].value}
+            {formData.name}
             {edit ?
-              editButton('editHeaders')
+              editButton('editName')
               :
               null
             }
           </Header>
-          {!this.state.editHeaders ?
+          {!this.state.editName ?
             null
             :
             <div>
@@ -70,23 +74,23 @@ class SelfAssesmentInfo extends React.Component {
           <Card centered fluid>
             <Card.Content>
               <Card.Header style={{ textAlign: 'center' }}>
-                Ohjeet itsearvioon
+                {formData.instructions.header}
                 {edit ?
-                  editButton('editDescriptions')
+                  editButton('editInstructions')
                   :
                   null}
               </Card.Header>
-              {!this.state.editDescriptions ?
+              {!this.state.editInstructions ?
                 <Card.Description>
                   <TextArea
                     autoHeight
-                    value={descriptions[2].value}
+                    value={formData.instructions.value}
                   >
-                    {descriptions[2].value}
+                    {formData.instructions.value}
                   </TextArea>
                 </Card.Description>
                 :
-                descriptions.map(d => (
+                instructions.map(d => (
                   <Form.Field
                     key={d.id}
                   >
@@ -109,10 +113,20 @@ class SelfAssesmentInfo extends React.Component {
 
 SelfAssesmentInfo.propTypes = {
   dispatchTextFieldChange: PropTypes.func.isRequired,
-  formData: PropTypes.arrayOf(PropTypes.shape({
-    type: PropTypes.string.isRequired
-  })).isRequired,
+  formData: PropTypes.shape({
+    structure: PropTypes.shape({
+      formInfo: PropTypes.arrayOf(PropTypes.shape())
+    })
+  }),
   edit: PropTypes.bool.isRequired
+}
+
+SelfAssesmentInfo.defaultProps = {
+  formData: {
+    structure: {
+      formInfo: []
+    }
+  }
 }
 
 const mapDispatchToProps = dispatch => ({

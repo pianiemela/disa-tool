@@ -31,7 +31,7 @@ export class EditCategorymodule extends React.Component {
     const finalGradeHeader =
       (
         <div>
-          {headers ? headers[0].value : null}
+          {name}
           <Button
             className="editHeadersButton"
             onClick={() => this.toggleEdit()}
@@ -43,18 +43,13 @@ export class EditCategorymodule extends React.Component {
 
     const finalGradeEdit =
       (
-        <div>
-          {this.state.editHeaders ?
-            <Card.Description>
-              <MultiLangInput
-                handleChange={this.changeHeader}
-                headers={headers}
-              />
-            </Card.Description>
-            :
-            null
-          }
-        </div>
+        this.state.editHeaders ?
+          <MultiLangInput
+            handleChange={this.changeHeader}
+            headers={headers}
+          />
+          :
+          null
       )
 
     return (
