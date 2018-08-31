@@ -42,7 +42,7 @@ describe('MultilingualField component', () => {
             sweField = field
             break
           default:
-            console.warn('Multilingual shallowwrapper prop "field" should be "test".')
+            throw new Error('Invalid prop "field" in MultilingualField should be "test" when testing.')
         }
       })
     })

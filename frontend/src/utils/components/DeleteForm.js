@@ -6,7 +6,6 @@ import { Button } from 'semantic-ui-react'
 import ModalForm from './ModalForm'
 
 export class DeleteForm extends Component {
-
   translate = id => this.props.translate(`utils.components.DeleteForm.${id}`)
 
   render() {

@@ -26,13 +26,10 @@ export const findText = (text, wrapper) => {
  */
 export const testService = (options) => {
   const { func, data = {}, mockResponse = {}, type, apiRoute, apiMethod = 'get', mockStatus = 200 } = options
-  let path
   if (apiRoute === undefined) {
-    console.warn('apiRoute was undefined. All routes will be considered valid and pass tests.')
-    path = apiRoute
-  } else {
-    path = `${BASE_PATH}${apiRoute}`
+    throw new Error('apiRoute was undefined.')
   }
+  const path = `${BASE_PATH}${apiRoute}`
 
   describe(`${func.name} func`, () => {
     let dispatch
@@ -56,7 +53,7 @@ export const testService = (options) => {
           route = apiMock.onDelete(path)
           break
         default:
-          console.warn('apiMethod was invalid, no api mock created.')
+          throw new Error('apiMethod was invalid, no api mock created.')
       }
       route.reply(mockStatus, mockResponse)
       dispatch = jest.fn()
