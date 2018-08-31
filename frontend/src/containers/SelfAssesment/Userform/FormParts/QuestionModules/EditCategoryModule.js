@@ -1,7 +1,8 @@
-import { Card, Grid, Checkbox, Button, Divider } from 'semantic-ui-react'
+import { Grid, Checkbox, Button, Divider } from 'semantic-ui-react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import UpOrDownToggle from '../UpOrDownToggle'
 import { gradeCategoryAction, textfieldResponseAction, toggleTextField, toggleFormPartAction, changeHeaderAction } from '../../../actions/selfAssesment'
 import MultiLangInput from '../MultiLangInput'
@@ -27,6 +28,7 @@ export class EditCategorymodule extends React.Component {
     const { name, textFieldOn, id, includedInAssesment } = this.props.data
     const { final } = this.props
     const { headers } = this.props.data
+    const translate = translateId => this.props.translate(`SelfAssessment.Userform.FormParts.QuestionModules.EditCategoryModule.${translateId}`)
 
     const finalGradeHeader =
       (
@@ -44,10 +46,12 @@ export class EditCategorymodule extends React.Component {
     const finalGradeEdit =
       (
         this.state.editHeaders ?
-          <MultiLangInput
-            handleChange={this.changeHeader}
-            headers={headers}
-          />
+          (
+            <MultiLangInput
+              handleChange={this.changeHeader}
+              headers={headers}
+            />
+          )
           :
           null
       )
@@ -63,7 +67,7 @@ export class EditCategorymodule extends React.Component {
               style={{ marginTop: '10px' }}
               defaultChecked={textFieldOn}
               onChange={() => this.props.dispatchTextFieldOnOff(id)}
-              label="Perustelut arvosanalle"
+              label={translate('label')}
               disabled={!includedInAssesment}
             />
             {finalGradeEdit}
@@ -76,7 +80,7 @@ export class EditCategorymodule extends React.Component {
               basic
               color={includedInAssesment ? 'green' : 'red'}
               onClick={() => this.props.dispatchToggleFormPartAction(id, 'category')}
-            >{includedInAssesment ? 'Mukana itsearviossa' : 'Ei mukana itsearviossa'}
+            >{includedInAssesment ? translate('includedButton') : translate('notIncludedButton')}
             </Button>
           </Grid.Column>
           <Grid.Column verticalAlign="middle">
@@ -105,7 +109,8 @@ EditCategorymodule.propTypes = {
   final: PropTypes.bool,
   dispatchTextFieldOnOff: PropTypes.func.isRequired,
   dispatchToggleFormPartAction: PropTypes.func.isRequired,
-  dispatchHeaderChange: PropTypes.func.isRequired
+  dispatchHeaderChange: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -125,4 +130,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(gradeCategoryAction(data))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditCategorymodule)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(EditCategorymodule))

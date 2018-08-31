@@ -13,7 +13,7 @@ import '../../../Userform/selfAssesment.css'
 class ObjectiveQuestionModule extends React.Component {
   constructor(props) {
     super(props)
-    this.state = { ratings: {} }
+    this.state = { ratings: {}, grades: {} }
   }
 
   componentDidMount() {
@@ -21,7 +21,8 @@ class ObjectiveQuestionModule extends React.Component {
     this.props.data.objectives.forEach((value) => {
       ratings[value.id] = -1
     })
-    this.setState({ ratings })
+    const grades = objectiveGrades()
+    this.setState({ ratings, grades })
   }
 
   handleChange = (objective, value) => {
@@ -34,8 +35,8 @@ class ObjectiveQuestionModule extends React.Component {
   render() {
     const { objectives, name, id } = this.props.data
     const { gradeError, clearError } = this.props
-    const { ratings } = this.state
-
+    const { ratings, grades } = this.state
+    
     return (
       <Card fluid>
         <Card.Content>
@@ -45,10 +46,10 @@ class ObjectiveQuestionModule extends React.Component {
             </Grid.Column>
             <Grid.Column>
               <div style={{ display: 'flex' }}>
-                {Object.keys(objectiveGrades).map(o =>
+                {Object.keys(grades).map(o =>
                   (
                     <div key={o} style={{ flexGrow: 1 }}>
-                      {objectiveGrades[o]}
+                      {grades[o]}
                     </div>))}
               </div>
             </Grid.Column>
@@ -68,7 +69,7 @@ class ObjectiveQuestionModule extends React.Component {
                           </Grid.Column >
                           <Grid.Column>
                             <div style={{ display: 'flex' }}>
-                              {Object.keys(objectiveGrades).map(og =>
+                              {Object.keys(grades).map(og =>
                                 (
                                   <div key={og} style={{ flexGrow: 1, textAlign: 'center' }}>
                                     <Form.Checkbox

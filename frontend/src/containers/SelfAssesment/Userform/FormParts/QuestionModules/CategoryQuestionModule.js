@@ -2,6 +2,7 @@ import { Form, Card, Grid, Dropdown, Accordion, Icon, Message } from 'semantic-u
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import {
   gradeCategoryAction,
   textfieldResponseAction,
@@ -41,7 +42,9 @@ export class CategoryQuestionModule extends React.Component {
       clearError,
       courseInstanceId,
       grades } = this.props
-    const { name, textFieldOn, id} = this.props.data
+    const { name, textFieldOn, id } = this.props.data
+    const translate = translateId => this.props.translate(`SelfAssessment.Userform.FormParts.QuestionModules.CategoryQuestionModule.${translateId}`)
+
     return (
       <div className="CategoryQuestion">
         <Form error={gradeError !== undefined}>
@@ -57,7 +60,7 @@ export class CategoryQuestionModule extends React.Component {
                         onClick={() => this.setState({ showMatrix: !this.state.showMatrix })}
                       >
                         <Icon name="dropdown" />
-                        Osaamismatriisi
+                        {translate('matrix')}
                       </Accordion.Title>
                       <Accordion.Content active={this.state.showMatrix}>
                         <MatrixPage
@@ -73,10 +76,10 @@ export class CategoryQuestionModule extends React.Component {
                       <Form.Field width={10}>
                         <Grid.Column>
                           <div>
-                            <label> Arvioi osaamisesi asteikolla 0-5</label>
+                            <label> {translate('assessment')}</label>
                             <Dropdown
                               style={{ marginLeft: '20px' }}
-                              placeholder="Valitse arvosana"
+                              placeholder={translate('gradeSelect')}
                               selection
                               options={grades}
                               error={gradeError !== undefined}
@@ -101,8 +104,8 @@ export class CategoryQuestionModule extends React.Component {
                             <Form.TextArea
                               autoHeight
                               error={responseTextError !== undefined}
-                              label="Perustelut arvosanalle"
-                              placeholder="Kirjoita perustelut valitsemallesi arvosanalle"
+                              label={translate('basis')}
+                              placeholder={translate('writeBasis')}
                               onBlur={!edit ? e =>
                                 this.props.dispatchTextfieldResponseAction({
                                   id,
@@ -182,4 +185,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(gradeCategoryAction(data))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryQuestionModule)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(CategoryQuestionModule))

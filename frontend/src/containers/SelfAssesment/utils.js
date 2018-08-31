@@ -42,11 +42,24 @@ export const gradeOptions = async (courseInstanceId) => {
   return data.map(d => ({ text: d.name, value: d.id }))
 }
 
-export const objectiveGrades =
-{
-  0: 'Selkeästi kehitettävää',
-  1: 'Osaan kohtalaisesti',
-  2: 'Osaan hyvin'
+export const objectiveGrades = () => {
+
+  switch (lang) {
+    case 'fin':
+      return {
+        0: 'Selkeästi kehitettävää',
+        1: 'Osaan kohtalaisesti',
+        2: 'Osaan hyvin'
+      }
+    case 'eng':
+      return {
+        0: 'A lot to improve',
+        1: 'Decent skills',
+        2: 'Good skills'
+      }
+    default:
+      return null
+  }
 }
 
 export const validationErrors = {
