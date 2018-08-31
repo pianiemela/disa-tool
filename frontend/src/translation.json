@@ -706,6 +706,16 @@
       }
     }
   },
+  "SelfAssessmentList": {
+    "SelfAssessmentListPage": {
+      "back": ["Back", "Takaisin"],
+      "inspect": ["Inspect", "Tarkastele"],
+      "self_assessment": ["Self Assessment", "Itsearvio"],
+      "machine_review": ["Machine Review", "Konearvio"],
+      "final_grade": ["Final Grade", "Loppuarvosana"],
+      "link": ["Link to assessment form", "Linkki vastauslomakkeeseen"]
+    }
+  },
   "utils": {
     "components": {
       "DeleteForm": {
