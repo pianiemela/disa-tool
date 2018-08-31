@@ -4,7 +4,9 @@ import {
   addObjectiveToTask,
   removeObjectiveFromTask,
   addTypeToTask,
-  removeTypeFromTask
+  removeTypeFromTask,
+  editTask,
+  editTaskObjectives
 } from '../../../../containers/Course/actions/tasks'
 import { testService } from '../../../testUtils'
 
@@ -14,10 +16,14 @@ testService({
     success: 'TASK_CREATE'
   },
   data: {
+    course_instance_id: 1,
     eng_name: 'doot',
     fin_name: 'dööt',
     swe_name: 'dååt',
-    course_instance_id: 1
+    info: 'info',
+    eng_description: 'ed',
+    fin_description: 'fd',
+    swe_description: 'sd'
   },
   apiRoute: '/tasks/create',
   apiMethod: 'post'
@@ -84,5 +90,37 @@ testService({
     task_id: 23
   },
   apiRoute: '/tasks/types/detach',
+  apiMethod: 'post'
+})
+
+testService({
+  func: editTask,
+  type: {
+    success: 'TASK_EDIT'
+  },
+  data: {
+    id: 3,
+    eng_name: 'doot',
+    fin_name: 'dööt',
+    swe_name: 'dååt',
+    info: 'info',
+    eng_description: 'ed',
+    fin_description: 'fd',
+    swe_description: 'sd'
+  },
+  apiRoute: '/tasks/3',
+  apiMethod: 'put'
+})
+
+testService({
+  func: editTaskObjectives,
+  type: {
+    success: 'TASK_EDIT_OBJECTIVE_MULTIPLIERS'
+  },
+  data: {
+    task_id: 3,
+    objectives: []
+  },
+  apiRoute: '/tasks/objectives/edit',
   apiMethod: 'post'
 })

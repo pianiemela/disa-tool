@@ -112,7 +112,7 @@ export const testService = (options) => {
 
     describe('when failing', () => {
       beforeEach(() => {
-        buildMockApi(apiMethod, path, 500, mockResponse)
+        buildMockApi(apiMethod, path, 500, { testFail: true })
         dispatch = jest.fn()
         withDispatch = asyncAction(func, dispatch)
       })
@@ -121,7 +121,7 @@ export const testService = (options) => {
         await withDispatch(data)
         expect(dispatch).toHaveBeenCalledWith({
           type: type.failure,
-          response: mockResponse
+          response: { testFail: true }
         })
       })
     })

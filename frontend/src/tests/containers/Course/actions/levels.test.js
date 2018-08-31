@@ -1,4 +1,4 @@
-import { addLevel, removeLevel } from '../../../../containers/Course/actions/levels'
+import { addLevel, removeLevel, editLevel } from '../../../../containers/Course/actions/levels'
 import { testService } from '../../../testUtils'
 
 testService({
@@ -26,4 +26,19 @@ testService({
   },
   apiRoute: '/skill-levels/6',
   apiMethod: 'delete'
+})
+
+testService({
+  func: editLevel,
+  type: {
+    success: 'LEVEL_EDIT'
+  },
+  data: {
+    id: 6,
+    eng_name: 'doot',
+    fin_name: 'dööt',
+    swe_name: 'dååt'
+  },
+  apiRoute: '/skill-levels/6',
+  apiMethod: 'put'
 })
