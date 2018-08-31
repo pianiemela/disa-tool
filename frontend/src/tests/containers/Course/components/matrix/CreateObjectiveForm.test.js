@@ -35,15 +35,23 @@ describe('CreateObjectiveForm component', () => {
     let content
 
     beforeEach(() => {
-      content = shallow(wrapper.find(ModalForm).props().content)
+      try {
+        content = wrapper.find(ModalForm).props().children.map(child => shallow(child))
+      } catch (e) {
+        content = [shallow(wrapper.find(ModalForm).props().content)]
+      }
     })
 
     it('renders category name.', () => {
-      expect(findText(category.name, content)).toBeGreaterThan(0)
+      expect((
+        content.reduce((acc, curr) => acc + findText(category.name, curr), 0)
+      )).toBeGreaterThan(0)
     })
 
     it('renders level name.', () => {
-      expect(findText(level.name, content)).toBeGreaterThan(0)
+      expect((
+        content.reduce((acc, curr) => acc + findText(level.name, curr), 0)
+      )).toBeGreaterThan(0)
     })
   })
 
