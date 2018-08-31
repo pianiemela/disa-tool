@@ -1,39 +1,5 @@
 {
   "common": {
-<<<<<<< HEAD
-    "save": [
-      "Save",
-      "Tallenna"
-    ],
-    "name": [
-      "name",
-      "nimi"
-    ],
-    "skill_level": [
-      "skill level",
-      "taitotaso"
-    ],
-    "skill_levels": [
-      "skill levels",
-      "taitotasot"
-    ],
-    "category": [
-      "category",
-      "osio"
-    ],
-    "objective": [
-      "objective",
-      "oppimistavoite"
-    ],
-    "tasks": [
-      "tasks",
-      "tehtävät"
-    ],
-    "or": [
-      "or",
-      "tai"
-    ]
-=======
     "save": ["Save", "Tallenna"],
     "name": ["name", "nimi"],
     "skill_level": ["skill level", "taitotaso"],
@@ -43,7 +9,6 @@
     "tasks": ["tasks", "tehtävät"],
     "or": ["or", "tai"],
     "cancel": ["Cancel", "Peru"]
->>>>>>> 37c5e5a32eb285aacafd7a59fa9c01e6172d25f0
   },
   "Nav": {
     "navbar": {
