@@ -260,7 +260,7 @@ export class SelfAssessmentForm extends React.Component {
               null
             }
             {!formData.open && !edit ?
-              <Message style={{ textAlign: 'center' }} color="grey">{this.props.translate('notOpenMessage')}</Message>
+              <Message style={{ textAlign: 'center' }} color="grey">{translate('notOpenMessage')}</Message>
               :
               null
             }

@@ -30,6 +30,7 @@ describe('Category question module', () => {
       clearError={jest.fn()}
       grades={[]}
       edit
+      translate={() => ''}
     />)
   })
 
@@ -44,7 +45,7 @@ describe('Category question module', () => {
       expect(wrapper.find('.toggleFormPartButton').exists()).toEqual(false)
     })
   })
-  describe.skip('with edit true', () => {
+  describe('with edit true', () => {
     beforeEach(() => {
       wrapper.setProps({
         edit: true
@@ -54,15 +55,17 @@ describe('Category question module', () => {
       expect(wrapper.find('.CategoryQuestion').exists()).toEqual(true)
     })
 
-    it('contains the toggle form part button', () => {
+    it.skip('contains the toggle form part button', () => {
+      // Unclear what button is referred to.
       expect(wrapper.find('.toggleFormPartButton').exists()).toEqual(true)
     })
-    it('contains the move form parts up or down element', () => {
+    it.skip('contains the move form parts up or down element', () => {
+      // Unclear wheteher this component is supposed to be found?
       expect(wrapper.find(UpOrDownToggle).exists()).toEqual(true)
     })
   })
 
-  describe.skip('with final', () => {
+  describe('with final', () => {
     beforeEach(() => {
       wrapper.setProps({
         final: true,
@@ -70,10 +73,12 @@ describe('Category question module', () => {
       })
     })
 
-    it('contains the toggle headers button', () => {
+    it.skip('contains the toggle headers button', () => {
+      // Unclear what button is referred to.
       expect(wrapper.find('.editHeadersButton').exists()).toEqual(true)
     })
-    it('shows the multilang input field, when you click the edit headers button', () => {
+    it.skip('shows the multilang input field, when you click the edit headers button', () => {
+      // Unclear what button is referred to.
       wrapper.find('.editHeadersButton').simulate('click')
       expect(wrapper.find(MultiLangInput).exists()).toEqual(true)
     })

@@ -165,7 +165,8 @@ CategoryQuestionModule.propTypes = {
     key: PropTypes.number,
     value: PropTypes.number,
     text: PropTypes.string
-  })).isRequired
+  })).isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
