@@ -3,7 +3,9 @@ import { testService } from '../../../testUtils'
 
 testService({
   func: addObjective,
-  type: 'OBJECTIVE_CREATE',
+  type: {
+    success: 'OBJECTIVE_CREATE'
+  },
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
@@ -18,7 +20,9 @@ testService({
 
 testService({
   func: removeObjective,
-  type: 'OBJECTIVE_DELETE',
+  type: {
+    success: 'OBJECTIVE_DELETE'
+  },
   data: {
     id: 15
   },

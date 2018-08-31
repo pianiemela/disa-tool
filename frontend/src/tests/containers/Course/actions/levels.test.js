@@ -3,7 +3,9 @@ import { testService } from '../../../testUtils'
 
 testService({
   func: addLevel,
-  type: 'LEVEL_CREATE',
+  type: {
+    success: 'LEVEL_CREATE'
+  },
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
@@ -16,7 +18,9 @@ testService({
 
 testService({
   func: removeLevel,
-  type: 'LEVEL_DELETE',
+  type: {
+    success: 'LEVEL_DELETE'
+  },
   data: {
     id: 6
   },

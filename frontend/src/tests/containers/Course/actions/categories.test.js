@@ -3,7 +3,9 @@ import { testService } from '../../../testUtils'
 
 testService({
   func: addCategory,
-  type: 'CATEGORY_CREATE',
+  type: {
+    success: 'CATEGORY_CREATE'
+  },
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
@@ -16,7 +18,9 @@ testService({
 
 testService({
   func: removeCategory,
-  type: 'CATEGORY_DELETE',
+  type: {
+    success: 'CATEGORY_DELETE'
+  },
   data: {
     id: 6
   },

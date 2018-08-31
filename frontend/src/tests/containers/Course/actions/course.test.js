@@ -3,7 +3,9 @@ import { testService } from '../../../testUtils'
 
 testService({
   func: getCourseData,
-  type: 'COURSE_GET_DATA',
+  type: {
+    success: 'COURSE_GET_DATA'
+  },
   data: {
     id: 1
   },

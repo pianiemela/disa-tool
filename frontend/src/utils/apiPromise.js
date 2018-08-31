@@ -8,9 +8,9 @@ const failure = (resolve, action) => error => resolve({
   response: error.response.data
 })
 
-const successToast = resolve => success(resolve, { type: 'TOAST' })
+const successToast = resolve => success(resolve, { type: 'APIPROMISE_GENERIC_SUCCESS' })
 
-const failureToast = resolve => failure(resolve, { type: 'TOAST' })
+const failureToast = resolve => failure(resolve, { type: 'APIPROMISE_GENERIC_FAILURE' })
 
 const apiPromise = (apiCall, param, actions = {}) => new Promise((resolve) => {
   apiCall(param)

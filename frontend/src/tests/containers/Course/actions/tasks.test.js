@@ -10,7 +10,9 @@ import { testService } from '../../../testUtils'
 
 testService({
   func: addTask,
-  type: 'TASK_CREATE',
+  type: {
+    success: 'TASK_CREATE'
+  },
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
@@ -23,7 +25,9 @@ testService({
 
 testService({
   func: removeTask,
-  type: 'TASK_DELETE',
+  type: {
+    success: 'TASK_DELETE'
+  },
   data: {
     id: 3
   },
@@ -33,7 +37,9 @@ testService({
 
 testService({
   func: addObjectiveToTask,
-  type: 'TASK_ATTACH_OBJECTIVE',
+  type: {
+    success: 'TASK_ATTACH_OBJECTIVE'
+  },
   data: {
     task_id: 7,
     objective_id: 4
@@ -44,7 +50,9 @@ testService({
 
 testService({
   func: removeObjectiveFromTask,
-  type: 'TASK_DETACH_OBJECTIVE',
+  type: {
+    success: 'TASK_DETACH_OBJECTIVE'
+  },
   data: {
     task_id: 11,
     objective_id: 23
@@ -55,7 +63,9 @@ testService({
 
 testService({
   func: addTypeToTask,
-  type: 'TASK_ATTACH_TYPE',
+  type: {
+    success: 'TASK_ATTACH_TYPE'
+  },
   data: {
     type_id: 7,
     task_id: 4
@@ -66,7 +76,9 @@ testService({
 
 testService({
   func: removeTypeFromTask,
-  type: 'TASK_DETACH_TYPE',
+  type: {
+    success: 'TASK_DETACH_TYPE'
+  },
   data: {
     type_id: 11,
     task_id: 23
