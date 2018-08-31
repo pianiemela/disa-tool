@@ -11,9 +11,6 @@ class ModalForm extends Component {
     this.state = {
       expanded: false
     }
-    if (this.props.children && this.props.content) {
-      console.error('Both props children and content defined in ModalForm. content will not be rendered.')
-    }
   }
 
   componentDidUpdate(oldProps, oldState) {
@@ -22,11 +19,7 @@ class ModalForm extends Component {
     } else if (!oldState.expanded && this.props.expanded) this.props.onOpen()
   }
 
-  expand = () => {
-    this.setState({
-      expanded: true
-    })
-  }
+  expand = () => this.setState({ expanded: true })
 
   collapse = () => {
     this.props.onClose()
@@ -91,6 +84,11 @@ class ModalForm extends Component {
   }
 }
 
+/**
+ * Import this function, call it and pass the result as the actions prop to ModalForm.
+ * Renders default "save" and "cancel buttons".
+ * @param {function} translate
+ */
 export const saveActions = translate => [
   <Button color="green" style={{ margin: '0px 15px 0px 15px' }}>{translate('save')}</Button>,
   <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }}>{translate('cancel')}</Button>
@@ -98,14 +96,13 @@ export const saveActions = translate => [
 
 ModalForm.propTypes = {
   trigger: PropTypes.element.isRequired,
-  header: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.string
-  ]).isRequired,
+  header: PropTypes.node.isRequired,
   content: PropTypes.node,
-  children: PropTypes.node,
-  actions: PropTypes.arrayOf(PropTypes.element),
-  onSubmit: PropTypes.func,
+  children: PropTypes.node, // children will override content if both are provided.
+  actions: PropTypes.arrayOf(PropTypes.element), // Actions should be button-like elements.
+  // The "type" prop of each element determines their onClick function.
+  // key-props will be automatically provided to actions.
+  onSubmit: PropTypes.func, // Does not override default befaviour of closing Modal.
   loading: PropTypes.bool,
   expanded: PropTypes.bool,
   onClose: PropTypes.func,
