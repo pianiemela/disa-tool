@@ -92,8 +92,8 @@ class ModalForm extends Component {
 }
 
 export const saveActions = translate => [
-  <Button color="green">{translate('save')}</Button>,
-  <Button type="cancel">{translate('cancel')}</Button>
+  <Button color="green" style={{ margin: '0px 15px 0px 15px' }}>{translate('save')}</Button>,
+  <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }}>{translate('cancel')}</Button>
 ]
 
 ModalForm.propTypes = {
@@ -102,14 +102,8 @@ ModalForm.propTypes = {
     PropTypes.element,
     PropTypes.string
   ]).isRequired,
-  content: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
-  ]),
-  children: PropTypes.oneOfType([
-    PropTypes.element,
-    PropTypes.arrayOf(PropTypes.element)
-  ]),
+  content: PropTypes.node,
+  children: PropTypes.node,
   actions: PropTypes.arrayOf(PropTypes.element),
   onSubmit: PropTypes.func,
   loading: PropTypes.bool,

@@ -48,50 +48,47 @@ class CreateGradeForm extends Component {
         <ModalForm
           header={this.translate('header')}
           trigger={<Button basic className="addGradeButton" icon={{ name: 'add' }} />}
-          content={
-            <div>
-              <MultilingualField field="name" fieldDisplay={label.name} />
-              <Form.Field>
-                <Label content={label.skill_level} />
-                <Dropdown
-                  value={this.state.values.skill_level}
-                  onChange={this.changeDropdown('skill_level')}
-                  selection
-                  options={this.props.levels.map(level => ({
-                    key: level.id,
-                    value: level.id,
-                    text: level.name
-                  }))}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Label content={label.needed_for_grade} />
-                <Input
-                  name="needed_for_grade"
-                  type="number"
-                  min={0}
-                  max={1}
-                  step={0.01}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Label content={label.prerequisite} />
-                <Dropdown
-                  value={this.state.values.prerequisite}
-                  onChange={this.changeDropdown('prerequisite')}
-                  selection
-                  options={[{ key: 0, value: null, text: '' }].concat(this.props.grades.map(grade => ({
-                    key: grade.id,
-                    value: grade.id,
-                    text: grade.name
-                  })))}
-                />
-              </Form.Field>
-            </div>
-          }
           actions={saveActions(this.translate)}
           onSubmit={this.addGradeSubmit}
-        />
+        >
+          <MultilingualField field="name" fieldDisplay={label.name} />
+          <Form.Field>
+            <Label content={label.skill_level} />
+            <Dropdown
+              value={this.state.values.skill_level}
+              onChange={this.changeDropdown('skill_level')}
+              selection
+              options={this.props.levels.map(level => ({
+                key: level.id,
+                value: level.id,
+                text: level.name
+              }))}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Label content={label.needed_for_grade} />
+            <Input
+              name="needed_for_grade"
+              type="number"
+              min={0}
+              max={1}
+              step={0.01}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Label content={label.prerequisite} />
+            <Dropdown
+              value={this.state.values.prerequisite}
+              onChange={this.changeDropdown('prerequisite')}
+              selection
+              options={[{ key: 0, value: null, text: '' }].concat(this.props.grades.map(grade => ({
+                key: grade.id,
+                value: grade.id,
+                text: grade.name
+              })))}
+            />
+          </Form.Field>
+        </ModalForm>
       </div>
     )
   }

@@ -40,22 +40,17 @@ export class AddTaskForm extends Component {
             <ModalForm
               header={this.translate('header')}
               trigger={<Button basic className="addTaskButton" icon={{ name: 'add' }} />}
-              content={
-                <div>
-                  <p>
-                    {contentPrompt}.
-                  </p>
-                  <MultilingualField field="name" fieldDisplay={label.name} />
-                  <MultilingualField field="description" fieldDisplay={label.description} />
-                  <Form.Field>
-                    <Label>{label.info}</Label>
-                    <Input name="info" type="text" />
-                  </Form.Field>
-                </div>
-              }
               actions={saveActions(this.translate)}
               onSubmit={this.addTaskSubmit}
-            />
+            >
+              <p>{contentPrompt}.</p>
+              <MultilingualField field="name" fieldDisplay={label.name} />
+              <MultilingualField field="description" fieldDisplay={label.description} />
+              <Form.Field>
+                <Label>{label.info}</Label>
+                <Input name="info" type="text" />
+              </Form.Field>
+            </ModalForm>
           </div>
         </Grid.Column>
       </Grid.Row>

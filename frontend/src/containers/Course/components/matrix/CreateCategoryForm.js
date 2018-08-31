@@ -30,17 +30,12 @@ export class CreateCategoryForm extends Component {
           <ModalForm
             header={this.translate('header')}
             trigger={<Button basic className="addCategoryButton" icon={{ name: 'add' }} />}
-            content={
-              <div>
-                <p>
-                  {contentPrompt}.
-                </p>
-                <MultilingualField field="name" fieldDisplay={this.translate('name')} />
-              </div>
-            }
             actions={saveActions(this.translate)}
             onSubmit={this.addCategorySubmit}
-          />
+          >
+            <p>{contentPrompt}.</p>
+            <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+          </ModalForm>
         </Table.Cell>
       </Table.Row>
     )

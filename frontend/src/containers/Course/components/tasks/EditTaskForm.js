@@ -88,30 +88,25 @@ export class EditTaskForm extends Component {
                 content={this.translate('trigger')}
                 onClick={this.loadDetails}
               />}
-              content={
-                <div>
-                  <p>
-                    {contentPrompt}.
-                  </p>
-                  <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
-                  <MultilingualField field="description" fieldDisplay={label.description} values={this.state.values.description} />
-                  <Form.Field>
-                    <Label>{label.info}</Label>
-                    <Input
-                      name="info"
-                      type="text"
-                      value={this.state.values.info}
-                      onChange={e => this.setState({
-                        values: { ...this.state.values, info: e.target.value }
-                      })}
-                    />
-                  </Form.Field>
-                </div>
-              }
               actions={saveActions(this.translate)}
               onSubmit={this.editTaskSubmit}
               loading={this.state.loading}
-            />
+            >
+              <p>{contentPrompt}.</p>
+              <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
+              <MultilingualField field="description" fieldDisplay={label.description} values={this.state.values.description} />
+              <Form.Field>
+                <Label>{label.info}</Label>
+                <Input
+                  name="info"
+                  type="text"
+                  value={this.state.values.info}
+                  onChange={e => this.setState({
+                    values: { ...this.state.values, info: e.target.value }
+                  })}
+                />
+              </Form.Field>
+            </ModalForm>
           </div>
         </Grid.Column>
       </Grid.Row>

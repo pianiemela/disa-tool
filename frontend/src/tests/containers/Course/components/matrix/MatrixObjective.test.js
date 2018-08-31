@@ -26,6 +26,7 @@ describe('MatrixObjective component', () => {
       activeTaskId={null}
       taskDetails={mockFn}
       isCut={false}
+      wasCut={false}
       cut={mockFn}
       translate={() => ''}
     />)

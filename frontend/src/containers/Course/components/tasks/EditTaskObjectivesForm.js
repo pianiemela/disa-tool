@@ -87,104 +87,101 @@ class EditTaskObjectivesForm extends Component {
           expanded={this.props.expanded}
           header={this.translate('header')}
           trigger={<div />}
-          content={
-            <div>
-              <Container className="header" textAlign="right">
-                <Button.Group size="large">
-                  <Button
-                    type="button"
-                    onClick={() => this.setState({ detailed: false })}
-                    content={this.translate('all')}
-                    color={this.state.detailed ? undefined : 'blue'}
-                  />
-                  <Button.Or text={this.translate('or')} />
-                  <Button
-                    type="button"
-                    onClick={() => this.setState({ detailed: true })}
-                    content={this.translate('detailed')}
-                    color={this.state.detailed ? 'blue' : undefined}
-                  />
-                </Button.Group>
-              </Container>
-              {this.state.detailed ? (
-                this.props.objectives.map(objective => (this.state.values[objective.id] ? (
-                  <Form.Field key={objective.id}>
-                    <Container>
-                      <Label basic size="large">{objective.name}</Label>
-                    </Container>
-                    <Container>
-                      <Button.Group size="small">
-                        <Button
-                          type="button"
-                          content={this.translate('default')}
-                          color={this.state.loading || this.state.values[objective.id].modified ? undefined : 'blue'}
-                          onClick={this.changeModified(objective.id, false)}
-                        />
-                        <Button.Or text={this.translate('or')} />
-                        <Button
-                          type="button"
-                          content={this.translate('modify')}
-                          color={!this.state.loading && this.state.values[objective.id].modified ? 'blue' : undefined}
-                          onClick={this.changeModified(objective.id, true)}
-                        />
-                      </Button.Group>
-                      <Input
-                        className="multiplierInput"
-                        value={this.state.loading ? 0 : this.state.values[objective.id].multiplier}
-                        onChange={this.changeMultiplier(objective.id)}
-                        name={`objective ${objective.id}`}
-                        type="number"
-                        min={0}
-                        max={1}
-                        step={0.01}
-                        disabled={this.state.loading || !this.state.values[objective.id].modified}
-                      />
-                    </Container>
-                  </Form.Field>) : null
-                ))
-              ) : (
-                <Form.Field>
-                  <Container>
-                    <Label basic size="large">{this.translate('all')}</Label>
-                  </Container>
-                  <Container>
-                    <Button.Group size="small">
-                      <Button
-                        type="button"
-                        content={this.translate('default')}
-                        color={Object.values(this.state.values)[0].modified === false ? 'blue' : undefined}
-                        onClick={this.changeModified(0, false)}
-                      />
-                      <Button.Or text={this.translate('or')} />
-                      <Button
-                        type="button"
-                        content={this.translate('modify')}
-                        color={Object.values(this.state.values)[0].modified === true ? 'blue' : undefined}
-                        onClick={this.changeModified(0, true)}
-                      />
-                    </Button.Group>
-                    <Input
-                      className="multiplierInput"
-                      value={Object.values(this.state.values)[0].multiplier}
-                      onChange={this.changeMultiplier(0)}
-                      name="all"
-                      type="number"
-                      min={0}
-                      max={1}
-                      step={0.01}
-                      disabled={!Object.values(this.state.values)[0].modified}
-                    />
-                  </Container>
-                </Form.Field>
-              )}
-            </div>
-          }
           actions={saveActions(this.translate)}
           onSubmit={this.editTaskObjectivesSubmit}
           onClose={this.props.onClose}
           onOpen={this.loadDetails}
           loading={this.state.loading}
-        />
+        >
+          <Container className="header" textAlign="right">
+            <Button.Group size="large">
+              <Button
+                type="button"
+                onClick={() => this.setState({ detailed: false })}
+                content={this.translate('all')}
+                color={this.state.detailed ? undefined : 'blue'}
+              />
+              <Button.Or text={this.translate('or')} />
+              <Button
+                type="button"
+                onClick={() => this.setState({ detailed: true })}
+                content={this.translate('detailed')}
+                color={this.state.detailed ? 'blue' : undefined}
+              />
+            </Button.Group>
+          </Container>
+          {this.state.detailed ? (
+            this.props.objectives.map(objective => (this.state.values[objective.id] ? (
+              <Form.Field key={objective.id}>
+                <Container>
+                  <Label basic size="large">{objective.name}</Label>
+                </Container>
+                <Container>
+                  <Button.Group size="small">
+                    <Button
+                      type="button"
+                      content={this.translate('default')}
+                      color={this.state.loading || this.state.values[objective.id].modified ? undefined : 'blue'}
+                      onClick={this.changeModified(objective.id, false)}
+                    />
+                    <Button.Or text={this.translate('or')} />
+                    <Button
+                      type="button"
+                      content={this.translate('modify')}
+                      color={!this.state.loading && this.state.values[objective.id].modified ? 'blue' : undefined}
+                      onClick={this.changeModified(objective.id, true)}
+                    />
+                  </Button.Group>
+                  <Input
+                    className="multiplierInput"
+                    value={this.state.loading ? 0 : this.state.values[objective.id].multiplier}
+                    onChange={this.changeMultiplier(objective.id)}
+                    name={`objective ${objective.id}`}
+                    type="number"
+                    min={0}
+                    max={1}
+                    step={0.01}
+                    disabled={this.state.loading || !this.state.values[objective.id].modified}
+                  />
+                </Container>
+              </Form.Field>) : null
+            ))
+          ) : (
+            <Form.Field>
+              <Container>
+                <Label basic size="large">{this.translate('all')}</Label>
+              </Container>
+              <Container>
+                <Button.Group size="small">
+                  <Button
+                    type="button"
+                    content={this.translate('default')}
+                    color={Object.values(this.state.values)[0].modified === false ? 'blue' : undefined}
+                    onClick={this.changeModified(0, false)}
+                  />
+                  <Button.Or text={this.translate('or')} />
+                  <Button
+                    type="button"
+                    content={this.translate('modify')}
+                    color={Object.values(this.state.values)[0].modified === true ? 'blue' : undefined}
+                    onClick={this.changeModified(0, true)}
+                  />
+                </Button.Group>
+                <Input
+                  className="multiplierInput"
+                  value={Object.values(this.state.values)[0].multiplier}
+                  onChange={this.changeMultiplier(0)}
+                  name="all"
+                  type="number"
+                  min={0}
+                  max={1}
+                  step={0.01}
+                  disabled={!Object.values(this.state.values)[0].modified}
+                />
+              </Container>
+            </Form.Field>
+          )}
+        </ModalForm>
       </div>
     )
   }

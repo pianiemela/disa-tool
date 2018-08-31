@@ -61,9 +61,7 @@ class EditLevelForm extends Component {
           loading={this.state.loading}
           actions={saveActions(this.translate)}
         >
-          <div>
-            <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
-          </div>
+          <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
         </ModalForm>
       </div>
     )

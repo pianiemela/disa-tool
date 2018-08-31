@@ -57,15 +57,12 @@ class EditObjectiveForm extends Component {
         <ModalForm
           header={this.translate('header')}
           trigger={<Button basic circular onClick={this.loadDetails} icon={{ name: 'edit' }} size="mini" />}
-          content={
-            <div>
-              <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
-            </div>
-          }
           actions={saveActions(this.translate)}
           onSubmit={this.editObjectiveSubmit}
           loading={this.state.loading}
-        />
+        >
+          <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />
+        </ModalForm>
       </div>
     )
   }

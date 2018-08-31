@@ -34,21 +34,16 @@ export class CreateTypeForm extends Component {
         <ModalForm
           header={this.translate('header')}
           trigger={<Button basic onClick={this.expand} className="addTypeButton" icon={{ name: 'add' }} />}
-          content={
-            <div>
-              <p>
-                {contentPrompt}.
-              </p>
-              <MultilingualField field="name" fieldDisplay={label.name} />
-              <Form.Field inline>
-                <Label size="large">{label.multiplier}</Label>
-                <Input name="multiplier" type="number" min={0} max={1} step={0.01} />
-              </Form.Field>
-            </div>
-          }
           actions={saveActions(this.translate)}
           onSubmit={this.addTypeSubmit}
-        />
+        >
+          <p>{contentPrompt}.</p>
+          <MultilingualField field="name" fieldDisplay={label.name} />
+          <Form.Field inline>
+            <Label size="large">{label.multiplier}</Label>
+            <Input name="multiplier" type="number" min={0} max={1} step={0.01} />
+          </Form.Field>
+        </ModalForm>
       </div>
     )
   }

@@ -29,17 +29,12 @@ export class CreateLevelForm extends Component {
         <ModalForm
           header={this.translate('header')}
           trigger={<Button basic className="addLevelButton" icon={{ name: 'add' }} />}
-          content={
-            <div>
-              <p>
-                {contentPrompt}.
-              </p>
-              <MultilingualField field="name" fieldDisplay={this.translate('name')} />
-            </div>
-          }
           actions={saveActions(this.translate)}
           onSubmit={this.addLevelSubmit}
-        />
+        >
+          <p>{contentPrompt}.</p>
+          <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+        </ModalForm>
       </Table.HeaderCell>
     )
   }

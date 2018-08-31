@@ -32,17 +32,12 @@ export class CreateHeaderForm extends Component {
         <ModalForm
           header={this.translate('header')}
           trigger={<Button basic onClick={this.expand} className="addHeaderButton" icon={{ name: 'add' }} />}
-          content={
-            <div>
-              <p>
-                {contentPrompt}.
-              </p>
-              <MultilingualField field="name" fieldDisplay={label.name} />
-            </div>
-          }
           actions={saveActions(this.translate)}
           onSubmit={this.addHeaderSubmit}
-        />
+        >
+          <p>{contentPrompt}.</p>
+          <MultilingualField field="name" fieldDisplay={label.name} />
+        </ModalForm>
       </div>
     )
   }
