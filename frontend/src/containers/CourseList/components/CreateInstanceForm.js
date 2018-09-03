@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button, Icon } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
 
@@ -19,24 +20,21 @@ export class CreateInstanceForm extends Component {
     })
   }
 
+  translate = id => this.props.translate(`CourseList.CreateInstanceForm.${id}`)
+
   render() {
-    const contentPrompt = 'Luo uusi kurssi-instanssi'
+    const contentPrompt = this.translate('prompt_1')
     return (
       <div className="CreateInstanceForm">
         <ModalForm
-          header="Luo uusi kurssi-instanssi"
-          trigger={<span><Icon name="add" />Luo uusi instanssi tästä kurssista</span>}
-          content={
-            <div>
-              <p>
-                {contentPrompt}.
-              </p>
-              <MultilingualField field="name" fieldDisplay="nimi" />
-              <Button type="submit" color="green">Tallenna</Button>
-            </div>
-          }
+          header={this.translate('header')}
+          trigger={<span><Icon name="add" />{this.translate('trigger')}</span>}
           onSubmit={this.addInstanceSubmit}
-        />
+        >
+          <p>{contentPrompt}.</p>
+          <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+          <Button type="submit" color="green">{this.translate('save')}</Button>
+        </ModalForm>
       </div>
     )
   }
@@ -44,11 +42,12 @@ export class CreateInstanceForm extends Component {
 
 CreateInstanceForm.propTypes = {
   course_id: PropTypes.number.isRequired,
-  addInstance: PropTypes.func.isRequired
+  addInstance: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   addInstance: asyncAction(addInstance, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(CreateInstanceForm)
+export default withLocalize(connect(null, mapDispatchToProps)(CreateInstanceForm))
