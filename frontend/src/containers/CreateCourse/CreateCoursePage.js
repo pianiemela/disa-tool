@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Redirect } from 'react-router-dom'
 import { Form, Button, Segment, Header } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
@@ -27,20 +28,22 @@ export class CreateCoursePage extends Component {
     }).then(() => this.setState({ redirect: true }))
   }
 
+  translate = id => this.props.translate(`CreateCourse.CreateCoursePage.${id}`)
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/courses" />
     }
     const label = {
-      name: 'nimi'
+      name: this.translate('name')
     }
     return (
       <div className="CreateCoursePage">
         <Segment className="formContainer" basic padded>
-          <Header>Luo uusi kurssi</Header>
+          <Header>{this.translate('header')}</Header>
           <Form onSubmit={this.createCourseSubmit}>
             <MultilingualField field="name" fieldDisplay={label.name} />
-            <Button type="submit" color="green">Luo</Button>
+            <Button type="submit" color="green">{this.translate('create')}</Button>
           </Form>
         </Segment>
       </div>
@@ -49,11 +52,12 @@ export class CreateCoursePage extends Component {
 }
 
 CreateCoursePage.propTypes = {
-  createCourse: PropTypes.func.isRequired
+  createCourse: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   createCourse: asyncAction(createCourse, dispatch)
 })
 
-export default connect(null, mapDispatchToProps)(CreateCoursePage)
+export default withLocalize(connect(null, mapDispatchToProps)(CreateCoursePage))
