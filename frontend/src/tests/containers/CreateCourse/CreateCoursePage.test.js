@@ -21,6 +21,7 @@ describe('CreateCoursePage component', () => {
           }
         })
       })}
+      translate={() => ''}
     />)
   })
 
