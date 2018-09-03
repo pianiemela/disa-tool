@@ -462,6 +462,12 @@
       }
     }
   },
+  "CreateCourse": {
+    "CreateCoursePage": {
+      "header": ["Create a new course", "Luo uusi kurssi"],
+      "create": ["Create", "Luo"]
+    }
+  },
   "SelfAssessment": {
     "EditOrNewForm": {
       "SelfAssessmentList": {
