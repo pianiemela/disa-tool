@@ -8,7 +8,10 @@
     "objective": ["objective", "oppimistavoite"],
     "tasks": ["tasks", "tehtävät"],
     "or": ["or", "tai"],
-    "cancel": ["Cancel", "Peru"]
+    "cancel": ["Cancel", "Peru"],
+    "open": ["open", "avoinna"],
+    "closed": ["closed", "suljettu"],
+    "course_matrix": ["Course-objective matrix", "Kurssin tavoitematriisi"]
   },
   "Nav": {
     "navbar": {
@@ -473,6 +476,18 @@
       "header": ["Create a new course instance", "Luo uusi kurssi-instanssi"],
       "prompt_1": ["Create a new course instance", "Luo uusi kurssi-instanssi"],
       "trigger": ["Create a new instance of this course", "Luo uusi instanssi tästä kurssista"]
+    },
+    "RegisterForm": {
+      "unregister": ["Undo registration", "Peru rekisteröityminen"],
+      "register": ["Register", "Rekisteröidy"]
+    },
+    "CourseListPage": {
+      "create_trigger": ["Create a new course", "Luo uusi kurssi"],
+      "state": ["This course is currently", "Tämä kurssi on tällä hetkellä"],
+      "you_are": ["You are on the course", "Olet kurssilla"],
+      "coursepage_button": ["To course page", "Kurssisivulle"],
+      "instance_prompt": ["Now, choose a course instance.", "Valitse vielä kurssi-instanssi."],
+      "course_prompt": ["First, choose a course", "Valitse ensin kurssi"]
     }
   },
   "SelfAssessment": {
@@ -708,9 +723,6 @@
       "start_course": ["Open course", "Avaa kurssi"],
       "course_teachers": ["Course teachers", "Kurssin opettajat"],
       "this_course_is": ["This course is ", "Tämä kurssi on "],
-      "open": ["open", "avoinna"],
-      "closed": ["closed", "suljettu"],
-      "course_matrix": ["Course-objective matrix", "Kurssin tavoitematriisi"],
       "Links": {
         "course_links": ["Course links", "Kurssin linkit"],
         "registration": ["Registration: ", "Rekisteröityminen: "],
