@@ -146,6 +146,7 @@ const setAssessmentLanguage = async (selfAssessment, lang) => {
 
   categories.forEach(cat => (categoryNames[cat.id] = cat.name)) //eslint-disable-line
   categories.forEach(cat => cat.objectives.forEach(o => objNames[o.id] = o.name))  //eslint-disable-line
+  structure.openQuestions.questions = structure.openQuestions.questions.map(openQ => ({ ...openQ, name: openQ[name] }))
 
   if (type === 'category') {
     structure.questionModules = structure.questionModules.map(

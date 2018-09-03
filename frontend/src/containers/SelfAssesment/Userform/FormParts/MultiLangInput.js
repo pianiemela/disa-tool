@@ -40,7 +40,6 @@ const MultiLangInput = (props) => {
 MultiLangInput.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    displayName: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired
   })).isRequired,
   handleChange: PropTypes.func.isRequired,
