@@ -630,6 +630,16 @@
             "Move category up",
             "Siirrä kategoria ylemmäs"
           ]
+        },
+        "addOpenQuestion": {
+          "header": [
+            "Add open question",
+            "Lisää avoin kysymys"
+          ],
+          "questionDisplay": [
+            "Question",
+            "Kysymys"
+          ]
         }
       },
       "Sections": {
@@ -665,7 +675,7 @@
         ],
         "modalButton1": [
           "Yes",
-          "Kyllä"
+          "Tallenna"
         ],
         "modalButton2": [
           "Cancel",
