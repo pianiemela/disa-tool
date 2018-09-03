@@ -8,7 +8,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { editType } from '../../actions/types'
 import { details } from '../../../../api/types'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class EditTypeForm extends Component {
@@ -69,33 +69,28 @@ export class EditTypeForm extends Component {
       <div className="EditTypeForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button onClick={this.loadDetails} className="editTypeButton" icon={{ name: 'edit' }} size="mini" />}
-          content={
-            <div>
-              <p>
-                {contentPrompt}.
-              </p>
-              <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
-              <Form.Field inline>
-                <Label size="large">{label.multiplier}</Label>
-                <Input
-                  name="multiplier"
-                  type="number"
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  value={this.state.values.multiplier}
-                  onChange={e => this.setState({
-                    values: { ...this.state.values, multiplier: e.target.value }
-                  })}
-                />
-              </Form.Field>
-              <Button type="submit" color="green">{this.translate('save')}</Button>
-            </div>
-          }
+          trigger={<Button basic circular onClick={this.loadDetails} className="editTypeButton" icon={{ name: 'edit' }} size="mini" />}
+          actions={saveActions(this.translate)}
           onSubmit={this.editTypeSubmit}
           loading={this.state.loading}
-        />
+        >
+          <p>{contentPrompt}.</p>
+          <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
+          <Form.Field inline>
+            <Label size="large">{label.multiplier}</Label>
+            <Input
+              name="multiplier"
+              type="number"
+              min={0}
+              max={1}
+              step={0.01}
+              value={this.state.values.multiplier}
+              onChange={e => this.setState({
+                values: { ...this.state.values, multiplier: e.target.value }
+              })}
+            />
+          </Form.Field>
+        </ModalForm>
       </div>
     )
   }

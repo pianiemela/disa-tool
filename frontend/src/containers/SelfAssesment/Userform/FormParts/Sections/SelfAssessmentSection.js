@@ -2,11 +2,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Card, Form, Button } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
+import { withLocalize } from 'react-localize-redux'
 import MultiLangInput from '../MultiLangInput'
 import AddOpenQuestion from '../addOpenQuestion'
 import { changeHeaderAction } from '../../../actions/selfAssesment'
 
-export class SelfAssesmentSection extends React.Component {
+export class SelfAssessmentSection extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -30,21 +31,22 @@ export class SelfAssesmentSection extends React.Component {
   }
 
   render() {
+    const translate = id => this.props.translate(`SelfAssessment.Userform.Sections.${id}`)
     const { final,
       question,
       edit,
       QuestionModule,
       formData,
-      headers,
       errors,
       clearError,
       courseInstanceId,
-      grades
+      grades,
+      name,
+      headers
     } = this.props
 
     const { responseText, grade } = errors
     const { editHeaders } = this.state
-    let header = this.props.headers[0].value
     let headerEditForm = null
     let renderModules = null
 
@@ -90,19 +92,25 @@ export class SelfAssesmentSection extends React.Component {
           )))
     }
 
-    if (final && edit) {
-      header =
-        (
-          <div>
-            {header}
+    const header = final ?
+      (
+        <div>
+          {formData[0].header}
+          {edit ?
             <Button
               onClick={() => this.toggleEdit()}
               style={{ marginLeft: '10px' }}
             >
-              {editHeaders ? 'Näytä' : 'Muokkaa'}
+              {editHeaders ? translate('buttonEdit') : translate('buttonShow')}
             </Button>
-          </div>)
-    }
+
+            :
+            null
+          }
+        </div>)
+      :
+      name
+
 
     if (editHeaders) {
       headerEditForm =
@@ -146,17 +154,19 @@ export class SelfAssesmentSection extends React.Component {
   }
 }
 
-SelfAssesmentSection.defaultProps = {
+SelfAssessmentSection.defaultProps = {
   question: false,
   final: false,
   headerType: null,
   errors: { grade: [], responseText: [] },
   courseInstanceId: null,
   clearError: null,
-  grades: null
+  grades: null,
+  name: '',
+  headers: []
 }
 
-SelfAssesmentSection.propTypes = {
+SelfAssessmentSection.propTypes = {
   formData: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
     includedInAssesment: PropTypes.bool
@@ -166,9 +176,6 @@ SelfAssesmentSection.propTypes = {
   QuestionModule: PropTypes.func.isRequired,
   final: PropTypes.bool,
   dispatchHeaderChange: PropTypes.func.isRequired,
-  headers: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.string.isRequired
-  })).isRequired,
   headerType: PropTypes.string,
   clearError: PropTypes.func,
   errors: PropTypes.shape({
@@ -177,7 +184,10 @@ SelfAssesmentSection.propTypes = {
     }))
   }),
   courseInstanceId: PropTypes.number,
-  grades: PropTypes.arrayOf(PropTypes.object)
+  grades: PropTypes.arrayOf(PropTypes.object),
+  name: PropTypes.string,
+  headers: PropTypes.arrayOf(PropTypes.shape()),
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -185,4 +195,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(changeHeaderAction(data))
 })
 
-export default connect(null, mapDispatchToProps)(SelfAssesmentSection)
+export default withLocalize(connect(null, mapDispatchToProps)(SelfAssessmentSection))

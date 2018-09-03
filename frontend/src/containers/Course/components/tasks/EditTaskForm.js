@@ -8,7 +8,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { editTask } from '../../actions/tasks'
 import { details } from '../../../../api/tasks'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class EditTaskForm extends Component {
@@ -83,34 +83,30 @@ export class EditTaskForm extends Component {
             <ModalForm
               header={this.translate('header')}
               trigger={<Button
+                basic
                 className="editTaskButton"
                 content={this.translate('trigger')}
                 onClick={this.loadDetails}
               />}
-              content={
-                <div>
-                  <p>
-                    {contentPrompt}.
-                  </p>
-                  <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
-                  <MultilingualField field="description" fieldDisplay={label.description} values={this.state.values.description} />
-                  <Form.Field>
-                    <Label>{label.info}</Label>
-                    <Input
-                      name="info"
-                      type="text"
-                      value={this.state.values.info}
-                      onChange={e => this.setState({
-                        values: { ...this.state.values, info: e.target.value }
-                      })}
-                    />
-                  </Form.Field>
-                  <Button type="submit" color="green">{this.translate('save')}</Button>
-                </div>
-              }
+              actions={saveActions(this.translate)}
               onSubmit={this.editTaskSubmit}
               loading={this.state.loading}
-            />
+            >
+              <p>{contentPrompt}.</p>
+              <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
+              <MultilingualField field="description" fieldDisplay={label.description} values={this.state.values.description} />
+              <Form.Field>
+                <Label>{label.info}</Label>
+                <Input
+                  name="info"
+                  type="text"
+                  value={this.state.values.info}
+                  onChange={e => this.setState({
+                    values: { ...this.state.values, info: e.target.value }
+                  })}
+                />
+              </Form.Field>
+            </ModalForm>
           </div>
         </Grid.Column>
       </Grid.Row>

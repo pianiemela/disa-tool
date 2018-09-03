@@ -57,10 +57,7 @@ class LocalizeWrapper extends PureComponent {
 }
 
 LocalizeWrapper.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.element),
-    PropTypes.element
-  ]).isRequired,
+  children: PropTypes.node.isRequired,
   initialize: PropTypes.func.isRequired,
   setActiveLanguage: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired

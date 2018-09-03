@@ -48,8 +48,8 @@ const validators = {
 
 /**
  * Returns a boolean representing whether or not the request has all the given privileges.
- * @param {*} req express request object
- * @param {*} privileges array of objects of the following shape
+ * @param {Object} req express request object
+ * @param {Object[]} privileges array of objects of the following shape
  * {
  *  key: string - required
  *  param: string or convertable to string - optional

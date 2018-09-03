@@ -7,7 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { addLevel } from '../../actions/levels'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class CreateLevelForm extends Component {
@@ -28,18 +28,13 @@ export class CreateLevelForm extends Component {
       <Table.HeaderCell className="CreateLevelForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button className="addLevelButton" icon={{ name: 'add' }} />}
-          content={
-            <div>
-              <p>
-                {contentPrompt}.
-              </p>
-              <MultilingualField field="name" fieldDisplay={this.translate('name')} />
-              <Button type="submit" color="green">{this.translate('save')}</Button>
-            </div>
-          }
+          trigger={<Button basic className="addLevelButton" icon={{ name: 'add' }} />}
+          actions={saveActions(this.translate)}
           onSubmit={this.addLevelSubmit}
-        />
+        >
+          <p>{contentPrompt}.</p>
+          <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+        </ModalForm>
       </Table.HeaderCell>
     )
   }

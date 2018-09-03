@@ -298,7 +298,7 @@ describe('type_controller', () => {
       })
     })
 
-    beforeEach((done) => {
+    afterEach((done) => {
       Type.findById(ids.type).then(instance => instance.update({
         eng_name: 'en',
         fin_name: 'fn',
@@ -397,7 +397,7 @@ describe('type_controller', () => {
     })
   })
 
-  describe('PUT /:id', () => {
+  describe('PUT headers/:id', () => {
     const data = {
       eng_name: 'new en',
       fin_name: 'new fn',
@@ -428,7 +428,7 @@ describe('type_controller', () => {
       }).catch(done)
     })
 
-    beforeEach((done) => {
+    afterEach((done) => {
       TypeHeader.findById(ids.header).then(
         instance => instance.update({
           eng_name: 'en',

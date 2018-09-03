@@ -2,12 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Card, Grid, Icon, Popup, Button, Message } from 'semantic-ui-react'
+import { withLocalize } from 'react-localize-redux'
 import ModalForm from '../../../../../utils/components/ModalForm'
 import { removeOpenQuestion, openQuestionResponseAction } from '../../../actions/selfAssesment'
+
 
 const OpenQuestionModule = (props) => {
   const { edit, responseTextError } = props
   const { id, name } = props.data
+  const translate = translateId => props.translate(`SelfAssessment.Userform.FormParts.QuestionModules.OpenQuestionModule.${translateId}`)
 
   return (
     <Form error={responseTextError !== undefined}>
@@ -16,16 +19,16 @@ const OpenQuestionModule = (props) => {
           <Card fluid>
             <Card.Content>
               <Card.Header>
-                Avoin kysymys: {name}
+                {translate('header')}: {name}
               </Card.Header>
               <Grid verticalAlign="middle" columns={3}>
                 <Grid.Row>
                   <Grid.Column width={10}>
                     <Form.TextArea
                       autoHeight
-                      label="Vastaa avoimeen kysymykseen"
+                      label={translate('label')}
                       error={responseTextError !== undefined}
-                      placeholder="Kirjoita vastaus tähän"
+                      placeholder={translate('placeholder')}
                       onBlur={!edit ? e =>
                         props.dispatchopenQuestionResponseAction({ id, value: e.target.value })
                         :
@@ -45,14 +48,14 @@ const OpenQuestionModule = (props) => {
                   <Grid.Column>
                     {edit ?
                       <ModalForm
-                        header="Poista avoin kysymys"
+                        header={translate('modalHeader')}
                         content={
                           <div>
-                            <p>Haluatko poistaa avoimen kysymyksen {name}?</p>
-                            <Button color="green" onClick={() => props.dispatchRemoveOpenQuestion(id)} type="submit">Ok</Button>
+                            <p>{translate('modalConfirmation')}: {name}?</p>
                             <Button color="red">
-                              {'Peru'}
+                              {translate('modalCancel')}
                             </Button>
+                            <Button color="green" onClick={() => props.dispatchRemoveOpenQuestion(id)} type="submit">Ok</Button>
                           </div>
                         }
                         trigger={
@@ -64,7 +67,7 @@ const OpenQuestionModule = (props) => {
                                 color="red"
                               />
                             }
-                            content="Poista avoin kysymys tästä"
+                            content={translate('popup')}
                           />
                         }
                       />
@@ -88,7 +91,8 @@ OpenQuestionModule.propTypes = {
   data: PropTypes.shape().isRequired,
   dispatchopenQuestionResponseAction: PropTypes.func.isRequired,
   clearError: PropTypes.func,
-  responseTextError: PropTypes.shape()
+  responseTextError: PropTypes.shape(),
+  translate: PropTypes.func.isRequired
 }
 
 OpenQuestionModule.defaultProps = {
@@ -103,4 +107,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(openQuestionResponseAction(data))
 })
 
-export default connect(null, mapDispatchToProps)(OpenQuestionModule)
+export default withLocalize(connect(null, mapDispatchToProps)(OpenQuestionModule))

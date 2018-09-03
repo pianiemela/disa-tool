@@ -1,7 +1,7 @@
 /**
  * @return a supertest request (promise).
  *   server.method(route) + preamble methods chained.
- * @param {*} options object containing the following required fields:
+ * @param {Object} options object containing the following required fields:
  * {
  *   route: route to which request should be made.
  *   method: http method: 'get', 'post', 'put', 'delete'.
@@ -67,7 +67,7 @@ const testTeacherPrivilege = (options, description, codes = {}) => {
         } catch (e) {
           done(e)
         }
-      })
+      }).catch(done)
     })
 
     it('is not granted when invalid authorization is provided', (done) => {
@@ -78,7 +78,7 @@ const testTeacherPrivilege = (options, description, codes = {}) => {
         } catch (e) {
           done(e)
         }
-      })
+      }).catch(done)
     })
 
     it('is granted when valid authorization is provided', (done) => {
@@ -89,7 +89,7 @@ const testTeacherPrivilege = (options, description, codes = {}) => {
         } catch (e) {
           done(e)
         }
-      })
+      }).catch(done)
     })
   })
 }
@@ -124,7 +124,7 @@ const testHeaders = (options) => {
 }
 
 /**
- * @param {*} match an object with the following fields. response.body should match this.
+ * @param {Object} match an object with the following fields. response.body should match this.
  *   {
  *     common: object containing fields that should be matched on all languages.
  *     eng: object containing fields that should be matched only when language is English.
@@ -168,11 +168,20 @@ const testBody = (options, match) => {
           query: { lang: 'eng' }
         }
       }).then((response) => {
+        let expected
         try {
-          expect(response.body).toMatchObject(mergeRecursive(match.common, match.eng))
+          try {
+            expected = mergeRecursive(match.common, match.eng)
+          } catch (e) {
+            done(e)
+          }
+          expect(response.body).toMatchObject(expected)
           done()
         } catch (e) {
-          done(e)
+          done({
+            expected,
+            received: response.body
+          })
         }
       }).catch(done)
     })
@@ -185,11 +194,20 @@ const testBody = (options, match) => {
           query: { lang: 'fin' }
         }
       }).then((response) => {
+        let expected
         try {
-          expect(response.body).toMatchObject(mergeRecursive(match.common, match.fin))
+          try {
+            expected = mergeRecursive(match.common, match.fin)
+          } catch (e) {
+            done(e)
+          }
+          expect(response.body).toMatchObject(expected)
           done()
         } catch (e) {
-          done(e)
+          done({
+            expected,
+            received: response.body
+          })
         }
       }).catch(done)
     })
@@ -202,11 +220,20 @@ const testBody = (options, match) => {
           query: { lang: 'swe' }
         }
       }).then((response) => {
+        let expected
         try {
-          expect(response.body).toMatchObject(mergeRecursive(match.common, match.swe))
+          try {
+            expected = mergeRecursive(match.common, match.swe)
+          } catch (e) {
+            done(e)
+          }
+          expect(response.body).toMatchObject(expected)
           done()
         } catch (e) {
-          done(e)
+          done({
+            expected,
+            received: response.body
+          })
         }
       }).catch(done)
     })
@@ -219,9 +246,9 @@ const timestamps = {
 }
 
 /**
- * @param {*} match Object that database row.toJSON() should match.
- * @param {*} model Database model.
- * @param {*} config Object with the following fields. Extra configuration goes here.
+ * @param {Object} match Object that database row.toJSON() should match.
+ * @param {Object} model Database model.
+ * @param {Object} config Object with the following fields. Extra configuration goes here.
  * {
  *   pathToId: array of strings.
  *     If the id of the new database row is not found in response.body.created.id,
@@ -268,8 +295,8 @@ const testDatabaseSave = (options, match, model, config = {}) => {
 }
 
 /**
- * @param {*} model Database model.
- * @param {*} config Object with the following fields. Extra configuration goes here.
+ * @param {Object} model Database model.
+ * @param {Object} config Object with the following fields. Extra configuration goes here.
  * {
  *   pathToId: array of strings.
  *     If the id of the new database row is not found in response.body.deleted.id,

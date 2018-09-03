@@ -8,7 +8,7 @@ import asyncAction from '../../../../utils/asyncAction'
 import { details } from '../../../../api/grades'
 import { editGrade } from '../../actions/grades'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 class EditGradeForm extends Component {
@@ -77,57 +77,54 @@ class EditGradeForm extends Component {
       <div className="EditGradeForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button icon={{ name: 'edit' }} size="small" onClick={this.loadDetails} />}
-          content={
-            <div>
-              <MultilingualField
-                field="name"
-                fieldDisplay={label.name}
-                values={this.state.values.name}
-              />
-              <Form.Field>
-                <Label content={label.skill_level} />
-                <Dropdown
-                  value={this.state.values.skill_level}
-                  onChange={this.changeValue('skill_level')}
-                  selection
-                  options={this.props.levels.map(level => ({
-                    key: level.id,
-                    value: level.id,
-                    text: level.name
-                  }))}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Label content={label.needed_for_grade} />
-                <Input
-                  value={this.state.values.needed_for_grade}
-                  onChange={this.changeValue('needed_for_grade')}
-                  type="number"
-                  min={0}
-                  max={1}
-                  step={0.01}
-                />
-              </Form.Field>
-              <Form.Field>
-                <Label content={label.prerequisite} />
-                <Dropdown
-                  value={this.state.values.prerequisite}
-                  onChange={this.changeValue('prerequisite')}
-                  selection
-                  options={[{ key: 0, value: null, text: '' }].concat(this.props.grades.map(grade => ({
-                    key: grade.id,
-                    value: grade.id,
-                    text: grade.name
-                  })))}
-                />
-              </Form.Field>
-              <Button color="green">{this.translate('save')}</Button>
-            </div>
-          }
+          trigger={<Button basic circular icon={{ name: 'edit' }} size="small" onClick={this.loadDetails} />}
+          actions={saveActions(this.translate)}
           onSubmit={this.editGradeSubmit}
           loading={this.state.loading}
-        />
+        >
+          <MultilingualField
+            field="name"
+            fieldDisplay={label.name}
+            values={this.state.values.name}
+          />
+          <Form.Field>
+            <Label content={label.skill_level} />
+            <Dropdown
+              value={this.state.values.skill_level}
+              onChange={this.changeValue('skill_level')}
+              selection
+              options={this.props.levels.map(level => ({
+                key: level.id,
+                value: level.id,
+                text: level.name
+              }))}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Label content={label.needed_for_grade} />
+            <Input
+              value={this.state.values.needed_for_grade}
+              onChange={this.changeValue('needed_for_grade')}
+              type="number"
+              min={0}
+              max={1}
+              step={0.01}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Label content={label.prerequisite} />
+            <Dropdown
+              value={this.state.values.prerequisite}
+              onChange={this.changeValue('prerequisite')}
+              selection
+              options={[{ key: 0, value: null, text: '' }].concat(this.props.grades.map(grade => ({
+                key: grade.id,
+                value: grade.id,
+                text: grade.name
+              })))}
+            />
+          </Form.Field>
+        </ModalForm>
       </div>
     )
   }

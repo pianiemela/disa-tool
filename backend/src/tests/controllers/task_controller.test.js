@@ -561,7 +561,7 @@ describe('task_controller', () => {
       })
     })
 
-    beforeEach((done) => {
+    afterEach((done) => {
       Task.findById(ids.task).then(instance => instance.update({
         eng_name: 'en',
         fin_name: 'fn',

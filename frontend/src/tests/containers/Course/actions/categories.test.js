@@ -1,9 +1,11 @@
-import { addCategory, removeCategory } from '../../../../containers/Course/actions/categories'
+import { addCategory, removeCategory, editCategory } from '../../../../containers/Course/actions/categories'
 import { testService } from '../../../testUtils'
 
 testService({
   func: addCategory,
-  type: 'CATEGORY_CREATE',
+  type: {
+    success: 'CATEGORY_CREATE'
+  },
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
@@ -16,10 +18,27 @@ testService({
 
 testService({
   func: removeCategory,
-  type: 'CATEGORY_DELETE',
+  type: {
+    success: 'CATEGORY_DELETE'
+  },
   data: {
     id: 6
   },
   apiRoute: '/categories/6',
   apiMethod: 'delete'
+})
+
+testService({
+  func: editCategory,
+  type: {
+    success: 'CATEGORY_EDIT'
+  },
+  data: {
+    id: 6,
+    eng_name: 'doot',
+    fin_name: 'dööt',
+    swe_name: 'dååt'
+  },
+  apiRoute: '/categories/6',
+  apiMethod: 'put'
 })

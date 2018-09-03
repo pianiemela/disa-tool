@@ -6,10 +6,6 @@ import { Button } from 'semantic-ui-react'
 import ModalForm from './ModalForm'
 
 export class DeleteForm extends Component {
-  removeLevel = () => {
-    this.props.onExecute()
-  }
-
   translate = id => this.props.translate(`utils.components.DeleteForm.${id}`)
 
   render() {
@@ -18,17 +14,15 @@ export class DeleteForm extends Component {
       <div className="DeleteForm">
         <ModalForm
           header={this.props.header}
-          trigger={<Button negative icon={{ name: 'delete' }} size="mini" />}
-          content={
-            <div>
-              <p>{contentPrompt}?</p>
-              <div className="choiceContainer">
-                <Button color="red" onClick={this.removeLevel}>{this.translate('remove')}</Button>
-                <Button>{this.translate('cancel')}</Button>
-              </div>
-            </div>
-          }
-        />
+          trigger={<Button negative basic circular icon={{ name: 'delete' }} size="mini" />}
+          actions={[
+            <Button negative style={{ margin: '0px 15px 0px 15px' }}>{this.translate('remove')}</Button>,
+            <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }}>{this.translate('cancel')}</Button>
+          ]}
+          onSubmit={this.props.onExecute}
+        >
+          <p>{contentPrompt}?</p>
+        </ModalForm>
 
       </div>
     )

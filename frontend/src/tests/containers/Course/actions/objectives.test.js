@@ -1,16 +1,17 @@
-import { addObjective, removeObjective } from '../../../../containers/Course/actions/objectives'
+import { addObjective, removeObjective, editObjective, moveObjective } from '../../../../containers/Course/actions/objectives'
 import { testService } from '../../../testUtils'
 
 testService({
   func: addObjective,
-  type: 'OBJECTIVE_CREATE',
+  type: {
+    success: 'OBJECTIVE_CREATE'
+  },
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
     swe_name: 'dååt',
     skill_level_id: 3,
-    category_id: 7,
-    course_instance_id: 1
+    category_id: 7
   },
   apiRoute: '/objectives/create',
   apiMethod: 'post'
@@ -18,10 +19,41 @@ testService({
 
 testService({
   func: removeObjective,
-  type: 'OBJECTIVE_DELETE',
+  type: {
+    success: 'OBJECTIVE_DELETE'
+  },
   data: {
     id: 15
   },
   apiRoute: '/objectives/15',
   apiMethod: 'delete'
+})
+
+testService({
+  func: editObjective,
+  type: {
+    success: 'OBJECTIVE_EDIT'
+  },
+  data: {
+    id: 15,
+    eng_name: 'doot',
+    fin_name: 'dööt',
+    swe_name: 'dååt'
+  },
+  apiRoute: '/objectives/15',
+  apiMethod: 'put'
+})
+
+testService({
+  func: moveObjective,
+  type: {
+    success: 'OBJECTIVE_MOVE'
+  },
+  data: {
+    id: 15,
+    skill_level_id: 3,
+    category_id: 7
+  },
+  apiRoute: '/objectives/15',
+  apiMethod: 'put'
 })
