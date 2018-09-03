@@ -103,9 +103,11 @@ router.post('/delete', async (req, res) => {
   }
   try {
     const person = await coursePersonService.delete.prepare(coursePerson, coursePerson)
+    const deleted = coursePersonService.delete.value(person)
     coursePersonService.delete.execute(person)
-    res.status(200).json({ message: 'Person successfully removed from course' })
+    res.status(200).json({ message: 'Person successfully removed from course', deleted })
   } catch (e) {
+    console.log(e)
     res.status(500).json({ error: 'There was a problem' })
   }
 })

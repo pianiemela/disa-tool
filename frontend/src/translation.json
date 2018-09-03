@@ -707,7 +707,10 @@
       "add_teacher": ["Add teacher", "Lisää opettaja"],
       "select_teacher": ["Select teacher(s)", "Valitse lisättävät opettajat"],
       "add_student": ["Add student to course", "Lisää opiskelija kurssille"],
-      "search_student": ["Search people outside of course", "Etsiä kurssin ulkopuolisia henkilöitä"]
+      "search_student": ["Search people outside of course", "Etsiä kurssin ulkopuolisia henkilöitä"],
+      "teacher": ["Teacher", "Opettaja"],
+      "student": ["Student", "Opiskelija"],
+      "manage_course_people": ["Manage people on course", "Hallinnoi kurssin osallistujia"]
     }
   },
   "SelfAssessmentList": {

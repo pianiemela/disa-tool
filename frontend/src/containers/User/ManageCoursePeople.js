@@ -76,7 +76,7 @@ class ManageCoursePeople extends Component {
       <Accordion styled>
         <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleAccordion}>
           <Icon name="dropdown" />
-          Hallinnoi kurssin osallistujia
+          {this.t('manage_course_people')}
         </Accordion.Title>
         <Accordion.Content active={activeIndex === 0}>
           <List divided siz="tiny" verticalAlign="middle">
@@ -85,7 +85,7 @@ class ManageCoursePeople extends Component {
                 <List.Content floated="right">
                   <Button.Group>
                     <Button
-                      content="Opiskelija"
+                      content={this.t('student')}
                       person={person}
                       positive={!this.isTeacher(person)}
                       value="STUDENT"
@@ -93,7 +93,7 @@ class ManageCoursePeople extends Component {
                     />
                     <Button.Or />
                     <Button
-                      content="Opettaja"
+                      content={this.t('teacher')}
                       person={person}
                       positive={this.isTeacher(person)}
                       value="TEACHER"

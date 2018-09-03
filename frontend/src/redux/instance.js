@@ -31,15 +31,21 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
       return { ...state, active: action.payload.active }
     case 'COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE':
       return state
-    case 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_SUCCESS': {
-      const updatePeople = [...state.people]
-      updatePeople.forEach((person) => {
-        const update = action.payload.updatedPersons.find(cp => cp.person_id === person.id)
-        if (update) {
-          person.course_instances[0].course_person.role = update.role
+    case 'COURSE_INSTANCE_UPDATE_PERSON_SUCCESS': {
+      const currentPeople = [...state.people]
+      action.payload.updatedPeople.forEach((coursePerson) => {
+        const updated = currentPeople.find(person => coursePerson.person_id === person.id)
+        if (updated) {
+          updated.course_instances[0].course_person.role = coursePerson.role
         }
       })
-      return { ...state, people: updatePeople }
+      action.payload.newPeople.forEach((person) => {
+        const updated = currentPeople.find(oldPerson => person.id === oldPerson.id)
+        if (!updated) {
+          currentPeople.push(person)
+        }
+      })
+      return { ...state, people: currentPeople }
     }
     case 'COURSE_INSTANCE_POST_TASK_RESPONSES_SUCCESS': {
       const people = [...state.people]
@@ -56,6 +62,11 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
         }
       })
       return { ...state, people }
+    }
+    case 'COURSE_INSTANCE_DELETE_PERSON_SUCCESS': {
+      const { deleted } = action.payload
+      const updatedPeople = state.people.filter(person => person.id !== deleted.person_id)
+      return { ...state, people: updatedPeople }
     }
     default:
       return state

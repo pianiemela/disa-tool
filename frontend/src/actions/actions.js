@@ -283,18 +283,18 @@ export const postTaskResponseActions = tasks => async (dispatch) => {
 
 export const updateCoursePersonsAction = coursePersons => async (dispatch) => {
   dispatch({
-    type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_ATTEMPT',
+    type: 'COURSE_INSTANCE_UPDATE_PERSON_ATTEMPT',
     payload: coursePersons
   })
   try {
     const { data } = await updateCoursePersons(coursePersons)
     dispatch({
-      type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_SUCCESS',
+      type: 'COURSE_INSTANCE_UPDATE_PERSON_SUCCESS',
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_FAILURE',
+      type: 'COURSE_INSTANCE_UPDATE_PERSON_FAILURE',
       payload: e.response
     })
   }
