@@ -78,7 +78,7 @@ const updateOrCreatePersonsOnCourse = async (coursePersons) => {
         TaskResponse] })
       newPeople.push(found)
     } else {
-      updatedPeople.push(builtCP)
+      updatedPeople.push(builtCP.coursePerson)
     }
   }))
   return { newPeople, updatedPeople }

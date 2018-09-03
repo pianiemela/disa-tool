@@ -732,6 +732,7 @@
       "add_teacher": ["Add teacher", "Lisää opettaja"],
       "select_teacher": ["Select teacher(s)", "Valitse lisättävät opettajat"],
       "add_student": ["Add student to course", "Lisää opiskelija kurssille"],
+      "remove_from_course": ["Remove from course", "Poista kurssilta"],
       "search_student": ["Search people outside of course", "Etsiä kurssin ulkopuolisia henkilöitä"],
       "teacher": ["Teacher", "Opettaja"],
       "student": ["Student", "Opiskelija"],

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { arrayOf, func, shape } from 'prop-types'
 import { Accordion, Button, Dropdown, Icon, List } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
@@ -83,7 +84,7 @@ class ManageCoursePeople extends Component {
             {people.map(person => (
               <List.Item key={person.id}>
                 <List.Content floated="right">
-                  <Button.Group>
+                  <Button.Group size="tiny" compact>
                     <Button
                       content={this.t('student')}
                       person={person}
@@ -100,12 +101,13 @@ class ManageCoursePeople extends Component {
                       onClick={this.handleRoleChange}
                     />
                   </Button.Group>
+                  &nbsp;
                   <Button
                     basic
-                    circular
                     color="red"
-                    size="mini"
-                    icon="delete"
+                    compact
+                    content={this.t('remove_from_course')}
+                    size="tiny"
                     value={person.id}
                     onClick={this.handleRemoveFromCourse}
                   />
@@ -146,6 +148,14 @@ class ManageCoursePeople extends Component {
 
     )
   }
+}
+
+ManageCoursePeople.propTypes = {
+  activeCourse: shape().isRequired,
+  people: arrayOf(shape()).isRequired,
+  dispatchDeleteCoursePerson: func.isRequired,
+  dispatchCreateOrUpdateCoursePerson: func.isRequired,
+  translate: func.isRequired
 }
 
 export default connect(null, {
