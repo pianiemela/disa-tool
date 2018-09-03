@@ -49,7 +49,7 @@ export const CourseInfo = (props) => {
           {props.teachers.map(teacher => (
             <List.Item key={teacher.id}>
               {teacher.name}
-              {props.course.courseRole === 'TEACHER' ?
+              {props.isGlobalTeacher ?
                 <Button
                   floated="right"
                   basic
@@ -74,7 +74,7 @@ export const CourseInfo = (props) => {
         <Grid.Column>
           <Header as="h1">
             {props.course.name}
-            <span> {props.course.courseRole === 'TEACHER' ? renderCourseActivation() : undefined}</span>
+            <span> {props.isTeacher ? renderCourseActivation() : undefined}</span>
           </Header>
         </Grid.Column>
       </Grid.Row>
@@ -92,7 +92,7 @@ export const CourseInfo = (props) => {
         </Grid.Column>
       </Grid.Row>
       <Divider />
-      {props.course.courseRole === 'TEACHER' ? renderTeacherOptions() : undefined}
+      {props.isTeacher ? renderTeacherOptions() : undefined}
       {props.teachers ? renderCourseTeachers() : undefined}
     </Grid>
   )

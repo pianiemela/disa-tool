@@ -1,6 +1,7 @@
-import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity, updateCoursePersonRole } from '../api/courses'
+import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity } from '../api/courses'
 import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse, toggleAssessment } from '../api/selfassesment'
-import { getUser } from '../api/persons'
+import { getUser, updateCoursePersons } from '../api/persons'
+import { deleteCoursePerson } from '../api/coursePersons'
 import { postTaskResponses } from '../api/tasks'
 import { login } from '../api/login'
 import { updateCategoryGrades } from '../api/grades'
@@ -280,13 +281,13 @@ export const postTaskResponseActions = tasks => async (dispatch) => {
   }
 }
 
-export const updateCoursePersonRoleAction = coursePersons => async (dispatch) => {
+export const updateCoursePersonsAction = coursePersons => async (dispatch) => {
   dispatch({
     type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_ATTEMPT',
     payload: coursePersons
   })
   try {
-    const { data } = await updateCoursePersonRole(coursePersons)
+    const { data } = await updateCoursePersons(coursePersons)
     dispatch({
       type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_SUCCESS',
       payload: data
@@ -294,6 +295,25 @@ export const updateCoursePersonRoleAction = coursePersons => async (dispatch) =>
   } catch (e) {
     dispatch({
       type: 'COURSE_INSTANCE_UPDATE_PERSON_ROLE_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
+export const deleteCoursePersonAction = coursePerson => async (dispatch) => {
+  dispatch({
+    type: 'COURSE_INSTANCE_DELETE_PERSON_ATTEMPT',
+    payload: coursePerson
+  })
+  try {
+    const { data } = await deleteCoursePerson(coursePerson)
+    dispatch({
+      type: 'COURSE_INSTANCE_DELETE_PERSON_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'COURSE_INSTANCE_DELETE_PERSON_FAILURE',
       payload: e.response
     })
   }

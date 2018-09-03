@@ -705,8 +705,6 @@
   "UserPage": {
     "common": {
       "hello": ["Hello", "Hei"],
-      "add_teacher": ["Add teacher", "Lisää opettaja"],
-      "select_teacher": ["Select teacher(s)", "Valitse lisättävät opettajat"],
       "tasks": ["Tasks", "Tehtävät"],
       "self_assessments": ["Self-assessments", "Itsearvioinnit"],
       "open_task_list": ["Look at tasks", "Katso tehtävälistaa"],
@@ -729,6 +727,12 @@
         "matrix": ["Matrix: ", "Matriisi: "],
         "close": ["Close", "Sulje"]
       }
+    },
+    "ManageCoursePeople": {
+      "add_teacher": ["Add teacher", "Lisää opettaja"],
+      "select_teacher": ["Select teacher(s)", "Valitse lisättävät opettajat"],
+      "add_student": ["Add student to course", "Lisää opiskelija kurssille"],
+      "search_student": ["Search people outside of course", "Etsiä kurssin ulkopuolisia henkilöitä"]
     }
   },
   "SelfAssessmentList": {

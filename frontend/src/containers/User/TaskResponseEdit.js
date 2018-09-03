@@ -4,8 +4,9 @@ import { Prompt } from 'react-router'
 import { Accordion, Button, Grid } from 'semantic-ui-react'
 
 import UploadResponsesPage from '../TaskResponses/UploadResponsesPage'
-import CoursePeopleList from './CoursePeopleList'
 import { postTaskResponseActions } from '../../actions/actions'
+import TaskResponseTypeTable from './TaskResponseTypeTable'
+import TaskResponseEditTable from './TaskResponseEditTable'
 
 class TaskResponseEdit extends Component {
   state = {
@@ -117,17 +118,24 @@ class TaskResponseEdit extends Component {
         <Grid.Row>
           <Grid.Column>
             <div>
-              <CoursePeopleList
-                popUp={popUp}
-                updatedTasks={updatedTasks}
-                markTask={this.markTask}
-                updateTask={this.updateTask}
-                selectType={this.selectType}
-                selectedType={selectedType}
-                types={activeCourse.type_headers}
-                tasks={tasks}
-                students={students}
-              />
+              {!selectedType ?
+                <TaskResponseTypeTable
+                  typeHeaders={activeCourse.type_headers}
+                  students={students}
+                  tasks={tasks}
+                  selectType={this.selectType}
+                  updatedTasks={updatedTasks}
+                /> :
+                <TaskResponseEditTable
+                  tasks={tasks}
+                  students={students}
+                  selectType={this.selectType}
+                  selectedType={selectedType}
+                  markTask={this.markTask}
+                  updateTask={this.updateTask}
+                  updatedTasks={updatedTasks}
+                  popUp={popUp}
+                />}
               <Button
                 color="green"
                 content="Tallenna muutokset"
