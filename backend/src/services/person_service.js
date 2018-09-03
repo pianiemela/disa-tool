@@ -47,6 +47,7 @@ const getAllWithRolesWhere = (studentInfo, lang) => (
     ]
   })
 )
+
 const getPeopleOnCourse = (courseId, tasks) => (
   Person.findAll({
     include: [
@@ -63,9 +64,23 @@ const getPeopleOnCourse = (courseId, tasks) => (
   })
 )
 
+const getCourseTeachers = courseId => (
+  Person.findAll({
+    attributes: ['id', 'name'],
+    include: [{
+      model: CourseInstance,
+      where: { id: courseId }
+    }, {
+      model: CoursePerson,
+      where: { role: 'TEACHER' },
+      attributes: []
+    }]
+  })
+)
+
 const updateOrCreatePersonsOnCourse = async (coursePersons) => {
   const newPeople = []
-  const updatedPeople =  []
+  const updatedPeople = []
   await Promise.all(coursePersons.map(async (cp) => {
     const builtCP = await CoursePerson.findOrBuild(
       { where: { person_id: cp.person_id, course_instance_id: cp.course_instance_id }
@@ -129,6 +144,7 @@ const findPeopleByName = searchString => (
 module.exports = {
   getUser,
   getPeopleOnCourse,
+  getCourseTeachers,
   updateOrCreatePersonsOnCourse,
   addPersonsToCourseFromResponses,
   getAllWithRoles,

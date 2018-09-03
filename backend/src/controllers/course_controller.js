@@ -42,7 +42,10 @@ router.get('/instance/:courseId', async (req, res) => {
     return
   }
   const courseRole = instance.people[0].course_person.role
-  if (courseRole === 'TEACHER') {
+  if (courseRole !== 'TEACHER') {
+    const teachers = await personService.getCourseTeachers(courseId)
+    instance.dataValues.people = teachers
+  } else {
     const people = await personService.getPeopleOnCourse(courseId, instance.tasks.map(task => task.id))
     instance.dataValues.people = people
   }

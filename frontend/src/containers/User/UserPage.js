@@ -111,7 +111,7 @@ class UserPage extends Component {
     const students = activeCourse.id && isTeacher ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role !== 'TEACHER') : []
-    const teachers = activeCourse.id && isTeacher ?
+    const teachers = activeCourse.id ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role === 'TEACHER') : []
     // console.log(activeCourse)

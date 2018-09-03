@@ -8,7 +8,7 @@ import LinkExportList from './components/LinkExportList'
 
 export const CourseInfo = (props) => {
   const t = id => props.translate(`UserPage.CourseInfo.${id}`)
-  
+
   const renderTeacherOptions = () => (
     <Grid.Row>
       <Grid.Column width={3}>
