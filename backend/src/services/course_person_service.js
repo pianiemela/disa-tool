@@ -18,6 +18,8 @@ const create = {
   }
 }
 
+// TODO: Refactor this. Just accept the id:s as parameters, this way the function is much less reusable.
+// Also, it could just return the deleted person, without the sub-functions.
 const deleteCourseperson = {
   prepare: (data, user) => CoursePerson.findOne({
     where: {

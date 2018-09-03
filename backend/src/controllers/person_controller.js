@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const { checkPrivilege } = require('../services/privilege.js')
+const { checkPrivilege, onlyGlobalTeacherHasAccess, isGlobalTeacher } = require('../services/privilege.js')
 const { errors, messages } = require('../messages/global.js')
 
 const personService = require('../services/person_service')
@@ -43,15 +43,15 @@ router.post('/users', async (req, res) => {
   )
 })
 
-router.put('/course_role', async (req, res) => {
+router.post('/course_role', async (req, res) => {
   const coursePersons = req.body.filter(async person => checkPrivilege(req, [{
     key: 'teacher_on_course',
     param: person.course_instance_id
   }]))
-  if (!coursePersons || coursePersons.length === 0) {
+  if (!coursePersons || coursePersons.length === 0 || !isGlobalTeacher(req)) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
   }
-  const updatedPersons = await personService.updatePersonRoleOnCourse(coursePersons)
+  const updatedPersons = await personService.updateOrCreatePersonsOnCourse(coursePersons)
   res.status(200).json({ message: 'course teachers updated successfully', updatedPersons })
 })
 
@@ -80,6 +80,20 @@ router.put('/global-role', async (req, res) => {
       error: errors.unexpected[req.lang]
     })
     console.log(error)
+  }
+})
+
+router.get('/search', async (req, res) => {
+  const { searchString } = req.query
+  if (!onlyGlobalTeacherHasAccess(req, res)) {
+    return
+  }
+  try {
+    const foundPersons = await personService.findPeopleByName(searchString)
+    res.status(200).json(foundPersons)
+  } catch (e) {
+    res.status(500).end()
+    console.log(e)
   }
 })
 

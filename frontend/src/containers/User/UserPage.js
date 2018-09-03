@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Accordion, Button, Header, Grid, Item, Dropdown } from 'semantic-ui-react'
+import { Accordion, Header, Grid, Item } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
 import {
@@ -18,6 +18,7 @@ import { ListTasks } from './ListTasks'
 import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
 import CourseInfo from './CourseInfo'
 import TaskResponseEdit from './TaskResponseEdit'
+import ManageCoursePeople from './ManageCoursePeople'
 
 class UserPage extends Component {
   state = {
@@ -99,13 +100,14 @@ class UserPage extends Component {
   }
 
   render() {
-    const { activeCourse, courses } = this.props
+    const { activeCourse, courses, user } = this.props
     const { selectedType } = this.state
     const { self_assessments: assessments, tasks } = activeCourse
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
     }
     const isTeacher = activeCourse.courseRole === 'TEACHER'
+    const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
     const students = activeCourse.id && isTeacher ?
       activeCourse.people.filter(person =>
         person.course_instances[0].course_person.role !== 'TEACHER') : []
@@ -139,31 +141,15 @@ class UserPage extends Component {
                     toggleActivation={this.handleActivityToggle}
                     teachers={teachers}
                     deleteTeacher={this.handleTeacherRemoving}
+                    isTeacher={isTeacher}
+                    isGlobalTeacher={isGlobalTeacher}
                   />
-                  {isTeacher ?
+                  {isGlobalTeacher ?
                     <Grid.Row>
                       <Grid.Column>
-                        <Dropdown
-                          name="teacherSelector"
-                          closeOnChange
-                          closeOnBlur
-                          fluid
-                          multiple
-                          selection
-                          search
-                          placeholder={this.t('select_teacher')}
-                          value={this.state.newTeachers}
-                          options={students.map(person => (
-                            { key: person.id, text: person.name, value: person.id }
-                          ))}
-                          onChange={this.handleTeacherAdding}
-                        />
-                        <Button
-                          name="teacherAddButton"
-                          basic
-                          color="pink"
-                          content={this.t('add_teacher')}
-                          onClick={this.handleTeacherAdding}
+                        <ManageCoursePeople
+                          activeCourse={activeCourse}
+                          people={activeCourse.people}
                         />
                       </Grid.Column>
                     </Grid.Row> : undefined

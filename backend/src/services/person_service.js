@@ -63,16 +63,14 @@ const getPeopleOnCourse = (courseId, tasks) => (
   })
 )
 
-const updatePersonRoleOnCourse = coursePersons => (
-  Promise.all(coursePersons.map(cp => (
-    CoursePerson.update(
-      { role: cp.role },
-      {
-        where: { person_id: cp.person_id, course_instance_id: cp.course_instance_id },
-        returning: true
-      }
-    ).then(res => res[1][0])
-  )))
+const updateOrCreatePersonsOnCourse = coursePersons => (
+  Promise.all(coursePersons.map(async (cp) => {
+    const person = await CoursePerson.findOrBuild(
+      { where: { person_id: cp.person_id, course_instance_id: cp.course_instance_id }
+      }).spread(res => res)
+    person.role = cp.role
+    return person.save()
+  }))
 )
 
 const addPersonsToCourseFromResponses = async (tasks, courseId) => {
@@ -111,12 +109,19 @@ const updateGlobal = async (data) => {
   return found
 }
 
+const findPeopleByName = searchString => (
+  Person.findAll({ where:
+    { name: { [Op.iLike]: `%${searchString}%` } }
+  })
+)
+
 module.exports = {
   getUser,
   getPeopleOnCourse,
-  updatePersonRoleOnCourse,
+  updateOrCreatePersonsOnCourse,
   addPersonsToCourseFromResponses,
   getAllWithRoles,
   getAllWithRolesWhere,
-  updateGlobal
+  updateGlobal,
+  findPeopleByName
 }

@@ -70,6 +70,23 @@ const onlyTeacherOnCourseHasAccess = async (req, res, courseId) => {
   return true
 }
 
+const onlyGlobalTeacherHasAccess = async (req, res) => {
+  if (!await isGlobalTeacher(req)) {
+    res.status(403).json({
+      error: 'you are not a global teacher'
+    })
+    return false
+  }
+  return true
+}
+
+
+const isGlobalTeacher = req => (
+  checkPrivilege(req, [{
+    key: 'global_teacher'
+  }])
+)
+
 const isTeacherOnCourse = (req, courseId) => (
   checkPrivilege(req, [{
     key: 'teacher_on_course',
@@ -80,5 +97,7 @@ const isTeacherOnCourse = (req, courseId) => (
 module.exports = {
   checkPrivilege,
   onlyTeacherOnCourseHasAccess,
-  isTeacherOnCourse
+  isTeacherOnCourse,
+  onlyGlobalTeacherHasAccess,
+  isGlobalTeacher
 }
