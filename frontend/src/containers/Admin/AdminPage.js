@@ -5,6 +5,8 @@ import { Container, Form, Button, Icon, Loader, Grid, Accordion, List, Paginatio
 import { getUsers, changeGlobalRole } from '../../api/persons'
 import { changeCourseRole } from '../../api/coursePersons'
 
+import AddToCourseForm from './components/AddToCourseForm'
+
 class AdminPage extends React.Component {
   constructor(props) {
     super(props)
@@ -164,6 +166,9 @@ class AdminPage extends React.Component {
                                 </List.Content>
                               </List.Item>
                             ))}
+                            <List.Item>
+                              <AddToCourseForm person={u} />
+                            </List.Item>
                             <List.Item>
                               <List.Content floated="right">
                                 {u.role === 'STUDENT' ?

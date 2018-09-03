@@ -31,7 +31,6 @@ router.post('/users', async (req, res) => {
     ) : (
       await personService.getAllWithRolesWhere(studentInfo, req.lang)
     )
-    console.log(data)
   } catch (error) {
     console.log(error)
     res.status(500).json({ toast: errors.unexpected.toast, error: errors.unexpected[req.lang] })
