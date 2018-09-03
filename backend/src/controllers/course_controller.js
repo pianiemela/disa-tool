@@ -50,10 +50,7 @@ router.get('/instance/:courseId', async (req, res) => {
     instance.dataValues.people = people
   }
   instance.dataValues.courseRole = courseRole
-  // const tasks = await taskService.getTasksForCourse(courseId, req.lang, user.id)
-  // const assessments = await selfAssesmentService.getAssesmentsForCourse(courseId, req.lang, user.id)
 
-  instance = instance.toJSON()
   instance.tasks = instance.tasks.map(task => ({
     ...task,
     types: task.types.map(ttype => ({ ...ttype, name: `${ttype.type_header.name} ${ttype.name}` })
