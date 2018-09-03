@@ -101,7 +101,7 @@ export class SelfAssessmentSection extends React.Component {
               onClick={() => this.toggleEdit()}
               style={{ marginLeft: '10px' }}
             >
-              {editHeaders ? translate('buttonEdit') : translate('buttonShow')}
+              {editHeaders ? translate('buttonShow') : translate('buttonEdit')}
             </Button>
 
             :
