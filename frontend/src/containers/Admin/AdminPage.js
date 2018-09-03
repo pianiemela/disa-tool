@@ -35,8 +35,8 @@ class AdminPage extends React.Component {
     const userResponse = this.state.getAll ? (
       await getUsers({ getAll: true })
     ) : (
-      await getUsers({ studentInfo, getAll: false })
-    )
+        await getUsers({ studentInfo, getAll: false })
+      )
     const { data } = userResponse
     this.setState({ users: data, loading: false, activePage: 1 })
   }
@@ -56,8 +56,8 @@ class AdminPage extends React.Component {
     const res = courseInstanceId ? (
       await changeCourseRole({ personId, courseInstanceId, role })
     ) : (
-      await changeGlobalRole({ personId, role })
-    )
+        await changeGlobalRole({ personId, role })
+      )
     const { data } = res.data
 
     if (data.course_instance_id) {
@@ -133,31 +133,24 @@ class AdminPage extends React.Component {
                             {u.course_people.map(ucp => (
                               <List.Item key={ucp.id}>
                                 <List.Content floated="right">
-                                  {ucp.role === 'STUDENT' ?
-                                    <div>
-                                      <Button.Group>
-                                        <Button color="green" >Student</Button>
-                                        <Button
-                                          onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'TEACHER')}
-                                          inverted
-                                          color="green"
-                                        >
-                                          Teacher
-                                        </Button>
-                                      </Button.Group>
-                                    </div>
-                                    :
+                                  <div>
                                     <Button.Group>
                                       <Button
-                                        onClick={() => this.changeRole(u.id, ucp.course_instance_id, 'STUDENT')}
-                                        inverted
                                         color="green"
+                                        onClick={ucp.role === 'STUDENT' ? null : () => this.changeRole(u.id, ucp.course_instance_id, 'STUDENT')}
+                                        inverted={ucp.role !== 'STUDENT'}
                                       >
                                         Student
                                       </Button>
-                                      <Button color="green" >Teacher</Button>
+                                      <Button
+                                        onClick={ucp.role === 'TEACHER' ? null : () => this.changeRole(u.id, ucp.course_instance_id, 'TEACHER')}
+                                        inverted={ucp.role !== 'TEACHER'}
+                                        color="green"
+                                      >
+                                        Teacher
+                                      </Button>
                                     </Button.Group>
-                                  }
+                                  </div>
                                 </List.Content>
                                 <List.Content>
                                   {ucp.course_instance.name}
@@ -166,29 +159,22 @@ class AdminPage extends React.Component {
                             ))}
                             <List.Item>
                               <List.Content floated="right">
-                                {u.role === 'STUDENT' ?
-                                  <Button.Group>
-                                    <Button color="green" >Student</Button>
-                                    <Button
-                                      onClick={() => this.changeRole(u.id, null, 'TEACHER')}
-                                      inverted
-                                      color="green"
-                                    >
-                                      Teacher
-                                    </Button>
-                                  </Button.Group>
-                                  :
-                                  <Button.Group>
-                                    <Button
-                                      onClick={() => this.changeRole(u.id, null, 'STUDENT')}
-                                      inverted
-                                      color="green"
-                                    >
-                                      Student
-                                    </Button>
-                                    <Button color="green" >Teacher</Button>
-                                  </Button.Group>
-                                }
+                                <Button.Group>
+                                  <Button
+                                    onClick={u.role === 'STUDENT' ? null : () => this.changeRole(u.id, null, 'STUDENT')}
+                                    color="green"
+                                    inverted={u.role !== 'STUDENT'}
+                                  >
+                                    Student
+                                  </Button>
+                                  <Button
+                                    onClick={u.role === 'TEACHER' ? null : () => this.changeRole(u.id, null, 'TEACHER')}
+                                    inverted={u.role !== 'TEACHER'}
+                                    color="green"
+                                  >
+                                    Teacher
+                                  </Button>
+                                </Button.Group>
                               </List.Content>
                               <List.Content>
                                 GLOBAL ROLE
