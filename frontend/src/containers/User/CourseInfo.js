@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Divider, Grid, Header, List } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
@@ -49,18 +49,6 @@ export const CourseInfo = (props) => {
           {props.teachers.map(teacher => (
             <List.Item key={teacher.id}>
               {teacher.name}
-              {props.isGlobalTeacher ?
-                <Button
-                  floated="right"
-                  basic
-                  circular
-                  color="red"
-                  size="mini"
-                  icon="delete"
-                  value={teacher.id}
-                  onClick={props.deleteTeacher}
-                />
-                : undefined}
             </List.Item>
           ))}
         </List>
@@ -99,18 +87,19 @@ export const CourseInfo = (props) => {
 }
 
 CourseInfo.propTypes = {
-  course: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    active: PropTypes.bool.isRequired,
-    courseRole: PropTypes.string.isRequired
+  course: shape({
+    id: number.isRequired,
+    name: string.isRequired,
+    active: bool.isRequired,
+    courseRole: string.isRequired
   }).isRequired,
-  toggleActivation: PropTypes.func.isRequired,
-  deleteTeacher: PropTypes.func.isRequired,
-  teachers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
-  }))
+  teachers: arrayOf(shape({
+    id: number.isRequired,
+    name: string.isRequired
+  })),
+  isTeacher: bool.isRequired,
+  toggleActivation: func.isRequired,
+  translate: func.isRequired
 }
 
 CourseInfo.defaultProps = {
