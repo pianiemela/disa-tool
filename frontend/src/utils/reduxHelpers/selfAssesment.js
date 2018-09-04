@@ -8,14 +8,15 @@ export const initForm = (payload) => {
   const formInfo = []
 
   formInfo.push(
-    { id: 1, prefix: 'Eng', value: 'English Display', type: 'eng_name' },
-    { id: 3, prefix: 'Swe', value: 'Swedish Display', type: 'swe_name' },
-    { id: 2, prefix: 'Fin', value: 'Finnish display', type: 'fin_name' },
+    { id: 1, prefix: 'Fin', value: 'Finnish display', type: 'fin_name' },
+    { id: 2, prefix: 'Eng', value: 'English Display', type: 'eng_name' },
+    { id: 3, prefix: 'Swe', value: 'Swedish Display', type: 'swe_name' }
   )
   formInfo.push(
-    { id: 4, prefix: 'Eng', header: 'Instructions', value: 'Instructions for self assessment', type: 'eng_instructions' },
-    { id: 5, prefix: 'Swe', header: 'anvisning', value: 'Ohjeet itsearvioon ruotsiksi', type: 'swe_instructions' },
-    { id: 6, prefix: 'Fin', header: 'Ohjeita', value: 'Ohjeet itsearvioon', type: 'fin_instructions' }
+    { id: 4, prefix: 'Fin', header: 'Ohjeita', value: 'Ohjeet itsearvioon', type: 'fin_instructions' },
+    { id: 5, prefix: 'Eng', header: 'Instructions', value: 'Instructions for self assessment', type: 'eng_instructions' },
+    { id: 6, prefix: 'Swe', header: 'anvisning', value: 'Ohjeet itsearvioon ruotsiksi', type: 'swe_instructions' },
+
   )
 
   data.open = false
@@ -62,11 +63,6 @@ export const initForm = (payload) => {
 
 
   if (data.type === 'category') {
-    structure.headers.questionHeaders = [
-      { id: 1, prefix: 'Fin:', value: 'Kategoriaosio', type: 'fin_name' },
-      { id: 2, prefix: 'Eng:', value: 'Categoryquestions', type: 'eng_name' },
-      { id: 3, prefix: 'Swe:', value: 'Den här kategoria', type: 'swe_name' }
-    ]
     structure.type = 'category'
     structure.questionModules = []
     courseData.map(ciO =>
@@ -79,11 +75,6 @@ export const initForm = (payload) => {
   } else {
     structure.questionModules = []
     structure.type = 'objectives'
-    structure.headers.questionHeaders = [
-      { id: 1, prefix: 'Fin:', value: 'Tavoiteosio', type: 'fin_name' },
-      { id: 2, prefix: 'Eng:', value: 'Objectivequestions', type: 'eng_name' },
-      { id: 3, prefix: 'Swe:', value: 'Den här objektiver', type: 'swe_name' }
-    ]
     courseData.map(ciO =>
       structure.questionModules.push({
         id: ciO.id,
@@ -97,6 +88,13 @@ export const initForm = (payload) => {
         options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
       }))
   }
+
+  structure.headers.questionHeaders = [
+    { id: 1, prefix: 'Fin:', value: 'Kysymykset', type: 'fin_name' },
+    { id: 2, prefix: 'Eng:', value: 'Questions', type: 'eng_name' },
+    { id: 3, prefix: 'Swe:', value: 'Ruotsiksi sama', type: 'swe_name' }
+  ]
+
   data.structure.headers.openQ = [
     { id: 3, prefix: 'Fin:', value: 'Avoimet kysymykset', type: 'fin_name' },
     { id: 4, prefix: 'Eng:', value: 'Open questions', type: 'eng_name' },

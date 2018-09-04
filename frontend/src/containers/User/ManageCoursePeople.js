@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { arrayOf, func, shape } from 'prop-types'
 import { Accordion, Button, Dropdown, Icon, List } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
@@ -76,16 +77,50 @@ class ManageCoursePeople extends Component {
       <Accordion styled>
         <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleAccordion}>
           <Icon name="dropdown" />
-          Hallinnoi kurssin osallistujia
+          {this.t('manage_course_people')}
         </Accordion.Title>
         <Accordion.Content active={activeIndex === 0}>
+          <h5>{this.t('add_a_user')}</h5>
+          <Dropdown
+            name="studentSelector"
+            closeOnChange
+            closeOnBlur
+            selection
+            search
+            placeholder={this.t('search_student')}
+            value={this.state.newStudent.id}
+            options={this.state.searchPeople.map(person => (
+            { key: person.id, text: person.name, value: person.id }
+          ))}
+            onChange={this.handleAddStudentToCourse}
+            onSearchChange={this.handleSearchChange}
+          />
+          {this.state.newStudent && this.state.newStudent.id ?
+            <div>
+              <Button
+                name="studentAddButton"
+                basic
+                color="pink"
+                content={this.t('add_student')}
+                onClick={this.handleAddStudentToCourse}
+              />
+              <Button
+                basic
+                color="red"
+                circular
+                icon="delete"
+                size="tiny"
+                value=""
+                onClick={this.handleAddStudentToCourse}
+              />
+            </div> : undefined}
           <List divided siz="tiny" verticalAlign="middle">
             {people.map(person => (
               <List.Item key={person.id}>
                 <List.Content floated="right">
-                  <Button.Group>
+                  <Button.Group size="tiny" compact>
                     <Button
-                      content="Opiskelija"
+                      content={this.t('student')}
                       person={person}
                       positive={!this.isTeacher(person)}
                       value="STUDENT"
@@ -93,19 +128,20 @@ class ManageCoursePeople extends Component {
                     />
                     <Button.Or />
                     <Button
-                      content="Opettaja"
+                      content={this.t('teacher')}
                       person={person}
                       positive={this.isTeacher(person)}
                       value="TEACHER"
                       onClick={this.handleRoleChange}
                     />
                   </Button.Group>
+                  &nbsp;
                   <Button
                     basic
-                    circular
                     color="red"
-                    size="mini"
-                    icon="delete"
+                    compact
+                    content={this.t('remove_from_course')}
+                    size="tiny"
                     value={person.id}
                     onClick={this.handleRemoveFromCourse}
                   />
@@ -118,34 +154,19 @@ class ManageCoursePeople extends Component {
               </List.Item>
           ))}
           </List>
-          <Dropdown
-            name="studentSelector"
-            closeOnChange
-            closeOnBlur
-            selection
-            search
-            placeholder={this.t('search_student')}
-            value={this.state.newStudent.id}
-            options={[{ key: 'default', text: 'remove selection', value: 0 },
-            ...this.state.searchPeople.map(person => (
-            { key: person.id, text: person.name, value: person.id }
-          ))]}
-            onChange={this.handleAddStudentToCourse}
-            onSearchChange={this.handleSearchChange}
-          />
-          {this.state.newStudent && this.state.newStudent.id ?
-            <Button
-              name="studentAddButton"
-              basic
-              color="pink"
-              content={this.t('add_student')}
-              onClick={this.handleAddStudentToCourse}
-            /> : undefined}
         </Accordion.Content>
       </Accordion>
 
     )
   }
+}
+
+ManageCoursePeople.propTypes = {
+  activeCourse: shape().isRequired,
+  people: arrayOf(shape()).isRequired,
+  dispatchDeleteCoursePerson: func.isRequired,
+  dispatchCreateOrUpdateCoursePerson: func.isRequired,
+  translate: func.isRequired
 }
 
 export default connect(null, {

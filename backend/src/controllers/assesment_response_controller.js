@@ -28,7 +28,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
     }
     // TODO: Maybe further refactor these checks to one helper.
     // only send verification data to teacher
-    const isTeacher = !isTeacherOnCourse(req, data.course_instance_id)
+    const isTeacher = await !isTeacherOnCourse(req, data.course_instance_id)
     if (!isTeacher) {
       delete data.response.verification
     }
@@ -85,7 +85,7 @@ router.post('/', async (req, res) => {
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
     const completeResponse = await response.save()
     // only send verification data to teacher
-    const isTeacher = !isTeacherOnCourse(req, data.course_instance_id)
+    const isTeacher = await !isTeacherOnCourse(req, data.course_instance_id)
     if (!isTeacher) {
       delete response.response.verification
     }

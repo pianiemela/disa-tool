@@ -1,17 +1,53 @@
 {
   "common": {
-    "save": ["Save", "Tallenna"],
-    "name": ["name", "nimi"],
-    "skill_level": ["skill level", "taitotaso"],
-    "skill_levels": ["skill levels", "taitotasot"],
-    "category": ["category", "osio"],
-    "objective": ["objective", "oppimistavoite"],
-    "tasks": ["tasks", "tehtävät"],
-    "or": ["or", "tai"],
-    "cancel": ["Cancel", "Peru"],
-    "open": ["open", "avoinna"],
-    "closed": ["closed", "suljettu"],
-    "course_matrix": ["Course-objective matrix", "Kurssin tavoitematriisi"]
+    "save": [
+      "Save",
+      "Tallenna"
+    ],
+    "name": [
+      "name",
+      "nimi"
+    ],
+    "skill_level": [
+      "skill level",
+      "taitotaso"
+    ],
+    "skill_levels": [
+      "skill levels",
+      "taitotasot"
+    ],
+    "category": [
+      "category",
+      "osio"
+    ],
+    "objective": [
+      "objective",
+      "oppimistavoite"
+    ],
+    "tasks": [
+      "tasks",
+      "tehtävät"
+    ],
+    "or": [
+      "or",
+      "tai"
+    ],
+    "cancel": [
+      "Cancel",
+      "Peru"
+    ],
+    "open": [
+      "open",
+      "avoinna"
+    ],
+    "closed": [
+      "closed",
+      "suljettu"
+    ],
+    "course_matrix": [
+      "Course-objective matrix",
+      "Kurssin tavoitematriisi"
+    ]
   },
   "Nav": {
     "navbar": {
@@ -477,27 +513,66 @@
   },
   "CreateCourse": {
     "CreateCoursePage": {
-      "header": ["Create a new course", "Luo uusi kurssi"],
-      "create": ["Create", "Luo"]
+      "header": [
+        "Create a new course",
+        "Luo uusi kurssi"
+      ],
+      "create": [
+        "Create",
+        "Luo"
+      ]
     }
   },
   "CourseList": {
     "CreateInstanceForm": {
-      "header": ["Create a new course instance", "Luo uusi kurssi-instanssi"],
-      "prompt_1": ["Create a new course instance", "Luo uusi kurssi-instanssi"],
-      "trigger": ["Create a new instance of this course", "Luo uusi instanssi tästä kurssista"]
+      "header": [
+        "Create a new course instance",
+        "Luo uusi kurssi-instanssi"
+      ],
+      "prompt_1": [
+        "Create a new course instance",
+        "Luo uusi kurssi-instanssi"
+      ],
+      "trigger": [
+        "Create a new instance of this course",
+        "Luo uusi instanssi tästä kurssista"
+      ]
     },
     "RegisterForm": {
-      "unregister": ["Undo registration", "Peru rekisteröityminen"],
-      "register": ["Register", "Rekisteröidy"]
+      "unregister": [
+        "Undo registration",
+        "Peru rekisteröityminen"
+      ],
+      "register": [
+        "Register",
+        "Rekisteröidy"
+      ]
     },
     "CourseListPage": {
-      "create_trigger": ["Create a new course", "Luo uusi kurssi"],
-      "state": ["This course is currently", "Tämä kurssi on tällä hetkellä"],
-      "you_are": ["You are on the course", "Olet kurssilla"],
-      "coursepage_button": ["To course page", "Kurssisivulle"],
-      "instance_prompt": ["Now, choose a course instance.", "Valitse vielä kurssi-instanssi."],
-      "course_prompt": ["First, choose a course", "Valitse ensin kurssi"]
+      "create_trigger": [
+        "Create a new course",
+        "Luo uusi kurssi"
+      ],
+      "state": [
+        "This course is currently",
+        "Tämä kurssi on tällä hetkellä"
+      ],
+      "you_are": [
+        "You are on the course",
+        "Olet kurssilla"
+      ],
+      "coursepage_button": [
+        "To course page",
+        "Kurssisivulle"
+      ],
+      "instance_prompt": [
+        "Now, choose a course instance.",
+        "Valitse vielä kurssi-instanssi."
+      ],
+      "course_prompt": [
+        "First, choose a course",
+        "Valitse ensin kurssi"
+      ]
     }
   },
   "SelfAssessment": {
@@ -626,6 +701,14 @@
             "notIncludedButton": [
               "Not included in assessment",
               "Ei mukana itsearviossa"
+            ],
+            "buttonShow": [
+              "Show",
+              "Näytä"
+            ],
+            "buttonEdit": [
+              "Edit",
+              "Muokkaa"
             ]
           },
           "OpenQuestionModule": {
@@ -668,6 +751,16 @@
             "Move category up",
             "Siirrä kategoria ylemmäs"
           ]
+        },
+        "addOpenQuestion": {
+          "header": [
+            "Add open question",
+            "Lisää avoin kysymys"
+          ],
+          "questionDisplay": [
+            "Question",
+            "Kysymys"
+          ]
         }
       },
       "Sections": {
@@ -703,7 +796,7 @@
         ],
         "modalButton1": [
           "Yes",
-          "Kyllä"
+          "Tallenna"
         ],
         "modalButton2": [
           "Cancel",
@@ -714,51 +807,159 @@
   },
   "UserPage": {
     "common": {
-      "hello": ["Hello", "Hei"],
-      "tasks": ["Tasks", "Tehtävät"],
-      "self_assessments": ["Self-assessments", "Itsearvioinnit"],
-      "open_task_list": ["Look at tasks", "Katso tehtävälistaa"],
-      "no_course_selected": ["No course selected", "Kurssia ei valittu"]
+      "hello": [
+        "Hello",
+        "Hei"
+      ],
+      "tasks": [
+        "Tasks",
+        "Tehtävät"
+      ],
+      "self_assessments": [
+        "Self-assessments",
+        "Itsearvioinnit"
+      ],
+      "open_task_list": [
+        "Look at tasks",
+        "Katso tehtävälistaa"
+      ],
+      "no_course_selected": [
+        "No course selected",
+        "Kurssia ei valittu"
+      ]
     },
     "CourseSideMenu": {
-      "active_courses": ["Open courses", "Avoimet kurssit"],
-      "closed_courses": ["Closed courses", "Suljetut kurssit"]
+      "active_courses": [
+        "Open courses",
+        "Avoimet kurssit"
+      ],
+      "closed_courses": [
+        "Closed courses",
+        "Suljetut kurssit"
+      ]
     },
     "CourseInfo": {
-      "edit_self_assessments": ["Edit self-assessments", "Muokkaa itsearviointeja"],
-      "edit_course": ["Edit course", "Muokkaa kurssia"],
-      "close_course": ["Close course", "Sulje kurssi"],
-      "start_course": ["Open course", "Avaa kurssi"],
-      "course_teachers": ["Course teachers", "Kurssin opettajat"],
-      "this_course_is": ["This course is ", "Tämä kurssi on "],
+      "edit_self_assessments": [
+        "Edit self-assessments",
+        "Muokkaa itsearviointeja"
+      ],
+      "edit_course": [
+        "Edit course",
+        "Muokkaa kurssia"
+      ],
+      "close_course": [
+        "Close course",
+        "Sulje kurssi"
+      ],
+      "start_course": [
+        "Open course",
+        "Avaa kurssi"
+      ],
+      "course_teachers": [
+        "Course teachers",
+        "Kurssin opettajat"
+      ],
+      "this_course_is": [
+        "This course is ",
+        "Tämä kurssi on "
+      ],
       "Links": {
-        "course_links": ["Course links", "Kurssin linkit"],
-        "registration": ["Registration: ", "Rekisteröityminen: "],
-        "matrix": ["Matrix: ", "Matriisi: "],
-        "close": ["Close", "Sulje"]
+        "course_links": [
+          "Course links",
+          "Kurssin linkit"
+        ],
+        "registration": [
+          "Registration: ",
+          "Rekisteröityminen: "
+        ],
+        "matrix": [
+          "Matrix: ",
+          "Matriisi: "
+        ],
+        "close": [
+          "Close",
+          "Sulje"
+        ],
+        "course_page": [
+          "Course page",
+          "Kurssisivu"
+        ]
       }
     },
     "ManageCoursePeople": {
-      "add_teacher": ["Add teacher", "Lisää opettaja"],
-      "select_teacher": ["Select teacher(s)", "Valitse lisättävät opettajat"],
-      "add_student": ["Add student to course", "Lisää opiskelija kurssille"],
-      "search_student": ["Search people outside of course", "Etsiä kurssin ulkopuolisia henkilöitä"]
+      "add_a_user": [
+        "Add a user to the course",
+        "Lisää käyttäjä kurssille"
+      ],
+      "add_teacher": [
+        "Add teacher",
+        "Lisää opettaja"
+      ],
+      "select_teacher": [
+        "Select teacher(s)",
+        "Valitse lisättävät opettajat"
+      ],
+      "add_student": [
+        "Add student to course",
+        "Lisää opiskelija kurssille"
+      ],
+      "search_student": [
+        "Search people outside of course",
+        "Etsiä kurssin ulkopuolisia henkilöitä"
+      ],
+      "teacher": [
+        "Teacher",
+        "Opettaja"
+      ],
+      "student": [
+        "Student",
+        "Opiskelija"
+      ],
+      "manage_course_people": [
+        "Manage people on course",
+        "Hallinnoi kurssin osallistujia"
+      ],
+      "remove_from_course": [
+        "Remove from course",
+        "Poista kurssilta"
+      ]
     }
   },
   "SelfAssessmentList": {
     "SelfAssessmentListPage": {
-      "back": ["Back", "Takaisin"],
-      "inspect": ["Inspect", "Tarkastele"],
-      "self_assessment": ["Self Assessment", "Itsearvio"],
-      "machine_review": ["Machine Review", "Konearvio"],
-      "final_grade": ["Final Grade", "Loppuarvosana"],
-      "link": ["Link to assessment form", "Linkki vastauslomakkeeseen"]
+      "back": [
+        "Back",
+        "Takaisin"
+      ],
+      "inspect": [
+        "Inspect",
+        "Tarkastele"
+      ],
+      "self_assessment": [
+        "Self Assessment",
+        "Itsearvio"
+      ],
+      "machine_review": [
+        "Machine Review",
+        "Konearvio"
+      ],
+      "final_grade": [
+        "Final Grade",
+        "Loppuarvosana"
+      ],
+      "link": [
+        "Link to assessment form",
+        "Linkki vastauslomakkeeseen"
+      ]
     }
   },
   "utils": {
     "components": {
       "DeleteForm": {
-        "remove": ["Remove", "Poista"]
+        "remove": [
+          "Remove",
+          "Poista"
+        ]
       },
       "MultilingualField": {
         "monolingual": [

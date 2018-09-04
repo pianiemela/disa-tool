@@ -1,63 +1,45 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Button, Input } from 'semantic-ui-react'
+import { Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import { addOpenQuestion } from '../../actions/selfAssesment'
+import MultilingualField from '../../../../utils/components/MultilingualField'
 
-class AddOpenQuestion extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      questionData: ''
-    }
-  }
+const AddOpenQuestion = (props) => {
+  const translate = id => props.translate(`SelfAssessment.Userform.FormParts.addOpenQuestion.${id}`)
 
-  textField = (e) => {
-    this.setState({ questionData: e.target.value })
-  }
+  const createQuestion = e =>
+    props.dispatchAddOpenQuestion({
+      eng_name: e.target.eng_name.value,
+      fin_name: e.target.fin_name.value,
+      swe_name: e.target.swe_name.value
+    })
 
-  clear = () => {
-    this.setState({ questionData: '' })
-  }
-
-  render() {
-    return (
-      <Grid verticalAlign="middle" columns={2}>
-        <Grid.Row>
-          <Grid.Column stretched>
-            <Input
-              size="medium"
-              placeholder="Lisää avoin kysymys"
-              onChange={this.textField}
-              value={this.state.questionData}
-            />
-          </Grid.Column>
-          <Grid.Column>
-            <Button
-              onClick={() => {
-                this.props.dispatchAddOpenQuestion(this.state.questionData); this.clear()
-              }}
-              type="submit"
-              circular
-              name="plus"
-              size="large"
-              color="green"
-            >Lisää
-            </Button>
-          </Grid.Column>
-        </Grid.Row >
-      </Grid >
-
-    )
-  }
+  return (
+    <ModalForm
+      header={translate('header')}
+      trigger={<span><Button positive>Lisää uusi</Button></span>}
+      actions={saveActions(translate)}
+      onSubmit={createQuestion}
+    >
+      <MultilingualField
+        field="name"
+        fieldDisplay={translate('questionDisplay')}
+      />
+    </ModalForm>
+  )
 }
+
 const mapDispatchToProps = dispatch => ({
   dispatchAddOpenQuestion: questionData =>
     dispatch(addOpenQuestion(questionData))
 })
 
 AddOpenQuestion.propTypes = {
-  dispatchAddOpenQuestion: PropTypes.func.isRequired
+  dispatchAddOpenQuestion: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
-export default connect(null, mapDispatchToProps)(AddOpenQuestion)
+export default withLocalize(connect(null, mapDispatchToProps)(AddOpenQuestion))

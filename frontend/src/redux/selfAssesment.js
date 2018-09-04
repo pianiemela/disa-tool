@@ -135,12 +135,15 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'ADD_OPEN_QUESTION': {
-      const questionData = action.payload
+      const { fin_name, eng_name, swe_name } = action.payload //eslint-disable-line
       const { openQuestions } = state.createForm.structure
       let data = null
       data = {
         id: openQuestions.incrementId,
-        name: questionData
+        fin_name,
+        eng_name,
+        swe_name,
+        name: action.payload[langName]
       }
 
       return {

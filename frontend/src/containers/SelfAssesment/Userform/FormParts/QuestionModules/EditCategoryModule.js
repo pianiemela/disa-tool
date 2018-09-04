@@ -38,7 +38,7 @@ export class EditCategorymodule extends React.Component {
             className="editHeadersButton"
             onClick={() => this.toggleEdit()}
             style={{ marginLeft: '10px' }}
-          >{this.state.editHeaders ? 'Näytä' : 'Muokkaa'}
+          >{this.state.editHeaders ? translate('buttonShow') : translate('buttonEdit')}
           </Button>
         </div>
       )

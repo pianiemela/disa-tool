@@ -48,12 +48,17 @@ router.post('/course_role', async (req, res) => {
     key: 'teacher_on_course',
     param: person.course_instance_id
   }]))
-  if (!coursePersons || coursePersons.length === 0 || !(await isGlobalTeacher(req))) {
+  const isTeacher = await isGlobalTeacher(req)
+  if (!coursePersons || coursePersons.length === 0 || !isTeacher) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
     return
   }
-  const updatedPersons = await personService.updateOrCreatePersonsOnCourse(coursePersons)
-  res.status(200).json({ message: 'course teachers updated successfully', updatedPersons })
+  try {
+    const { newPeople, updatedPeople } = await personService.updateOrCreatePersonsOnCourse(coursePersons)
+    res.status(200).json({ message: 'course teachers updated successfully', newPeople, updatedPeople })
+  } catch (e) {
+    res.status(500).json({ error: 'Could not update the people' })
+  }
 })
 
 router.put('/global-role', async (req, res) => {
