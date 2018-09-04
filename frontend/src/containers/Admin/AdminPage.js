@@ -2,8 +2,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import { Container, Form, Button, Icon, Loader, Grid, Accordion, List, Pagination } from 'semantic-ui-react'
-import { getUsers, changeGlobalRole } from '../../api/persons'
-import { changeCourseRole } from '../../api/coursePersons'
+import asyncAction from '../../utils/asyncAction'
+
+import { adminGetUsers, adminChangeGlobalRole } from './actions/persons'
+import { adminChangeCourseRole } from './actions/coursePersons'
 
 import AddToCourseForm from './components/AddToCourseForm'
 
@@ -12,7 +14,6 @@ class AdminPage extends React.Component {
     super(props)
     this.state = {
       getAll: false,
-      users: [],
       loading: false,
       activeIndex: -1,
       activePage: 1
@@ -34,13 +35,11 @@ class AdminPage extends React.Component {
     this.setState({
       loading: true
     })
-    const userResponse = this.state.getAll ? (
-      await getUsers({ getAll: true })
-    ) : (
-      await getUsers({ studentInfo, getAll: false })
-    )
-    const { data } = userResponse
-    this.setState({ users: data, loading: false, activePage: 1 })
+    await this.props.adminGetUsers({
+      studentInfo: this.state.getAll ? undefined : studentInfo,
+      getAll: this.state.getAll
+    })
+    this.setState({ loading: false, activePage: 1 })
   }
 
   handleClick = (e, titleProps) => {
@@ -55,41 +54,19 @@ class AdminPage extends React.Component {
   toggleEdit = () => this.setState({ edit: !this.state.edit })
 
   changeRole = async (personId, courseInstanceId, role) => {
-    const res = courseInstanceId ? (
-      await changeCourseRole({ personId, courseInstanceId, role })
-    ) : (
-      await changeGlobalRole({ personId, role })
-    )
-    const { data } = res.data
-
-    if (data.course_instance_id) {
-      const person = this.state.users.find(u => u.id === data.person_id)
-      const personCourses = person.course_people.map(cpe =>
-        (cpe.course_instance_id === data.course_instance_id ? { ...cpe, role: data.role } : cpe))
-      this.setState({
-        users: this.state.users.map(u => (u.id === data.person_id ? {
-          ...u,
-          course_people: personCourses
-        } : u))
+    if (courseInstanceId) {
+      await this.props.adminChangeCourseRole({
+        personId,
+        courseInstanceId,
+        role
       })
     } else {
-      this.setState({
-        users: this.state.users.map(u =>
-          (u.id === data.id ? { ...u, role: data.role } : u))
-      })
+      await this.props.adminChangeGlobalRole({ personId, role })
     }
-
-    await this.props.dispatchToast({
-      type: '',
-      payload: {
-        toast: res.data.message,
-        type: 'message'
-      }
-    })
   }
 
   render() {
-    const { activeIndex, activePage, users } = this.state
+    const { activeIndex, activePage } = this.state
     return (
       <Container style={{ paddingTop: '100px' }} >
         <Grid divided="vertically">
@@ -114,9 +91,9 @@ class AdminPage extends React.Component {
                 null
               }
 
-              {this.state.users.length > 0 ?
+              {this.props.users.length > 0 ?
                 <Accordion fluid styled>
-                  {this.state.users.slice((activePage - 1) * 20, activePage * 20).map(u =>
+                  {this.props.users.slice((activePage - 1) * 20, activePage * 20).map(u =>
                     (
                       <div key={u.id}>
                         <Accordion.Title
@@ -213,11 +190,11 @@ class AdminPage extends React.Component {
           <Grid.Row>
             <Grid.Column width={5} />
             <Grid.Column width={8}>
-              {users.length > 20 ?
+              {this.props.users.length > 20 ?
                 <Pagination
                   activePage={activePage}
                   onPageChange={this.handlePaginationChange}
-                  totalPages={Math.ceil(users.length / 20)}
+                  totalPages={Math.ceil(this.props.users.length / 20)}
                 />
                 :
                 null
@@ -231,15 +208,25 @@ class AdminPage extends React.Component {
 }
 
 AdminPage.propTypes = {
-  dispatchToast: PropTypes.func.isRequired
+  dispatchToast: PropTypes.func.isRequired,
+  users: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired
+  })).isRequired,
+  adminGetUsers: PropTypes.func.isRequired,
+  adminChangeCourseRole: PropTypes.func.isRequired,
+  adminChangeGlobalRole: PropTypes.func.isRequired
 }
 
-const mapDispatchToProps = dispatch => ({
-  dispatchGetUsersAction: data =>
-    dispatch(getUsers(data)),
-  dispatchToast: data =>
-    dispatch(data)
-
+const mapStateToProps = state => ({
+  users: state.admin.users
 })
 
-export default connect(null, mapDispatchToProps)(AdminPage)
+const mapDispatchToProps = dispatch => ({
+  adminGetUsers: asyncAction(adminGetUsers, dispatch),
+  adminChangeCourseRole: asyncAction(adminChangeCourseRole, dispatch),
+  adminChangeGlobalRole: asyncAction(adminChangeGlobalRole, dispatch),
+  dispatchToast: data => dispatch(data)
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(AdminPage)

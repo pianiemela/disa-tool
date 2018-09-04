@@ -16,6 +16,7 @@ import toast from './redux/toast'
 import grade from './redux/grade'
 import objective from './redux/objective'
 import error from './redux/error'
+import admin from './redux/admin'
 
 const reducers = combineReducers({
   task,
@@ -31,7 +32,8 @@ const reducers = combineReducers({
   toast,
   grade,
   objective,
-  error
+  error,
+  admin
 })
 
 const store = process.env.NODE_ENV === 'development' ?
