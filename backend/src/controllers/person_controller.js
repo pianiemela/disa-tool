@@ -48,7 +48,8 @@ router.post('/course_role', async (req, res) => {
     key: 'teacher_on_course',
     param: person.course_instance_id
   }]))
-  if (!coursePersons || coursePersons.length === 0 || !isGlobalTeacher(req)) {
+  const isTeacher = await isGlobalTeacher(req)
+  if (!coursePersons || coursePersons.length === 0 || !isTeacher) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
   }
   try {

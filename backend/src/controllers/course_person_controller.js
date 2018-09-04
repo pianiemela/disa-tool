@@ -98,7 +98,8 @@ router.put('/course-role', async (req, res) => {
 router.post('/delete', async (req, res) => {
   // Body contains fields id (person_id) and course_instance_id
   const coursePerson = req.body
-  if (!isTeacherOnCourse(req) || !isGlobalTeacher(req)) {
+  const isTeacher = await isTeacherOnCourse(req, req.body.course_instance_id) && await isGlobalTeacher(req)
+  if (!isTeacher) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
   }
   try {
