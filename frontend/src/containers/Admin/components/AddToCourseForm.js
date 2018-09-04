@@ -41,6 +41,11 @@ class AddToCourseForm extends Component {
 
   changeRole = role => () => this.setState({ role })
 
+  onOpen = () => {
+    this.props.getAllCourses()
+    this.props.selectInstance(null)
+  }
+
   translate = id => this.props.translate(`Admin.AddToCourseForm.${id}`)
 
   render() {
@@ -54,7 +59,7 @@ class AddToCourseForm extends Component {
         <ModalForm
           header={this.translate('header')}
           trigger={<Button color="blue">{this.translate('trigger')}</Button>}
-          onOpen={this.props.getAllCourses}
+          onOpen={this.onOpen}
           actions={saveActions(this.translate)}
           onSubmit={this.addToCourseSubmit}
         >
@@ -117,7 +122,10 @@ AddToCourseForm.propTypes = {
   translate: PropTypes.func.isRequired,
   person: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    course_people: PropTypes.arrayOf(PropTypes.shape({
+      course_instance_id: PropTypes.number.isRequired
+    })).isRequired
   }).isRequired,
   getAllCourses: PropTypes.func.isRequired,
   courses: PropTypes.arrayOf(PropTypes.shape({
@@ -147,12 +155,18 @@ AddToCourseForm.defaultProps = {
   selectedInstance: null
 }
 
-const mapStateToProps = state => ({
-  courses: state.listCourses.courses,
-  instances: state.listCourses.instances,
-  selectedCourse: state.listCourses.selectedCourse,
-  selectedInstance: state.listCourses.selectedInstance
-})
+const mapStateToProps = (state, ownProps) => {
+  const alreadyOnCourse = ownProps.person.course_people.reduce((acc, curr) => ({
+    ...acc,
+    [curr.course_instance_id]: true
+  }), {})
+  return {
+    courses: state.listCourses.courses,
+    instances: state.listCourses.instances.filter(instance => !alreadyOnCourse[instance.id]),
+    selectedCourse: state.listCourses.selectedCourse,
+    selectedInstance: state.listCourses.selectedInstance
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   getAllCourses: asyncAction(getAllCourses, dispatch),
