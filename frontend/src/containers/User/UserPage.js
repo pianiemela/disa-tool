@@ -10,7 +10,6 @@ import {
   getUserSelfAssesments,
   getCourseInstanceDataAction,
   toggleCourseActivityAction,
-  updateCoursePersonRoleAction,
   toggleAssessmentAction
 } from '../../actions/actions'
 import CourseSideMenu from './CourseSideMenu'
@@ -23,8 +22,7 @@ import ManageCoursePeople from './ManageCoursePeople'
 class UserPage extends Component {
   state = {
     // Selected type will now never change. Is it really needed in the task listing?
-    selectedType: undefined,
-    newTeachers: []
+    selectedType: undefined
   }
 
   componentDidMount = async () => {
@@ -53,27 +51,6 @@ class UserPage extends Component {
     const { activeCourse } = this.props
     console.log('props', activeCourse.id)
     this.props.dispatchToggleActivity(activeCourse.id).then(res => console.log(res))
-  }
-
-  handleTeacherAdding = (e, { value }) => {
-    if (e.target.name === 'teacherAddButton') {
-      const formattedRequest = this.state.newTeachers.map(teacher => (
-        { person_id: teacher, course_instance_id: this.props.activeCourse.id, role: 'TEACHER' }
-      ))
-      this.props.dispatchUpdateCoursePersonRole(formattedRequest)
-        .then(() => this.setState({ newTeachers: [] }))
-    } else {
-      this.setState({ newTeachers: value })
-    }
-  }
-
-  handleTeacherRemoving = (e, { value }) => {
-    const formattedRequest = [{
-      person_id: value,
-      course_instance_id: this.props.activeCourse.id,
-      role: 'STUDENT'
-    }]
-    this.props.dispatchUpdateCoursePersonRole(formattedRequest)
   }
 
   handleClick = async (e, { course }) => {
@@ -201,21 +178,6 @@ class UserPage extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  dispatchGetUserCourses: () =>
-    dispatch(getUserCoursesAction()),
-  dispatchGetUserSelfAssesments: () =>
-    dispatch(getUserSelfAssesments()),
-  dispatchGetCourseInstanceData: courseId =>
-    dispatch(getCourseInstanceDataAction(courseId)),
-  dispatchToggleActivity: courseId =>
-    dispatch(toggleCourseActivityAction(courseId)),
-  dispatchUpdateCoursePersonRole: coursePersons =>
-    dispatch(updateCoursePersonRoleAction(coursePersons)),
-  dispatchToggleAssessment: (assessmentId, attribute) =>
-    dispatch(toggleAssessmentAction(assessmentId, attribute))
-})
-
 const mapStateToProps = state => ({
   user: state.user,
   courses: state.courses,
@@ -240,8 +202,8 @@ UserPage.propTypes = {
   }).isRequired,
   dispatchGetUserCourses: func.isRequired,
   dispatchToggleActivity: func.isRequired,
-  dispatchUpdateCoursePersonRole: func.isRequired,
-  dispatchToggleAssessment: func.isRequired
+  dispatchToggleAssessment: func.isRequired,
+  translate: func.isRequired
 }
 
 UserPage.defaultProps = {
@@ -249,4 +211,10 @@ UserPage.defaultProps = {
   activeCourse: { tasks: [], self_assessments: [], people: [] }
 }
 
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(UserPage))
+export default withLocalize(connect(mapStateToProps, {
+  dispatchGetUserCourses: getUserCoursesAction,
+  dispatchGetUserSelfAssesments: getUserSelfAssesments,
+  dispatchGetCourseInstanceData: getCourseInstanceDataAction,
+  dispatchToggleActivity: toggleCourseActivityAction,
+  dispatchToggleAssessment: toggleAssessmentAction
+})(UserPage))
