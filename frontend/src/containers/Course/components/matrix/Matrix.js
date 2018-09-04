@@ -30,10 +30,10 @@ export const Matrix = (props) => {
       <Table celled structured>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell rowSpan="2">
+            <Table.HeaderCell rowSpan={2}>
               <span className="capitalize">{translate('category')}</span>
             </Table.HeaderCell>
-            <Table.HeaderCell colSpan="3" textAlign="center">
+            <Table.HeaderCell colSpan={props.levels.length} textAlign="center">
               <span className="capitalize">{translate('skill_levels')}</span>
             </Table.HeaderCell>
           </Table.Row>
