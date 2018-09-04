@@ -25,6 +25,7 @@ router.post('/users', async (req, res) => {
       res.status(403).json({
         toast: errors.privilege.toast, error: errors.privilege[req.lang]
       })
+      return
     }
     data = getAll ? (
       await personService.getAllWithRoles(req.lang)
@@ -47,8 +48,9 @@ router.post('/course_role', async (req, res) => {
     key: 'teacher_on_course',
     param: person.course_instance_id
   }]))
-  if (!coursePersons || coursePersons.length === 0 || !isGlobalTeacher(req)) {
+  if (!coursePersons || coursePersons.length === 0 || !(await isGlobalTeacher(req))) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
+    return
   }
   const updatedPersons = await personService.updateOrCreatePersonsOnCourse(coursePersons)
   res.status(200).json({ message: 'course teachers updated successfully', updatedPersons })
@@ -84,7 +86,7 @@ router.put('/global-role', async (req, res) => {
 
 router.get('/search', async (req, res) => {
   const { searchString } = req.query
-  if (!onlyGlobalTeacherHasAccess(req, res)) {
+  if (!(await onlyGlobalTeacherHasAccess(req, res))) {
     return
   }
   try {

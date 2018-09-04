@@ -81,11 +81,7 @@ const onlyGlobalTeacherHasAccess = async (req, res) => {
 }
 
 
-const isGlobalTeacher = req => (
-  checkPrivilege(req, [{
-    key: 'global_teacher'
-  }])
-)
+const isGlobalTeacher = req => checkPrivilege(req, [{ key: 'global_teacher' }])
 
 const isTeacherOnCourse = (req, courseId) => (
   checkPrivilege(req, [{
