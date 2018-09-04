@@ -41,6 +41,16 @@
       ]
     }
   },
+  "Admin": {
+    "AddToCourseForm": {
+      "header": ["Register user to a course", "Rekisteröi käyttäjä kurssille"],
+      "prompt_1": ["Rekisteröi käyttäjä"],
+      "prompt_2": ["kurssille."],
+      "trigger": ["Register to a course", "Rekisteröi kurssille"],
+      "course": ["course", "kurssi"],
+      "instance": ["course instance", "kurssi-instanssi"]
+    }
+  },
   "Login": {
     "LoginForm": {
       "already_logged_in": [
