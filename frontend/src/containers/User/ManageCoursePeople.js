@@ -80,6 +80,40 @@ class ManageCoursePeople extends Component {
           {this.t('manage_course_people')}
         </Accordion.Title>
         <Accordion.Content active={activeIndex === 0}>
+          <h5>{this.t('add_a_user')}</h5>
+          <Dropdown
+            name="studentSelector"
+            closeOnChange
+            closeOnBlur
+            selection
+            search
+            placeholder={this.t('search_student')}
+            value={this.state.newStudent.id}
+            options={this.state.searchPeople.map(person => (
+            { key: person.id, text: person.name, value: person.id }
+          ))}
+            onChange={this.handleAddStudentToCourse}
+            onSearchChange={this.handleSearchChange}
+          />
+          {this.state.newStudent && this.state.newStudent.id ?
+            <div>
+              <Button
+                name="studentAddButton"
+                basic
+                color="pink"
+                content={this.t('add_student')}
+                onClick={this.handleAddStudentToCourse}
+              />
+              <Button
+                basic
+                color="red"
+                circular
+                icon="delete"
+                size="tiny"
+                value=""
+                onClick={this.handleAddStudentToCourse}
+              />
+            </div> : undefined}
           <List divided siz="tiny" verticalAlign="middle">
             {people.map(person => (
               <List.Item key={person.id}>
@@ -120,29 +154,6 @@ class ManageCoursePeople extends Component {
               </List.Item>
           ))}
           </List>
-          <Dropdown
-            name="studentSelector"
-            closeOnChange
-            closeOnBlur
-            selection
-            search
-            placeholder={this.t('search_student')}
-            value={this.state.newStudent.id}
-            options={[{ key: 'default', text: 'remove selection', value: 0 },
-            ...this.state.searchPeople.map(person => (
-            { key: person.id, text: person.name, value: person.id }
-          ))]}
-            onChange={this.handleAddStudentToCourse}
-            onSearchChange={this.handleSearchChange}
-          />
-          {this.state.newStudent && this.state.newStudent.id ?
-            <Button
-              name="studentAddButton"
-              basic
-              color="pink"
-              content={this.t('add_student')}
-              onClick={this.handleAddStudentToCourse}
-            /> : undefined}
         </Accordion.Content>
       </Accordion>
 

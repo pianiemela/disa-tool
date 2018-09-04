@@ -873,6 +873,10 @@
       }
     },
     "ManageCoursePeople": {
+      "add_a_user": [
+        "Add a user to the course",
+        "Lisää käyttäjä kurssille"
+      ],
       "add_teacher": [
         "Add teacher",
         "Lisää opettaja"
@@ -900,6 +904,10 @@
       "manage_course_people": [
         "Manage people on course",
         "Hallinnoi kurssin osallistujia"
+      ],
+      "remove_from_course": [
+        "Remove from course",
+        "Poista kurssilta"
       ]
     }
   },
