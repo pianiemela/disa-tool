@@ -47,6 +47,7 @@ const getAllWithRolesWhere = (studentInfo, lang) => (
     ]
   })
 )
+
 const getPeopleOnCourse = (courseId, tasks) => (
   Person.findAll({
     include: [
@@ -63,17 +64,40 @@ const getPeopleOnCourse = (courseId, tasks) => (
   })
 )
 
-const updatePersonRoleOnCourse = coursePersons => (
-  Promise.all(coursePersons.map(cp => (
-    CoursePerson.update(
-      { role: cp.role },
-      {
-        where: { person_id: cp.person_id, course_instance_id: cp.course_instance_id },
-        returning: true
-      }
-    ).then(res => res[1][0])
-  )))
+const getCourseTeachers = courseId => (
+  Person.findAll({
+    attributes: ['id', 'name'],
+    include: [{
+      model: CourseInstance,
+      where: { id: courseId }
+    }, {
+      model: CoursePerson,
+      where: { role: 'TEACHER' },
+      attributes: []
+    }]
+  })
 )
+
+const updateOrCreatePersonsOnCourse = async (coursePersons) => {
+  const newPeople = []
+  const updatedPeople = []
+  await Promise.all(coursePersons.map(async (cp) => {
+    const builtCP = await CoursePerson.findOrBuild(
+      { where: { person_id: cp.person_id, course_instance_id: cp.course_instance_id }
+      }).spread((coursePerson, created) => ({ coursePerson, created }))
+    builtCP.coursePerson.role = cp.role
+    await builtCP.coursePerson.save()
+    if (builtCP.created) {
+      const found = await Person.findById(builtCP.coursePerson.person_id, { include: [
+        { model: CourseInstance, where: { id: builtCP.coursePerson.course_instance_id } },
+        TaskResponse] })
+      newPeople.push(found)
+    } else {
+      updatedPeople.push(builtCP.coursePerson)
+    }
+  }))
+  return { newPeople, updatedPeople }
+}
 
 const addPersonsToCourseFromResponses = async (tasks, courseId) => {
   const uniquePersons = []
@@ -111,12 +135,20 @@ const updateGlobal = async (data) => {
   return found
 }
 
+const findPeopleByName = searchString => (
+  Person.findAll({ where:
+    { name: { [Op.iLike]: `%${searchString}%` } }
+  })
+)
+
 module.exports = {
   getUser,
   getPeopleOnCourse,
-  updatePersonRoleOnCourse,
+  getCourseTeachers,
+  updateOrCreatePersonsOnCourse,
   addPersonsToCourseFromResponses,
   getAllWithRoles,
   getAllWithRolesWhere,
-  updateGlobal
+  updateGlobal,
+  findPeopleByName
 }

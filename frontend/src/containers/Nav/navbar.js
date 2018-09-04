@@ -104,9 +104,12 @@ class Nav extends Component {
               <Menu.Item
                 as={Link}
                 to="/admin"
-                name={this.translate('admin')}
+                name="admin"
+                active={activeItem === 'admin'}
                 onClick={this.handleClick}
-              />
+              >
+                {this.translate('admin')}
+              </Menu.Item>
               :
               null
             }

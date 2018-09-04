@@ -3,7 +3,9 @@ import { testService } from '../../../testUtils'
 
 testService({
   func: addType,
-  type: 'TYPE_CREATE',
+  type: {
+    success: 'TYPE_CREATE'
+  },
   data: {
     eng_name: 'doot',
     fin_name: 'dööt',
@@ -16,7 +18,9 @@ testService({
 
 testService({
   func: removeType,
-  type: 'TYPE_DELETE',
+  type: {
+    success: 'TYPE_DELETE'
+  },
   data: {
     id: 15
   },
@@ -26,14 +30,18 @@ testService({
 
 testService({
   func: addHeader,
-  type: 'TYPE_HEADER_CREATE',
+  type: {
+    success: 'TYPE_HEADER_CREATE'
+  },
   apiRoute: '/types/headers/create',
   apiMethod: 'post'
 })
 
 testService({
   func: removeHeader,
-  type: 'TYPE_HEADER_DELETE',
+  type: {
+    success: 'TYPE_HEADER_DELETE'
+  },
   data: {
     id: 16
   },

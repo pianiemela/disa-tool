@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const coursePersonService = require('../services/course_person_service.js')
-const { checkPrivilege } = require('../services/privilege.js')
+const { checkPrivilege, isGlobalTeacher, isTeacherOnCourse } = require('../services/privilege.js')
 const { errors, messages } = require('../messages/global.js')
 
 // const messages = {
@@ -92,6 +92,24 @@ router.put('/course-role', async (req, res) => {
       error: errors.unexpected[req.lang]
     })
     console.log(error)
+  }
+})
+
+router.post('/delete', async (req, res) => {
+  // Body contains fields id (person_id) and course_instance_id
+  const coursePerson = req.body
+  const isTeacher = await isTeacherOnCourse(req, req.body.course_instance_id) && await isGlobalTeacher(req)
+  if (!isTeacher) {
+    res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
+  }
+  try {
+    const person = await coursePersonService.delete.prepare(coursePerson, coursePerson)
+    const deleted = coursePersonService.delete.value(person)
+    coursePersonService.delete.execute(person)
+    res.status(200).json({ message: 'Person successfully removed from course', deleted })
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({ error: 'There was a problem' })
   }
 })
 

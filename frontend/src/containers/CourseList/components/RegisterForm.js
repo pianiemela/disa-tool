@@ -1,30 +1,32 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
 
 import { registerToCourse, unregisterFromCourse } from '../actions/coursePersons'
 
-class RegisterForm extends PureComponent {
-  render() {
-    return (
-      <Button
-        className="RegisterForm"
-        onClick={() => this.props.action({ course_instance_id: this.props.instanceId })}
-        inverted
-        color="blue"
-      >
-        {this.props.registered ? 'Peru rekisteröityminen' : 'Rekisteröidy'}
-      </Button>
-    )
-  }
+const RegisterForm = (props) => {
+  const translate = id => props.translate(`CourseList.RegisterForm.${id}`)
+
+  return (
+    <Button
+      className="RegisterForm"
+      onClick={() => props.action({ course_instance_id: props.instanceId })}
+      inverted
+      color="blue"
+    >
+      {props.registered ? translate('unregister') : translate('register')}
+    </Button>
+  )
 }
 
 RegisterForm.propTypes = {
   registered: PropTypes.bool.isRequired,
   instanceId: PropTypes.number.isRequired,
-  action: PropTypes.func.isRequired
+  action: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -35,4 +37,4 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   )
 })
 
-export default connect(null, mapDispatchToProps)(RegisterForm)
+export default withLocalize(connect(null, mapDispatchToProps)(RegisterForm))

@@ -7,7 +7,7 @@ import asyncAction from '../../../../utils/asyncAction'
 
 import { addObjective, moveObjective } from '../../actions/objectives'
 
-import ModalForm from '../../../../utils/components/ModalForm'
+import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
 export class CreateObjectiveForm extends Component {
@@ -36,7 +36,7 @@ export class CreateObjectiveForm extends Component {
       if (this.props.cut) {
         return (
           <div className="CreateObjectiveForm">
-            <Button className="addObjectiveButton" icon={{ name: 'paste' }} onClick={this.paste} />
+            <Button basic className="addObjectiveButton" icon={{ name: 'paste' }} onClick={this.paste} />
           </div>
         )
       }
@@ -50,18 +50,13 @@ export class CreateObjectiveForm extends Component {
         <div className="CreateObjectiveForm">
           <ModalForm
             header={this.translate('header')}
-            trigger={<Button className="addObjectiveButton" icon={{ name: 'add' }} />}
-            content={
-              <div>
-                <p>
-                  {contentPrompt}.
-                </p>
-                <MultilingualField field="name" fieldDisplay={this.translate('name')} />
-                <Button type="submit" color="green">{this.translate('save')}</Button>
-              </div>
-            }
+            trigger={<Button basic className="addObjectiveButton" icon={{ name: 'add' }} />}
+            actions={saveActions(this.translate)}
             onSubmit={this.addObjectiveSubmit}
-          />
+          >
+            <p>{contentPrompt}.</p>
+            <MultilingualField field="name" fieldDisplay={this.translate('name')} />
+          </ModalForm>
         </div>
       )
     }

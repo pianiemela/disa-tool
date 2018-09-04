@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
 import { Button, Header, List, Grid, Dropdown } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
@@ -37,6 +38,8 @@ class CourseListPage extends Component {
     this.props.selectInstance(Number(data.value))
   }
 
+  translate = id => this.props.translate(`CourseList.CourseListPage.${id}`)
+
   render() {
     return (
       <Grid columns={1} padded="vertically">
@@ -55,7 +58,7 @@ class CourseListPage extends Component {
                   key: 0,
                   icon: { name: 'add', color: 'green' },
                   style: { color: 'green' },
-                  text: 'Luo uusi kurssi'
+                  text: this.translate('create_trigger')
                 }])
               }
               onChange={this.handleChange}
@@ -92,11 +95,11 @@ class CourseListPage extends Component {
                   <div>
                     <h2>{this.props.selectedInstance.name}</h2>
                     <Header as="h2" color={this.props.selectedInstance.active ? 'green' : 'red'}>
-                      <Header.Subheader>Tämä kurssi on tällä hetkellä </Header.Subheader>
+                      <Header.Subheader>{this.translate('state')} </Header.Subheader>
                       {this.props.selectedInstance.active ? (
-                        <span><b>käynnissä</b></span>
+                        <span><b>{this.translate('open')}</b></span>
                       ) : (
-                        <span><b>ei käynnissä</b></span>
+                        <span><b>{this.translate('closed')}</b></span>
                       )}
                     </Header>
                     <Button
@@ -104,12 +107,13 @@ class CourseListPage extends Component {
                       to={`/courses/matrix/${this.props.selectedInstance.id}`}
                       color="blue"
                       basic
-                      content="Kurssin tavoitematriisi"
+                      content={this.translate('course_matrix')}
                     />
                     {this.props.selectedInstance.registered ?
-                      <p>Olet kurssilla
+                      <p>
+                        <span>{this.translate('you_are')}</span>
                         <Button as={Link} to={`/user/course/${this.props.selectedInstance.id}`}>
-                          Kurssisivulle
+                          {this.translate('coursepage_button')}
                         </Button>
                       </p> : undefined}
                     {this.props.selectedInstance.active && this.props.user.id ? (
@@ -119,10 +123,14 @@ class CourseListPage extends Component {
                       />
                     ) : undefined}
                   </div> :
-                  <div>Valitse vielä kurssi-instanssi.</div>
+                  <div>
+                    <span>{this.translate('instance_prompt')}</span>
+                  </div>
                 }
               </div> :
-              <div>Valitse ensin kurssi</div>
+              <div>
+                <span>{this.translate('course_prompt')}</span>
+              </div>
             }
           </Grid.Column>
         </Grid.Row>
@@ -160,7 +168,8 @@ CourseListPage.propTypes = {
   user: PropTypes.shape({
     role: PropTypes.string,
     id: PropTypes.number
-  }).isRequired
+  }).isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 CourseListPage.defaultProps = {
@@ -185,4 +194,4 @@ const mapDispatchToProps = dispatch => ({
   selectInstance: selectInstance(dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(CourseListPage)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(CourseListPage))

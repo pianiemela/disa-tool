@@ -1,18 +1,22 @@
 export const initForm = (payload) => {
+  const lang = localStorage.getItem('lang')
+  const name = `${lang}_name`
+  const instructions = `${lang}_instructions`
   const { courseData, type, courseInfo } = payload
   const data = {}
   data.course_instance_id = courseInfo.id
   const formInfo = []
 
   formInfo.push(
-    { id: 1, prefix: 'Eng', value: 'English Display', type: 'eng_name' },
-    { id: 3, prefix: 'Swe', value: 'Swedish Display', type: 'swe_name' },
-    { id: 2, prefix: 'Fin', value: 'Finnish display', type: 'fin_name' },
+    { id: 1, prefix: 'Fin', value: 'Finnish display', type: 'fin_name' },
+    { id: 2, prefix: 'Eng', value: 'English Display', type: 'eng_name' },
+    { id: 3, prefix: 'Swe', value: 'Swedish Display', type: 'swe_name' }
   )
   formInfo.push(
-    { id: 4, prefix: 'Eng', value: 'Instructions', type: 'eng_instructions' },
-    { id: 5, prefix: 'Swe', value: 'anvisning', type: 'swe_instructions' },
-    { id: 6, prefix: 'Fin', value: 'Ohjeita', type: 'fin_instructions' }
+    { id: 4, prefix: 'Fin', header: 'Ohjeita', value: 'Ohjeet itsearvioon', type: 'fin_instructions' },
+    { id: 5, prefix: 'Eng', header: 'Instructions', value: 'Instructions for self assessment', type: 'eng_instructions' },
+    { id: 6, prefix: 'Swe', header: 'anvisning', value: 'Ohjeet itsearvioon ruotsiksi', type: 'swe_instructions' },
+
   )
 
   data.open = false
@@ -21,6 +25,12 @@ export const initForm = (payload) => {
   data.show_feedback = false
   data.type = type
   data.structure = {}
+  data.name = ((formInfo.slice(0, 3)).find(f => f.type === name)).value
+  data.instructions = {
+    header: ((formInfo.slice(3, 6)).find(f => f.type === instructions)).header,
+    value: ((formInfo.slice(3, 6)).find(f => f.type === instructions)).value
+  }
+
   const { structure } = data
 
   if (!structure.displayCoursename) {
@@ -44,17 +54,15 @@ export const initForm = (payload) => {
     headers,
     textFieldOn: true,
     includedInAssesment: true,
-    id
+    id,
+    header: null,
+    name: headers.find(h => h.type === name).value
   }
 
   structure.headers = {}
 
+
   if (data.type === 'category') {
-    structure.headers.questionHeaders = [
-      { id: 1, prefix: 'Fin:', value: 'Kategoriaosio', type: 'fin_name' },
-      { id: 2, prefix: 'Eng:', value: 'Categoryquestions', type: 'eng_name' },
-      { id: 3, prefix: 'Swe:', value: 'Den här kategoria', type: 'swe_name' }
-    ]
     structure.type = 'category'
     structure.questionModules = []
     courseData.map(ciO =>
@@ -67,11 +75,6 @@ export const initForm = (payload) => {
   } else {
     structure.questionModules = []
     structure.type = 'objectives'
-    structure.headers.questionHeaders = [
-      { id: 1, prefix: 'Fin:', value: 'Tavoiteosio', type: 'fin_name' },
-      { id: 2, prefix: 'Eng:', value: 'Objectivequestions', type: 'eng_name' },
-      { id: 3, prefix: 'Swe:', value: 'Den här objektiver', type: 'swe_name' }
-    ]
     courseData.map(ciO =>
       structure.questionModules.push({
         id: ciO.id,
@@ -85,6 +88,13 @@ export const initForm = (payload) => {
         options: ['osaan huonosti', 'osaan keskinkertaisesti', 'osaan hyvin']
       }))
   }
+
+  structure.headers.questionHeaders = [
+    { id: 1, prefix: 'Fin:', value: 'Kysymykset', type: 'fin_name' },
+    { id: 2, prefix: 'Eng:', value: 'Questions', type: 'eng_name' },
+    { id: 3, prefix: 'Swe:', value: 'Ruotsiksi sama', type: 'swe_name' }
+  ]
+
   data.structure.headers.openQ = [
     { id: 3, prefix: 'Fin:', value: 'Avoimet kysymykset', type: 'fin_name' },
     { id: 4, prefix: 'Eng:', value: 'Open questions', type: 'eng_name' },
@@ -97,6 +107,9 @@ export const initForm = (payload) => {
     { id: 7, prefix: 'Eng:', value: 'Final grade', type: 'eng_name' },
     { id: 8, prefix: 'Swe:', value: 'Final grääd', type: 'swe_name' }
   ]
+  data.structure.finalGrade.header = data.structure.headers.grade.find(h => h.type === name).value
+  data.structure.questionModuleName = structure.headers.questionHeaders.find(h => h.type === name).value
+  data.structure.openQuestions.name = (data.structure.headers.openQ.find(h => h.type === name)).value
   return data
 }
 

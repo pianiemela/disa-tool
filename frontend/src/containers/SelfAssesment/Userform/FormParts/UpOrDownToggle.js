@@ -2,11 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Icon, Popup } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-
+import { withLocalize } from 'react-localize-redux'
 import { toggleUp, toggleDown } from '../../actions/selfAssesment'
 
 const UpOrDownToggle = (props) => {
   const { id } = props
+  const translate = translateId => props.translate(`SelfAssessment.Userform.FormParts.UpOrDownToggle.${translateId}`)
+
   return (
     <div>
       <Popup
@@ -17,7 +19,7 @@ const UpOrDownToggle = (props) => {
             size="big"
             onClick={() => props.dispatchDown(id)}
           />}
-        content="Siirä kategoria alemmas"
+        content={translate('downButton')}
       />
       <Popup
         trigger={
@@ -27,7 +29,7 @@ const UpOrDownToggle = (props) => {
             size="big"
             onClick={() => props.dispatchUp(id)}
           />}
-        content="Siirrä kategoria ylemmäs"
+        content={translate('upButton')}
       />
     </div >
   )
@@ -36,7 +38,8 @@ const UpOrDownToggle = (props) => {
 UpOrDownToggle.propTypes = {
   id: PropTypes.number.isRequired,
   dispatchDown: PropTypes.func.isRequired,
-  dispatchUp: PropTypes.func.isRequired
+  dispatchUp: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
@@ -46,4 +49,4 @@ const mapDispatchToProps = dispatch => ({
     dispatch(toggleDown(id))
 })
 
-export default connect(null, mapDispatchToProps)(UpOrDownToggle)
+export default withLocalize(connect(null, mapDispatchToProps)(UpOrDownToggle))

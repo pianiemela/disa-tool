@@ -48,8 +48,8 @@ const validators = {
 
 /**
  * Returns a boolean representing whether or not the request has all the given privileges.
- * @param {*} req express request object
- * @param {*} privileges array of objects of the following shape
+ * @param {Object} req express request object
+ * @param {Object[]} privileges array of objects of the following shape
  * {
  *  key: string - required
  *  param: string or convertable to string - optional
@@ -70,6 +70,23 @@ const onlyTeacherOnCourseHasAccess = async (req, res, courseId) => {
   return true
 }
 
+const onlyGlobalTeacherHasAccess = async (req, res) => {
+  if (!await isGlobalTeacher(req)) {
+    res.status(403).json({
+      error: 'you are not a global teacher'
+    })
+    return false
+  }
+  return true
+}
+
+
+const isGlobalTeacher = req => (
+  checkPrivilege(req, [{
+    key: 'global_teacher'
+  }])
+)
+
 const isTeacherOnCourse = (req, courseId) => (
   checkPrivilege(req, [{
     key: 'teacher_on_course',
@@ -80,5 +97,7 @@ const isTeacherOnCourse = (req, courseId) => (
 module.exports = {
   checkPrivilege,
   onlyTeacherOnCourseHasAccess,
-  isTeacherOnCourse
+  isTeacherOnCourse,
+  onlyGlobalTeacherHasAccess,
+  isGlobalTeacher
 }

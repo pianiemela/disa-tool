@@ -1,21 +1,20 @@
 import React from 'react'
 import { Container, Loader } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { withLocalize } from 'react-localize-redux'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
-
 import EditOrNewForm from './EditOrNewForm/EditOrNewForm'
-
 
 import {
   getUserCoursesAction,
   getUserSelfAssesments,
   getCourseInstanceDataAction,
   resetErrorAction
-
 } from '../../actions/actions'
 
-export class SelfAssesmentPage extends React.Component {
+
+export class SelfAssessmentPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -31,7 +30,7 @@ export class SelfAssesmentPage extends React.Component {
       await this.props.dispatchGetCourseInstanceData(this.props.match.params.courseId)
     }
     this.props.dispatchGetUsercourses()
-    this.props.dispatchGetUserSelfAssesments()
+    this.props.dispatchGetUserSelfAssessments()
   }
   async componentWillUnmount() {
     if (this.props.error) {
@@ -68,11 +67,10 @@ export class SelfAssesmentPage extends React.Component {
               courses={this.props.courses}
               dropDownCourse={this.props.courseDropdownOptions}
               selectedCourse={this.props.match.params.courseId}
-              selfAssesments={this.props.selfAssesments}
+              selfAssessments={this.props.selfAssessments}
               createForm={this.createForm}
               editForm={this.editForm}
             />
-
           }
         </div>
       </Container>
@@ -93,7 +91,7 @@ const mapStateToProps = state => (
     courseDropdownOptions: createOptions(state.courses),
     selfAssesmentDropdownOptions: createOptions(state.selfAssesment.userSelfAssesments),
     formData: state.selfAssesment.createForm,
-    selfAssesments: state.selfAssesment.userSelfAssesments,
+    selfAssessments: state.selfAssesment.userSelfAssesments,
     error: state.error.redirect
   }
 )
@@ -101,7 +99,7 @@ const mapStateToProps = state => (
 const mapDispatchToProps = dispatch => ({
   dispatchGetUsercourses: () =>
     dispatch(getUserCoursesAction()),
-  dispatchGetUserSelfAssesments: () =>
+  dispatchGetUserSelfAssessments: () =>
     dispatch(getUserSelfAssesments()),
   dispatchGetCourseInstanceData: courseId =>
     dispatch(getCourseInstanceDataAction(courseId)),
@@ -111,7 +109,7 @@ const mapDispatchToProps = dispatch => ({
 
 })
 
-SelfAssesmentPage.propTypes = {
+SelfAssessmentPage.propTypes = {
   courseDropdownOptions: PropTypes.arrayOf(PropTypes.shape()),
   courses: PropTypes.arrayOf(PropTypes.shape()),
   match: PropTypes.shape({
@@ -119,18 +117,18 @@ SelfAssesmentPage.propTypes = {
       courseId: PropTypes.string
     }).isRequired
   }).isRequired,
-  selfAssesments: PropTypes.arrayOf(PropTypes.shape()),
+  selfAssessments: PropTypes.arrayOf(PropTypes.shape()),
   dispatchGetUsercourses: PropTypes.func.isRequired,
-  dispatchGetUserSelfAssesments: PropTypes.func.isRequired,
+  dispatchGetUserSelfAssessments: PropTypes.func.isRequired,
   dispatchGetCourseInstanceData: PropTypes.func.isRequired,
   dispatchClearError: PropTypes.func.isRequired,
   error: PropTypes.bool,
   role: PropTypes.string
 }
 
-SelfAssesmentPage.defaultProps = {
+SelfAssessmentPage.defaultProps = {
   courses: [],
-  selfAssesments: [],
+  selfAssessments: [],
   courseDropdownOptions: [],
   role: null,
   error: false
@@ -138,4 +136,4 @@ SelfAssesmentPage.defaultProps = {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelfAssesmentPage)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(SelfAssessmentPage))

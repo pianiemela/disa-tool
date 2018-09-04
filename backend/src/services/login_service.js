@@ -5,28 +5,7 @@ const { Op } = require('sequelize')
 
 const { Person } = require('../database/models.js')
 
-const messages = {
-  create: {
-    eng: '"Uusi käyttäjä luotu onnistuneesti." englanniksi.',
-    fin: 'Uusi käyttäjä luotu onnistuneesti.',
-    swe: '"Uusi käyttäjä luotu onnistuneesti." ruotsiksi.'
-  },
-  login: {
-    eng: '"Sisäänkirjautuminen onnistui." englanniksi.',
-    fin: 'Sisäänkirjautuminen onnistui.',
-    swe: '"Sisäänkirjautuminen onnistui." ruotsiksi.'
-  }
-}
-
-const errors = {
-  wrong_creds: {
-    eng: '"Väärä salasana tai käyttäjänimi." englanniksi.',
-    fin: 'Väärä salasana tai käyttäjänimi.',
-    swe: '"Väärä salasana tai käyttäjänimi." ruotsiksi.'
-  }
-}
-
-const login = async (body, lang) => {
+const login = async (body) => {
   const result = await axios.post(
     `${process.env.KURKI_URL}/login`,
     body,
@@ -39,8 +18,7 @@ const login = async (body, lang) => {
   if (result.data.error) {
     if (result.data.error === 'wrong credentials') {
       return {
-        error: errors.wrong_creds[lang],
-        status: 403
+        error: 'wrong_creds'
       }
     }
     return {
@@ -52,7 +30,8 @@ const login = async (body, lang) => {
     where: {
       [Op.or]: [
         { username: result.data.username },
-        { studentnumber: result.data.student_number }]
+        { studentnumber: result.data.student_number }
+      ]
     },
     attributes: ['id', 'username', 'name', 'studentnumber', 'role']
   })
@@ -75,7 +54,6 @@ const login = async (body, lang) => {
       role: created.role
     }
     return {
-      message: messages.create[lang],
       logged_in: loggedIn,
       created: true
     }
@@ -89,7 +67,6 @@ const login = async (body, lang) => {
     await person.save()
   }
   return {
-    message: messages.login[lang],
     logged_in: person.toJSON(),
     created: false
   }

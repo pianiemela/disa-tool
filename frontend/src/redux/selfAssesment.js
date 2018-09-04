@@ -6,6 +6,9 @@ const INITIAL_STATE = {
   assesmentResponse: {}
 }
 
+const langName = `${localStorage.getItem('lang')}_name`
+const langInstructions = `${localStorage.getItem('lang')}_instructions`
+
 const getToggleProps = (id, state) => {
   const toggleData = {}
   const structure = { ...state.createForm.structure }
@@ -132,12 +135,15 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'ADD_OPEN_QUESTION': {
-      const questionData = action.payload
+      const { fin_name, eng_name, swe_name } = action.payload //eslint-disable-line
       const { openQuestions } = state.createForm.structure
       let data = null
       data = {
         id: openQuestions.incrementId,
-        name: questionData
+        fin_name,
+        eng_name,
+        swe_name,
+        name: action.payload[langName]
       }
 
       return {
@@ -175,8 +181,21 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     }
 
     case 'CHANGE_TEXT_FIELD': {
-      const { values } = action.payload
+      const { values, type } = action.payload
       const ids = Object.keys(values)
+      if (ids.length === 0) {
+        return state
+      }
+
+      const toChange = (state.createForm.structure.formInfo.find(h => (h.type === (type === 'instructions' ? langInstructions : langName))))
+      let value = null
+      if (toChange) {
+        value = type === 'instructions' ? { ...state.createForm[type], value: values[toChange.id] } : values[toChange.id]
+      } else {
+        value = state.createForm[type]
+      }
+
+
       return {
         ...state,
         createForm: {
@@ -185,7 +204,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
             ...state.createForm.structure,
             formInfo: state.createForm.structure.formInfo.map(inst =>
               (ids.includes(inst.id.toString()) ? { ...inst, value: values[inst.id] } : inst))
-          }
+          },
+          [type]: value
         }
       }
     }
@@ -242,7 +262,15 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     case 'CHANGE_HEADER': {
       const { changedHeaders, headerType } = action.payload
       const ids = Object.keys(changedHeaders)
+      if (ids.length === 0) {
+        return state
+      }
+      let name = state.createForm.structure.finalGrade.headers.find(h => h.type === langName)
+      name = changedHeaders[name.id]
+
       if (headerType) {
+        name = state.createForm.structure.headers[headerType].find(h => h.type === langName)
+        name = changedHeaders[name.id]
         return {
           ...state,
           createForm: {
@@ -254,6 +282,11 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
                 [headerType]: state.createForm.structure.headers[headerType].map(secHeader =>
                   (ids.includes(secHeader.id.toString()) ?
                     { ...secHeader, value: changedHeaders[secHeader.id] } : secHeader))
+              },
+              finalGrade:
+              {
+                ...state.createForm.structure.finalGrade,
+                header: name
               }
             }
           }
@@ -269,7 +302,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
             finalGrade: {
               ...state.createForm.structure.finalGrade,
               headers: state.createForm.structure.finalGrade.headers.map(fg =>
-                (ids.includes(fg.id.toString()) ? { ...fg, value: changedHeaders[fg.id] } : fg))
+                (ids.includes(fg.id.toString()) ? { ...fg, value: changedHeaders[fg.id] } : fg)),
+              name
             }
           }
         }

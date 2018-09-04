@@ -13,8 +13,50 @@ export const findText = (text, wrapper) => {
   return found
 }
 
+const buildMockApi = (mockMethod, mockPath, mockStatus, mockResponse) => {
+  const apiMock = new MockAdapter(axios)
+  let route
+  switch (mockMethod) {
+    case 'get':
+      route = apiMock.onGet(mockPath)
+      break
+    case 'post':
+      route = apiMock.onPost(mockPath)
+      break
+    case 'put':
+      route = apiMock.onPut(mockPath)
+      break
+    case 'delete':
+      route = apiMock.onDelete(mockPath)
+      break
+    default:
+      throw new Error('apiMethod was invalid, no api mock created.')
+  }
+  route.replyOnce(mockStatus, mockResponse)
+}
+
+const mapType = (input) => {
+  switch (typeof input) {
+    case 'string':
+      return {
+        success: input,
+        failure: input
+      }
+    case 'object':
+      return {
+        success: input.success || 'APIPROMISE_GENERIC_SUCCESS',
+        failure: input.failure || 'APIPROMISE_GENERIC_FAILURE'
+      }
+    default:
+      return {
+        success: 'APIPROMISE_GENERIC_SUCCESS',
+        failure: 'APIPROMISE_GENERIC_FAILURE'
+      }
+  }
+}
+
 /**
- * @param {*} options {
+ * @param {Object} options {
  *  func,
  *  data,
  *  mockResponse,
@@ -25,54 +67,61 @@ export const findText = (text, wrapper) => {
  * }
  */
 export const testService = (options) => {
-  const { func, data = {}, mockResponse = {}, type, apiRoute, apiMethod = 'get', mockStatus = 200 } = options
-  let path
+  const {
+    func,
+    data = {},
+    mockResponse = {},
+    apiRoute,
+    apiMethod = 'get',
+    mockStatus = 200
+  } = options
+  const type = mapType(options.type)
+
   if (apiRoute === undefined) {
-    console.warn('apiRoute was undefined. All routes will be considered valid and pass tests.')
-    path = apiRoute
-  } else {
-    path = `${BASE_PATH}${apiRoute}`
+    throw new Error('apiRoute was undefined.')
   }
+  const path = `${BASE_PATH}${apiRoute}`
 
   describe(`${func.name} func`, () => {
     let dispatch
     let withDispatch
-    let apiMock
-
-    beforeAll(() => {
-      apiMock = new MockAdapter(axios)
-      let route
-      switch (apiMethod) {
-        case 'get':
-          route = apiMock.onGet(path)
-          break
-        case 'post':
-          route = apiMock.onPost(path)
-          break
-        case 'put':
-          route = apiMock.onPut(path)
-          break
-        case 'delete':
-          route = apiMock.onDelete(path)
-          break
-        default:
-          console.warn('apiMethod was invalid, no api mock created.')
-      }
-      route.reply(mockStatus, mockResponse)
-      dispatch = jest.fn()
-      withDispatch = asyncAction(func, dispatch)
-    })
 
     it('returns a promise', () => {
       expect(typeof func(data).then).toEqual('function')
     })
 
-    describe('dispatch', () => {
-      it('is called with correct action.', async () => {
+    it('handles errors', () => {
+      expect(typeof func(data).catch).toEqual('function')
+    })
+
+    describe('when succeeding', () => {
+      beforeEach(() => {
+        buildMockApi(apiMethod, path, mockStatus, mockResponse)
+        dispatch = jest.fn()
+        withDispatch = asyncAction(func, dispatch)
+      })
+
+      it('dispatch is called with correct action.', async () => {
         await withDispatch(data)
         expect(dispatch).toHaveBeenCalledWith({
-          type,
+          type: type.success,
           response: mockResponse
+        })
+      })
+    })
+
+    describe('when failing', () => {
+      beforeEach(() => {
+        buildMockApi(apiMethod, path, 500, { testFail: true })
+        dispatch = jest.fn()
+        withDispatch = asyncAction(func, dispatch)
+      })
+
+      it('dispatch is called with correct action.', async () => {
+        await withDispatch(data)
+        expect(dispatch).toHaveBeenCalledWith({
+          type: type.failure,
+          response: { testFail: true }
         })
       })
     })

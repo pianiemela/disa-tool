@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { arrayOf, bool, func, number, shape, string } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Button, Divider, Grid, Header, List } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
@@ -8,7 +8,7 @@ import LinkExportList from './components/LinkExportList'
 
 export const CourseInfo = (props) => {
   const t = id => props.translate(`UserPage.CourseInfo.${id}`)
-  
+
   const renderTeacherOptions = () => (
     <Grid.Row>
       <Grid.Column width={3}>
@@ -49,18 +49,6 @@ export const CourseInfo = (props) => {
           {props.teachers.map(teacher => (
             <List.Item key={teacher.id}>
               {teacher.name}
-              {props.course.courseRole === 'TEACHER' ?
-                <Button
-                  floated="right"
-                  basic
-                  circular
-                  color="red"
-                  size="mini"
-                  icon="delete"
-                  value={teacher.id}
-                  onClick={props.deleteTeacher}
-                />
-                : undefined}
             </List.Item>
           ))}
         </List>
@@ -74,7 +62,7 @@ export const CourseInfo = (props) => {
         <Grid.Column>
           <Header as="h1">
             {props.course.name}
-            <span> {props.course.courseRole === 'TEACHER' ? renderCourseActivation() : undefined}</span>
+            <span> {props.isTeacher ? renderCourseActivation() : undefined}</span>
           </Header>
         </Grid.Column>
       </Grid.Row>
@@ -92,25 +80,26 @@ export const CourseInfo = (props) => {
         </Grid.Column>
       </Grid.Row>
       <Divider />
-      {props.course.courseRole === 'TEACHER' ? renderTeacherOptions() : undefined}
+      {props.isTeacher ? renderTeacherOptions() : undefined}
       {props.teachers ? renderCourseTeachers() : undefined}
     </Grid>
   )
 }
 
 CourseInfo.propTypes = {
-  course: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    active: PropTypes.bool.isRequired,
-    courseRole: PropTypes.string.isRequired
+  course: shape({
+    id: number.isRequired,
+    name: string.isRequired,
+    active: bool.isRequired,
+    courseRole: string.isRequired
   }).isRequired,
-  toggleActivation: PropTypes.func.isRequired,
-  deleteTeacher: PropTypes.func.isRequired,
-  teachers: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
-  }))
+  teachers: arrayOf(shape({
+    id: number.isRequired,
+    name: string.isRequired
+  })),
+  isTeacher: bool.isRequired,
+  toggleActivation: func.isRequired,
+  translate: func.isRequired
 }
 
 CourseInfo.defaultProps = {

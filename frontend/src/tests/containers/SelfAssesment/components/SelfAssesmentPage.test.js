@@ -1,33 +1,37 @@
 import React from 'react'
 import { Redirect } from 'react-router'
-import { SelfAssesmentPage } from '../../../../containers/SelfAssesment/SelfAssesmentPage'
-import { EditOrNewForm } from '../../../../containers/SelfAssesment/EditOrNewForm/EditOrNewForm'
+import { SelfAssessmentPage } from '../../../../containers/SelfAssesment/SelfAssessmentPage'
+import EditOrNewForm from '../../../../containers/SelfAssesment/EditOrNewForm/EditOrNewForm'
 
 describe('Self assesment page', () => {
   let wrapper
   let dispatchGetUsercourses
-  let dispatchGetUserSelfAssesments
+  let dispatchGetUserSelfAssessments
   let dispatchGetCourseInstanceData
   let user
 
   beforeEach(() => {
     dispatchGetUsercourses = jest.fn()
-    dispatchGetUserSelfAssesments = jest.fn()
+    dispatchGetUserSelfAssessments = jest.fn()
     dispatchGetCourseInstanceData = jest.fn()
 
-    wrapper = shallow(<SelfAssesmentPage
+    wrapper = shallow(<SelfAssessmentPage
       match={{
-        url: '/selfAssesment',
-        params: {}
+        url: '/selfAssesment/1',
+        params: {
+          courseId: '1'
+        }
       }}
       user={user}
       dispatchGetUsercourses={dispatchGetUsercourses}
-      dispatchGetUserSelfAssesments={dispatchGetUserSelfAssesments}
+      dispatchGetUserSelfAssessments={dispatchGetUserSelfAssessments}
       dispatchGetCourseInstanceData={dispatchGetCourseInstanceData}
       dispatchClearError={jest.fn()}
       courses={[]}
       role="TEACHER"
       error={false}
+      translate={() => ''}
+
     />)
     user = {
       id: 422,
@@ -49,8 +53,8 @@ describe('Self assesment page', () => {
   it('calls the dispatchGetUsercourses function', () => {
     expect(dispatchGetUsercourses).toHaveBeenCalledTimes(1)
   })
-  it('calls the dispatchGetUserSelfAssements function', () => {
-    expect(dispatchGetUserSelfAssesments).toHaveBeenCalledTimes(1)
+  it('calls the dispatchGetUserSelfAssessments function', () => {
+    expect(dispatchGetUserSelfAssessments).toHaveBeenCalledTimes(1)
   })
   it('does not call dispatchGetCourseIntanceData when user has a role prop', () => {
     expect(dispatchGetCourseInstanceData).toHaveBeenCalledTimes(0)

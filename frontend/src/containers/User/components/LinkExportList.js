@@ -13,14 +13,14 @@ class LinkExportList extends Component {
     }
   }
 
-  t = id => this.props.translate(`UserPage.CourseInfo.Links.${id}`)
+  translate = id => this.props.translate(`UserPage.CourseInfo.Links.${id}`)
 
   renderCollapsed = () => (
     <Button
       onClick={() => this.setState({ expanded: true })}
       basic
       color="blue"
-      content={this.t('course_links')}
+      content={this.translate('course_links')}
       style={{ whiteSpace: 'nowrap' }}
     />
   )
@@ -31,16 +31,20 @@ class LinkExportList extends Component {
         onClick={() => this.setState({ expanded: false })}
         basic
         color="blue"
-        content={this.t('close')}
+        content={this.translate('close')}
       />
       <Segment>
         <LinkExport
-          title={this.t('registration')}
+          title={this.translate('registration')}
           url={`/courses?course=${this.props.course.course_id}&instance=${this.props.course.id}`}
         />
         <LinkExport
-          title={this.t('matrix')}
+          title={this.translate('matrix')}
           url={`/courses/matrix/${this.props.course.id}`}
+        />
+        <LinkExport
+          title={this.translate('course_page')}
+          url={`/user/course/${this.props.course.id}`}
         />
       </Segment>
     </div>
@@ -59,7 +63,8 @@ LinkExportList.propTypes = {
   course: PropTypes.shape({
     id: PropTypes.number.isRequired,
     course_id: PropTypes.number.isRequired
-  }).isRequired
+  }).isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 export default withLocalize(LinkExportList)

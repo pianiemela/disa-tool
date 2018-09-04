@@ -24,6 +24,7 @@ const MultiLangInput = (props) => {
       {headers.map(h => (
         <Form.Field key={h.id}>
           <Input
+            style={{ width: '100%', marginTop: '10px' }}
             label={display(h.prefix)}
             onChange={handleChange ? e => handleChange(h.id, e.target.value) : null}
             onBlur={handleBlur ? e => handleBlur(h.id, e.target.value) : null}
@@ -39,7 +40,6 @@ const MultiLangInput = (props) => {
 MultiLangInput.propTypes = {
   headers: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    displayName: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired
   })).isRequired,
   handleChange: PropTypes.func.isRequired,

@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Dropdown, Form } from 'semantic-ui-react'
-
+import { withLocalize } from 'react-localize-redux'
 import AssessmentButtons from './AssessmentButtons'
-import SelfAssesmentList from './SelfAssesmentList'
+import SelfAssessmentList from './SelfAssessmentList'
+
 
 export class EditOrNewForm extends React.Component {
   constructor(props) {
@@ -45,10 +46,12 @@ export class EditOrNewForm extends React.Component {
     this.setState({ selectedView: value })
   }
 
+  translate = id => this.props.translate(`SelfAssessment.EditOrNewForm.${id}`)
+
   render() {
     const { selectedView } = this.state
     const { dropDownCourse, selectedCourse } = this.props
-    const selectedSelfAssesments = this.props.selfAssesments.filter(s =>
+    const selectedSelfAssessments = this.props.selfAssessments.filter(s =>
       s.course_instance_id === parseInt(this.state.dropDownValue, 10))
 
     return (
@@ -56,16 +59,16 @@ export class EditOrNewForm extends React.Component {
         <Form.Field style={{ marginTop: '20px' }}>
           <Dropdown
             selection
-            placeholder="Valitse kurssi"
+            placeholder={this.translate('placeholder')}
             onChange={this.handleDropdownChange}
             options={dropDownCourse}
             defaultValue={parseInt(selectedCourse, 10)}
           />
         </Form.Field>
         <Form.Field>
-          <SelfAssesmentList
+          <SelfAssessmentList
             onClick={this.sendFormId}
-            selfAssesments={selectedSelfAssesments}
+            selfAssessments={selectedSelfAssessments}
           />
         </Form.Field>
         <Form.Field>
@@ -85,13 +88,14 @@ export class EditOrNewForm extends React.Component {
 EditOrNewForm.propTypes = {
   dropDownCourse: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   createForm: PropTypes.func.isRequired,
-  selfAssesments: PropTypes.arrayOf(PropTypes.shape()),
+  selfAssessments: PropTypes.arrayOf(PropTypes.shape()),
   editForm: PropTypes.func.isRequired,
-  selectedCourse: PropTypes.string
+  selectedCourse: PropTypes.string,
+  translate: PropTypes.func.isRequired
 }
 
 EditOrNewForm.defaultProps = {
-  selfAssesments: [],
+  selfAssessments: [],
   selectedCourse: null
 }
-export default EditOrNewForm
+export default withLocalize(EditOrNewForm)
