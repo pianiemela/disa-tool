@@ -5,9 +5,10 @@ import { Container, Form, Button, Icon, Loader, Grid, Accordion, List, Paginatio
 import asyncAction from '../../utils/asyncAction'
 
 import { adminGetUsers, adminChangeGlobalRole } from './actions/persons'
-import { adminChangeCourseRole } from './actions/coursePersons'
+import { adminChangeCourseRole, removeCoursePerson } from './actions/coursePersons'
 
 import AddToCourseForm from './components/AddToCourseForm'
+import DeleteForm from '../../utils/components/DeleteForm'
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -113,6 +114,21 @@ class AdminPage extends React.Component {
                               <List.Item key={ucp.id}>
                                 <List.Content floated="right">
                                   <div>
+                                    <DeleteForm
+                                      onExecute={this.props.removeCoursePerson}
+                                      header="delete_header"
+                                      prompt={[
+                                        'delete_prompt_1',
+                                        u.name,
+                                        'delete_prompt_2',
+                                        ucp.course_instance.name,
+                                        'delete_prompt_3'
+                                      ]}
+                                    />
+                                  </div>
+                                </List.Content>
+                                <List.Content floated="right">
+                                  <div>
                                     <Button.Group>
                                       <Button
                                         color="green"
@@ -203,7 +219,8 @@ AdminPage.propTypes = {
   })).isRequired,
   adminGetUsers: PropTypes.func.isRequired,
   adminChangeCourseRole: PropTypes.func.isRequired,
-  adminChangeGlobalRole: PropTypes.func.isRequired
+  adminChangeGlobalRole: PropTypes.func.isRequired,
+  removeCoursePerson: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -214,7 +231,8 @@ const mapDispatchToProps = dispatch => ({
   adminGetUsers: asyncAction(adminGetUsers, dispatch),
   adminChangeCourseRole: asyncAction(adminChangeCourseRole, dispatch),
   adminChangeGlobalRole: asyncAction(adminChangeGlobalRole, dispatch),
-  dispatchToast: data => dispatch(data)
+  dispatchToast: data => dispatch(data),
+  removeCoursePerson: asyncAction(removeCoursePerson, dispatch)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AdminPage)

@@ -1,4 +1,4 @@
-import { changeCourseRole } from '../../../api/coursePersons'
+import { changeCourseRole, deleteCP } from '../../../api/coursePersons'
 import apiPromise from '../../../utils/apiPromise'
 
 export const adminChangeCourseRole = data => apiPromise(changeCourseRole, data, {
@@ -18,3 +18,7 @@ export const addPersonToCourse = data => apiPromise(
     }
   }
 )
+
+export const removeCoursePerson = data => apiPromise(deleteCP, data, {
+  success: { type: 'ADMIN_DELETE_ROLE' }
+})

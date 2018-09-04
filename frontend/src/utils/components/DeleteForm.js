@@ -32,10 +32,7 @@ export class DeleteForm extends Component {
 DeleteForm.propTypes = {
   onExecute: PropTypes.func.isRequired,
   prompt: PropTypes.arrayOf(PropTypes.string).isRequired,
-  header: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element
-  ]).isRequired,
+  header: PropTypes.node.isRequired,
   translate: PropTypes.func.isRequired
 }
 
