@@ -7,7 +7,7 @@ import asyncAction from '../../../utils/asyncAction'
 
 import { getAllCourses, selectCourse } from '../../CourseList/actions/courses'
 import { getInstancesOfCourse, selectInstance } from '../../CourseList/actions/courseInstances'
-import { changeCourseRole } from '../../../api/coursePersons'
+import { addPersonToCourse } from '../actions/coursePersons'
 
 import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
 
@@ -21,10 +21,11 @@ class AddToCourseForm extends Component {
 
   addToCourseSubmit = () => {
     if (!this.props.selectedInstance) return
-    changeCourseRole({
+    this.props.addPersonToCourse({
       courseInstanceId: this.props.selectedInstance.id,
       personId: this.props.person.id,
-      role: this.state.role
+      role: this.state.role,
+      course_instance: { name: this.props.selectedInstance.name }
     })
   }
 
@@ -137,7 +138,8 @@ AddToCourseForm.propTypes = {
   }),
   selectCourse: PropTypes.func.isRequired,
   selectInstance: PropTypes.func.isRequired,
-  getInstancesOfCourse: PropTypes.isRequired
+  getInstancesOfCourse: PropTypes.isRequired,
+  addPersonToCourse: PropTypes.func.isRequired
 }
 
 AddToCourseForm.defaultProps = {
@@ -156,7 +158,8 @@ const mapDispatchToProps = dispatch => ({
   getAllCourses: asyncAction(getAllCourses, dispatch),
   getInstancesOfCourse: asyncAction(getInstancesOfCourse, dispatch),
   selectCourse: selectCourse(dispatch),
-  selectInstance: selectInstance(dispatch)
+  selectInstance: selectInstance(dispatch),
+  addPersonToCourse: asyncAction(addPersonToCourse, dispatch)
 })
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(AddToCourseForm))
