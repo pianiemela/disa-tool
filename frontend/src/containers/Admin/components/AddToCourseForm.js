@@ -19,6 +19,11 @@ class AddToCourseForm extends Component {
     }
   }
 
+  onModalOpen = () => {
+    this.props.getAllCourses()
+    this.props.selectInstance(null)
+  }
+
   addToCourseSubmit = () => {
     if (!this.props.selectedInstance) return
     this.props.addPersonToCourse({
@@ -31,20 +36,15 @@ class AddToCourseForm extends Component {
 
   changeCourse = (e, { value }) => {
     if (value && value !== this.props.selectedCourse) {
-      this.props.selectCourse(Number(value))
+      this.props.selectCourse(value)
       this.props.selectInstance(undefined)
-      this.props.getInstancesOfCourse(Number(value))
+      this.props.getInstancesOfCourse(value)
     }
   }
 
   changeInstance = (e, { value }) => this.props.selectInstance(value)
 
   changeRole = role => () => this.setState({ role })
-
-  onOpen = () => {
-    this.props.getAllCourses()
-    this.props.selectInstance(null)
-  }
 
   translate = id => this.props.translate(`Admin.AddToCourseForm.${id}`)
 
@@ -59,7 +59,7 @@ class AddToCourseForm extends Component {
         <ModalForm
           header={this.translate('header')}
           trigger={<Button color="blue">{this.translate('trigger')}</Button>}
-          onOpen={this.onOpen}
+          onOpen={this.onModalOpen}
           actions={saveActions(this.translate)}
           onSubmit={this.addToCourseSubmit}
         >
@@ -146,7 +146,7 @@ AddToCourseForm.propTypes = {
   }),
   selectCourse: PropTypes.func.isRequired,
   selectInstance: PropTypes.func.isRequired,
-  getInstancesOfCourse: PropTypes.isRequired,
+  getInstancesOfCourse: PropTypes.func.isRequired,
   addPersonToCourse: PropTypes.func.isRequired
 }
 

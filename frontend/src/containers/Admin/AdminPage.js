@@ -144,7 +144,9 @@ class AdminPage extends React.Component {
                               </List.Item>
                             ))}
                             <List.Item>
-                              <AddToCourseForm person={u} />
+                              <div style={{ margin: '10px 0px 10px 0px' }}>
+                                <AddToCourseForm person={u} />
+                              </div>
                             </List.Item>
                             <List.Item>
                               <List.Content floated="right">
