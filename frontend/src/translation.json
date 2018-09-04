@@ -869,6 +869,10 @@
         "close": [
           "Close",
           "Sulje"
+        ],
+        "course_page": [
+          "Course page",
+          "Kurssisivu"
         ]
       }
     },

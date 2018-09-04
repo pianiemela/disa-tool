@@ -42,6 +42,10 @@ class LinkExportList extends Component {
           title={this.translate('matrix')}
           url={`/courses/matrix/${this.props.course.id}`}
         />
+        <LinkExport
+          title={this.translate('course_page')}
+          url={`/user/course/${this.props.course.id}`}
+        />
       </Segment>
     </div>
   )
