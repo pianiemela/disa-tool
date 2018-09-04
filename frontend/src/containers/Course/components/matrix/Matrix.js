@@ -27,7 +27,7 @@ export const Matrix = (props) => {
 
   return (
     <Container>
-      <Table celled structured>
+      <Table celled structured unstackable>
         <Table.Header>
           <Table.Row>
             <Table.HeaderCell rowSpan={2}>
