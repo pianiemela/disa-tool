@@ -41,6 +41,14 @@ const adminReducer = (state = INITIAL_STATE, action) => {
           }]
         } : user))
       }
+    case 'ADMIN_DELETE_ROLE':
+      return {
+        ...state,
+        users: state.users.map(user => (user.id === action.response.deleted.person_id ? {
+          ...user,
+          course_people: user.course_people.filter(cp => cp.id !== action.response.deleted.id)
+        } : user))
+      }
     case 'ADMIN_RESET':
       return INITIAL_STATE
     default:
