@@ -938,6 +938,14 @@
         "Remove from course",
         "Poista kurssilta"
       ]
+    },
+    "UploadResponses": {
+      "CsvTable": {
+        "look_at_csv": [
+          "Inspect csv file contents",
+          "Katso csv-tiedoston sisältöä"
+        ]
+      }
     }
   },
   "SelfAssessmentList": {
