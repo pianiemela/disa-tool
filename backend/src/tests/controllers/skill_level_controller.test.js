@@ -194,9 +194,10 @@ describe('skill_level_controller', () => {
         swe_name: 'sn',
         course_instance_id: 1
       }).then((result) => {
-        ids.level = result.get({ plain: true }).id
+        ids.level = result.id
         options.route = `${options.route}/${ids.level}`
-        databaseExpectation.created_at = result.get({ plain: true }).created_at
+        databaseExpectation.created_at = result.created_at
+        databaseExpectation.updated_at = result.updated_at
         done()
       }).catch(done)
     })
@@ -207,7 +208,10 @@ describe('skill_level_controller', () => {
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn'
-        }).then(() => done()).catch(done)
+        }).then((result) => {
+          databaseExpectation.updated_at = result.updated_at
+          done()
+        }).catch(done)
       ).catch(done)
     })
 
@@ -250,7 +254,7 @@ describe('skill_level_controller', () => {
         created_at: asymmetricMatcher(actual => !(
           actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
       },
       SkillLevel,
       {

@@ -143,8 +143,9 @@ describe('course_instance_controller', () => {
         fin_name: 'fn',
         swe_name: 'sn'
       }).then((result) => {
-        ids.courseInstance = result.get({ plain: true }).id
-        databaseExpectation.created_at = result.get({ plain: true }).created_at
+        ids.courseInstance = result.id
+        databaseExpectation.created_at = result.created_at
+        databaseExpectation.updated_at = result.updated_at
         options.route = `${options.route}/${ids.courseInstance}`
         CoursePerson.create({
           person_id: 424,
@@ -154,13 +155,16 @@ describe('course_instance_controller', () => {
       }).catch(done)
     })
 
-    beforeEach((done) => {
+    afterEach((done) => {
       CourseInstance.findById(ids.courseInstance).then((ci) => {
         ci.update({
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn'
-        }).then(() => done()).catch(done)
+        }).then((result) => {
+          databaseExpectation.updated_at = result.updated_at
+          done()
+        }).catch(done)
       }).catch(done)
     })
 
@@ -203,7 +207,7 @@ describe('course_instance_controller', () => {
           actual > databaseExpectation.created_at
           || actual < databaseExpectation.created_at
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
       },
       CourseInstance,
       {
