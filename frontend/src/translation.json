@@ -945,6 +945,15 @@
           "Inspect csv file contents",
           "Katso csv-tiedoston sisältöä"
         ]
+      },
+      "PointMapping": {
+        "point_mapping_text": [
+          "Add here all non-numeric values and map them to numeric values",
+          "Onko sarakkeissa arvoja, joiden pistemäärä pitää muuttaa numeraalisiksi?"
+        ],
+        "key": ["name", "nimi"],
+        "value": ["points", "pisteet"],
+        "add": ["add", "lisää"]
       }
     }
   },

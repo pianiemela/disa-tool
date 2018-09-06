@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Grid, Input, List, Message, Table, Dropdown, Accordion } from 'semantic-ui-react'
+import { Button, Grid, Input, List, Message, Dropdown } from 'semantic-ui-react'
 import Papa from 'papaparse'
 
 import { getByCourse } from '../../api/types'
+import PointMapping from './PointMapping'
 import CsvTable from './CsvTable'
 
 export class UploadResponsesPage extends Component {
@@ -13,14 +14,12 @@ export class UploadResponsesPage extends Component {
     csvMappings: {},
     studentHeader: undefined,
     pointsMapping: {},
-    pointKey: '',
-    pointValue: 0,
     responsesCreated: false,
     types: [{ id: 0, text: 'Kaikki' }]
   }
 
   clearAll = () => {
-    this.setState({ csv: undefined, csvMappings: {}, pointsMapping: {}, pointKey: '', pointValue: 0 })
+    this.setState({ csv: undefined, csvMappings: {}, pointsMapping: {} })
     const fileInput = window.document.getElementsByName('fileInput')[0]
     fileInput.value = null
   }
@@ -72,9 +71,9 @@ export class UploadResponsesPage extends Component {
     this.setState({ [name]: value })
   }
 
-  addPointMapping = () => {
-    const { pointsMapping, pointKey, pointValue } = this.state
-    this.setState({ pointsMapping: { ...pointsMapping, [pointKey]: Number(pointValue) } })
+  addPointMapping = (key, value) => {
+    const { pointsMapping } = this.state
+    this.setState({ pointsMapping: { ...pointsMapping, [key]: Number(value) } })
   }
 
   removePointMapping = (e, { value }) => {
@@ -141,8 +140,6 @@ export class UploadResponsesPage extends Component {
       csvMappings,
       studentHeader,
       pointsMapping,
-      pointKey,
-      pointValue,
       responsesCreated,
       types,
       activeType
@@ -224,25 +221,7 @@ export class UploadResponsesPage extends Component {
         <Grid.Row>
           {csv ?
             <Grid.Column>
-              <h3>Onko sarakkeissa arvoja, joiden pistemäärä pitää muuttaa numeraalisiksi?</h3>
-              <List>
-                {Object.keys(pointsMapping).map(key => (
-                  <List.Item key={key}>
-                    {key} = {pointsMapping[key]}
-                    <Button
-                      basic
-                      color="red"
-                      icon="delete"
-                      size="tiny"
-                      value={key}
-                      onClick={this.removePointMapping}
-                    />
-                  </List.Item>
-                ))}
-              </List>
-              <Input name="pointKey" label="arvo" type="text" value={pointKey} onChange={this.handleChange} />
-              <Input name="pointValue" label="pistemäärä" type="number" value={pointValue} onChange={this.handleChange} />
-              <Button onClick={this.addPointMapping}>Lisää</Button>
+              <PointMapping pointsMapping={pointsMapping} addPointMapping={this.addPointMapping} />
             </Grid.Column> : undefined}
         </Grid.Row>
         <Grid.Row>
