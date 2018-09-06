@@ -77,6 +77,31 @@
       ]
     }
   },
+  "Admin": {
+    "common": {
+      "student_button": ["Student", "Opiskelija"],
+      "teacher_button": ["Teacher", "Opettaja"]
+    },
+    "AddToCourseForm": {
+      "header": ["Register user to a course", "Rekisteröi käyttäjä kurssille"],
+      "prompt_1": ["Register user", "Rekisteröi käyttäjä"],
+      "prompt_2": ["to a new course instance", "uuteen kurssi-instanssiin"],
+      "trigger": ["Add to a new course", "Lisää uudelle kurssille"],
+      "course": ["course", "kurssi"],
+      "instance": ["course instance", "kurssi-instanssi"]
+    },
+    "AdminPage": {
+      "delete_header": ["Remove user from course", "Poista käyttäjä kurssilta"],
+      "delete_prompt_1": ["Really remove user", "Poistetaanko käyttäjä"],
+      "delete_prompt_2": ["from course instance", "kurssi-instanssista"],
+      "header": ["Manage users", "Hallinnoi käyttäjiä"],
+      "search_button": ["Search", "Hae"],
+      "get_all": ["Get all users", "Hae kaikki käyttäjät"],
+      "course_roles": ["Course roles", "Roolit kursseilla"],
+      "global_role_label": ["GLOBAL ROLE", "GLOBAALI ROOLI"],
+      "search_placeholder": ["Search by name or student number", "Hae nimellä tai opiskelijanumerolla"]
+    }
+  },
   "Login": {
     "LoginForm": {
       "already_logged_in": [
@@ -913,6 +938,23 @@
         "Remove from course",
         "Poista kurssilta"
       ]
+    },
+    "UploadResponses": {
+      "CsvTable": {
+        "look_at_csv": [
+          "Inspect csv file contents",
+          "Katso csv-tiedoston sisältöä"
+        ]
+      },
+      "PointMapping": {
+        "point_mapping_text": [
+          "Add here all non-numeric values and map them to numeric values",
+          "Onko sarakkeissa arvoja, joiden pistemäärä pitää muuttaa numeraalisiksi?"
+        ],
+        "key": ["name", "nimi"],
+        "value": ["points", "pisteet"],
+        "add": ["add", "lisää"]
+      }
     }
   },
   "SelfAssessmentList": {

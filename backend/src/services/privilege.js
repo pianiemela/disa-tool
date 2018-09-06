@@ -57,6 +57,9 @@ const validators = {
  */
 const checkPrivilege = async (req, privileges) => {
   const results = privileges.map(privilege => validators[privilege.key](privilege.param, req.user))
+  if (req.user) {
+    if (req.user.role === 'ADMIN') return true
+  }
   return (await Promise.all(results)).every(value => value)
 }
 
@@ -81,11 +84,7 @@ const onlyGlobalTeacherHasAccess = async (req, res) => {
 }
 
 
-const isGlobalTeacher = req => (
-  checkPrivilege(req, [{
-    key: 'global_teacher'
-  }])
-)
+const isGlobalTeacher = req => checkPrivilege(req, [{ key: 'global_teacher' }])
 
 const isTeacherOnCourse = (req, courseId) => (
   checkPrivilege(req, [{

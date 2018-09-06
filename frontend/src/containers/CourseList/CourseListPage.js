@@ -41,6 +41,18 @@ class CourseListPage extends Component {
   translate = id => this.props.translate(`CourseList.CourseListPage.${id}`)
 
   render() {
+    const courseOptions = this.props.courses.map(course =>
+      ({ key: course.id, text: course.name, value: course.id }))
+    if (this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN') {
+      courseOptions.push({
+        as: Link,
+        to: 'courses/create',
+        key: 0,
+        icon: { name: 'add', color: 'green' },
+        style: { color: 'green' },
+        text: this.translate('create_trigger')
+      })
+    }
     return (
       <Grid columns={1} padded="vertically">
         <Grid.Row centered>
@@ -50,17 +62,7 @@ class CourseListPage extends Component {
               search
               selection
               value={this.props.selectedCourse ? this.props.selectedCourse.id : undefined}
-              options={this.props.courses.map(course =>
-                ({ key: course.id, text: course.name, value: course.id }))
-                .concat([{
-                  as: Link,
-                  to: 'courses/create',
-                  key: 0,
-                  icon: { name: 'add', color: 'green' },
-                  style: { color: 'green' },
-                  text: this.translate('create_trigger')
-                }])
-              }
+              options={courseOptions}
               onChange={this.handleChange}
             />
           </Grid.Column>

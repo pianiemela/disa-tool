@@ -2,6 +2,8 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
   switch (action.type) {
     case 'COURSES_GET_INSTANCE_DATA_SUCCESS':
       return action.payload
+    case 'COURSES_GET_INSTANCE_DATA_FAILURE':
+      return { status: action.payload.status }
     case 'ASSESMENT_RESPONSE_CREATE_SUCCESS': {
       const { data } = action.payload
       const oldAssesments = [...state.self_assessments]
@@ -25,8 +27,6 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
       oldAssessment.show_feedback = assessment.show_feedback
       return { ...state, self_assessments: selfAssessments }
     }
-    case 'COURSES_GET_INSTANCE_DATA_FAILURE':
-      return state
     case 'COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS':
       return { ...state, active: action.payload.active }
     case 'COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE':

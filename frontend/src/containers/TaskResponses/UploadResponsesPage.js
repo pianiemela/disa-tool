@@ -1,20 +1,27 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Grid, Input, List, Message, Table, Dropdown, Accordion } from 'semantic-ui-react'
+import { Button, Grid, Input, List, Message, Dropdown } from 'semantic-ui-react'
 import Papa from 'papaparse'
 
 import { getByCourse } from '../../api/types'
+import PointMapping from './PointMapping'
+import CsvTable from './CsvTable'
 
 export class UploadResponsesPage extends Component {
   state = {
+    activeType: 0,
     csv: undefined,
     csvMappings: {},
     studentHeader: undefined,
     pointsMapping: {},
-    pointKey: '',
-    pointValue: 0,
-    types: [{ id: 0, text: 'Kaikki' }],
-    activeType: 0
+    responsesCreated: false,
+    types: [{ id: 0, text: 'Kaikki' }]
+  }
+
+  clearAll = () => {
+    this.setState({ csv: undefined, csvMappings: {}, pointsMapping: {} })
+    const fileInput = window.document.getElementsByName('fileInput')[0]
+    fileInput.value = null
   }
 
   loadTypes = () => getByCourse({ id: this.props.activeCourse.id }).then(response => this.setState({
@@ -64,9 +71,9 @@ export class UploadResponsesPage extends Component {
     this.setState({ [name]: value })
   }
 
-  addPointMapping = () => {
-    const { pointsMapping, pointKey, pointValue } = this.state
-    this.setState({ pointsMapping: { ...pointsMapping, [pointKey]: Number(pointValue) } })
+  addPointMapping = (key, value) => {
+    const { pointsMapping } = this.state
+    this.setState({ pointsMapping: { ...pointsMapping, [key]: Number(value) } })
   }
 
   removePointMapping = (e, { value }) => {
@@ -123,31 +130,9 @@ export class UploadResponsesPage extends Component {
     }
     this.props.updateHandler(updatedTasks)
     this.setState({ responsesCreated: true })
-    console.log(updatedTasks)
   }
 
   removeMessage = () => this.setState({ responsesCreated: false })
-
-  renderCsvTable = csv => (
-    <Grid.Row>
-      <Grid.Column style={{ overflowX: 'scroll' }}>
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              {csv.data[0].map((cell, i) => <Table.HeaderCell key={`${cell},${i}`}>{cell}</Table.HeaderCell>)}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {csv.data.map((row, i) => (i === 0 ? undefined : (
-              <Table.Row key={i}>
-                {row.map((cell, j) => <Table.Cell key={j}>{cell}</Table.Cell>)}
-              </Table.Row>
-          )))}
-          </Table.Body>
-        </Table>
-      </Grid.Column>
-    </Grid.Row>
-  )
 
   render() {
     const {
@@ -155,8 +140,6 @@ export class UploadResponsesPage extends Component {
       csvMappings,
       studentHeader,
       pointsMapping,
-      pointKey,
-      pointValue,
       responsesCreated,
       types,
       activeType
@@ -167,7 +150,8 @@ export class UploadResponsesPage extends Component {
         <Grid.Row>
           <Grid.Column>
             <h3>Valitse ladattava csv-tiedosto</h3>
-            <Input type="file" accept=".csv" onChange={this.loadFile} />
+            <Input name="fileInput" type="file" accept=".csv" onChange={this.loadFile} />
+            <Button basic color="red" content="tyhjennä valinta" onClick={this.clearAll} />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -237,25 +221,7 @@ export class UploadResponsesPage extends Component {
         <Grid.Row>
           {csv ?
             <Grid.Column>
-              <h3>Onko sarakkeissa arvoja, joiden pistemäärä pitää muuttaa numeraalisiksi?</h3>
-              <List>
-                {Object.keys(pointsMapping).map(key => (
-                  <List.Item key={key}>
-                    {key} = {pointsMapping[key]}
-                    <Button
-                      basic
-                      color="red"
-                      icon="delete"
-                      size="tiny"
-                      value={key}
-                      onClick={this.removePointMapping}
-                    />
-                  </List.Item>
-                ))}
-              </List>
-              <Input name="pointKey" label="arvo" type="text" value={pointKey} onChange={this.handleChange} />
-              <Input name="pointValue" label="pistemäärä" type="number" value={pointValue} onChange={this.handleChange} />
-              <Button onClick={this.addPointMapping}>Lisää</Button>
+              <PointMapping pointsMapping={pointsMapping} addPointMapping={this.addPointMapping} />
             </Grid.Column> : undefined}
         </Grid.Row>
         <Grid.Row>
@@ -269,13 +235,7 @@ export class UploadResponsesPage extends Component {
           </Grid.Column>
         </Grid.Row>
         {csv ?
-          <Accordion
-            defaultActiveIndex={-1}
-            panels={[{
-              key: 'table',
-              title: 'Katso csv-tiedoston sisältöä',
-              content: { key: 'subtable', content: this.renderCsvTable(csv) } }]}
-          />
+          <CsvTable csv={csv} />
         : undefined}
       </Grid>
     )

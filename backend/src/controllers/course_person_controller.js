@@ -1,26 +1,8 @@
 const router = require('express').Router()
 
 const coursePersonService = require('../services/course_person_service.js')
-const { checkPrivilege, isGlobalTeacher, isTeacherOnCourse } = require('../services/privilege.js')
+const { checkPrivilege } = require('../services/privilege.js')
 const { errors, messages } = require('../messages/global.js')
-
-// const messages = {
-//   create: {
-//     eng: '"Rekisteröityminen onnistui." englanniksi.',
-//     fin: 'Rekisteröityminen onnistui.',
-//     swe: '"Rekisteröityminen onnistui." ruotsiksi.'
-//   },
-//   delete: {
-//     eng: '"Rekisteröityminen purettu onnistuneesti." englanniksi.',
-//     fin: 'Rekisteröityminen purettu onnistuneesti.',
-//     swe: '"Rekisteröityminen purettu onnistuneesti." ruotsiksi.'
-//   },
-//   update: {
-//     eng: 'Role updated successfully!',
-//     fin: 'Käyttäjän rooli päivitetty onnistuneesti!',
-//     swe: 'Käyttäjän rooli päivitetty onnistuneesti! - ruotsiksi'
-//   }
-// }
 
 router.post('/register', async (req, res) => {
   try {
@@ -81,10 +63,10 @@ router.put('/course-role', async (req, res) => {
       })
       return
     }
-    const data = await coursePersonService.updateRole(bodyData)
+    const [data, created] = await coursePersonService.updateRole(bodyData)
 
     res.status(200).json({
-      message: messages.update[req.lang],
+      message: created ? messages.create[req.lang] : messages.update[req.lang],
       data
     })
   } catch (error) {
@@ -98,9 +80,16 @@ router.put('/course-role', async (req, res) => {
 router.post('/delete', async (req, res) => {
   // Body contains fields id (person_id) and course_instance_id
   const coursePerson = req.body
-  const isTeacher = await isTeacherOnCourse(req, req.body.course_instance_id) && await isGlobalTeacher(req)
+  const isTeacher = await checkPrivilege(req, [
+    {
+      key: 'teacher_on_course',
+      param: req.body.course_instance_id
+    },
+    { key: 'global_teacher' }
+  ])
   if (!isTeacher) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
+    return
   }
   try {
     const person = await coursePersonService.delete.prepare(coursePerson, coursePerson)
