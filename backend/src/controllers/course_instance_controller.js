@@ -3,6 +3,7 @@ const router = require('express').Router()
 const courseInstanceService = require('../services/course_instance_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const editRoutes = require('../utils/editRoutes.js')
 
 const messages = {
   data: {
@@ -64,6 +65,13 @@ router.get('/matrix/:id', async (req, res) => {
     message: messages.matrix[req.lang],
     data
   })
+})
+
+editRoutes(router, {
+  service: courseInstanceService,
+  messages,
+  errors,
+  pathToCourseInstanceId: ['id']
 })
 
 module.exports = router

@@ -10,6 +10,7 @@ const {
   TaskType,
   CoursePerson
 } = require('../database/models.js')
+const editServices = require('../utils/editServices.js')
 
 const getOne = courseInstanceId => CourseInstance.findOne({ where: { id: courseInstanceId } })
 
@@ -212,9 +213,28 @@ const matrix = async (id, lang) => {
   return result
 }
 
+const { details, edit } = editServices(
+  CourseInstance,
+  {},
+  {
+    saveFields: [
+      'eng_name',
+      'fin_name',
+      'swe_name'
+    ],
+    valueFields: [
+      'course_id',
+      'id',
+      ['lang_name', 'name']
+    ]
+  }
+)
+
 module.exports = {
   getCourseInstanceData,
   getOne,
   create,
-  matrix
+  matrix,
+  details,
+  edit
 }
