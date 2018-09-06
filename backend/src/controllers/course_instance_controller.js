@@ -81,7 +81,8 @@ editRoutes(router, {
   service: courseInstanceService,
   messages,
   errors,
-  pathToCourseInstanceId: ['id']
+  pathToCourseInstanceId: ['id'],
+  route: '/edit'
 })
 
 module.exports = router

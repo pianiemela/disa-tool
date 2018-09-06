@@ -3,9 +3,10 @@ const {
   testStatusCode,
   testTeacherOnCoursePrivilege,
   testBody,
-  testDatabaseSave
+  testDatabaseSave,
+  asymmetricMatcher
 } = require('../testUtils')
-const { CourseInstance } = require('../../database/models.js')
+const { CourseInstance, CoursePerson } = require('../../database/models.js')
 
 describe('course_instance_controller', () => {
   describe('GET /data/:courseInstanceId', () => {
@@ -76,6 +77,138 @@ describe('course_instance_controller', () => {
       CourseInstance,
       {
         disallowId: true
+      }
+    )
+  })
+
+  describe('GET /edit/:id', () => {
+    const options = {
+      route: '/api/course-instances/edit',
+      method: 'get',
+      preamble: {}
+    }
+    const ids = {}
+
+    beforeAll((done) => {
+      CourseInstance.create({
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn'
+      }).then((result) => {
+        ids.courseInstance = result.get({ plain: true }).id
+        options.route = `${options.route}/${ids.courseInstance}`
+        done()
+      }).catch(done)
+    })
+
+    testHeaders(options)
+
+    testStatusCode(options, 200)
+
+    testStatusCode({ ...options, route: '/api/course-instances/edit/999999' }, 404)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        data: {
+          id: asymmetricMatcher(actual => actual === ids.courseInstance),
+          eng_name: 'en',
+          fin_name: 'fn',
+          swe_name: 'sn'
+        }
+      }
+    })
+  })
+
+  describe('PUT /edit/:id', () => {
+    const data = {
+      eng_name: 'new en',
+      fin_name: 'new fn',
+      swe_name: 'new sn'
+    }
+    const options = {
+      route: '/api/course-instances/edit',
+      method: 'put',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+    const ids = {}
+    const databaseExpectation = {}
+
+    beforeAll((done) => {
+      CourseInstance.create({
+        eng_name: 'en',
+        fin_name: 'fn',
+        swe_name: 'sn'
+      }).then((result) => {
+        ids.courseInstance = result.get({ plain: true }).id
+        databaseExpectation.created_at = result.get({ plain: true }).created_at
+        options.route = `${options.route}/${ids.courseInstance}`
+        CoursePerson.create({
+          person_id: 424,
+          course_instance_id: ids.courseInstance,
+          role: 'TEACHER'
+        }).then(() => done()).catch(done)
+      }).catch(done)
+    })
+
+    beforeEach((done) => {
+      CourseInstance.findById(ids.courseInstance).then((ci) => {
+        ci.update({
+          eng_name: 'en',
+          fin_name: 'fn',
+          swe_name: 'sn'
+        }).then(() => done()).catch(done)
+      }).catch(done)
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testStatusCode({ ...options, route: '/api/course-instances/edit/999999' }, 404)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        edited: {
+          id: asymmetricMatcher(actual => actual === ids.courseInstance)
+        }
+      },
+      eng: {
+        edited: {
+          name: data.eng_name
+        }
+      },
+      fin: {
+        edited: {
+          name: data.fin_name
+        }
+      },
+      swe: {
+        edited: {
+          name: data.swe_name
+        }
+      }
+    })
+
+    testDatabaseSave(
+      options,
+      {
+        ...data,
+        id: asymmetricMatcher(actual => actual === ids.courseInstance),
+        created_at: asymmetricMatcher(actual => !(
+          actual > databaseExpectation.created_at
+          || actual < databaseExpectation.created_at
+        )),
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+      },
+      CourseInstance,
+      {
+        pathToId: ['body', 'edited', 'id'],
+        includeTimestamps: false
       }
     )
   })

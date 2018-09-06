@@ -215,7 +215,9 @@ const matrix = async (id, lang) => {
 
 const { details, edit } = editServices(
   CourseInstance,
-  {},
+  {
+    attributes: ['id', 'eng_name', 'fin_name', 'swe_name']
+  },
   {
     saveFields: [
       'eng_name',
@@ -223,7 +225,6 @@ const { details, edit } = editServices(
       'swe_name'
     ],
     valueFields: [
-      'course_id',
       'id',
       ['lang_name', 'name']
     ]
