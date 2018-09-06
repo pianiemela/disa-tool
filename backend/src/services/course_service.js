@@ -35,7 +35,8 @@ const getCourseInstancesOfCourse = async (courseId, user, lang) => {
         id: user ? user.id : null
       },
       attributes: ['id']
-    }
+    },
+    order: [['id', 'ASC']]
   })).map(instance => instance.toJSON())
   return instances.map(instance => ({
     ...instance,
