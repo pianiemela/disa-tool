@@ -40,8 +40,11 @@ class UserPage extends Component {
     const { activeCourse } = this.props
     const { courseId } = this.props.match.params
     if (courseId && (!activeCourse || activeCourse.id !== Number(courseId))) {
-      console.log('imma updatin')
-      this.props.dispatchGetCourseInstanceData(courseId)
+      if (activeCourse.status === 401) {
+        console.log('not on course')
+      } else {
+        this.props.dispatchGetCourseInstanceData(courseId)
+      }
     }
   }
 
@@ -49,7 +52,6 @@ class UserPage extends Component {
 
   handleActivityToggle = async () => {
     const { activeCourse } = this.props
-    console.log('props', activeCourse.id)
     this.props.dispatchToggleActivity(activeCourse.id).then(res => console.log(res))
   }
 
