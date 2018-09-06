@@ -16,12 +16,6 @@ const getAuthorization = () => {
   return null
 }
 
-export const getLanguage = () => {
-  const language = localStorage.getItem('lang')
-  // console.log(language)
-  return language
-}
-
 export const saveToken = (token) => {
   try {
     localStorage.setItem('token', token)
@@ -42,6 +36,14 @@ export const saveLanguage = (lang) => {
   } catch (e) {
     return null
   }
+}
+
+export const getLanguage = () => {
+  const language = localStorage.getItem('lang')
+  if (!language) {
+    return saveLanguage('fin')
+  }
+  return language
 }
 
 axios.defaults.headers.common.credentials = 'same-origin'
