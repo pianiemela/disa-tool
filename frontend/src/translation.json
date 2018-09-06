@@ -553,6 +553,16 @@
         "Luo uusi instanssi tästä kurssista"
       ]
     },
+    "EditInstanceForm": {
+      "header": [
+        "Edit course instance",
+        "Muokkaa kurssi-instanssia"
+      ],
+      "prompt_1": [
+        "Edit course instance",
+        "Muokkaa kurssi-instanssia"
+      ]
+    },
     "RegisterForm": {
       "unregister": [
         "Undo registration",

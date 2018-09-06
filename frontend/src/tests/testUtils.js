@@ -1,6 +1,7 @@
 import axios from 'axios'
 import MockAdapter from 'axios-mock-adapter'
 import asyncAction from '../utils/asyncAction'
+import { defaultSuccess, defaultFailure } from '../utils/apiPromise'
 
 import { BASE_PATH } from '../utils/utils'
 
@@ -44,13 +45,13 @@ const mapType = (input) => {
       }
     case 'object':
       return {
-        success: input.success || 'APIPROMISE_GENERIC_SUCCESS',
-        failure: input.failure || 'APIPROMISE_GENERIC_FAILURE'
+        success: input.success || defaultSuccess,
+        failure: input.failure || defaultFailure
       }
     default:
       return {
-        success: 'APIPROMISE_GENERIC_SUCCESS',
-        failure: 'APIPROMISE_GENERIC_FAILURE'
+        success: defaultSuccess,
+        failure: defaultFailure
       }
   }
 }
