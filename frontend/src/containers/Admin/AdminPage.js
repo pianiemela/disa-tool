@@ -66,6 +66,11 @@ class AdminPage extends React.Component {
     }
   }
 
+  deleteRole = (personId, courseInstanceId) => () => this.props.removeCoursePerson({
+    id: personId,
+    course_instance_id: courseInstanceId
+  })
+
   render() {
     const { activeIndex, activePage } = this.state
     return (
@@ -115,7 +120,7 @@ class AdminPage extends React.Component {
                                 <List.Content floated="right">
                                   <div>
                                     <DeleteForm
-                                      onExecute={this.props.removeCoursePerson}
+                                      onExecute={this.deleteRole(u.id, ucp.course_instance_id)}
                                       header="delete_header"
                                       prompt={[
                                         'delete_prompt_1',

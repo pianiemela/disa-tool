@@ -1,4 +1,4 @@
-import { postJson, putJson, deleteCall } from '../utils/utils'
+import { postJson, putJson } from '../utils/utils'
 
 export const register = data => postJson('/course-persons/register', data)
 
@@ -8,4 +8,4 @@ export const changeCourseRole = data => putJson('/course-persons/course-role', d
 
 export const deleteCoursePerson = coursePerson => postJson('/course-persons/delete', coursePerson)
 
-export const deleteCP = data => deleteCall(`/course-persons/${data.id}`)
+export const deleteCP = data => postJson('/course-persons/delete', data)
