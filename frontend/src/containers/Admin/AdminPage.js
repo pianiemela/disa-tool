@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
+import { withLocalize } from 'react-localize-redux'
 import { Container, Form, Button, Icon, Loader, Grid, Accordion, List, Pagination } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
@@ -71,6 +72,8 @@ class AdminPage extends React.Component {
     course_instance_id: courseInstanceId
   })
 
+  translate = id => this.props.translate(`Admin.AdminPage.${id}`)
+
   render() {
     const { activeIndex, activePage } = this.state
     return (
@@ -79,13 +82,13 @@ class AdminPage extends React.Component {
           <Grid.Row columns={2}>
             <Grid.Column width={8}>
               <Form onSubmit={this.handleSubmit}>
-                <h2>Hallinnoi käyttäjiä</h2>
+                <h2>{this.translate('header')}</h2>
 
                 <Form.Field width={8}>
-                  <input name="userInfo" disabled={this.state.getAll} placeholder="(Hae nimellä tai opiskelijanumerolla)" />
+                  <input name="userInfo" disabled={this.state.getAll} placeholder={`(${this.translate('search_placeholder')})`} />
                 </Form.Field>
-                <Form.Checkbox name="getAll" onChange={() => this.setState({ getAll: !this.state.getAll })} label="Hae kaikki käyttäjät" />
-                <Button><Icon name="search" />Hae</Button>
+                <Form.Checkbox name="getAll" onChange={() => this.setState({ getAll: !this.state.getAll })} label={this.translate('get_all')} />
+                <Button><Icon name="search" />{this.translate('search_button')}</Button>
               </Form>
             </Grid.Column>
           </Grid.Row>
@@ -113,7 +116,7 @@ class AdminPage extends React.Component {
                         <Accordion.Content active={activeIndex === u.id}>
                           <List divided>
                             <List.Item>
-                              <List.Header>Roolit kursseilla</List.Header>
+                              <List.Header>{this.translate('course_roles')}</List.Header>
                             </List.Item>
                             {u.course_people.map(ucp => (
                               <List.Item key={ucp.id}>
@@ -121,13 +124,12 @@ class AdminPage extends React.Component {
                                   <div>
                                     <DeleteForm
                                       onExecute={this.deleteRole(u.id, ucp.course_instance_id)}
-                                      header="delete_header"
+                                      header={this.translate('delete_header')}
                                       prompt={[
-                                        'delete_prompt_1',
+                                        this.translate('delete_prompt_1'),
                                         u.name,
-                                        'delete_prompt_2',
-                                        ucp.course_instance.name,
-                                        'delete_prompt_3'
+                                        this.translate('delete_prompt_2'),
+                                        ucp.course_instance.name
                                       ]}
                                     />
                                   </div>
@@ -140,14 +142,14 @@ class AdminPage extends React.Component {
                                         onClick={ucp.role === 'STUDENT' ? null : () => this.changeRole(u.id, ucp.course_instance_id, 'STUDENT')}
                                         inverted={ucp.role !== 'STUDENT'}
                                       >
-                                        Student
+                                        {this.translate('student_button')}
                                       </Button>
                                       <Button
                                         onClick={ucp.role === 'TEACHER' ? null : () => this.changeRole(u.id, ucp.course_instance_id, 'TEACHER')}
                                         inverted={ucp.role !== 'TEACHER'}
                                         color="green"
                                       >
-                                        Teacher
+                                        {this.translate('teacher_button')}
                                       </Button>
                                     </Button.Group>
                                   </div>
@@ -170,19 +172,19 @@ class AdminPage extends React.Component {
                                     color="green"
                                     inverted={u.role !== 'STUDENT'}
                                   >
-                                    Student
+                                    {this.translate('student_button')}
                                   </Button>
                                   <Button
                                     onClick={u.role === 'TEACHER' ? null : () => this.changeRole(u.id, null, 'TEACHER')}
                                     inverted={u.role !== 'TEACHER'}
                                     color="green"
                                   >
-                                    Teacher
+                                    {this.translate('teacher_button')}
                                   </Button>
                                 </Button.Group>
                               </List.Content>
                               <List.Content>
-                                GLOBAL ROLE
+                                {this.translate('global_role_label')}
                               </List.Content>
                             </List.Item>
                           </List>
@@ -225,7 +227,8 @@ AdminPage.propTypes = {
   adminGetUsers: PropTypes.func.isRequired,
   adminChangeCourseRole: PropTypes.func.isRequired,
   adminChangeGlobalRole: PropTypes.func.isRequired,
-  removeCoursePerson: PropTypes.func.isRequired
+  removeCoursePerson: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -240,4 +243,4 @@ const mapDispatchToProps = dispatch => ({
   removeCoursePerson: asyncAction(removeCoursePerson, dispatch)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminPage)
+export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(AdminPage))

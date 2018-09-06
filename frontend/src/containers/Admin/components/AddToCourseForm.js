@@ -54,13 +54,18 @@ class AddToCourseForm extends Component {
       this.props.person.name,
       this.translate('prompt_2')
     ].join(' ')
+    const actions = saveActions(this.translate)
+    if (!this.props.selectedInstance) {
+      const index = actions.findIndex(action => !action.props.type)
+      actions[index] = React.cloneElement(actions[index], { disabled: true })
+    }
     return (
       <div className="AddToCourseForm">
         <ModalForm
           header={this.translate('header')}
           trigger={<Button color="blue">{this.translate('trigger')}</Button>}
           onOpen={this.onModalOpen}
-          actions={saveActions(this.translate)}
+          actions={actions}
           onSubmit={this.addToCourseSubmit}
         >
           <p>{contentPrompt}.</p>
@@ -100,7 +105,7 @@ class AddToCourseForm extends Component {
                 inverted={this.state.role !== 'STUDENT'}
                 color="green"
               >
-                Student
+                {this.translate('student_button')}
               </Button>
               <Button
                 type="button"
@@ -108,7 +113,7 @@ class AddToCourseForm extends Component {
                 inverted={this.state.role !== 'TEACHER'}
                 color="green"
               >
-                Teacher
+                {this.translate('teacher_button')}
               </Button>
             </Button.Group>
           </Form.Field>

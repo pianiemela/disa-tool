@@ -78,13 +78,28 @@
     }
   },
   "Admin": {
+    "common": {
+      "student_button": ["Student", "Opiskelija"],
+      "teacher_button": ["Teacher", "Opettaja"]
+    },
     "AddToCourseForm": {
       "header": ["Register user to a course", "Rekisteröi käyttäjä kurssille"],
-      "prompt_1": ["Rekisteröi käyttäjä"],
-      "prompt_2": ["kurssille."],
-      "trigger": ["Register to a course", "Rekisteröi kurssille"],
+      "prompt_1": ["Register user", "Rekisteröi käyttäjä"],
+      "prompt_2": ["to a new course instance", "uuteen kurssi-instanssiin"],
+      "trigger": ["Add to a new course", "Lisää uudelle kurssille"],
       "course": ["course", "kurssi"],
       "instance": ["course instance", "kurssi-instanssi"]
+    },
+    "AdminPage": {
+      "delete_header": ["Remove user from course", "Poista käyttäjä kurssilta"],
+      "delete_prompt_1": ["Really remove user", "Poistetaanko käyttäjä"],
+      "delete_prompt_2": ["from course instance", "kurssi-instanssista"],
+      "header": ["Manage users", "Hallinnoi käyttäjiä"],
+      "search_button": ["Search", "Hae"],
+      "get_all": ["Get all users", "Hae kaikki käyttäjät"],
+      "course_roles": ["Course roles", "Roolit kursseilla"],
+      "global_role_label": ["GLOBAL ROLE", "GLOBAALI ROOLI"],
+      "search_placeholder": ["Search by name or student number", "Hae nimellä tai opiskelijanumerolla"]
     }
   },
   "Login": {
