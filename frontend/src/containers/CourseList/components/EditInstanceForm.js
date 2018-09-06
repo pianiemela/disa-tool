@@ -66,10 +66,11 @@ export class EditInstanceForm extends Component {
       <div className="EditInstanceForm">
         <ModalForm
           header={this.translate('header')}
-          trigger={<Button type="button" basic icon={{ name: 'edit' }} />}
+          trigger={<Button type="button" basic circular icon={{ name: 'edit' }} />}
           onSubmit={this.editInstanceSubmit}
           actions={saveActions(this.translate)}
           loading={this.state.loading}
+          onOpen={this.loadDetails}
         >
           <p>{contentPrompt}.</p>
           <MultilingualField field="name" fieldDisplay={this.translate('name')} values={this.state.values.name} />

@@ -20,6 +20,16 @@ const messages = {
     eng: '"Kurssin matriisi haettu onnistuneesti." englanniksi.',
     fin: 'Kurssin matriisi haettu onnistuneesti.',
     swe: '"Kurssin matriisi haettu onnistuneesti." ruotsiksi.'
+  },
+  details: {
+    eng: '"Kurssi-instanssin tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Kurssi-instanssin tiedot haettu onnistuneesti.',
+    swe: '"Kurssi-instanssin tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  edit: {
+    eng: '"Kurssi-instanssi muokattu onnistuneesti." englanniksi.',
+    fin: 'Kurssi-instanssi muokattu onnistuneesti.',
+    swe: '"Kurssi-instanssi muokattu onnistuneesti." ruotsiksi.'
   }
 }
 
