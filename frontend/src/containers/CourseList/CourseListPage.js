@@ -98,7 +98,9 @@ class CourseListPage extends Component {
                   <div>
                     <div style={{ display: 'flex' }}>
                       <h2 style={{ flexGrow: 1 }}>{this.props.selectedInstance.name}</h2>
-                      <EditInstanceForm course_instance_id={this.props.selectedInstance.id} />
+                      {this.props.selectedInstance.registered === 'TEACHER' ? (
+                        <EditInstanceForm course_instance_id={this.props.selectedInstance.id} />
+                      ) : null}
                     </div>
                     <Header as="h2" color={this.props.selectedInstance.active ? 'green' : 'red'}>
                       <Header.Subheader>{this.translate('state')} </Header.Subheader>
@@ -164,7 +166,7 @@ CourseListPage.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
-    registered: PropTypes.bool.isRequired
+    registered: PropTypes.string
   }),
   selectCourse: PropTypes.func.isRequired,
   selectInstance: PropTypes.func.isRequired,

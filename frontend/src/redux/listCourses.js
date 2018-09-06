@@ -52,12 +52,12 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
           if (instance.id === action.response.created.course_instance_id) {
             return {
               ...instance,
-              registered: true
+              registered: 'STUDENT'
             }
           }
           return instance
         }),
-        selectedInstance: { ...state.selectedInstance, registered: true }
+        selectedInstance: { ...state.selectedInstance, registered: 'STUDENT' }
       }
     case 'COURSELIST_UNREGISTER':
       return {
@@ -66,12 +66,12 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
           if (instance.id === action.response.deleted.course_instance_id) {
             return {
               ...instance,
-              registered: false
+              registered: null
             }
           }
           return instance
         }),
-        selectedInstance: { ...state.selectedInstance, registered: false }
+        selectedInstance: { ...state.selectedInstance, registered: null }
       }
     case 'COURSE_CREATE':
       return {

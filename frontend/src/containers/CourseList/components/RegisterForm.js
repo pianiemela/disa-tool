@@ -23,10 +23,14 @@ const RegisterForm = (props) => {
 }
 
 RegisterForm.propTypes = {
-  registered: PropTypes.bool.isRequired,
+  registered: PropTypes.string,
   instanceId: PropTypes.number.isRequired,
   action: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired
+}
+
+RegisterForm.defaultProps = {
+  registered: null
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
