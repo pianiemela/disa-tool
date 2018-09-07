@@ -31,7 +31,7 @@ const RegisterForm = (props) => {
       inverted
       color="blue"
     >
-      {translate('register')}
+      {`${translate('register')} (${translate('require_login')})`}
     </Button>
   )
 }
