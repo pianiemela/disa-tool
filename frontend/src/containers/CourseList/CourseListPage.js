@@ -124,9 +124,10 @@ class CourseListPage extends Component {
                           {this.translate('coursepage_button')}
                         </Button>
                       </p> : undefined}
-                    {this.props.selectedInstance.active && this.props.user.id ? (
+                    {this.props.selectedInstance.active ? (
                       <RegisterForm
                         registered={this.props.selectedInstance.registered}
+                        courseId={this.props.selectedCourse.id}
                         instanceId={this.props.selectedInstance.id}
                       />
                     ) : undefined}
