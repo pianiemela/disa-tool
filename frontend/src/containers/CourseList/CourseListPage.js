@@ -13,6 +13,7 @@ import { getInstancesOfCourse, selectInstance } from './actions/courseInstances'
 
 import CreateInstanceForm from './components/CreateInstanceForm'
 import RegisterForm from './components/RegisterForm'
+import EditInstanceForm from './components/EditInstanceForm'
 
 class CourseListPage extends Component {
   componentDidMount = async () => {
@@ -95,7 +96,12 @@ class CourseListPage extends Component {
               <div>
                 {this.props.selectedInstance ?
                   <div>
-                    <h2>{this.props.selectedInstance.name}</h2>
+                    <div style={{ display: 'flex' }}>
+                      <h2 style={{ flexGrow: 1 }}>{this.props.selectedInstance.name}</h2>
+                      {this.props.selectedInstance.registered === 'TEACHER' ? (
+                        <EditInstanceForm course_instance_id={this.props.selectedInstance.id} />
+                      ) : null}
+                    </div>
                     <Header as="h2" color={this.props.selectedInstance.active ? 'green' : 'red'}>
                       <Header.Subheader>{this.translate('state')} </Header.Subheader>
                       {this.props.selectedInstance.active ? (
@@ -160,7 +166,7 @@ CourseListPage.propTypes = {
     id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
-    registered: PropTypes.bool.isRequired
+    registered: PropTypes.string
   }),
   selectCourse: PropTypes.func.isRequired,
   selectInstance: PropTypes.func.isRequired,

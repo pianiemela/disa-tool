@@ -84,7 +84,7 @@ export class MatrixObjective extends Component {
               compact
               basic
               fluid
-              style={{ borderRadius: '0px' }}
+              style={{ borderRadius: '0px', cursor: this.props.activeTaskId ? undefined : 'default' }}
               onClick={this.toggleObjective}
             >
               <MathJaxText content={this.props.objective.name} />

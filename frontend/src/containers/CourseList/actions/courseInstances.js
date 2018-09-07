@@ -1,4 +1,5 @@
-import { create, getByCourse } from '../../../api/courseInstances'
+import { create, getByCourse, edit } from '../../../api/courseInstances'
+import apiPromise from '../../../utils/apiPromise'
 
 export const selectInstance = dispatch => id => dispatch({
   type: 'COURSELIST_INSTANCE_SELECT',
@@ -21,4 +22,8 @@ export const getInstancesOfCourse = courseId => new Promise((resolve) => {
       response: response.data
     })
   })
+})
+
+export const editInstance = data => apiPromise(edit, data, {
+  success: { type: 'COURSELIST_INSTANCE_EDIT' }
 })

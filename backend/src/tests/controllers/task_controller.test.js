@@ -557,6 +557,7 @@ describe('task_controller', () => {
         ids.task = result.id
         options.route = `${options.route}/${ids.task}`
         databaseExpectation.created_at = result.created_at
+        databaseExpectation.updated_at = result.updated_at
         done()
       })
     })
@@ -570,7 +571,11 @@ describe('task_controller', () => {
         fin_description: 'fd',
         swe_description: 'sd',
         info: 'i'
-      }).then(() => done()))
+      }).then((result) => {
+        databaseExpectation.updated_at = result.updated_at
+        done()
+      }).catch(done)
+      ).catch(done)
     })
 
     testHeaders(options)
@@ -616,7 +621,7 @@ describe('task_controller', () => {
         created_at: asymmetricMatcher(actual => !(
           actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
       },
       Task,
       {
