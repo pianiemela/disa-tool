@@ -3,6 +3,7 @@ const router = require('express').Router()
 const courseInstanceService = require('../services/course_instance_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
+const editRoutes = require('../utils/editRoutes.js')
 
 const messages = {
   data: {
@@ -19,6 +20,16 @@ const messages = {
     eng: '"Kurssin matriisi haettu onnistuneesti." englanniksi.',
     fin: 'Kurssin matriisi haettu onnistuneesti.',
     swe: '"Kurssin matriisi haettu onnistuneesti." ruotsiksi.'
+  },
+  details: {
+    eng: '"Kurssi-instanssin tiedot haettu onnistuneesti." englanniksi.',
+    fin: 'Kurssi-instanssin tiedot haettu onnistuneesti.',
+    swe: '"Kurssi-instanssin tiedot haettu onnistuneesti." ruotsiksi.'
+  },
+  edit: {
+    eng: '"Kurssi-instanssi muokattu onnistuneesti." englanniksi.',
+    fin: 'Kurssi-instanssi muokattu onnistuneesti.',
+    swe: '"Kurssi-instanssi muokattu onnistuneesti." ruotsiksi.'
   }
 }
 
@@ -64,6 +75,14 @@ router.get('/matrix/:id', async (req, res) => {
     message: messages.matrix[req.lang],
     data
   })
+})
+
+editRoutes(router, {
+  service: courseInstanceService,
+  messages,
+  errors,
+  pathToCourseInstanceId: ['id'],
+  route: '/edit'
 })
 
 module.exports = router

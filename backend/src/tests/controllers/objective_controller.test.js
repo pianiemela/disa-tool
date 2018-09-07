@@ -221,9 +221,10 @@ describe('objective_controller', () => {
         skill_level_id: 1,
         category_id: 1
       }).then((result) => {
-        ids.objective = result.get({ plain: true }).id
+        ids.objective = result.id
         options.route = `${options.route}/${ids.objective}`
-        databaseExpectation.created_at = result.get({ plain: true }).created_at
+        databaseExpectation.created_at = result.created_at
+        databaseExpectation.updated_at = result.updated_at
         done()
       }).catch(done)
     })
@@ -234,7 +235,10 @@ describe('objective_controller', () => {
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn'
-        }).then(() => done()).catch(done)
+        }).then((result) => {
+          databaseExpectation.updated_at = result.updated_at
+          done()
+        }).catch(done)
       ).catch(done)
     })
 
@@ -280,7 +284,7 @@ describe('objective_controller', () => {
         created_at: asymmetricMatcher(actual => !(
           actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
       },
       Objective,
       {

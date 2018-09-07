@@ -6,6 +6,7 @@ import Papa from 'papaparse'
 import { getByCourse } from '../../api/types'
 import PointMapping from './PointMapping'
 import CsvTable from './CsvTable'
+import CsvTaskMapping from './CsvTaskMapping';
 
 export class UploadResponsesPage extends Component {
   state = {
@@ -181,41 +182,14 @@ export class UploadResponsesPage extends Component {
                   onChange={this.handleChange}
                 />
               </div>) : undefined}
-            <List size="small">
-              {Object.keys(csvMappings).map(suggestion => (
-                <List.Item key={suggestion}>
-                  <List.Content style={{ padding: 0 }}>
-                    {csvMappings[suggestion].active ?
-                      <b>{csv.data[0][suggestion]} </b> :
-                      <strike>{csv.data[0][suggestion]} </strike>}
-                      ______________
-                    <Dropdown
-                      disabled={!csvMappings[suggestion].active}
-                      search
-                      selectOnBlur={false}
-                      scrolling
-                      suggestion={suggestion}
-                      value={csvMappings[suggestion].task.id ?
-                        csvMappings[suggestion].task.id : null}
-                      placeholder="Valitse vastaava tehtävä"
-                      options={activeCourse.tasks.filter(task => (
-                        activeType === 0 || task.types.find(type => type.id === activeType)
-                      )).map(task =>
-                        ({ key: task.id, text: task.name, value: task.id }))}
-                      onChange={this.handleMapTask}
-                    />
-                    <Button
-                      basic
-                      circular
-                      color={csvMappings[suggestion].active ? 'green' : 'red'}
-                      icon={csvMappings[suggestion].active ? 'checkmark' : 'minus'}
-                      size="mini"
-                      value={suggestion}
-                      onClick={this.toggleCsvHeader}
-                    />
-                  </List.Content>
-                </List.Item>))}
-            </List>
+            <CsvTaskMapping
+              activeCourse={activeCourse}
+              activeType={activeType}
+              csv={csv}
+              csvMappings={csvMappings}
+              handleMapTask={this.handleMapTask}
+              toggleCsvHeader={this.toggleCsvHeader}
+            />
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>

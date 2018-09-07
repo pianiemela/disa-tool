@@ -198,6 +198,7 @@ describe('grade controller', () => {
         ids.grade = result.id
         options.route = `${options.route}/${ids.grade}`
         databaseExpectation.created_at = result.created_at
+        databaseExpectation.updated_at = result.updated_at
         done()
       })
     })
@@ -210,7 +211,11 @@ describe('grade controller', () => {
         skill_level_id: 1,
         needed_for_grade: 0.2,
         prerequisite: null
-      }).then(() => done()))
+      }).then((result) => {
+        databaseExpectation.updated_at = result.updated_at
+        done()
+      }).catch(done)
+      ).catch(done)
     })
 
     testHeaders(options)
@@ -252,7 +257,7 @@ describe('grade controller', () => {
       created_at: asymmetricMatcher(
         actual => !(actual < databaseExpectation.created_at || actual > databaseExpectation.created_at)
       ),
-      updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+      updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
     }, Grade, {
       pathToId: ['body', 'edited', 'id'],
       includeTimestamps: false

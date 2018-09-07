@@ -123,8 +123,8 @@
     },
     "LoginPage": {
       "login": [
-        "Log in",
-        "Kirjaudu sisään"
+        "Log in with your University of Helsinki credentials",
+        "Kirjaudu sisään Helsingin yliopiston tunnuksilla"
       ]
     }
   },
@@ -553,6 +553,16 @@
         "Luo uusi instanssi tästä kurssista"
       ]
     },
+    "EditInstanceForm": {
+      "header": [
+        "Edit course instance",
+        "Muokkaa kurssi-instanssia"
+      ],
+      "prompt_1": [
+        "Edit course instance",
+        "Muokkaa kurssi-instanssia"
+      ]
+    },
     "RegisterForm": {
       "unregister": [
         "Undo registration",
@@ -561,6 +571,10 @@
       "register": [
         "Register",
         "Rekisteröidy"
+      ],
+      "require_login": [
+        "requires login",
+        "vaatii sisäänkirjautumisen"
       ]
     },
     "CourseListPage": {

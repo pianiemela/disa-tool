@@ -294,6 +294,7 @@ describe('type_controller', () => {
         ids.type = result.id
         options.route = `${options.route}/${ids.type}`
         databaseExpectation.created_at = result.created_at
+        databaseExpectation.updated_at = result.updated_at
         done()
       })
     })
@@ -304,7 +305,11 @@ describe('type_controller', () => {
         fin_name: 'fn',
         swe_name: 'sn',
         multiplier: 1
-      }).then(() => done()))
+      }).then((result) => {
+        databaseExpectation.updated_at = result.updated_at
+        done()
+      }).catch(done)
+      ).catch(done)
     })
 
     testHeaders(options)
@@ -348,7 +353,7 @@ describe('type_controller', () => {
         created_at: asymmetricMatcher(actual => !(
           actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
         )),
-        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.created_at)
+        updated_at: asymmetricMatcher(actual => actual > databaseExpectation.updated_at)
       },
       Type,
       {
