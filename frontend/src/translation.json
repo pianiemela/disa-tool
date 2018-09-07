@@ -123,8 +123,8 @@
     },
     "LoginPage": {
       "login": [
-        "Log in",
-        "Kirjaudu sisään"
+        "Log in with your University of Helsinki credentials",
+        "Kirjaudu sisään Helsingin yliopiston tunnuksilla"
       ]
     }
   },
