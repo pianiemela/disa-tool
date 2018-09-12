@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
-import { objectiveGrades } from '../../SelfAssesment/utils'
+import { objectiveGrades } from '../../SelfAssessmentForm/utils'
 
 export const ObjectivesFeedback = (props) => {
   const { objectives, teacher } = props

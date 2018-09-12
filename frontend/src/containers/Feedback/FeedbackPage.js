@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Container } from 'semantic-ui-react'
-import ObjectivesFeedback from './ObjectivesFeedback'
-import QuestionAndGradeFeedback from './QuestionAndGradeFeedback'
-import CategoryFeedback from './CategoryFeedback'
+import ObjectivesFeedback from './Components/ObjectivesFeedback'
+import QuestionAndGradeFeedback from './Components/QuestionAndGradeFeedback'
+import CategoryFeedback from './Components/CategoryFeedback'
 
 const FeedbackPage = (props) => {
   const { assessmentResponse } = props
