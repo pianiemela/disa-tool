@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router'
-import EditOrNewForm from './EditOrNewForm/EditOrNewForm'
+import EditOrNewForm from './Components/EditOrNewform'
 
 import {
   getUserCoursesAction,
@@ -37,12 +37,13 @@ export class SelfAssessmentPage extends React.Component {
       this.props.dispatchClearError()
     }
   }
-  createForm = async (courseInstanceId, type) => {
-    this.setState({ new: true, courseInstanceId, type })
-  }
 
-  editForm = async (id) => {
-    this.setState({ edit: true, assesmentId: id })
+  createOrEdit = async (e, { id, assessment }) => {
+    if (assessment) {
+      this.setState({ new: true, courseInstanceId: id, type: assessment })
+    } else {
+      this.setState({ edit: true, assesmentId: id })
+    }
   }
   render() {
     const { role } = this.props
@@ -68,8 +69,7 @@ export class SelfAssessmentPage extends React.Component {
               dropDownCourse={this.props.courseDropdownOptions}
               selectedCourse={this.props.match.params.courseId}
               selfAssessments={this.props.selfAssessments}
-              createForm={this.createForm}
-              editForm={this.editForm}
+              handleSubmit={this.createOrEdit}
             />
           }
         </div>
