@@ -11,6 +11,7 @@ import selfAssesment from './redux/selfAssesment'
 import { userReducer } from './redux/user'
 import { userCoursesReducer } from './redux/userCourses'
 import { instanceReducer } from './redux/instance'
+import validation from './redux/validation'
 import listCourses from './redux/listCourses'
 import toast from './redux/toast'
 import grade from './redux/grade'
@@ -33,7 +34,8 @@ const reducers = combineReducers({
   grade,
   objective,
   error,
-  admin
+  admin,
+  validation
 })
 
 const store = process.env.NODE_ENV === 'development' ?

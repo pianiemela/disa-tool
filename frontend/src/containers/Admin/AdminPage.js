@@ -7,9 +7,7 @@ import asyncAction from '../../utils/asyncAction'
 
 import { adminGetUsers, adminChangeGlobalRole } from './actions/persons'
 import { adminChangeCourseRole, removeCoursePerson } from './actions/coursePersons'
-
-import AddToCourseForm from './components/AddToCourseForm'
-import DeleteForm from '../../utils/components/DeleteForm'
+import RoleList from './components/RoleList'
 
 class AdminPage extends React.Component {
   constructor(props) {
@@ -92,15 +90,14 @@ class AdminPage extends React.Component {
               </Form>
             </Grid.Column>
           </Grid.Row>
+
           <Grid.Row>
             <Grid.Column width={10}>
-              {this.state.loading ?
+              {this.state.loading &&
                 <Loader active />
-                :
-                null
               }
 
-              {this.props.users.length > 0 ?
+              {this.props.users.length > 0 &&
                 <Accordion fluid styled>
                   {this.props.users.slice((activePage - 1) * 20, activePage * 20).map(u =>
                     (
@@ -114,90 +111,20 @@ class AdminPage extends React.Component {
                           {u.name}
                         </Accordion.Title>
                         <Accordion.Content active={activeIndex === u.id}>
-                          <List divided>
-                            <List.Item>
-                              <List.Header>{this.translate('course_roles')}</List.Header>
-                            </List.Item>
-                            {u.course_people.map(ucp => (
-                              <List.Item key={ucp.id}>
-                                <List.Content floated="right">
-                                  <div>
-                                    <DeleteForm
-                                      onExecute={this.deleteRole(u.id, ucp.course_instance_id)}
-                                      header={this.translate('delete_header')}
-                                      prompt={[
-                                        this.translate('delete_prompt_1'),
-                                        u.name,
-                                        this.translate('delete_prompt_2'),
-                                        ucp.course_instance.name
-                                      ]}
-                                    />
-                                  </div>
-                                </List.Content>
-                                <List.Content floated="right">
-                                  <div>
-                                    <Button.Group>
-                                      <Button
-                                        color="green"
-                                        onClick={ucp.role === 'STUDENT' ? null : () => this.changeRole(u.id, ucp.course_instance_id, 'STUDENT')}
-                                        inverted={ucp.role !== 'STUDENT'}
-                                      >
-                                        {this.translate('student_button')}
-                                      </Button>
-                                      <Button
-                                        onClick={ucp.role === 'TEACHER' ? null : () => this.changeRole(u.id, ucp.course_instance_id, 'TEACHER')}
-                                        inverted={ucp.role !== 'TEACHER'}
-                                        color="green"
-                                      >
-                                        {this.translate('teacher_button')}
-                                      </Button>
-                                    </Button.Group>
-                                  </div>
-                                </List.Content>
-                                <List.Content>
-                                  {ucp.course_instance.name}
-                                </List.Content>
-                              </List.Item>
-                            ))}
-                            <List.Item>
-                              <div style={{ margin: '10px 0px 10px 0px' }}>
-                                <AddToCourseForm person={u} />
-                              </div>
-                            </List.Item>
-                            <List.Item>
-                              <List.Content floated="right">
-                                <Button.Group>
-                                  <Button
-                                    onClick={u.role === 'STUDENT' ? null : () => this.changeRole(u.id, null, 'STUDENT')}
-                                    color="green"
-                                    inverted={u.role !== 'STUDENT'}
-                                  >
-                                    {this.translate('student_button')}
-                                  </Button>
-                                  <Button
-                                    onClick={u.role === 'TEACHER' ? null : () => this.changeRole(u.id, null, 'TEACHER')}
-                                    inverted={u.role !== 'TEACHER'}
-                                    color="green"
-                                  >
-                                    {this.translate('teacher_button')}
-                                  </Button>
-                                </Button.Group>
-                              </List.Content>
-                              <List.Content>
-                                {this.translate('global_role_label')}
-                              </List.Content>
-                            </List.Item>
-                          </List>
+                          <RoleList
+                            translate={this.props.translate}
+                            user={u}
+                            deleteRole={this.deleteRole}
+                            changeRole={this.changeRole}
+                          />
                         </Accordion.Content>
                       </div>
                     ))}
                 </Accordion>
-
-                :
-                null
               }
             </Grid.Column>
           </Grid.Row>
+
           <Grid.Row>
             <Grid.Column width={5} />
             <Grid.Column width={8}>
@@ -213,7 +140,7 @@ class AdminPage extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </Container >
+      </Container>
     )
   }
 }

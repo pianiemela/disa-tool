@@ -1,11 +1,12 @@
 const {
   SelfAssessment,
   AssessmentResponse,
-  Person,
   CourseInstance,
+  Person
 } = require('../database/models.js')
 
 const categoryService = require('../services/category_service')
+const courseInstanceService = require('../services/course_instance_service')
 
 const assessmentAttributes = lang => [
   'id',
@@ -56,8 +57,6 @@ const getUserSelfAssesments = async (user, lang) => {
 }
 
 const updateSelfAssesment = async (data, lang) => {
-  const name = [`${lang}_name`, 'name']
-  const instructions = [`${lang}_instructions`, 'instructions']
   await SelfAssessment.update(
     {
       fin_name: data.fin_name,
@@ -77,15 +76,7 @@ const updateSelfAssesment = async (data, lang) => {
   )
   const updated = await SelfAssessment.findById(data.id, {
     attributes:
-      ['id',
-        name,
-        instructions,
-        'structure',
-        'open',
-        'active',
-        'show_feedback',
-        'course_instance_id'
-      ]
+      assessmentAttributes(lang)
   })
   return updated
 }
@@ -123,13 +114,12 @@ const setAssessmentLanguage = async (selfAssessment, lang) => {
   const { structure } = assessmentCopy
   const { course_instance_id } = assessmentCopy //eslint-disable-line
   const { type } = structure
-
   const name = `${lang}_name`
   const instructions = `${lang}_instructions`
 
   assessmentCopy.name = assessmentCopy[name]
   const oldInst = structure.formInfo.find(h => h.type === instructions)
-  assessmentCopy.instructions = { ...instructions, header: oldInst.header, value: oldInst.value }
+  assessmentCopy.instructions = { header: oldInst.header, value: oldInst.value }
 
   structure.finalGrade.name = (structure.finalGrade.headers.find(h => h.type === name)).value
   structure.openQuestions.name = (structure.headers.openQ.find(h => h.type === name)).value
@@ -141,6 +131,7 @@ const setAssessmentLanguage = async (selfAssessment, lang) => {
   }
 
   const categories = (await categoryService.getCourseCategories(course_instance_id, lang)).map(category => category.get({ plain: true }))
+  structure.displayCoursename = ((await courseInstanceService.getOne(course_instance_id)).get({ plain: true }))[name]
   const categoryNames = {}
   const objNames = {}
 

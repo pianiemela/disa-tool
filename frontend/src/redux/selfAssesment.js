@@ -41,12 +41,6 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       reducer field assesmentResponse
       */
       if (data.response) {
-        /* We have to take in consideration that the amount of open questions can change
-        // so it'd be wise to some sort of checking and adding
-        // Regarding the changed amount of categories... well have to see about that
-        // as of now; dont create the assesment and expect it to contain all updated info
-         about your course, that youve put in after you created the assesment
-        */
         data.response.existingAnswer = true
         return { ...state, assesmentResponse: data.response }
       }
@@ -173,7 +167,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
             ...state.createForm.structure,
             openQuestions: {
               ...state.createForm.structure.openQuestions,
-              questions: state.createForm.structure.openQuestions.questions.filter(oQ => oQ.id !== id)
+              questions: state.createForm.structure.openQuestions.questions.filter(oQ => oQ.id !== id) //eslint-disable-line
             }
           }
         }
@@ -189,12 +183,11 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
 
       const toChange = (state.createForm.structure.formInfo.find(h => (h.type === (type === 'instructions' ? langInstructions : langName))))
       let value = null
-      if (toChange) {
+      if (ids.includes(toChange.id.toString())) {
         value = type === 'instructions' ? { ...state.createForm[type], value: values[toChange.id] } : values[toChange.id]
       } else {
         value = state.createForm[type]
       }
-
 
       return {
         ...state,
@@ -265,12 +258,11 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       if (ids.length === 0) {
         return state
       }
-      let name = state.createForm.structure.finalGrade.headers.find(h => h.type === langName)
-      name = changedHeaders[name.id]
 
       if (headerType) {
-        name = state.createForm.structure.headers[headerType].find(h => h.type === langName)
-        name = changedHeaders[name.id]
+        let name = state.createForm.structure.headers[headerType].find(h => h.type === langName)
+        name = ids.includes(name.id.toString()) ? changedHeaders[name.id] : name.value
+
         return {
           ...state,
           createForm: {
@@ -292,6 +284,9 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
           }
         }
       }
+
+      let name = state.createForm.structure.finalGrade.headers.find(h => h.type === langName)
+      name = ids.includes(name.id.toString()) ? changedHeaders[name.id] : name.value
 
       return {
         ...state,
@@ -319,6 +314,9 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
         ...state,
         userSelfAssesments: state.userSelfAssesments.map(s => (s.id === data.id ? data : s))
       }
+    }
+    case 'CLEAR_ASSESSMENT': {
+      return { ...state, createForm: {}, assesmentResponse: {} }
     }
 
     default:

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router'
-import { SelfAssessmentPage } from '../../../../containers/SelfAssesment/SelfAssessmentPage'
-import EditOrNewForm from '../../../../containers/SelfAssesment/EditOrNewForm/EditOrNewForm'
+import { SelfAssessmentPage } from '../../../../containers/SelfAssessment/SelfAssessmentPage'
+import EditOrNewForm from '../../../../containers/SelfAssessment/Components/EditOrNewform'
 
 describe('Self assesment page', () => {
   let wrapper
