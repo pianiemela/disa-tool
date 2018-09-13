@@ -174,8 +174,8 @@
     },
     "LoginPage": {
       "login": [
-        "Log in",
-        "Kirjaudu sisään"
+        "Log in with your University of Helsinki credentials",
+        "Kirjaudu sisään Helsingin yliopiston tunnuksilla"
       ]
     }
   },
@@ -622,6 +622,10 @@
       "register": [
         "Register",
         "Rekisteröidy"
+      ],
+      "require_login": [
+        "requires login",
+        "vaatii sisäänkirjautumisen"
       ]
     },
     "CourseListPage": {

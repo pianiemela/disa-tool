@@ -11,7 +11,7 @@ class PointMapping extends Component {
 
   t = id => this.props.translate(`UserPage.UploadResponses.PointMapping.${id}`)
 
-  handleChange = (e,{ value }) => {
+  handleChange = (e, { value }) => {
     this.setState({ [e.target.name]: value })
   }
 

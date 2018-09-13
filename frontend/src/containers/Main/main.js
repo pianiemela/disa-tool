@@ -18,6 +18,7 @@ import CourseListPage from '../CourseList/CourseListPage'
 import CreateCoursePage from '../CreateCourse/CreateCoursePage'
 import UploadResponsesPage from '../TaskResponses/UploadResponsesPage'
 import SelfAssesmentListPage from '../SelfAssesmentList/SelfAssesmentListPage'
+import RegisterRedirect from '../CourseList/components/RegisterRedirect'
 
 class MathJaxProvider extends MathJax.Provider {
   hasNodes = true
@@ -65,6 +66,7 @@ class Main extends PureComponent {
     <Route path="/tasks-responses/upload/:courseId" component={UploadResponsesPage} key={keygen.user()} />,
     <Route exact path="/courses/create" component={CreateCoursePage} key={keygen.user()} />,
     <Route path="/admin" component={AdminPage} key={keygen.user()} />,
+    <Route exact path="/courses/register" component={RegisterRedirect} key={keygen.user()} />,
     <Route component={HomePage} key={keygen.user()} />
   ]
 
