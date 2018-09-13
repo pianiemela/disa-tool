@@ -170,6 +170,9 @@ export const initResponseForm = (data) => {
 
 export const respond = (state, payload, typeOfResponse) => {
   const { id, value, final } = payload
+  if (Object.keys(state.assesmentResponse).length === 0) {
+    return state
+  }
 
   if (!final) {
     return {

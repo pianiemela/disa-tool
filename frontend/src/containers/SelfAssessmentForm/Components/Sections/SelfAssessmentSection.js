@@ -28,6 +28,8 @@ const SelfAssessmentSection = (props) => {
             data={questionModules}
             edit={edit}
             final={final}
+            courseInstanceId={courseInstanceId}
+            grades={grades}
           />
         ))
       :
@@ -76,7 +78,6 @@ SelfAssessmentSection.defaultProps = {
   question: false,
   final: false,
   headerType: null,
-  errors: { grade: [], responseText: [] },
   courseInstanceId: null,
   clearError: null,
   grades: null,
@@ -99,7 +100,7 @@ SelfAssessmentSection.propTypes = {
     responseText: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.number.isRequired
     }))
-  }),
+  }).isRequired,
   courseInstanceId: PropTypes.number,
   grades: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string,

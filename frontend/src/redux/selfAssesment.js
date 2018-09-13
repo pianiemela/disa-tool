@@ -41,12 +41,6 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       reducer field assesmentResponse
       */
       if (data.response) {
-        /* We have to take in consideration that the amount of open questions can change
-        // so it'd be wise to some sort of checking and adding
-        // Regarding the changed amount of categories... well have to see about that
-        // as of now; dont create the assesment and expect it to contain all updated info
-         about your course, that youve put in after you created the assesment
-        */
         data.response.existingAnswer = true
         return { ...state, assesmentResponse: data.response }
       }
