@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card } from 'semantic-ui-react'
+import { Card, Progress } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
 export const CategoryFeedback = (props) => {
@@ -13,6 +13,17 @@ export const CategoryFeedback = (props) => {
           {translate('message')}
         </h2>
       )}
+      {feedback ?
+        <Card fluid color="yellow">
+          <Card.Content>
+            <Card.Header>
+              <h3>Yleinen palaute</h3>
+            </Card.Header>
+            <Card.Description>
+              {feedback.generalFeedback}
+            </Card.Description>
+          </Card.Content>
+        </Card> : undefined}
       {questionModuleResponses.map(questionModule => (
         <Card.Group key={questionModule.id} itemsPerRow={feedback ? 2 : 1}>
           <Card fluid color="red" >
@@ -41,8 +52,18 @@ export const CategoryFeedback = (props) => {
                   <h3>{translate('feedback')}</h3>
                 </Card.Header>
                 <Card.Description textAlign="center">
-                  {feedback.find(f => f.categoryId === questionModule.id).text}
+                  {feedback.categoryFeedback.find(f => f.categoryId === questionModule.id).text}
                 </Card.Description>
+              </Card.Content>
+              <Card.Content>
+                {feedback.categoryFeedback.find(f => f.categoryId === questionModule.id).skillLevelObjectives.map(skillLevel => (
+                  <div>
+                    <h4>{skillLevel.skillLevel}</h4>
+                    {skillLevel.objectives.map(objective => (
+                      <Progress size="small" percent={objective.percentageDone} label={objective.name} indicating />
+                    ))}
+                  </div>
+                ))}
               </Card.Content>
             </Card> : undefined}
         </Card.Group>

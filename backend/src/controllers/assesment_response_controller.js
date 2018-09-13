@@ -76,23 +76,23 @@ router.post('/', async (req, res) => {
       }
       return
     }
-
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
     const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
     response.response.verification = verification
     const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
+    // console.log(feedback)
     response.response.feedback = feedback
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
-    const completeResponse = await response.save()
+    const completeResponse = response // await response.save()
     // only send verification data to teacher
     const isTeacher = await !isTeacherOnCourse(req, data.course_instance_id)
-    if (!isTeacher) {
-      delete response.response.verification
-    }
-    // only send feedback to student if it is active
-    if (!await selfAssessmentService.isFeedbackActive(data.assessmentId) && !isTeacher) {
-      delete response.response.feedback
-    }
+    // if (!isTeacher) {
+    //   delete response.response.verification
+    // }
+    // // only send feedback to student if it is active
+    // if (!await selfAssessmentService.isFeedbackActive(data.assessmentId) && !isTeacher) {
+    //   delete response.response.feedback
+    // }
     if (response) {
       res.status(200).json({
         message: 'Self assessment response saved successfully!',
