@@ -96,3 +96,31 @@ export const textfieldResponseAction = data => (dispatch) => {
     payload: data
   })
 }
+
+export const validationAction = data => (dispatch) => {
+  dispatch({
+    type: 'VALIDATE_RESPONSE',
+    payload: data
+  })
+}
+
+export const clearErrorAction = data => (dispatch) => {
+  dispatch({
+    type: 'CLEAR_RESPONSE_ERROR',
+    payload: data
+  })
+}
+
+export const clearValidationAction = () => (dispatch) => {
+  dispatch({
+    type: 'CLEAR_VALIDATION',
+    payload: null
+  })
+}
+
+export const closeModalAction = () => (dispatch) => {
+  dispatch({
+    type: 'CLOSE_MODAL',
+    payload: null
+  })
+}
