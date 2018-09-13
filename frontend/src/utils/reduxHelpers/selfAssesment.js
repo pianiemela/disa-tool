@@ -108,8 +108,8 @@ export const initForm = (payload) => {
     { id: 8, prefix: 'Swe:', value: 'Final grääd', type: 'swe_name' }
   ]
   data.structure.finalGrade.header = data.structure.headers.grade.find(h => h.type === name).value
-  data.structure.questionModuleName = structure.headers.questionHeaders.find(h => h.type === name).value
-  data.structure.openQuestions.name = (data.structure.headers.openQ.find(h => h.type === name)).value
+  data.structure.questionModuleName = structure.headers.questionHeaders.find(h => h.type === name).value //eslint-disable-line
+  data.structure.openQuestions.name = (data.structure.headers.openQ.find(h => h.type === name)).value //eslint-disable-line
   return data
 }
 

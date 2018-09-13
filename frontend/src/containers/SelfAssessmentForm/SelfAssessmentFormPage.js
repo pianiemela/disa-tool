@@ -21,7 +21,8 @@ import {
   editFormAction,
   validationAction,
   clearValidationAction,
-  closeModalAction
+  closeModalAction,
+  clearAssessmentAction
 } from './actions/selfAssesment'
 import SelfAssessmentForm from './Components/SelfAssessmentForm'
 import './Components/selfAssesment.css'
@@ -82,6 +83,7 @@ export class SelfAssessmentFormPage extends React.Component {
       this.props.dispatchClearError()
     }
     this.props.dispatchClearValidation()
+    this.props.dispatchClearAssessmentAction()
   }
   handleSubmit = async () => {
     const { formData } = this.props
@@ -280,9 +282,9 @@ const mapDispatchToProps = dispatch => ({
   dispatchClearValidation: () =>
     dispatch(clearValidationAction()),
   dispatchCloseModalAction: () =>
-    dispatch(closeModalAction())
-
-
+    dispatch(closeModalAction()),
+  dispatchClearAssessmentAction: () =>
+    dispatch(clearAssessmentAction())
 })
 
 SelfAssessmentFormPage.defaultProps = {
@@ -308,6 +310,10 @@ SelfAssessmentFormPage.propTypes = {
   dispatchClearError: PropTypes.func.isRequired,
   dispatchCreateSelfAssesmentResponseAction: PropTypes.func.isRequired,
   dispatchClearValidation: PropTypes.func.isRequired,
+  dispatchCloseModalAction: PropTypes.func.isRequired,
+  dispatchClearAssessmentAction: PropTypes.func.isRequired,
+  dispatchValidation: PropTypes.func.isRequired,
+  formErrors: PropTypes.shape().isRequired,
   match: PropTypes.shape({
     params: PropTypes.shape({}).isRequired
   }).isRequired,

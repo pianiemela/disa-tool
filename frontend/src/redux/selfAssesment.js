@@ -167,7 +167,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
             ...state.createForm.structure,
             openQuestions: {
               ...state.createForm.structure.openQuestions,
-              questions: state.createForm.structure.openQuestions.questions.filter(oQ => oQ.id !== id)
+              questions: state.createForm.structure.openQuestions.questions.filter(oQ => oQ.id !== id) //eslint-disable-line
             }
           }
         }
@@ -314,6 +314,9 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
         ...state,
         userSelfAssesments: state.userSelfAssesments.map(s => (s.id === data.id ? data : s))
       }
+    }
+    case 'CLEAR_ASSESSMENT': {
+      return { ...state, createForm: {}, assesmentResponse: {} }
     }
 
     default:

@@ -124,3 +124,10 @@ export const closeModalAction = () => (dispatch) => {
     payload: null
   })
 }
+
+export const clearAssessmentAction = () => (dispatch) => {
+  dispatch({
+    type: 'CLEAR_ASSESSMENT',
+    payload: null
+  })
+}
