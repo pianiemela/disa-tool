@@ -1,7 +1,7 @@
 import React from 'react'
-import UpOrDownToggle from '../../../../containers/SelfAssesment/Userform/FormParts/UpOrDownToggle'
-import { CategoryQuestionModule } from '../../../../containers/SelfAssesment/Userform/FormParts/QuestionModules/CategoryQuestionModule'
-import MultiLangInput from '../../../../containers/SelfAssesment/Userform/FormParts/MultiLangInput'
+import UpOrDownToggle from '../../../../containers/SelfAssessmentForm/Components/UpOrDownToggle'
+import { CategoryQuestionModule } from '../../../../containers/SelfAssessmentForm/Components/QuestionModules/CategoryQuestionModule'
+import MultiLangInput from '../../../../containers/SelfAssessmentForm/Components/MultiLangInput'
 
 
 const data = {
