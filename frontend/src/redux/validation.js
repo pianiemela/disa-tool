@@ -14,7 +14,6 @@ const INITIAL_STATE = {
 }
 
 export const validationReducer = (state = INITIAL_STATE, action) => {
-  console.log(action.type);
 
   switch (action.type) {
     case 'VALIDATE_RESPONSE': {

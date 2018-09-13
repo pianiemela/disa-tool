@@ -81,6 +81,7 @@ export class SelfAssessmentFormPage extends React.Component {
     if (this.props.error) {
       this.props.dispatchClearError()
     }
+    this.props.dispatchClearValidation()
   }
   handleSubmit = async () => {
     const { formData } = this.props

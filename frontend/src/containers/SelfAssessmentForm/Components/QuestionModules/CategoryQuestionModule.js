@@ -32,9 +32,9 @@ export class CategoryQuestionModule extends React.Component {
   }
 
   handleTextFieldChange = () => {
-    const { final } = this.props
+    const { final, responseTextError } = this.props
     const { id } = this.props.data
-    this.props.dispatchClearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id })
+    if (responseTextError) { this.props.dispatchClearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id }) }
   }
 
   render() {
@@ -46,7 +46,6 @@ export class CategoryQuestionModule extends React.Component {
       grades } = this.props
     const { name, textFieldOn, id } = this.props.data
     const translate = translateId => this.props.translate(`SelfAssessmentForm.QuestionModules.CategoryQuestionModule.${translateId}`)
-    console.log(responseTextError);
 
     return (
       <div className="CategoryQuestion">

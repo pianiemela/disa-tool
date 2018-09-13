@@ -92,14 +92,16 @@ Header.defaultProps = {
   dispatchChange: null,
   headerType: null,
   style: null,
-  editButton: false
+  editButton: false,
+  headers: []
+
 }
 
 Header.propTypes = {
   name: PropTypes.string.isRequired,
   edit: PropTypes.bool.isRequired,
   headerType: PropTypes.string,
-  headers: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  headers: PropTypes.arrayOf(PropTypes.shape()),
   style: PropTypes.shape(),
   dispatchHeaderChange: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,

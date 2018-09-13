@@ -28,8 +28,6 @@ const SelfAssessmentSection = (props) => {
             data={questionModules}
             edit={edit}
             final={final}
-            courseInstanceId={courseInstanceId}
-            grades={grades}
           />
         ))
       :
@@ -62,7 +60,7 @@ const SelfAssessmentSection = (props) => {
             edit={edit}
             headerType={props.headerType}
             headers={headers}
-            style={final && { color: formData[0].includedInAssesment ? 'black' : 'grey' }}
+            style={final ? { color: formData[0].includedInAssesment ? 'black' : 'grey' } : null}
           />
           {questions}
           {(question && edit) &&
