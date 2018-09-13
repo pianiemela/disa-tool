@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import {
   gradeCategoryAction,
-  textfieldResponseAction
+  textfieldResponseAction,
+  clearErrorAction
 } from '../../actions/selfAssesment'
 import MatrixPage from '../../../Course/MatrixPage'
 
@@ -17,20 +18,39 @@ export class CategoryQuestionModule extends React.Component {
     }
   }
 
+  handleDropdownChange = (e, { value }) => {
+    const { final } = this.props
+    const { id } = this.props.data
+    this.props.dispatchGradeCategoryAction({ id, value, final })
+    this.props.dispatchClearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
+  }
+
+  handleTextFieldOnBlur = (e) => {
+    const { final } = this.props
+    const { id } = this.props.data
+    this.props.dispatchTextfieldResponseAction({ id, value: e.target.value, final })
+  }
+
+  handleTextFieldChange = () => {
+    const { final } = this.props
+    const { id } = this.props.data
+    this.props.dispatchClearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id })
+  }
+
   render() {
     const { edit,
       final,
       responseTextError,
       gradeError,
-      clearError,
       courseInstanceId,
       grades } = this.props
     const { name, textFieldOn, id } = this.props.data
     const translate = translateId => this.props.translate(`SelfAssessmentForm.QuestionModules.CategoryQuestionModule.${translateId}`)
+    console.log(responseTextError);
 
     return (
       <div className="CategoryQuestion">
-        <Form error={gradeError !== undefined}>
+        <Form error={gradeError !== undefined || responseTextError !== undefined}>
           <Form.Field>
             <div>
               <Card fluid>
@@ -69,10 +89,7 @@ export class CategoryQuestionModule extends React.Component {
                               selection
                               options={grades}
                               error={gradeError !== undefined}
-                              onChange={!edit ? (e, { value }) => {
-                                this.props.dispatchGradeCategoryAction({ id, value, final })
-                                clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
-                              } : null}
+                              onChange={!edit ? this.handleDropdownChange : null}
                             />
                           </div>
                           <Message
@@ -88,25 +105,20 @@ export class CategoryQuestionModule extends React.Component {
                       <Form.Field width={10}>
                         <Grid.Column>
                           {textFieldOn ?
-                            <Form.TextArea
-                              autoHeight
-                              error={responseTextError !== undefined}
-                              label={translate('basis')}
-                              placeholder={translate('writeBasis')}
-                              onBlur={!edit ? e =>
-                                this.props.dispatchTextfieldResponseAction({
-                                  id,
-                                  value: e.target.value,
-                                  final
-                                })
-                                :
-                                null}
-                              onChange={!edit ? () =>
-                                clearError({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'responseText', id })
-                                :
-                                null
-                              }
-                            />
+                            <div>
+                              <Form.TextArea
+                                autoHeight
+                                error={responseTextError !== undefined}
+                                label={translate('basis')}
+                                placeholder={translate('writeBasis')}
+                                onBlur={!edit && this.handleTextFieldOnBlur}
+                                onChange={!edit && this.handleTextFieldChange}
+                              />
+                              <Message
+                                error
+                                content={responseTextError ? responseTextError.error : null}
+                              />
+                            </div>
                             :
                             null
                           }
@@ -129,8 +141,7 @@ CategoryQuestionModule.defaultProps = {
   courseInstanceId: null,
   responseTextError: undefined,
   gradeError: undefined,
-  grades: [],
-  clearError: null
+  grades: []
 }
 
 
@@ -144,9 +155,9 @@ CategoryQuestionModule.propTypes = {
   final: PropTypes.bool,
   dispatchTextfieldResponseAction: PropTypes.func.isRequired,
   dispatchGradeCategoryAction: PropTypes.func.isRequired,
+  dispatchClearErrorAction: PropTypes.func.isRequired,
   responseTextError: PropTypes.shape(),
   gradeError: PropTypes.shape(),
-  clearError: PropTypes.func,
   courseInstanceId: PropTypes.number,
   edit: PropTypes.bool.isRequired,
   grades: PropTypes.arrayOf(PropTypes.shape({
@@ -165,7 +176,10 @@ const mapDispatchToProps = dispatch => ({
   dispatchTextfieldResponseAction: data =>
     dispatch(textfieldResponseAction(data)),
   dispatchGradeCategoryAction: data =>
-    dispatch(gradeCategoryAction(data))
+    dispatch(gradeCategoryAction(data)),
+  dispatchClearErrorAction: data =>
+    dispatch(clearErrorAction(data))
+
 })
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(CategoryQuestionModule))
