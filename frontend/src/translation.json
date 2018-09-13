@@ -79,27 +79,78 @@
   },
   "Admin": {
     "common": {
-      "student_button": ["Student", "Opiskelija"],
-      "teacher_button": ["Teacher", "Opettaja"]
+      "student_button": [
+        "Student",
+        "Opiskelija"
+      ],
+      "teacher_button": [
+        "Teacher",
+        "Opettaja"
+      ]
     },
     "AddToCourseForm": {
-      "header": ["Register user to a course", "Rekisteröi käyttäjä kurssille"],
-      "prompt_1": ["Register user", "Rekisteröi käyttäjä"],
-      "prompt_2": ["to a new course instance", "uuteen kurssi-instanssiin"],
-      "trigger": ["Add to a new course", "Lisää uudelle kurssille"],
-      "course": ["course", "kurssi"],
-      "instance": ["course instance", "kurssi-instanssi"]
+      "header": [
+        "Register user to a course",
+        "Rekisteröi käyttäjä kurssille"
+      ],
+      "prompt_1": [
+        "Register user",
+        "Rekisteröi käyttäjä"
+      ],
+      "prompt_2": [
+        "to a new course instance",
+        "uuteen kurssi-instanssiin"
+      ],
+      "trigger": [
+        "Add to a new course",
+        "Lisää uudelle kurssille"
+      ],
+      "course": [
+        "course",
+        "kurssi"
+      ],
+      "instance": [
+        "course instance",
+        "kurssi-instanssi"
+      ]
     },
     "AdminPage": {
-      "delete_header": ["Remove user from course", "Poista käyttäjä kurssilta"],
-      "delete_prompt_1": ["Really remove user", "Poistetaanko käyttäjä"],
-      "delete_prompt_2": ["from course instance", "kurssi-instanssista"],
-      "header": ["Manage users", "Hallinnoi käyttäjiä"],
-      "search_button": ["Search", "Hae"],
-      "get_all": ["Get all users", "Hae kaikki käyttäjät"],
-      "course_roles": ["Course roles", "Roolit kursseilla"],
-      "global_role_label": ["GLOBAL ROLE", "GLOBAALI ROOLI"],
-      "search_placeholder": ["Search by name or student number", "Hae nimellä tai opiskelijanumerolla"]
+      "delete_header": [
+        "Remove user from course",
+        "Poista käyttäjä kurssilta"
+      ],
+      "delete_prompt_1": [
+        "Really remove user",
+        "Poistetaanko käyttäjä"
+      ],
+      "delete_prompt_2": [
+        "from course instance",
+        "kurssi-instanssista"
+      ],
+      "header": [
+        "Manage users",
+        "Hallinnoi käyttäjiä"
+      ],
+      "search_button": [
+        "Search",
+        "Hae"
+      ],
+      "get_all": [
+        "Get all users",
+        "Hae kaikki käyttäjät"
+      ],
+      "course_roles": [
+        "Course roles",
+        "Roolit kursseilla"
+      ],
+      "global_role_label": [
+        "GLOBAL ROLE",
+        "GLOBAALI ROOLI"
+      ],
+      "search_placeholder": [
+        "Search by name or student number",
+        "Hae nimellä tai opiskelijanumerolla"
+      ]
     }
   },
   "Login": {
@@ -601,233 +652,247 @@
     }
   },
   "SelfAssessment": {
-    "EditOrNewForm": {
-      "SelfAssessmentList": {
-        "header": [
-          "Self assessments of the selected course - click to edit",
-          "Valitun kurssin itsearviot - klikkaa muokataksesi"
-        ]
-      },
-      "AssessmentButtons": {
-        "categoryButton": [
-          "Category based self assessment",
-          "Itsearvio kategorioiden pohjalta"
+    "SelfAssessmentList": {
+      "header": [
+        "Self assessments of the selected course - click to edit",
+        "Valitun kurssin itsearviot - klikkaa muokataksesi"
+      ]
+    },
+    "AssessmentButtons": {
+      "categoryButton": [
+        "Category based self assessment",
+        "Itsearvio kategorioiden pohjalta"
+      ],
+      "objectiveButton": [
+        "Objective based self assessment",
+        "Itsearvio tavoitteiden pohjalta"
+      ]
+    }
+  },
+  "FeedbackPage": {
+    "CategoryFeedback": {
+      "message": [
+        "You've already responded to this assessment. You can see your responses below",
+        "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
+      ],
+      "grade": [
+        "Assessed grade",
+        "Itsearvioitu arvosana"
+      ],
+      "explanation": [
+        "explanation",
+        "perustelut"
+      ],
+      "feedback": [
+        "Feedback",
+        "Palaute"
+      ]
+    },
+    "ObjectivesFeedback": {
+      "message": [
+        "You've already responded to this assessment. You can see your responses below",
+        "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
+      ],
+      "objective": [
+        "Objective",
+        "Tavoite"
+      ],
+      "assessment": [
+        "Your assessment",
+        "Arvio osaamisesta"
+      ],
+      "objectiveAssessment": {
+        "good": [
+          "Osaan osion tavoitteet hyvin",
+          "I know the the objectives of this category well"
         ],
-        "objectiveButton": [
-          "Objective based self assessment",
-          "Itsearvio tavoitteiden pohjalta"
+        "decent": [
+          "I know the the objectives of this category decently",
+          "Osaan osion tavoitteet kohtalaisesti"
+        ],
+        "poor": [
+          "I still have a lot of room for development regarding the objectives",
+          "Vielä selkeästi kehitettävää osion tavoitteiden suhteen"
         ]
       }
     },
-    "FeedbackPage": {
-      "CategoryFeedback": {
-        "message": [
-          "You've already responded to this assessment. You can see your responses below",
-          "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
-        ],
-        "grade": [
-          "Assessed grade",
-          "Itsearvioitu arvosana"
-        ],
-        "explanation": [
-          "explanation",
-          "perustelut"
-        ],
-        "feedback": [
-          "Feedback",
-          "Palaute"
-        ]
-      },
-      "ObjectivesFeedback": {
-        "message": [
-          "You've already responded to this assessment. You can see your responses below",
-          "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
-        ],
-        "objective": [
-          "Objective",
-          "Tavoite"
+    "QuestionAndGradeFeedback": {
+      "header": [
+        "Open questions",
+        "Avoimet kysymykset"
+      ],
+      "response": [
+        "Response",
+        "Vastaus"
+      ],
+      "grade": [
+        "Grade",
+        "Arvosana"
+      ],
+      "assessedGrade": [
+        "Assessed grade",
+        "Itsearvioitu arvosana"
+      ],
+      "explanation": [
+        "explanation",
+        "perustelut"
+      ]
+    }
+  },
+  "SelfAssessmentForm": {
+    "SelfAssessmentFormPage": {
+      "previewMessage": [
+        "You're now in preview mode. To save the assessment, return to the edit mode",
+        "Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan"
+      ],
+      "notOpenMessage": [
+        "The self assessment is not open for answering yet.",
+        "Itsearviota ei ole vielä avattu vastattavaksi"
+      ],
+      "modalHeader": [
+        "Save you response",
+        "Tallenna vastauksesi"
+      ],
+      "modalContent1": [
+        "You have empty explanation text fields",
+        "Sinulla on tyhjiä perustelukenttiä vastauksille"
+      ],
+      "modalContent2": [
+        "Do you wish to save your response despite this",
+        "Haluatko tallentaa vastauksesi tästä huolimatta"
+      ],
+      "modalButton1": [
+        "Save",
+        "Tallenna"
+      ],
+      "modalButton2": [
+        "Cancel",
+        "Peru"
+      ],
+      "editButton": [
+        "Edit",
+        "Muokkaa"
+      ],
+      "previewButton": [
+        "Preview",
+        "Esikatsele"
+      ],
+      "saveButton": [
+        "Save",
+        "Tallenna"
+      ],
+      "updateButton": [
+        "Update",
+        "Päivitä"
+      ]
+    },
+    "QuestionModules": {
+      "CategoryQuestionModule": {
+        "matrix": [
+          "Skill level matrix",
+          "Osaamismatriisi"
         ],
         "assessment": [
-          "Your assessment",
-          "Arvio osaamisesta"
+          "Assess your skills by grade",
+          "Arvioi osaamisesi arvosanalla"
         ],
-        "objectiveAssessment": {
-          "good": [
-            "Osaan osion tavoitteet hyvin",
-            "I know the the objectives of this category well"
-          ],
-          "decent": [
-            "I know the the objectives of this category decently",
-            "Osaan osion tavoitteet kohtalaisesti"
-          ],
-          "poor": [
-            "I still have a lot of room for development regarding the objectives",
-            "Vielä selkeästi kehitettävää osion tavoitteiden suhteen"
-          ]
-        }
+        "gradeSelect": [
+          "Select a grade",
+          "Valitse arvosana"
+        ],
+        "basis": [
+          "Explanation for grade",
+          "Perustelut arvosanalle"
+        ],
+        "writeBasis": [
+          "Write an explanation for your grade",
+          "Perustelut arvosanalle"
+        ]
       },
-      "QuestionAndGradeFeedback": {
+      "EditCategoryModule": {
+        "label": [
+          "Explanation for grade",
+          "Perustelut arvosanalle"
+        ],
+        "includedButton": [
+          "Included in assessment",
+          "Mukana itsearviossa"
+        ],
+        "notIncludedButton": [
+          "Not included in assessment",
+          "Ei mukana itsearviossa"
+        ]
+      },
+      "OpenQuestionModule": {
         "header": [
-          "Open questions",
-          "Avoimet kysymykset"
+          "Open question",
+          "Avoin kysymys"
         ],
-        "response": [
-          "Response",
-          "Vastaus"
+        "label": [
+          "Respond to the open question",
+          "Vastaa avoimeen kysymykseen"
         ],
-        "grade": [
-          "Grade",
-          "Arvosana"
+        "placeholder": [
+          "Write your response here",
+          "Kirjoita vastaus tähän"
         ],
-        "assessedGrade": [
-          "Assessed grade",
-          "Itsearvioitu arvosana"
+        "modalHeader": [
+          "Remove open question",
+          "Poista avoin kysymys"
         ],
-        "explanation": [
-          "explanation",
-          "perustelut"
+        "modalConfirmation": [
+          "Do you wish to remove the open question",
+          "Haluatko poistaa avoimen kysymyksen"
+        ],
+        "modalCancel": [
+          "Cancel",
+          "Peru"
+        ],
+        "popup": [
+          "Remove the open question from here",
+          "Poista avoin kysymys tästä"
         ]
       }
     },
-    "Userform": {
-      "FormParts": {
-        "QuestionModules": {
-          "CategoryQuestionModule": {
-            "matrix": [
-              "Skill level matrix",
-              "Osaamismatriisi"
-            ],
-            "assessment": [
-              "Assess your skills by grade",
-              "Arvioi osaamisesi arvosanalla"
-            ],
-            "gradeSelect": [
-              "Select a grade",
-              "Valitse arvosana"
-            ],
-            "basis": [
-              "Explanation for grade",
-              "Perustelut arvosanalle"
-            ],
-            "writeBasis": [
-              "Write an explanation for your grade",
-              "Perustelut arvosanalle"
-            ]
-          },
-          "EditCategoryModule": {
-            "label": [
-              "Explanation for grade",
-              "Perustelut arvosanalle"
-            ],
-            "includedButton": [
-              "Included in assessment",
-              "Mukana itsearviossa"
-            ],
-            "notIncludedButton": [
-              "Not included in assessment",
-              "Ei mukana itsearviossa"
-            ],
-            "buttonShow": [
-              "Show",
-              "Näytä"
-            ],
-            "buttonEdit": [
-              "Edit",
-              "Muokkaa"
-            ]
-          },
-          "OpenQuestionModule": {
-            "header": [
-              "Open question",
-              "Avoin kysymys"
-            ],
-            "label": [
-              "Respond to the open question",
-              "Vastaa avoimeen kysymykseen"
-            ],
-            "placeholder": [
-              "Write your response here",
-              "Kirjoita vastaus tähän"
-            ],
-            "modalHeader": [
-              "Remove open question",
-              "Poista avoin kysymys"
-            ],
-            "modalConfirmation": [
-              "Do you wish to remove the open question",
-              "Haluatko poistaa avoimen kysymyksen"
-            ],
-            "modalCancel": [
-              "Cancel",
-              "Peru"
-            ],
-            "popup": [
-              "Remove the open question from here",
-              "Poista avoin kysymys tästä"
-            ]
-          }
-        },
-        "UpOrDownToggle": {
-          "downButton": [
-            "Move category down",
-            "Siirä kategoria alemmas"
-          ],
-          "upButton": [
-            "Move category up",
-            "Siirrä kategoria ylemmäs"
-          ]
-        },
-        "addOpenQuestion": {
-          "header": [
-            "Add open question",
-            "Lisää avoin kysymys"
-          ],
-          "questionDisplay": [
-            "Question",
-            "Kysymys"
-          ]
-        }
-      },
-      "Sections": {
-        "buttonShow": [
-          "Show",
-          "Näytä"
-        ],
-        "buttonEdit": [
-          "Edit",
-          "Muokkaa"
-        ]
-      },
-      "SelfAssessmentForm": {
-        "previewMessage": [
-          "You're now in preview mode. To save the assessment, return to the edit mode",
-          "Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan"
-        ],
-        "notOpenMessage": [
-          "The self assessment is not open for answering yet.",
-          "Itsearviota ei ole vielä avattu vastattavaksi"
-        ],
-        "modalHeader": [
-          "Save you response",
-          "Tallenna vastauksesi"
-        ],
-        "modalContent1": [
-          "You have empty explanation text fields",
-          "Sinulla on tyhjiä perustelukenttiä vastauksille"
-        ],
-        "modalContent2": [
-          "Do you wish to save your response despite this",
-          "Haluatko tallentaa vastauksesi tästä huolimatta"
-        ],
-        "modalButton1": [
-          "Yes",
-          "Tallenna"
-        ],
-        "modalButton2": [
-          "Cancel",
-          "Peru"
-        ]
-      }
+    "UpOrDownToggle": {
+      "downButton": [
+        "Move category down",
+        "Siirä kategoria alemmas"
+      ],
+      "upButton": [
+        "Move category up",
+        "Siirrä kategoria ylemmäs"
+      ]
+    },
+    "addOpenQuestion": {
+      "addButton": [
+        "Add open question",
+        "Lisää avoin kysymys"
+      ],
+      "questionDisplay": [
+        "Question",
+        "Kysymys"
+      ]
+    },
+    "Header": {
+      "buttonShow": [
+        "Show",
+        "Näytä"
+      ],
+      "buttonEdit": [
+        "Edit",
+        "Muokkaa"
+      ]
+    },
+    "Sections": {
+      "buttonShow": [
+        "Show",
+        "Näytä"
+      ],
+      "buttonEdit": [
+        "Edit",
+        "Muokkaa"
+      ]
     }
   },
   "UserPage": {
@@ -961,9 +1026,18 @@
           "Add here all non-numeric values and map them to numeric values",
           "Onko sarakkeissa arvoja, joiden pistemäärä pitää muuttaa numeraalisiksi?"
         ],
-        "key": ["name", "nimi"],
-        "value": ["points", "pisteet"],
-        "add": ["add", "lisää"]
+        "key": [
+          "name",
+          "nimi"
+        ],
+        "value": [
+          "points",
+          "pisteet"
+        ],
+        "add": [
+          "add",
+          "lisää"
+        ]
       }
     }
   },

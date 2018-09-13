@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 
 export const QuestionAndGradeFeedback = (props) => {
   const { openQuestionResponses, finalGradeResponse } = props
-  const translate = id => props.translate(`SelfAssessment.FeedbackPage.QuestionAndGradeFeedback.${id}`)
+  const translate = id => props.translate(`FeedbackPage.QuestionAndGradeFeedback.${id}`)
 
   return (
     <div style={{ marginTop: '50px' }}>

@@ -189,12 +189,12 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
 
       const toChange = (state.createForm.structure.formInfo.find(h => (h.type === (type === 'instructions' ? langInstructions : langName))))
       let value = null
-      if (values[toChange.id]) {
+      if (ids.includes(toChange.id.toString())) {
         value = type === 'instructions' ? { ...state.createForm[type], value: values[toChange.id] } : values[toChange.id]
       } else {
         value = state.createForm[type]
       }
-      
+
       return {
         ...state,
         createForm: {
@@ -267,7 +267,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
 
       if (headerType) {
         let name = state.createForm.structure.headers[headerType].find(h => h.type === langName)
-        name = changedHeaders[name.id] ? changedHeaders[name.id] : name.value
+        name = ids.includes(name.id.toString()) ? changedHeaders[name.id] : name.value
 
         return {
           ...state,
@@ -292,7 +292,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
 
       let name = state.createForm.structure.finalGrade.headers.find(h => h.type === langName)
-      name = changedHeaders[name.id] ? changedHeaders[name.id] : name.value
+      name = ids.includes(name.id.toString()) ? changedHeaders[name.id] : name.value
 
       return {
         ...state,

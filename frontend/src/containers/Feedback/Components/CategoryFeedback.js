@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 
 export const CategoryFeedback = (props) => {
   const { questionModuleResponses, feedback } = props
-  const translate = id => props.translate(`SelfAssessment.FeedbackPage.CategoryFeedback.${id}`)
+  const translate = id => props.translate(`FeedbackPage.CategoryFeedback.${id}`)
   return (
     <div>
       {props.teacher ? null : (

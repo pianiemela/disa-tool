@@ -6,7 +6,7 @@ import { objectiveGrades } from '../../SelfAssessmentForm/utils'
 
 export const ObjectivesFeedback = (props) => {
   const { objectives, teacher } = props
-  const translate = id => props.translate(`SelfAssessment.FeedbackPage.ObjectivesFeedback.${id}`)
+  const translate = id => props.translate(`FeedbackPage.ObjectivesFeedback.${id}`)
 
   const deepCalculations = (data) => {
     let assesmentGrade = null
