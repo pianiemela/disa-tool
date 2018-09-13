@@ -18,12 +18,15 @@ import {
 } from '../../actions/actions'
 import {
   initNewFormAction,
-  editFormAction
+  editFormAction,
+  validationAction,
+  clearValidationAction,
+  closeModalAction
 } from './actions/selfAssesment'
 import SelfAssessmentForm from './Components/SelfAssessmentForm'
 import './Components/selfAssesment.css'
 
-import { validationErrors, gradeOptions, checkResponseErrors } from './utils'
+import { validationErrors, gradeOptions } from './utils'
 
 export class SelfAssessmentFormPage extends React.Component {
   constructor(props) {

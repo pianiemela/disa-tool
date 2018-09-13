@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import ObjectiveQuestionModule from './QuestionModules/ObjectiveQuestionModule'
 import CategoryQuestionModule from './QuestionModules/CategoryQuestionModule'
 import OpenQuestionModule from './QuestionModules/OpenQuestionModule'
@@ -8,15 +9,14 @@ import SelfAssessmentSection from './Sections/SelfAssessmentSection'
 import EditCategoryModule from './QuestionModules/EditCategoryModule'
 import EditObjectiveModule from './QuestionModules/EditObjectiveModule'
 
-
 const SelfAssessmentForm = (props) => {
-  const { edit, formData, responseErrors, clearError, preview, grades } = props
+  const { edit, formData, responseErrors, preview, grades } = props
   const { structure } = formData
   const { type } = structure
   const { grade } = structure.headers
   const editMode = edit && !preview
   const questionModule = editMode ? (type === 'category' ? EditCategoryModule : EditObjectiveModule) : (type === 'category' ? CategoryQuestionModule : ObjectiveQuestionModule) //eslint-disable-line
-  const finalGradeModule = (edit && !preview) ? EditCategoryModule : CategoryQuestionModule
+  const finalGradeModule = editMode ? EditCategoryModule : CategoryQuestionModule
   const dummyPropToEnsureChange = () => (
     (
       null
@@ -38,7 +38,6 @@ const SelfAssessmentForm = (props) => {
         QuestionModule={questionModule}
         courseInstanceId={formData.course_instance_id}
         errors={responseErrors.qModErrors}
-        clearError={clearError}
         grades={grades}
       />
 
@@ -51,7 +50,6 @@ const SelfAssessmentForm = (props) => {
           QuestionModule={OpenQuestionModule}
           question
           errors={responseErrors.openQErrors}
-          clearError={clearError}
         />
         :
         null
@@ -68,7 +66,6 @@ const SelfAssessmentForm = (props) => {
           courseInstanceId={formData.course_instance_id}
           changedProp={dummyPropToEnsureChange}
           errors={responseErrors.finalGErrors}
-          clearError={clearError}
           grades={grades}
         />
         :
@@ -77,4 +74,28 @@ const SelfAssessmentForm = (props) => {
   )
 }
 
+SelfAssessmentForm.defaultProps = {
+  responseErrors: {
+    qModErrors:
+      { grade: [], responseText: [] },
+    finalGErrors:
+      { grade: [], responseText: [] },
+    openQErrors:
+      { grade: [], responseText: [] }
+  }
+}
+
+SelfAssessmentForm.propTypes = {
+  edit: PropTypes.bool.isRequired,
+  formData: PropTypes.shape().isRequired,
+  responseErrors: PropTypes.shape({
+    openQErrors: PropTypes.shape(),
+    qModErrors: PropTypes.shape(),
+    finalGErrors: PropTypes.shape()
+  }),
+  preview: PropTypes.bool.isRequired,
+  grades: PropTypes.arrayOf(PropTypes.shape()).isRequired
+}
+
 export default SelfAssessmentForm
+
