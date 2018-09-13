@@ -7,7 +7,7 @@ import { Container, Loader, Accordion, Button, Icon, Table, Segment, Header } fr
 
 import { getResponsesBySelfAssesment } from '../../api/selfassesment'
 
-import FeedbackPage from '../SelfAssesment/FeedbackPage/FeedbackPage'
+import FeedbackPage from '../Feedback/FeedbackPage'
 import LinkExport from '../User/components/LinkExport'
 
 class SelfAssesmentListPage extends Component {

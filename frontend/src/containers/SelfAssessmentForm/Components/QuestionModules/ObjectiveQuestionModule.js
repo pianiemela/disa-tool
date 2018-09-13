@@ -3,11 +3,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { gradeObjectiveAction } from '../../../actions/selfAssesment'
+import { gradeObjectiveAction } from '../../actions/selfAssesment'
 
-import MathJaxText from '../../../../../utils/components/MathJaxText'
-import { objectiveGrades } from '../../../utils'
-import '../../../Userform/selfAssesment.css'
+import MathJaxText from '../../../../utils/components/MathJaxText'
+import { objectiveGrades } from '../../utils'
+import '../../Components/selfAssesment.css'
 
 
 class ObjectiveQuestionModule extends React.Component {
@@ -36,7 +36,7 @@ class ObjectiveQuestionModule extends React.Component {
     const { objectives, name, id } = this.props.data
     const { gradeError, clearError } = this.props
     const { ratings, grades } = this.state
-    
+
     return (
       <Card fluid>
         <Card.Content>

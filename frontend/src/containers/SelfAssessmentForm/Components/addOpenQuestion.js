@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import { Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
-import { addOpenQuestion } from '../../actions/selfAssesment'
-import MultilingualField from '../../../../utils/components/MultilingualField'
+import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
+import { addOpenQuestion } from '../actions/selfAssesment'
+import MultilingualField from '../../../utils/components/MultilingualField'
 
 const AddOpenQuestion = (props) => {
-  const translate = id => props.translate(`SelfAssessment.Userform.FormParts.addOpenQuestion.${id}`)
+  const translate = id => props.translate(`SelfAssessmentForm.addOpenQuestion.${id}`)
 
   const createQuestion = e =>
     props.dispatchAddOpenQuestion({
@@ -19,8 +19,8 @@ const AddOpenQuestion = (props) => {
 
   return (
     <ModalForm
-      header={translate('header')}
-      trigger={<span><Button positive>Lisää uusi</Button></span>}
+      header={translate('addButton')}
+      trigger={<span><Button positive>{translate('addButton')}</Button></span>}
       actions={saveActions(translate)}
       onSubmit={createQuestion}
     >

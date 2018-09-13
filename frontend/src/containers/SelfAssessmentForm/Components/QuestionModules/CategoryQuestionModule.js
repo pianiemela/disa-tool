@@ -5,33 +5,16 @@ import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import {
   gradeCategoryAction,
-  textfieldResponseAction,
-  toggleTextField,
-  toggleFormPartAction,
-  changeHeaderAction
-} from '../../../actions/selfAssesment'
-import MatrixPage from '../../../../Course/MatrixPage'
+  textfieldResponseAction
+} from '../../actions/selfAssesment'
+import MatrixPage from '../../../Course/MatrixPage'
 
 export class CategoryQuestionModule extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      editHeaders: false,
-      changedHeaders: {},
       showMatrix: false
     }
-  }
-
-
-  toggleEdit = () => {
-    this.setState({ editHeaders: !this.state.editHeaders })
-    this.props.dispatchHeaderChange({ changedHeaders: this.state.changedHeaders })
-  }
-
-  changeHeader = (id, value) => {
-    const oldState = this.state.changedHeaders
-    oldState[id] = value
-    this.setState({ editHeaders: oldState })
   }
 
   render() {
@@ -43,7 +26,7 @@ export class CategoryQuestionModule extends React.Component {
       courseInstanceId,
       grades } = this.props
     const { name, textFieldOn, id } = this.props.data
-    const translate = translateId => this.props.translate(`SelfAssessment.Userform.FormParts.QuestionModules.CategoryQuestionModule.${translateId}`)
+    const translate = translateId => this.props.translate(`SelfAssessmentForm.QuestionModules.CategoryQuestionModule.${translateId}`)
 
     return (
       <div className="CategoryQuestion">
@@ -54,23 +37,26 @@ export class CategoryQuestionModule extends React.Component {
                 <Card.Content >
                   <Card.Header>
                     {name}
-                    <Accordion style={{ marginTop: '10px' }} fluid styled>
-                      <Accordion.Title
-                        active={this.state.showMatrix}
-                        onClick={() => this.setState({ showMatrix: !this.state.showMatrix })}
-                      >
-                        <Icon name="dropdown" />
-                        {translate('matrix')}
-                      </Accordion.Title>
-                      <Accordion.Content active={this.state.showMatrix}>
-                        <MatrixPage
-                          courseId={courseInstanceId}
-                          hideHeader
-                          categoryId={id}
-                        />
-                      </Accordion.Content>
-                    </Accordion>
+                    {!final &&
+                      <Accordion style={{ marginTop: '10px' }} fluid styled>
+                        <Accordion.Title
+                          active={this.state.showMatrix}
+                          onClick={() => this.setState({ showMatrix: !this.state.showMatrix })}
+                        >
+                          <Icon name="dropdown" />
+                          {translate('matrix')}
+                        </Accordion.Title>
+                        <Accordion.Content active={this.state.showMatrix}>
+                          <MatrixPage
+                            courseId={courseInstanceId}
+                            hideHeader
+                            categoryId={id}
+                          />
+                        </Accordion.Content>
+                      </Accordion>
+                    }
                   </Card.Header>
+
                   <Grid verticalAlign="middle" padded columns={3}>
                     <Grid.Row >
                       <Form.Field width={10}>
@@ -97,6 +83,7 @@ export class CategoryQuestionModule extends React.Component {
                       </Form.Field>
                       <Grid.Column />
                     </Grid.Row>
+
                     <Grid.Row >
                       <Form.Field width={10}>
                         <Grid.Column>
@@ -130,7 +117,7 @@ export class CategoryQuestionModule extends React.Component {
                 </Card.Content>
               </Card>
             </div>
-          </Form.Field >
+          </Form.Field>
         </Form>
       </div>
     )
@@ -141,7 +128,9 @@ CategoryQuestionModule.defaultProps = {
   final: false,
   courseInstanceId: null,
   responseTextError: undefined,
-  gradeError: undefined
+  gradeError: undefined,
+  grades: [],
+  clearError: null
 }
 
 
@@ -153,19 +142,18 @@ CategoryQuestionModule.propTypes = {
     textFieldOn: PropTypes.bool
   }).isRequired,
   final: PropTypes.bool,
-  dispatchHeaderChange: PropTypes.func.isRequired,
   dispatchTextfieldResponseAction: PropTypes.func.isRequired,
   dispatchGradeCategoryAction: PropTypes.func.isRequired,
   responseTextError: PropTypes.shape(),
   gradeError: PropTypes.shape(),
-  clearError: PropTypes.func.isRequired,
+  clearError: PropTypes.func,
   courseInstanceId: PropTypes.number,
   edit: PropTypes.bool.isRequired,
   grades: PropTypes.arrayOf(PropTypes.shape({
     key: PropTypes.number,
     value: PropTypes.number,
     text: PropTypes.string
-  })).isRequired,
+  })),
   translate: PropTypes.func.isRequired
 }
 
@@ -174,12 +162,6 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  dispatchTextFieldOnOff: id =>
-    dispatch(toggleTextField(id)),
-  dispatchToggleFormPartAction: (id, type) =>
-    dispatch(toggleFormPartAction(id, type)),
-  dispatchHeaderChange: data =>
-    dispatch(changeHeaderAction(data)),
   dispatchTextfieldResponseAction: data =>
     dispatch(textfieldResponseAction(data)),
   dispatchGradeCategoryAction: data =>

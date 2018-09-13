@@ -10,8 +10,8 @@ import HomePage from '../Home/HomePage'
 import LoginPage from '../Login/LoginPage'
 import MatrixPage from '../Course/MatrixPage'
 import CoursePage from '../Course/CoursePage'
-import SelfAssessmentPage from '../SelfAssesment/SelfAssessmentPage'
-import SelfAssessmentForm from '../SelfAssesment/Userform/SelfAssessmentForm'
+import SelfAssessmentPage from '../SelfAssessment/SelfAssessmentPage'
+import SelfAssessmentFormPage from '../SelfAssessmentForm/SelfAssessmentFormPage'
 import AdminPage from '../Admin/AdminPage'
 import UserPage from '../User/UserPage'
 import CourseListPage from '../CourseList/CourseListPage'
@@ -53,9 +53,9 @@ class Main extends PureComponent {
   }
 
   userRoutes = [
-    <Route exact path="/selfassesment/edit/:selfAssesmentId" render={({ match }) => <SelfAssessmentForm edit match={match} />} key={keygen.user()} />,
-    <Route exact path="/selfassesment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssessmentForm edit new match={match} />} key={keygen.user()} />,
-    <Route exact path="/selfassesment/response/:selfAssesmentId" render={({ match }) => <SelfAssessmentForm edit={false} match={match} />} key={keygen.user()} />,
+    <Route exact path="/selfassesment/edit/:selfAssesmentId" render={({ match }) => <SelfAssessmentFormPage edit match={match} />} key={keygen.user()} />,
+    <Route exact path="/selfassesment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssessmentFormPage edit new match={match} />} key={keygen.user()} />,
+    <Route exact path="/selfassesment/response/:selfAssesmentId" render={({ match }) => <SelfAssessmentFormPage edit={false} match={match} />} key={keygen.user()} />,
     <Route path="/selfassesment/list/:selfAssesmentId" render={({ match }) => <SelfAssesmentListPage selfAssesmentId={Number(match.params.selfAssesmentId)} />} key={keygen.user()} />,
     <Route exact path="/selfassesment/:courseId" component={SelfAssessmentPage} key={keygen.user()} />,
     <Route path="/selfassesment" component={SelfAssessmentPage} key={keygen.user()} />,

@@ -53,7 +53,7 @@ export const objectiveGrades = () => {
       }
     case 'eng':
       return {
-        0: 'A lot to improve',
+        0: 'Room for improvement',
         1: 'Decent skills',
         2: 'Good skills'
       }

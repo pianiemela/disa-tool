@@ -3,8 +3,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { toggleFormPartAction } from '../../../actions/selfAssesment'
-import MathJaxText from '../../../../../utils/components/MathJaxText'
+import { toggleFormPartAction } from '../../actions/selfAssesment'
+import MathJaxText from '../../../../utils/components/MathJaxText'
 
 
 export class EditObjectiveModule extends React.Component {
@@ -17,7 +17,7 @@ export class EditObjectiveModule extends React.Component {
 
   render() {
     const { objectives, name, id, includedInAssesment } = this.props.data
-    const translate = translateId => this.props.translate(`SelfAssessment.Userform.FormParts.QuestionModules.EditCategoryModule.${translateId}`)
+    const translate = translateId => this.props.translate(`SelfAssessmentForm.QuestionModules.EditCategoryModule.${translateId}`)
 
     return (
       <Accordion style={{ marginTop: '20px', marginBottom: '20px' }} fluid styled>

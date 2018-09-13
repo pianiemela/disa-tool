@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Form, Card, Grid, Icon, Popup, Button, Message } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
-import ModalForm from '../../../../../utils/components/ModalForm'
-import { removeOpenQuestion, openQuestionResponseAction } from '../../../actions/selfAssesment'
+import ModalForm from '../../../../utils/components/ModalForm'
+import { removeOpenQuestion, openQuestionResponseAction } from '../../actions/selfAssesment'
 
 
 const OpenQuestionModule = (props) => {
   const { edit, responseTextError } = props
   const { id, name } = props.data
-  const translate = translateId => props.translate(`SelfAssessment.Userform.FormParts.QuestionModules.OpenQuestionModule.${translateId}`)
+  const translate = translateId => props.translate(`SelfAssessmentForm.QuestionModules.OpenQuestionModule.${translateId}`)
 
   return (
     <Form error={responseTextError !== undefined}>
@@ -80,7 +80,7 @@ const OpenQuestionModule = (props) => {
             </Card.Content>
           </Card>
         </Card.Group>
-      </Form.Field >
+      </Form.Field>
     </Form>
   )
 }

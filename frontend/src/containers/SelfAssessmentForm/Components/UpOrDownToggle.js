@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Icon, Popup } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
-import { toggleUp, toggleDown } from '../../actions/selfAssesment'
+import { toggleUp, toggleDown } from '../actions/selfAssesment'
 
 const UpOrDownToggle = (props) => {
   const { id } = props
@@ -31,7 +31,7 @@ const UpOrDownToggle = (props) => {
           />}
         content={translate('upButton')}
       />
-    </div >
+    </div>
   )
 }
 
