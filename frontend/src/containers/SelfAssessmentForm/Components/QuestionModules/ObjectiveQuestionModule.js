@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import { gradeObjectiveAction } from '../../actions/selfAssesment'
+import { gradeObjectiveAction, clearErrorAction } from '../../actions/selfAssesment'
 
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import { objectiveGrades } from '../../utils'
@@ -32,9 +32,15 @@ class ObjectiveQuestionModule extends React.Component {
     this.setState({ ratings })
   }
 
+  handleCheckboxChange = (e, { objective, value }) => {
+    const { id } = this.props.data
+    this.handleChange(objective, value)
+    this.props.dispatchClearErrorAction({ type: 'qModErrors', errorType: 'grade', id, objective })
+  }
+
   render() {
-    const { objectives, name, id } = this.props.data
-    const { gradeError, clearError } = this.props
+    const { objectives, name } = this.props.data
+    const { gradeError } = this.props
     const { ratings, grades } = this.state
 
     return (
@@ -66,7 +72,7 @@ class ObjectiveQuestionModule extends React.Component {
                             <Segment>
                               <MathJaxText content={o.name} />
                             </Segment>
-                          </Grid.Column >
+                          </Grid.Column>
                           <Grid.Column>
                             <div style={{ display: 'flex' }}>
                               {Object.keys(grades).map(og =>
@@ -77,9 +83,7 @@ class ObjectiveQuestionModule extends React.Component {
                                       objective={o.id}
                                       value={og}
                                       checked={ratings[o.id] === og}
-                                      onChange={(e, { objective, value }) => {
-                                        this.handleChange(objective, value); clearError({ type: 'qModErrors', errorType: 'grade', id, objective })
-                                      }}
+                                      onChange={this.handleCheckboxChange}
                                       radio
                                     />
                                   </div>))}
@@ -87,7 +91,7 @@ class ObjectiveQuestionModule extends React.Component {
                             <Message
                               error
                               style={{ textAlign: 'center' }}
-                              content={gradeError.errors[o.id] ? gradeError.errors[o.id].error : null}
+                              content={gradeError.errors[o.id] && gradeError.errors[o.id].error}
                             />
                           </Grid.Column>
                         </Grid.Row>
@@ -99,14 +103,16 @@ class ObjectiveQuestionModule extends React.Component {
             </List>
           </Form>
         </Card.Content>
-      </Card >
+      </Card>
     )
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   dispatchGradeObjectiveAction: data =>
-    dispatch(gradeObjectiveAction(data))
+    dispatch(gradeObjectiveAction(data)),
+  dispatchClearErrorAction: data =>
+    dispatch(clearErrorAction(data))
 })
 
 ObjectiveQuestionModule.defaultProps = {
@@ -132,7 +138,7 @@ ObjectiveQuestionModule.propTypes = {
   gradeError: PropTypes.shape({
     errors: PropTypes.shape()
   }),
-  clearError: PropTypes.func.isRequired
+  dispatchClearErrorAction: PropTypes.func.isRequired
 }
 
 export default connect(null, mapDispatchToProps)(ObjectiveQuestionModule)
