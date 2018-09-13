@@ -4,13 +4,16 @@ import { connect } from 'react-redux'
 import { Form, Card, Grid, Icon, Popup, Button, Message } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 import ModalForm from '../../../../utils/components/ModalForm'
-import { removeOpenQuestion, openQuestionResponseAction } from '../../actions/selfAssesment'
+import { removeOpenQuestion, openQuestionResponseAction, clearErrorAction } from '../../actions/selfAssesment'
 
 
 const OpenQuestionModule = (props) => {
   const { edit, responseTextError } = props
   const { id, name } = props.data
   const translate = translateId => props.translate(`SelfAssessmentForm.QuestionModules.OpenQuestionModule.${translateId}`)
+
+  const handleTextAreaBlur = e => props.dispatchopenQuestionResponseAction({ id, value: e.target.value })
+  const handleTextAreaChange = () => props.dispatchClearErrorAction({ type: 'openQErrors', errorType: 'responseText', id })
 
   return (
     <Form error={responseTextError !== undefined}>
@@ -29,15 +32,8 @@ const OpenQuestionModule = (props) => {
                       label={translate('label')}
                       error={responseTextError !== undefined}
                       placeholder={translate('placeholder')}
-                      onBlur={!edit ? e =>
-                        props.dispatchopenQuestionResponseAction({ id, value: e.target.value })
-                        :
-                        null
-                      }
-                      onChange={!edit && responseTextError ? () =>
-                        props.clearError({ type: 'openQErrors', errorType: 'responseText', id })
-                        : null
-                      }
+                      onBlur={!edit && handleTextAreaBlur}
+                      onChange={(!edit && responseTextError) && handleTextAreaChange}
                     />
                     <Message
                       error
@@ -90,21 +86,24 @@ OpenQuestionModule.propTypes = {
   dispatchRemoveOpenQuestion: PropTypes.func.isRequired,
   data: PropTypes.shape().isRequired,
   dispatchopenQuestionResponseAction: PropTypes.func.isRequired,
-  clearError: PropTypes.func,
   responseTextError: PropTypes.shape(),
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  dispatchClearErrorAction: PropTypes.func.isRequired
+
 }
 
 OpenQuestionModule.defaultProps = {
-  responseTextError: undefined,
-  clearError: undefined
+  responseTextError: undefined
 }
 
 const mapDispatchToProps = dispatch => ({
   dispatchRemoveOpenQuestion: id =>
     dispatch(removeOpenQuestion(id)),
   dispatchopenQuestionResponseAction: data =>
-    dispatch(openQuestionResponseAction(data))
+    dispatch(openQuestionResponseAction(data)),
+  dispatchClearErrorAction: data =>
+    dispatch(clearErrorAction(data))
+
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(OpenQuestionModule))
