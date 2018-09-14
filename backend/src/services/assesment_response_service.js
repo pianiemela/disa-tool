@@ -217,16 +217,7 @@ const generateFeedback = (response, lang) => {
       ${extraDone.some(extra => extra.done > 50) ? 'paljon ' : 'jonkin verran '}, 
       joten on mahdollista, että arvosanasi tulisi olla korkeampi kuin mitä tämä laskenta osoittaa.`
     }
-    text += ' Voit alta tarkastella suoritusmääriäsi kunkin osion tavoitteen kohdalla.'
-    // TODO: This thing needs a complete overhaul and be more individualised
-    // const text = `Annoit itsellesi arvosanan ${wantedGrade.name},
-    // mutta tehtyjen tehtävien perusteella arvosanasi olisi ${earnedGrade.name},
-    // koska olet tehnyt ${earnedPercentage} % tämän tason tehtävistä.
-    // Olet kuitenkin tehnyt tehtäviä korkeammilta tasoilta:
-    // ${extraDone.map(extra => ` ${extra.skillLevel}: ${extra.done} %`)},
-    // joten on mahdollista, että osaat osion tavoitteet ilmoittamallasi tasolla.
-    // On kuitenkin tärkeää hallita perusteet huolella ennen siirtymistä vaikeampiin
-    // tehtäviin ja siksi olisi tärkeää tehdä myös alemman tason tehtäviä huolellisesti.`
+    text += ' Voit alta tarkastella suoritusmääriäsi kunkin tavoitetason kohdalla.'
     return { categoryId, categoryName, text, skillLevelObjectives, difference: wantedGrade.difference }
   })
   // What is the "best" category? Emphasize that first
@@ -238,9 +229,7 @@ const generateFeedback = (response, lang) => {
     const skillLevelAmounts = category.skillLevelObjectives.map(skillLevel => (
       skillLevel.objectives.reduce((acc, cur) => acc + (cur.percentageDone / skillLevel.objectives.length), 0)
     ))
-    console.log(skillLevelAmounts)
     const total = skillLevelAmounts.reduce((acc, cur) => acc + cur)
-    console.log('total', total)
     return total
   }
   for (let i = 0; i < feedbacks.length; i += 1) {
@@ -266,7 +255,7 @@ const generateFeedback = (response, lang) => {
     if (percentage < 30) return 'aika heikosti'
     if (percentage < 70) return 'ihan kivasti'
     return 'oikein hyvin'
-  } 
+  }
   let generalFeedback = `Olet tehnyt ${describeAmount(totalDone)} töitä kurssilla tehtävien parissa. `
   if (Math.abs(meanDiff) < 1 && Math.abs(madDiff) < 1) {
     generalFeedback += 'Arviosi ovat erittäin osuvia.'
