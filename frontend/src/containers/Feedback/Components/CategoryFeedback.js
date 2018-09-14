@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Progress } from 'semantic-ui-react'
+import { Accordion, Card, Icon, Progress } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
 export const CategoryFeedback = (props) => {
@@ -56,13 +56,32 @@ export const CategoryFeedback = (props) => {
                 </Card.Description>
               </Card.Content>
               <Card.Content>
-                {feedback.categoryFeedback.find(f => f.categoryId === questionModule.id).skillLevelObjectives.map(skillLevel => (
-                  <div>
-                    <h4>{skillLevel.skillLevel}</h4>
-                    {skillLevel.objectives.map(objective => (
-                      <Progress size="small" percent={objective.percentageDone} label={objective.name} indicating />
-                    ))}
-                  </div>
+                {feedback.categoryFeedback.find(f =>
+                f.categoryId === questionModule.id).skillLevelObjectives.map(skillLevel => (
+                  <Accordion
+                    defaultActiveIndex={-1}
+                    styled
+                    fluid
+                    panels={[{
+                      key: skillLevel.skillLevel,
+                      title: skillLevel.skillLevel,
+                      content: {
+                        key: `${skillLevel.skillLevel} objectives`,
+                        content: skillLevel.objectives.map(objective => (
+                          <div>
+                            <h5>{objective.name} {objective.percentageDone === 100 ?
+                              <Icon color="yellow" loading name="star" size="large" /> : undefined}
+                            </h5>
+                            <Progress
+                              size="small"
+                              percent={objective.percentageDone}
+                              indicating
+                            />
+                          </div>
+                          ))
+                      }
+                    }]}
+                  />
                 ))}
               </Card.Content>
             </Card> : undefined}
