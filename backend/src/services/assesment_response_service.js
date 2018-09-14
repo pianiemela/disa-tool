@@ -199,24 +199,34 @@ const generateFeedback = (response, lang) => {
       { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100).toFixed(2) }
     ))
     // Check whether we are dealing with an accurate, humble or arrogant person
+    let text = ''
     if (wantedGrade.id === earnedGrade.categoryGradeId) {
       // Assessment spot on!
+      text += 'Arvioimasi arvosana on hyvin linjassa tekemiesi tehtävien kanssa. Hienoa! '
     } else if (wantedGrade.difference > 0) {
+      text += 'Arvioimasi arvosana on koreampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
       // wants more than deserves
       // WHAT THE HELL YOU ARROGANT SHIT
     } else {
+      text += 'Arvioimasi arvosana on matalampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
       // wants less than deserves
       // such a humble man you are
     }
+    if (extraDone.length > 0) {
+      text += `Olet kuitenkin tehnyt tehtäviä korkeammilta taitotasoilta 
+      ${extraDone.some(extra => extra.done > 50) ? 'paljon ' : 'jonkin verran '}, 
+      joten on mahdollista, että arvosanasi tulisi olla korkeampi kuin mitä tämä laskenta osoittaa.`
+    }
+    text += ' Voit alta tarkastella suoritusmääriäsi kunkin osion tavoitteen kohdalla.'
     // TODO: This thing needs a complete overhaul and be more individualised
-    const text = `Annoit itsellesi arvosanan ${wantedGrade.name},
-    mutta tehtyjen tehtävien perusteella arvosanasi olisi ${earnedGrade.name},
-    koska olet tehnyt ${earnedPercentage} % tämän tason tehtävistä.
-    Olet kuitenkin tehnyt tehtäviä korkeammilta tasoilta:
-    ${extraDone.map(extra => ` ${extra.skillLevel}: ${extra.done} %`)},
-    joten on mahdollista, että osaat osion tavoitteet ilmoittamallasi tasolla.
-    On kuitenkin tärkeää hallita perusteet huolella ennen siirtymistä vaikeampiin
-    tehtäviin ja siksi olisi tärkeää tehdä myös alemman tason tehtäviä huolellisesti.`
+    // const text = `Annoit itsellesi arvosanan ${wantedGrade.name},
+    // mutta tehtyjen tehtävien perusteella arvosanasi olisi ${earnedGrade.name},
+    // koska olet tehnyt ${earnedPercentage} % tämän tason tehtävistä.
+    // Olet kuitenkin tehnyt tehtäviä korkeammilta tasoilta:
+    // ${extraDone.map(extra => ` ${extra.skillLevel}: ${extra.done} %`)},
+    // joten on mahdollista, että osaat osion tavoitteet ilmoittamallasi tasolla.
+    // On kuitenkin tärkeää hallita perusteet huolella ennen siirtymistä vaikeampiin
+    // tehtäviin ja siksi olisi tärkeää tehdä myös alemman tason tehtäviä huolellisesti.`
     return { categoryId, categoryName, text, skillLevelObjectives, difference: wantedGrade.difference }
   })
   // What is the "best" category? Emphasize that first
@@ -252,9 +262,14 @@ const generateFeedback = (response, lang) => {
   // calculate the mean absolute difference
   let madDiff = feedbacks.reduce((acc, cur) => acc + (cur.difference - meanDiff), 0)
   madDiff *= 1 / feedbacks.length
-  let generalFeedback = `Olet tehnyt ${totalDone} kurssin tehtäviä.`
+  const describeAmount = (percentage) => {
+    if (percentage < 30) return 'aika heikosti'
+    if (percentage < 70) return 'ihan kivasti'
+    return 'oikein hyvin'
+  } 
+  let generalFeedback = `Olet tehnyt ${describeAmount(totalDone)} töitä kurssilla tehtävien parissa. `
   if (Math.abs(meanDiff) < 1 && Math.abs(madDiff) < 1) {
-    generalFeedback += 'Erittäin osuvia arvioita.'
+    generalFeedback += 'Arviosi ovat erittäin osuvia.'
     // very good estimate
   } else if (meanDiff <= -1 && madDiff < 0) {
     generalFeedback += 'Arvioit itseäsi yleisesti turhan ankarasti.'

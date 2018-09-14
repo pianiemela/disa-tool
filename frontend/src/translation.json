@@ -679,6 +679,10 @@
         "You've already responded to this assessment. You can see your responses below",
         "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
       ],
+      "general_feedback": [
+        "General feedback",
+        "Yleinen palaute"
+      ],
       "grade": [
         "Assessed grade",
         "Itsearvioitu arvosana"

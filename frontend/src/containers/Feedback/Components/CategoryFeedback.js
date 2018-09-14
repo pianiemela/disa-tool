@@ -17,7 +17,7 @@ export const CategoryFeedback = (props) => {
         <Card fluid color="yellow">
           <Card.Content>
             <Card.Header>
-              <h3>Yleinen palaute</h3>
+              <h3>{translate('general_feedback')}</h3>
             </Card.Header>
             <Card.Description>
               {feedback.generalFeedback}
