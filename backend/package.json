@@ -4,6 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
+        "db:migrate": "sequelize db:migrate --migrations-path src/database/migrations --config conf-backend.js",
+        "db:rollback": "sequelize db:migrate:undo --migrations-path src/database/migrations --config conf-backend.js",
         "test": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest --coverage --collectCoverageFrom=src/**/*.{js,jsx}",
         "test-ci": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest --forceExit",
         "lint": "eslint --ext .js src || true",
@@ -22,7 +24,8 @@
         "jsonwebtoken": "^8.3.0",
         "pg": "^7.4.3",
         "pg-hstore": "^2.3.2",
-        "sequelize": "^4.38.0"
+        "sequelize": "^4.38.0",
+        "sequelize-cli": "^4.1.1"
     },
     "devDependencies": {
         "eslint": "^5.0.1",
