@@ -21,15 +21,14 @@ const OpenQuestionModule = (props) => {
         <Card.Group centered>
           <Card fluid>
             <Card.Content>
-              <Card.Header>
-                {translate('header')}: {name}
+              <Card.Header style={{ paddingBottom: '1.5em' }}>
+                {name}
               </Card.Header>
               <Grid verticalAlign="middle" columns={3}>
                 <Grid.Row>
                   <Grid.Column width={10}>
                     <Form.TextArea
                       autoHeight
-                      label={translate('label')}
                       error={responseTextError !== undefined}
                       placeholder={translate('placeholder')}
                       onBlur={!edit && handleTextAreaBlur}

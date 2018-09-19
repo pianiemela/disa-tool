@@ -840,14 +840,6 @@
         ]
       },
       "OpenQuestionModule": {
-        "header": [
-          "Open question",
-          "Avoin kysymys"
-        ],
-        "label": [
-          "Respond to the open question",
-          "Vastaa avoimeen kysymykseen"
-        ],
         "placeholder": [
           "Write your response here",
           "Kirjoita vastaus tähän"
