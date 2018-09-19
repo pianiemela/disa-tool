@@ -40,7 +40,7 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
       },
       {
         model: Task,
-        attributes: ['id', name, 'info', description],
+        attributes: ['id', name, 'info', description, 'max_points'],
         include: [
           {
             model: TaskObjective,

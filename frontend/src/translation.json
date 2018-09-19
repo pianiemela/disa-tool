@@ -509,6 +509,14 @@
         "delete_prompt_1": [
           "Really remove task",
           "Poistetaanko tehtävä"
+        ],
+        "max_points": [
+          "Maximum points",
+          "Maksimipisteet"
+        ],
+        "info": [
+          "Additional info about task",
+          "Tehtävän lisätiedot"
         ]
       }
     },
