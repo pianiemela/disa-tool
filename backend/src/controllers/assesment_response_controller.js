@@ -76,7 +76,6 @@ router.post('/', async (req, res) => {
       }
       return
     }
-
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
     const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
     response.response.verification = verification

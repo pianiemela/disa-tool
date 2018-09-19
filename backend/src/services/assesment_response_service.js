@@ -94,7 +94,12 @@ const verifyAssessmentGrade = async (response, lang) => {
           const doneTask = userTasks.find(ut => ut.task_id === task.id)
           userPoints += doneTask ? doneTask.points * task.task_objective.multiplier : 0
         })
-        return { userPoints, maxPoints }
+        return {
+          objectiveId: objective.id,
+          objectiveName: objective[`${lang}_name`],
+          userPoints,
+          maxPoints
+        }
       }))
       // calculate sums over objectives
       const userPoints = objectivePoints.reduce((acc, curr) => acc + curr.userPoints, 0)
@@ -104,6 +109,7 @@ const verifyAssessmentGrade = async (response, lang) => {
       return {
         categoryGradeId: categoryGrade.id,
         gradeId: grade.id,
+        objectivePoints,
         userPoints,
         maxPoints,
         // user is qualified for grade if the points exceed the needed level
@@ -145,7 +151,9 @@ const verifyAssessmentGrade = async (response, lang) => {
     }
     const gradeForName = courseGrades.find(grade => grade.id === earnedGrade.gradeId)
     earnedGrade.name = gradeForName ? gradeForName[`${lang}_name`] : null
-    return { gradeQualifies, earnedGrade, wantedGrade, categoryId: category.id, categoryName: category.name }
+    const wantedDepth = gradeQualifies.find(grade => grade.categoryGradeId === wantedGrade.id).depth
+    wantedGrade.difference = wantedDepth - earnedGrade.depth
+    return { gradeQualifies, earnedGrade, wantedGrade, categoryId: category.id, categoryName: category[`${lang}_name`] }
   }))
 
   return { categoryVerifications: earnedGrades, overallVerification: {} }
@@ -156,13 +164,27 @@ const generateFeedback = (response, lang) => {
   const { categoryVerifications } = response.response.verification
   // generate feedback for each category
   const feedbacks = categoryVerifications.map((category) => {
-    const { categoryId, earnedGrade, wantedGrade } = category
+    const { categoryId, categoryName, earnedGrade, wantedGrade } = category
     if (category.gradeQualifies.every(g => g.maxPoints === 0)) { // no feedback for categories with no tasks
       return { categoryId }
     }
+    // Filter gradeQualifies to represent different skill levels
+    const skillLevelQualifies = category.gradeQualifies.filter(grade => (
+      category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade
+    ))
+    const skillLevelObjectives = skillLevelQualifies.map((skillLevel) => {
+      // Simply get the percentages done of the category's objectives
+      const objectives = skillLevel.objectivePoints.map(objective => ({
+        name: objective.objectiveName,
+        percentageDone: (objective.userPoints / objective.maxPoints * 100),
+        // Small safety check: if the objective has no points to be gotten, don't display it
+        include: objective.maxPoints > 0
+      }))
+      return { skillLevel: skillLevel.skillLevelName, objectives }
+    })
     const earnedStats = category.gradeQualifies.find(grade => grade.gradeId === earnedGrade.gradeId)
     || { skillLevelId: 0 }
-    const higherLevelTasksDone = category.gradeQualifies.filter(grade => (
+    const higherLevelTasksDone = skillLevelQualifies.filter(grade => (
       // does user not qualify for this grade, i.e. is not the earned grade or below it
       !grade.qualifiedForGrade
       && grade.skillLevelId !== earnedStats.skillLevelId
@@ -176,18 +198,81 @@ const generateFeedback = (response, lang) => {
     const extraDone = higherLevelTasksDone.map(level => (
       { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100).toFixed(2) }
     ))
-    // TODO: This thing needs a complete overhaul and be more individualised
-    const text = `Annoit itsellesi arvosanan ${wantedGrade.name},
-    mutta tehtyjen tehtävien perusteella arvosanasi olisi ${earnedGrade.name},
-    koska olet tehnyt ${earnedPercentage} % tämän tason tehtävistä.
-    Olet kuitenkin tehnyt tehtäviä korkeammilta tasoilta:
-    ${extraDone.map(extra => ` ${extra.skillLevel}: ${extra.done} %`)},
-    joten on mahdollista, että osaat osion tavoitteet ilmoittamallasi tasolla.
-    On kuitenkin tärkeää hallita perusteet huolella ennen siirtymistä vaikeampiin
-    tehtäviin ja siksi olisi tärkeää tehdä myös alemman tason tehtäviä huolellisesti.`
-    return { categoryId, text }
+    // Check whether we are dealing with an accurate, humble or arrogant person
+    let text = ''
+    if (wantedGrade.id === earnedGrade.categoryGradeId) {
+      // Assessment spot on!
+      text += 'Arvioimasi arvosana on hyvin linjassa tekemiesi tehtävien kanssa. Hienoa! '
+    } else if (wantedGrade.difference > 0) {
+      text += 'Arvioimasi arvosana on koreampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
+      // wants more than deserves
+      // WHAT THE HELL YOU ARROGANT SHIT
+    } else {
+      text += 'Arvioimasi arvosana on matalampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
+      // wants less than deserves
+      // such a humble man you are
+    }
+    if (extraDone.length > 0) {
+      text += `Olet kuitenkin tehnyt tehtäviä korkeammilta taitotasoilta 
+      ${extraDone.some(extra => extra.done > 50) ? 'paljon ' : 'jonkin verran '}, 
+      joten on mahdollista, että arvosanasi tulisi olla korkeampi kuin mitä tämä laskenta osoittaa.`
+    }
+    text += ' Voit alta tarkastella suoritusmääriäsi kunkin tavoitetason kohdalla.'
+    return { categoryId, categoryName, text, skillLevelObjectives, difference: wantedGrade.difference }
   })
-  return feedbacks
+  // What is the "best" category? Emphasize that first
+  let best = null
+  let worst = null
+  let totalDone = 0
+  let meanDiff = 0
+  const amountsForCategory = (category) => {
+    const skillLevelAmounts = category.skillLevelObjectives.map(skillLevel => (
+      skillLevel.objectives.reduce((acc, cur) => acc + (cur.percentageDone / skillLevel.objectives.length), 0)
+    ))
+    const total = skillLevelAmounts.reduce((acc, cur) => acc + cur)
+    return total
+  }
+  for (let i = 0; i < feedbacks.length; i += 1) {
+    const category = feedbacks[i]
+    // get the sum of done tasks
+    const amountDone = amountsForCategory(category)
+    totalDone += amountDone
+    meanDiff += category.difference
+    if (best === null || amountDone > best.amountDone) {
+      best = { ...category, amountDone }
+    }
+    if (worst === null || amountDone < worst.amountDone) {
+      worst = { ...category, amountDone }
+    }
+  }
+  // Divide amounts to get percentages and mean
+  totalDone /= feedbacks.length
+  meanDiff /= feedbacks.length
+  // calculate the mean absolute difference
+  let madDiff = feedbacks.reduce((acc, cur) => acc + (cur.difference - meanDiff), 0)
+  madDiff *= 1 / feedbacks.length
+  const describeAmount = (percentage) => {
+    if (percentage < 30) return 'aika heikosti'
+    if (percentage < 70) return 'ihan kivasti'
+    return 'oikein hyvin'
+  }
+  let generalFeedback = `Olet tehnyt ${describeAmount(totalDone)} töitä kurssilla tehtävien parissa. `
+  if (Math.abs(meanDiff) < 1 && Math.abs(madDiff) < 1) {
+    generalFeedback += 'Arviosi ovat erittäin osuvia.'
+    // very good estimate
+  } else if (meanDiff <= -1 && madDiff < 0) {
+    generalFeedback += 'Arvioit itseäsi yleisesti turhan ankarasti.'
+    // generally under-estimating
+  } else if (meanDiff >= 1 && madDiff > 0) {
+    generalFeedback += 'Olit arvioissasi yleisesti liian höveli.'
+    // generally over-estimating
+  } else {
+    generalFeedback += 'Arviosi heittelehtivät jonkin verran.'
+    // estimates all over the place?
+  }
+  generalFeedback += ` Suhteessa eniten tehtäviä olet tehnyt osiosta ${best.categoryName}.`
+  generalFeedback += ` Enemmän sinun kannattaisi ehkä panostaa osion ${worst.categoryName} tehtäviin.`
+  return { generalFeedback, categoryFeedback: feedbacks }
 }
 
 const getCourseInstanceId = async (id) => {

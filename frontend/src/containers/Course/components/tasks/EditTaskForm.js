@@ -26,7 +26,8 @@ export class EditTaskForm extends Component {
           fin: '',
           swe: ''
         },
-        info: ''
+        info: '',
+        maxPoints: 0
       },
       loading: true
     }
@@ -41,7 +42,8 @@ export class EditTaskForm extends Component {
       eng_description: e.target.eng_description.value,
       fin_description: e.target.fin_description.value,
       swe_description: e.target.swe_description.value,
-      info: e.target.info.value
+      info: e.target.info.value,
+      max_points: e.target.points.value
     })
   }
 
@@ -61,7 +63,8 @@ export class EditTaskForm extends Component {
           fin: taskDetails.fin_description,
           swe: taskDetails.swe_description
         },
-        info: taskDetails.info
+        info: taskDetails.info,
+        maxPoints: taskDetails.max_points
       },
       loading: false
     })
@@ -74,7 +77,8 @@ export class EditTaskForm extends Component {
     const label = {
       name: this.translate('name'),
       description: this.translate('description'),
-      info: 'info'
+      info: 'info',
+      maxPoints: 'max points'
     }
     return (
       <Grid.Row>
@@ -103,6 +107,17 @@ export class EditTaskForm extends Component {
                   value={this.state.values.info}
                   onChange={e => this.setState({
                     values: { ...this.state.values, info: e.target.value }
+                  })}
+                />
+              </Form.Field>
+              <Form.Field>
+                <Label>{label.maxPoints}</Label>
+                <Input
+                  name="points"
+                  type="number"
+                  value={this.state.values.maxPoints}
+                  onChange={e => this.setState({
+                    values: { ...this.state.values, maxPoints: e.target.value }
                   })}
                 />
               </Form.Field>

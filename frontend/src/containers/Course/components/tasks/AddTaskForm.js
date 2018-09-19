@@ -20,6 +20,7 @@ export class AddTaskForm extends Component {
       fin_description: e.target.fin_description.value,
       swe_description: e.target.swe_description.value,
       info: e.target.info.value,
+      max_points: e.target.points.value,
       course_instance_id: this.props.courseId
     })
   }
@@ -31,7 +32,8 @@ export class AddTaskForm extends Component {
     const label = {
       name: this.translate('name'),
       description: this.translate('description'),
-      info: 'info'
+      info: 'info',
+      maxPoints: 'max points'
     }
     return (
       <Grid.Row>
@@ -49,6 +51,10 @@ export class AddTaskForm extends Component {
               <Form.Field>
                 <Label>{label.info}</Label>
                 <Input name="info" type="text" />
+              </Form.Field>
+              <Form.Field>
+                <Label>{label.maxPoints}</Label>
+                <Input name="points" type="number" />
               </Form.Field>
             </ModalForm>
           </div>

@@ -96,7 +96,8 @@ const create = {
     eng_description: data.eng_description,
     fin_description: data.fin_description,
     swe_description: data.swe_description,
-    info: data.info
+    info: data.info,
+    max_points: data.max_points
   }),
   execute: instance => instance.save(),
   value: (instance, lang) => {
@@ -105,6 +106,7 @@ const create = {
       id: json.id,
       name: json[`${lang}_name`],
       description: json[`${lang}_description`],
+      max_points: json.max_points,
       info: json.info,
       objectives: [],
       types: []
@@ -317,13 +319,15 @@ const { details, edit } = editServices(
       'eng_description',
       'fin_description',
       'swe_description',
-      'info'
+      'info',
+      'max_points'
     ],
     valueFields: [
       'id',
       ['lang_name', 'name'],
       ['lang_description', 'description'],
-      'info'
+      'info',
+      'max_points'
     ]
   }
 )

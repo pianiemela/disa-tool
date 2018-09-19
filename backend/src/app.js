@@ -1,16 +1,12 @@
 const express = require('express')
 const path = require('path')
-// const cors = require('cors')
-const bodyParser = require('body-parser')
 
 const routes = require('./routes.js')
 
 const app = express()
 
-// app.use(cors())
-app.use(express.json())
+app.use(express.json({ limit: '1000kb' }))
 app.use(express.static('dist'))
-app.use(bodyParser.json())
 
 app.get('/ping', async (req, res) => {
   res.json({ data: 'pong' })
