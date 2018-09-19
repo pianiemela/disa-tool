@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Form, Button, Card, TextArea } from 'semantic-ui-react'
+import ReactMarkdown from 'react-markdown'
 
 import Header from '../Header'
 import { changeTextField } from '../../actions/selfAssesment'
@@ -71,10 +72,9 @@ class SelfAssessmentInfo extends React.Component {
               </Card.Header>
               {!this.state.editInstructions ?
                 <Card.Description>
-                  <TextArea
-                    autoHeight
-                    value={formData.instructions.value}
-                  />
+                  <ReactMarkdown>
+                    {formData.instructions.value}
+                  </ReactMarkdown>
                 </Card.Description>
                 :
                 instructions.map(d => (
