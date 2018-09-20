@@ -303,14 +303,18 @@ const getBySelfAssesment = async (id) => {
   const courseInstanceId = responses.length > 0 ? (
     responses[0].dataValues.self_assessment.course_instance_id
   ) : (
-    await getCourseInstanceId(id)
-  )
+      await getCourseInstanceId(id)
+    )
   const data = responses.map(response => ({
     id: response.id,
     person: response.person,
     response: response.response
   }))
-  return { data, courseInstanceId }
+
+  const grades = await gradeService.getByCourse(courseInstanceId, lang)
+  const promises = data.map(async (r) => ({ ...r, response: await getGradesAndHeader(r.response, lang, grades) }))
+  const results = await Promise.all(promises)
+  return { data: results, courseInstanceId }
 }
 
 
@@ -320,10 +324,10 @@ const swapHeaders = (data) => {
   return h
 }
 
-const getGradesAndHeader = async (data, lang) => {
-  const { response } = data
-  const grades = await gradeService.getByCourse(response.course_instance_id, lang)
-
+const getGradesAndHeader = async (data, lang, grades) => {
+  let { response } = data
+  grades = grades || await gradeService.getByCourse(response.course_instance_id, lang)
+  response = response || data
   // get the grades and map all grades from ids to values
   if (response.assessmentType !== 'objectives') {
     response.questionModuleResponses = response.questionModuleResponses.map(
@@ -339,7 +343,7 @@ const getGradesAndHeader = async (data, lang) => {
   // ...else we get the correct header name by lang and change the final grade from id to value
 
   response.finalGradeResponse = { ...response.finalGradeResponse, grade: grades.find(g => g.id === grade).name }
-  response.finalGradeResponse.name = data.response.finalGradeResponse.headers[`${lang}_name`]
+  response.finalGradeResponse.name = response.finalGradeResponse.headers[`${lang}_name`]
   return response
 }
 

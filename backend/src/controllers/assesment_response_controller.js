@@ -106,7 +106,7 @@ router.post('/', async (req, res) => {
 })
 
 router.get('/self-assesment/:id', async (req, res) => {
-  const { data, courseInstanceId } = await assessmentResponseService.getBySelfAssesment(req.params.id)
+  const { data, courseInstanceId } = await assessmentResponseService.getBySelfAssesment(req.params.id, req.lang)
   if (!courseInstanceId) {
     res.status(404).json({
       error: errors.notfound[req.lang],
