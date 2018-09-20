@@ -283,7 +283,7 @@ const getCourseInstanceId = async (id) => {
   return selfAssessment.get({ plain: true }).course_instance_id
 }
 
-const getBySelfAssesment = async (id) => {
+const getBySelfAssesment = async (id, lang) => {
   const responses = await AssessmentResponse.findAll({
     attributes: ['id', 'response', 'person_id', 'self_assessment_id'],
     include: [
@@ -326,8 +326,8 @@ const swapHeaders = (data) => {
 
 const getGradesAndHeader = async (data, lang, grades) => {
   let { response } = data
-  grades = grades || await gradeService.getByCourse(response.course_instance_id, lang)
   response = response || data
+  grades = grades || await gradeService.getByCourse(response.course_instance_id, lang)
   // get the grades and map all grades from ids to values
   if (response.assessmentType !== 'objectives') {
     response.questionModuleResponses = response.questionModuleResponses.map(
