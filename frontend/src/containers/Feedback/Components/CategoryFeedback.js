@@ -57,8 +57,9 @@ export const CategoryFeedback = (props) => {
               </Card.Content>
               <Card.Content>
                 {feedback.categoryFeedback.find(f =>
-                f.categoryId === questionModule.id).skillLevelObjectives.map(skillLevel => (
+                f.categoryId === questionModule.id).skillLevelObjectives.map((skillLevel, i) => (
                   <Accordion
+                    key={i}
                     defaultActiveIndex={-1}
                     styled
                     fluid
@@ -67,8 +68,8 @@ export const CategoryFeedback = (props) => {
                       title: skillLevel.skillLevel,
                       content: {
                         key: `${skillLevel.skillLevel} objectives`,
-                        content: skillLevel.objectives.map(objective => (
-                          <div>
+                        content: skillLevel.objectives.map((objective, j) => (
+                          <div key={j}>
                             <h5>{objective.name} {objective.percentageDone === 100 ?
                               <Icon color="yellow" loading name="star" size="large" /> : undefined}
                             </h5>
@@ -99,7 +100,7 @@ CategoryFeedback.defaultProps = {
 
 CategoryFeedback.propTypes = {
   questionModuleResponses: PropTypes.arrayOf(PropTypes.shape()),
-  feedback: PropTypes.arrayOf(PropTypes.shape()),
+  feedback: PropTypes.shape(),
   teacher: PropTypes.bool,
   translate: PropTypes.func.isRequired
 }
