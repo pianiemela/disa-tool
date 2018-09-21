@@ -88,7 +88,6 @@ OpenQuestionModule.propTypes = {
   responseTextError: PropTypes.shape(),
   translate: PropTypes.func.isRequired,
   dispatchClearErrorAction: PropTypes.func.isRequired
-
 }
 
 OpenQuestionModule.defaultProps = {

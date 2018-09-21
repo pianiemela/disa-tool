@@ -1,5 +1,6 @@
 import React from 'react'
 import { List } from 'semantic-ui-react'
+import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import DeleteForm from '../../../utils/components/DeleteForm'
 import AddToCourseForm from './AddToCourseForm'
@@ -69,6 +70,13 @@ const RoleList = (props) => {
       </List.Item>
     </List>
   )
+}
+
+RoleList.propTypes = {
+  user: PropTypes.shape().isRequired,
+  deleteRole: PropTypes.func.isRequired,
+  changeRole: PropTypes.func.isRequired,
+  translate: PropTypes.func.isRequired
 }
 
 export default withLocalize(RoleList)

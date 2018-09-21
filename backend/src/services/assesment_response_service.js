@@ -74,6 +74,7 @@ const verifyAssessmentGrade = async (response, lang) => {
 
     // Check what grades meet requirements
     const gradeQualifies = await Promise.all(courseGrades.map(async (grade) => {
+      // Find objectives related to grade
       const gradeObjectives = await Objective.findAll({
         where: {
           skill_level_id: grade.skill_level_id,
@@ -303,8 +304,8 @@ const getBySelfAssesment = async (id, lang) => {
   const courseInstanceId = responses.length > 0 ? (
     responses[0].dataValues.self_assessment.course_instance_id
   ) : (
-      await getCourseInstanceId(id)
-    )
+    await getCourseInstanceId(id)
+  )
   const data = responses.map(response => ({
     id: response.id,
     person: response.person,
@@ -312,7 +313,7 @@ const getBySelfAssesment = async (id, lang) => {
   }))
 
   const grades = await gradeService.getByCourse(courseInstanceId, lang)
-  const promises = data.map(async (r) => ({ ...r, response: await getGradesAndHeader(r.response, lang, grades) }))
+  const promises = data.map(async r => ({ ...r, response: await getGradesAndHeader(r.response, lang, grades) }))
   const results = await Promise.all(promises)
   return { data: results, courseInstanceId }
 }

@@ -800,6 +800,10 @@
       "updateButton": [
         "Update",
         "Päivitä"
+      ],
+      "prompt": [
+        "You have unsaved changes. Are you sure you want to exit?",
+        "Sinulla on tallentamattomia muutoksia. Haluatko varmasti poistua?"
       ]
     },
     "QuestionModules": {
