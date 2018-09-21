@@ -77,10 +77,14 @@ router.post('/', async (req, res) => {
       return
     }
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
-    const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
-    response.response.verification = verification
-    const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
-    response.response.feedback = feedback
+    try {
+      const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
+      response.response.verification = verification
+      const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
+      response.response.feedback = feedback
+    } catch (e) {
+      console.log(e)
+    }
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
     const completeResponse = await response.save()
     // only send verification data to teacher
