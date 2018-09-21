@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { PropTypes } from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
-import { Container, Form, Button, Icon, Loader, Grid, Accordion, List, Pagination } from 'semantic-ui-react'
+import { Container, Form, Button, Icon, Loader, Grid, Accordion, Pagination } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
 import { adminGetUsers, adminChangeGlobalRole } from './actions/persons'

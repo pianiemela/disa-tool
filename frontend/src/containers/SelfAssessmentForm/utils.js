@@ -43,7 +43,6 @@ export const gradeOptions = async (courseInstanceId) => {
 }
 
 export const objectiveGrades = () => {
-
   switch (lang) {
     case 'fin':
       return {

@@ -7,7 +7,7 @@ import { toggleUp, toggleDown } from '../actions/selfAssesment'
 
 const UpOrDownToggle = (props) => {
   const { id } = props
-  const translate = translateId => props.translate(`SelfAssessment.Userform.FormParts.UpOrDownToggle.${translateId}`)
+  const translate = translateId => props.translate(`SelfAssessmentForm.UpOrDownToggle.${translateId}`)
 
   return (
     <div>

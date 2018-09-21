@@ -66,7 +66,7 @@ class SelfAssessmentInfo extends React.Component {
                     style={{ marginLeft: '10px' }}
                     onClick={this.toggleInstructions}
                   >
-                    {!this.state.edit ? translate('buttonEdit') : translate('buttonShow')}
+                    {!this.state.editInstructions ? translate('buttonEdit') : translate('buttonShow')}
                   </Button>
                 }
               </Card.Header>

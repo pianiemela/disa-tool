@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router'
+import { Redirect, Prompt } from 'react-router'
 import { Button, Loader, Container, Message, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
@@ -233,6 +233,11 @@ export class SelfAssessmentFormPage extends React.Component {
 
     return (
       <div>
+        <Prompt
+          when={this.props.unsavedChanges}
+          message={this.props.translate('SelfAssessmentForm.SelfAssessmentFormPage.prompt')}
+        />
+
         {
           Object.keys(this.props.formData).length > 0 && this.props.role ?
             this.renderForm()
@@ -253,7 +258,8 @@ const mapStateToProps = state => ({
   notTeacher: state.instance.courseRole && state.instance.courseRole !== 'TEACHER',
   responseErrors: state.validation.responseErrors,
   softErrors: state.validation.softErrors,
-  formErrors: state.validation.formErrors
+  formErrors: state.validation.formErrors,
+  unsavedChanges: state.selfAssesment.unsavedFormChanges
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -326,7 +332,8 @@ SelfAssessmentFormPage.propTypes = {
   notTeacher: PropTypes.bool,
   translate: PropTypes.func.isRequired,
   softErrors: PropTypes.bool,
-  responseErrors: PropTypes.shape()
+  responseErrors: PropTypes.shape(),
+  unsavedChanges: PropTypes.bool.isRequired
 }
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(SelfAssessmentFormPage))

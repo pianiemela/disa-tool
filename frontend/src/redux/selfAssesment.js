@@ -3,7 +3,8 @@ import { initForm, initResponseForm, respond } from '../utils/reduxHelpers/selfA
 const INITIAL_STATE = {
   createForm: {},
   userSelfAssesments: [],
-  assesmentResponse: {}
+  assesmentResponse: {},
+  unsavedFormChanges: false
 }
 
 const langName = `${localStorage.getItem('lang')}_name`
@@ -86,7 +87,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
                 (o.id !== id ? o : { ...o, textFieldOn: !o.textFieldOn }))
             ]
           }
-        }
+        },
+        unsavedFormChanges: true
       }
     }
 
@@ -105,7 +107,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
             ...state.createForm.structure,
             questionModules
           }
-        }
+        },
+        unsavedFormChanges: true
       }
     }
 
@@ -124,7 +127,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
             ...state.createForm.structure,
             questionModules
           }
-        }
+        },
+        unsavedFormChanges: true
       }
     }
 
@@ -153,7 +157,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
               ]
             }
           }
-        }
+        },
+        unsavedFormChanges: true
       }
     }
 
@@ -170,7 +175,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
               questions: state.createForm.structure.openQuestions.questions.filter(oQ => oQ.id !== id) //eslint-disable-line
             }
           }
-        }
+        },
+        unsavedFormChanges: true
       }
     }
 
@@ -199,7 +205,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
               (ids.includes(inst.id.toString()) ? { ...inst, value: values[inst.id] } : inst))
           },
           [type]: value
-        }
+        },
+        unsavedFormChanges: true
       }
     }
 
@@ -231,7 +238,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
                 includedInAssesment: !state.createForm.structure.finalGrade.includedInAssesment
               }
             }
-          }
+          },
+          unsavedFormChanges: true
         }
       }
       return {
@@ -243,7 +251,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
             questionModules: state.createForm.structure.questionModules.map(qm =>
               (qm.id === id ? { ...qm, includedInAssesment: !qm.includedInAssesment } : qm))
           }
-        }
+        },
+        unsavedFormChanges: true
       }
     }
 
@@ -281,7 +290,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
                 header: name
               }
             }
-          }
+          },
+          unsavedFormChanges: true
         }
       }
 
@@ -301,7 +311,8 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
               name
             }
           }
-        }
+        },
+        unsavedFormChanges: true
       }
     }
 
@@ -316,7 +327,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
     case 'CLEAR_ASSESSMENT': {
-      return { ...state, createForm: {}, assesmentResponse: {} }
+      return { ...state, createForm: {}, assesmentResponse: {}, unsavedFormChanges: false }
     }
 
     default:
