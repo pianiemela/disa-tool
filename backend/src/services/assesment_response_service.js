@@ -53,14 +53,14 @@ const verifyAssessmentGrade = async (response, lang) => {
       CategoryGrade
     ]
   })
-  const categories = await Category.findAll({
+  const courseCategories = await Category.findAll({
     where: { course_instance_id: response.response.course_instance_id },
     include: CategoryGrade
   })
   const userTasks = await TaskResponse.findAll({ where: { person_id: response.person_id } })
   // go through each question field
   const earnedGrades = await Promise.all(response.response.questionModuleResponses.map(async (categoryResp) => {
-    const categoryGrades = categories.find(category => category.id === categoryResp.id).category_grades
+    const categoryGrades = courseCategories.find(category => category.id === categoryResp.id).category_grades
     // find the grade user wants
     const wantedGrade = {
       id: categoryGrades.find(grade => grade.grade_id === categoryResp.grade).id,
@@ -276,7 +276,8 @@ const generateFeedback = (response, lang) => {
   return { generalFeedback, categoryFeedback: feedbacks }
 }
 
-const getCourseInstanceId = async (id) => {
+const getCourseInstanceId = async (id, responses = []) => {
+  if (responses.length > 0) return responses[0].dataValues.self_assessment.course_instance_id
   const selfAssessment = await SelfAssessment.findById(id, {
     attributes: ['id', 'course_instance_id']
   })
@@ -284,7 +285,7 @@ const getCourseInstanceId = async (id) => {
   return selfAssessment.get({ plain: true }).course_instance_id
 }
 
-const getBySelfAssesment = async (id, lang) => {
+const getBySelfAssesment = async (id) => {
   const responses = await AssessmentResponse.findAll({
     attributes: ['id', 'response', 'person_id', 'self_assessment_id'],
     include: [
@@ -301,23 +302,18 @@ const getBySelfAssesment = async (id, lang) => {
       }
     ]
   })
-  const courseInstanceId = responses.length > 0 ? (
-    responses[0].dataValues.self_assessment.course_instance_id
-  ) : (
-    await getCourseInstanceId(id)
-  )
-  const data = responses.map(response => ({
-    id: response.id,
-    person: response.person,
-    response: response.response
-  }))
-
-  const grades = await gradeService.getByCourse(courseInstanceId, lang)
-  const promises = data.map(async r => ({ ...r, response: await getGradesAndHeader(r.response, lang, grades) }))
-  const results = await Promise.all(promises)
-  return { data: results, courseInstanceId }
+  return responses
 }
 
+// TODO: Avoid JSON conversion as much as possible.
+const addGradesAndHeaders = async (assessmentResponses, courseInstanceId, lang) => {
+  const grades = await gradeService.getByCourse(courseInstanceId, lang)
+  const data = await Promise.all(assessmentResponses.map(async (rs) => {
+    const r = rs.toJSON()
+    return { ...r, response: await getGradesAndHeader(r.response, lang, grades) }
+  }))
+  return data
+}
 
 const swapHeaders = (data) => {
   const h = {}
@@ -325,6 +321,7 @@ const swapHeaders = (data) => {
   return h
 }
 
+// TODO: Refactor this, it's pretty bad
 const getGradesAndHeader = async (data, lang, grades) => {
   let { response } = data
   response = response || data
@@ -353,5 +350,7 @@ module.exports = {
   create,
   generateFeedback,
   verifyAssessmentGrade,
-  getBySelfAssesment
+  getCourseInstanceId,
+  getBySelfAssesment,
+  addGradesAndHeaders
 }

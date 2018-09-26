@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { Container, Loader, Accordion, Button, Icon, Table, Segment, Header } from 'semantic-ui-react'
 
-import { getResponsesBySelfAssesment } from '../../api/selfassesment'
+import { getResponsesBySelfAssesment, updateVerificationAndFeedback } from '../../api/selfassesment'
 
 import FeedbackPage from '../Feedback/FeedbackPage'
 import LinkExport from '../User/components/LinkExport'
@@ -28,6 +28,19 @@ class SelfAssesmentListPage extends Component {
   }
 
   translate = id => this.props.translate(`SelfAssessmentList.SelfAssessmentListPage.${id}`)
+
+  regenarateFeedback = () => (
+    this.setState({ loading: true }, () => {
+      console.log('start')
+      updateVerificationAndFeedback(this.props.selfAssesmentId).then((response) => {
+        console.log('done')
+        this.setState({
+          responses: response.data,
+          loading: false
+        })
+      })
+    })
+  )
 
   renderList = () => (
     <Container>
@@ -121,14 +134,20 @@ class SelfAssesmentListPage extends Component {
   }
 
   render() {
+    console.log(this.state.responses)
     if (this.state.loading) return <Loader active />
     return (
       <div className="SelfAssesmentListPage">
         <Container>
-          <Segment style={{ display: 'flex' }}>
-            <Header style={{ whiteSpace: 'nowrap', marginRight: '80px' }}>{this.props.selfAssesment.name}</Header>
-            <LinkExport style={{ flexShrink: 1 }} title={`${this.translate('link')}: `} url={`/selfassesment/response/${this.props.selfAssesmentId}`} />
-          </Segment>
+          <Segment.Group>
+            <Segment style={{ display: 'flex' }}>
+              <LinkExport style={{ flexShrink: 1 }} title={`${this.translate('link')}: `} url={`/selfassesment/response/${this.props.selfAssesmentId}`} />
+            </Segment>
+            <Segment>
+              <Header style={{ whiteSpace: 'nowrap', marginRight: '80px' }}>{this.props.selfAssesment.name}</Header>
+              <Button onClick={this.regenarateFeedback}>re-calculate grades and feedback</Button>
+            </Segment>
+          </Segment.Group>
         </Container>
         <Switch>
           <Route exact path={`/selfassesment/list/${this.props.selfAssesmentId}`} render={this.renderList} />
