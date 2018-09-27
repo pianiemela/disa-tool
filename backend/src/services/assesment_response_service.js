@@ -11,6 +11,7 @@ const {
   TaskResponse
 } = require('../database/models')
 const gradeService = require('../services/grade_service')
+const objectiveService = require('../services/objective_service')
 
 const getOne = async (user, selfAssesmentId, lang) => {
   const found = await AssessmentResponse.find({
@@ -73,91 +74,115 @@ const verifyAssessmentGrade = async (response, lang) => {
     })
 
     // Check what grades meet requirements
-    const gradeQualifies = await Promise.all(courseGrades.map(async (grade) => {
-      // Find objectives related to grade
-      const gradeObjectives = await Objective.findAll({
-        where: {
-          skill_level_id: grade.skill_level_id,
-          course_instance_id: response.response.course_instance_id,
-          category_id: category.id
-        },
-        include: Task
-      })
-      // Get point sums for all objectives.
-      const objectivePoints = await Promise.all(gradeObjectives.map(async (objective) => {
-        // filter out tasks with no responses
-        const filteredTasks = objective.tasks.filter(task => TaskResponse.count({ where: { task_id: task.id } }))
-        let maxPoints = 0
-        let userPoints = 0
-        // calculate users points and the maximum for the objective
-        filteredTasks.forEach((task) => {
-          maxPoints += task.max_points * task.task_objective.multiplier
-          const doneTask = userTasks.find(ut => ut.task_id === task.id)
-          userPoints += doneTask ? doneTask.points * task.task_objective.multiplier : 0
-        })
-        return {
-          objectiveId: objective.id,
-          objectiveName: objective[`${lang}_name`],
-          userPoints,
-          maxPoints
-        }
-      }))
-      // calculate sums over objectives
-      const userPoints = objectivePoints.reduce((acc, curr) => acc + curr.userPoints, 0)
-      const maxPoints = objectivePoints.reduce((acc, curr) => acc + curr.maxPoints, 0)
-      // Get the right category grade for the correct pass level
-      const categoryGrade = categoryGrades.find(cg => cg.grade_id === grade.id)
-      return {
-        categoryGradeId: categoryGrade.id,
-        gradeId: grade.id,
-        objectivePoints,
-        userPoints,
-        maxPoints,
-        // user is qualified for grade if the points exceed the needed level
-        qualifiedForGrade: userPoints / maxPoints >= grade.needed_for_grade,
-        prerequisiteId: grade.prerequisite,
-        skillLevelId: grade.skill_level_id,
-        skillLevelName: grade.skill_level[`${lang}_name`],
-        needed: categoryGrade.needed_for_grade
-      }
-    }))
-
+    const gradeQualifies = await calculateStatsForGrades(
+      courseGrades,
+      categoryGrades,
+      response,
+      category,
+      userTasks,
+      lang)
     // If any prerequisite is not met, user does not earn the grade,
     // even if points otherwise would be enough
-    gradeQualifies.map((grade) => {
-      let preReq = grade.prerequisiteId || undefined
-      let depth = 0
-      while (preReq !== undefined) {
-        // increment recursion depth by one
-        depth += 1
-        // find the pre-requisite in the grade list and check if user qualifies for it
-        const found = gradeQualifies.find(g => g.gradeId === preReq) // eslint-disable-line no-loop-func
-        if (found && !found.qualifiedForGrade) {
-          grade.qualifiedForGrade = false
-        }
-        // go down the rabbit hole
-        preReq = found.prerequisiteId || undefined
-      }
-      grade.depth = depth
-    })
-
+    const gradesWithDepth = gradeQualifies.map(grade => (
+      calculateGradeDepth(grade, gradeQualifies)
+    ))
     // Find the highest grade earned. This is the grade with biggest recursive depth,
     // i.e. most levels of prerequisites
     let earnedGrade = { gradeId: null, depth: -1 }
-    for (let i = 0; i < gradeQualifies.length; i += 1) {
-      const grade = gradeQualifies[i]
+    for (let i = 0; i < gradesWithDepth.length; i += 1) {
+      const grade = gradesWithDepth[i]
       if (grade.qualifiedForGrade && grade.depth >= earnedGrade.depth) {
         earnedGrade = grade
       }
     }
     const gradeForName = courseGrades.find(grade => grade.id === earnedGrade.gradeId)
     earnedGrade.name = gradeForName ? gradeForName[`${lang}_name`] : null
-    const wantedDepth = gradeQualifies.find(grade => grade.categoryGradeId === wantedGrade.id).depth
+    const wantedDepth = gradesWithDepth.find(grade => grade.categoryGradeId === wantedGrade.id).depth
     wantedGrade.difference = wantedDepth - earnedGrade.depth
-    return { gradeQualifies, earnedGrade, wantedGrade, categoryId: category.id, categoryName: category[`${lang}_name`] }
+    return {
+      gradeQualifies: gradesWithDepth,
+      earnedGrade,
+      wantedGrade,
+      categoryId: category.id,
+      categoryName: category[`${lang}_name`]
+    }
   }))
-
   return { categoryVerifications: earnedGrades, overallVerification: {} }
+}
+
+const calculateStatsForGrades = (courseGrades, categoryGrades, response, category, userTasks, lang) => (
+  Promise.all(courseGrades.map(async (grade) => {
+    // Find objectives related to grade
+    const gradeObjectives = await objectiveService.getObjectivesBySkillCourseCategory(
+      grade.skill_level_id,
+      response.response.course_instance_id,
+      category.id)
+    // Filter out objectives with no tasks.
+    const filteredObjectives = gradeObjectives.filter(objective => objective.tasks.length > 0)
+    // Get point sums for each objective.
+    const objectivePoints = await calculateObjectivePointSums(filteredObjectives, userTasks, lang)
+    // calculate sums over objectives
+    const userPoints = objectivePoints.reduce((acc, curr) => acc + curr.userPoints, 0)
+    const maxPoints = objectivePoints.reduce((acc, curr) => acc + curr.maxPoints, 0)
+    // Get the right category grade for the correct pass level
+    const categoryGrade = categoryGrades.find(cg => cg.grade_id === grade.id)
+    return {
+      categoryGradeId: categoryGrade.id,
+      gradeId: grade.id,
+      objectivePoints,
+      userPoints,
+      maxPoints,
+      // user is qualified for grade if the points exceed the needed level
+      qualifiedForGrade: userPoints / maxPoints >= grade.needed_for_grade,
+      prerequisiteId: grade.prerequisite,
+      skillLevelId: grade.skill_level_id,
+      skillLevelName: grade.skill_level[`${lang}_name`],
+      needed: categoryGrade.needed_for_grade
+    }
+  }))
+)
+
+// Get point sums for all objectives.
+const calculateObjectivePointSums = (gradeObjectives, userTasks, lang) => (
+  Promise.all(gradeObjectives.map(async (objective) => {
+    // filter out tasks with no responses
+    const filteredTasks = objective.tasks.filter(task => TaskResponse.count({ where: { task_id: task.id } }))
+    let maxPoints = 0
+    let userPoints = 0
+    // calculate users points and the maximum for the objective
+    filteredTasks.forEach((task) => {
+      maxPoints += task.max_points * task.task_objective.multiplier
+      const doneTask = userTasks.find(ut => ut.task_id === task.id)
+      userPoints += doneTask ? doneTask.points * task.task_objective.multiplier : 0
+    })
+    return {
+      objectiveId: objective.id,
+      objectiveName: objective[`${lang}_name`],
+      userPoints,
+      maxPoints
+    }
+  }))
+)
+
+const calculateGradeDepth = (grade, gradeQualifies) => {
+  const gradeWithDepth = { ...grade }
+  let preReq = gradeWithDepth.prerequisiteId || undefined
+  let depth = 0
+  while (preReq !== undefined) {
+    // increment recursion depth by one
+    depth += 1
+    // find the pre-requisite in the grade list and check if user qualifies for it
+    const found = gradeQualifies.find(g => g.gradeId === preReq) // eslint-disable-line no-loop-func
+    if (found && !found.qualifiedForGrade) {
+      // If any prerequisite is not met, user does not earn the grade,
+      // even if points otherwise would be enough
+      gradeWithDepth.qualifiedForGrade = false
+    }
+    // go down the rabbit hole
+    preReq = found.prerequisiteId || undefined
+  }
+  gradeWithDepth.depth = depth
+  return gradeWithDepth
 }
 
 // TODO: Refactor. Needs possibly a separate file that contains all possible text variations.
@@ -167,7 +192,7 @@ const generateFeedback = (response, lang) => {
   const feedbacks = categoryVerifications.map((category) => {
     const { categoryId, categoryName, earnedGrade, wantedGrade } = category
     if (category.gradeQualifies.every(g => g.maxPoints === 0)) { // no feedback for categories with no tasks
-      return { categoryId }
+      return { categoryId, skillLevelObjectives: [] }
     }
     // Filter gradeQualifies to represent different skill levels
     const skillLevelQualifies = category.gradeQualifies.filter(grade => (
@@ -226,13 +251,6 @@ const generateFeedback = (response, lang) => {
   let worst = null
   let totalDone = 0
   let meanDiff = 0
-  const amountsForCategory = (category) => {
-    const skillLevelAmounts = category.skillLevelObjectives.map(skillLevel => (
-      skillLevel.objectives.reduce((acc, cur) => acc + (cur.percentageDone / skillLevel.objectives.length), 0)
-    ))
-    const total = skillLevelAmounts.reduce((acc, cur) => acc + cur)
-    return total
-  }
   for (let i = 0; i < feedbacks.length; i += 1) {
     const category = feedbacks[i]
     // get the sum of done tasks
@@ -274,6 +292,14 @@ const generateFeedback = (response, lang) => {
   generalFeedback += ` Suhteessa eniten tehtäviä olet tehnyt osiosta ${best.categoryName}.`
   generalFeedback += ` Enemmän sinun kannattaisi ehkä panostaa osion ${worst.categoryName} tehtäviin.`
   return { generalFeedback, categoryFeedback: feedbacks }
+}
+
+const amountsForCategory = (category) => {
+  const skillLevelAmounts = category.skillLevelObjectives.map(skillLevel => (
+    skillLevel.objectives.reduce((acc, cur) => acc + (cur.percentageDone / skillLevel.objectives.length), 0)
+  ))
+  const total = skillLevelAmounts.reduce((acc, cur) => acc + cur, 0)
+  return total
 }
 
 const getCourseInstanceId = async (id, responses = []) => {

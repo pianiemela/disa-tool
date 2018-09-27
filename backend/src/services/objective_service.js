@@ -109,10 +109,22 @@ const { details, edit } = editServices(
   }
 )
 
+const getObjectivesBySkillCourseCategory = (skillLevelId, courseInstanceId, categoryId) => (
+  Objective.findAll({
+    where: {
+      skill_level_id: skillLevelId,
+      course_instance_id: courseInstanceId,
+      category_id: categoryId
+    },
+    include: Task
+  })
+)
+
 module.exports = {
   create,
   delete: deleteObjective,
   taskDetails,
   details,
-  edit
+  edit,
+  getObjectivesBySkillCourseCategory
 }
