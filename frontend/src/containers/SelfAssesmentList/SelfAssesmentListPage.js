@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom'
 import { Container, Loader, Accordion, Button, Icon, Table, Segment, Header } from 'semantic-ui-react'
+import { CSVLink } from 'react-csv'
 
 import { getResponsesBySelfAssesment, updateVerificationAndFeedback } from '../../api/selfassesment'
 
@@ -31,9 +32,7 @@ class SelfAssesmentListPage extends Component {
 
   regenarateFeedback = () => (
     this.setState({ loading: true }, () => {
-      console.log('start')
       updateVerificationAndFeedback(this.props.selfAssesmentId).then((response) => {
-        console.log('done')
         this.setState({
           responses: response.data,
           loading: false
@@ -42,6 +41,30 @@ class SelfAssesmentListPage extends Component {
     })
   )
 
+  formatToCsv = () => {
+    const { responses } = this.state
+    const formatted = responses.map((response) => {
+      const questionResponses = response.response.questionModuleResponses.map(question => ({ [`${question.name}_text`]: question.responseText, [`${question.name}_grade`]: question.grade }))
+      const openResponses = response.response.openQuestionResponses.map(question => ({ [`${question.name}_text`]: question.responseText }))
+      const finalResponse = response.response.finalGradeResponse.name ?
+        {
+          [`${response.response.finalGradeResponse.name}_text`]: response.response.finalGradeResponse.responseText,
+          [`${response.response.finalGradeResponse.name}_grade`]: response.response.finalGradeResponse.grade
+        }
+        : {}
+      const flattenedQuestions = questionResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
+      const flattenedOpens = openResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
+      return {
+        studentnumber: response.person.studentnumber,
+        name: response.person.name,
+        ...flattenedQuestions,
+        ...flattenedOpens,
+        ...finalResponse
+      }
+    })
+    return formatted
+  }
+
   renderList = () => (
     <Container>
       <Accordion
@@ -49,7 +72,7 @@ class SelfAssesmentListPage extends Component {
         styled
         panels={this.state.responses.map(response => ({
           key: response.id,
-          title: response.person.name,
+          title: `${response.person.studentnumber} ${response.person.name}`,
           content: (
             <Accordion.Content key={response.id}>
               <Button
@@ -134,7 +157,6 @@ class SelfAssesmentListPage extends Component {
   }
 
   render() {
-    console.log(this.state.responses)
     if (this.state.loading) return <Loader active />
     return (
       <div className="SelfAssesmentListPage">
@@ -145,7 +167,8 @@ class SelfAssesmentListPage extends Component {
             </Segment>
             <Segment>
               <Header style={{ whiteSpace: 'nowrap', marginRight: '80px' }}>{this.props.selfAssesment.name}</Header>
-              <Button onClick={this.regenarateFeedback}>re-calculate grades and feedback</Button>
+              <Button onClick={this.regenarateFeedback} basic color="blue" >{this.translate('generate_feedback')}</Button>
+              <Button as={CSVLink} basic color="green" data={this.formatToCsv()}>{this.translate('download_csv')}</Button>
             </Segment>
           </Segment.Group>
         </Container>

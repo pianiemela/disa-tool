@@ -27,6 +27,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
     "react-copy-to-clipboard": "^5.0.1",
+    "react-csv": "^1.0.15-RC2",
     "react-dom": "^16.4.1",
     "react-localize-redux": "^3.3.2",
     "react-markdown": "^3.6.0",
