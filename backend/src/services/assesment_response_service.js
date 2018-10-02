@@ -190,78 +190,30 @@ const generateFeedback = (response, lang) => {
   const { categoryVerifications } = response.response.verification
   // generate feedback for each category
   const feedbacks = categoryVerifications.map((category) => {
-    const { categoryId, categoryName, earnedGrade, wantedGrade } = category
+    const { categoryId, categoryName } = category
     if (category.gradeQualifies.every(g => g.maxPoints === 0)) { // no feedback for categories with no tasks
-      return { categoryId, skillLevelObjectives: [] }
+      return { categoryId, categoryName, text: 'tästä kategoriasta ei ole palautetta', skillLevelObjectives: [], difference: 0, noFeedback: true }
     }
-    // Filter gradeQualifies to represent different skill levels
-    const skillLevelQualifies = category.gradeQualifies.filter(grade => (
-      category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade
-    ))
-    const skillLevelObjectives = skillLevelQualifies.map((skillLevel) => {
-      // Simply get the percentages done of the category's objectives
-      const objectives = skillLevel.objectivePoints.map(objective => ({
-        name: objective.objectiveName,
-        percentageDone: (objective.userPoints / objective.maxPoints * 100),
-        // Small safety check: if the objective has no points to be gotten, don't display it
-        include: objective.maxPoints > 0
-      }))
-      return { skillLevel: skillLevel.skillLevelName, objectives }
-    })
-    const earnedStats = category.gradeQualifies.find(grade => grade.gradeId === earnedGrade.gradeId)
-    || { skillLevelId: 0 }
-    const higherLevelTasksDone = skillLevelQualifies.filter(grade => (
-      // does user not qualify for this grade, i.e. is not the earned grade or below it
-      !grade.qualifiedForGrade
-      && grade.skillLevelId !== earnedStats.skillLevelId
-      // does user have points for this skill level
-      && grade.userPoints > 0
-      // filter out any duplicate stats for same skill level
-      && category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade
-    ))
-    // calculate percentages that for the earned grade and higher levels that user has done
-    const earnedPercentage = (earnedStats.userPoints / earnedStats.maxPoints * 100).toFixed(2) || null
-    const extraDone = higherLevelTasksDone.map(level => (
-      { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100).toFixed(2) }
-    ))
-    // Check whether we are dealing with an accurate, humble or arrogant person
-    let text = ''
-    if (wantedGrade.id === earnedGrade.categoryGradeId) {
-      // Assessment spot on!
-      text += 'Arvioimasi arvosana on hyvin linjassa tekemiesi tehtävien kanssa. Hienoa! '
-    } else if (wantedGrade.difference > 0) {
-      text += 'Arvioimasi arvosana on koreampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
-      // wants more than deserves
-      // WHAT THE HELL YOU ARROGANT SHIT
-    } else {
-      text += 'Arvioimasi arvosana on matalampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
-      // wants less than deserves
-      // such a humble man you are
-    }
-    if (extraDone.length > 0) {
-      text += `Olet kuitenkin tehnyt tehtäviä korkeammilta taitotasoilta 
-      ${extraDone.some(extra => extra.done > 50) ? 'paljon ' : 'jonkin verran '}, 
-      joten on mahdollista, että arvosanasi tulisi olla korkeampi kuin mitä tämä laskenta osoittaa.`
-    }
-    text += ' Voit alta tarkastella suoritusmääriäsi kunkin tavoitetason kohdalla.'
-    return { categoryId, categoryName, text, skillLevelObjectives, difference: wantedGrade.difference }
+    return generateCategoryFeedback(category)
   })
   // What is the "best" category? Emphasize that first
-  let best = null
-  let worst = null
+  let best = { amountDone: 0 }
+  let worst = { amountDone: 0 }
   let totalDone = 0
   let meanDiff = 0
   for (let i = 0; i < feedbacks.length; i += 1) {
     const category = feedbacks[i]
     // get the sum of done tasks
     const amountDone = amountsForCategory(category)
-    totalDone += amountDone
-    meanDiff += category.difference
-    if (best === null || amountDone > best.amountDone) {
-      best = { ...category, amountDone }
-    }
-    if (worst === null || amountDone < worst.amountDone) {
-      worst = { ...category, amountDone }
+    if (!category.noFeedback) {
+      totalDone += amountDone
+      meanDiff += category.difference
+      if (amountDone > best.amountDone) {
+        best = { ...category, amountDone }
+      }
+      if (amountDone < worst.amountDone) {
+        worst = { ...category, amountDone }
+      }
     }
   }
   // Divide amounts to get percentages and mean
@@ -294,6 +246,61 @@ const generateFeedback = (response, lang) => {
   return { generalFeedback, categoryFeedback: feedbacks }
 }
 
+const generateCategoryFeedback = (category) => {
+  // Filter gradeQualifies to represent different skill levels
+  const { categoryId, categoryName, earnedGrade, wantedGrade } = category
+  const skillLevelQualifies = category.gradeQualifies.filter(grade => (
+    category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade
+  ))
+  const skillLevelObjectives = skillLevelQualifies.map((skillLevel) => {
+    // Simply get the percentages done of the category's objectives
+    const objectives = skillLevel.objectivePoints.map(objective => ({
+      name: objective.objectiveName,
+      percentageDone: (objective.userPoints / objective.maxPoints * 100),
+      // Small safety check: if the objective has no points to be gotten, don't display it
+      include: objective.maxPoints > 0
+    }))
+    return { skillLevel: skillLevel.skillLevelName, objectives }
+  })
+  const earnedStats = category.gradeQualifies.find(grade => grade.gradeId === earnedGrade.gradeId)
+  || { skillLevelId: 0 }
+  const higherLevelTasksDone = skillLevelQualifies.filter(grade => (
+    // does user not qualify for this grade, i.e. is not the earned grade or below it
+    !grade.qualifiedForGrade
+    && grade.skillLevelId !== earnedStats.skillLevelId
+    // does user have points for this skill level
+    && grade.userPoints > 0
+    // filter out any duplicate stats for same skill level
+    && category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade
+  ))
+  // calculate percentages that for the earned grade and higher levels that user has done
+  const earnedPercentage = (earnedStats.userPoints / earnedStats.maxPoints * 100).toFixed(2) || null
+  const extraDone = higherLevelTasksDone.map(level => (
+    { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100).toFixed(2) }
+  ))
+  // Check whether we are dealing with an accurate, humble or arrogant person
+  let text = ''
+  if (wantedGrade.id === earnedGrade.categoryGradeId) {
+    // Assessment spot on!
+    text += 'Arvioimasi arvosana on hyvin linjassa tekemiesi tehtävien kanssa. Hienoa! '
+  } else if (wantedGrade.difference > 0) {
+    text += 'Arvioimasi arvosana on koreampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
+    // wants more than deserves
+    // WHAT THE HELL YOU ARROGANT SHIT
+  } else {
+    text += 'Arvioimasi arvosana on matalampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
+    // wants less than deserves
+    // such a humble man you are
+  }
+  if (extraDone.length > 0) {
+    text += `Olet kuitenkin tehnyt tehtäviä korkeammilta taitotasoilta 
+    ${extraDone.some(extra => extra.done > 50) ? 'paljon ' : 'jonkin verran '}, 
+    joten on mahdollista, että arvosanasi tulisi olla korkeampi kuin mitä tämä laskenta osoittaa.`
+  }
+  text += ' Voit alta tarkastella suoritusmääriäsi kunkin tavoitetason kohdalla.'
+  return { categoryId, categoryName, text, skillLevelObjectives, difference: wantedGrade.difference, noFeedback: false }
+}
+
 const amountsForCategory = (category) => {
   const skillLevelAmounts = category.skillLevelObjectives.map(skillLevel => (
     skillLevel.objectives.reduce((acc, cur) => acc + (cur.percentageDone / skillLevel.objectives.length), 0)
@@ -317,7 +324,7 @@ const getBySelfAssesment = async (id) => {
     include: [
       {
         model: Person,
-        attributes: ['id', 'name']
+        attributes: ['id', 'studentnumber', 'name']
       },
       {
         model: SelfAssessment,
