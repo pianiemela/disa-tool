@@ -2,7 +2,6 @@ const router = require('express').Router()
 const { checkAuth } = require('../services/auth')
 const { checkPrivilege, isTeacherOnCourse } = require('../services/privilege')
 const assessmentResponseService = require('../services/assesment_response_service')
-const gradeService = require('../services/grade_service')
 const selfAssessmentService = require('../services/self_assesment_service')
 const { errors } = require('../messages/global.js')
 
@@ -109,8 +108,42 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.put('/generate-feedbacks/:id', async (req, res) => {
+  const { id } = req.params
+  // console.log(id)
+  const assesmentResponses = await assessmentResponseService.getBySelfAssesment(id, req.lang)
+  const courseInstanceId = await assessmentResponseService.getCourseInstanceId(req.params.id, assesmentResponses)
+  if (!courseInstanceId) {
+    res.status(404).json({ error: errors.notfound[req.lang], data: [] })
+    return
+  }
+  if (!await checkPrivilege(req, [{ key: 'teacher_on_course', param: courseInstanceId }])) {
+    res.status(403).json({ error: errors.privilege[req.lang] })
+    return
+  }
+  // console.log(assesmentResponses)
+  const regeneratedResponses = await Promise.all(assesmentResponses.map(async (response) => {
+    const updateResponse = { ...response.response }
+    try {
+      const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
+      updateResponse.verification = verification
+      const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
+      updateResponse.feedback = feedback
+    } catch (e) {
+      console.log(e)
+    }
+    const completeResponse = await response.update({ response: updateResponse })
+    return completeResponse
+  }))
+  const data = await assessmentResponseService.addGradesAndHeaders(regeneratedResponses, courseInstanceId, req.lang)
+  res.status(200).json(data)
+})
+
 router.get('/self-assesment/:id', async (req, res) => {
-  const { data, courseInstanceId } = await assessmentResponseService.getBySelfAssesment(req.params.id, req.lang)
+  // const { data, courseInstanceId } = await assessmentResponseService.getBySelfAssesment(req.params.id, req.lang)
+  const assessmentResponses = await assessmentResponseService.getBySelfAssesment(req.params.id, req.lang)
+  const courseInstanceId = await assessmentResponseService.getCourseInstanceId(req.params.id, assessmentResponses)
+  const data = await assessmentResponseService.addGradesAndHeaders(assessmentResponses, courseInstanceId, req.lang)
   if (!courseInstanceId) {
     res.status(404).json({
       error: errors.notfound[req.lang],
@@ -139,6 +172,7 @@ router.get('/self-assesment/:id', async (req, res) => {
       res.status(500).json({
         error: e
       })
+      console.log(e)
     } else {
       res.status(500).json({
         error: errors.unexpected[req.lang]

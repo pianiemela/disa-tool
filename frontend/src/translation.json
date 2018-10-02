@@ -1078,6 +1078,14 @@
       "link": [
         "Link to assessment form",
         "Linkki vastauslomakkeeseen"
+      ],
+      "generate_feedback": [
+        "Regenerate feedbacks",
+        "Luo palautteet uudestaan"
+      ],
+      "download_csv": [
+        "Download responses as csv",
+        "Lataa vastaukset csv-tiedostona"
       ]
     }
   },
