@@ -45,15 +45,15 @@ class SelfAssesmentListPage extends Component {
     const { responses } = this.state
     const formatted = responses.map((response) => {
       const questionResponses = response.response.questionModuleResponses.map(question => (
-        { [`${question.name}_text`]: question.responseText,
+        { [`${question.name}_text`]: question.responseText.replace(/["]/g, '""'),
           [`${question.name}_grade`]: question.grade }
       ))
       const openResponses = response.response.openQuestionResponses.map(question => (
-        { [`${question.name}_text`]: question.responseText }
+        { [`${question.name}_text`]: question.responseText.replace(/["]/g, '""') }
       ))
       const { finalGradeResponse } = response.response
       const finalResponse = finalGradeResponse.name ?
-        { [`${finalGradeResponse.name}_text`]: finalGradeResponse.responseText,
+        { [`${finalGradeResponse.name}_text`]: finalGradeResponse.responseText.replace(/["]/g, '""'),
           [`${finalGradeResponse.name}_grade`]: finalGradeResponse.grade }
         : {}
       const flattenedQuestions = questionResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
