@@ -37,20 +37,24 @@ class SelfAssesmentListPage extends Component {
           responses: response.data,
           loading: false
         })
-      })
+      }).catch(() => this.setState({ loading: false }))
     })
   )
 
   formatToCsv = () => {
     const { responses } = this.state
     const formatted = responses.map((response) => {
-      const questionResponses = response.response.questionModuleResponses.map(question => ({ [`${question.name}_text`]: question.responseText, [`${question.name}_grade`]: question.grade }))
-      const openResponses = response.response.openQuestionResponses.map(question => ({ [`${question.name}_text`]: question.responseText }))
-      const finalResponse = response.response.finalGradeResponse.name ?
-        {
-          [`${response.response.finalGradeResponse.name}_text`]: response.response.finalGradeResponse.responseText,
-          [`${response.response.finalGradeResponse.name}_grade`]: response.response.finalGradeResponse.grade
-        }
+      const questionResponses = response.response.questionModuleResponses.map(question => (
+        { [`${question.name}_text`]: question.responseText,
+          [`${question.name}_grade`]: question.grade }
+      ))
+      const openResponses = response.response.openQuestionResponses.map(question => (
+        { [`${question.name}_text`]: question.responseText }
+      ))
+      const { finalGradeResponse } = response.response
+      const finalResponse = finalGradeResponse.name ?
+        { [`${finalGradeResponse.name}_text`]: finalGradeResponse.responseText,
+          [`${finalGradeResponse.name}_grade`]: finalGradeResponse.grade }
         : {}
       const flattenedQuestions = questionResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
       const flattenedOpens = openResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
@@ -167,8 +171,21 @@ class SelfAssesmentListPage extends Component {
             </Segment>
             <Segment>
               <Header style={{ whiteSpace: 'nowrap', marginRight: '80px' }}>{this.props.selfAssesment.name}</Header>
-              <Button onClick={this.regenarateFeedback} basic color="blue" >{this.translate('generate_feedback')}</Button>
-              <Button as={CSVLink} basic color="green" data={this.formatToCsv()}>{this.translate('download_csv')}</Button>
+              {this.props.user.role === 'ADMIN' ?
+                <Button
+                  basic
+                  color="blue"
+                  content={this.translate('generate_feedback')}
+                  onClick={this.regenarateFeedback}
+                /> : undefined }
+              <Button
+                as={CSVLink}
+                basic
+                color="green"
+                content={this.translate('download_csv')}
+                data={this.formatToCsv()}
+                filename={`${this.props.selfAssesment.name}_responses.csv`}
+              />
             </Segment>
           </Segment.Group>
         </Container>
@@ -186,7 +203,10 @@ SelfAssesmentListPage.propTypes = {
   selfAssesment: PropTypes.shape({
     name: PropTypes.string.isRequired
   }),
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    role: PropTypes.string
+  }).isRequired
 }
 
 SelfAssesmentListPage.defaultProps = {
@@ -196,7 +216,8 @@ SelfAssesmentListPage.defaultProps = {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  selfAssesment: state.instance.self_assessments.find(sa => sa.id === ownProps.selfAssesmentId)
+  selfAssesment: state.instance.self_assessments.find(sa => sa.id === ownProps.selfAssesmentId),
+  user: state.user
 })
 
 export default withLocalize(withRouter(connect(mapStateToProps, null)(SelfAssesmentListPage)))

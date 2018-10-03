@@ -109,6 +109,10 @@ const isFeedbackActive = async (id) => {
   return assessment.show_feedback
 }
 
+const getAssessmentType = id => (
+  SelfAssessment.findById(id).then(res => res.structure.type)
+)
+
 const setAssessmentLanguage = async (selfAssessment, lang) => {
   const assessmentCopy = { ...selfAssessment }
   const { structure } = assessmentCopy
@@ -165,6 +169,7 @@ module.exports = {
   addSelfAssesment,
   getUserSelfAssesments,
   getAssesmentsForCourse,
+  getAssessmentType,
   updateSelfAssesment,
   getOne,
   toggleAssessment,
