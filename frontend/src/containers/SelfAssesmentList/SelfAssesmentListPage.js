@@ -11,6 +11,10 @@ import { getResponsesBySelfAssesment, updateVerificationAndFeedback } from '../.
 import FeedbackPage from '../Feedback/FeedbackPage'
 import LinkExport from '../User/components/LinkExport'
 
+const replaceQuotesAndLineBreaks = string => (
+  string.replace(/["]/g, '""').replace(/(\r\n|\n|\r)/gm, ' ')
+)
+
 class SelfAssesmentListPage extends Component {
   constructor(props) {
     super(props)
@@ -45,15 +49,15 @@ class SelfAssesmentListPage extends Component {
     const { responses } = this.state
     const formatted = responses.map((response) => {
       const questionResponses = response.response.questionModuleResponses.map(question => (
-        { [`${question.name}_text`]: question.responseText.replace(/["]/g, '""'),
+        { [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText),
           [`${question.name}_grade`]: question.grade }
       ))
       const openResponses = response.response.openQuestionResponses.map(question => (
-        { [`${question.name}_text`]: question.responseText.replace(/["]/g, '""') }
+        { [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText) }
       ))
       const { finalGradeResponse } = response.response
       const finalResponse = finalGradeResponse.name ?
-        { [`${finalGradeResponse.name}_text`]: finalGradeResponse.responseText.replace(/["]/g, '""'),
+        { [`${finalGradeResponse.name}_text`]: replaceQuotesAndLineBreaks(finalGradeResponse.responseText),
           [`${finalGradeResponse.name}_grade`]: finalGradeResponse.grade }
         : {}
       const flattenedQuestions = questionResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
