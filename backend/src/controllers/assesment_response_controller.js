@@ -121,7 +121,10 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
     res.status(403).json({ error: errors.privilege[req.lang] })
     return
   }
-  // console.log(assesmentResponses)
+  if (await selfAssessmentService.getAssessmentType(id) === 'objectives') {
+    res.status(400).json({ error: 'No feedback generated for this type of assessment' })
+    return
+  }
   const regeneratedResponses = await Promise.all(assesmentResponses.map(async (response) => {
     const updateResponse = { ...response.response }
     try {
