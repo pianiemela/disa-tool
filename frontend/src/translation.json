@@ -1085,7 +1085,7 @@
       ],
       "download_csv": [
         "Download responses as csv",
-        "Lataa vastaukset csv-tiedostona"
+        "Lataa vastaukset csv-muodossa"
       ]
     }
   },
