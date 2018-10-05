@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Grid, Input, List, Message, Dropdown } from 'semantic-ui-react'
+import { Button, Grid, Input, Message, Dropdown } from 'semantic-ui-react'
 import Papa from 'papaparse'
 
 import { getByCourse } from '../../api/types'
