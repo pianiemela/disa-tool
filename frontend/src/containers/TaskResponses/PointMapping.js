@@ -35,7 +35,7 @@ class PointMapping extends Component {
                 icon="delete"
                 size="tiny"
                 value={key}
-                onClick={this.removePointMapping}
+                onClick={this.props.removePointMapping}
               />
             </List.Item>
                 ))}
@@ -63,6 +63,7 @@ class PointMapping extends Component {
 PointMapping.propTypes = {
   pointsMapping: shape().isRequired,
   addPointMapping: func.isRequired,
+  removePointMapping: func.isRequired,
   translate: func.isRequired
 }
 
