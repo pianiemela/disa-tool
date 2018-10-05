@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Button, Grid, Input, List, Message, Dropdown } from 'semantic-ui-react'
+import { Button, Grid, Input, Message, Dropdown } from 'semantic-ui-react'
 import Papa from 'papaparse'
 
 import { getByCourse } from '../../api/types'
@@ -101,7 +101,7 @@ export class UploadResponsesPage extends Component {
           .find(person => person.studentnumber.includes(String(row[studentHeader])))
         || this.createNewStudent(String(row[studentHeader]))
       )
-      if (student) {
+      if (student && row.length > 1) {
         const studentTasks = tasks.map((task) => {
           const response = { personId: student.id, taskId: csvMappings[task].task.id }
           if (pointsMapping[row[task]] !== undefined) {
@@ -195,7 +195,11 @@ export class UploadResponsesPage extends Component {
         <Grid.Row>
           {csv ?
             <Grid.Column>
-              <PointMapping pointsMapping={pointsMapping} addPointMapping={this.addPointMapping} />
+              <PointMapping
+                pointsMapping={pointsMapping}
+                addPointMapping={this.addPointMapping}
+                removePointMapping={this.removePointMapping}
+              />
             </Grid.Column> : undefined}
         </Grid.Row>
         <Grid.Row>
