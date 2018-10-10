@@ -121,9 +121,12 @@ const calculateStatsForGrades = (courseGrades, categoryGrades, response, categor
     const filteredObjectives = gradeObjectives.filter(objective => objective.tasks.length > 0)
     // Get point sums for each objective.
     const objectivePoints = await calculateObjectivePointSums(filteredObjectives, userTasks, lang)
-    // calculate sums over objectives
-    const userPoints = objectivePoints.reduce((acc, curr) => acc + curr.userPoints, 0)
-    const maxPoints = objectivePoints.reduce((acc, curr) => acc + curr.maxPoints, 0)
+    // calculate relative point sums over objectives
+    const userPoints = objectivePoints.reduce((acc, curr) => (
+      acc + curr.userPoints / curr.maxPoints), 0) / objectivePoints.length
+    // calculate max points available for category
+    const categoryPoints = objectivePoints.reduce((acc, curr) => (
+      acc + curr.maxPoints), 0)
     // Get the right category grade for the correct pass level
     const categoryGrade = categoryGrades.find(cg => cg.grade_id === grade.id)
     return {
@@ -131,9 +134,9 @@ const calculateStatsForGrades = (courseGrades, categoryGrades, response, categor
       gradeId: grade.id,
       objectivePoints,
       userPoints,
-      maxPoints,
+      categoryPoints,
       // user is qualified for grade if the points exceed the needed level
-      qualifiedForGrade: userPoints / maxPoints >= grade.needed_for_grade,
+      qualifiedForGrade: userPoints >= grade.needed_for_grade,
       prerequisiteId: grade.prerequisite,
       skillLevelId: grade.skill_level_id,
       skillLevelName: grade.skill_level[`${lang}_name`],
@@ -191,7 +194,7 @@ const generateFeedback = (response, lang) => {
   // generate feedback for each category
   const feedbacks = categoryVerifications.map((category) => {
     const { categoryId, categoryName } = category
-    if (category.gradeQualifies.every(g => g.maxPoints === 0)) { // no feedback for categories with no tasks
+    if (category.gradeQualifies.every(g => g.categoryPoints === 0)) { // no feedback for categories with no tasks
       return { categoryId, categoryName, text: 'tästä kategoriasta ei ole palautetta', skillLevelObjectives: [], difference: 0, noFeedback: true }
     }
     return generateCategoryFeedback(category)
@@ -216,9 +219,10 @@ const generateFeedback = (response, lang) => {
       }
     }
   }
-  // Divide amounts to get percentages and mean
-  totalDone /= feedbacks.length
-  meanDiff /= feedbacks.length
+  // Divide amounts to get percentages and mean,
+  // remember exclude categories without feedback
+  totalDone /= feedbacks.filter(f => !f.noFeedback).length
+  meanDiff /= feedbacks.filter(f => !f.noFeedback).length
   // calculate the mean absolute difference
   let madDiff = feedbacks.reduce((acc, cur) => acc + (cur.difference - meanDiff), 0)
   madDiff *= 1 / feedbacks.length
@@ -231,10 +235,10 @@ const generateFeedback = (response, lang) => {
   if (Math.abs(meanDiff) < 1 && Math.abs(madDiff) < 1) {
     generalFeedback += 'Arviosi ovat erittäin osuvia.'
     // very good estimate
-  } else if (meanDiff <= -1 && madDiff < 0) {
+  } else if (meanDiff <= -1) {
     generalFeedback += 'Arvioit itseäsi yleisesti turhan ankarasti.'
     // generally under-estimating
-  } else if (meanDiff >= 1 && madDiff > 0) {
+  } else if (meanDiff >= 1) {
     generalFeedback += 'Olit arvioissasi yleisesti liian höveli.'
     // generally over-estimating
   } else {
@@ -274,9 +278,9 @@ const generateCategoryFeedback = (category) => {
     && category.gradeQualifies.find(g => grade.skillLevelId === g.skillLevelId) === grade
   ))
   // calculate percentages that for the earned grade and higher levels that user has done
-  const earnedPercentage = (earnedStats.userPoints / earnedStats.maxPoints * 100).toFixed(2) || null
+  const earnedPercentage = (earnedStats.userPoints * 100).toFixed(2) || null
   const extraDone = higherLevelTasksDone.map(level => (
-    { skillLevel: level.skillLevelName, done: (level.userPoints / level.maxPoints * 100).toFixed(2) }
+    { skillLevel: level.skillLevelName, done: (level.userPoints * 100).toFixed(2) }
   ))
   // Check whether we are dealing with an accurate, humble or arrogant person
   let text = ''
@@ -284,7 +288,7 @@ const generateCategoryFeedback = (category) => {
     // Assessment spot on!
     text += 'Arvioimasi arvosana on hyvin linjassa tekemiesi tehtävien kanssa. Hienoa! '
   } else if (wantedGrade.difference > 0) {
-    text += 'Arvioimasi arvosana on koreampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
+    text += 'Arvioimasi arvosana on korkeampi kuin mitä tekemäsi tehtävät antaisivat olettaa. '
     // wants more than deserves
     // WHAT THE HELL YOU ARROGANT SHIT
   } else {
@@ -294,7 +298,7 @@ const generateCategoryFeedback = (category) => {
   }
   if (extraDone.length > 0) {
     text += `Olet kuitenkin tehnyt tehtäviä korkeammilta taitotasoilta 
-    ${extraDone.some(extra => extra.done > 50) ? 'paljon ' : 'jonkin verran '}, 
+    ${extraDone.some(extra => extra.done > 50) ? 'paljon ' : 'jonkin verran'}, 
     joten on mahdollista, että arvosanasi tulisi olla korkeampi kuin mitä tämä laskenta osoittaa.`
   }
   text += ' Voit alta tarkastella suoritusmääriäsi kunkin tavoitetason kohdalla.'
