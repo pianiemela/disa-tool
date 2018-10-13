@@ -191,8 +191,8 @@ const calculateGradeDepth = (grade, gradeQualifies) => {
 
 // TODO: Refactor. Needs possibly a separate file that contains all possible text variations.
 const generateFeedback = (response, lang) => {
-  if (!response.response.verification || !response.response.verification.categoryVerifications) return
-  const { categoryVerifications } = response.response.verification
+  if (!response.verification || !response.verification.categoryVerifications) return
+  const { categoryVerifications } = response.verification
   // generate feedback for each category
   const feedbacks = categoryVerifications.map((category) => {
     const { categoryId, categoryName } = category
@@ -234,8 +234,8 @@ const generateFeedback = (response, lang) => {
   totalDone /= feedbacks.filter(f => !f.noFeedback).length
   meanDiff /= feedbacks.filter(f => !f.noFeedback).length
   // calculate the mean absolute difference
-  let madDiff = feedbacks.reduce((acc, cur) => acc + (cur.difference - meanDiff), 0)
-  madDiff *= 1 / feedbacks.length
+  const variance = feedbacks.reduce((acc, cur) => acc + ((cur.difference - meanDiff) ** 2), 0)
+  const sd = Math.sqrt(variance / 1 - feedbacks.length)
   const describeAmount = (percentage) => {
     if (percentage < 30) return 'generalLittleDone'
     if (percentage < 70) return 'generalSomeDone'
@@ -246,7 +246,7 @@ const generateFeedback = (response, lang) => {
   // generalFeedback += ` Enemmän sinun kannattaisi ehkä panostaa osion ${worst.categoryName} tehtäviin.`
   const describeAssessments = () => {
     // very good estimate
-    if (Math.abs(meanDiff) < 1 && Math.abs(madDiff) < 1) return 'generalGood'
+    if (Math.abs(meanDiff) < 1 && sd < 1) return 'generalGood'
     // generally under-estimating
     if (meanDiff <= -1) return 'generalLow'
     // generally over-estimating
