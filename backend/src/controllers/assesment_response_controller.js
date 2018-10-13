@@ -125,19 +125,34 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
     res.status(400).json({ error: 'No feedback generated for this type of assessment' })
     return
   }
-  const regeneratedResponses = await Promise.all(assesmentResponses.map(async (response) => {
+  const regeneratedResponses = []
+  for (let i = 0; i < assesmentResponses.length; i += 1) {
+    const response = assesmentResponses[i]
     const updateResponse = { ...response.response }
     try {
       const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
       updateResponse.verification = verification
-      const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
+      const feedback = await assessmentResponseService.generateFeedback(updateResponse, req.lang)
       updateResponse.feedback = feedback
     } catch (e) {
       console.log(e)
     }
     const completeResponse = await response.update({ response: updateResponse })
-    return completeResponse
-  }))
+    regeneratedResponses.push(completeResponse)
+  }
+  // const regeneratedResponses = await Promise.all(assesmentResponses.map(async (response) => {
+  //   const updateResponse = { ...response.response }
+  //   try {
+  //     const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
+  //     updateResponse.verification = verification
+  //     const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
+  //     updateResponse.feedback = feedback
+  //   } catch (e) {
+  //     console.log(e)
+  //   }
+  //   const completeResponse = await response.update({ response: updateResponse })
+  //   return completeResponse
+  // }))
   const data = await assessmentResponseService.addGradesAndHeaders(regeneratedResponses, courseInstanceId, req.lang)
   res.status(200).json(data)
 })
