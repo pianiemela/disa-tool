@@ -131,6 +131,10 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
     const updateResponse = { ...response.response }
     try {
       const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
+      if (!verification) {
+        const error = { error: 'Could not calculate verification' }
+        throw error
+      }
       updateResponse.verification = verification
       const feedback = await assessmentResponseService.generateFeedback(updateResponse, req.lang)
       updateResponse.feedback = feedback
