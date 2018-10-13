@@ -73,6 +73,14 @@ class SelfAssesmentListPage extends Component {
     return formatted
   }
 
+  findVerifiactionGrade = (verification, categoryName) => {
+    const category = verification.categoryVerifications.find(c => c.categoryName === categoryName)
+    if (!category) {
+      return null
+    }
+    return category.earnedGrade.name
+  }
+
   renderList = () => (
     <Container>
       <Accordion
@@ -106,7 +114,9 @@ class SelfAssesmentListPage extends Component {
                       <Table.Row key={qmResponse.id}>
                         <Table.Cell>{qmResponse.name}</Table.Cell>
                         <Table.Cell textAlign="center">{qmResponse.grade}</Table.Cell>
-                        <Table.Cell textAlign="center">{ /* konearvio */ }</Table.Cell>
+                        <Table.Cell textAlign="center">
+                          {this.findVerifiactionGrade(response.response.verification, qmResponse.name)}
+                        </Table.Cell>
                       </Table.Row>
                     ))}
                   </Table.Body>
@@ -165,6 +175,7 @@ class SelfAssesmentListPage extends Component {
   }
 
   render() {
+    console.log(this.state)
     if (this.state.loading) return <Loader active />
     return (
       <div className="SelfAssesmentListPage">

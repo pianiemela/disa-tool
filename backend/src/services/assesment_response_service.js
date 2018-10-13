@@ -191,6 +191,7 @@ const calculateGradeDepth = (grade, gradeQualifies) => {
 
 // TODO: Refactor. Needs possibly a separate file that contains all possible text variations.
 const generateFeedback = (response, lang) => {
+  if (!response.response.verification || !response.response.verification.categoryVerifications) return
   const { categoryVerifications } = response.response.verification
   // generate feedback for each category
   const feedbacks = categoryVerifications.map((category) => {
