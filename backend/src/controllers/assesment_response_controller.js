@@ -109,6 +109,7 @@ router.post('/', async (req, res) => {
 })
 
 router.put('/generate-feedbacks/:id', async (req, res) => {
+  req.setTimeout(300000)
   const { id } = req.params
   // console.log(id)
   const assesmentResponses = await assessmentResponseService.getBySelfAssesment(id, req.lang)
