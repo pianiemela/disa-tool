@@ -69,17 +69,18 @@ export const CategoryFeedback = (props) => {
                       content: {
                         key: `${skillLevel.skillLevel} objectives`,
                         content: skillLevel.objectives.map((objective, j) => (
-                          <div key={j}>
-                            <h5>{objective.name} {objective.percentageDone === 100 ?
-                              <Icon color="yellow" loading name="star" size="large" /> : undefined}
-                            </h5>
-                            <Progress
-                              size="small"
-                              percent={objective.percentageDone}
-                              indicating
-                            />
-                          </div>
-                          ))
+                          objective.include ?
+                            <div key={j}>
+                              <h5>{objective.name} {objective.percentageDone === 100 ?
+                                <Icon color="yellow" loading name="star" size="large" /> : undefined}
+                              </h5>
+                              <Progress
+                                size="small"
+                                percent={objective.percentageDone}
+                                indicating
+                              />
+                            </div>
+                          : undefined))
                       }
                     }]}
                   />
