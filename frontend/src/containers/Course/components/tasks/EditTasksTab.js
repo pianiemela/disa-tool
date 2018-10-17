@@ -19,8 +19,6 @@ export class EditTasksTab extends Component {
     this.state = {
       editTaskObjectivesFormExpanded: false
     }
-    this.closeEditTaskObjectivesForm = this.closeEditTaskObjectivesForm.bind(this)
-    this.openEditTaskObjectivesForm = this.openEditTaskObjectivesForm.bind(this)
   }
 
   componentWillUnmount() {
@@ -31,13 +29,13 @@ export class EditTasksTab extends Component {
     this.props.changeActive(value)
   }
 
-  openEditTaskObjectivesForm() {
+  openEditTaskObjectivesForm = () => {
     this.setState({
       editTaskObjectivesFormExpanded: true
     })
   }
 
-  closeEditTaskObjectivesForm() {
+  closeEditTaskObjectivesForm = () => {
     this.setState({
       editTaskObjectivesFormExpanded: false
     })
@@ -59,10 +57,10 @@ export class EditTasksTab extends Component {
               <EditTaskObjectivesForm
                 taskId={this.props.activeTask.id}
                 expanded={this.state.editTaskObjectivesFormExpanded}
+                onOpen={this.openEditTaskObjectivesForm}
                 onClose={this.closeEditTaskObjectivesForm}
               />
               <div className="flexContainer">
-                <Button basic className="nowrap" onClick={this.openEditTaskObjectivesForm}>{this.translate('edit_multipliers_button')}</Button>
                 <TypesDisplay types={this.props.activeTask.types} />
               </div>
             </Segment>
@@ -108,8 +106,4 @@ const mapStateToProps = state => ({
   )
 })
 
-const mapDispatchToProps = dispatch => ({
-  changeActive: changeActive(dispatch)
-})
-
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(EditTasksTab))
+export default withLocalize(connect(mapStateToProps, { changeActive })(EditTasksTab))

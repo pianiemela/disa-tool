@@ -175,7 +175,6 @@ class SelfAssesmentListPage extends Component {
   }
 
   render() {
-    console.log(this.state)
     if (this.state.loading) return <Loader active />
     return (
       <div className="SelfAssesmentListPage">
