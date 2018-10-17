@@ -1,5 +1,5 @@
 import React from 'react'
-import { boolean, func, string, shape } from 'prop-types'
+import { bool, func, string, shape } from 'prop-types'
 import { Button, Container, Form, Input, Label } from 'semantic-ui-react'
 
 const ChangeObjectiveMultiplier = ({
@@ -50,7 +50,7 @@ const ChangeObjectiveMultiplier = ({
 ChangeObjectiveMultiplier.propTypes = {
   objective: shape().isRequired,
   values: shape().isRequired,
-  loading: boolean.isRequired,
+  loading: bool.isRequired,
   changeModified: func.isRequired,
   changeMultiplier: func.isRequired,
   defaultText: string.isRequired,
