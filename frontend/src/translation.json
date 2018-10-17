@@ -440,6 +440,10 @@
     },
     "tasks": {
       "common": {
+        "default": [
+          "Default",
+          "Oletusarvo"
+        ],
         "description": [
           "description",
           "kuvaus"
@@ -485,10 +489,6 @@
         "all": [
           "All",
           "Kaikki"
-        ],
-        "default": [
-          "Default",
-          "Oletusarvo"
         ],
         "modify": [
           "Modify",

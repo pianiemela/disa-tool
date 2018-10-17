@@ -61,7 +61,11 @@ export class EditTasksTab extends Component {
                 onClose={this.closeEditTaskObjectivesForm}
               />
               <div className="flexContainer">
-                <TypesDisplay types={this.props.activeTask.types} />
+                <TypesDisplay
+                  defaultText={this.translate('default')}
+                  defaultMultiplier={this.props.activeTask.defaultMultiplier}
+                  types={this.props.activeTask.types}
+                />
               </div>
             </Segment>
           </Container>
