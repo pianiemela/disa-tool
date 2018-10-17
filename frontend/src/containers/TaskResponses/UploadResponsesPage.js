@@ -6,7 +6,7 @@ import Papa from 'papaparse'
 import { getByCourse } from '../../api/types'
 import PointMapping from './PointMapping'
 import CsvTable from './CsvTable'
-import CsvTaskMapping from './CsvTaskMapping';
+import CsvTaskMapping from './CsvTaskMapping'
 
 export class UploadResponsesPage extends Component {
   state = {

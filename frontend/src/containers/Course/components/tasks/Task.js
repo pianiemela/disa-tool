@@ -101,7 +101,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = dispatch => ({
   removeTask: asyncAction(removeTask, dispatch),
-  changeActive: changeActive(dispatch)
+  changeActive: id => dispatch(changeActive(id))
 })
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(Task))
