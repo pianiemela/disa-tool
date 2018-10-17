@@ -25,7 +25,7 @@ export const removeTask = data => apiPromise(remove, data, {
   success: { type: 'TASK_DELETE' }
 })
 
-export const changeActive = dispatch => (id) => {
+export const changeActive = id => (dispatch) => {
   dispatch({
     type: 'TASK_CHANGE_ACTIVE',
     id

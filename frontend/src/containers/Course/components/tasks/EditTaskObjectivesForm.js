@@ -2,29 +2,26 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Button, Form, Input, Label, Container } from 'semantic-ui-react'
+import { Button, Form, Modal, Container } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
 import { objectivesDetails } from '../../../../api/tasks'
 import { editTaskObjectives } from '../../actions/tasks'
-
-import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
+import ChangeObjectiveMultiplier from './ChangeObjectiveMultiplier'
+import ChangeAllObjectivesMultipliers from './ChangeAllObjectivesMultipliers'
 
 class EditTaskObjectivesForm extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      detailed: true,
-      triggered: false,
-      loading: true,
-      values: {
-        0: {
-          multiplier: this.props.defaultMultiplier,
-          modified: false
-        }
+  state = {
+    detailed: true,
+    loading: true,
+    values: {
+      0: {
+        multiplier: this.props.defaultMultiplier,
+        modified: false
       }
     }
   }
+
 
   changeMultiplier = id => e => this.setState({
     values: {
@@ -46,7 +43,8 @@ class EditTaskObjectivesForm extends Component {
     }
   })
 
-  editTaskObjectivesSubmit = () => {
+  editTaskObjectivesSubmit = (e) => {
+    e.preventDefault()
     this.props.editTaskObjectives({
       task_id: this.props.taskId,
       objectives: this.props.objectives.map(objective => ({
@@ -55,16 +53,13 @@ class EditTaskObjectivesForm extends Component {
       })).filter(objective => objective.modified !== null)
     })
     this.setState({
-      loading: true,
-      triggered: false
+      loading: true
     })
+    this.props.onClose()
   }
 
   loadDetails = async () => {
-    if (this.state.triggered) return
-    this.setState({
-      triggered: true
-    })
+    this.setState({ loading: true })
     const details = (await this.props.objectivesDetails({ id: this.props.taskId })).data.data
     this.setState({
       loading: false,
@@ -82,106 +77,69 @@ class EditTaskObjectivesForm extends Component {
 
   render() {
     return (
-      <div className="EditTaskObjectivesForm" style={{ display: 'none' }}>
-        <ModalForm
-          expanded={this.props.expanded}
-          header={this.translate('header')}
-          trigger={<div />}
-          actions={saveActions(this.translate)}
+      <div className="EditTaskObjectivesForm">
+        <Modal
+          open={this.props.expanded}
+          trigger={
+            <Button
+              basic
+              content={this.translate('edit_multipliers_button')}
+              onClick={this.props.onOpen}
+            />}
           onSubmit={this.editTaskObjectivesSubmit}
           onClose={this.props.onClose}
           onOpen={this.loadDetails}
-          loading={this.state.loading}
         >
-          <Container className="header" textAlign="right">
-            <Button.Group size="large">
-              <Button
-                type="button"
-                onClick={() => this.setState({ detailed: false })}
-                content={this.translate('all')}
-                color={this.state.detailed ? undefined : 'blue'}
-              />
-              <Button.Or text={this.translate('or')} />
-              <Button
-                type="button"
-                onClick={() => this.setState({ detailed: true })}
-                content={this.translate('detailed')}
-                color={this.state.detailed ? 'blue' : undefined}
-              />
-            </Button.Group>
-          </Container>
-          {this.state.detailed ? (
-            this.props.objectives.map(objective => (this.state.values[objective.id] ? (
-              <Form.Field key={objective.id}>
-                <Container>
-                  <Label basic size="large">{objective.name}</Label>
-                </Container>
-                <Container>
-                  <Button.Group size="small">
-                    <Button
-                      type="button"
-                      content={this.translate('default')}
-                      color={this.state.loading || this.state.values[objective.id].modified ? undefined : 'blue'}
-                      onClick={this.changeModified(objective.id, false)}
-                    />
-                    <Button.Or text={this.translate('or')} />
-                    <Button
-                      type="button"
-                      content={this.translate('modify')}
-                      color={!this.state.loading && this.state.values[objective.id].modified ? 'blue' : undefined}
-                      onClick={this.changeModified(objective.id, true)}
-                    />
-                  </Button.Group>
-                  <Input
-                    className="multiplierInput"
-                    value={this.state.loading ? 0 : this.state.values[objective.id].multiplier}
-                    onChange={this.changeMultiplier(objective.id)}
-                    name={`objective ${objective.id}`}
-                    type="number"
-                    min={0}
-                    max={1}
-                    step={0.01}
-                    disabled={this.state.loading || !this.state.values[objective.id].modified}
-                  />
-                </Container>
-              </Form.Field>) : null
-            ))
-          ) : (
-            <Form.Field>
-              <Container>
-                <Label basic size="large">{this.translate('all')}</Label>
-              </Container>
-              <Container>
-                <Button.Group size="small">
+          <Modal.Content>
+            <Form onSubmit={this.editTaskObjectivesSubmit} loading={this.state.loading}>
+              <Container className="header" textAlign="right">
+                <Button.Group size="large">
                   <Button
                     type="button"
-                    content={this.translate('default')}
-                    color={Object.values(this.state.values)[0].modified === false ? 'blue' : undefined}
-                    onClick={this.changeModified(0, false)}
+                    onClick={() => this.setState({ detailed: false })}
+                    content={this.translate('all')}
+                    color={this.state.detailed ? undefined : 'blue'}
                   />
                   <Button.Or text={this.translate('or')} />
                   <Button
                     type="button"
-                    content={this.translate('modify')}
-                    color={Object.values(this.state.values)[0].modified === true ? 'blue' : undefined}
-                    onClick={this.changeModified(0, true)}
+                    onClick={() => this.setState({ detailed: true })}
+                    content={this.translate('detailed')}
+                    color={this.state.detailed ? 'blue' : undefined}
                   />
                 </Button.Group>
-                <Input
-                  className="multiplierInput"
-                  value={Object.values(this.state.values)[0].multiplier}
-                  onChange={this.changeMultiplier(0)}
-                  name="all"
-                  type="number"
-                  min={0}
-                  max={1}
-                  step={0.01}
-                  disabled={!Object.values(this.state.values)[0].modified}
-                />
               </Container>
-            </Form.Field>
-          )}
-        </ModalForm>
+              {this.state.detailed ? (
+                this.props.objectives.map(objective => (this.state.values[objective.id] ? (
+                  <ChangeObjectiveMultiplier
+                    key={objective.id}
+                    objective={objective}
+                    values={this.state.values}
+                    loading={this.state.loading}
+                    changeModified={this.changeModified}
+                    changeMultiplier={this.changeMultiplier}
+                    defaultText={this.translate('default')}
+                    orText={this.translate('or')}
+                    modifyText={this.translate('modify')}
+                  />) : null
+                ))
+              ) : (
+                <ChangeAllObjectivesMultipliers
+                  defaultMultiplier={this.state.values[0]}
+                  defaultInd={0}
+                  changeMultiplier={this.changeMultiplier}
+                  changeModified={this.changeModified}
+                  allText={this.translate('all')}
+                  defaultText={this.translate('default')}
+                  modifyText={this.translate('modify')}
+                  orText={this.translate('or')}
+                />
+              )}
+              <Button type="submit" color="green" style={{ margin: '0px 15px 0px 15px' }}>{this.translate('save')}</Button>
+              <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }} onClick={this.props.onClose}>{this.translate('cancel')}</Button>
+            </Form>
+          </Modal.Content>
+        </Modal>
       </div>
     )
   }
@@ -197,6 +155,7 @@ EditTaskObjectivesForm.propTypes = {
   })).isRequired,
   defaultMultiplier: PropTypes.number.isRequired,
   expanded: PropTypes.bool.isRequired,
+  onOpen: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   objectivesDetails: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired

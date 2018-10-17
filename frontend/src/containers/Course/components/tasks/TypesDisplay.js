@@ -1,5 +1,5 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { arrayOf, number, shape, string } from 'prop-types'
 import { connect } from 'react-redux'
 import { Label } from 'semantic-ui-react'
 
@@ -7,6 +7,10 @@ const SEMANTIC_GREEN = '#21ba45'
 
 const TypesDisplay = props => (
   <div className="TypesDisplay flexContainer">
+    <Label
+      size="large"
+      content={`${props.defaultText}: ${props.defaultMultiplier.toFixed(2)}`}
+    />
     {props.types.map(type => (
       <Label
         key={type.id}
@@ -39,11 +43,13 @@ const findType = (id, headers) => {
 }
 
 TypesDisplay.propTypes = {
-  types: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    header: PropTypes.string.isRequired
-  })).isRequired
+  types: arrayOf(shape({
+    id: number.isRequired,
+    name: string.isRequired,
+    header: string.isRequired
+  })).isRequired,
+  defaultText: string.isRequired,
+  defaultMultiplier: number.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
