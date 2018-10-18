@@ -1,3 +1,4 @@
+const logger = require('../utils/logger')
 const { checkPrivilege } = require('../services/privilege')
 
 /**
@@ -106,7 +107,7 @@ const editRoutes = (router, config = {}) => {
         res.status(500).json({
           error: errors.unexpected[req.lang]
         })
-        console.log(e)
+        logger.error(e)
       }
     }
   })
@@ -160,7 +161,7 @@ const editRoutes = (router, config = {}) => {
         res.status(500).json({
           error: errors.unexpected[req.lang]
         })
-        console.log(e)
+        logger.error(e)
       }
     }
   })

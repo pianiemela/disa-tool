@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const logger = require('../utils/logger')
 const conf = require('../../conf-backend.js')
 require('pg').defaults.parseInt8 = true
 
@@ -13,18 +14,18 @@ const sequelize = new Sequelize(dbUrl, {
 const syncDatabase = async () => {
   try {
     await sequelize.sync()
-    console.log('synced database')
+    logger.info('synced database')
   } catch (e) {
-    console.log(e)
+    logger.error(e)
   }
 }
 
 const forceSyncDatabase = async () => {
   try {
     await sequelize.sync({ force: true })
-    console.log('forced database')
+    logger.info('forced database')
   } catch (e) {
-    console.log(e)
+    logger.error(e)
   }
 }
 

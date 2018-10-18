@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const logger = require('../utils/logger')
 const { checkAuth } = require('../services/auth')
 
 const courseService = require('../services/course_service')
@@ -101,7 +102,7 @@ router.post('/create', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })

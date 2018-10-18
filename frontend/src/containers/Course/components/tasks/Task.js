@@ -99,6 +99,7 @@ const mapStateToProps = (state, ownProps) => ({
   active: state.task.active === ownProps.task.id
 })
 
+// TODO: CHANGE ALL DISPATCHES TO USE SAME FORMAT/TRADITION!!
 const mapDispatchToProps = dispatch => ({
   removeTask: asyncAction(removeTask, dispatch),
   changeActive: id => dispatch(changeActive(id))

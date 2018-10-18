@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/UniversityOfHelsinkiCS/disa-tool#readme",
   "dependencies": {
+    "@sentry/browser": "^4.1.1",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "papaparse": "^4.6.0",

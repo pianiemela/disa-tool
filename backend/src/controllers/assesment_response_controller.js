@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const logger = require('../utils/logger')
 const { checkAuth } = require('../services/auth')
 const { checkPrivilege, isTeacherOnCourse } = require('../services/privilege')
 const assessmentResponseService = require('../services/assesment_response_service')
@@ -40,7 +41,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
     res.status(500).json({
       error: errors.unexpected[req.lang]
     })
-    console.log(error)
+    logger.error(error)
   }
 })
 
@@ -82,7 +83,7 @@ router.post('/', async (req, res) => {
       const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
       response.response.feedback = feedback
     } catch (e) {
-      console.log(e)
+      logger.error(e)
     }
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
     const completeResponse = await response.save()
@@ -140,7 +141,7 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
       const feedback = await assessmentResponseService.generateFeedback(updateResponse, req.lang)
       updateResponse.feedback = feedback
     } catch (e) {
-      console.log(e)
+      logger.error(e)
     }
     const completeResponse = await response.update({ response: updateResponse })
     regeneratedResponses.push(completeResponse)
@@ -195,12 +196,12 @@ router.get('/self-assesment/:id', async (req, res) => {
       res.status(500).json({
         error: e
       })
-      console.log(e)
+      logger.error(e)
     } else {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })

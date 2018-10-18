@@ -1,4 +1,5 @@
 const faker = require('faker')
+const logger = require('../utils/logger')
 const { AssessmentResponse, CoursePerson, Person } = require('./models')
 const assessmentResponseService = require('../services/assesment_response_service')
 
@@ -86,14 +87,14 @@ const run = async (courseId, assessmentId) => {
       const feedback = await assessmentResponseService.generateFeedback(response, 'fin')
       response.response.feedback = feedback
     } catch (e) {
-      console.log(e)
+      logger.error(e)
     }
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
     const completeResponse = await response.save()
-    console.log('response created: ', person.studentnumber)
+    logger.debug('response created: ', person.studentnumber)
     return completeResponse
   }))
-  console.log('done')
+  logger.info('done')
   process.exit()
 }
 

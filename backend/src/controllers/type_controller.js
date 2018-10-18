@@ -1,5 +1,5 @@
 const router = require('express').Router()
-
+const logger = require('../utils/logger')
 const typeService = require('../services/type_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
@@ -151,7 +151,7 @@ router.post('/headers/create', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -198,7 +198,7 @@ router.delete('/headers/:id', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -236,7 +236,7 @@ router.get('/course/:id', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
