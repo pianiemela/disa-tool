@@ -1,3 +1,5 @@
+const morgan = require('morgan')
+const logger = require('./utils/logger')
 const categories = require('./controllers/category_controller.js')
 const courses = require('./controllers/course_controller.js')
 const persons = require('./controllers/person_controller.js')
@@ -17,9 +19,26 @@ const auth = require('./middleware/token_auth.js')
 
 const BASE_URL = '/api'
 
+const accessLogger = morgan((tokens, req, res) => {
+  const fields = ['method', 'url', 'status', 'response-time', 'remote-addr', 'remote-user', 'user-agent', 'referrer']
+  const name = req.user ? req.user.username : 'undefined name'
+  const message = [
+    name, ':',
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    '-',
+    tokens['response-time'](req, res), 'ms'
+  ].join(' ')
+  const meta = req.decodedToken ? req.decodedToken : {}
+  fields.forEach((field) => { meta[field] = tokens[field](req, res) })
+  logger.info(message, meta)
+})
+
 module.exports = (app) => {
   app.use(validateLang)
   app.use(auth)
+  app.use(accessLogger)
   app.use(`${BASE_URL}/categories`, categories)
   app.use(`${BASE_URL}/courses`, courses)
   app.use(`${BASE_URL}/persons`, persons)

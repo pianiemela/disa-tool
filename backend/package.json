@@ -11,7 +11,7 @@
         "lint": "eslint --ext .js src || true",
         "lint-fix": "eslint --fix --ext .js src || true",
         "start-dev": "nodemon index.js",
-        "start": "node --max_old_space_size=2000 index.js" 
+        "start": "node --max_old_space_size=2000 index.js"
     },
     "keywords": [],
     "author": "",
@@ -23,6 +23,7 @@
         "express": "^4.16.3",
         "faker": "^4.1.0",
         "jsonwebtoken": "^8.3.0",
+        "morgan": "^1.9.1",
         "pg": "^7.4.3",
         "pg-hstore": "^2.3.2",
         "raven": "^2.6.4",
