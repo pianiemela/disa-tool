@@ -1,13 +1,15 @@
 const winston = require('winston')
-require('winston-log2gelf')
+const Log2gelf = require('winston-log2gelf')
+
+const { LOG_HOST, LOG_PORT } = require('../../conf-backend')
 
 const transports = []
 
-if (process.env.LOG_PORT && process.env.LOG_HOST) {
-  transports.push(new winston.transports.Log2gelf({
+if (LOG_PORT && LOG_HOST) {
+  transports.push(new Log2gelf({
     hostname: process.env.LOG_HOSTNAME || 'disa',
-    host: process.env.LOG_HOST,
-    port: process.env.LOG_PORT,
+    host: LOG_HOST,
+    port: LOG_PORT,
     protocol: 'http'
   }))
 }
