@@ -1,5 +1,5 @@
 const router = require('express').Router()
-
+const logger = require('../utils/logger')
 const coursePersonService = require('../services/course_person_service.js')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors, messages } = require('../messages/global.js')
@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -45,7 +45,7 @@ router.post('/unregister', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -73,7 +73,7 @@ router.put('/course-role', async (req, res) => {
     res.status(500).json({
       error: errors.unexpected[req.lang]
     })
-    console.log(error)
+    logger.error(error)
   }
 })
 
@@ -97,7 +97,7 @@ router.post('/delete', async (req, res) => {
     coursePersonService.delete.execute(person)
     res.status(200).json({ message: 'Person successfully removed from course', deleted })
   } catch (e) {
-    console.log(e)
+    logger.error(e)
     res.status(500).json({ error: 'There was a problem' })
   }
 })

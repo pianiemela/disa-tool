@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const logger = require('../utils/logger')
 const { errors } = require('../messages/global.js')
 const { checkPrivilege } = require('../services/privilege')
 
@@ -62,7 +63,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(error)
+      logger.error(error)
     }
   }
   return null
@@ -97,7 +98,7 @@ router.put('/update/:id', async (req, res) => {
       data
     })
   } catch (error) {
-    console.log(error)
+    logger.error(error)
     res.status(500).json({
       error: errors.unexpected[req.lang]
     })

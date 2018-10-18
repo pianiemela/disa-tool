@@ -1,5 +1,5 @@
 const router = require('express').Router()
-
+const logger = require('../utils/logger')
 const { checkPrivilege, onlyGlobalTeacherHasAccess, isGlobalTeacher } = require('../services/privilege.js')
 const { errors, messages } = require('../messages/global.js')
 
@@ -33,7 +33,7 @@ router.post('/users', async (req, res) => {
       await personService.getAllWithRolesWhere(studentInfo, req.lang)
     )
   } catch (error) {
-    console.log(error)
+    logger.error(error)
     res.status(500).json({ toast: errors.unexpected.toast, error: errors.unexpected[req.lang] })
     return
   }
@@ -85,7 +85,7 @@ router.put('/global-role', async (req, res) => {
     res.status(500).json({
       error: errors.unexpected[req.lang]
     })
-    console.log(error)
+    logger.error(error)
   }
 })
 
@@ -99,7 +99,7 @@ router.get('/search', async (req, res) => {
     res.status(200).json(foundPersons)
   } catch (e) {
     res.status(500).end()
-    console.log(e)
+    logger.error(e)
   }
 })
 

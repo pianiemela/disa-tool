@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const logger = require('../utils/logger')
 
 const checkAuth = (req) => {
   try {
@@ -13,7 +14,7 @@ const checkAuth = (req) => {
       return null
     }
     if (!jwt.verify(token, process.env.SECRET)) {
-      console.log('NOT AUTHED')
+      logger.error('NOT AUTHED')
       return null
     }
     const { user } = jwt.decode(token)

@@ -1,7 +1,7 @@
 const router = require('express').Router()
 
 const { checkAuth } = require('../services/auth.js')
-
+const logger = require('../utils/logger')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors } = require('../messages/global.js')
 const taskService = require('../services/task_service.js')
@@ -101,7 +101,7 @@ router.post('/create', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -142,7 +142,7 @@ router.delete('/:id', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -179,7 +179,7 @@ router.post('/objectives/attach', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -216,7 +216,7 @@ router.post('/objectives/detach', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -240,7 +240,7 @@ router.post('/responses', async (req, res) => {
     const createdResponses = await taskService.createOrUpdateTaskResponses([...registeredResponses, ...newRegisterResponses])
     res.status(201).json({ message: 'good job', createdResponses })
   } catch (e) {
-    console.log(e)
+    logger.error(e)
     res.status(400).json({ error: 'There was something wrong with your request, please try again' })
   }
 })
@@ -281,7 +281,7 @@ router.post('/types/attach', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -327,7 +327,7 @@ router.post('/types/detach', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })

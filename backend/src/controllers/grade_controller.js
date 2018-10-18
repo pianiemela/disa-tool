@@ -1,5 +1,5 @@
 const router = require('express').Router()
-
+const logger = require('../utils/logger')
 const gradeService = require('../services/grade_service.js')
 const { errors } = require('../messages/global.js')
 const { checkPrivilege, onlyTeacherOnCourseHasAccess } = require('../services/privilege')
@@ -49,7 +49,7 @@ router.get('/course/:id', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -85,7 +85,7 @@ router.post('/create', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -125,7 +125,7 @@ router.delete('/:id', async (req, res) => {
       res.status(500).json({
         error: errors.unexpected[req.lang]
       })
-      console.log(e)
+      logger.error(e)
     }
   }
 })
@@ -133,11 +133,17 @@ router.delete('/:id', async (req, res) => {
 router.put('/category-grades', async (req, res) => {
   const { courseId, categoryGrades } = req.body
   if (await !onlyTeacherOnCourseHasAccess(req, res, courseId)) {
+    res.status(403).json({ error: 'You are not a teacher' })
     return
   }
-  const filteredCategoryGrades = await gradeService.filterCategoryGradesOnCourse(courseId, categoryGrades)
-  const updatedCategoryGrades = await gradeService.updateCategoryGrades(filteredCategoryGrades, categoryGrades)
-  res.status(200).json({ message: 'category grades updated', updatedCategoryGrades })
+  try {
+    const filteredCategoryGrades = await gradeService.filterCategoryGradesOnCourse(courseId, categoryGrades)
+    const updatedCategoryGrades = await gradeService.updateCategoryGrades(filteredCategoryGrades, categoryGrades)
+    res.status(200).json({ message: 'category grades updated', updatedCategoryGrades })
+  } catch (e) {
+    res.status(500).json({ error: 'Internal server error' })
+    logger.error(e)
+  }
 })
 
 editRoutes(router, {
