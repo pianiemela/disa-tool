@@ -1,7 +1,6 @@
 require('dotenv').config()
 
-const DB_URL = process.env.DB_URL
-const TEST_DB_URL = process.env.TEST_DB_URL
+const { DB_URL, TEST_DB_URL, LOG_PORT, LOG_HOST } = process.env
 
 const development = { url: DB_URL }
 const production = { url: DB_URL }
@@ -12,5 +11,7 @@ module.exports = {
   TEST_DB_URL,
   development,
   production,
-  text
+  text,
+  LOG_PORT,
+  LOG_HOST
 }
