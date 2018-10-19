@@ -201,7 +201,7 @@ const generateFeedback = (response, lang) => {
       return {
         categoryId,
         categoryName,
-        text: feedbackTextGenerator.generateCategoryText(true, 0, 0, lang),
+        text: feedbackTextGenerator.generateCategoryText(false, 0, 0, lang),
         skillLevelObjectives: [],
         difference: 0,
         noFeedback: true

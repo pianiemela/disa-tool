@@ -34,6 +34,7 @@ const FeedbackPage = (props) => {
         <CategoryFeedback
           questionModuleResponses={questionModuleResponses}
           feedback={feedback}
+          teacher={props.teacher}
         />
       }
       <QuestionAndGradeFeedback
