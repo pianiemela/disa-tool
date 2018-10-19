@@ -76,7 +76,8 @@ export const CategoryFeedback = (props) => {
                               </h5>
                               <Progress
                                 size="small"
-                                percent={objective.percentageDone}
+                                percent={objective.percentageDone.toFixed(1)}
+                                progress={props.teacher}
                                 indicating
                               />
                             </div>
