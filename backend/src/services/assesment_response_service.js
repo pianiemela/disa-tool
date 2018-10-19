@@ -137,7 +137,7 @@ const calculateStatsForGrades = (courseGrades, categoryGrades, response, categor
       userPoints,
       categoryPoints,
       // user is qualified for grade if the points exceed the needed level
-      qualifiedForGrade: userPoints >= grade.needed_for_grade,
+      qualifiedForGrade: userPoints >= categoryGrade.needed_for_grade || categoryGrade.needed_for_grade === 0,
       prerequisiteId: grade.prerequisite,
       skillLevelId: grade.skill_level_id,
       skillLevelName: grade.skill_level[`${lang}_name`],

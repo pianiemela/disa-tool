@@ -254,7 +254,7 @@ export const loginAction = userData => async (dispatch) => {
   }
 }
 
-export const logoutAction = (dispatch) => {
+export const logoutAction = () => (dispatch) => {
   removeToken()
   dispatch({
     type: 'USER_LOGOUT',
