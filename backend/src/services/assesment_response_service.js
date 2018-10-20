@@ -231,11 +231,12 @@ const generateFeedback = (response, lang) => {
   }
   // Divide amounts to get percentages and mean,
   // remember exclude categories without feedback
-  totalDone /= feedbacks.filter(f => !f.noFeedback).length
-  meanDiff /= feedbacks.filter(f => !f.noFeedback).length
-  // calculate the mean absolute difference
-  const variance = feedbacks.reduce((acc, cur) => acc + ((cur.difference - meanDiff) ** 2), 0)
-  const sd = Math.sqrt(variance / 1 - feedbacks.length)
+  const categoriesIncluded = feedbacks.filter(f => !f.noFeedback)
+  totalDone /= categoriesIncluded.length
+  meanDiff /= categoriesIncluded.length
+  // calculate standard deviation for the differences
+  const variance = categoriesIncluded.reduce((acc, cur) => acc + ((cur.difference - meanDiff) ** 2), 0)
+  const sd = Math.sqrt(variance / (categoriesIncluded.length - 1))
   const describeAmount = (percentage) => {
     if (percentage < 30) return 'generalLittleDone'
     if (percentage < 70) return 'generalSomeDone'
