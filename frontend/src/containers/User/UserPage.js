@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Accordion, Header, Grid, Item } from 'semantic-ui-react'
+import { Accordion, Dimmer, Header, Grid, Item, Loader } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
 import {
@@ -22,6 +22,7 @@ import ManageCoursePeople from './ManageCoursePeople'
 class UserPage extends Component {
   state = {
     // Selected type will now never change. Is it really needed in the task listing?
+    loading: false,
     selectedType: undefined
   }
 
@@ -31,20 +32,11 @@ class UserPage extends Component {
 
     await this.props.dispatchGetUserCourses()
     // this.props.dispatchGetUserSelfAssesments()
-    if (courseId && !activeCourse.id) {
-      this.props.dispatchGetCourseInstanceData(courseId)
-    }
-  }
-
-  componentDidUpdate = async () => {
-    const { activeCourse } = this.props
-    const { courseId } = this.props.match.params
-    if (courseId && (!activeCourse || activeCourse.id !== Number(courseId))) {
-      if (activeCourse.status === 401) {
-        console.log('not on course')
-      } else {
-        this.props.dispatchGetCourseInstanceData(courseId)
-      }
+    if (courseId && !activeCourse.id && !this.state.loading) {
+      await this.setState({ loading: true })
+      this.props.dispatchGetCourseInstanceData(courseId).then(() => (
+        this.setState({ loading: false })
+      ))
     }
   }
 
@@ -58,7 +50,11 @@ class UserPage extends Component {
   handleClick = async (e, { course }) => {
     // this.setState({ activeCourse: course })
     // Fetch all relevant course information: tasks with responses & assessments with responses.
-    this.props.dispatchGetCourseInstanceData(course.id)
+    if (!this.state.loading && this.props.match.params.courseId) {
+      await this.setState({ loading: true })
+      await this.props.dispatchGetCourseInstanceData(course.id)
+      await this.setState({ loading: false })
+    }
   }
 
 
@@ -80,7 +76,7 @@ class UserPage extends Component {
 
   render() {
     const { activeCourse, courses, user } = this.props
-    const { selectedType } = this.state
+    const { selectedType, loading } = this.state
     const { self_assessments: assessments, tasks } = activeCourse
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
@@ -97,6 +93,9 @@ class UserPage extends Component {
     // console.log(this.props.match.params.courseId)
     return (
       <Grid padded="horizontally">
+        <Dimmer active={loading} inverted>
+          <Loader inverted />
+        </Dimmer>
         <Grid.Row>
           <Grid.Column>
             {this.props.user ? <Header as="h1">{this.t('hello')} {this.props.user.name}</Header> :

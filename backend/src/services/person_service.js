@@ -57,6 +57,7 @@ const getPeopleOnCourse = (courseId, tasks) => (
       },
       {
         model: TaskResponse,
+        separate: true,
         where: { task_id: { [Op.in]: tasks } },
         required: false
       }

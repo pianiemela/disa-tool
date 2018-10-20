@@ -3,22 +3,25 @@ const { Task, TaskResponse, Type, Objective, TaskObjective, TaskType, TypeHeader
 const editServices = require('../utils/editServices')
 
 const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
-const typeAttributes = lang => ['id', [`${lang}_header`, 'header'], [`${lang}_name`, 'name']]
+const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]
 
-const getUserTasksForCourse = (userId, courseId, lang) => (
+
+const getUserTasksForCourse = (courseId, lang, userId) => (
   Task.findAll({
-    attributes: taskAttributes(lang),
     where: { course_instance_id: courseId },
-    include: { model: TaskResponse, where: { person_id: userId } }
+    attributes: taskAttributes(lang),
+    include: [
+      { model: TaskResponse, where: { person_id: userId }, required: false },
+      { model: Type,
+        attributes: typeAttributes(lang),
+        include: {
+          model: TypeHeader,
+          where: { course_instance_id: courseId },
+          attributes: typeAttributes(lang)
+        }
+      }
+    ]
   })
-)
-
-const getTasksForCourse = (courseId, lang, userId) => (
-  Task.findAll({
-    where: { course_instance_id: courseId },
-    attributes: taskAttributes(lang),
-    include: [{ model: TaskResponse, where: { person_id: userId }, required: false },
-      { model: Type, attributes: typeAttributes(lang) }] })
 )
 
 const validateTaskResponses = async (taskResponses, courseId) => {
@@ -391,7 +394,6 @@ const taskObjectivesDetails = id => new Promise((resolve) => {
 
 module.exports = {
   getUserTasksForCourse,
-  getTasksForCourse,
   validateTaskResponses,
   createOrUpdateTaskResponses,
   mapPersonsAndResponses,

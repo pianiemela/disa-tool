@@ -67,7 +67,7 @@ const messages = {
 router.get('/user/:courseId', async (req, res) => {
   const user = await checkAuth(req)
   const { courseId } = req.params
-  const instances = await taskService.getUserTasksForCourse(user.id, courseId, req.lang)
+  const instances = await taskService.getUserTasksForCourse(courseId, req.lang, user.id)
   res.status(200).json(instances)
 })
 
