@@ -40,7 +40,6 @@ const reducers = combineReducers({
 
 const rootReducer = (state, action) => {
   if (action.type === 'USER_LOGOUT') {
-    console.log('WOWOWOWOOW')
     const { toast } = state
     state = undefined
     state = { ...state, toast }
