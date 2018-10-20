@@ -38,8 +38,18 @@ const reducers = combineReducers({
   validation
 })
 
+const rootReducer = (state, action) => {
+  if (action.type === 'USER_LOGOUT') {
+    console.log('WOWOWOWOOW')
+    const { toast } = state
+    state = undefined
+    state = { ...state, toast }
+  }
+  return reducers(state, action)
+}
+
 const store = process.env.NODE_ENV === 'development' ?
-  createStore(reducers, composeWithDevTools(applyMiddleware(thunk))) :
-  createStore(reducers, applyMiddleware(thunk))
+  createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))) :
+  createStore(rootReducer, applyMiddleware(thunk))
 
 export default store

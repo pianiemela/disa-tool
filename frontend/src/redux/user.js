@@ -7,8 +7,6 @@ export const userReducer = (state = {}, action) => {
       return state
     case 'USER_LOGIN_SUCCESS':
       return action.payload.logged_in
-    case 'USER_LOGOUT':
-      return action.payload
     default:
       return state
   }

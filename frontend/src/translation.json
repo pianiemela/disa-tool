@@ -55,6 +55,10 @@
         "Log out",
         "Kirjaudu ulos"
       ],
+      "logout_success": [
+        "You have logged out successfully",
+        "Olet kirjautunut ulos"
+      ],
       "login": [
         "Log in",
         "Kirjaudu sisään"

@@ -254,11 +254,11 @@ export const loginAction = userData => async (dispatch) => {
   }
 }
 
-export const logoutAction = () => (dispatch) => {
+export const logoutAction = message => (dispatch) => {
   removeToken()
   dispatch({
     type: 'USER_LOGOUT',
-    payload: {}
+    payload: { message }
   })
 }
 
