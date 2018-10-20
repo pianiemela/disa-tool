@@ -44,7 +44,7 @@ class Nav extends Component {
 
   handleClick = (e, { name }) => {
     if (name === 'logout') {
-      this.props.dispatchLogout()
+      this.props.dispatchLogout(this.translate('logout_success'))
     }
     this.setState({ activeItem: name })
   }
@@ -156,4 +156,4 @@ Nav.propTypes = {
   setActiveLanguage: func.isRequired
 }
 
-export default withLocalize(withRouter(connect(mapStateToProps, mapDispatchToProps)(Nav)))
+export default withLocalize(withRouter(connect(mapStateToProps, { dispatchLogout: logoutAction })(Nav)))

@@ -4,6 +4,7 @@ const { checkAuth } = require('../services/auth')
 
 const courseService = require('../services/course_service')
 const personService = require('../services/person_service')
+const taskService = require('../services/task_service')
 const { errors } = require('../messages/global')
 const { checkPrivilege } = require('../services/privilege')
 
@@ -37,22 +38,25 @@ router.put('/instance/:courseId/toggle', async (req, res) => {
 router.get('/instance/:courseId', async (req, res) => {
   const { courseId } = req.params
   const user = await checkAuth(req)
-  let instance = await courseService.getInstanceWithRelatedData(courseId, req.lang, user.id)
+  const instance = await courseService.getInstanceWithRelatedData(courseId, req.lang, user.id)
   if (!instance) {
     res.status(401).json({ error: 'You are not registered on this course' })
     return
   }
+  const tasks = await taskService.getUserTasksForCourse(courseId, req.lang, user.id)
+  // This is pretty ugly, but the speed-up is around 5-10x when doing two queries.
+  instance.dataValues.tasks = tasks
   const courseRole = instance.people[0].course_person.role
   if (courseRole !== 'TEACHER') {
     const teachers = await personService.getCourseTeachers(courseId)
     instance.dataValues.people = teachers
   } else {
-    const people = await personService.getPeopleOnCourse(courseId, instance.tasks.map(task => task.id))
+    const people = await personService.getPeopleOnCourse(courseId, instance.dataValues.tasks.map(task => task.id))
     instance.dataValues.people = people
   }
   instance.dataValues.courseRole = courseRole
 
-  instance.tasks = instance.tasks.map(task => ({
+  instance.tasks = instance.dataValues.tasks.map(task => ({
     ...task,
     types: task.types.map(ttype => ({ ...ttype, name: `${ttype.type_header.name} ${ttype.name}` })
     )

@@ -2,8 +2,6 @@ const {
   Course,
   CourseInstance,
   Person,
-  Task,
-  TaskResponse,
   Type,
   SelfAssessment,
   AssessmentResponse,
@@ -21,7 +19,6 @@ const assessmentAttributes = lang => [
   'active',
   'show_feedback',
   'course_instance_id']
-const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
 const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]
 
 const getCourseInstancesOfCourse = async (courseId, user, lang) => {
@@ -60,20 +57,6 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
     attributes: instanceAttributes(lang),
     include: [
       {
-        model: Task,
-        attributes: taskAttributes(lang),
-        include: [
-          { model: TaskResponse, where: { person_id: userId }, required: false },
-          {
-            model: Type,
-            attributes: typeAttributes(lang),
-            include: {
-              model: TypeHeader,
-              where: { course_instance_id: instanceId },
-              attributes: courseAttributes(lang)
-            }
-          }]
-      }, {
         model: SelfAssessment,
         attributes: assessmentAttributes(lang),
         include: { model: AssessmentResponse, where: { person_id: userId }, required: false }
