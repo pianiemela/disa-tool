@@ -2,6 +2,8 @@ const {
   Course,
   CourseInstance,
   Person,
+  Task,
+  TaskResponse,
   Type,
   SelfAssessment,
   AssessmentResponse,
@@ -20,6 +22,12 @@ const assessmentAttributes = lang => [
   'show_feedback',
   'course_instance_id']
 const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]
+const taskAttributes = lang => [
+  'course_instance_id',
+  'id',
+  [`${lang}_name`, 'name'],
+  [`${lang}_description`, 'description'],
+  'max_points']
 
 const getCourseInstancesOfCourse = async (courseId, user, lang) => {
   const instances = (await CourseInstance.findAll({
@@ -55,24 +63,40 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
   CourseInstance.find({
     where: { id: instanceId },
     attributes: instanceAttributes(lang),
-    include: [
-      {
-        model: SelfAssessment,
-        attributes: assessmentAttributes(lang),
-        include: { model: AssessmentResponse, where: { person_id: userId }, required: false }
-      },
-      {
-        model: Person,
-        where: { id: userId }
-      },
-      {
-        model: TypeHeader,
-        attributes: courseAttributes(lang),
-        include: {
-          model: Type,
-          attributes: typeAttributes(lang)
+    include: [{
+      model: Task,
+      separate: true,
+      where: { course_instance_id: instanceId },
+      attributes: taskAttributes(lang),
+      include: [
+        { model: TaskResponse, where: { person_id: userId }, required: false },
+        { model: Type,
+          attributes: typeAttributes(lang),
+          include: {
+            model: TypeHeader,
+            where: { course_instance_id: instanceId },
+            attributes: typeAttributes(lang)
+          }
         }
+      ]
+    },
+    {
+      model: SelfAssessment,
+      attributes: assessmentAttributes(lang),
+      include: { model: AssessmentResponse, where: { person_id: userId }, required: false }
+    },
+    {
+      model: Person,
+      where: { id: userId }
+    },
+    {
+      model: TypeHeader,
+      attributes: courseAttributes(lang),
+      include: {
+        model: Type,
+        attributes: typeAttributes(lang)
       }
+    }
     ]
   })
 )
