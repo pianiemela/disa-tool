@@ -90,25 +90,40 @@ const verifyAssessmentGrade = async (response, lang) => {
     // Find the highest grade earned. This is the grade with biggest recursive depth,
     // i.e. most levels of prerequisites
     let earnedGrade = { gradeId: null, depth: -1 }
-    for (let i = 0; i < gradesWithDepth.length; i += 1) {
-      const grade = gradesWithDepth[i]
-      if (grade.qualifiedForGrade && grade.depth >= earnedGrade.depth) {
-        earnedGrade = grade
+    const evaluateCategory = gradesWithDepth.some(grade => grade.categoryPoints !== 0)
+    if (!evaluateCategory) {
+      earnedGrade = gradesWithDepth.find(grade => grade.categoryGradeId === wantedGrade.id)
+    } else {
+      for (let i = 0; i < gradesWithDepth.length; i += 1) {
+        const grade = gradesWithDepth[i]
+        if (grade.qualifiedForGrade && grade.depth >= earnedGrade.depth) {
+          earnedGrade = grade
+        }
       }
     }
     const gradeForName = courseGrades.find(grade => grade.id === earnedGrade.gradeId)
     earnedGrade.name = gradeForName ? gradeForName[`${lang}_name`] : null
     const wantedDepth = gradesWithDepth.find(grade => grade.categoryGradeId === wantedGrade.id).depth
-    wantedGrade.difference = wantedDepth - earnedGrade.depth
+    wantedGrade.difference = evaluateCategory ? wantedDepth - earnedGrade.depth : 0
     return {
       gradeQualifies: gradesWithDepth,
       earnedGrade,
       wantedGrade,
       categoryId: category.id,
-      categoryName: category[`${lang}_name`]
+      categoryName: category[`${lang}_name`],
+      evaluateCategory
     }
   }))
-  return { categoryVerifications: earnedGrades, overallVerification: {} }
+  const meanDepth = earnedGrades
+    .filter(c => c.evaluateCategory)
+    .reduce((acc, cur) => acc + (cur.earnedGrade.depth / earnedGrades.filter(e => e.evaluateCategory).length), 0)
+  const minGrade = courseGrades
+    .find(g => g.id === earnedGrades[0].gradeQualifies
+      .find(c => c.depth === Math.floor(meanDepth)).gradeId)[`${lang}_name`]
+  const maxGrade = courseGrades
+    .find(g => g.id === earnedGrades[0].gradeQualifies
+      .find(c => c.depth === Math.ceil(meanDepth)).gradeId)[`${lang}_name`]
+  return { categoryVerifications: earnedGrades, overallVerification: { meanDepth, minGrade, maxGrade } }
 }
 
 const calculateStatsForGrades = (courseGrades, categoryGrades, response, category, userTasks, lang) => (
@@ -134,7 +149,7 @@ const calculateStatsForGrades = (courseGrades, categoryGrades, response, categor
       categoryGradeId: categoryGrade.id,
       gradeId: grade.id,
       objectivePoints,
-      userPoints,
+      userPoints: Number.isNaN(userPoints) ? 0 : userPoints,
       categoryPoints,
       // user is qualified for grade if the points exceed the needed level
       qualifiedForGrade: userPoints >= categoryGrade.needed_for_grade || categoryGrade.needed_for_grade === 0,
@@ -197,7 +212,7 @@ const generateFeedback = (response, lang) => {
   const feedbacks = categoryVerifications.map((category) => {
     const { categoryId, categoryName } = category
     // no feedback for categories with no tasks
-    if (category.gradeQualifies.every(g => g.categoryPoints === 0)) {
+    if (!category.evaluateCategory) {
       return {
         categoryId,
         categoryName,
@@ -313,8 +328,8 @@ const generateCategoryFeedback = (category, lang) => {
   //   // such a humble man you are
   // }
   // if (extraDone.length > 0) {
-  //   text += `Olet kuitenkin tehnyt tehtäviä korkeammilta taitotasoilta 
-  //   ${extraDone.some(extra => extra.done > 50) ? 'paljon ' : 'jonkin verran'}, 
+  //   text += `Olet kuitenkin tehnyt tehtäviä korkeammilta taitotasoilta
+  //   ${extraDone.some(extra => extra.done > 50) ? 'paljon ' : 'jonkin verran'},
   //   joten on mahdollista, että arvosanasi tulisi olla korkeampi kuin mitä tämä laskenta osoittaa.`
   // }
   // text += ' Voit alta tarkastella suoritusmääriäsi kunkin tavoitetason kohdalla.'
@@ -349,7 +364,7 @@ const getCourseInstanceId = async (id, responses = []) => {
 
 const getBySelfAssesment = async (id) => {
   const responses = await AssessmentResponse.findAll({
-    attributes: ['id', 'response', 'person_id', 'self_assessment_id'],
+    attributes: ['id', 'response', 'person_id', 'self_assessment_id', 'updated_at'],
     include: [
       {
         model: Person,
@@ -407,6 +422,20 @@ const getGradesAndHeader = async (data, lang, grades) => {
   return response
 }
 
+const getResponseById = id => AssessmentResponse.findById(id, {
+  attributes: ['id', 'response', 'person_id', 'self_assessment_id', 'updated_at'],
+  include: [
+    {
+      model: Person,
+      attributes: ['id', 'studentnumber', 'name']
+    },
+    {
+      model: SelfAssessment,
+      attributes: ['id', 'course_instance_id']
+    }
+  ]
+})
+
 module.exports = {
   getOne,
   create,
@@ -414,5 +443,6 @@ module.exports = {
   verifyAssessmentGrade,
   getCourseInstanceId,
   getBySelfAssesment,
-  addGradesAndHeaders
+  addGradesAndHeaders,
+  getResponseById
 }
