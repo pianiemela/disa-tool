@@ -2,27 +2,28 @@ import { getByCourse } from '../../api/grades'
 
 const lang = localStorage.getItem('lang')
 
-const findPre = (a, b, data) => {
+export const findPre = (a, b, data) => {
+  if (a.id === b.id) return false
   let iterator = { ...a }
-  if (iterator.prerequisite === b.id) {
-    return true
-  }
-  const prerequisiteFinder = d => d.id === iterator.prerequisite
-  while (iterator.prerequisite) {
-    iterator = data.find(prerequisiteFinder)
-    if (a.id === b.id) {
+  const prerequisiteFinder = i => (i ? data.find((d => d.id === i)) : null)
+
+  while (iterator) {
+    if (iterator.id === b.id) {
       return true
     }
+    iterator = prerequisiteFinder(iterator.prerequisite)
   }
   return false
 }
 
-export const gradeOptions = async (courseInstanceId) => {
-  const grades = await getByCourse({ id: courseInstanceId })
-  const { data } = grades.data
-  data.sort((a, b) => {
+export const sortGrades = (data) => {
+  const sorted = [...data]
+  sorted.sort((a, b) => {
     if (!a.prerequisite && !b.prerequisite) {
       return Number.parseInt(a.name, 0) - Number.parseInt(b.name, 0)
+    }
+    if (a.id === b.id) {
+      return 0
     }
     if (!a.prerequisite) {
       return -1
@@ -39,8 +40,36 @@ export const gradeOptions = async (courseInstanceId) => {
     }
     return 0
   })
-  return data.map(d => ({ text: d.name, value: d.id }))
+  return sorted
 }
+
+
+export const detectCycle = (grade, data) => {
+  let cyclic = grade
+  while (cyclic) {
+    cyclic = data.find(g => (g.id === cyclic.prerequisite)) //eslint-disable-line
+    if (cyclic) {
+      if (cyclic.id === grade.id) {
+        return true
+      }
+    }
+  }
+  return false
+}
+
+export const gradeOptions = async (courseInstanceId) => {
+  const grades = await getByCourse({ id: courseInstanceId })
+  const { data } = grades.data
+  const isCyclic = data.some(grade => detectCycle(grade, data))
+  if (isCyclic) {
+    return data.map(d => ({ text: d.name, value: d.id }))
+  }
+  const sorted = sortGrades(data)
+  return sorted.map(d => ({ text: d.name, value: d.id }))
+}
+
+
+
 
 export const objectiveGrades = () => {
   switch (lang) {
