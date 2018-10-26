@@ -113,8 +113,8 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
   req.setTimeout(300000)
   const { id } = req.params
   // console.log(id)
-  const assesmentResponses = await assessmentResponseService.getBySelfAssesment(id, req.lang)
-  const courseInstanceId = await assessmentResponseService.getCourseInstanceId(req.params.id, assesmentResponses)
+  const response = await assessmentResponseService.getResponseById(id)
+  const courseInstanceId = await assessmentResponseService.getCourseInstanceId(response.self_assessment_id)
   if (!courseInstanceId) {
     res.status(404).json({ error: errors.notfound[req.lang], data: [] })
     return
@@ -123,29 +123,26 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
     res.status(403).json({ error: errors.privilege[req.lang] })
     return
   }
-  if (await selfAssessmentService.getAssessmentType(id) === 'objectives') {
+  if (await selfAssessmentService.getAssessmentType(response.self_assessment_id) === 'objectives') {
     res.status(400).json({ error: 'No feedback generated for this type of assessment' })
     return
   }
-  const regeneratedResponses = []
-  for (let i = 0; i < assesmentResponses.length; i += 1) {
-    const response = assesmentResponses[i]
-    const updateResponse = { ...response.response }
-    try {
-      const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
-      if (!verification) {
-        const error = { error: 'Could not calculate verification' }
-        throw error
-      }
-      updateResponse.verification = verification
-      const feedback = await assessmentResponseService.generateFeedback(updateResponse, req.lang)
-      updateResponse.feedback = feedback
-    } catch (e) {
-      logger.error(e)
+  // const regeneratedResponses = []
+  const updateResponse = { ...response.response }
+  try {
+    const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
+    if (!verification) {
+      const error = { error: 'Could not calculate verification' }
+      throw error
     }
-    const completeResponse = await response.update({ response: updateResponse })
-    regeneratedResponses.push(completeResponse)
+    updateResponse.verification = verification
+    const feedback = await assessmentResponseService.generateFeedback(updateResponse, req.lang)
+    updateResponse.feedback = feedback
+  } catch (e) {
+    logger.error(e)
   }
+  const completeResponse = await response.update({ response: updateResponse })
+  // regeneratedResponses.push(completeResponse)
   // const regeneratedResponses = await Promise.all(assesmentResponses.map(async (response) => {
   //   const updateResponse = { ...response.response }
   //   try {
@@ -159,8 +156,8 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
   //   const completeResponse = await response.update({ response: updateResponse })
   //   return completeResponse
   // }))
-  const data = await assessmentResponseService.addGradesAndHeaders(regeneratedResponses, courseInstanceId, req.lang)
-  res.status(200).json(data)
+  const data = await assessmentResponseService.addGradesAndHeaders([completeResponse], courseInstanceId, req.lang)
+  res.status(200).json(data[0])
 })
 
 router.get('/self-assesment/:id', async (req, res) => {

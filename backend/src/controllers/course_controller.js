@@ -43,20 +43,17 @@ router.get('/instance/:courseId', async (req, res) => {
     res.status(401).json({ error: 'You are not registered on this course' })
     return
   }
-  const tasks = await taskService.getUserTasksForCourse(courseId, req.lang, user.id)
-  // This is pretty ugly, but the speed-up is around 5-10x when doing two queries.
-  instance.dataValues.tasks = tasks
   const courseRole = instance.people[0].course_person.role
   if (courseRole !== 'TEACHER') {
     const teachers = await personService.getCourseTeachers(courseId)
     instance.dataValues.people = teachers
   } else {
-    const people = await personService.getPeopleOnCourse(courseId, instance.dataValues.tasks.map(task => task.id))
+    const people = await personService.getPeopleOnCourse(courseId, instance.tasks.map(task => task.id))
     instance.dataValues.people = people
   }
   instance.dataValues.courseRole = courseRole
 
-  instance.tasks = instance.dataValues.tasks.map(task => ({
+  instance.tasks = instance.tasks.map(task => ({
     ...task,
     types: task.types.map(ttype => ({ ...ttype, name: `${ttype.type_header.name} ${ttype.name}` })
     )
