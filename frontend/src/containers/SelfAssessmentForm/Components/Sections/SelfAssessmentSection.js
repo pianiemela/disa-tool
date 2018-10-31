@@ -15,9 +15,9 @@ const SelfAssessmentSection = (props) => {
     courseInstanceId,
     grades,
     name,
-    headers
+    headers,
+    existingAnswer
   } = props
-
   const { responseText, grade } = errors
   const questions = (
     edit ?
@@ -38,6 +38,7 @@ const SelfAssessmentSection = (props) => {
             data={questionModules}
             edit={edit}
             final={final}
+            existingAnswer={existingAnswer}
             courseInstanceId={courseInstanceId}
             gradeError={final ? grade[0] : grade.find(e => e.id === questionModules.id)}
             responseTextError={final ?

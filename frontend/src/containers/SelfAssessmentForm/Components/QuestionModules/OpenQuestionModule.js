@@ -8,7 +8,7 @@ import { removeOpenQuestion, openQuestionResponseAction, clearErrorAction } from
 
 
 const OpenQuestionModule = (props) => {
-  const { edit, responseTextError } = props
+  const { edit, responseTextError, existingAnswer } = props
   const { id, name } = props.data
   const translate = translateId => props.translate(`SelfAssessmentForm.QuestionModules.OpenQuestionModule.${translateId}`)
 
@@ -33,6 +33,7 @@ const OpenQuestionModule = (props) => {
                       placeholder={translate('placeholder')}
                       onBlur={!edit && handleTextAreaBlur}
                       onChange={(!edit && responseTextError) && handleTextAreaChange}
+                      defaultValue={existingAnswer ? existingAnswer.find(existing => existing.id === id).responseText : null}
                     />
                     <Message
                       error

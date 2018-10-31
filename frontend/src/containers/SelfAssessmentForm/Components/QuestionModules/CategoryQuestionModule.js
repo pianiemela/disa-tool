@@ -14,14 +14,17 @@ export class CategoryQuestionModule extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      showMatrix: false
+      showMatrix: false,
+      value: null
     }
   }
 
   handleDropdownChange = (e, { value }) => {
+    console.log(e)
     const { final } = this.props
     const { id } = this.props.data
     this.props.dispatchGradeCategoryAction({ id, value, final })
+    this.setState({ value })
     this.props.dispatchClearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
   }
 
@@ -43,8 +46,14 @@ export class CategoryQuestionModule extends React.Component {
       responseTextError,
       gradeError,
       courseInstanceId,
-      grades } = this.props
+      grades,
+      existingAnswer } = this.props
     const { name, textFieldOn, id } = this.props.data
+    const { grade, responseText } = final
+      ? existingAnswer
+      : existingAnswer.find(answer => answer.id === id)
+
+    const existingGrade = grades.find(g => g.text === grade)
     const translate = translateId => this.props.translate(`SelfAssessmentForm.QuestionModules.CategoryQuestionModule.${translateId}`)
 
     return (
@@ -83,12 +92,14 @@ export class CategoryQuestionModule extends React.Component {
                           <div>
                             <label> {translate('assessment')}</label>
                             <Dropdown
+                              className="gradeDropdown"
                               style={{ marginLeft: '20px' }}
                               placeholder={translate('gradeSelect')}
                               selection
                               options={grades}
                               error={gradeError !== undefined}
                               onChange={!edit ? this.handleDropdownChange : null}
+                              value={existingGrade ? existingGrade.value : this.state.value}
                             />
                           </div>
                           <Message
@@ -112,6 +123,7 @@ export class CategoryQuestionModule extends React.Component {
                                 placeholder={translate('writeBasis')}
                                 onBlur={!edit && this.handleTextFieldOnBlur}
                                 onChange={!edit && this.handleTextFieldChange}
+                                defaultValue={responseText}
                               />
                               <Message
                                 error
@@ -140,7 +152,11 @@ CategoryQuestionModule.defaultProps = {
   courseInstanceId: null,
   responseTextError: undefined,
   gradeError: undefined,
-  grades: []
+  grades: [],
+  existingAnswer: [{
+    grade: null,
+    responseText: null
+  }]
 }
 
 
@@ -164,7 +180,8 @@ CategoryQuestionModule.propTypes = {
     value: PropTypes.number,
     text: PropTypes.string
   })),
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  existingAnswer: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()), PropTypes.shape()])
 }
 
 const mapStateToProps = state => ({
