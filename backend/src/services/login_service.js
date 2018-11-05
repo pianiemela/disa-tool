@@ -8,13 +8,11 @@ const { Person } = require('../database/models.js')
 const login = async (body) => {
   const result = await axios.post(
     `${process.env.KURKI_URL}/login`,
-    body,
-    {
+    body, {
       httpsAgent: new https.Agent({
         rejectUnauthorized: false // This is supposedly fine for this server.
       })
-    }
-  )
+    }).catch(() => ({ data: { error: 'connection_prob' } }))
   if (result.data.error) {
     if (result.data.error === 'wrong credentials') {
       return {
