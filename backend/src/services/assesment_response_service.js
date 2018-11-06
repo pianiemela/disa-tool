@@ -23,7 +23,7 @@ const getOne = async (user, selfAssesmentId, lang) => {
   if (!found) {
     return found
   }
-  const filteredResponse = await getGradesAndHeader(found.get({ plain: true }), lang)
+  const filteredResponse = found.assessmentType === 'category' ? await getGradesAndHeader(found.get({ plain: true }), lang) : found.response
   const assesmentResponse = found.get({ plain: true })
   assesmentResponse.response = filteredResponse
   return assesmentResponse
@@ -396,7 +396,8 @@ const getBySelfAssesment = async (id) => {
 const addGradesAndHeaders = async (assessmentResponses, courseInstanceId, lang) => {
   const data = await Promise.all(assessmentResponses.map(async (rs) => {
     const r = rs.toJSON()
-    return { ...r, response: await getGradesAndHeader(r, lang) }
+    console.log(r)
+    return { ...r, response: (r.response.assessmentType === 'category' ? await getGradesAndHeader(r, lang) : r.response) }
   }))
   return data
 }
@@ -412,7 +413,7 @@ const swapHeaders = (data) => {
 const getGradesAndHeader = async (data, lang) => {
   let { response } = data
   response = response || data
-  response.finalGradeResponse.name = response.finalGradeResponse.grade ? response.finalGradeResponse.headers[`${lang}_name`] : null
+  if (response.finalGradeResponse.grade) { response.finalGradeResponse.name = response.finalGradeResponse.headers[`${lang}_name`] }
   const hasOnlyGradeId = response.questionModuleResponses.filter(qmA => !qmA.grade_name)
   // If we have students who dont have the grade_name value, add the name value
   // and update the response with name values to the database
