@@ -20,10 +20,11 @@ export class CategoryQuestionModule extends React.Component {
   }
 
   handleDropdownChange = (e, { value }) => {
-    console.log(e)
+    console.log(value, this.props.grades)
     const { final } = this.props
     const { id } = this.props.data
-    this.props.dispatchGradeCategoryAction({ id, value, final })
+    const gradeName = this.props.grades.find(g => g.value === value).text
+    this.props.dispatchGradeCategoryAction({ id, value, name: gradeName, final })
     this.setState({ value })
     this.props.dispatchClearErrorAction({ type: final ? 'finalGErrors' : 'qModErrors', errorType: 'grade', id })
   }
@@ -53,7 +54,7 @@ export class CategoryQuestionModule extends React.Component {
       ? existingAnswer
       : existingAnswer.find(answer => answer.id === id)
 
-    const existingGrade = grades.find(g => g.text === grade)
+    const existingGrade = grades.find(g => g.value === grade)
     const translate = translateId => this.props.translate(`SelfAssessmentForm.QuestionModules.CategoryQuestionModule.${translateId}`)
 
     return (
