@@ -87,7 +87,8 @@ SelfAssessmentForm.defaultProps = {
       { grade: [], responseText: [] },
     openQErrors:
       { grade: [], responseText: [] }
-  }
+  },
+  existingAnswer: {}
 }
 
 SelfAssessmentForm.propTypes = {
@@ -99,7 +100,8 @@ SelfAssessmentForm.propTypes = {
     finalGErrors: PropTypes.shape()
   }),
   preview: PropTypes.bool.isRequired,
-  grades: PropTypes.arrayOf(PropTypes.shape()).isRequired
+  grades: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  existingAnswer: PropTypes.shape()
 }
 
 export default SelfAssessmentForm

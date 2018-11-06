@@ -50,9 +50,10 @@ export class CategoryQuestionModule extends React.Component {
       grades,
       existingAnswer } = this.props
     const { name, textFieldOn, id } = this.props.data
-    const { grade, responseText } = final
+    const matchingResponse = final
       ? existingAnswer
       : existingAnswer.find(answer => answer.id === id)
+    const { grade, responseText } = matchingResponse || {}
 
     const existingGrade = grades.find(g => g.value === grade)
     const translate = translateId => this.props.translate(`SelfAssessmentForm.QuestionModules.CategoryQuestionModule.${translateId}`)
@@ -122,8 +123,8 @@ export class CategoryQuestionModule extends React.Component {
                                 error={responseTextError !== undefined}
                                 label={translate('basis')}
                                 placeholder={translate('writeBasis')}
-                                onBlur={!edit && this.handleTextFieldOnBlur}
-                                onChange={!edit && this.handleTextFieldChange}
+                                onBlur={!edit ? this.handleTextFieldOnBlur : undefined}
+                                onChange={!edit ? this.handleTextFieldChange : undefined}
                                 defaultValue={responseText}
                               />
                               <Message

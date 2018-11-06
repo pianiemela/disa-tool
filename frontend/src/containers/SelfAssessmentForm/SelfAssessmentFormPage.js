@@ -304,7 +304,8 @@ SelfAssessmentFormPage.defaultProps = {
   role: null,
   notTeacher: undefined,
   softErrors: false,
-  responseErrors: {}
+  responseErrors: {},
+  formErrors: false
 }
 
 
@@ -324,7 +325,7 @@ SelfAssessmentFormPage.propTypes = {
   dispatchCloseModalAction: PropTypes.func.isRequired,
   dispatchClearAssessmentAction: PropTypes.func.isRequired,
   dispatchValidation: PropTypes.func.isRequired,
-  formErrors: PropTypes.shape().isRequired,
+  formErrors: PropTypes.bool,
   match: PropTypes.shape({
     params: PropTypes.shape({}).isRequired
   }).isRequired,

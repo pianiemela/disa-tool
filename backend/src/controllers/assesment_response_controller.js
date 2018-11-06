@@ -38,6 +38,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
     }
     res.status(200).json({ data })
   } catch (error) {
+    logger.message(error)
     res.status(500).json({
       error: errors.unexpected[req.lang]
     })

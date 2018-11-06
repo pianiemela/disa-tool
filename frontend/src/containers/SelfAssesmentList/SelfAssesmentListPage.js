@@ -75,7 +75,7 @@ class SelfAssesmentListPage extends Component {
     const formatted = responses.map((response) => {
       const questionResponses = response.response.questionModuleResponses.map(question => (
         { [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText),
-          [`${question.name}_grade`]: question.grade }
+          [`${question.name}_grade`]: question.grade_name }
       ))
       const openResponses = response.response.openQuestionResponses.map(question => (
         { [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText) }
@@ -83,7 +83,7 @@ class SelfAssesmentListPage extends Component {
       const { finalGradeResponse } = response.response
       const finalResponse = finalGradeResponse.name ?
         { [`${finalGradeResponse.name}_text`]: replaceQuotesAndLineBreaks(finalGradeResponse.responseText),
-          [`${finalGradeResponse.name}_grade`]: finalGradeResponse.grade }
+          [`${finalGradeResponse.name}_grade`]: finalGradeResponse.grade_name }
         : {}
       const flattenedQuestions = questionResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
       const flattenedOpens = openResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
@@ -151,7 +151,7 @@ class SelfAssesmentListPage extends Component {
                   {response.response.questionModuleResponses.map(qmResponse => (
                     <Table.Row key={qmResponse.id}>
                       <Table.Cell>{qmResponse.name}</Table.Cell>
-                      <Table.Cell textAlign="center">{qmResponse.grade}</Table.Cell>
+                      <Table.Cell textAlign="center">{qmResponse.grade_name}</Table.Cell>
                       <Table.Cell textAlign="center">
                         {this.findVerifiactionGrade(response.response.verification, qmResponse.name)}
                       </Table.Cell>
@@ -172,7 +172,7 @@ class SelfAssesmentListPage extends Component {
                 <Table.Body>
                   <Table.Row>
                     <Table.Cell><strong>{this.translate('final_grade')}</strong></Table.Cell>
-                    <Table.Cell textAlign="center">{response.response.finalGradeResponse.grade}</Table.Cell>
+                    <Table.Cell textAlign="center">{response.response.finalGradeResponse.grade_name}</Table.Cell>
                     <Table.Cell textAlign="center">
                       {response.response.verification.overallVerification.minGrade}–
                       {response.response.verification.overallVerification.maxGrade}

@@ -1,9 +1,6 @@
 import React from 'react'
 import { Message } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
-import { withLocalize } from 'react-localize-redux'
-
-
 
 const AssessmentMessage = (props) => {
   const { preview, open, edit, existingAnswer, translate } = props
@@ -20,11 +17,14 @@ const AssessmentMessage = (props) => {
   return null
 }
 
+AssessmentMessage.defaultProps = {
+  existingAnswer: false
+}
 
 AssessmentMessage.propTypes = {
   preview: PropTypes.bool.isRequired,
   open: PropTypes.bool.isRequired,
-  existingAnswer: PropTypes.bool.isRequired,
+  existingAnswer: PropTypes.bool,
   translate: PropTypes.func.isRequired,
   edit: PropTypes.bool.isRequired
 }

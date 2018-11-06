@@ -77,7 +77,8 @@ describe('with existing response', () => {
   beforeEach(() => {
     wrapper.setProps({
       existingAnswer: [{
-        grade: '1',
+        grade_name: '1',
+        grade: 6,
         id: 1,
         name: 'testi',
         textFieldOn: true,
@@ -99,7 +100,8 @@ describe('with existing response', () => {
 describe('with errors in form', () => {
   beforeEach(() => {
     wrapper.setProps({
-      gradeError: { id: 1, error: 'You must select a value' }
+      gradeError: { id: 1, error: 'You must select a value' },
+      grades: [{ text: '1', value: 6 }, { text: '2', value: 7 }]
     })
   })
   it('shows the form in error mode', () => {

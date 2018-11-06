@@ -396,7 +396,7 @@ const getBySelfAssesment = async (id) => {
 const addGradesAndHeaders = async (assessmentResponses, courseInstanceId, lang) => {
   const data = await Promise.all(assessmentResponses.map(async (rs) => {
     const r = rs.toJSON()
-    return { ...r, response: await getGradesAndHeader(r.response, lang) }
+    return { ...r, response: await getGradesAndHeader(r, lang) }
   }))
   return data
 }
@@ -407,36 +407,19 @@ const swapHeaders = (data) => {
   return h
 }
 
-// const getGradesAndHeader = async (data, lang, grades) => {
-//   let { response } = data
-//   response = response || data
-//   grades = grades || await gradeService.getByCourse(response.course_instance_id, lang)
-//   // get the grades and map all grades from ids to values
-//   if (response.assessmentType !== 'objectives') {
-//     response.questionModuleResponses = response.questionModuleResponses.map(
-//       qmRes => ({ ...qmRes, grade_id: qmRes.grade, grade: grades.find(g => g.id === qmRes.grade).name })
-//     )
-//   }
-//   const { grade } = response.finalGradeResponse
-//   // if we dont have a grade value for final grade, it didnt exist in the assessment so we can just return
-//   if (!grade) {
-//     return response
-//   }
-//   // ...else we get the correct header name by lang and change the final grade from id to value
 
-//   response.finalGradeResponse = { ...response.finalGradeResponse, grade_id: grade, grade: grades.find(g => g.id === grade).name }
-//   response.finalGradeResponse.name = response.finalGradeResponse.headers[`${lang}_name`]
-//   return response
-// }
 // TODO: Refactor this, it's pretty bad
 const getGradesAndHeader = async (data, lang) => {
   let { response } = data
   response = response || data
+  response.finalGradeResponse.name = response.finalGradeResponse.grade ? response.finalGradeResponse.headers[`${lang}_name`] : null
   const hasOnlyGradeId = response.questionModuleResponses.filter(qmA => !qmA.grade_name)
   // If we have students who dont have the grade_name value, add the name value
-  // and update the response to database. Eventually every old lookup will be updated and this will be deprecated
+  // and update the response with name values to the database
+  // This is used only if a student has responded to the assessment before the possibility to modify existing responses
   if (hasOnlyGradeId.length > 0) {
-    const r = await updateNamesForGrade(response, data.id, lang)
+    const grades = await gradeService.getByCourse(response.course_instance_id, lang)
+    const r = await updateNamesForGrade(response, data.id, lang, grades)
     return r
   }
   return response
@@ -456,8 +439,7 @@ const getResponseById = id => AssessmentResponse.findById(id, {
   ]
 })
 
-const updateNamesForGrade = async (response, id, lang) => {
-  const grades = await gradeService.getByCourse(response.course_instance_id, lang)
+const updateNamesForGrade = async (response, id, lang, grades) => {
   response.questionModuleResponses = response.questionModuleResponses.map(qmRes => ({ ...qmRes, grade_name: grades.find(g => g.id === qmRes.grade).name }))
   if (response.finalGradeResponse.grade) {
     response.finalGradeResponse.grade_name = (grades.find(g => g.id === response.finalGradeResponse.grade)).name
