@@ -396,13 +396,12 @@ class SelfAssesmentListPage extends Component {
             </Segment>
             <Segment>
               <Header style={{ whiteSpace: 'nowrap', marginRight: '80px' }}>{this.props.selfAssesment.name}</Header>
-              {this.props.user.role === 'ADMIN' ?
-                <Button
-                  basic
-                  color="blue"
-                  content={this.translate('generate_feedback')}
-                  onClick={this.regenarateFeedback}
-                /> : undefined }
+              <Button
+                basic
+                color="blue"
+                content={this.translate('generate_feedback')}
+                onClick={this.regenarateFeedback}
+              />
               <Button
                 as={CSVLink}
                 basic

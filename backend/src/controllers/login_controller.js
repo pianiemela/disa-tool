@@ -19,11 +19,17 @@ const errors = {
     eng: '"Väärä salasana tai käyttäjänimi." englanniksi.',
     fin: 'Väärä salasana tai käyttäjänimi.',
     swe: '"Väärä salasana tai käyttäjänimi." ruotsiksi.'
+  },
+  connection_prob: {
+    eng: 'There was a problem connecting to sign-in service. Please try again later.',
+    fin: 'Kirjautumisessa oli yhteysongelma. Yritä myöhemmin uudestaan.',
+    swe: 'Problem?'
   }
 }
 
 const statuses = {
-  wrong_creds: 403
+  wrong_creds: 403,
+  connection_prob: 500
 }
 
 router.post('', async (req, res) => {
