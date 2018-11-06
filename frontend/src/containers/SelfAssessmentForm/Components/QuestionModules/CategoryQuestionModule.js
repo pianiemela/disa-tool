@@ -20,7 +20,6 @@ export class CategoryQuestionModule extends React.Component {
   }
 
   handleDropdownChange = (e, { value }) => {
-    console.log(value, this.props.grades)
     const { final } = this.props
     const { id } = this.props.data
     const gradeName = this.props.grades.find(g => g.value === value).text

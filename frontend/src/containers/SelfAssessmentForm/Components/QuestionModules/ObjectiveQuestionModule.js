@@ -42,7 +42,6 @@ class ObjectiveQuestionModule extends React.Component {
     const { objectives, name } = this.props.data
     const { gradeError, existingAnswer } = this.props
     const { ratings, grades } = this.state
-    console.log(grades, objectives)
 
 
     return (

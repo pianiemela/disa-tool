@@ -71,19 +71,32 @@ class SelfAssesmentListPage extends Component {
   }
 
   formatToCsv = () => {
-    const { responses } = this.state
+    const { selectedResponses: responses } = this.state
     const formatted = responses.map((response) => {
+      const findCalculatedGrade = (question) => {
+        const { verification } = response.response
+        const category = verification ?
+          verification.categoryVerifications.find(c => c.categoryId === question.id)
+          : { earnedGrade: { name: '' } }
+        return category.earnedGrade.name
+      }
       const questionResponses = response.response.questionModuleResponses.map(question => (
         { [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText),
-          [`${question.name}_grade`]: question.grade_name }
+          [`${question.name}_grade`]: question.grade_name,
+          [`${question.name}_calculated_grade`]: findCalculatedGrade(question)
+        }
       ))
       const openResponses = response.response.openQuestionResponses.map(question => (
         { [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText) }
       ))
-      const { finalGradeResponse } = response.response
+      const { finalGradeResponse, verification } = response.response
       const finalResponse = finalGradeResponse.name ?
         { [`${finalGradeResponse.name}_text`]: replaceQuotesAndLineBreaks(finalGradeResponse.responseText),
-          [`${finalGradeResponse.name}_grade`]: finalGradeResponse.grade_name }
+          [`${finalGradeResponse.name}_grade`]: finalGradeResponse.grade_name,
+          [`${finalGradeResponse.name}_min_grade`]: verification ?
+            verification.overallVerification.minGrade : '',
+          [`${finalGradeResponse.name}_max_grade`]: verification ?
+            verification.overallVerification.maxGrade : '' }
         : {}
       const flattenedQuestions = questionResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
       const flattenedOpens = openResponses.reduce((acc, curr) => ({ ...acc, ...curr }), {})
@@ -215,6 +228,7 @@ class SelfAssesmentListPage extends Component {
         { updating ? this.renderUpdating() : undefined }
         <Button content="valitse kaikki" onClick={this.selectAll} />
         <Button content="poista valinnat" onClick={() => this.setState({ selectedResponses: [] })} />
+        <p>{this.state.selectedResponses.length} / {this.state.responses.length} valittu</p>
         {this.state.loading ? <Loader active /> :
         <Table>
           <Table.Header>
@@ -245,6 +259,7 @@ class SelfAssesmentListPage extends Component {
               </Table.Row>
             ))}
             <Table.Row>
+              <Table.Cell />
               <Table.Cell>
                 <Pagination
                   activePage={this.state.activePage}
@@ -252,6 +267,7 @@ class SelfAssesmentListPage extends Component {
                   totalPages={this.state.maxPages}
                 />
               </Table.Cell>
+              <Table.Cell />
             </Table.Row>
             {displayed.map(response => (
               <Table.Row negative={!this.finalGradeMatches(response)}>
@@ -370,6 +386,7 @@ class SelfAssesmentListPage extends Component {
 
   render() {
     // if (this.state.loading) return <Loader active />
+    // console.log(this.state)
     return (
       <div className="SelfAssesmentListPage">
         <Container>
@@ -379,13 +396,12 @@ class SelfAssesmentListPage extends Component {
             </Segment>
             <Segment>
               <Header style={{ whiteSpace: 'nowrap', marginRight: '80px' }}>{this.props.selfAssesment.name}</Header>
-              {this.props.user.role === 'ADMIN' ?
-                <Button
-                  basic
-                  color="blue"
-                  content={this.translate('generate_feedback')}
-                  onClick={this.regenarateFeedback}
-                /> : undefined }
+              <Button
+                basic
+                color="blue"
+                content={this.translate('generate_feedback')}
+                onClick={this.regenarateFeedback}
+              />
               <Button
                 as={CSVLink}
                 basic

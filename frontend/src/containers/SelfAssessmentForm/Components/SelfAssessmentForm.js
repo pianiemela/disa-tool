@@ -11,7 +11,6 @@ import EditObjectiveModule from './QuestionModules/EditObjectiveModule'
 
 const SelfAssessmentForm = (props) => {
   const { edit, formData, responseErrors, preview, grades, existingAnswer } = props
-  console.log(existingAnswer)
   const { finalGradeResponse, openQuestionResponses, questionModuleResponses } = existingAnswer
   const { structure } = formData
   const { type } = structure
