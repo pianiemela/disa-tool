@@ -222,8 +222,8 @@ class SelfAssesmentListPage extends Component {
   }
 
   finalGradeMatches = response => (
-    response.response.verification.overallVerification.minGrade === response.response.finalGradeResponse.grade
-    || response.response.verification.overallVerification.maxGrade === response.response.finalGradeResponse.grade
+    response.response.verification.overallVerification.minGrade === response.response.finalGradeResponse.grade_name
+    || response.response.verification.overallVerification.maxGrade === response.response.finalGradeResponse.grade_name
   )
 
   handlePaginationChange = (e, { activePage }) => (
@@ -232,6 +232,39 @@ class SelfAssesmentListPage extends Component {
 
   renderUpdating = () => (
     <Segment> success: {this.state.successful}, fail: {this.state.unSuccessful} </Segment>
+  )
+
+  renderListTable = (responses, selected) => (
+    <Table>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell>selected</Table.HeaderCell>
+          <Table.HeaderCell>student</Table.HeaderCell>
+          <Table.HeaderCell>differences</Table.HeaderCell>
+          <Table.HeaderCell>last updated</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {responses.map(response => (
+          <Table.Row>
+            <Table.Cell>
+              <Button
+                basic
+                color="blue"
+                icon={`circle ${selected ? '' : 'outline'}`}
+                value={response.id}
+                onClick={this.selectResponse}
+              />
+            </Table.Cell>
+            <Table.Cell negative={!this.finalGradeMatches(response)}>
+              {this.responseAccordion(response)}
+            </Table.Cell>
+            {this.responseDifferences(response)}
+            <Table.Cell>{new Date(response.updated_at).toLocaleDateString()}</Table.Cell>
+          </Table.Row>
+      ))}
+      </Table.Body>
+    </Table>
   )
 
   renderList = () => {
@@ -245,65 +278,20 @@ class SelfAssesmentListPage extends Component {
         <Button content="poista valinnat" onClick={() => this.setState({ selectedResponses: [] })} />
         <p>{this.state.selectedResponses.length} / {this.state.responses.length} valittu</p>
         {this.state.loading ? <Loader active /> :
-        <Table>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>selected</Table.HeaderCell>
-              <Table.HeaderCell>student</Table.HeaderCell>
-              <Table.HeaderCell>differences</Table.HeaderCell>
-              <Table.HeaderCell>last updated</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {selectedResponses.map(response => (
-              <Table.Row>
-                <Table.Cell>
-                  <Button
-                    basic
-                    color="blue"
-                    icon="circle"
-                    value={response.id}
-                    onClick={this.selectResponse}
-                  />
-                </Table.Cell>
-                <Table.Cell negative={!this.finalGradeMatches(response)}>
-                  {this.responseAccordion(response)}
-                </Table.Cell>
-                {this.responseDifferences(response)}
-                <Table.Cell>{new Date(response.updated_at).toLocaleDateString()}</Table.Cell>
-              </Table.Row>
-            ))}
-            <Table.Row>
-              <Table.Cell />
-              <Table.Cell>
-                <Pagination
-                  activePage={this.state.activePage}
-                  onPageChange={this.handlePaginationChange}
-                  totalPages={this.state.maxPages}
-                />
-              </Table.Cell>
-              <Table.Cell />
-            </Table.Row>
-            {displayed.map(response => (
-              <Table.Row>
-                <Table.Cell>
-                  <Button
-                    basic
-                    color="blue"
-                    icon="circle outline"
-                    value={response.id}
-                    onClick={this.selectResponse}
-                  />
-                </Table.Cell>
-                <Table.Cell negative={!this.finalGradeMatches(response)}>
-                  {this.responseAccordion(response)}
-                </Table.Cell>
-                {this.responseDifferences(response)}
-                <Table.Cell>{new Date(response.updated_at).toLocaleDateString()}</Table.Cell>
-              </Table.Row>
-          ))}
-          </Table.Body>
-        </Table>}
+        <div>
+          {this.renderListTable(selectedResponses, true)}
+          <Pagination
+            activePage={activePage}
+            onPageChange={this.handlePaginationChange}
+            totalPages={this.state.maxPages}
+          />
+          {this.renderListTable(displayed, false)}
+          <Pagination
+            activePage={activePage}
+            onPageChange={this.handlePaginationChange}
+            totalPages={this.state.maxPages}
+          />
+        </div>}
       </Container>
     )
   }
@@ -337,7 +325,7 @@ class SelfAssesmentListPage extends Component {
 
   render() {
     // if (this.state.loading) return <Loader active />
-    console.log(this.state)
+    // console.log(this.state)
     return (
       <div className="SelfAssesmentListPage">
         <Container>
