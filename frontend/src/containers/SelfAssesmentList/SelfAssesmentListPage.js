@@ -158,18 +158,25 @@ class SelfAssesmentListPage extends Component {
                     <Table.HeaderCell style={{ textTransform: 'capitalize' }}>{this.translate('category')}</Table.HeaderCell>
                     <Table.HeaderCell textAlign="center">{this.translate('self_assessment')}</Table.HeaderCell>
                     <Table.HeaderCell textAlign="center">{this.translate('machine_review')}</Table.HeaderCell>
+                    <Table.HeaderCell textAlign="center">difference</Table.HeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                  {response.response.questionModuleResponses.map(qmResponse => (
-                    <Table.Row key={qmResponse.id}>
-                      <Table.Cell>{qmResponse.name}</Table.Cell>
-                      <Table.Cell textAlign="center">{qmResponse.grade_name}</Table.Cell>
-                      <Table.Cell textAlign="center">
-                        {this.findVerifiactionGrade(response.response.verification, qmResponse.name)}
-                      </Table.Cell>
-                    </Table.Row>
-                  ))}
+                  {response.response.questionModuleResponses.map((qmResponse) => {
+                    const diff = response.response.verification.categoryVerifications.find(c => qmResponse.id === c.categoryId).wantedGrade.difference
+                    return (
+                      <Table.Row key={qmResponse.id}>
+                        <Table.Cell>{qmResponse.name}</Table.Cell>
+                        <Table.Cell textAlign="center">{qmResponse.grade_name}</Table.Cell>
+                        <Table.Cell textAlign="center">
+                          {this.findVerifiactionGrade(response.response.verification, qmResponse.name)}
+                        </Table.Cell>
+                        <Table.Cell textAlign="center" positive={diff < 0} negative={diff > 0} >
+                          {diff}
+                        </Table.Cell>
+                      </Table.Row>
+                    )
+                  })}
                 </Table.Body>
               </Table>
             ) : null}
@@ -200,11 +207,19 @@ class SelfAssesmentListPage extends Component {
     />
   )
 
-  responseDifferences = response => (
-    response.response.verification.categoryVerifications.map(c => (
-      <span style={{ color: mapDifferenceColor(c.wantedGrade.difference) }}>{c.wantedGrade.difference}, </span>
-    ))
-  )
+  responseDifferences = (response) => {
+    const { categoryVerifications } = response.response.verification
+    const { length } = categoryVerifications
+    const mean = categoryVerifications
+      .reduce((acc, cur) => (acc + (cur.wantedGrade.difference / length)), 0)
+    const sd = Math.sqrt((1 / (length - 1)) * categoryVerifications
+      .reduce((acc, cur) => (acc + ((cur.wantedGrade.difference - mean) ** 2)), 0))
+    return (
+      <Table.Cell positive={mean < 0} negative={mean > 0}>
+        {mean.toFixed(1)}, ±{sd.toFixed(1)}
+      </Table.Cell>
+    )
+  }
 
   finalGradeMatches = response => (
     response.response.verification.overallVerification.minGrade === response.response.finalGradeResponse.grade
@@ -241,20 +256,20 @@ class SelfAssesmentListPage extends Component {
           </Table.Header>
           <Table.Body>
             {selectedResponses.map(response => (
-              <Table.Row negative={!this.finalGradeMatches(response)}>
+              <Table.Row>
                 <Table.Cell>
                   <Button
                     basic
-                    color="green"
-                    icon="checkmark"
+                    color="blue"
+                    icon="circle"
                     value={response.id}
                     onClick={this.selectResponse}
                   />
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell negative={!this.finalGradeMatches(response)}>
                   {this.responseAccordion(response)}
                 </Table.Cell>
-                <Table.Cell>{this.responseDifferences(response)}</Table.Cell>
+                {this.responseDifferences(response)}
                 <Table.Cell>{new Date(response.updated_at).toLocaleDateString()}</Table.Cell>
               </Table.Row>
             ))}
@@ -270,89 +285,25 @@ class SelfAssesmentListPage extends Component {
               <Table.Cell />
             </Table.Row>
             {displayed.map(response => (
-              <Table.Row negative={!this.finalGradeMatches(response)}>
+              <Table.Row>
                 <Table.Cell>
                   <Button
                     basic
-                    color="red"
-                    icon="x"
+                    color="blue"
+                    icon="circle outline"
                     value={response.id}
                     onClick={this.selectResponse}
                   />
                 </Table.Cell>
-                <Table.Cell>
+                <Table.Cell negative={!this.finalGradeMatches(response)}>
                   {this.responseAccordion(response)}
                 </Table.Cell>
-                <Table.Cell>{this.responseDifferences(response)}</Table.Cell>
+                {this.responseDifferences(response)}
                 <Table.Cell>{new Date(response.updated_at).toLocaleDateString()}</Table.Cell>
               </Table.Row>
           ))}
           </Table.Body>
         </Table>}
-        {/* <Accordion
-        fluid
-        styled
-        panels={this.state.responses.map(response => ({
-          key: response.id,
-          title: `${response.person.studentnumber} ${response.person.name}`,
-          content: (
-            <Accordion.Content key={response.id}>
-              <Button
-                as={Link}
-                to={`/selfassesment/list/${this.props.selfAssesmentId}/${response.id}`}
-                basic
-                onClick={() => this.setState({ activeResponse: response })}
-              >
-                <span>{this.translate('inspect')}</span>
-                <Icon name="angle double right" />
-              </Button>
-              {response.response.assessmentType === 'category' ? (
-                <Table collapsing compact="very">
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell style={{ textTransform: 'capitalize' }}>{this.translate('category')}</Table.HeaderCell>
-                      <Table.HeaderCell textAlign="center">{this.translate('self_assessment')}</Table.HeaderCell>
-                      <Table.HeaderCell textAlign="center">{this.translate('machine_review')}</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    {response.response.questionModuleResponses.map(qmResponse => (
-                      <Table.Row key={qmResponse.id}>
-                        <Table.Cell>{qmResponse.name}</Table.Cell>
-                        <Table.Cell textAlign="center">{qmResponse.grade}</Table.Cell>
-                        <Table.Cell textAlign="center">
-                          {this.findVerifiactionGrade(response.response.verification, qmResponse.name)}
-                        </Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table>
-              ) : null}
-              {response.response.finalGradeResponse ? (
-                <Table collapsing compact="very">
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.HeaderCell />
-                      <Table.HeaderCell textAlign="center">{this.translate('self_assessment')}</Table.HeaderCell>
-                      <Table.HeaderCell textAlign="center">{this.translate('machine_review')}</Table.HeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    <Table.Row>
-                      <Table.Cell><strong>{this.translate('final_grade')}</strong></Table.Cell>
-                      <Table.Cell textAlign="center">{response.response.finalGradeResponse.grade}</Table.Cell>
-                      <Table.Cell textAlign="center">
-                        {response.response.verification.overallVerification.minGrade}–
-                        {response.response.verification.overallVerification.maxGrade}
-                      </Table.Cell>
-                    </Table.Row>
-                  </Table.Body>
-                </Table>
-              ) : null}
-            </Accordion.Content>
-          )
-        }))}
-      /> */}
       </Container>
     )
   }
@@ -386,7 +337,7 @@ class SelfAssesmentListPage extends Component {
 
   render() {
     // if (this.state.loading) return <Loader active />
-    // console.log(this.state)
+    console.log(this.state)
     return (
       <div className="SelfAssesmentListPage">
         <Container>
