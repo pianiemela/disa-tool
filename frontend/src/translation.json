@@ -769,6 +769,10 @@
         "The self assessment is not open for answering yet.",
         "Itsearviota ei ole vielä avattu vastattavaksi"
       ],
+      "existingResponse": [
+        "You've already responded to the assessment. The assessment is still open, so you can edit your responses.",
+        "Olet jo vastannut itsearvioon, mutta arvio on vielä auki, joten voit halutessasi muokata vastauksiasi."
+      ],
       "modalHeader": [
         "Save you response",
         "Tallenna vastauksesi"

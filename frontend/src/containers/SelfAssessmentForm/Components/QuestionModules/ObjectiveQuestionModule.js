@@ -40,8 +40,9 @@ class ObjectiveQuestionModule extends React.Component {
 
   render() {
     const { objectives, name } = this.props.data
-    const { gradeError } = this.props
+    const { gradeError, existingAnswer } = this.props
     const { ratings, grades } = this.state
+
 
     return (
       <Card fluid>
@@ -82,7 +83,7 @@ class ObjectiveQuestionModule extends React.Component {
                                       error={gradeError.errors[o.id] !== undefined} //eslint-disable-line
                                       objective={o.id}
                                       value={og}
-                                      checked={ratings[o.id] === og}
+                                      checked={ratings[o.id] === og || Boolean(existingAnswer.find(answer => answer.id === o.id && answer.grade === og))}
                                       onChange={this.handleCheckboxChange}
                                       radio
                                     />
@@ -122,7 +123,8 @@ ObjectiveQuestionModule.defaultProps = {
     objectives: [],
     id: null
   },
-  gradeError: { errors: {} }
+  gradeError: { errors: {} },
+  existingAnswer: []
 }
 ObjectiveQuestionModule.propTypes = {
   data: PropTypes.shape({
@@ -138,7 +140,8 @@ ObjectiveQuestionModule.propTypes = {
   gradeError: PropTypes.shape({
     errors: PropTypes.shape()
   }),
-  dispatchClearErrorAction: PropTypes.func.isRequired
+  dispatchClearErrorAction: PropTypes.func.isRequired,
+  existingAnswer: PropTypes.arrayOf(PropTypes.shape())
 }
 
 export default connect(null, mapDispatchToProps)(ObjectiveQuestionModule)

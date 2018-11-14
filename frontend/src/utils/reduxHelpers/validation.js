@@ -21,6 +21,7 @@ export const checkResponseErrors = (assessmentResponse) => {
   const { questionModuleResponses, openQuestionResponses, finalGradeResponse, assessmentType }
     = assessmentResponse
 
+
   let fGrade = []
   let finalResponseMax = []
   let finalResponseMin = []
@@ -55,6 +56,7 @@ export const checkResponseErrors = (assessmentResponse) => {
     })
   }
 
+  if (finalGradeResponse.headers) { delete finalGradeResponse.headers }
   if (Object.keys(finalGradeResponse).length > 0) {
     fGrade = exists(finalGradeResponse, 'grade', [])
     finalResponseMax = maxLength(finalGradeResponse, 'responseText', 2000, [])

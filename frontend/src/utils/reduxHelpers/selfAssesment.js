@@ -132,6 +132,7 @@ export const initResponseForm = (data) => {
           responseText: '',
           textFieldOn: qm.textFieldOn,
           grade: null,
+          grade_name: null,
           name: qm.name
         }) : null))
   } else {
@@ -161,7 +162,8 @@ export const initResponseForm = (data) => {
 
   if (finalGrade.includedInAssesment) {
     response.finalGradeResponse.responseText = ''
-    response.finalGradeResponse.grade = null
+    response.finalGradeResponse.grade = null,
+    response.finalGradeResponse.grade_name = null,
     response.finalGradeResponse.headers = finalGrade.headers
   }
 
@@ -169,7 +171,7 @@ export const initResponseForm = (data) => {
 }
 
 export const respond = (state, payload, typeOfResponse) => {
-  const { id, value, final } = payload
+  const { id, value, final, name } = payload
   if (Object.keys(state.assesmentResponse).length === 0) {
     return state
   }
@@ -180,7 +182,7 @@ export const respond = (state, payload, typeOfResponse) => {
       assesmentResponse: {
         ...state.assesmentResponse,
         questionModuleResponses: state.assesmentResponse.questionModuleResponses.map(qmRes =>
-          (qmRes.id === id ? { ...qmRes, [typeOfResponse]: value } : qmRes))
+          (qmRes.id === id ? { ...qmRes, [typeOfResponse]: value, grade_name: (name || qmRes.grade_name) } : qmRes))
       }
     }
   }
@@ -189,8 +191,7 @@ export const respond = (state, payload, typeOfResponse) => {
     assesmentResponse: {
       ...state.assesmentResponse,
       finalGradeResponse: {
-        ...state.assesmentResponse.finalGradeResponse, [typeOfResponse]: value
+        ...state.assesmentResponse.finalGradeResponse, [typeOfResponse]: value, grade_name: (name || state.assesmentResponse.finalGradeResponse.grade_name) }
       }
     }
   }
-}

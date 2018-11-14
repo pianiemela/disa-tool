@@ -10,7 +10,8 @@ import EditCategoryModule from './QuestionModules/EditCategoryModule'
 import EditObjectiveModule from './QuestionModules/EditObjectiveModule'
 
 const SelfAssessmentForm = (props) => {
-  const { edit, formData, responseErrors, preview, grades } = props
+  const { edit, formData, responseErrors, preview, grades, existingAnswer } = props
+  const { finalGradeResponse, openQuestionResponses, questionModuleResponses } = existingAnswer
   const { structure } = formData
   const { type } = structure
   const { grade } = structure.headers
@@ -39,6 +40,7 @@ const SelfAssessmentForm = (props) => {
         courseInstanceId={formData.course_instance_id}
         errors={responseErrors.qModErrors}
         grades={grades}
+        existingAnswer={questionModuleResponses}
       />
 
       {structure.openQuestions.questions.length > 0 || editMode ?
@@ -50,6 +52,7 @@ const SelfAssessmentForm = (props) => {
           QuestionModule={OpenQuestionModule}
           question
           errors={responseErrors.openQErrors}
+          existingAnswer={openQuestionResponses}
         />
         :
         null
@@ -67,6 +70,7 @@ const SelfAssessmentForm = (props) => {
           changedProp={dummyPropToEnsureChange}
           errors={responseErrors.finalGErrors}
           grades={grades}
+          existingAnswer={finalGradeResponse}
         />
         :
         null}
@@ -82,7 +86,8 @@ SelfAssessmentForm.defaultProps = {
       { grade: [], responseText: [] },
     openQErrors:
       { grade: [], responseText: [] }
-  }
+  },
+  existingAnswer: {}
 }
 
 SelfAssessmentForm.propTypes = {
@@ -94,7 +99,8 @@ SelfAssessmentForm.propTypes = {
     finalGErrors: PropTypes.shape()
   }),
   preview: PropTypes.bool.isRequired,
-  grades: PropTypes.arrayOf(PropTypes.shape()).isRequired
+  grades: PropTypes.arrayOf(PropTypes.shape()).isRequired,
+  existingAnswer: PropTypes.shape()
 }
 
 export default SelfAssessmentForm

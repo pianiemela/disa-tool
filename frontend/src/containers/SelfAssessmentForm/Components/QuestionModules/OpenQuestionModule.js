@@ -8,11 +8,11 @@ import { removeOpenQuestion, openQuestionResponseAction, clearErrorAction } from
 
 
 const OpenQuestionModule = (props) => {
-  const { edit, responseTextError } = props
+  const { edit, responseTextError, existingAnswer } = props
   const { id, name } = props.data
   const translate = translateId => props.translate(`SelfAssessmentForm.QuestionModules.OpenQuestionModule.${translateId}`)
 
-  const handleTextAreaBlur = e => props.dispatchopenQuestionResponseAction({ id, value: e.target.value })
+  const handleTextAreaBlur = e => props.dispatchopenQuestionResponseAction({ id, value: e.target.value }) //eslint-disable-line
   const handleTextAreaChange = () => props.dispatchClearErrorAction({ type: 'openQErrors', errorType: 'responseText', id })
 
   return (
@@ -31,8 +31,10 @@ const OpenQuestionModule = (props) => {
                       autoHeight
                       error={responseTextError !== undefined}
                       placeholder={translate('placeholder')}
-                      onBlur={!edit && handleTextAreaBlur}
-                      onChange={(!edit && responseTextError) && handleTextAreaChange}
+                      onBlur={!edit ? handleTextAreaBlur : undefined}
+                      onChange={(!edit && responseTextError) ? handleTextAreaChange : undefined}
+                      defaultValue={existingAnswer
+                        ? existingAnswer.find(existing => existing.id === id).responseText : null}
                     />
                     <Message
                       error
@@ -87,11 +89,13 @@ OpenQuestionModule.propTypes = {
   dispatchopenQuestionResponseAction: PropTypes.func.isRequired,
   responseTextError: PropTypes.shape(),
   translate: PropTypes.func.isRequired,
-  dispatchClearErrorAction: PropTypes.func.isRequired
+  dispatchClearErrorAction: PropTypes.func.isRequired,
+  existingAnswer: PropTypes.oneOfType([PropTypes.arrayOf(), PropTypes.arrayOf(PropTypes.shape())])
 }
 
 OpenQuestionModule.defaultProps = {
-  responseTextError: undefined
+  responseTextError: undefined,
+  existingAnswer: undefined
 }
 
 const mapDispatchToProps = dispatch => ({

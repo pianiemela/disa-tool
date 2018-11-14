@@ -13,6 +13,8 @@ const {
 const gradeService = require('../services/grade_service')
 const objectiveService = require('../services/objective_service')
 const feedbackTextGenerator = require('./feedback_text_service')
+const logger = require('../utils/logger')
+
 
 const getOne = async (user, selfAssesmentId, lang) => {
   const found = await AssessmentResponse.find({
@@ -21,7 +23,7 @@ const getOne = async (user, selfAssesmentId, lang) => {
   if (!found) {
     return found
   }
-  const filteredResponse = await getGradesAndHeader(found.get({ plain: true }), lang)
+  const filteredResponse = found.assessmentType === 'category' ? await getGradesAndHeader(found.get({ plain: true }), lang) : found.response
   const assesmentResponse = found.get({ plain: true })
   assesmentResponse.response = filteredResponse
   return assesmentResponse
@@ -30,21 +32,29 @@ const getOne = async (user, selfAssesmentId, lang) => {
 const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
   where: { person_id: user.id, self_assessment_id: selfAssesmentId }
 }).then((found) => {
-  if (!found) {
-    /* Swap the final grade category headers to final grade 'main' header
-      (from 'Anna itsellesi arvosana kurssista' => 'Loppuarvosana' etc)
-     and remove the redundant category header
-    */
-    const filteredData = { ...data }
-    filteredData.finalGradeResponse.headers = swapHeaders(filteredData)
-    delete filteredData.finalHeaders
-
-    // TODO: NOTE THAT THIS NOW ONLY BUILDS! NEED TO SAVE SEPARATELY!
-    return AssessmentResponse.build({
-      response: filteredData, self_assessment_id: selfAssesmentId, person_id: user.id
-    })
+  /* Swap the final grade category headers to final grade 'main' header
+    (from 'Anna itsellesi arvosana kurssista' => 'Loppuarvosana' etc)
+   and remove the redundant category header
+  */
+  const filteredData = { ...data }
+  filteredData.finalGradeResponse.headers = swapHeaders(filteredData)
+  delete filteredData.finalHeaders
+  if (found) {
+    const f = found.get({ plain: true })
+    // filteredData.questionModuleResponses = f.response.assessmentType !== 'objectives'
+    //   ? filteredData.questionModuleResponses.map(d => ({ ...d, grade: d.grade_id }))
+    //   : filteredData.questionModuleResponses
+    const n = AssessmentResponse.build({ id: f.id, response: filteredData, self_assessment_id: f.self_assessment_id, person_id: f.person_id })
+    n.isNewRecord = false
+    return n
   }
-  throw Error('Olet jo vastannut tähän itsearvioon!')
+
+  // TODO: NOTE THAT THIS NOW ONLY BUILDS! NEED TO SAVE SEPARATELY!
+  return AssessmentResponse.build({
+    response: filteredData, self_assessment_id: selfAssesmentId, person_id: user.id
+  })
+  // }
+  // throw Error('Olet jo vastannut tähän itsearvioon!')
 })
 
 // TODO: Heavy refactoring and testing
@@ -298,7 +308,7 @@ const generateCategoryFeedback = (category, lang) => {
     return { skillLevel: skillLevel.skillLevelName, objectives }
   })
   const earnedStats = category.gradeQualifies.find(grade => grade.gradeId === earnedGrade.gradeId)
-  || { skillLevelId: 0 }
+    || { skillLevelId: 0 }
   const higherLevelTasksDone = skillLevelQualifies.filter(grade => (
     // does user not qualify for this grade, i.e. is not the earned grade or below it
     !grade.qualifiedForGrade
@@ -384,10 +394,10 @@ const getBySelfAssesment = async (id) => {
 
 // TODO: Avoid JSON conversion as much as possible.
 const addGradesAndHeaders = async (assessmentResponses, courseInstanceId, lang) => {
-  const grades = await gradeService.getByCourse(courseInstanceId, lang)
   const data = await Promise.all(assessmentResponses.map(async (rs) => {
     const r = rs.toJSON()
-    return { ...r, response: await getGradesAndHeader(r.response, lang, grades) }
+    console.log(r)
+    return { ...r, response: (r.response.assessmentType === 'category' ? await getGradesAndHeader(r, lang) : r.response) }
   }))
   return data
 }
@@ -398,27 +408,21 @@ const swapHeaders = (data) => {
   return h
 }
 
+
 // TODO: Refactor this, it's pretty bad
-const getGradesAndHeader = async (data, lang, grades) => {
+const getGradesAndHeader = async (data, lang) => {
   let { response } = data
   response = response || data
-  grades = grades || await gradeService.getByCourse(response.course_instance_id, lang)
-  // get the grades and map all grades from ids to values
-  if (response.assessmentType !== 'objectives') {
-    response.questionModuleResponses = response.questionModuleResponses.map(
-      qmRes => ({ ...qmRes, grade: grades.find(g => g.id === qmRes.grade).name })
-    )
+  if (response.finalGradeResponse.grade) { response.finalGradeResponse.name = response.finalGradeResponse.headers[`${lang}_name`] }
+  const hasOnlyGradeId = response.questionModuleResponses.filter(qmA => !qmA.grade_name)
+  // If we have students who dont have the grade_name value, add the name value
+  // and update the response with name values to the database
+  // This is used only if a student has responded to the assessment before the possibility to modify existing responses
+  if (hasOnlyGradeId.length > 0) {
+    const grades = await gradeService.getByCourse(response.course_instance_id, lang)
+    const r = await updateNamesForGrade(response, data.id, lang, grades)
+    return r
   }
-  const { grade } = response.finalGradeResponse
-
-  // if we dont have a grade value for final grade, it didnt exist in the assessment so we can just return
-  if (!grade) {
-    return response
-  }
-  // ...else we get the correct header name by lang and change the final grade from id to value
-
-  response.finalGradeResponse = { ...response.finalGradeResponse, grade: grades.find(g => g.id === grade).name }
-  response.finalGradeResponse.name = response.finalGradeResponse.headers[`${lang}_name`]
   return response
 }
 
@@ -435,6 +439,27 @@ const getResponseById = id => AssessmentResponse.findById(id, {
     }
   ]
 })
+
+const updateNamesForGrade = async (response, id, lang, grades) => {
+  response.questionModuleResponses = response.questionModuleResponses.map(qmRes => ({ ...qmRes, grade_name: grades.find(g => g.id === qmRes.grade).name }))
+  if (response.finalGradeResponse.grade) {
+    response.finalGradeResponse.grade_name = (grades.find(g => g.id === response.finalGradeResponse.grade)).name
+  }
+  try {
+    AssessmentResponse.update(
+      {
+        response
+      },
+      {
+        where: {
+          id
+        }
+      })
+  } catch (error) {
+    logger.error(error)
+  }
+  return response
+}
 
 module.exports = {
   getOne,

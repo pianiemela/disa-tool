@@ -33,7 +33,7 @@ export const CategoryFeedback = (props) => {
               </Card.Header>
               <Card.Description textAlign="center">
                 <h4>
-                  {translate('grade')}: {questionModule.grade}
+                  {translate('grade')}: {questionModule.grade_name || questionModule.grade}
                 </h4>
                 {questionModule.textFieldOn ?
                   <div>

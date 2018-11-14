@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Prompt } from 'react-router'
-import { Button, Loader, Container, Message, Modal } from 'semantic-ui-react'
+import { Button, Loader, Container, Modal } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import FeedbackPage from '../Feedback/FeedbackPage'
@@ -25,6 +25,7 @@ import {
   clearAssessmentAction
 } from './actions/selfAssesment'
 import SelfAssessmentForm from './Components/SelfAssessmentForm'
+import AssessmentMessage from './Components/AssessmentMessage'
 import './Components/selfAssesment.css'
 
 import { validationErrors, gradeOptions } from './utils'
@@ -61,13 +62,13 @@ export class SelfAssessmentFormPage extends React.Component {
         })
       } else {
         // Fetch the selfassesment data by given id
-        await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
+        await this.props.dispatchGetSelfAssessmentAction(selfAssesmentId)
       }
     } else {
       // Fetch the data of the self assesment
       // and fetch or create a self assesment response for the user
-      await this.props.dispatchGetSelfAssesmentAction(selfAssesmentId)
-      await this.props.dispatchGetAssesmentResponseAction(selfAssesmentId)
+      await this.props.dispatchGetSelfAssessmentAction(selfAssesmentId)
+      await this.props.dispatchGetAssessmentResponseAction(selfAssesmentId)
     }
     if (!this.props.role) {
       const id = courseInstanceId || this.props.formData.course_instance_id
@@ -94,13 +95,13 @@ export class SelfAssessmentFormPage extends React.Component {
   handleUpdate = async () => {
     const { formData } = this.props
     this.setState({ redirect: true })
-    await this.props.dispatchUpdateSelfAssesmentAction(formData)
+    await this.props.dispatchUpdateSelfAssessmentAction(formData)
   }
 
   close = () => this.props.dispatchCloseModalAction()
 
   checkResponseErrors = async () => {
-    await this.props.dispatchValidation(this.props.assesmentResponse)
+    await this.props.dispatchValidation(this.props.assessmentResponse)
     window.scrollTo(0, 0)
     if (this.props.formErrors) {
       await this.props.dispatchToast({
@@ -126,8 +127,8 @@ export class SelfAssessmentFormPage extends React.Component {
       return
     }
     this.setState({ redirect: true })
-    await this.props.dispatchCreateSelfAssesmentResponseAction({
-      ...this.props.assesmentResponse,
+    await this.props.dispatchCreateSelfAssessmentResponseAction({
+      ...this.props.assessmentResponse,
       finalHeaders: this.props.formData.structure.headers.grade
     })
     await this.props.dispatchClearValidation()
@@ -139,7 +140,8 @@ export class SelfAssessmentFormPage extends React.Component {
 
   renderForm = () => {
     let submitFunction = null
-    const { formData, edit, responseErrors } = this.props
+    const { formData, edit, responseErrors, assessmentResponse } = this.props
+    const { existingAnswer } = assessmentResponse
     const { displayCoursename } = formData.structure
     const { preview, grades } = this.state
     const translate = translateId => this.props.translate(`SelfAssessmentForm.SelfAssessmentFormPage.${translateId}`)
@@ -156,13 +158,13 @@ export class SelfAssessmentFormPage extends React.Component {
         <Container className="SelfAssessmentFormPage">
           <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
 
-          {this.state.preview &&
-            <Message style={{ textAlign: 'center' }} color="green">{translate('previewMessage')}</Message>
-          }
-
-          {!formData.open && !edit &&
-            <Message style={{ textAlign: 'center' }} color="grey">{translate('notOpenMessage')}</Message>
-          }
+          <AssessmentMessage
+            preview={this.state.preview}
+            open={formData.open}
+            edit={edit}
+            existingAnswer={existingAnswer}
+            translate={translate}
+          />
 
           <Modal size="small" open={this.props.softErrors} onClose={this.close}>
             <Modal.Header>{translate('modalHeader')}</Modal.Header>
@@ -198,6 +200,7 @@ export class SelfAssessmentFormPage extends React.Component {
             responseErrors={responseErrors}
             preview={preview}
             grades={grades}
+            existingAnswer={assessmentResponse}
           />
 
           {this.state.preview || (!formData.open && !edit) ?
@@ -223,10 +226,10 @@ export class SelfAssessmentFormPage extends React.Component {
       return <Redirect to="/user" />
     }
 
-    if (this.props.assesmentResponse.existingAnswer) {
+    if (this.props.assessmentResponse.existingAnswer && !this.props.formData.open) {
       return (
         <FeedbackPage
-          assessmentResponse={this.props.assesmentResponse}
+          assessmentResponse={this.props.assessmentResponse}
           assessmentInfo={this.props.formData}
         />)
     }
@@ -239,7 +242,9 @@ export class SelfAssessmentFormPage extends React.Component {
         />
 
         {
-          Object.keys(this.props.formData).length > 0 && this.props.role ?
+          Object.keys(this.props.formData).length > 0
+            && (Object.keys(this.props.assessmentResponse).length > 0 || this.props.edit)
+            && this.props.role ?
             this.renderForm()
             :
             <Loader active>Loading</Loader>
@@ -252,7 +257,7 @@ export class SelfAssessmentFormPage extends React.Component {
 const mapStateToProps = state => ({
   formData: state.selfAssesment.createForm,
   courseInstance: state.instance,
-  assesmentResponse: state.selfAssesment.assesmentResponse,
+  assessmentResponse: state.selfAssesment.assesmentResponse,
   role: state.instance.courseRole,
   error: state.error.redirect,
   notTeacher: state.instance.courseRole && state.instance.courseRole !== 'TEACHER',
@@ -265,17 +270,17 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   dispatchCreateFormAction: data =>
     dispatch(createForm(data)),
-  dispatchUpdateSelfAssesmentAction: data =>
+  dispatchUpdateSelfAssessmentAction: data =>
     dispatch(updateSelfAssesmentAction(data)),
-  dispatchGetSelfAssesmentAction: selfAssesmentId =>
+  dispatchGetSelfAssessmentAction: selfAssesmentId =>
     dispatch(getSelfAssesmentAction(selfAssesmentId)),
   dispatchInitNewFormAction: data =>
     dispatch(initNewFormAction(data)),
   dispatchEditFormAction: data =>
     dispatch(editFormAction(data)),
-  dispatchGetAssesmentResponseAction: selfAssesmentId =>
+  dispatchGetAssessmentResponseAction: selfAssesmentId =>
     dispatch(getAssesmentResponseAction(selfAssesmentId)),
-  dispatchCreateSelfAssesmentResponseAction: (data, finalGradeHeaders) =>
+  dispatchCreateSelfAssessmentResponseAction: (data, finalGradeHeaders) =>
     dispatch(createSelfAssessmentResponseAction(data, finalGradeHeaders)),
   dispatchToast: data =>
     dispatch(data),
@@ -299,7 +304,8 @@ SelfAssessmentFormPage.defaultProps = {
   role: null,
   notTeacher: undefined,
   softErrors: false,
-  responseErrors: {}
+  responseErrors: {},
+  formErrors: false
 }
 
 
@@ -308,22 +314,22 @@ SelfAssessmentFormPage.propTypes = {
   new: PropTypes.bool,
   edit: PropTypes.bool.isRequired,
   dispatchCreateFormAction: PropTypes.func.isRequired,
-  dispatchUpdateSelfAssesmentAction: PropTypes.func.isRequired,
+  dispatchUpdateSelfAssessmentAction: PropTypes.func.isRequired,
   dispatchInitNewFormAction: PropTypes.func.isRequired,
-  dispatchGetAssesmentResponseAction: PropTypes.func.isRequired,
-  dispatchGetSelfAssesmentAction: PropTypes.func.isRequired,
+  dispatchGetAssessmentResponseAction: PropTypes.func.isRequired,
+  dispatchGetSelfAssessmentAction: PropTypes.func.isRequired,
   dispatchGetCourseInstanceData: PropTypes.func.isRequired,
   dispatchClearError: PropTypes.func.isRequired,
-  dispatchCreateSelfAssesmentResponseAction: PropTypes.func.isRequired,
+  dispatchCreateSelfAssessmentResponseAction: PropTypes.func.isRequired,
   dispatchClearValidation: PropTypes.func.isRequired,
   dispatchCloseModalAction: PropTypes.func.isRequired,
   dispatchClearAssessmentAction: PropTypes.func.isRequired,
   dispatchValidation: PropTypes.func.isRequired,
-  formErrors: PropTypes.shape().isRequired,
+  formErrors: PropTypes.bool,
   match: PropTypes.shape({
     params: PropTypes.shape({}).isRequired
   }).isRequired,
-  assesmentResponse: PropTypes.shape({
+  assessmentResponse: PropTypes.shape({
     existingAnswer: PropTypes.bool
   }).isRequired,
   dispatchToast: PropTypes.func.isRequired,

@@ -190,8 +190,10 @@ const taskReducer = (state = INITIAL_STATE, action) => {
         ...state,
         tasks: state.tasks.map(task => (task.id === action.response.edited.id ? {
           ...action.response.edited,
+          max_points: Number(action.response.edited.max_points),
           types: task.types,
-          objectives: task.objectives
+          objectives: task.objectives,
+          defaultMultiplier: task.defaultMultiplier
         } : task))
       }
     case 'TASK_EDIT_OBJECTIVE_MULTIPLIERS':

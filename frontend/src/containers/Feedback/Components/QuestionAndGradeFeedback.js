@@ -43,7 +43,7 @@ export const QuestionAndGradeFeedback = (props) => {
                 </Card.Header>
                 <Card.Description textAlign="center">
                   <h4>
-                    {translate('assessedGrade')}: {finalGradeResponse.grade}
+                    {translate('assessedGrade')}: {finalGradeResponse.grade_name || finalGradeResponse.grade}
                   </h4>
                   {finalGradeResponse.responseText.length > 0 ?
                     <div>
