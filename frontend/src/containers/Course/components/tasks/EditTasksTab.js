@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Button, Container, Segment } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react'
 
 import { changeActive } from '../../actions/tasks'
 
