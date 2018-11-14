@@ -246,12 +246,12 @@ class SelfAssesmentListPage extends Component {
       </Table.Header>
       <Table.Body>
         {responses.map(response => (
-          <Table.Row>
+          <Table.Row key={response.id}>
             <Table.Cell>
               <Button
                 basic
                 color="blue"
-                icon={`circle ${selected ? '' : 'outline'}`}
+                icon={selected ? 'minus' : 'plus'}
                 value={response.id}
                 onClick={this.selectResponse}
               />
@@ -276,15 +276,20 @@ class SelfAssesmentListPage extends Component {
         { updating ? this.renderUpdating() : undefined }
         <Button content="valitse kaikki" onClick={this.selectAll} />
         <Button content="poista valinnat" onClick={() => this.setState({ selectedResponses: [] })} />
-        <p>{this.state.selectedResponses.length} / {this.state.responses.length} valittu</p>
         {this.state.loading ? <Loader active /> :
         <div>
+          <Header as="h2">Valitut itsearviot
+            <Header.Subheader>
+              {this.state.selectedResponses.length} / {this.state.responses.length}
+            </Header.Subheader>
+          </Header>
           {this.renderListTable(selectedResponses, true)}
           <Pagination
             activePage={activePage}
             onPageChange={this.handlePaginationChange}
             totalPages={this.state.maxPages}
           />
+          <Header as="h2">Ei-valitut itsearviot</Header>
           {this.renderListTable(displayed, false)}
           <Pagination
             activePage={activePage}
