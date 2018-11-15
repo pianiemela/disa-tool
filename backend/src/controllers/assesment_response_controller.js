@@ -20,7 +20,6 @@ router.get('/:selfAssesmentId', async (req, res) => {
     const { selfAssesmentId } = req.params
     const user = await checkAuth(req)
     const data = await assessmentResponseService.getOne(user, selfAssesmentId, req.lang)
-    console.log(data)
     if (!data) {
       res.status(200).json({
         data: {}

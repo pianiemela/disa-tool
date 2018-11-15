@@ -23,7 +23,7 @@ const getOne = async (user, selfAssesmentId, lang) => {
   if (!found) {
     return found
   }
-  const filteredResponse = found.assessmentType === 'category' ? await getGradesAndHeader(found.get({ plain: true }), lang) : found.response
+  const filteredResponse = found.response.assessmentType === 'category' ? await getGradesAndHeader(found.get({ plain: true }), lang) : found.response
   const assesmentResponse = found.get({ plain: true })
   assesmentResponse.response = filteredResponse
   return assesmentResponse
@@ -396,7 +396,6 @@ const getBySelfAssesment = async (id) => {
 const addGradesAndHeaders = async (assessmentResponses, courseInstanceId, lang) => {
   const data = await Promise.all(assessmentResponses.map(async (rs) => {
     const r = rs.toJSON()
-    console.log(r)
     return { ...r, response: (r.response.assessmentType === 'category' ? await getGradesAndHeader(r, lang) : r.response) }
   }))
   return data
