@@ -66,7 +66,6 @@ const renderTeacherAssessmentList = (assessments, toggleAssessment) => (
             color={assessment.show_feedback ? 'green' : 'red'}
             compact
             content={assessment.show_feedback ? 'palaute auki' : 'ei palautetta'}
-            disabled={!assessment.active || !assessment.open}
             size="small"
             value={assessment.id}
             onClick={toggleAssessment}
