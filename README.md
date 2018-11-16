@@ -38,7 +38,9 @@ Create a `.env` also in the kurki-folder, but only add the database url there: `
 
 In the backend folder, run `node src/database/create_data.js`.
 
-Now just run `npm start` in separate terminal windows or separate tabs in each folder: frontend, backend and kurki. The kurki-app is used just to validate logins. You can log in as any user in the database by simply entering the user-id as the username and `password` ase the password.
+To run all migrations type `npm run db:migrate` in the backend folder. You can roll back the most recent migration with command `npm run db:rollback`. _If you create a new migration, remember to run the migration command also on the staging and production servers. There is no automation to run these!_
+
+Now just run `npm start` in separate terminal windows or separate tabs in folders: frontend and kurki, and `npm run start-dev` in the backend folder. The kurki-app is used just to validate logins. You can log in as any user in the database by simply entering the user-id as the username and `password` ase the password.
 
 Now you should have the project up and running. If not, please blame me.
 
