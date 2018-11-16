@@ -36,7 +36,7 @@ NODE_ENV=development
 
 Create a `.env` also in the kurki-folder, but only add the database url there: `DB_URL=postgres://postgres@localhost:5321/disa_db`
 
-In the backend folder, run `node src/database/create_data.js`.
+In the backend folder, run `node src/database/create_data.js`. You can also use a database dump. If you use a dump, run the anonymiser script with `node src/database/anonymise_data.js`.
 
 To run all migrations type `npm run db:migrate` in the backend folder. You can roll back the most recent migration with command `npm run db:rollback`. _If you create a new migration, remember to run the migration command also on the staging and production servers. There is no automation to run these!_
 
