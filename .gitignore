@@ -69,3 +69,7 @@ disa_pgdata
 
 # ignore the built frontend
 backend/dist/
+
+# ignore all possible data files
+*.bak
+*.csv
