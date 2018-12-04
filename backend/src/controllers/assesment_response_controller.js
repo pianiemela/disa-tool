@@ -78,14 +78,16 @@ router.post('/', async (req, res) => {
       return
     }
     const response = await assessmentResponseService.create(user, data.assessmentId, data)
-    try {
-      const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
-      response.response.verification = verification
-      const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
-      response.response.feedback = feedback
-    } catch (e) {
-      logger.error(e)
-    }
+    // Verification and feedback not generated at response submission anymore.
+    // try {
+    //   const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
+    //   response.response.verification = verification
+    //   const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
+    //   response.response.feedback = feedback
+    //   console.log(feedback)
+    // } catch (e) {
+    //   logger.error(e)
+    // }
     // THE RESPONSE IS NOT SAVED UNTIL SAVE IS EXPLICITLY CALLED HERE
     const completeResponse = await response.save()
     // only send verification data to teacher
@@ -110,10 +112,13 @@ router.post('/', async (req, res) => {
   }
 })
 
+
+/**
+ * Verification and feedback generation. Done now one at a time.
+ */
 router.put('/generate-feedbacks/:id', async (req, res) => {
-  req.setTimeout(300000)
+  // req.setTimeout(300000)
   const { id } = req.params
-  // console.log(id)
   const response = await assessmentResponseService.getResponseById(id)
   const courseInstanceId = await assessmentResponseService.getCourseInstanceId(response.self_assessment_id)
   if (!courseInstanceId) {
@@ -128,7 +133,6 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
     res.status(400).json({ error: 'No feedback generated for this type of assessment' })
     return
   }
-  // const regeneratedResponses = []
   const updateResponse = { ...response.response }
   try {
     const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
@@ -143,20 +147,6 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
     logger.error(e)
   }
   const completeResponse = await response.update({ response: updateResponse })
-  // regeneratedResponses.push(completeResponse)
-  // const regeneratedResponses = await Promise.all(assesmentResponses.map(async (response) => {
-  //   const updateResponse = { ...response.response }
-  //   try {
-  //     const verification = await assessmentResponseService.verifyAssessmentGrade(response, req.lang)
-  //     updateResponse.verification = verification
-  //     const feedback = await assessmentResponseService.generateFeedback(response, req.lang)
-  //     updateResponse.feedback = feedback
-  //   } catch (e) {
-  //     console.log(e)
-  //   }
-  //   const completeResponse = await response.update({ response: updateResponse })
-  //   return completeResponse
-  // }))
   const data = await assessmentResponseService.addGradesAndHeaders([completeResponse], courseInstanceId, req.lang)
   res.status(200).json(data[0])
 })

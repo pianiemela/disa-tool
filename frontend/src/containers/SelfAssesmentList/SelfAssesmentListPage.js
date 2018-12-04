@@ -15,12 +15,6 @@ const replaceQuotesAndLineBreaks = string => (
   string.replace(/["]/g, '""').replace(/(\r\n|\n|\r)/gm, ' ')
 )
 
-const mapDifferenceColor = (diff) => {
-  if (Math.abs(diff) > 2) return 'red'
-  if (Math.abs(diff) > 1) return 'orange'
-  return 'black'
-}
-
 class SelfAssesmentListPage extends Component {
   constructor(props) {
     super(props)
@@ -163,13 +157,25 @@ class SelfAssesmentListPage extends Component {
                 </Table.Header>
                 <Table.Body>
                   {response.response.questionModuleResponses.map((qmResponse) => {
-                    const diff = response.response.verification.categoryVerifications.find(c => qmResponse.id === c.categoryId).wantedGrade.difference
+                    const { verification } = response.response
+                    if (!verification) {
+                      return (
+                        <Table.Row key={qmResponse.id}>
+                          <Table.Cell>{qmResponse.name}</Table.Cell>
+                          <Table.Cell textAlign="center">{qmResponse.grade_name}</Table.Cell>
+                          <Table.Cell textAlign="center">-</Table.Cell>
+                          <Table.Cell>-</Table.Cell>
+                        </Table.Row>
+                      )
+                    }
+                    const diff = verification.categoryVerifications
+                      .find(c => qmResponse.id === c.categoryId).wantedGrade.difference
                     return (
                       <Table.Row key={qmResponse.id}>
                         <Table.Cell>{qmResponse.name}</Table.Cell>
                         <Table.Cell textAlign="center">{qmResponse.grade_name}</Table.Cell>
                         <Table.Cell textAlign="center">
-                          {this.findVerifiactionGrade(response.response.verification, qmResponse.name)}
+                          {this.findVerifiactionGrade(verification, qmResponse.name)}
                         </Table.Cell>
                         <Table.Cell textAlign="center" positive={diff < 0} negative={diff > 0} >
                           {diff}
@@ -193,10 +199,11 @@ class SelfAssesmentListPage extends Component {
                   <Table.Row>
                     <Table.Cell><strong>{this.translate('final_grade')}</strong></Table.Cell>
                     <Table.Cell textAlign="center">{response.response.finalGradeResponse.grade_name}</Table.Cell>
-                    <Table.Cell textAlign="center">
-                      {response.response.verification.overallVerification.minGrade}–
-                      {response.response.verification.overallVerification.maxGrade}
-                    </Table.Cell>
+                    {response.response.verification ?
+                      <Table.Cell textAlign="center">
+                        {response.response.verification.overallVerification.minGrade}–
+                        {response.response.verification.overallVerification.maxGrade}
+                      </Table.Cell> : <Table.Cell>-</Table.Cell> }
                   </Table.Row>
                 </Table.Body>
               </Table>
@@ -208,6 +215,7 @@ class SelfAssesmentListPage extends Component {
   )
 
   responseDifferences = (response) => {
+    if (!response.response.verification) return <Table.Cell>-</Table.Cell>
     const { categoryVerifications } = response.response.verification
     const { length } = categoryVerifications
     const mean = categoryVerifications
@@ -221,10 +229,14 @@ class SelfAssesmentListPage extends Component {
     )
   }
 
-  finalGradeMatches = response => (
-    response.response.verification.overallVerification.minGrade === response.response.finalGradeResponse.grade_name
-    || response.response.verification.overallVerification.maxGrade === response.response.finalGradeResponse.grade_name
-  )
+  finalGradeMatches = (response) => {
+    const { verification, finalGradeResponse } = response.response
+    if (verification && finalGradeResponse) {
+      return verification.overallVerification.minGrade === finalGradeResponse.grade_name
+      || verification.overallVerification.maxGrade === finalGradeResponse.grade_name
+    }
+    return true
+  }
 
   handlePaginationChange = (e, { activePage }) => (
     this.setState({ activePage })
