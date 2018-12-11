@@ -24,17 +24,19 @@ jobs:
           - backend/node_modules
       before_install:
         - >
-            printf "version: '2'\n\nservices:\n  db:\n    image: postgres:10\n    ports:\n      - '5321:5432'\n    volumes:\n      - ./disa_pgdata:/var/lib/postgresql/data\n    container_name: disa_db" >> docker-compose.yml
+            printf "version: '2'\n\nservices:\n  db:\n    image: postgres:10\n    ports:\n      - '5321:5432'\n    environment:\n      - POSTGRES_USER=disa\n      - POSTGRES_PASSWORD=citest\n      - POSTGRES_DB=disa_test_db\n    volumes:\n      - ./disa_pgdata:/var/lib/postgresql/data\n    container_name: disa_db" > docker-compose.yml
         - docker-compose up -d
-        - sleep 3
-        - docker exec -u postgres disa_db psql -c "CREATE DATABASE disa_test_db"
       install:
         - cd backend
         - npm install
       script:
         - npm run test-ci
       env:
-        - TEST_DB_URL=postgres://postgres@localhost:5321/disa_test_db
+        - TEST_DB_NAME=disa_test_db
+        - DB_USER=disa
+        - DB_PASS=citest
+        - DB_HOST=localhost
+        - DB_PORT=5321
         - SECRET=Ir8CG7mwPJr3lh1yhpIGqW1jzhFbH4fzsxtcdmdC9MTy6Z7GVTlUvw3a1y7eh8tx0jEm9ie2hMRyOW6PY3IvbQH21JtIqVcqiTla
 services:
   - docker

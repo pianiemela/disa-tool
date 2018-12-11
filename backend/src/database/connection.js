@@ -1,11 +1,11 @@
 const Sequelize = require('sequelize')
 const logger = require('../utils/logger')
-const conf = require('../../conf-backend.js')
+const { DB_NAME, DB_USER, DB_PASS, DB_HOST, DB_PORT } = require('../../conf-backend.js')
 require('pg').defaults.parseInt8 = true
 
-const dbUrl = process.env.NODE_ENV === 'test' ? conf.TEST_DB_URL : conf.DB_URL
-
-const sequelize = new Sequelize(dbUrl, {
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
+  host: DB_HOST,
+  port: DB_PORT,
   dialect: 'postgres',
   logging: false,
   operatorsAliases: false
