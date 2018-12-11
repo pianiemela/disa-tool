@@ -14,7 +14,7 @@ export const CourseInfo = (props) => {
       <Grid.Column width={3}>
         <Button
           as={Link}
-          to={`/selfAssesment/${props.course.id}`}
+          to={`/selfAssessment/${props.course.id}`}
           basic
           color="blue"
           content={t('edit_self_assessments')}
