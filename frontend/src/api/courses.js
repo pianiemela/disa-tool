@@ -1,4 +1,4 @@
-import { getJson, putJson } from '../utils/utils'
+import { getJson, putJson, postJson } from '../utils/utils'
 
 export const getUsersCourses = () => getJson('/courses/user')
 
@@ -9,6 +9,8 @@ export const getCourses = () => getJson('/courses')
 export const getInstancesOfCourse = courseId => getJson(`/courses/${courseId}`)
 
 export const getCourseInstanceData = courseId => getJson(`/courses/instance/${courseId}`)
+
+export const getCourseTasks = instance => postJson(`/courses/instance/${instance.id}/tasks`, { instance })
 
 export const getCourseInstance = id => getJson(`/course-instances/${id}`)
 

@@ -4,6 +4,12 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [] }, act
       return action.payload
     case 'COURSES_GET_INSTANCE_DATA_FAILURE':
       return { status: action.payload.status }
+
+    case 'COURSES_GET_INSTANCE_TASKS_SUCCESS': {
+      const { payload } = action
+      const { courseRole } = state
+      return { ...payload, courseRole }
+    }
     case 'ASSESMENT_RESPONSE_CREATE_SUCCESS': {
       const { data } = action.payload
       const oldAssesments = [...state.self_assessments]
