@@ -69,6 +69,25 @@ router.post('/create', async (req, res) => {
   })
 })
 
+router.post('/copy', async (req, res) => {
+  if (!await checkPrivilege(req, [
+    {
+      key: 'global_teacher'
+    }
+  ])) {
+    res.status(403).json({
+      toast: errors.privilege.toast,
+      error: errors.privilege[req.lang]
+    })
+    return
+  }
+  const created = await courseInstanceService.copy(req.body, req.user)
+  res.status(200).json({
+    message: messages.create[req.lang],
+    created
+  })
+})
+
 router.get('/matrix/:id', async (req, res) => {
   const data = await courseInstanceService.matrix(req.params.id, req.lang)
   res.status(200).json({
