@@ -28,7 +28,7 @@ class TaskResponseTypeTable extends Component {
   render() {
     const { selected } = this.state
     const { typeHeaders, students, tasks, selectType, updatedTasks } = this.props
-    const updatedHeaders = typeHeaders.map(header => (
+    const updatedHeaders = typeHeaders ? typeHeaders.map(header => (
       {
         ...header,
         types: header.types.map(type => (
@@ -37,8 +37,7 @@ class TaskResponseTypeTable extends Component {
             updated: this.getTasksForType(tasks, type.id).find(task =>
               updatedTasks.find(ut => ut.taskId === task.id))
           }))
-      }))
-      console.log(updatedHeaders)
+      })) : []
     return (
       <div>
         <div style={{ display: 'inline' }}>

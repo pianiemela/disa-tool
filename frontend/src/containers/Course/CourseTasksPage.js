@@ -5,7 +5,7 @@ import { Grid, Dimmer, Loader } from 'semantic-ui-react'
 import CourseHeader from '../Course/components/header/CourseHeader'
 import ManageCoursePeople from '../User/ManageCoursePeople'
 import TaskResponseEdit from '../User/TaskResponseEdit'
-import { getCourseInstanceTasksAction } from '../../actions/actions'
+import { getCourseInstanceTasksAction, getCourseInstanceDataAction } from '../../actions/actions'
 
 export class CourseTasksPage extends Component {
   constructor(props) {
@@ -16,12 +16,19 @@ export class CourseTasksPage extends Component {
   }
 
   async componentDidMount() {
-    const { course } = this.props.location.state
+    const { course } = this.props
+    const instanceHasData = course.people.length !== 0
     await this.setState({ loading: true })
-    this.props.getCourseInstanceTasksAction(course).then(() => {
-      this.setState({ loading: false })
-    })
+    // If for some reason the redux instance is not set, fetch the course data first, before getting the tasks
+    // and set it to redux state
+    if (!instanceHasData) {
+      const { courseId } = this.props.location.state
+      await this.props.getCourseInstanceDataAction(courseId)
+    }
+    await this.props.getCourseInstanceTasksAction(instanceHasData ? course : this.props.course)
+    await this.setState({ loading: false })
   }
+
 
   render() {
     const { course } = this.props
@@ -34,9 +41,10 @@ export class CourseTasksPage extends Component {
     const students = course.id && isTeacher ?
       course.people.filter(person =>
         person.course_instances[0].course_person.role !== 'TEACHER') : []
+
     return (
       <div>
-        {loading || !course.people.length ?
+        {loading ?
           <Dimmer active={loading} inverted>
             <Loader inverted />
           </Dimmer>
@@ -80,7 +88,9 @@ const mapStatetoProps = state => ({
 })
 
 const mapDispatchToProps = {
-  getCourseInstanceTasksAction
+  getCourseInstanceTasksAction,
+  getCourseInstanceDataAction
+
 }
 
 CourseTasksPage.defaultProps = {
@@ -97,7 +107,15 @@ CourseTasksPage.propTypes = {
   }).isRequired,
   course: PropTypes.shape({
     people: PropTypes.arrayOf(PropTypes.shape())
-  })
+  }),
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    username: PropTypes.string,
+    studentnumber: PropTypes.number,
+    role: PropTypes.string
+  }).isRequired,
+  getCourseInstanceDataAction: PropTypes.func.isRequired,
+  getCourseInstanceTasksAction: PropTypes.func.isRequired
 
 
 }

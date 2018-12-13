@@ -40,7 +40,7 @@ export const CourseInfo = (props) => {
         <Grid.Column width={6}>
           <Button
             as={Link}
-            to={{ pathname: `${course.id}/tasksAndPeople`, state: { course } }}
+            to={{ pathname: `${course.id}/tasksAndPeople`, state: { courseId: course.id } }}
             basic
             color="blue"
           >

@@ -1,4 +1,4 @@
-export const instanceReducer = (state = { tasks: [], self_assessments: [] }, action) => {
+export const instanceReducer = (state = { tasks: [], self_assessments: [], people: [] }, action) => {
   switch (action.type) {
     case 'COURSES_GET_INSTANCE_DATA_SUCCESS':
       return action.payload
