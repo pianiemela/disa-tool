@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Accordion, Dimmer, Header, Grid, Item, Loader } from 'semantic-ui-react'
+import { Accordion, Dimmer, Header, Grid, Item, Loader, Button } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
 import {
@@ -31,7 +31,7 @@ class UserPage extends Component {
     const { courseId } = this.props.match.params
 
     await this.props.dispatchGetUserCourses()
-    // this.props.dispatchGetUserSelfAssesments()
+    this.props.dispatchGetUserSelfAssesments()
     if (courseId && !activeCourse.id && !this.state.loading) {
       await this.setState({ loading: true })
       this.props.dispatchGetCourseInstanceData(courseId).then(() => (
@@ -99,7 +99,7 @@ class UserPage extends Component {
         <Grid.Row>
           <Grid.Column>
             {this.props.user ? <Header as="h1">{this.t('hello')} {this.props.user.name}</Header> :
-            <p>Hello bastard</p>}
+              <p>Hello bastard</p>}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -122,16 +122,6 @@ class UserPage extends Component {
                     isTeacher={isTeacher}
                     isGlobalTeacher={isGlobalTeacher}
                   />
-                  {isGlobalTeacher ?
-                    <Grid.Row>
-                      <Grid.Column>
-                        <ManageCoursePeople
-                          activeCourse={activeCourse}
-                          people={activeCourse.people}
-                        />
-                      </Grid.Column>
-                    </Grid.Row> : undefined
-                  }
                   <Grid.Row>
                     <Grid.Column floated="left" width={8}>
                       <Item.Content>
@@ -165,8 +155,6 @@ class UserPage extends Component {
                       </Item.Content>
                     </Grid.Column>
                   </Grid.Row>
-                  {isTeacher ?
-                    <TaskResponseEdit tasks={tasks} students={students} /> : undefined}
                 </Grid>
               </Item> :
               <Item>
