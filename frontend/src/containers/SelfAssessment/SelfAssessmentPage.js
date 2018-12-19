@@ -51,7 +51,7 @@ export class SelfAssessmentPage extends React.Component {
       return <Redirect to="/user" />
     }
     if (this.state.new) {
-      return <Redirect to={`/selfassesment/create/${this.state.courseInstanceId}/${this.state.type}`} />
+      return <Redirect to={`/selfassessment/create/${this.state.courseInstanceId}/${this.state.type}`} />
     }
 
     if (this.state.edit) {

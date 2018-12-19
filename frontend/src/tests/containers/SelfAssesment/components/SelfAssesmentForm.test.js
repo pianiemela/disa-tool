@@ -28,7 +28,7 @@ const formData = {
   }
 }
 
-describe('Self assesment form', () => {
+describe('Self assessment form', () => {
   let wrapper
 
   beforeEach(() => {

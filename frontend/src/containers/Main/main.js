@@ -56,9 +56,9 @@ class Main extends PureComponent {
 
   userRoutes = [
     <Route exact path="/selfassessment/edit/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit match={match} />} key={keygen.user()} />,
-    <Route exact path="/selfassesment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssessmentFormPage edit new match={match} />} key={keygen.user()} />,
-    <Route exact path="/selfassesment/response/:selfAssesmentId" render={({ match }) => <SelfAssessmentFormPage edit={false} match={match} />} key={keygen.user()} />,
-    <Route path="/selfassesment/list/:selfAssesmentId" render={({ match }) => <SelfAssesmentListPage selfAssesmentId={Number(match.params.selfAssesmentId)} />} key={keygen.user()} />,
+    <Route exact path="/selfassessment/create/:courseInstanceId/:type" render={({ match }) => <SelfAssessmentFormPage edit new match={match} />} key={keygen.user()} />,
+    <Route exact path="/selfassessment/response/:selfAssessmentId" render={({ match }) => <SelfAssessmentFormPage edit={false} match={match} />} key={keygen.user()} />,
+    <Route path="/selfassessment/list/:selfAssesmentId" render={({ match }) => <SelfAssesmentListPage selfAssesmentId={Number(match.params.selfAssesmentId)} />} key={keygen.user()} />,
     <Route exact path="/selfassessment/:courseId" component={SelfAssessmentPage} key={keygen.user()} />,
     <Route path="/selfassessment" component={SelfAssessmentPage} key={keygen.user()} />,
     <Route exact path="/user/course/:courseId" component={UserPage} key={keygen.user()} />,

@@ -44,10 +44,10 @@ export class SelfAssessmentFormPage extends React.Component {
     const { courseInstanceId, type, selfAssessmentId } = this.props.match.params
     if (this.props.edit) {
       if (this.props.new) {
-        // Get assesment type and course instance id from params
+        // Get assessment type and course instance id from params
 
 
-        // Fetch the required data for self assesment
+        // Fetch the required data for self assessment
         // courseData includes all objectives and categories related to course
         // course info includes the names in eng, fin and swe
 
@@ -65,8 +65,8 @@ export class SelfAssessmentFormPage extends React.Component {
         await this.props.dispatchGetSelfAssessmentAction(selfAssessmentId)
       }
     } else {
-      // Fetch the data of the self assesment
-      // and fetch or create a self assesment response for the user
+      // Fetch the data of the self assessment
+      // and fetch or create a self assessment response for the user
       await this.props.dispatchGetSelfAssessmentAction(selfAssessmentId)
       await this.props.dispatchGetAssessmentResponseAction(selfAssessmentId)
     }

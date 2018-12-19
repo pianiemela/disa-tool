@@ -94,7 +94,7 @@ router.put('/update/:id', async (req, res) => {
     data = destructureNamesAndInstructions(data, formInfo)
     data = await selfAssesmentService.updateSelfAssesment(data, req.lang)
     res.status(200).json({
-      message: 'Self assesment updated succesfully',
+      message: 'Self assessment updated succesfully',
       data
     })
   } catch (error) {
@@ -110,7 +110,7 @@ router.put('/toggle/:id', async (req, res) => {
   const { attribute } = req.body
   const assessment = await selfAssesmentService.toggleAssessment(id, attribute)
   return res.status(200).json({
-    message: `Self assesment property ${attribute} is now ${assessment[attribute] ? 'enabled' : 'disabled'}`,
+    message: `Self assessment property ${attribute} is now ${assessment[attribute] ? 'enabled' : 'disabled'}`,
     assessment
   })
 })

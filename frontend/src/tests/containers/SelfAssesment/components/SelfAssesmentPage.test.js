@@ -3,7 +3,7 @@ import { Redirect } from 'react-router'
 import { SelfAssessmentPage } from '../../../../containers/SelfAssessment/SelfAssessmentPage'
 import EditOrNewForm from '../../../../containers/SelfAssessment/Components/EditOrNewform'
 
-describe('Self assesment page', () => {
+describe('Self assessment page', () => {
   let wrapper
   let dispatchGetUsercourses
   let dispatchGetUserSelfAssessments
@@ -46,7 +46,7 @@ describe('Self assesment page', () => {
     expect(wrapper.find('.selfAssesmentCreateForm').exists()).toEqual(true)
   })
 
-  it('contains the self assesment create form when redirect, new and edit are false', () => {
+  it('contains the self assessment create form when redirect, new and edit are false', () => {
     expect(wrapper.find(EditOrNewForm).exists()).toEqual(true)
   })
 
