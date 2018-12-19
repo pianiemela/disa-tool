@@ -17,7 +17,7 @@ describe('Self assessment page', () => {
 
     wrapper = shallow(<SelfAssessmentPage
       match={{
-        url: '/selfAssesment/1',
+        url: '/selfassessment/1',
         params: {
           courseId: '1'
         }
@@ -63,12 +63,12 @@ describe('Self assessment page', () => {
   it('redirects when state new is true', () => {
     wrapper.setState({ new: true, courseInstanceId: 1 })
     expect(wrapper.find(Redirect).exists()).toEqual(true)
-    expect(wrapper.find(Redirect).prop('to')).toEqual('/selfassesment/create/1/')
+    expect(wrapper.find(Redirect).prop('to')).toEqual('/selfassessment/create/1/')
   })
 
   it('redirects when state edit is true', () => {
-    wrapper.setState({ edit: true, redirect: true, assesmentId: 1 })
+    wrapper.setState({ edit: true, redirect: true, assessmentId: 1 })
     expect(wrapper.find(Redirect).exists()).toEqual(true)
-    expect(wrapper.find(Redirect).prop('to')).toEqual('/selfassesment/edit/1')
+    expect(wrapper.find(Redirect).prop('to')).toEqual('/selfassessment/edit/1')
   })
 })
