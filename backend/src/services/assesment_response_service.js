@@ -23,10 +23,11 @@ const getOne = async (user, selfAssesmentId, lang) => {
   if (!found) {
     return found
   }
-  const filteredResponse = found.response.assessmentType === 'category' ? await getGradesAndHeader(found.get({ plain: true }), lang) : found.response
-  const assesmentResponse = found.get({ plain: true })
-  assesmentResponse.response = filteredResponse
-  return assesmentResponse
+  const foundData = found.get({ plain: true })
+  const grades = await gradeService.getByCourse(foundData.response.course_instance_id, lang)
+  const filteredResponse = await getGradesAndHeader(foundData, lang, grades)
+  foundData.response = filteredResponse
+  return foundData
 }
 
 const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
@@ -394,9 +395,12 @@ const getBySelfAssesment = async (id) => {
 
 // TODO: Avoid JSON conversion as much as possible.
 const addGradesAndHeaders = async (assessmentResponses, courseInstanceId, lang) => {
+  const { course_instance_id } = assessmentResponses[0].get({ plain: true }).response //eslint-disable-line
+  const grades = await gradeService.getByCourse(course_instance_id, lang)
+
   const data = await Promise.all(assessmentResponses.map(async (rs) => {
     const r = rs.toJSON()
-    return { ...r, response: (r.response.assessmentType === 'category' ? await getGradesAndHeader(r, lang) : r.response) }
+    return { ...r, response: (await getGradesAndHeader(r, lang, grades)) }
   }))
   return data
 }
@@ -409,19 +413,29 @@ const swapHeaders = (data) => {
 
 
 // TODO: Refactor this, it's pretty bad
-const getGradesAndHeader = async (data, lang) => {
+const getGradesAndHeader = async (data, lang, grades) => {
   let { response } = data
+  let modified = false
   response = response || data
-  if (response.finalGradeResponse.grade) { response.finalGradeResponse.name = response.finalGradeResponse.headers[`${lang}_name`] }
-  const hasOnlyGradeId = response.questionModuleResponses.filter(qmA => !qmA.grade_name)
+
+  const hasFinalGrade = response.finalGradeResponse.grade
+  const noGradeNames = response.questionModuleResponses.filter(qmA => !qmA.grade_name).length > 0
+
   // If we have students who dont have the grade_name value, add the name value
   // and update the response with name values to the database
   // This is used only if a student has responded to the assessment before the possibility to modify existing responses
-  if (hasOnlyGradeId.length > 0) {
-    const grades = await gradeService.getByCourse(response.course_instance_id, lang)
-    const r = await updateNamesForGrade(response, data.id, lang, grades)
-    return r
+  if (noGradeNames && response.assessmentType === 'category') {
+    modified = true
+    response.questionModuleResponses = updateGradeNames(response.questionModuleResponses, grades)
   }
+
+  if (hasFinalGrade && !response.finalGradeResponse.grade_name) {
+    modified = true
+    response.finalGradeResponse = ({ ...response.finalGradeResponse, grade_name: grades.find(g => g.id === response.finalGradeResponse.grade).name }) //eslint-disable-line
+  }
+
+  if (modified) await updateResponse(data.id, response)
+  if (hasFinalGrade) response.finalGradeResponse.name = response.finalGradeResponse.headers[`${lang}_name`]
   return response
 }
 
@@ -439,11 +453,8 @@ const getResponseById = id => AssessmentResponse.findById(id, {
   ]
 })
 
-const updateNamesForGrade = async (response, id, lang, grades) => {
-  response.questionModuleResponses = response.questionModuleResponses.map(qmRes => ({ ...qmRes, grade_name: grades.find(g => g.id === qmRes.grade).name }))
-  if (response.finalGradeResponse.grade) {
-    response.finalGradeResponse.grade_name = (grades.find(g => g.id === response.finalGradeResponse.grade)).name
-  }
+const updateGradeNames = (questionModuleResponses, grades) => questionModuleResponses.map(response => ({ ...response, grade_name: grades.find(g => g.id === response.grade).name })) //eslint-disable-line
+const updateResponse = async (id, response) => {
   try {
     AssessmentResponse.update(
       {
@@ -457,7 +468,6 @@ const updateNamesForGrade = async (response, id, lang, grades) => {
   } catch (error) {
     logger.error(error)
   }
-  return response
 }
 
 module.exports = {
