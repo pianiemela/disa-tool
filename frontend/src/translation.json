@@ -723,16 +723,16 @@
       ],
       "objectiveAssessment": {
         "good": [
-          "Osaan osion tavoitteet hyvin",
-          "I know the the objectives of this category well"
+          "I know the the objectives of this category well",
+          "Osaan osion tavoitteet hyvin"
         ],
         "decent": [
-          "I know the the objectives of this category decently",
-          "Osaan osion tavoitteet kohtalaisesti"
+          "Osaan osion tavoitteet kohtalaisesti",
+          "I know the the objectives of this category decently"
         ],
         "poor": [
-          "I still have a lot of room for development regarding the objectives",
-          "Vielä selkeästi kehitettävää osion tavoitteiden suhteen"
+          "Vielä selkeästi kehitettävää osion tavoitteiden suhteen",
+          "I still have a lot of room for development regarding the objectives"
         ]
       }
     },

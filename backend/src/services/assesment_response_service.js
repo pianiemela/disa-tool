@@ -395,6 +395,7 @@ const getBySelfAssesment = async (id) => {
 
 // TODO: Avoid JSON conversion as much as possible.
 const addGradesAndHeaders = async (assessmentResponses, courseInstanceId, lang) => {
+  if (!assessmentResponses[0]) return //eslint-disable-line
   const { course_instance_id } = assessmentResponses[0].get({ plain: true }).response //eslint-disable-line
   const grades = await gradeService.getByCourse(course_instance_id, lang)
 
