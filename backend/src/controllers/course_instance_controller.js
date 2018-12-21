@@ -81,7 +81,7 @@ router.post('/copy', async (req, res) => {
     })
     return
   }
-  const created = await courseInstanceService.copy(req.body, req.user)
+  const created = await courseInstanceService.copy(req.body, req.user, req.lang)
   res.status(200).json({
     message: messages.create[req.lang],
     created

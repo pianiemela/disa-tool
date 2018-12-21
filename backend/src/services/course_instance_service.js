@@ -159,7 +159,7 @@ const mapObjectives = (value) => {
   return returnValue
 }
 
-const copyCourseInstance = async (data, user) => {
+const copyCourseInstance = async (data, user, lang) => {
   const names = ['eng_name', 'fin_name', 'swe_name']
   const descriptions = ['eng_description', 'fin_description', 'swe_description']
   const original = (await CourseInstance.findOne({
@@ -240,7 +240,7 @@ const copyCourseInstance = async (data, user) => {
     person_id: user.id,
     role: 'TEACHER'
   })
-  return copy
+  return create.value(copy, lang)
 }
 
 const mapNames = node => ({
@@ -469,7 +469,7 @@ const create = {
       id: json.id,
       name: json[`${lang}_name`],
       active: json.active,
-      registered: true
+      registered: 'TEACHER'
     }
   }
 }
