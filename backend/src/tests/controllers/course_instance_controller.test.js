@@ -2,6 +2,7 @@ const {
   testHeaders,
   testStatusCode,
   testTeacherOnCoursePrivilege,
+  testGlobalTeacherPrivilege,
   testBody,
   testDatabaseSave,
   asymmetricMatcher
@@ -39,7 +40,7 @@ describe('course_instance_controller', () => {
 
     testHeaders(options)
 
-    testTeacherOnCoursePrivilege(options)
+    testGlobalTeacherPrivilege(options)
 
     testBody(options, {
       common: {
@@ -47,7 +48,7 @@ describe('course_instance_controller', () => {
         created: {
           id: expect.any(Number),
           active: false,
-          registered: true
+          registered: 'TEACHER'
         }
       },
       eng: {
@@ -79,6 +80,57 @@ describe('course_instance_controller', () => {
         disallowId: true
       }
     )
+  })
+
+  describe('POST /copy', () => {
+    const data = {
+      course_id: 1,
+      course_instance_id: 1,
+      eng_name: 'en',
+      fin_name: 'fn',
+      swe_name: 'sn'
+    }
+    const options = {
+      route: '/api/course-instances/copy',
+      method: 'post',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    testHeaders(options)
+
+    testGlobalTeacherPrivilege(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        created: {
+          id: expect.any(Number),
+          active: false,
+          registered: 'TEACHER'
+        }
+      },
+      eng: {
+        created: {
+          name: data.eng_name
+        }
+      },
+      fin: {
+        created: {
+          name: data.fin_name
+        }
+      },
+      swe: {
+        created: {
+          name: data.swe_name
+        }
+      }
+    })
+
+    // The copy should be validated to be equal to the copied course instance.
+    // That's a gargantuan task, though, and not worth developer time.
   })
 
   describe('GET /edit/:id', () => {
