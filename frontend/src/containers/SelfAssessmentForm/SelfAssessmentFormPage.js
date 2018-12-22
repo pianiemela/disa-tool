@@ -41,13 +41,13 @@ export class SelfAssessmentFormPage extends React.Component {
   }
 
   async componentDidMount() {
-    const { courseInstanceId, type, selfAssesmentId } = this.props.match.params
+    const { courseInstanceId, type, selfAssessmentId } = this.props.match.params
     if (this.props.edit) {
       if (this.props.new) {
-        // Get assesment type and course instance id from params
+        // Get assessment type and course instance id from params
 
 
-        // Fetch the required data for self assesment
+        // Fetch the required data for self assessment
         // courseData includes all objectives and categories related to course
         // course info includes the names in eng, fin and swe
 
@@ -62,13 +62,13 @@ export class SelfAssessmentFormPage extends React.Component {
         })
       } else {
         // Fetch the selfassesment data by given id
-        await this.props.dispatchGetSelfAssessmentAction(selfAssesmentId)
+        await this.props.dispatchGetSelfAssessmentAction(selfAssessmentId)
       }
     } else {
-      // Fetch the data of the self assesment
-      // and fetch or create a self assesment response for the user
-      await this.props.dispatchGetSelfAssessmentAction(selfAssesmentId)
-      await this.props.dispatchGetAssessmentResponseAction(selfAssesmentId)
+      // Fetch the data of the self assessment
+      // and fetch or create a self assessment response for the user
+      await this.props.dispatchGetSelfAssessmentAction(selfAssessmentId)
+      await this.props.dispatchGetAssessmentResponseAction(selfAssessmentId)
     }
     if (!this.props.role) {
       const id = courseInstanceId || this.props.formData.course_instance_id
@@ -272,14 +272,14 @@ const mapDispatchToProps = dispatch => ({
     dispatch(createForm(data)),
   dispatchUpdateSelfAssessmentAction: data =>
     dispatch(updateSelfAssesmentAction(data)),
-  dispatchGetSelfAssessmentAction: selfAssesmentId =>
-    dispatch(getSelfAssesmentAction(selfAssesmentId)),
+  dispatchGetSelfAssessmentAction: selfAssessmentId =>
+    dispatch(getSelfAssesmentAction(selfAssessmentId)),
   dispatchInitNewFormAction: data =>
     dispatch(initNewFormAction(data)),
   dispatchEditFormAction: data =>
     dispatch(editFormAction(data)),
-  dispatchGetAssessmentResponseAction: selfAssesmentId =>
-    dispatch(getAssesmentResponseAction(selfAssesmentId)),
+  dispatchGetAssessmentResponseAction: selfAssessmentId =>
+    dispatch(getAssesmentResponseAction(selfAssessmentId)),
   dispatchCreateSelfAssessmentResponseAction: (data, finalGradeHeaders) =>
     dispatch(createSelfAssessmentResponseAction(data, finalGradeHeaders)),
   dispatchToast: data =>

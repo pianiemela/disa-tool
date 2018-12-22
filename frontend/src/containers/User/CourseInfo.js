@@ -8,31 +8,47 @@ import LinkExportList from './components/LinkExportList'
 
 export const CourseInfo = (props) => {
   const t = id => props.translate(`UserPage.CourseInfo.${id}`)
+  const { course } = props
 
   const renderTeacherOptions = () => (
-    <Grid.Row>
-      <Grid.Column width={3}>
-        <Button
-          as={Link}
-          to={`/selfAssesment/${props.course.id}`}
-          basic
-          color="blue"
-          content={t('edit_self_assessments')}
-        />
-      </Grid.Column>
-      <Grid.Column width={3}>
-        <Button
-          as={Link}
-          to={`/course/${props.course.id}`}
-          basic
-          color="blue"
-          content={t('edit_course')}
-        />
-      </Grid.Column>
-      <Grid.Column width={10}>
-        <LinkExportList course={props.course} />
-      </Grid.Column>
-    </Grid.Row>
+    <React.Fragment>
+      <Grid.Row>
+        <Grid.Column width={3}>
+          <Button
+            as={Link}
+            to={`/selfAssessment/${props.course.id}`}
+            basic
+            color="blue"
+            content={t('edit_self_assessments')}
+          />
+        </Grid.Column>
+        <Grid.Column width={3}>
+          <Button
+            as={Link}
+            to={`/course/${props.course.id}`}
+            basic
+            color="blue"
+            content={t('edit_course')}
+          />
+        </Grid.Column>
+        <Grid.Column width={10}>
+          <LinkExportList course={props.course} />
+        </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
+        <Grid.Column width={6}>
+          <Button
+            as={Link}
+            to={{ pathname: `${course.id}/tasksAndPeople`, state: { courseId: course.id } }}
+            basic
+            color="blue"
+          >
+            Manage course people and tasks
+          </Button>
+        </Grid.Column>
+      </Grid.Row>
+    </React.Fragment>
   )
 
   const renderCourseActivation = () => (
@@ -81,6 +97,7 @@ export const CourseInfo = (props) => {
       </Grid.Row>
       <Divider />
       {props.isTeacher ? renderTeacherOptions() : undefined}
+
       {props.teachers ? renderCourseTeachers() : undefined}
     </Grid>
   )

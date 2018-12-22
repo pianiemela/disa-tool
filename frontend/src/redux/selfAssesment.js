@@ -34,9 +34,9 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     case 'GET_ASSESMENT_RESPONSE_SUCCESS': {
       const { data } = action.payload
       /*
-      if the assesment response is empty,
-      we have a user who hasnt answered to the assesment yet, so we'll create it
-      by using the assesment course data we have in the createForm object in reducer
+      if the asssesment response is empty,
+      we have a user who hasnt answered to the assessment yet, so we'll create it
+      by using the assessment course data we have in the createForm object in reducer
 
       Otherwise we'll just store the response data we have in the api request to
       reducer field assesmentResponse

@@ -138,7 +138,7 @@ class SelfAssesmentListPage extends Component {
           <Accordion.Content key={response.id}>
             <Button
               as={Link}
-              to={`/selfassesment/list/${this.props.selfAssesmentId}/${response.id}`}
+              to={`/selfassessment/list/${this.props.selfAssesmentId}/${response.id}`}
               basic
               onClick={() => this.setState({ activeResponse: response })}
             >
@@ -314,9 +314,9 @@ class SelfAssesmentListPage extends Component {
   }
 
   renderResponse = () => {
-    if (this.state.activeResponse === null) return <Redirect to={`/selfassesment/list/${this.props.selfAssesmentId}`} />
+    if (this.state.activeResponse === null) return <Redirect to={`/selfassessment/list/${this.props.selfAssesmentId}`} />
     const backButton = (
-      <Button as={Link} to={`/selfassesment/list/${this.props.selfAssesmentId}`} basic>
+      <Button as={Link} to={`/selfassessment/list/${this.props.selfAssesmentId}`} basic>
         <Icon name="angle double left" />
         <span>{this.translate('back')}</span>
       </Button>
@@ -370,8 +370,8 @@ class SelfAssesmentListPage extends Component {
           </Segment.Group>
         </Container>
         <Switch>
-          <Route exact path={`/selfassesment/list/${this.props.selfAssesmentId}`} render={this.renderList} />
-          <Route exact path={`/selfassesment/list/${this.props.selfAssesmentId}/:id`} render={this.renderResponse} />
+          <Route exact path={`/selfassessment/list/${this.props.selfAssesmentId}`} render={this.renderList} />
+          <Route exact path={`/selfassessment/list/${this.props.selfAssesmentId}/:id`} render={this.renderResponse} />
         </Switch>
       </div>
     )

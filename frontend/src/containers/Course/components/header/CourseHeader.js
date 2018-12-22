@@ -42,8 +42,8 @@ CourseHeader.defaultProps = {
   renderReturnLink: true
 }
 
-const mapStateToProps = state => ({
-  course: state.course.course
+const mapStateToProps = (state, ownProps) => ({
+  course: ownProps.instance || state.course.course
 })
 
 export default withLocalize(connect(mapStateToProps, null)(CourseHeader))

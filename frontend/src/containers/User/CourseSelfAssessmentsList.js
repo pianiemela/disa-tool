@@ -9,7 +9,7 @@ const renderStudentAssessmentList = assessments => (
         <List.Item key={assessment.id} style={{ display: 'flex' }}>
           <List.Content
             as={Link}
-            to={`/selfAssesment/response/${assessment.id}`}
+            to={`/selfassessment/response/${assessment.id}`}
             style={{ flexGrow: 1 }}
           >
             {assessment.name}
@@ -35,7 +35,7 @@ const renderTeacherAssessmentList = (assessments, toggleAssessment) => (
       <List.Item key={assessment.id} style={{ display: 'flex' }}>
         <List.Content
           as={Link}
-          to={`/selfAssesment/list/${assessment.id}`}
+          to={`/selfassessment/list/${assessment.id}`}
           style={{ flexGrow: 1 }}
         >
           {assessment.name}
