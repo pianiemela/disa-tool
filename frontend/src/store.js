@@ -18,6 +18,7 @@ import grade from './redux/grade'
 import objective from './redux/objective'
 import error from './redux/error'
 import admin from './redux/admin'
+import selfAssesmentList from './redux/selfAssesmentList'
 
 const reducers = combineReducers({
   task,
@@ -35,7 +36,8 @@ const reducers = combineReducers({
   objective,
   error,
   admin,
-  validation
+  validation,
+  selfAssesmentList
 })
 
 const rootReducer = (state, action) => {

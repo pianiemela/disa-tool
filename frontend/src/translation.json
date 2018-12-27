@@ -1099,6 +1099,26 @@
         "Regenerate feedbacks",
         "Luo palautteet uudestaan"
       ],
+      "selected_header": [
+        "Selected self assesments",
+        "Valitut itsearviot"
+      ],
+      "non-selected_header": [
+        "Non-selected self assesments",
+        "Ei-valitut itsearviot"
+      ]
+    },
+    "SelectionButtons": {
+      "select": [
+        "select all",
+        "valitse kaikki"
+      ],
+      "deselect": [
+        "remove selections",
+        "poista valinnat"
+      ]
+    },
+    "SelfAssesmentCSVDownload": {
       "download_csv": [
         "Download responses as csv",
         "Lataa vastaukset csv-muodossa"
