@@ -22,7 +22,7 @@ export class SelfAssessmentPage extends React.Component {
       type: '',
       edit: false,
       courseInstanceId: '',
-      assesmentId: ''
+      assessmentId: ''
     }
   }
   async componentDidMount() {
@@ -42,7 +42,7 @@ export class SelfAssessmentPage extends React.Component {
     if (assessment) {
       this.setState({ new: true, courseInstanceId: id, type: assessment })
     } else {
-      this.setState({ edit: true, assesmentId: id })
+      this.setState({ edit: true, assessmentId: id })
     }
   }
   render() {
@@ -51,11 +51,11 @@ export class SelfAssessmentPage extends React.Component {
       return <Redirect to="/user" />
     }
     if (this.state.new) {
-      return <Redirect to={`/selfassesment/create/${this.state.courseInstanceId}/${this.state.type}`} />
+      return <Redirect to={`/selfassessment/create/${this.state.courseInstanceId}/${this.state.type}`} />
     }
 
     if (this.state.edit) {
-      return <Redirect to={`/selfassesment/edit/${this.state.assesmentId}`} />
+      return <Redirect to={`/selfassessment/edit/${this.state.assessmentId}`} />
     }
 
     return (

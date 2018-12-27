@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Table } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 import { objectiveGrades } from '../../SelfAssessmentForm/utils'
+import MathJaxText from '../../../utils/components/MathJaxText'
+
 
 export const ObjectivesFeedback = (props) => {
   const { objectives, teacher } = props
@@ -69,7 +71,7 @@ export const ObjectivesFeedback = (props) => {
               {objectives[objective].map(singleO => (
                 <Table.Row key={singleO.id}>
                   <Table.Cell>
-                    {singleO.name}
+                    <MathJaxText content={singleO.name} />
                   </Table.Cell>
                   <Table.Cell>
                     {singleO.grade ? grades[(singleO.grade)] : 'IMPOSSBRU'}

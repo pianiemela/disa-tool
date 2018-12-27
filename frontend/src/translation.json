@@ -614,6 +614,14 @@
       "trigger": [
         "Create a new instance of this course",
         "Luo uusi instanssi tästä kurssista"
+      ],
+      "dropdown_label": [
+        "Optionally choose a previous course instance to copy as a base.",
+        "Voit valita aikaisemman kurssi-instanssin kopioitavaksi pohjaksi."
+      ],
+      "dropdown_null_value": [
+        "No base",
+        "Ei pohjaa"
       ]
     },
     "EditInstanceForm": {
@@ -723,16 +731,16 @@
       ],
       "objectiveAssessment": {
         "good": [
-          "Osaan osion tavoitteet hyvin",
-          "I know the the objectives of this category well"
+          "I know the the objectives of this category well",
+          "Osaan osion tavoitteet hyvin"
         ],
         "decent": [
-          "I know the the objectives of this category decently",
-          "Osaan osion tavoitteet kohtalaisesti"
+          "Osaan osion tavoitteet kohtalaisesti",
+          "I know the the objectives of this category decently"
         ],
         "poor": [
-          "I still have a lot of room for development regarding the objectives",
-          "Vielä selkeästi kehitettävää osion tavoitteiden suhteen"
+          "Vielä selkeästi kehitettävää osion tavoitteiden suhteen",
+          "I still have a lot of room for development regarding the objectives"
         ]
       }
     },
@@ -1091,6 +1099,26 @@
         "Regenerate feedbacks",
         "Luo palautteet uudestaan"
       ],
+      "selected_header": [
+        "Selected self assesments",
+        "Valitut itsearviot"
+      ],
+      "non-selected_header": [
+        "Non-selected self assesments",
+        "Ei-valitut itsearviot"
+      ]
+    },
+    "SelectionButtons": {
+      "select": [
+        "select all",
+        "valitse kaikki"
+      ],
+      "deselect": [
+        "remove selections",
+        "poista valinnat"
+      ]
+    },
+    "SelfAssesmentCSVDownload": {
       "download_csv": [
         "Download responses as csv",
         "Lataa vastaukset csv-muodossa"

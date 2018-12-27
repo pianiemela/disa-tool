@@ -3,6 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const webpack = require('webpack')
+
 
 module.exports = {
   mode: 'production',
@@ -54,6 +56,15 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].css',
       chunkFilename: '[name]-[id].css'
+    }),
+    new webpack.DefinePlugin({
+      CONFIG: {
+        BASE_PATH: JSON.stringify('')
+      },
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
     })
+
   ]
 }

@@ -68,9 +68,6 @@ export const gradeOptions = async (courseInstanceId) => {
   return sorted.map(d => ({ text: d.name, value: d.id }))
 }
 
-
-
-
 export const objectiveGrades = () => {
   switch (lang) {
     case 'fin':

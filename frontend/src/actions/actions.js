@@ -1,4 +1,4 @@
-import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity } from '../api/courses'
+import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity, getCourseTasks } from '../api/courses'
 import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse, toggleAssessment } from '../api/selfassesment'
 import { getUser, updateCoursePersons } from '../api/persons'
 import { deleteCoursePerson } from '../api/coursePersons'
@@ -176,6 +176,26 @@ export const getCourseInstanceDataAction = courseId => async (dispatch) => {
     })
   }
 }
+
+export const getCourseInstanceTasksAction = instance => async (dispatch) => {
+  dispatch({
+    type: 'COURSES_GET_INSTANCE_TASKS_ATTEMPT',
+    payload: ''
+  })
+  try {
+    const { data } = await getCourseTasks(instance)
+    dispatch({
+      type: 'COURSES_GET_INSTANCE_TASKS_SUCCESS',
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: 'COURSES_GET_INSTANCE_TASKS_FAILURE',
+      payload: e.response
+    })
+  }
+}
+
 
 export const toggleCourseActivityAction = courseId => async (dispatch) => {
   dispatch({
