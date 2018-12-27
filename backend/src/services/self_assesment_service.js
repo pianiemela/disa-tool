@@ -98,10 +98,13 @@ const getOne = async (selfAssesmentId, lang) => {
   return setAssessmentLanguage(assessmentValues, lang)
 }
 
-const toggleAssessment = async (id, attribute) => {
-  const assessment = await SelfAssessment.findById(id)
-  assessment[attribute] = !assessment[attribute]
-  return assessment.save({ returning: true })
+const toggleAssessment = {
+  prepare: async (id, attribute) => {
+    const instance = await SelfAssessment.findById(id)
+    instance[attribute] = !instance[attribute]
+    return instance
+  },
+  execute: async instance => instance.save()
 }
 
 const isFeedbackActive = async (id) => {

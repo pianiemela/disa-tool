@@ -7,6 +7,57 @@ const { checkAuth } = require('../services/auth.js')
 
 const selfAssesmentService = require('../services/self_assesment_service.js')
 
+const messages = {
+  create: {
+    eng: 'Self assessment created succesfully.',
+    fin: 'Itsearviointi luotu onnistuneesti.',
+    swe: ''
+  },
+  update: {
+    eng: 'Self assessment updated succesfully.',
+    fin: 'Itsearviointi päivitetty onnistuneesti.',
+    swe: ''
+  },
+  toggle: {
+    open: {
+      true: {
+        eng: 'Self assesment is now open.',
+        fin: 'Itsearviointi on nyt avoin.',
+        swe: ''
+      },
+      false: {
+        eng: 'Self assesment is now closed.',
+        fin: 'Itsearviointi on nyt suljettu.',
+        swe: ''
+      }
+    },
+    active: {
+      true: {
+        eng: 'Self assesment is now visible.',
+        fin: 'Itsearviointi on nyt näkyvissä.',
+        swe: ''
+      },
+      false: {
+        eng: 'Self assesment is no longer visible.',
+        fin: 'Itsearviointi ei ole enää näkyvissä.',
+        swe: ''
+      }
+    },
+    show_feedback: {
+      true: {
+        eng: 'Self assesment feedback is visible to students.',
+        fin: 'Itseisarvioinnin palaute näkyy opiskelijoille.',
+        swe: ''
+      },
+      false: {
+        eng: 'Self assesment feedback is not visible to students.',
+        fin: 'Itseisarvioinnin palaute ei näy opiskelijoille.',
+        swe: ''
+      }
+    }
+  }
+}
+
 router.post('/create', async (req, res) => {
   try {
     let formData = req.body
@@ -30,7 +81,7 @@ router.post('/create', async (req, res) => {
     const data = await selfAssesmentService.addSelfAssesment(formData, req.lang)
 
     res.status(200).json({
-      message: 'Self assessment created succesfully!',
+      message: messages[req.lang],
       data
     })
   } catch (error) {
@@ -86,7 +137,8 @@ router.put('/update/:id', async (req, res) => {
     ])
     if (!hasPrivilege) {
       res.status(403).json({
-        error: errors.unexpected[req.lang]
+        toast: errors.privilege.toast,
+        error: errors.privilege[req.lang]
       })
       return
     }
@@ -94,7 +146,7 @@ router.put('/update/:id', async (req, res) => {
     data = destructureNamesAndInstructions(data, formInfo)
     data = await selfAssesmentService.updateSelfAssesment(data, req.lang)
     res.status(200).json({
-      message: 'Self assessment updated succesfully',
+      message: messages.update[req.lang],
       data
     })
   } catch (error) {
@@ -108,9 +160,24 @@ router.put('/update/:id', async (req, res) => {
 router.put('/toggle/:id', async (req, res) => {
   const { id } = req.params
   const { attribute } = req.body
-  const assessment = await selfAssesmentService.toggleAssessment(id, attribute)
-  return res.status(200).json({
-    message: `Self assessment property ${attribute} is now ${assessment[attribute] ? 'enabled' : 'disabled'}`,
+  const instance = await selfAssesmentService.toggleAssessment.prepare(id, attribute)
+  const assessment = instance.toJSON()
+  const hasPrivilege = await checkPrivilege(req, [
+    {
+      key: 'teacher_on_course',
+      param: assessment.course_instance_id
+    }
+  ])
+  if (!hasPrivilege) {
+    res.status(403).json({
+      toast: errors.privilege.toast,
+      error: errors.privilege[req.lang]
+    })
+    return
+  }
+  selfAssesmentService.toggleAssessment.execute(instance)
+  res.status(200).json({
+    message: messages.toggle[attribute][String(assessment[attribute])][req.lang],
     assessment
   })
 })
