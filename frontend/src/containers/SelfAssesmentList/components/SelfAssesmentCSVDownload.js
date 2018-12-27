@@ -5,6 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import { CSVLink } from 'react-csv'
 import { responseProp } from '../propTypes'
+import { objectiveGrades } from '../../SelfAssessmentForm/utils'
 
 const replaceQuotesAndLineBreaks = str => (
   typeof str === 'string' ? (
@@ -29,7 +30,7 @@ const formatToCsv = (responses) => {
         [`${question.name}_grade`]: question.grade_name,
         [`${question.name}_calculated_grade`]: findCalculatedGrade(question)
       }) : ({
-        [question.name]: question.grade
+        [question.name]: objectiveGrades()[question.grade]
       })
     ))
     const openResponses = response.response.openQuestionResponses.map(question => (
