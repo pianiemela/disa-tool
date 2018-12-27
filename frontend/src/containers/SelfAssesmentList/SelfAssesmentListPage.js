@@ -11,7 +11,7 @@ import LinkExport from '../User/components/LinkExport'
 import ResponseList from './components/ResponseList'
 import SelectionButtons from './components/SelectionButtons'
 import SelfAssesmentCSVDownload from './components/SelfAssesmentCSVDownload'
-import { init, regenerate } from './actions/selfAssesmentList'
+import { init, regenerate, reset } from './actions/selfAssesmentList'
 import { responseProp } from './propTypes'
 
 class SelfAssesmentListPage extends Component {
@@ -38,6 +38,10 @@ class SelfAssesmentListPage extends Component {
     this.setState({
       loading: false
     })
+  }
+
+  componentWillUnmount() {
+    this.props.dispatchReset()
   }
 
   translate = id => this.props.translate(`SelfAssessmentList.SelfAssessmentListPage.${id}`)
@@ -159,6 +163,7 @@ SelfAssesmentListPage.propTypes = {
   selectedResponses: arrayOf(shape({})).isRequired,
   dispatchInit: func.isRequired,
   dispatchRegenerate: func.isRequired,
+  dispatchReset: func.isRequired,
   activeResponse: responseProp
 }
 
@@ -176,7 +181,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   dispatchInit: init(dispatch),
-  dispatchRegenerate: regenerate(dispatch)
+  dispatchRegenerate: regenerate(dispatch),
+  dispatchReset: reset(dispatch)
 })
 
 export default withLocalize((

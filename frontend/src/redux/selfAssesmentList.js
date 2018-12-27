@@ -15,6 +15,8 @@ const selfAssesmentListReducer = (state = INITIAL_STATE, action) => {
         selfAssesmentName: action.selfAssesmentName,
         responses: action.responses
       }
+    case 'SELF_ASSESMENT_LIST_RESET':
+      return INITIAL_STATE
     case 'SELF_ASSESMENT_LIST_SELECT_RESPONSE': {
       const { selectedResponses } = state
       const newSelectedResponses = (

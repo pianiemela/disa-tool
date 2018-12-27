@@ -7,7 +7,9 @@ import { CSVLink } from 'react-csv'
 import { responseProp } from '../propTypes'
 
 const replaceQuotesAndLineBreaks = str => (
-  str.replace(/["]/g, '""').replace(/(\r\n|\n|\r)/gm, ' ')
+  typeof str === 'string' ? (
+    str.replace(/["]/g, '""').replace(/(\r\n|\n|\r)/gm, ' ')
+  ) : ''
 )
 
 const formatToCsv = (responses) => {
@@ -20,10 +22,15 @@ const formatToCsv = (responses) => {
       return category.earnedGrade.name
     }
     const questionResponses = response.response.questionModuleResponses.map(question => (
-      { [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText),
+      // If question modules are by category, then responseText will be populated.
+      // This is a hacky way of sequestering the two possibilities.
+      question.responseText ? ({
+        [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText),
         [`${question.name}_grade`]: question.grade_name,
         [`${question.name}_calculated_grade`]: findCalculatedGrade(question)
-      }
+      }) : ({
+        [question.name]: question.grade
+      })
     ))
     const openResponses = response.response.openQuestionResponses.map(question => (
       { [`${question.name}_text`]: replaceQuotesAndLineBreaks(question.responseText) }

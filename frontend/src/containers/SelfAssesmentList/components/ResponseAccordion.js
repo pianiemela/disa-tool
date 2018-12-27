@@ -7,6 +7,14 @@ import { withLocalize } from 'react-localize-redux'
 import { responseProp } from '../propTypes'
 import { activateResponse } from '../actions/selfAssesmentList'
 
+const findVerificationGrade = (verification, categoryName) => {
+  const category = verification.categoryVerifications.find(c => c.categoryName === categoryName)
+  if (!category) {
+    return null
+  }
+  return category.earnedGrade.name
+}
+
 class ResponseAccordion extends PureComponent {
   translate = id => this.props.translate(`SelfAssessmentList.SelfAssessmentListPage.${id}`)
 
@@ -60,7 +68,7 @@ class ResponseAccordion extends PureComponent {
                           <Table.Cell>{qmResponse.name}</Table.Cell>
                           <Table.Cell textAlign="center">{qmResponse.grade_name}</Table.Cell>
                           <Table.Cell textAlign="center">
-                            {this.findVerifiactionGrade(verification, qmResponse.name)}
+                            {findVerificationGrade(verification, qmResponse.name)}
                           </Table.Cell>
                           <Table.Cell textAlign="center" positive={diff < 0} negative={diff > 0} >
                             {diff}

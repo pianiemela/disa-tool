@@ -27,3 +27,7 @@ export const regenerate = dispatch => newResponses => dispatch({
   type: 'SELF_ASSESMENT_LIST_REGERATE',
   newResponses
 })
+
+export const reset = dispatch => () => dispatch({
+  type: 'SELF_ASSESMENT_LIST_RESET'
+})
