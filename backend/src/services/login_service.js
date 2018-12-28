@@ -1,17 +1,26 @@
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
 const https = require('https')
+const fs = require('fs')
 const { Op } = require('sequelize')
+require('dotenv').config()
 
 const { Person } = require('../database/models.js')
+
+const cert = process.env.KURKI_CERT ? fs.readFileSync(process.env.KURKI_CERT) : null
+let httpsAgent
+if (cert) {
+  httpsAgent = new https.Agent({ ca: cert })
+} else {
+  httpsAgent = new https.Agent({ rejectUnauthorized: false })
+  console.warn('No file path set for Kurki api certificate. Set it in .env as KURKI_CERT.')
+}
 
 const login = async (body) => {
   const result = await axios.post(
     `${process.env.KURKI_URL}/login`,
     body, {
-      httpsAgent: new https.Agent({
-        rejectUnauthorized: false // This is supposedly fine for this server.
-      })
+      httpsAgent
     }).catch(() => ({ data: { error: 'connection_prob' } }))
   if (result.data.error) {
     if (result.data.error === 'wrong credentials') {
