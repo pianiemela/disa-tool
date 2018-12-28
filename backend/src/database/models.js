@@ -11,7 +11,8 @@ const Task = sequelize.define('task', {
   swe_description: { type: Sequelize.STRING(2000) },
   max_points: { type: Sequelize.DOUBLE },
   info: { type: Sequelize.STRING },
-  course_instance_id: { type: Sequelize.BIGINT }
+  course_instance_id: { type: Sequelize.BIGINT },
+  order: { type: Sequelize.FLOAT }
 },
 {
   tableName: 'task',
@@ -24,7 +25,8 @@ const TypeHeader = sequelize.define('type_header', {
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
-  course_instance_id: { type: Sequelize.BIGINT }
+  course_instance_id: { type: Sequelize.BIGINT },
+  order: { type: Sequelize.FLOAT }
 },
 {
   tableName: 'type_header',
@@ -38,7 +40,8 @@ const Type = sequelize.define('type', {
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
   multiplier: { type: Sequelize.DOUBLE },
-  type_header_id: { type: Sequelize.BIGINT }
+  type_header_id: { type: Sequelize.BIGINT },
+  order: { type: Sequelize.FLOAT }
 },
 {
   tableName: 'type',
@@ -62,7 +65,8 @@ const Category = sequelize.define('category', {
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
-  course_instance_id: { type: Sequelize.BIGINT }
+  course_instance_id: { type: Sequelize.BIGINT },
+  order: { type: Sequelize.FLOAT }
 },
 {
   tableName: 'category',
@@ -77,7 +81,8 @@ const Objective = sequelize.define('objective', {
   swe_name: { type: Sequelize.STRING },
   category_id: { type: Sequelize.BIGINT },
   course_instance_id: { type: Sequelize.BIGINT },
-  skill_level_id: { type: Sequelize.BIGINT }
+  skill_level_id: { type: Sequelize.BIGINT },
+  order: { type: Sequelize.FLOAT }
 },
 {
   tableName: 'objective',
@@ -103,7 +108,8 @@ const SkillLevel = sequelize.define('skill_level', {
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
-  course_instance_id: { type: Sequelize.BIGINT }
+  course_instance_id: { type: Sequelize.BIGINT },
+  order: { type: Sequelize.FLOAT }
 },
 {
   tableName: 'skill_level',
@@ -118,7 +124,8 @@ const Grade = sequelize.define('grade', {
   swe_name: { type: Sequelize.STRING },
   needed_for_grade: { type: Sequelize.DOUBLE },
   skill_level_id: { type: Sequelize.BIGINT },
-  prerequisite: { type: Sequelize.BIGINT }
+  prerequisite: { type: Sequelize.BIGINT },
+  order: { type: Sequelize.FLOAT }
 },
 {
   tableName: 'grade',
