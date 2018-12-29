@@ -21,6 +21,31 @@ const typeReducer = (state = INITIAL_STATE, action) => {
             } : type))
           } : header))
       }
+    case 'TYPE_MOVE':
+      return {
+        ...state,
+        headers: state.headers.map(header => (header.id === action.type_header_id ? ({
+          ...header,
+          types: header.types.map((type) => {
+            switch (type.id) {
+              case action.drag.id:
+                return {
+                  ...type,
+                  order: action.hover.order
+                }
+              case action.hover.id:
+                return {
+                  ...type,
+                  order: action.drag.order
+                }
+              default:
+                return type
+            }
+          })
+        }) : (
+          header
+        )))
+      }
     case 'TYPE_DELETE':
       return {
         ...state,
@@ -61,6 +86,26 @@ const typeReducer = (state = INITIAL_STATE, action) => {
             name: action.response.edited.name
           }) : header
         ))
+      }
+    case 'TYPE_HEADER_MOVE':
+      return {
+        ...state,
+        headers: state.headers.map((header) => {
+          switch (header.id) {
+            case action.drag.id:
+              return {
+                ...header,
+                order: action.hover.order
+              }
+            case action.hover.id:
+              return {
+                ...header,
+                order: action.drag.order
+              }
+            default:
+              return header
+          }
+        })
       }
     default:
       return state

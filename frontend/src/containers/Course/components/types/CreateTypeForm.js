@@ -17,7 +17,8 @@ export class CreateTypeForm extends Component {
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value,
-      multiplier: Number(e.target.multiplier.value)
+      multiplier: Number(e.target.multiplier.value),
+      order: this.props.newOrder
     })
   }
 
@@ -52,7 +53,8 @@ export class CreateTypeForm extends Component {
 CreateTypeForm.propTypes = {
   addType: PropTypes.func.isRequired,
   headerId: PropTypes.number.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  newOrder: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

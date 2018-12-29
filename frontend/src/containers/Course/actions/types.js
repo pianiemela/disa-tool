@@ -24,3 +24,24 @@ export const editType = data => apiPromise(edit, data, {
 export const editHeader = data => apiPromise(headerEdit, data, {
   success: { type: 'TYPE_HEADER_EDIT' }
 })
+
+export const moveType = dispatch => typeHeaderId => (drag, hover) => {
+  edit({ id: drag.id, order: hover.order })
+  edit({ id: hover.id, order: drag.order })
+  dispatch({
+    type: 'TYPE_MOVE',
+    drag,
+    hover,
+    type_header_id: typeHeaderId
+  })
+}
+
+export const moveHeader = dispatch => (drag, hover) => {
+  headerEdit({ id: drag.id, order: hover.order })
+  headerEdit({ id: hover.id, order: drag.order })
+  dispatch({
+    type: 'TYPE_HEADER_MOVE',
+    drag,
+    hover
+  })
+}
