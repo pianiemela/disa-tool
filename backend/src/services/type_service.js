@@ -8,7 +8,8 @@ const create = {
       fin_name: data.fin_name,
       swe_name: data.swe_name,
       type_header_id: data.type_header_id,
-      multiplier: data.multiplier
+      multiplier: data.multiplier,
+      order: data.order
     })
     const header = await TypeHeader.findById(data.type_header_id)
     return {
@@ -23,7 +24,8 @@ const create = {
       id: json.id,
       name: json[`${lang}_name`],
       type_header_id: json.type_header_id,
-      multiplier: json.multiplier
+      multiplier: json.multiplier,
+      order: json.order
     }
   }
 }
@@ -58,7 +60,8 @@ const createHeader = {
     eng_name: data.eng_name,
     fin_name: data.fin_name,
     swe_name: data.swe_name,
-    course_instance_id: data.course_instance_id
+    course_instance_id: data.course_instance_id,
+    order: data.order
   }),
   execute: instance => instance.save(),
   value: (instance, lang) => {
@@ -66,7 +69,8 @@ const createHeader = {
     return {
       id: json.id,
       name: json[`${lang}_name`],
-      types: []
+      types: [],
+      order: json.order
     }
   }
 }

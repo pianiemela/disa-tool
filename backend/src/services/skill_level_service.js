@@ -7,7 +7,8 @@ const create = {
       course_instance_id: data.course_instance_id,
       eng_name: data.eng_name,
       fin_name: data.fin_name,
-      swe_name: data.swe_name
+      swe_name: data.swe_name,
+      order: data.order
     })
     return instance
   },
@@ -16,7 +17,8 @@ const create = {
     const json = instance.toJSON()
     return {
       id: json.id,
-      name: json[`${lang}_name`]
+      name: json[`${lang}_name`],
+      order: json.order
     }
   }
 }
