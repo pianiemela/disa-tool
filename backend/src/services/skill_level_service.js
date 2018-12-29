@@ -67,11 +67,13 @@ const { details, edit } = editServices(
     saveFields: [
       'eng_name',
       'fin_name',
-      'swe_name'
+      'swe_name',
+      'order'
     ],
     valueFields: [
       'id',
-      ['lang_name', 'name']
+      ['lang_name', 'name'],
+      'order'
     ]
   }
 )

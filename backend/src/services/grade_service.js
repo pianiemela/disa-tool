@@ -83,7 +83,8 @@ const { details, edit } = editServices(
       'swe_name',
       'skill_level_id',
       'needed_for_grade',
-      'prerequisite'
+      'prerequisite',
+      'order'
     ],
     valueFields: [
       'id',
@@ -91,7 +92,8 @@ const { details, edit } = editServices(
       'skill_level_id',
       'needed_for_grade',
       'prerequisite',
-      'category_grades'
+      'category_grades',
+      'order'
     ]
   }
 )

@@ -323,14 +323,16 @@ const { details, edit } = editServices(
       'fin_description',
       'swe_description',
       'info',
-      'max_points'
+      'max_points',
+      'order'
     ],
     valueFields: [
       'id',
       ['lang_name', 'name'],
       ['lang_description', 'description'],
       'info',
-      'max_points'
+      'max_points',
+      'order'
     ]
   }
 )

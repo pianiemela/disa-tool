@@ -98,13 +98,15 @@ const { details, edit } = editServices(
       'fin_name',
       'swe_name',
       'category_id',
-      'skill_level_id'
+      'skill_level_id',
+      'order'
     ],
     valueFields: [
       'id',
       ['lang_name', 'name'],
       'category_id',
-      'skill_level_id'
+      'skill_level_id',
+      'order'
     ]
   }
 )

@@ -98,13 +98,15 @@ const { details, edit } = editServices(
       'eng_name',
       'fin_name',
       'swe_name',
-      'multiplier'
+      'multiplier',
+      'order'
     ],
     valueFields: [
       'id',
       ['lang_name', 'name'],
       'multiplier',
-      'type_header_id'
+      'type_header_id',
+      'order'
     ]
   },
 )
@@ -117,11 +119,13 @@ const headerEdit = editServices(
     saveFields: [
       'eng_name',
       'fin_name',
-      'swe_name'
+      'swe_name',
+      'order'
     ],
     valueFields: [
       'id',
-      ['lang_name', 'name']
+      ['lang_name', 'name'],
+      'order'
     ]
   }
 )
