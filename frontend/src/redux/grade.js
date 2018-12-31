@@ -27,8 +27,31 @@ const gradeReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         grades: state.grades.map(grade => (
-          grade.id === action.response.edited.id ? action.response.edited : grade
+          grade.id === action.response.edited.id ? ({
+            ...grade,
+            ...action.response.edited
+          }) : grade
         ))
+      }
+    case 'GRADE_MOVE':
+      return {
+        ...state,
+        grades: state.grades.map((grade) => {
+          switch (grade.id) {
+            case action.drag.id:
+              return {
+                ...grade,
+                order: action.hover.order
+              }
+            case action.hover.id:
+              return {
+                ...grade,
+                order: action.drag.order
+              }
+            default:
+              return grade
+          }
+        })
       }
     case 'GRADE_UPDATE_CATEGORY_GRADES_SUCCESS': {
       const { updatedCategoryGrades } = action.payload

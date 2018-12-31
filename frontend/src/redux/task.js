@@ -189,6 +189,7 @@ const taskReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         tasks: state.tasks.map(task => (task.id === action.response.edited.id ? {
+          order: task.order,
           ...action.response.edited,
           max_points: Number(action.response.edited.max_points),
           types: task.types,

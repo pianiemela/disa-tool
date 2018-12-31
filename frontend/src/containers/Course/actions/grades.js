@@ -16,3 +16,13 @@ export const removeGrade = data => apiPromise(remove, data, {
 export const editGrade = data => apiPromise(edit, data, {
   success: { type: 'GRADE_EDIT' }
 })
+
+export const moveGrade = dispatch => (drag, hover) => {
+  edit({ id: drag.id, order: hover.order })
+  edit({ id: hover.id, order: drag.order })
+  dispatch({
+    type: 'GRADE_MOVE',
+    drag,
+    hover
+  })
+}

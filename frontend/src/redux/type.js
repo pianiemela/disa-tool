@@ -16,6 +16,7 @@ const typeReducer = (state = INITIAL_STATE, action) => {
           .map(header => (header.id === action.response.edited.type_header_id ? {
             ...header,
             types: header.types.map(type => (type.id === action.response.edited.id ? {
+              ...type,
               ...action.response.edited,
               type_header_id: undefined
             } : type))

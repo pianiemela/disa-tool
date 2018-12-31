@@ -5,7 +5,7 @@ const editServices = require('../utils/editServices.js')
 const getByCourse = async (id, lang) => {
   const name = [`${lang}_name`, 'name']
   const result = await Grade.findAll({
-    attributes: ['id', name, 'skill_level_id', 'needed_for_grade', 'prerequisite'],
+    attributes: ['id', name, 'skill_level_id', 'needed_for_grade', 'prerequisite', 'order'],
     include: [
       {
         model: SkillLevel,

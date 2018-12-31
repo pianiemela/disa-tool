@@ -24,7 +24,8 @@ class CreateGradeForm extends Component {
     swe_name: e.target.swe_name.value,
     skill_level_id: this.state.values.skill_level,
     needed_for_grade: e.target.needed_for_grade.value,
-    prerequisite: this.state.values.prerequisite
+    prerequisite: this.state.values.prerequisite,
+    order: this.props.newOrder
   })
 
   changeDropdown = field => (e, { value }) => this.setState({
@@ -104,7 +105,8 @@ CreateGradeForm.propTypes = {
     name: PropTypes.string.isRequired
   })).isRequired,
   addGrade: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  newOrder: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
