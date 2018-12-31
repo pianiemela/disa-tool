@@ -197,6 +197,26 @@ const taskReducer = (state = INITIAL_STATE, action) => {
           defaultMultiplier: task.defaultMultiplier
         } : task))
       }
+    case 'TASK_MOVE':
+      return {
+        ...state,
+        tasks: state.tasks.map((task) => {
+          switch (task.id) {
+            case action.drag.id:
+              return {
+                ...task,
+                order: action.hover.order
+              }
+            case action.hover.id:
+              return {
+                ...task,
+                order: action.drag.order
+              }
+            default:
+              return task
+          }
+        })
+      }
     case 'TASK_EDIT_OBJECTIVE_MULTIPLIERS':
       return {
         ...state,
