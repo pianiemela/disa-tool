@@ -52,7 +52,6 @@ export class Task extends Component {
       <DnDItem element={this.props.task} mover={this.props.moveTask}>
         <div className="Task">
           <Segment
-            fluid
             textAlign="center"
             style={{ padding: '2px' }}
           >

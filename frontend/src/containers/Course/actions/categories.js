@@ -12,3 +12,13 @@ export const removeCategory = data => apiPromise(remove, data, {
 export const editCategory = data => apiPromise(edit, data, {
   success: { type: 'CATEGORY_EDIT' }
 })
+
+export const moveCategory = dispatch => (drag, hover) => {
+  edit({ id: drag.id, order: hover.order })
+  edit({ id: hover.id, order: drag.order })
+  dispatch({
+    type: 'CATEGORY_MOVE',
+    drag,
+    hover
+  })
+}

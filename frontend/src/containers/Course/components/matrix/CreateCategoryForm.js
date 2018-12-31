@@ -16,7 +16,8 @@ export class CreateCategoryForm extends Component {
       course_instance_id: this.props.courseId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
-      swe_name: e.target.swe_name.value
+      swe_name: e.target.swe_name.value,
+      order: this.props.newOrder
     })
   }
 
@@ -45,7 +46,8 @@ export class CreateCategoryForm extends Component {
 CreateCategoryForm.propTypes = {
   courseId: PropTypes.number.isRequired,
   addCategory: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  newOrder: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

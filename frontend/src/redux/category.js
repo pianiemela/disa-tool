@@ -1,3 +1,5 @@
+import moveMapper from '../utils/reduxHelpers/moveMapper'
+
 const INITIAL_STATE = {
   categories: []
 }
@@ -92,6 +94,14 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
             .filter(level => level.id !== action.response.deleted.id)
         }))
       }
+    case 'LEVEL_MOVE':
+      return {
+        ...state,
+        categories: state.categories.map(category => ({
+          ...category,
+          skill_levels: category.skill_levels.map(moveMapper(action))
+        }))
+      }
     case 'TASK_ATTACH_OBJECTIVE':
       return {
         ...state,
@@ -151,6 +161,11 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
             name: action.response.edited.name
           }) : category
         ))
+      }
+    case 'CATEGORY_MOVE':
+      return {
+        ...state,
+        categories: state.categories.map(moveMapper(action))
       }
     case 'OBJECTIVE_MOVE':
       return {

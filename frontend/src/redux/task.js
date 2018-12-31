@@ -1,3 +1,5 @@
+import moveMapper from '../utils/reduxHelpers/moveMapper'
+
 const INITIAL_STATE = {
   tasks: [],
   active: null,
@@ -200,22 +202,7 @@ const taskReducer = (state = INITIAL_STATE, action) => {
     case 'TASK_MOVE':
       return {
         ...state,
-        tasks: state.tasks.map((task) => {
-          switch (task.id) {
-            case action.drag.id:
-              return {
-                ...task,
-                order: action.hover.order
-              }
-            case action.hover.id:
-              return {
-                ...task,
-                order: action.drag.order
-              }
-            default:
-              return task
-          }
-        })
+        tasks: state.tasks.map(moveMapper(action))
       }
     case 'TASK_EDIT_OBJECTIVE_MULTIPLIERS':
       return {

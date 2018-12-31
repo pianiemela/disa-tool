@@ -1,3 +1,5 @@
+import moveMapper from '../utils/reduxHelpers/moveMapper'
+
 const INITIAL_STATE = {
   levels: []
 }
@@ -33,6 +35,11 @@ const levelReducer = (state = INITIAL_STATE, action) => {
             name: action.response.edited.name
           }) : level
         ))
+      }
+    case 'LEVEL_MOVE':
+      return {
+        ...state,
+        levels: state.levels.map(moveMapper(action))
       }
     default:
       return state

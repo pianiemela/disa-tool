@@ -11,6 +11,11 @@
   display: flex;
 }
 
+.flexGrower {
+  flex-grow: 1;
+  width: 100%;
+}
+
 .paddedBlock {
   display: inline-block;
   padding: 0px 5px 0px 5px;

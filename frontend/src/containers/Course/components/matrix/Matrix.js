@@ -3,16 +3,12 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Table, Container } from 'semantic-ui-react'
+
 import './matrix.css'
-import asyncAction from '../../../../utils/asyncAction'
-
-import { removeLevel } from '../../actions/levels'
-
 import MatrixCategory from './MatrixCategory'
 import CreateCategoryForm from './CreateCategoryForm'
 import CreateLevelForm from './CreateLevelForm'
-import EditLevelForm from './EditLevelForm'
-import DeleteForm from '../../../../utils/components/DeleteForm'
+import HeaderLevel from './HeaderLevel'
 
 export const Matrix = (props) => {
   const activeMap = {}
@@ -24,7 +20,16 @@ export const Matrix = (props) => {
     })
   }
   const translate = id => props.translate(`Course.matrix.Matrix.${id}`)
-
+  const categories = props.categories.sort((a, b) => a.order - b.order)
+  let newCategoryOrder = 1
+  if (categories.length > 0) {
+    newCategoryOrder = categories[categories.length - 1].order + 1
+  }
+  const levels = props.levels.sort((a, b) => a.order - b.order)
+  let newLevelOrder = 1
+  if (levels.length > 0) {
+    newLevelOrder = levels[levels.length - 1].order + 1
+  }
   return (
     <Container>
       <Table celled structured unstackable>
@@ -33,37 +38,16 @@ export const Matrix = (props) => {
             <Table.HeaderCell rowSpan={2}>
               <span className="capitalize">{translate('category')}</span>
             </Table.HeaderCell>
-            <Table.HeaderCell colSpan={props.levels.length} textAlign="center">
+            <Table.HeaderCell colSpan={levels.length + props.editing} textAlign="center">
               <span className="capitalize">{translate('skill_levels')}</span>
             </Table.HeaderCell>
           </Table.Row>
           <Table.Row>
-            {props.levels.map(level => (
-              <Table.HeaderCell key={level.id} textAlign="center">
-                {level.name}
-                {props.editing ? (
-                  <div className="flexContainer">
-                    <div className="paddedBlock">
-                      <EditLevelForm levelId={level.id} />
-                    </div>
-                    <div className="paddedBlock">
-                      <DeleteForm
-                        onExecute={() => props.removeLevel({ id: level.id })}
-                        prompt={[
-                          translate('delete_prompt_1'),
-                          `"${level.name}"`
-                        ]}
-                        header={translate('delete_header')}
-                      />
-                    </div>
-                  </div>
-                ) : (
-                    null
-                  )}
-              </Table.HeaderCell>
+            {levels.map(level => (
+              <HeaderLevel key={level.id} level={level} editing={props.editing} />
             ))}
             {props.editing ? (
-              <CreateLevelForm courseId={props.courseId} />
+              <CreateLevelForm courseId={props.courseId} newOrder={newLevelOrder} />
             ) : (
                 null
               )}
@@ -71,7 +55,7 @@ export const Matrix = (props) => {
         </Table.Header>
 
         <Table.Body>
-          {props.categories.map(category => (
+          {categories.map(category => (
             <MatrixCategory
               key={category.id}
               category={category}
@@ -83,7 +67,7 @@ export const Matrix = (props) => {
             />
           ))}
           {props.editing ? (
-            <CreateCategoryForm courseId={props.courseId} />
+            <CreateCategoryForm courseId={props.courseId} newOrder={newCategoryOrder} />
           ) : (
               null
             )}
@@ -129,10 +113,4 @@ const mapStateToProps = (state, ownProps) => ({
   )
 })
 
-const mapDispatchToProps = dispatch => ({
-  // TODO: refactor to pass actions as parameters to dispatch (i.e. dispatch(action)),
-  // not the other way around as these are now.
-  removeLevel: asyncAction(removeLevel, dispatch)
-})
-
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(Matrix))
+export default withLocalize(connect(mapStateToProps, null)(Matrix))

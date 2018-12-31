@@ -407,7 +407,8 @@
           "Muokkaa oppimistavoitetta"
         ]
       },
-      "Matrix": {
+      "Matrix": {},
+      "HeaderLevel": {
         "delete_header": [
           "Delete skill level",
           "Poista oppimistaso"
