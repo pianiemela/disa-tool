@@ -45,7 +45,12 @@ export class Task extends Component {
 
   render() {
     return (
-      <div className="Task">
+      <DnDItem
+        className="Task"
+        element={this.props.task}
+        mover={this.props.moveTask}
+        slots={this.props.slots}
+      >
         <Segment
           textAlign="center"
           style={{ padding: '2px' }}
@@ -53,13 +58,7 @@ export class Task extends Component {
           <Grid>
             <Grid.Row>
               <Grid.Column width={14}>
-                <DnDItem
-                  element={this.props.task}
-                  mover={this.props.moveTask}
-                  slots={this.props.slots}
-                >
-                  <Header style={{ marginTop: '5px' }}>{this.props.task.name}</Header>
-                </DnDItem>
+                <Header style={{ marginTop: '5px' }}>{this.props.task.name}</Header>
               </Grid.Column>
               <Grid.Column width={1}>
                 <Button
@@ -90,7 +89,7 @@ export class Task extends Component {
             {this.renderExpanded()}
           </Grid>
         </Segment>
-      </div>
+      </DnDItem>
     )
   }
 }
