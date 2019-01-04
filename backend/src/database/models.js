@@ -76,9 +76,9 @@ const Category = sequelize.define('category', {
 
 const Objective = sequelize.define('objective', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
-  eng_name: { type: Sequelize.STRING },
-  fin_name: { type: Sequelize.STRING },
-  swe_name: { type: Sequelize.STRING },
+  eng_name: { type: Sequelize.TEXT },
+  fin_name: { type: Sequelize.TEXT },
+  swe_name: { type: Sequelize.TEXT },
   category_id: { type: Sequelize.BIGINT },
   course_instance_id: { type: Sequelize.BIGINT },
   skill_level_id: { type: Sequelize.BIGINT },
