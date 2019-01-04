@@ -4,6 +4,8 @@ import DeleteForm from '../../../../../utils/components/DeleteForm'
 import EditTaskForm from '../../../../../containers/Course/components/tasks/EditTaskForm'
 import { findText } from '../../../../testUtils'
 
+Task.propTypes = {}
+
 const task = {
   id: 1,
   name: 'Tehtävä 1. (Tee voltti)',
@@ -54,6 +56,7 @@ describe('Task component', () => {
       active={false}
       changeActive={changeActive}
       translate={() => ''}
+      moveTask={() => {}}
     />)
   })
 

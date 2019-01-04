@@ -12,6 +12,7 @@ describe('CreateHeaderForm component', () => {
       addHeader={mockFn}
       courseId={1}
       translate={() => ''}
+      newOrder={1}
     />)
   })
 

@@ -2,6 +2,8 @@ import React from 'react'
 import { MatrixCategory } from '../../../../../containers/Course/components/matrix/MatrixCategory'
 import MatrixLevel from '../../../../../containers/Course/components/matrix/MatrixLevel'
 
+MatrixCategory.proptypes = {}
+
 const category = {
   id: 1,
   name: 'Test Category',
@@ -18,7 +20,8 @@ const category = {
       id: 3,
       objectives: []
     }
-  ]
+  ],
+  order: 1
 }
 const mockFn = () => {}
 
@@ -34,6 +37,8 @@ describe('MatrixCategory component', () => {
       activeMap={{}}
       activeTaskId={null}
       translate={() => ''}
+      moveCategory={() => {}}
+      slots={{ previous: 0, next: 2 }}
     />)
   })
 

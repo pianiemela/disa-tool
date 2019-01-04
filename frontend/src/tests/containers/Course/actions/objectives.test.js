@@ -1,4 +1,4 @@
-import { addObjective, removeObjective, editObjective, moveObjective } from '../../../../containers/Course/actions/objectives'
+import { addObjective, removeObjective, editObjective } from '../../../../containers/Course/actions/objectives'
 import { testService } from '../../../testUtils'
 
 testService({
@@ -39,20 +39,6 @@ testService({
     eng_name: 'doot',
     fin_name: 'dööt',
     swe_name: 'dååt'
-  },
-  apiRoute: '/objectives/15',
-  apiMethod: 'put'
-})
-
-testService({
-  func: moveObjective,
-  type: {
-    success: 'OBJECTIVE_MOVE'
-  },
-  data: {
-    id: 15,
-    skill_level_id: 3,
-    category_id: 7
   },
   apiRoute: '/objectives/15',
   apiMethod: 'put'

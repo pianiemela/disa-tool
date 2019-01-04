@@ -28,6 +28,7 @@ describe('Typelist component', () => {
       editing={false}
       activeTaskId={1}
       activeMap={activeMap}
+      moveType={() => {}}
     />)
   })
 

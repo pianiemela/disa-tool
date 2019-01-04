@@ -1,5 +1,5 @@
 import React from 'react'
-import MatrixLevel from '../../../../../containers/Course/components/matrix/MatrixLevel'
+import { MatrixLevel } from '../../../../../containers/Course/components/matrix/MatrixLevel'
 import MatrixObjective from '../../../../../containers/Course/components/matrix/MatrixObjective'
 import CreateObjectiveForm from '../../../../../containers/Course/components/matrix/CreateObjectiveForm'
 
@@ -27,12 +27,13 @@ describe('MatrixLevel component', () => {
 
   beforeEach(() => {
     wrapper = shallow(<MatrixLevel
-      category={{}}
+      category={{ id: 1 }}
       level={level}
       courseId={1}
       editing={false}
       activeMap={{}}
       activeTaskId={null}
+      moveObjective={() => {}}
     />)
   })
 

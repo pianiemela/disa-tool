@@ -35,7 +35,7 @@ export const TypeHeader = (props) => {
       mover={moveHeader}
       slots={slots}
     >
-      <Segment>
+      <Segment className="TypeHeader">
         <div className="flexContainer">
           <Header className="typeHeaderHeader">{header.name}</Header>
           {props.editing ? (

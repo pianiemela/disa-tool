@@ -4,6 +4,8 @@ import DeleteForm from '../../../../../utils/components/DeleteForm'
 import EditTypeForm from '../../../../../containers/Course/components/types/EditTypeForm'
 import { findText } from '../../../../testUtils'
 
+Type.proptypes = {}
+
 const type = {
   id: 1,
   name: 'Test Type',
@@ -26,6 +28,9 @@ describe('Type component', () => {
       active={false}
       toggleType={toggleType}
       translate={() => ''}
+      moveType={() => {}}
+      headerId={1}
+      slots={{ previous: 0, next: 2 }}
     />)
   })
 

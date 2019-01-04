@@ -25,7 +25,7 @@ const DnDItem = dndItem('objective', {
   }
 })
 
-const MatrixLevel = (props) => {
+export const MatrixLevel = (props) => {
   const objectives = props.level.objectives.sort((a, b) => a.order - b.order)
   let newOrder = 1
   const objectivesNode = objectives.map((objective, index, objectivesArray) => {

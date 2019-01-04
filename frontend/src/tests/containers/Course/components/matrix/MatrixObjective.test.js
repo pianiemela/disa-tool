@@ -2,6 +2,8 @@ import React from 'react'
 import { MatrixObjective } from '../../../../../containers/Course/components/matrix/MatrixObjective'
 import DeleteForm from '../../../../../utils/components/DeleteForm'
 
+MatrixObjective.propTypes = {}
+
 const objective = {
   id: 1,
   name: 'Test objective',
@@ -29,6 +31,7 @@ describe('MatrixObjective component', () => {
       wasCut={false}
       cut={mockFn}
       translate={() => ''}
+      moveObjective={() => {}}
     />)
   })
 
