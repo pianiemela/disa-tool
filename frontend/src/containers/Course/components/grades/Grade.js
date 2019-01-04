@@ -55,6 +55,13 @@ const Grade = (props) => {
               <Grid.Column width={2}>
                 <div className="flexContainer">
                   <div className="flexBlock">
+                    <EditGradeForm
+                      gradeId={props.grade.id}
+                      grades={props.grades.filter(grade => grade.id !== props.grade.id)}
+                      levels={props.levels}
+                    />
+                  </div>
+                  <div className="flexBlock">
                     <DeleteForm
                       onExecute={() => props.removeGrade({ id: props.grade.id })}
                       header={translate('delete_header')}
@@ -62,13 +69,6 @@ const Grade = (props) => {
                         translate('delete_prompt_1'),
                         props.grade.name
                       ]}
-                    />
-                  </div>
-                  <div className="flexBlock">
-                    <EditGradeForm
-                      gradeId={props.grade.id}
-                      grades={props.grades.filter(grade => grade.id !== props.grade.id)}
-                      levels={props.levels}
                     />
                   </div>
                 </div>

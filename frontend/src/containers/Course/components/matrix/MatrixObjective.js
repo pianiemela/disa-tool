@@ -198,6 +198,7 @@ export class MatrixObjective extends Component {
             </div>
             {this.props.editing ? (
               <div className="removeBlock">
+                <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
                 <DeleteForm
                   style={{ margin: '5px auto 5px auto' }}
                   onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
@@ -207,7 +208,6 @@ export class MatrixObjective extends Component {
                   ]}
                   header={this.translate('delete_header')}
                 />
-                <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
               </div>
             ) : (
               null
