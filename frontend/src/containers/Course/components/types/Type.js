@@ -11,31 +11,33 @@ import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditTypeForm from './EditTypeForm'
 import dndItem, { defaults } from '../../../../utils/components/DnDItem'
 
-const DnDItem = dndItem('type', {
-  dropSpec: {
-    ...defaults.dropSpec,
-    drop: (props, monitor) => {
-      const drag = monitor.getItem()
-      const { slots, element } = props
-      let slot
-      if (drag.type_header_id === element.type_header_id) {
-        if (drag.order === element.order) {
-          slot = drag.order
-        } else if (drag.order > element.order) {
-          slot = slots.previous
-        } else {
-          slot = slots.next
-        }
+export const dropSpec = {
+  ...defaults.dropSpec,
+  drop: (props, monitor) => {
+    const drag = monitor.getItem()
+    const { slots, element } = props
+    let slot
+    if (drag.type_header_id === element.type_header_id) {
+      if (drag.order === element.order) {
+        slot = drag.order
+      } else if (drag.order > element.order) {
+        slot = slots.previous
       } else {
-        slot = slots ? slots.previous : element.order
+        slot = slots.next
       }
-      props.mover({
-        id: drag.id,
-        order: slot,
-        type_header_id: element.type_header_id
-      }, true)
+    } else {
+      slot = slots ? slots.previous : element.order
     }
-  },
+    props.mover({
+      id: drag.id,
+      order: slot,
+      type_header_id: element.type_header_id
+    }, true)
+  }
+}
+
+const DnDItem = dndItem('type', {
+  dropSpec,
   dragSpec: {
     ...defaults.dragSpec,
     beginDrag: props => ({

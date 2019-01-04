@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
-import { removeObjective, editObjective, startDrag, stopDrag } from '../../actions/objectives'
+import { removeObjective, editObjective } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
 import { taskDetails } from '../../../../api/objectives'
 import EditObjectiveForm from './EditObjectiveForm'
@@ -13,48 +13,44 @@ import DeleteForm from '../../../../utils/components/DeleteForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import dndItem, { defaults } from '../../../../utils/components/DnDItem'
 
-const DnDItem = dndItem('objective', {
-  dropSpec: {
-    ...defaults.dropSpec,
-    drop: (props, monitor) => {
-      const drag = monitor.getItem()
-      const { element, slots } = props
-      let slot
-      if (
-        element.category_id !== drag.category_id
-        ||
-        element.skill_level_id !== drag.skill_level_id
-      ) {
-        slot = slots ? slots.previous : element.order
-      } else if (drag.order === element.order) {
-        slot = drag.order
-      } else if (drag.order > element.order) {
-        slot = slots.previous
-      } else {
-        slot = slots.next
-      }
-      props.mover({
-        id: drag.id,
-        order: slot,
-        category_id: element.category_id,
-        skill_level_id: element.skill_level_id
-      })
+export const dropSpec = {
+  ...defaults.dropSpec,
+  drop: (props, monitor) => {
+    const drag = monitor.getItem()
+    const { element, slots } = props
+    let slot
+    if (
+      element.category_id !== drag.category_id
+      ||
+      element.skill_level_id !== drag.skill_level_id
+    ) {
+      slot = slots ? slots.previous : element.order
+    } else if (drag.order === element.order) {
+      slot = drag.order
+    } else if (drag.order > element.order) {
+      slot = slots.previous
+    } else {
+      slot = slots.next
     }
-  },
+    props.mover({
+      id: drag.id,
+      order: slot,
+      category_id: element.category_id,
+      skill_level_id: element.skill_level_id
+    })
+  }
+}
+
+const DnDItem = dndItem('objective', {
+  dropSpec,
   dragSpec: {
     ...defaults.dragSpec,
-    beginDrag: (props) => {
-      props.startDrag()
-      return {
-        id: props.element.id,
-        order: props.element.order,
-        category_id: props.element.category_id,
-        skill_level_id: props.element.skill_level_id
-      }
-    },
-    endDrag: (props) => {
-      props.stopDrag()
-    }
+    beginDrag: props => ({
+      id: props.element.id,
+      order: props.element.order,
+      category_id: props.element.category_id,
+      skill_level_id: props.element.skill_level_id
+    })
   }
 })
 
@@ -126,8 +122,6 @@ export class MatrixObjective extends Component {
             skill_level_id: this.props.skillLevelId
           }}
           mover={this.props.moveObjective}
-          startDrag={this.props.startDrag}
-          stopDrag={this.props.stopDrag}
           slots={this.props.slots}
         >
           <div className="flexContainer">
@@ -147,7 +141,7 @@ export class MatrixObjective extends Component {
                 </Button>
               ) : (
                 <Segment
-                  className={`objectiveSegment${this.props.dragging ? ' appearAnimation' : ''}`}
+                  className="objectiveSegment"
                   style={{ borderRadius: '0px' }}
                 >
                   <MathJaxText content={this.props.objective.name} />
@@ -240,13 +234,7 @@ MatrixObjective.propTypes = {
   showDetails: PropTypes.bool,
   lastMultiplierUpdate: PropTypes.instanceOf(Date),
   translate: PropTypes.func.isRequired,
-  dragging: PropTypes.shape({
-    category_id: PropTypes.number.isRequired,
-    skill_level_id: PropTypes.number.isRequired
-  }),
   moveObjective: PropTypes.func.isRequired,
-  startDrag: PropTypes.func.isRequired,
-  stopDrag: PropTypes.func.isRequired,
   categoryId: PropTypes.number.isRequired,
   skillLevelId: PropTypes.number.isRequired,
   slots: PropTypes.shape({
@@ -258,13 +246,11 @@ MatrixObjective.propTypes = {
 MatrixObjective.defaultProps = {
   activeTaskId: null,
   showDetails: false,
-  lastMultiplierUpdate: null,
-  dragging: null
+  lastMultiplierUpdate: null
 }
 
 const mapStateToProps = state => ({
-  lastMultiplierUpdate: state.task.lastMultiplierUpdate,
-  dragging: state.objective.dragging
+  lastMultiplierUpdate: state.task.lastMultiplierUpdate
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -275,12 +261,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     asyncAction(addObjectiveToTask, dispatch)
   ),
   taskDetails,
-  moveObjective: asyncAction(editObjective, dispatch),
-  startDrag: startDrag({
-    category_id: ownProps.categoryId,
-    skill_level_id: ownProps.skillLevelId
-  })(dispatch),
-  stopDrag: stopDrag(dispatch)
+  moveObjective: asyncAction(editObjective, dispatch)
 })
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(MatrixObjective))

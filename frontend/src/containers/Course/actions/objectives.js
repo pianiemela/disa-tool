@@ -28,7 +28,3 @@ export const moveObjective = dispatch => (drag, hover) => {
     hover
   })
 }
-
-export const startDrag = cell => dispatch => () => dispatch({ type: 'OBJECTIVE_DRAG_START', cell })
-
-export const stopDrag = dispatch => () => dispatch({ type: 'OBJECTIVE_DRAG_STOP' })

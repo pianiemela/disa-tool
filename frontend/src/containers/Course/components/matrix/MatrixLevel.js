@@ -1,9 +1,29 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { Table } from 'semantic-ui-react'
 
 import CreateObjectiveForm from './CreateObjectiveForm'
-import MatrixObjective from './MatrixObjective'
+import MatrixObjective, { dropSpec } from './MatrixObjective'
+import dndItem from '../../../../utils/components/DnDItem'
+import { editObjective } from '../../actions/objectives'
+import asyncAction from '../../../../utils/asyncAction'
+
+const DnDItem = dndItem('objective', {
+  source: false,
+  dropSpec: {
+    drop: (props, monitor) => {
+      const { element } = props
+      const drag = monitor.getItem()
+      if (
+        element.category_id === drag.category_id
+        &&
+        element.skill_level_id === drag.skill_level_id
+      ) { return }
+      dropSpec.drop(props, monitor)
+    }
+  }
+})
 
 const MatrixLevel = (props) => {
   const objectives = props.level.objectives.sort((a, b) => a.order - b.order)
@@ -38,15 +58,22 @@ const MatrixLevel = (props) => {
         {objectivesNode}
       </div>
       {props.editing ? (
-        <CreateObjectiveForm
-          levelId={props.level.id}
-          category={props.category}
-          courseId={props.courseId}
-          newOrder={newOrder}
-        />
-      ) : (
-        null
-      )}
+        <DnDItem
+          element={{
+            order: newOrder,
+            category_id: props.category.id,
+            skill_level_id: props.level.id
+          }}
+          mover={props.moveObjective}
+        >
+          <CreateObjectiveForm
+            levelId={props.level.id}
+            category={props.category}
+            courseId={props.courseId}
+            newOrder={newOrder}
+          />
+        </DnDItem>
+      ) : null}
     </Table.Cell>
   )
 }
@@ -65,7 +92,8 @@ MatrixLevel.propTypes = {
   editing: PropTypes.bool.isRequired,
   activeMap: PropTypes.objectOf(PropTypes.bool).isRequired,
   activeTaskId: PropTypes.number,
-  showDetails: PropTypes.bool
+  showDetails: PropTypes.bool,
+  moveObjective: PropTypes.func.isRequired
 }
 
 MatrixLevel.defaultProps = {
@@ -74,4 +102,8 @@ MatrixLevel.defaultProps = {
   showDetails: false
 }
 
-export default MatrixLevel
+const mapDispatchToProps = dispatch => ({
+  moveObjective: asyncAction(editObjective, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(MatrixLevel)

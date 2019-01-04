@@ -1,8 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 
-import Type from './Type'
+import Type, { dropSpec } from './Type'
 import CreateTypeForm from './CreateTypeForm'
+import { editType } from '../../actions/types'
+import dndItem from '../../../../utils/components/DnDItem'
+import asyncAction from '../../../../utils/asyncAction'
+
+const DnDItem = dndItem('type', {
+  dropSpec: {
+    drop: (props, monitor) => {
+      const { element } = props
+      const drag = monitor.getItem()
+      if (element.type_header_id === drag.type_header_id) { return }
+      dropSpec.drop(props, monitor)
+    }
+  }
+})
 
 export const Typelist = (props) => {
   const types = props.types.sort((a, b) => a.order - b.order)
@@ -31,7 +46,15 @@ export const Typelist = (props) => {
     <div className="Typelist">
       {typesNode}
       {props.editing ? (
-        <CreateTypeForm headerId={props.headerId} newOrder={newOrder} />
+        <DnDItem
+          element={{
+            order: newOrder,
+            type_header_id: props.headerId
+          }}
+          mover={props.moveType}
+        >
+          <CreateTypeForm headerId={props.headerId} newOrder={newOrder} />
+        </DnDItem>
       ) : (
         null
       )}
@@ -46,11 +69,16 @@ Typelist.propTypes = {
   editing: PropTypes.bool.isRequired,
   headerId: PropTypes.number.isRequired,
   activeTaskId: PropTypes.number,
-  activeMap: PropTypes.objectOf(PropTypes.bool).isRequired
+  activeMap: PropTypes.objectOf(PropTypes.bool).isRequired,
+  moveType: PropTypes.func.isRequired
 }
 
 Typelist.defaultProps = {
   activeTaskId: null
 }
 
-export default Typelist
+const mapDispatchToProps = dispatch => ({
+  moveType: asyncAction(editType, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(Typelist)
