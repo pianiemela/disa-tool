@@ -22,78 +22,75 @@ export class Task extends Component {
     }
     return (
       <Grid.Row>
-        <Grid stretched>
-          <Grid.Row>
-            <Grid.Column width={13}>
-              <MathJaxText content={this.props.task.description} />
-              <p><b>{this.translate('info')}: </b>{this.props.task.info}</p>
-              <p><b>{this.translate('max_points')}: </b>{this.props.task.max_points}</p>
-            </Grid.Column>
-            <Grid.Column stretched width={3} textAlign="center" verticalAlign="middle">
-              {this.props.editing ? (
-                <div>
-                  <div className="taskControlButton">
-                    <EditTaskForm taskId={this.props.task.id} />
-                  </div>
-                  <div className="taskControlButton">
-                    <Button basic onClick={this.props.openModal}>{this.translate('edit_multipliers_button')}</Button>
-                  </div>
-                </div>
-              ) : null}
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
+        <Grid.Column width={13}>
+          <MathJaxText content={this.props.task.description} />
+          <p><b>{this.translate('info')}: </b>{this.props.task.info}</p>
+          <p><b>{this.translate('max_points')}: </b>{this.props.task.max_points}</p>
+        </Grid.Column>
+        <Grid.Column stretched width={3} verticalAlign="middle">
+          {this.props.editing ? (
+            <div>
+              <div className="taskControlButton">
+                <EditTaskForm taskId={this.props.task.id} />
+              </div>
+              <div className="taskControlButton">
+                <Button basic onClick={this.props.openModal}>{this.translate('edit_multipliers_button')}</Button>
+              </div>
+            </div>
+          ) : null}
+        </Grid.Column>
       </Grid.Row>
     )
   }
 
   render() {
     return (
-      <DnDItem
-        element={this.props.task}
-        mover={this.props.moveTask}
-        slots={this.props.slots}
-      >
-        <div className="Task">
-          <Segment
-            textAlign="center"
-            style={{ padding: '2px' }}
-          >
-            <Grid>
-              <Grid.Row>
-                <Grid.Column width={14}>
+      <div className="Task">
+        <Segment
+          textAlign="center"
+          style={{ padding: '2px' }}
+        >
+          <Grid>
+            <Grid.Row>
+              <Grid.Column width={14}>
+                <DnDItem
+                  element={this.props.task}
+                  mover={this.props.moveTask}
+                  slots={this.props.slots}
+                >
                   <Header style={{ marginTop: '5px' }}>{this.props.task.name}</Header>
-                </Grid.Column>
-                <Grid.Column width={1}>
-                  <Button
-                    className="taskButton"
-                    icon={this.props.active ? 'caret left' : 'caret down'}
-                    onClick={() => this.props.changeActive(this.props.task.id)}
-                    basic
-                    circular
-                    size="small"
+                </DnDItem>
+              </Grid.Column>
+              <Grid.Column width={1}>
+                <Button
+                  className="taskButton"
+                  icon="checkmark"
+                  color={this.props.active ? 'green' : undefined}
+                  onClick={() => this.props.changeActive(this.props.task.id)}
+                  basic
+                  circular
+                  size="small"
+                />
+              </Grid.Column>
+              <Grid.Column width={1}>
+                {this.props.editing ? (
+                  <DeleteForm
+                    onExecute={() => this.props.removeTask({ id: this.props.task.id })}
+                    prompt={[
+                      this.translate('delete_prompt_1'),
+                      `"${this.props.task.name}"`
+                    ]}
+                    header={this.translate('delete_header')}
                   />
-                </Grid.Column>
-                <Grid.Column width={1}>
-                  {this.props.editing ? (
-                    <DeleteForm
-                      onExecute={() => this.props.removeTask({ id: this.props.task.id })}
-                      prompt={[
-                        this.translate('delete_prompt_1'),
-                        `"${this.props.task.name}"`
-                      ]}
-                      header={this.translate('delete_header')}
-                    />
-                  ) : (
-                    null
-                  )}
-                </Grid.Column>
-              </Grid.Row>
-              {this.renderExpanded()}
-            </Grid>
-          </Segment>
-        </div>
-      </DnDItem>
+                ) : (
+                  null
+                )}
+              </Grid.Column>
+            </Grid.Row>
+            {this.renderExpanded()}
+          </Grid>
+        </Segment>
+      </div>
     )
   }
 }

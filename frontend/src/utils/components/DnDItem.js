@@ -11,7 +11,11 @@ const DnDItem = ({
   children
 }) => (
   connectDropTarget(connectDragSource((
-    <div style={{ opacity: isDragging ? 0 : 1 }}>
+    <div style={{
+      opacity: isDragging ? 0 : 1,
+      cursor: 'move'
+      }}
+    >
       {children}
     </div>
   )))

@@ -68,51 +68,57 @@ export class Type extends Component {
       moveType,
       headerId
     } = this.props
-    return (
-      <DnDItem
-        element={{
-          ...type,
-          type_header_id: headerId
-        }}
-        slots={slots}
-        mover={moveType}
+    const content = (
+      <Segment
+        className="Type"
+        style={{
+            cursor: activeTaskId === null ? undefined : 'pointer',
+            backgroundColor: active ? '#21ba45' : undefined
+          }}
+        onClick={this.toggleType}
       >
-        <Segment
-          className="Type"
-          style={{
-              cursor: activeTaskId === null ? 'default' : 'pointer',
-              backgroundColor: active ? '#21ba45' : undefined
-            }}
-          onClick={this.toggleType}
-        >
-          <div className="headerBlock">
-            <Header className="typeHeader">{type.name}</Header>
-          </div>
-          <div className="multiplierBlock">
-            <Label size="large" >{type.multiplier.toFixed(2)}</Label>
-          </div>
-          {this.props.editing ? (
-            <div>
-              <div className="editBlock">
-                <EditTypeForm typeId={type.id} />
-              </div>
-              <div className="removeBlock">
-                <DeleteForm
-                  onExecute={() => this.props.removeType({ id: type.id })}
-                  prompt={[
-                    this.translate('delete_prompt_1'),
-                    `"${type.name}"`
-                  ]}
-                  header={this.translate('delete_header')}
-                />
-              </div>
+        <div className="headerBlock">
+          <Header className="typeHeader">{type.name}</Header>
+        </div>
+        <div className="multiplierBlock">
+          <Label size="large" >{type.multiplier.toFixed(2)}</Label>
+        </div>
+        {this.props.editing ? (
+          <div>
+            <div className="editBlock">
+              <EditTypeForm typeId={type.id} />
             </div>
-          ) : (
-            null
-          )}
-        </Segment>
-      </DnDItem>
+            <div className="removeBlock">
+              <DeleteForm
+                onExecute={() => this.props.removeType({ id: type.id })}
+                prompt={[
+                  this.translate('delete_prompt_1'),
+                  `"${type.name}"`
+                ]}
+                header={this.translate('delete_header')}
+              />
+            </div>
+          </div>
+        ) : (
+          null
+        )}
+      </Segment>
     )
+    if (this.props.editing) {
+      return (
+        <DnDItem
+          element={{
+            ...type,
+            type_header_id: headerId
+          }}
+          slots={slots}
+          mover={moveType}
+        >
+          {content}
+        </DnDItem>
+      )
+    }
+    return content
   }
 }
 

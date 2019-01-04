@@ -28,43 +28,52 @@ export const TypeHeader = (props) => {
     })
   }
   const translate = id => props.translate(`Course.types.TypeHeader.${id}`)
-
-  return (
-    <DnDItem
-      element={header}
-      mover={moveHeader}
-      slots={slots}
-    >
-      <Segment className="TypeHeader">
-        <div className="flexContainer">
-          <Header className="typeHeaderHeader">{header.name}</Header>
-          {props.editing ? (
-            <div className="flexContainer">
-              <div className="paddedBlock">
-                <EditHeaderForm headerId={header.id} />
-              </div>
-              <div className="paddedBlock">
-                <DeleteForm
-                  onExecute={() => props.removeHeader({ id: header.id })}
-                  prompt={[
-                    translate('delete_prompt_1'),
-                    `"${props.header.name}"`
-                  ]}
-                  header={translate('delete_header')}
-                />
-              </div>
+  const content = (
+    <Segment className="TypeHeader">
+      <div className="flexContainer">
+        <Header className="typeHeaderHeader">{header.name}</Header>
+        {props.editing ? (
+          <div className="flexContainer">
+            <div className="paddedBlock">
+              <EditHeaderForm headerId={header.id} />
             </div>
-          ) : null}
-        </div>
-        <Typelist
-          types={header.types}
-          editing={editing}
-          headerId={header.id}
-          activeTaskId={props.activeTask === null ? null : activeTask.id}
-          activeMap={activeMap}
-        />
-      </Segment>
-    </DnDItem>
+            <div className="paddedBlock">
+              <DeleteForm
+                onExecute={() => props.removeHeader({ id: header.id })}
+                prompt={[
+                  translate('delete_prompt_1'),
+                  `"${props.header.name}"`
+                ]}
+                header={translate('delete_header')}
+              />
+            </div>
+          </div>
+        ) : null}
+      </div>
+      <Typelist
+        types={header.types}
+        editing={editing}
+        headerId={header.id}
+        activeTaskId={props.activeTask === null ? null : activeTask.id}
+        activeMap={activeMap}
+      />
+    </Segment>
+  )
+  if (editing) {
+    return (
+      <DnDItem
+        element={header}
+        mover={moveHeader}
+        slots={slots}
+      >
+        {content}
+      </DnDItem>
+    )
+  }
+  return (
+    <div>
+      {content}
+    </div>
   )
 }
 
