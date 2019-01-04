@@ -3,15 +3,46 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
 
-import { removeObjective } from '../../actions/objectives'
+import asyncAction from '../../../../utils/asyncAction'
+import { removeObjective, moveObjective, startDrag, stopDrag } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
 import { taskDetails } from '../../../../api/objectives'
-
 import EditObjectiveForm from './EditObjectiveForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
+import dndItem, { defaults } from '../../../../utils/components/DnDItem'
+
+const DnDItem = dndItem('objective', {
+  dropSpec: {
+    ...defaults.dropSpec,
+    hover: (props, monitor, component) => {
+      const drag = monitor.getItem()
+      const hover = props.element
+      if (hover.category_id !== drag.category_id || hover.skill_level_id !== drag.skill_level_id) {
+        return
+      }
+      defaults.dropSpec.hover(props, monitor, component)
+    }
+  },
+  dragSpec: {
+    ...defaults.dragSpec,
+    beginDrag: (props) => {
+      props.startDrag()
+      return {
+        id: props.element.id,
+        order: props.element.order,
+        name: props.element.name,
+        task_count: props.element.task_count,
+        category_id: props.element.category_id,
+        skill_level_id: props.element.skill_level_id
+      }
+    },
+    endDrag: (props) => {
+      props.stopDrag()
+    }
+  }
+})
 
 export class MatrixObjective extends Component {
   constructor(props) {
@@ -72,105 +103,108 @@ export class MatrixObjective extends Component {
   translate = id => this.props.translate(`Course.matrix.MatrixObjective.${id}`)
 
   render() {
-    if (this.props.isCut) return <Button basic icon={{ name: 'paste' }} onClick={() => this.props.cut(null)} />
     return (
-      <div className="MatrixObjective flexContainer">
-        <div className="objectiveBlock flexContainer">
-          {this.props.showDetails ? (
-            <Button
-              className="objectiveButton"
-              toggle
-              active={this.props.active}
-              compact
-              basic
-              fluid
-              style={{ borderRadius: '0px', cursor: this.props.activeTaskId ? undefined : 'default' }}
-              onClick={this.toggleObjective}
-            >
-              <MathJaxText content={this.props.objective.name} />
-            </Button>
-          ) : (
-            <Segment
-              className={`objectiveSegment${this.props.wasCut ? ' appearAnimation' : ''}`}
-              style={{ borderRadius: '0px' }}
-            >
-              <MathJaxText content={this.props.objective.name} />
-            </Segment>
-          )}
-          {this.props.showDetails ? (
-            <div>
-              <Popup
-                trigger={<Label
-                  size="large"
-                  circular
-                  content={this.props.objective.task_count}
-                  onMouseOver={this.loadDetails}
-                  onFocus={this.loadDetails}
-                  style={{
-                    color: this.props.objective.task_count === 0 ? 'red' : undefined
-                  }}
-                />}
-                content={
-                  this.state.loading ? (
-                    <Loader active inline />
-                  ) : (
-                    <div>
-                      <div>
-                        <span>{this.translate('cumulative')}</span>
-                        <Label>
-                          <strong>{this.state.cumulative_multiplier.toFixed(2)}</strong>
-                        </Label>
-                      </div>
-                      <Header>
-                        <span className="capitalize">{this.translate('tasks')}</span>
-                      </Header>
-                      <Grid>
-                        {this.state.tasks.map(task => (
-                          <Grid.Row key={task.name}>
-                            <Grid.Column width={12}>
-                              <span>{task.name}</span>
-                            </Grid.Column>
-                            <Grid.Column width={4} textAlign="left">
-                              <Label>
-                                {(Number(task.multiplier)).toFixed(2)}
-                              </Label>
-                            </Grid.Column>
-                          </Grid.Row>
-                        ))}
-                      </Grid>
-                    </div>
-                  )}
-              />
+      <div className="MatrixObjective">
+        <DnDItem
+          element={{
+            ...this.props.objective,
+            category_id: this.props.categoryId,
+            skill_level_id: this.props.skillLevelId
+          }}
+          mover={this.props.moveObjective}
+          startDrag={this.props.startDrag}
+          stopDrag={this.props.stopDrag}
+        >
+          <div className="flexContainer">
+            <div className="objectiveBlock flexContainer">
+              {this.props.showDetails ? (
+                <Button
+                  className="objectiveButton"
+                  toggle
+                  active={this.props.active}
+                  compact
+                  basic
+                  fluid
+                  style={{ borderRadius: '0px', cursor: this.props.activeTaskId ? undefined : 'default' }}
+                  onClick={this.toggleObjective}
+                >
+                  <MathJaxText content={this.props.objective.name} />
+                </Button>
+              ) : (
+                <Segment
+                  className={`objectiveSegment${this.props.dragging ? ' appearAnimation' : ''}`}
+                  style={{ borderRadius: '0px' }}
+                >
+                  <MathJaxText content={this.props.objective.name} />
+                </Segment>
+              )}
+              {this.props.showDetails ? (
+                <div>
+                  <Popup
+                    trigger={<Label
+                      size="large"
+                      circular
+                      content={this.props.objective.task_count}
+                      onMouseOver={this.loadDetails}
+                      onFocus={this.loadDetails}
+                      style={{
+                        color: this.props.objective.task_count === 0 ? 'red' : undefined
+                      }}
+                    />}
+                    content={
+                      this.state.loading ? (
+                        <Loader active inline />
+                      ) : (
+                        <div>
+                          <div>
+                            <span>{this.translate('cumulative')}</span>
+                            <Label>
+                              <strong>{this.state.cumulative_multiplier.toFixed(2)}</strong>
+                            </Label>
+                          </div>
+                          <Header>
+                            <span className="capitalize">{this.translate('tasks')}</span>
+                          </Header>
+                          <Grid>
+                            {this.state.tasks.map(task => (
+                              <Grid.Row key={task.name}>
+                                <Grid.Column width={12}>
+                                  <span>{task.name}</span>
+                                </Grid.Column>
+                                <Grid.Column width={4} textAlign="left">
+                                  <Label>
+                                    {(Number(task.multiplier)).toFixed(2)}
+                                  </Label>
+                                </Grid.Column>
+                              </Grid.Row>
+                            ))}
+                          </Grid>
+                        </div>
+                      )}
+                  />
+                </div>
+              ) : (
+                null
+              )}
             </div>
-          ) : (
-            null
-          )}
-        </div>
-        {this.props.editing ? (
-          <div className="removeBlock">
-            <DeleteForm
-              style={{ margin: '5px auto 5px auto' }}
-              onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
-              prompt={[
-                this.translate('delete_prompt_1'),
-                `"${this.props.objective.name}"`
-              ]}
-              header={this.translate('delete_header')}
-            />
-            <Button
-              basic
-              circular
-              style={{ margin: '5px auto 5px auto' }}
-              type="button"
-              icon={{ name: 'cut' }}
-              size="mini"
-              onClick={() => this.props.cut(this.props.objective.id)}
-            />
-            <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
+            {this.props.editing ? (
+              <div className="removeBlock">
+                <DeleteForm
+                  style={{ margin: '5px auto 5px auto' }}
+                  onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
+                  prompt={[
+                    this.translate('delete_prompt_1'),
+                    `"${this.props.objective.name}"`
+                  ]}
+                  header={this.translate('delete_header')}
+                />
+                <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
+              </div>
+            ) : (
+              null
+            )}
           </div>
-        ) : (
-          null
-        )}
+        </DnDItem>
       </div>
     )
   }
@@ -190,22 +224,28 @@ MatrixObjective.propTypes = {
   taskDetails: PropTypes.func.isRequired,
   showDetails: PropTypes.bool,
   lastMultiplierUpdate: PropTypes.instanceOf(Date),
-  isCut: PropTypes.bool.isRequired,
-  wasCut: PropTypes.bool.isRequired,
-  cut: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  dragging: PropTypes.shape({
+    category_id: PropTypes.number.isRequired,
+    skill_level_id: PropTypes.number.isRequired
+  }),
+  moveObjective: PropTypes.func.isRequired,
+  startDrag: PropTypes.func.isRequired,
+  stopDrag: PropTypes.func.isRequired,
+  categoryId: PropTypes.number.isRequired,
+  skillLevelId: PropTypes.number.isRequired
 }
 
 MatrixObjective.defaultProps = {
   activeTaskId: null,
   showDetails: false,
-  lastMultiplierUpdate: null
+  lastMultiplierUpdate: null,
+  dragging: null
 }
 
-const mapStateToProps = (state, ownProps) => ({
+const mapStateToProps = state => ({
   lastMultiplierUpdate: state.task.lastMultiplierUpdate,
-  isCut: state.objective.cut === ownProps.objective.id,
-  wasCut: state.objective.last_cut === ownProps.objective.id
+  dragging: state.objective.dragging
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -216,7 +256,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     asyncAction(addObjectiveToTask, dispatch)
   ),
   taskDetails,
-  cut: id => dispatch({ type: 'OBJECTIVE_CUT', cut: id })
+  moveObjective: moveObjective(dispatch),
+  startDrag: startDrag({
+    category_id: ownProps.categoryId,
+    skill_level_id: ownProps.skillLevelId
+  })(dispatch),
+  stopDrag: stopDrag(dispatch)
 })
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(MatrixObjective))

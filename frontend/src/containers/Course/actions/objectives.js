@@ -13,6 +13,22 @@ export const editObjective = data => apiPromise(edit, data, {
   success: { type: 'OBJECTIVE_EDIT' }
 })
 
-export const moveObjective = data => apiPromise(edit, data, {
-  success: { type: 'OBJECTIVE_MOVE' }
+export const changeCell = data => apiPromise(edit, data.call, {
+  success: { type: 'OBJECTIVE_CHANGE_CELL', local: data.local }
 })
+
+export const moveObjective = dispatch => (drag, hover) => {
+  edit({ id: drag.id, order: hover.order })
+  if (hover.id) {
+    edit({ id: hover.id, order: drag.order })
+  }
+  dispatch({
+    type: 'OBJECTIVE_MOVE',
+    drag,
+    hover
+  })
+}
+
+export const startDrag = cell => dispatch => () => dispatch({ type: 'OBJECTIVE_DRAG_START', cell })
+
+export const stopDrag = dispatch => () => dispatch({ type: 'OBJECTIVE_DRAG_STOP' })

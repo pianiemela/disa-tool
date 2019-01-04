@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 
-import { addObjective, moveObjective } from '../../actions/objectives'
+import { addObjective } from '../../actions/objectives'
 
 import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
@@ -18,28 +18,14 @@ export class CreateObjectiveForm extends Component {
         swe_name: e.target.swe_name.value,
         skill_level_id: this.props.level.id,
         category_id: this.props.category.id,
-        course_instance_id: this.props.courseId
-      })
-    }
-
-    paste = () => {
-      this.props.moveObjective({
-        id: this.props.cut,
-        category_id: this.props.category.id,
-        skill_level_id: this.props.level.id
+        course_instance_id: this.props.courseId,
+        order: this.props.newOrder
       })
     }
 
     translate = id => this.props.translate(`Course.matrix.CreateObjectiveForm.${id}`)
 
     render() {
-      if (this.props.cut) {
-        return (
-          <div className="CreateObjectiveForm">
-            <Button basic className="addObjectiveButton" icon={{ name: 'paste' }} onClick={this.paste} />
-          </div>
-        )
-      }
       const contentPrompt = [
         this.translate('prompt_1'),
         `"${this.props.category.name}"`,
@@ -73,24 +59,17 @@ CreateObjectiveForm.propTypes = {
     name: PropTypes.string.isRequired
   }).isRequired,
   courseId: PropTypes.number.isRequired,
-  cut: PropTypes.number,
-  moveObjective: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
-}
-
-CreateObjectiveForm.defaultProps = {
-  cut: null
+  translate: PropTypes.func.isRequired,
+  newOrder: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state, ownProps) => ({
   category: ownProps.category,
-  level: state.level.levels.find(level => level.id === ownProps.levelId),
-  cut: state.objective.cut
+  level: state.level.levels.find(level => level.id === ownProps.levelId)
 })
 
 const mapDispatchToProps = dispatch => ({
-  addObjective: asyncAction(addObjective, dispatch),
-  moveObjective: asyncAction(moveObjective, dispatch)
+  addObjective: asyncAction(addObjective, dispatch)
 })
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(CreateObjectiveForm))

@@ -27,7 +27,7 @@ export class CreateCategoryForm extends Component {
     const contentPrompt = this.translate('prompt_1')
     return (
       <Table.Row className="CreateCategoryForm">
-        <Table.Cell>
+        <Table.Cell colSpan={this.props.colSpan}>
           <ModalForm
             header={this.translate('header')}
             trigger={<Button basic className="addCategoryButton" icon={{ name: 'add' }} />}
@@ -47,7 +47,8 @@ CreateCategoryForm.propTypes = {
   courseId: PropTypes.number.isRequired,
   addCategory: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
-  newOrder: PropTypes.number.isRequired
+  newOrder: PropTypes.number.isRequired,
+  colSpan: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

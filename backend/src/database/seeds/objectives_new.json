@@ -1,2135 +1,2135 @@
 [
-    {
-        "eng_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
-        "fin_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
-        "swe_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
-        "category_id": 1,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
-        "fin_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
-        "swe_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
-        "category_id": 1,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
-        "fin_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
-        "swe_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
-        "category_id": 1,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
-        "fin_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
-        "swe_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
-        "category_id": 1,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
-        "fin_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
-        "swe_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
-        "category_id": 1,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
-        "fin_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
-        "swe_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
-        "category_id": 1,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
-        "fin_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
-        "swe_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
-        "category_id": 1,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
-        "fin_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
-        "swe_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
-        "category_id": 2,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
-        "fin_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
-        "swe_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
-        "category_id": 2,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
-        "fin_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
-        "swe_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
-        "category_id": 2,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
-        "fin_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
-        "swe_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
-        "category_id": 2,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
-        "fin_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
-        "swe_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
-        "category_id": 2,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
-        "fin_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
-        "swe_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
-        "category_id": 2,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
-        "fin_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
-        "swe_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
-        "category_id": 2,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
-        "fin_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
-        "swe_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
-        "category_id": 2,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
-        "fin_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
-        "swe_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
-        "category_id": 3,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
-        "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
-        "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
-        "category_id": 3,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
-        "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
-        "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
-        "category_id": 3,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
-        "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
-        "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
-        "category_id": 3,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
-        "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
-        "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
-        "category_id": 3,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää, onko vektorijono kanta",
-        "fin_name": "Osaan selvittää, onko vektorijono kanta",
-        "swe_name": "Osaan selvittää, onko vektorijono kanta",
-        "category_id": 3,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
-        "fin_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
-        "swe_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
-        "category_id": 3,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
-        "fin_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
-        "swe_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
-        "category_id": 3,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
-        "fin_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
-        "swe_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
-        "category_id": 3,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
-        "fin_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
-        "swe_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
-        "fin_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
-        "swe_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea pienen matriisin determinantin",
-        "fin_name": "Osaan laskea pienen matriisin determinantin",
-        "swe_name": "Osaan laskea pienen matriisin determinantin",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
-        "fin_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
-        "swe_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
-        "fin_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
-        "swe_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
-        "fin_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
-        "swe_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
-        "fin_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
-        "swe_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan hyödyntää determinantin laskusääntöjä",
-        "fin_name": "Osaan hyödyntää determinantin laskusääntöjä",
-        "swe_name": "Osaan hyödyntää determinantin laskusääntöjä",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
-        "fin_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
-        "swe_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
-        "fin_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
-        "swe_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
-        "fin_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
-        "swe_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
-        "fin_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
-        "swe_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
-        "fin_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
-        "swe_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
-        "fin_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
-        "swe_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tutkia, onko matriisi diagonalisoituva",
-        "fin_name": "Osaan tutkia, onko matriisi diagonalisoituva",
-        "swe_name": "Osaan tutkia, onko matriisi diagonalisoituva",
-        "category_id": 4,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
-        "fin_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
-        "swe_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
-        "fin_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
-        "swe_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
-        "fin_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
-        "swe_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea vektorin normin",
-        "fin_name": "Osaan laskea vektorin normin",
-        "swe_name": "Osaan laskea vektorin normin",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
-        "fin_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
-        "swe_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
-        "fin_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
-        "swe_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea projektion kaavan avulla",
-        "fin_name": "Osaan laskea projektion kaavan avulla",
-        "swe_name": "Osaan laskea projektion kaavan avulla",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan määrittää tasovektorin projektion piirtämällä",
-        "fin_name": "Osaan määrittää tasovektorin projektion piirtämällä",
-        "swe_name": "Osaan määrittää tasovektorin projektion piirtämällä",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
-        "fin_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
-        "swe_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
-        "fin_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
-        "swe_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
-        "fin_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
-        "swe_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan määrittää suoran tai tason normaalimuodon",
-        "fin_name": "Osaan määrittää suoran tai tason normaalimuodon",
-        "swe_name": "Osaan määrittää suoran tai tason normaalimuodon",
-        "category_id": 5,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan syöttää annetun koodin ohjelmaan",
-        "fin_name": "Osaan syöttää annetun koodin ohjelmaan",
-        "swe_name": "Osaan syöttää annetun koodin ohjelmaan",
-        "category_id": 6,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
-        "fin_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
-        "swe_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
-        "category_id": 6,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
-        "fin_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
-        "swe_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
-        "category_id": 6,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
-        "fin_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
-        "swe_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
-        "category_id": 6,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Käytän vastauksissani kurssin merkintöjä",
-        "fin_name": "Käytän vastauksissani kurssin merkintöjä",
-        "swe_name": "Käytän vastauksissani kurssin merkintöjä",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
-        "fin_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
-        "swe_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
-        "fin_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
-        "swe_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
-        "fin_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
-        "swe_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Määrittelen todistuksissa käyttämäni muuttujat",
-        "fin_name": "Määrittelen todistuksissa käyttämäni muuttujat",
-        "swe_name": "Määrittelen todistuksissa käyttämäni muuttujat",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
-        "fin_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
-        "swe_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
-        "fin_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
-        "swe_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
-        "fin_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
-        "swe_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
-        "fin_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
-        "swe_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
-        "fin_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
-        "swe_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
-        "category_id": 7,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Puhun matemaattisista aiheista toisille",
-        "fin_name": "Puhun matemaattisista aiheista toisille",
-        "swe_name": "Puhun matemaattisista aiheista toisille",
-        "category_id": 8,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
-        "fin_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
-        "swe_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
-        "category_id": 8,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
-        "fin_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
-        "swe_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
-        "category_id": 8,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
-        "fin_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
-        "swe_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
-        "category_id": 8,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
-        "fin_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
-        "swe_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
-        "category_id": 8,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
-        "fin_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
-        "swe_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
-        "category_id": 8,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
-        "fin_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
-        "swe_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
-        "category_id": 8,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
-        "fin_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
-        "swe_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
-        "category_id": 9,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
-        "fin_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
-        "swe_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
-        "category_id": 9,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
-        "fin_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
-        "swe_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
-        "category_id": 9,
-        "course_instance_id": 1,
-        "skill_level_id": 1,
-        "order": 1
-    },
-    {
-        "eng_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
-        "fin_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
-        "swe_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
-        "category_id": 9,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
-        "fin_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
-        "swe_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
-        "category_id": 9,
-        "course_instance_id": 1,
-        "skill_level_id": 2,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
-        "fin_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
-        "swe_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
-        "category_id": 9,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
-        "fin_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
-        "swe_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
-        "category_id": 9,
-        "course_instance_id": 1,
-        "skill_level_id": 3,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
-        "fin_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
-        "swe_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
-        "category_id": 10,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
-        "fin_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
-        "swe_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
-        "category_id": 10,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
-        "fin_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
-        "swe_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
-        "category_id": 10,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
-        "fin_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
-        "swe_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
-        "category_id": 10,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
-        "fin_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
-        "swe_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
-        "category_id": 10,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
-        "fin_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
-        "swe_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
-        "category_id": 10,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
-        "fin_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
-        "swe_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
-        "category_id": 10,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
-        "fin_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
-        "swe_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
-        "category_id": 11,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
-        "fin_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
-        "swe_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
-        "category_id": 11,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
-        "fin_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
-        "swe_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
-        "category_id": 11,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
-        "fin_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
-        "swe_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
-        "category_id": 11,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
-        "fin_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
-        "swe_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
-        "category_id": 11,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
-        "fin_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
-        "swe_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
-        "category_id": 11,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
-        "fin_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
-        "swe_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
-        "category_id": 11,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
-        "fin_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
-        "swe_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
-        "category_id": 11,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
-        "fin_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
-        "swe_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
-        "category_id": 12,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
-        "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
-        "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
-        "category_id": 12,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
-        "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
-        "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
-        "category_id": 12,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
-        "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
-        "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
-        "category_id": 12,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
-        "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
-        "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
-        "category_id": 12,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää, onko vektorijono kanta",
-        "fin_name": "Osaan selvittää, onko vektorijono kanta",
-        "swe_name": "Osaan selvittää, onko vektorijono kanta",
-        "category_id": 12,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
-        "fin_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
-        "swe_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
-        "category_id": 12,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
-        "fin_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
-        "swe_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
-        "category_id": 12,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
-        "fin_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
-        "swe_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
-        "category_id": 12,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
-        "fin_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
-        "swe_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
-        "fin_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
-        "swe_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea pienen matriisin determinantin",
-        "fin_name": "Osaan laskea pienen matriisin determinantin",
-        "swe_name": "Osaan laskea pienen matriisin determinantin",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
-        "fin_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
-        "swe_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
-        "fin_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
-        "swe_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
-        "fin_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
-        "swe_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
-        "fin_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
-        "swe_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan hyödyntää determinantin laskusääntöjä",
-        "fin_name": "Osaan hyödyntää determinantin laskusääntöjä",
-        "swe_name": "Osaan hyödyntää determinantin laskusääntöjä",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
-        "fin_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
-        "swe_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
-        "fin_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
-        "swe_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
-        "fin_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
-        "swe_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
-        "fin_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
-        "swe_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
-        "fin_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
-        "swe_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
-        "fin_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
-        "swe_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tutkia, onko matriisi diagonalisoituva",
-        "fin_name": "Osaan tutkia, onko matriisi diagonalisoituva",
-        "swe_name": "Osaan tutkia, onko matriisi diagonalisoituva",
-        "category_id": 13,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
-        "fin_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
-        "swe_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
-        "fin_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
-        "swe_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
-        "fin_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
-        "swe_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea vektorin normin",
-        "fin_name": "Osaan laskea vektorin normin",
-        "swe_name": "Osaan laskea vektorin normin",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
-        "fin_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
-        "swe_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
-        "fin_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
-        "swe_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea projektion kaavan avulla",
-        "fin_name": "Osaan laskea projektion kaavan avulla",
-        "swe_name": "Osaan laskea projektion kaavan avulla",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan määrittää tasovektorin projektion piirtämällä",
-        "fin_name": "Osaan määrittää tasovektorin projektion piirtämällä",
-        "swe_name": "Osaan määrittää tasovektorin projektion piirtämällä",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
-        "fin_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
-        "swe_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
-        "fin_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
-        "swe_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
-        "fin_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
-        "swe_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan määrittää suoran tai tason normaalimuodon",
-        "fin_name": "Osaan määrittää suoran tai tason normaalimuodon",
-        "swe_name": "Osaan määrittää suoran tai tason normaalimuodon",
-        "category_id": 14,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan syöttää annetun koodin ohjelmaan",
-        "fin_name": "Osaan syöttää annetun koodin ohjelmaan",
-        "swe_name": "Osaan syöttää annetun koodin ohjelmaan",
-        "category_id": 15,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
-        "fin_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
-        "swe_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
-        "category_id": 15,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
-        "fin_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
-        "swe_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
-        "category_id": 15,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
-        "fin_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
-        "swe_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
-        "category_id": 15,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Käytän vastauksissani kurssin merkintöjä",
-        "fin_name": "Käytän vastauksissani kurssin merkintöjä",
-        "swe_name": "Käytän vastauksissani kurssin merkintöjä",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
-        "fin_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
-        "swe_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
-        "fin_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
-        "swe_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
-        "fin_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
-        "swe_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Määrittelen todistuksissa käyttämäni muuttujat",
-        "fin_name": "Määrittelen todistuksissa käyttämäni muuttujat",
-        "swe_name": "Määrittelen todistuksissa käyttämäni muuttujat",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
-        "fin_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
-        "swe_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
-        "fin_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
-        "swe_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
-        "fin_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
-        "swe_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
-        "fin_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
-        "swe_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
-        "fin_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
-        "swe_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
-        "category_id": 16,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Puhun matemaattisista aiheista toisille",
-        "fin_name": "Puhun matemaattisista aiheista toisille",
-        "swe_name": "Puhun matemaattisista aiheista toisille",
-        "category_id": 17,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
-        "fin_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
-        "swe_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
-        "category_id": 17,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
-        "fin_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
-        "swe_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
-        "category_id": 17,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
-        "fin_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
-        "swe_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
-        "category_id": 17,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
-        "fin_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
-        "swe_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
-        "category_id": 17,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
-        "fin_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
-        "swe_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
-        "category_id": 17,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
-        "fin_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
-        "swe_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
-        "category_id": 17,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
-        "fin_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
-        "swe_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
-        "category_id": 18,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
-        "fin_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
-        "swe_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
-        "category_id": 18,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
-        "fin_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
-        "swe_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
-        "category_id": 18,
-        "course_instance_id": 2,
-        "skill_level_id": 4,
-        "order": 1
-    },
-    {
-        "eng_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
-        "fin_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
-        "swe_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
-        "category_id": 18,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
-        "fin_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
-        "swe_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
-        "category_id": 18,
-        "course_instance_id": 2,
-        "skill_level_id": 5,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
-        "fin_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
-        "swe_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
-        "category_id": 18,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
-        "fin_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
-        "swe_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
-        "category_id": 18,
-        "course_instance_id": 2,
-        "skill_level_id": 6,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
-        "fin_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
-        "swe_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
-        "category_id": 19,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
-        "fin_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
-        "swe_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
-        "category_id": 19,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
-        "fin_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
-        "swe_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
-        "category_id": 19,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
-        "fin_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
-        "swe_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
-        "category_id": 19,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
-        "fin_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
-        "swe_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
-        "category_id": 19,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
-        "fin_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
-        "swe_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
-        "category_id": 19,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
-        "fin_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
-        "swe_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
-        "category_id": 19,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
-        "fin_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
-        "swe_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
-        "category_id": 20,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
-        "fin_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
-        "swe_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
-        "category_id": 20,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
-        "fin_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
-        "swe_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
-        "category_id": 20,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
-        "fin_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
-        "swe_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
-        "category_id": 20,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
-        "fin_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
-        "swe_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
-        "category_id": 20,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
-        "fin_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
-        "swe_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
-        "category_id": 20,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
-        "fin_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
-        "swe_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
-        "category_id": 20,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
-        "fin_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
-        "swe_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
-        "category_id": 20,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
-        "fin_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
-        "swe_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
-        "category_id": 21,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
-        "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
-        "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
-        "category_id": 21,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
-        "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
-        "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
-        "category_id": 21,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
-        "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
-        "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
-        "category_id": 21,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
-        "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
-        "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
-        "category_id": 21,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää, onko vektorijono kanta",
-        "fin_name": "Osaan selvittää, onko vektorijono kanta",
-        "swe_name": "Osaan selvittää, onko vektorijono kanta",
-        "category_id": 21,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
-        "fin_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
-        "swe_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
-        "category_id": 21,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
-        "fin_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
-        "swe_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
-        "category_id": 21,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
-        "fin_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
-        "swe_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
-        "category_id": 21,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
-        "fin_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
-        "swe_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
-        "fin_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
-        "swe_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea pienen matriisin determinantin",
-        "fin_name": "Osaan laskea pienen matriisin determinantin",
-        "swe_name": "Osaan laskea pienen matriisin determinantin",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
-        "fin_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
-        "swe_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
-        "fin_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
-        "swe_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
-        "fin_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
-        "swe_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
-        "fin_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
-        "swe_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan hyödyntää determinantin laskusääntöjä",
-        "fin_name": "Osaan hyödyntää determinantin laskusääntöjä",
-        "swe_name": "Osaan hyödyntää determinantin laskusääntöjä",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
-        "fin_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
-        "swe_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
-        "fin_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
-        "swe_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
-        "fin_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
-        "swe_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
-        "fin_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
-        "swe_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
-        "fin_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
-        "swe_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
-        "fin_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
-        "swe_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tutkia, onko matriisi diagonalisoituva",
-        "fin_name": "Osaan tutkia, onko matriisi diagonalisoituva",
-        "swe_name": "Osaan tutkia, onko matriisi diagonalisoituva",
-        "category_id": 22,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
-        "fin_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
-        "swe_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
-        "fin_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
-        "swe_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
-        "fin_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
-        "swe_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea vektorin normin",
-        "fin_name": "Osaan laskea vektorin normin",
-        "swe_name": "Osaan laskea vektorin normin",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
-        "fin_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
-        "swe_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
-        "fin_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
-        "swe_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laskea projektion kaavan avulla",
-        "fin_name": "Osaan laskea projektion kaavan avulla",
-        "swe_name": "Osaan laskea projektion kaavan avulla",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan määrittää tasovektorin projektion piirtämällä",
-        "fin_name": "Osaan määrittää tasovektorin projektion piirtämällä",
-        "swe_name": "Osaan määrittää tasovektorin projektion piirtämällä",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
-        "fin_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
-        "swe_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
-        "fin_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
-        "swe_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
-        "fin_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
-        "swe_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan määrittää suoran tai tason normaalimuodon",
-        "fin_name": "Osaan määrittää suoran tai tason normaalimuodon",
-        "swe_name": "Osaan määrittää suoran tai tason normaalimuodon",
-        "category_id": 23,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan syöttää annetun koodin ohjelmaan",
-        "fin_name": "Osaan syöttää annetun koodin ohjelmaan",
-        "swe_name": "Osaan syöttää annetun koodin ohjelmaan",
-        "category_id": 24,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
-        "fin_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
-        "swe_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
-        "category_id": 24,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
-        "fin_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
-        "swe_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
-        "category_id": 24,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
-        "fin_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
-        "swe_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
-        "category_id": 24,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Käytän vastauksissani kurssin merkintöjä",
-        "fin_name": "Käytän vastauksissani kurssin merkintöjä",
-        "swe_name": "Käytän vastauksissani kurssin merkintöjä",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
-        "fin_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
-        "swe_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
-        "fin_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
-        "swe_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
-        "fin_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
-        "swe_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Määrittelen todistuksissa käyttämäni muuttujat",
-        "fin_name": "Määrittelen todistuksissa käyttämäni muuttujat",
-        "swe_name": "Määrittelen todistuksissa käyttämäni muuttujat",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
-        "fin_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
-        "swe_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
-        "fin_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
-        "swe_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
-        "fin_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
-        "swe_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
-        "fin_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
-        "swe_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
-        "fin_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
-        "swe_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
-        "category_id": 25,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Puhun matemaattisista aiheista toisille",
-        "fin_name": "Puhun matemaattisista aiheista toisille",
-        "swe_name": "Puhun matemaattisista aiheista toisille",
-        "category_id": 26,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
-        "fin_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
-        "swe_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
-        "category_id": 26,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
-        "fin_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
-        "swe_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
-        "category_id": 26,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
-        "fin_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
-        "swe_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
-        "category_id": 26,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
-        "fin_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
-        "swe_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
-        "category_id": 26,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
-        "fin_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
-        "swe_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
-        "category_id": 26,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
-        "fin_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
-        "swe_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
-        "category_id": 26,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
-        "fin_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
-        "swe_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
-        "category_id": 27,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
-        "fin_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
-        "swe_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
-        "category_id": 27,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
-        "fin_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
-        "swe_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
-        "category_id": 27,
-        "course_instance_id": 3,
-        "skill_level_id": 7,
-        "order": 1
-    },
-    {
-        "eng_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
-        "fin_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
-        "swe_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
-        "category_id": 27,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
-        "fin_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
-        "swe_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
-        "category_id": 27,
-        "course_instance_id": 3,
-        "skill_level_id": 8,
-        "order": 1
-    },
-    {
-        "eng_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
-        "fin_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
-        "swe_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
-        "category_id": 27,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    },
-    {
-        "eng_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
-        "fin_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
-        "swe_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
-        "category_id": 27,
-        "course_instance_id": 3,
-        "skill_level_id": 9,
-        "order": 1
-    }
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "fin_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "order": 1,
+    "eng_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "category_id": 1
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "fin_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "order": 2,
+    "eng_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "category_id": 1
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "fin_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "order": 3,
+    "eng_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "category_id": 1
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "fin_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "order": 4,
+    "eng_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "category_id": 1
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "fin_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "order": 5,
+    "eng_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "category_id": 1
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "fin_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "order": 6,
+    "eng_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "category_id": 1
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "fin_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "order": 7,
+    "eng_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "category_id": 1
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "fin_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "order": 8,
+    "eng_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "category_id": 2
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "fin_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "order": 9,
+    "eng_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "category_id": 2
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "fin_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "order": 10,
+    "eng_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "category_id": 2
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "fin_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "order": 11,
+    "eng_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "category_id": 2
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "fin_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "order": 12,
+    "eng_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "category_id": 2
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "fin_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "order": 13,
+    "eng_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "category_id": 2
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "fin_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "order": 14,
+    "eng_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "category_id": 2
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "fin_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "order": 15,
+    "eng_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "category_id": 2
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "fin_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "order": 16,
+    "eng_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "category_id": 3
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "order": 17,
+    "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "category_id": 3
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "order": 18,
+    "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "category_id": 3
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "order": 19,
+    "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "category_id": 3
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "order": 20,
+    "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "category_id": 3
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan selvittää, onko vektorijono kanta",
+    "fin_name": "Osaan selvittää, onko vektorijono kanta",
+    "order": 21,
+    "eng_name": "Osaan selvittää, onko vektorijono kanta",
+    "category_id": 3
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "fin_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "order": 22,
+    "eng_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "category_id": 3
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "fin_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "order": 23,
+    "eng_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "category_id": 3
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "fin_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "order": 24,
+    "eng_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "category_id": 3
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
+    "fin_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
+    "order": 25,
+    "eng_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
+    "fin_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
+    "order": 26,
+    "eng_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan laskea pienen matriisin determinantin",
+    "fin_name": "Osaan laskea pienen matriisin determinantin",
+    "order": 27,
+    "eng_name": "Osaan laskea pienen matriisin determinantin",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
+    "fin_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
+    "order": 28,
+    "eng_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
+    "fin_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
+    "order": 29,
+    "eng_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
+    "fin_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
+    "order": 30,
+    "eng_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
+    "fin_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
+    "order": 31,
+    "eng_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan hyödyntää determinantin laskusääntöjä",
+    "fin_name": "Osaan hyödyntää determinantin laskusääntöjä",
+    "order": 32,
+    "eng_name": "Osaan hyödyntää determinantin laskusääntöjä",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
+    "fin_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
+    "order": 33,
+    "eng_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
+    "fin_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
+    "order": 34,
+    "eng_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
+    "fin_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
+    "order": 35,
+    "eng_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
+    "fin_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
+    "order": 36,
+    "eng_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
+    "fin_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
+    "order": 37,
+    "eng_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
+    "fin_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
+    "order": 38,
+    "eng_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan tutkia, onko matriisi diagonalisoituva",
+    "fin_name": "Osaan tutkia, onko matriisi diagonalisoituva",
+    "order": 39,
+    "eng_name": "Osaan tutkia, onko matriisi diagonalisoituva",
+    "category_id": 4
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
+    "fin_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
+    "order": 40,
+    "eng_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
+    "fin_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
+    "order": 41,
+    "eng_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
+    "fin_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
+    "order": 42,
+    "eng_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan laskea vektorin normin",
+    "fin_name": "Osaan laskea vektorin normin",
+    "order": 43,
+    "eng_name": "Osaan laskea vektorin normin",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
+    "fin_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
+    "order": 44,
+    "eng_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
+    "fin_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
+    "order": 45,
+    "eng_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan laskea projektion kaavan avulla",
+    "fin_name": "Osaan laskea projektion kaavan avulla",
+    "order": 46,
+    "eng_name": "Osaan laskea projektion kaavan avulla",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan määrittää tasovektorin projektion piirtämällä",
+    "fin_name": "Osaan määrittää tasovektorin projektion piirtämällä",
+    "order": 47,
+    "eng_name": "Osaan määrittää tasovektorin projektion piirtämällä",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
+    "fin_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
+    "order": 48,
+    "eng_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
+    "fin_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
+    "order": 49,
+    "eng_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
+    "fin_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
+    "order": 50,
+    "eng_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan määrittää suoran tai tason normaalimuodon",
+    "fin_name": "Osaan määrittää suoran tai tason normaalimuodon",
+    "order": 51,
+    "eng_name": "Osaan määrittää suoran tai tason normaalimuodon",
+    "category_id": 5
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan syöttää annetun koodin ohjelmaan",
+    "fin_name": "Osaan syöttää annetun koodin ohjelmaan",
+    "order": 52,
+    "eng_name": "Osaan syöttää annetun koodin ohjelmaan",
+    "category_id": 6
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
+    "fin_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
+    "order": 53,
+    "eng_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
+    "category_id": 6
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
+    "fin_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
+    "order": 54,
+    "eng_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
+    "category_id": 6
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
+    "fin_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
+    "order": 55,
+    "eng_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
+    "category_id": 6
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Käytän vastauksissani kurssin merkintöjä",
+    "fin_name": "Käytän vastauksissani kurssin merkintöjä",
+    "order": 56,
+    "eng_name": "Käytän vastauksissani kurssin merkintöjä",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
+    "fin_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
+    "order": 57,
+    "eng_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
+    "fin_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
+    "order": 58,
+    "eng_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
+    "fin_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
+    "order": 59,
+    "eng_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Määrittelen todistuksissa käyttämäni muuttujat",
+    "fin_name": "Määrittelen todistuksissa käyttämäni muuttujat",
+    "order": 60,
+    "eng_name": "Määrittelen todistuksissa käyttämäni muuttujat",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
+    "fin_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
+    "order": 61,
+    "eng_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
+    "fin_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
+    "order": 62,
+    "eng_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
+    "fin_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
+    "order": 63,
+    "eng_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
+    "fin_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
+    "order": 64,
+    "eng_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
+    "fin_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
+    "order": 65,
+    "eng_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
+    "category_id": 7
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Puhun matemaattisista aiheista toisille",
+    "fin_name": "Puhun matemaattisista aiheista toisille",
+    "order": 66,
+    "eng_name": "Puhun matemaattisista aiheista toisille",
+    "category_id": 8
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
+    "fin_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
+    "order": 67,
+    "eng_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
+    "category_id": 8
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
+    "fin_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
+    "order": 68,
+    "eng_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
+    "category_id": 8
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
+    "fin_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
+    "order": 69,
+    "eng_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
+    "category_id": 8
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
+    "fin_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
+    "order": 70,
+    "eng_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
+    "category_id": 8
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
+    "fin_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
+    "order": 71,
+    "eng_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
+    "category_id": 8
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
+    "fin_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
+    "order": 72,
+    "eng_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
+    "category_id": 8
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
+    "fin_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
+    "order": 73,
+    "eng_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
+    "category_id": 9
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
+    "fin_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
+    "order": 74,
+    "eng_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
+    "category_id": 9
+  },
+  {
+    "skill_level_id": 1,
+    "course_instance_id": 1,
+    "swe_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
+    "fin_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
+    "order": 75,
+    "eng_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
+    "category_id": 9
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
+    "fin_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
+    "order": 76,
+    "eng_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
+    "category_id": 9
+  },
+  {
+    "skill_level_id": 2,
+    "course_instance_id": 1,
+    "swe_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
+    "fin_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
+    "order": 77,
+    "eng_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
+    "category_id": 9
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
+    "fin_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
+    "order": 78,
+    "eng_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
+    "category_id": 9
+  },
+  {
+    "skill_level_id": 3,
+    "course_instance_id": 1,
+    "swe_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
+    "fin_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
+    "order": 79,
+    "eng_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
+    "category_id": 9
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "fin_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "order": 80,
+    "eng_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "category_id": 10
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "fin_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "order": 81,
+    "eng_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "category_id": 10
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "fin_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "order": 82,
+    "eng_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "category_id": 10
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "fin_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "order": 83,
+    "eng_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "category_id": 10
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "fin_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "order": 84,
+    "eng_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "category_id": 10
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "fin_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "order": 85,
+    "eng_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "category_id": 10
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "fin_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "order": 86,
+    "eng_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "category_id": 10
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "fin_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "order": 87,
+    "eng_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "category_id": 11
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "fin_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "order": 88,
+    "eng_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "category_id": 11
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "fin_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "order": 89,
+    "eng_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "category_id": 11
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "fin_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "order": 90,
+    "eng_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "category_id": 11
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "fin_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "order": 91,
+    "eng_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "category_id": 11
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "fin_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "order": 92,
+    "eng_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "category_id": 11
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "fin_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "order": 93,
+    "eng_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "category_id": 11
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "fin_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "order": 94,
+    "eng_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "category_id": 11
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "fin_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "order": 95,
+    "eng_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "category_id": 12
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "order": 96,
+    "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "category_id": 12
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "order": 97,
+    "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "category_id": 12
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "order": 98,
+    "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "category_id": 12
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "order": 99,
+    "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "category_id": 12
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan selvittää, onko vektorijono kanta",
+    "fin_name": "Osaan selvittää, onko vektorijono kanta",
+    "order": 100,
+    "eng_name": "Osaan selvittää, onko vektorijono kanta",
+    "category_id": 12
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "fin_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "order": 101,
+    "eng_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "category_id": 12
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "fin_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "order": 102,
+    "eng_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "category_id": 12
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "fin_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "order": 103,
+    "eng_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "category_id": 12
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
+    "fin_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
+    "order": 104,
+    "eng_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
+    "fin_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
+    "order": 105,
+    "eng_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan laskea pienen matriisin determinantin",
+    "fin_name": "Osaan laskea pienen matriisin determinantin",
+    "order": 106,
+    "eng_name": "Osaan laskea pienen matriisin determinantin",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
+    "fin_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
+    "order": 107,
+    "eng_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
+    "fin_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
+    "order": 108,
+    "eng_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
+    "fin_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
+    "order": 109,
+    "eng_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
+    "fin_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
+    "order": 110,
+    "eng_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan hyödyntää determinantin laskusääntöjä",
+    "fin_name": "Osaan hyödyntää determinantin laskusääntöjä",
+    "order": 111,
+    "eng_name": "Osaan hyödyntää determinantin laskusääntöjä",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
+    "fin_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
+    "order": 112,
+    "eng_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
+    "fin_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
+    "order": 113,
+    "eng_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
+    "fin_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
+    "order": 114,
+    "eng_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
+    "fin_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
+    "order": 115,
+    "eng_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
+    "fin_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
+    "order": 116,
+    "eng_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
+    "fin_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
+    "order": 117,
+    "eng_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan tutkia, onko matriisi diagonalisoituva",
+    "fin_name": "Osaan tutkia, onko matriisi diagonalisoituva",
+    "order": 118,
+    "eng_name": "Osaan tutkia, onko matriisi diagonalisoituva",
+    "category_id": 13
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
+    "fin_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
+    "order": 119,
+    "eng_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
+    "fin_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
+    "order": 120,
+    "eng_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
+    "fin_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
+    "order": 121,
+    "eng_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan laskea vektorin normin",
+    "fin_name": "Osaan laskea vektorin normin",
+    "order": 122,
+    "eng_name": "Osaan laskea vektorin normin",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
+    "fin_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
+    "order": 123,
+    "eng_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
+    "fin_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
+    "order": 124,
+    "eng_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan laskea projektion kaavan avulla",
+    "fin_name": "Osaan laskea projektion kaavan avulla",
+    "order": 125,
+    "eng_name": "Osaan laskea projektion kaavan avulla",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan määrittää tasovektorin projektion piirtämällä",
+    "fin_name": "Osaan määrittää tasovektorin projektion piirtämällä",
+    "order": 126,
+    "eng_name": "Osaan määrittää tasovektorin projektion piirtämällä",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
+    "fin_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
+    "order": 127,
+    "eng_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
+    "fin_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
+    "order": 128,
+    "eng_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
+    "fin_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
+    "order": 129,
+    "eng_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan määrittää suoran tai tason normaalimuodon",
+    "fin_name": "Osaan määrittää suoran tai tason normaalimuodon",
+    "order": 130,
+    "eng_name": "Osaan määrittää suoran tai tason normaalimuodon",
+    "category_id": 14
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan syöttää annetun koodin ohjelmaan",
+    "fin_name": "Osaan syöttää annetun koodin ohjelmaan",
+    "order": 131,
+    "eng_name": "Osaan syöttää annetun koodin ohjelmaan",
+    "category_id": 15
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
+    "fin_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
+    "order": 132,
+    "eng_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
+    "category_id": 15
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
+    "fin_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
+    "order": 133,
+    "eng_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
+    "category_id": 15
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
+    "fin_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
+    "order": 134,
+    "eng_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
+    "category_id": 15
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Käytän vastauksissani kurssin merkintöjä",
+    "fin_name": "Käytän vastauksissani kurssin merkintöjä",
+    "order": 135,
+    "eng_name": "Käytän vastauksissani kurssin merkintöjä",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
+    "fin_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
+    "order": 136,
+    "eng_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
+    "fin_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
+    "order": 137,
+    "eng_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
+    "fin_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
+    "order": 138,
+    "eng_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Määrittelen todistuksissa käyttämäni muuttujat",
+    "fin_name": "Määrittelen todistuksissa käyttämäni muuttujat",
+    "order": 139,
+    "eng_name": "Määrittelen todistuksissa käyttämäni muuttujat",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
+    "fin_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
+    "order": 140,
+    "eng_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
+    "fin_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
+    "order": 141,
+    "eng_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
+    "fin_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
+    "order": 142,
+    "eng_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
+    "fin_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
+    "order": 143,
+    "eng_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
+    "fin_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
+    "order": 144,
+    "eng_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
+    "category_id": 16
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Puhun matemaattisista aiheista toisille",
+    "fin_name": "Puhun matemaattisista aiheista toisille",
+    "order": 145,
+    "eng_name": "Puhun matemaattisista aiheista toisille",
+    "category_id": 17
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
+    "fin_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
+    "order": 146,
+    "eng_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
+    "category_id": 17
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
+    "fin_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
+    "order": 147,
+    "eng_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
+    "category_id": 17
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
+    "fin_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
+    "order": 148,
+    "eng_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
+    "category_id": 17
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
+    "fin_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
+    "order": 149,
+    "eng_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
+    "category_id": 17
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
+    "fin_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
+    "order": 150,
+    "eng_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
+    "category_id": 17
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
+    "fin_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
+    "order": 151,
+    "eng_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
+    "category_id": 17
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
+    "fin_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
+    "order": 152,
+    "eng_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
+    "category_id": 18
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
+    "fin_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
+    "order": 153,
+    "eng_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
+    "category_id": 18
+  },
+  {
+    "skill_level_id": 4,
+    "course_instance_id": 2,
+    "swe_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
+    "fin_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
+    "order": 154,
+    "eng_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
+    "category_id": 18
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
+    "fin_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
+    "order": 155,
+    "eng_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
+    "category_id": 18
+  },
+  {
+    "skill_level_id": 5,
+    "course_instance_id": 2,
+    "swe_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
+    "fin_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
+    "order": 156,
+    "eng_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
+    "category_id": 18
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
+    "fin_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
+    "order": 157,
+    "eng_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
+    "category_id": 18
+  },
+  {
+    "skill_level_id": 6,
+    "course_instance_id": 2,
+    "swe_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
+    "fin_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
+    "order": 158,
+    "eng_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
+    "category_id": 18
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "fin_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "order": 159,
+    "eng_name": "Osaan muokata yhtälöryhmää vastaavan matriisin alkeisrivitoimituksilla redusoiduksi porrasmatriisiksi",
+    "category_id": 19
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "fin_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "order": 160,
+    "eng_name": "Osaan päätellä yhtälöryhmän ratkaisut redusoidusta porrasmatriisista",
+    "category_id": 19
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "fin_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "order": 161,
+    "eng_name": "Tunnen lineaarisen yhtälöryhmän ratkaisujen lukumäärään liittyvät rajoitukset",
+    "category_id": 19
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "fin_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "order": 162,
+    "eng_name": "Osaan kirjoittaa lineaarisen yhtälöryhmän matriisiyhtälönä",
+    "category_id": 19
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "fin_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "order": 163,
+    "eng_name": "Osaan käyttää yhtälöryhmiä käytännön ongelmien mallintamiseen",
+    "category_id": 19
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "fin_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "order": 164,
+    "eng_name": "Tunnen yhtälönratkaisun periaatteet ja tiedän, että alkeisrivitoimitukset säilyttävät yhtälöryhmien yhtäpitävyyden",
+    "category_id": 19
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "fin_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "order": 165,
+    "eng_name": "Tunnen yhtälöryhmän kerroinmatriisin kääntyvyyden yhteyden yhtälöryhmän ratkaisujen lukumäärään",
+    "category_id": 19
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "fin_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "order": 166,
+    "eng_name": "Tunnen vektorin määritelmän lukujonona ja osaan havainnollistaa tason vektoreita pisteinä tai suuntajanoina",
+    "category_id": 20
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "fin_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "order": 167,
+    "eng_name": "Osaan laskea yhteen ja vähentää sekä kertoa skalaareilla avaruude R^n vektoreita",
+    "category_id": 20
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "fin_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "order": 168,
+    "eng_name": "Tiedän, miltä yhden tai kahden vektorin virittämä aliavaruus näyttää",
+    "category_id": 20
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "fin_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "order": 169,
+    "eng_name": "Osaan kirjoittaa vektoreiden virittämän aliavaruuden joukkomerkintää käyttäen ja luetella kyseisen joukon alkioita",
+    "category_id": 20
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "fin_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "order": 170,
+    "eng_name": "Tiedän, miltä avaruuden R^3 aliavaruudet näyttävät",
+    "category_id": 20
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "fin_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "order": 171,
+    "eng_name": "Tiedän, mitkä ovat suoran ja tason dimensiot",
+    "category_id": 20
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "fin_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "order": 172,
+    "eng_name": "Osaan muodostaa vektorien virittämälle aliavaruudelle kannan",
+    "category_id": 20
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "fin_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "order": 173,
+    "eng_name": "Osaan selvittää vektorien virittämän aliavaruuden dimension",
+    "category_id": 20
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "fin_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "order": 174,
+    "eng_name": "Osaan selvittää, onko vektori toisten vektorien lineaarikombinaatio",
+    "category_id": 21
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "order": 175,
+    "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan sen tutkimisessa, virittävätkö annetut vektorit avaruuden",
+    "category_id": 21
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "fin_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "order": 176,
+    "eng_name": "Osaan muodostaa yhtälön, jota tarvitaan vektorijonon vapauden tutkimisessa",
+    "category_id": 21
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "order": 177,
+    "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä sen tutkimiseen, virittävätkö vektorit avaruuden",
+    "category_id": 21
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "fin_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "order": 178,
+    "eng_name": "Osaan soveltaa yhtälöryhmän ratkaisujen lukumäärään liittyvää päättelyä vektorijonon vapauden tutkimiseen",
+    "category_id": 21
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan selvittää, onko vektorijono kanta",
+    "fin_name": "Osaan selvittää, onko vektorijono kanta",
+    "order": 179,
+    "eng_name": "Osaan selvittää, onko vektorijono kanta",
+    "category_id": 21
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "fin_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "order": 180,
+    "eng_name": "Osaan laskea vektorin koordinaatit annetun kannan suhteen sekä selvittää vektorin sen koordinaattien perusteella",
+    "category_id": 21
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "fin_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "order": 181,
+    "eng_name": "Tiedän, miten vektorijonon vapaus liittyy vektoreista muodostettavien lineaarikombinaatioiden kertoimien yksikäsitteisyyteen",
+    "category_id": 21
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "fin_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "order": 182,
+    "eng_name": "Osaan analysoida vektorijonon vapautta tai viritysominaisuuksia myös silloin, kun vektoreiden komponentteja ei ole annettu",
+    "category_id": 21
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
+    "fin_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
+    "order": 183,
+    "eng_name": "Osaan suorittaa matriisien peruslaskutoimitukset ja tiedän, mitä ovat nolla- ja ykkösmatriisi",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
+    "fin_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
+    "order": 184,
+    "eng_name": "Osaan käyttää matriisien laskusääntöjä matriiseja sisältävien lausekkeiden sieventämiseen",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan laskea pienen matriisin determinantin",
+    "fin_name": "Osaan laskea pienen matriisin determinantin",
+    "order": 185,
+    "eng_name": "Osaan laskea pienen matriisin determinantin",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
+    "fin_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
+    "order": 186,
+    "eng_name": "Osaan tarkistaa suoralla laskulla, onko vektori matriisin ominaisvektori",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
+    "fin_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
+    "order": 187,
+    "eng_name": "Tunnen matriisien kertolaskun eroavaisuudet reaalilukujen kertolaskuun verrattuna",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
+    "fin_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
+    "order": 188,
+    "eng_name": "Osaan tarkistaa käänteismatriisin määritelmän nojalla, ovatko kaksi annettua matriisia toistensa käänteismatriiseja",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
+    "fin_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
+    "order": 189,
+    "eng_name": "Osaan selvittää determinantin avulla, onko matriisi kääntyvä",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan hyödyntää determinantin laskusääntöjä",
+    "fin_name": "Osaan hyödyntää determinantin laskusääntöjä",
+    "order": 190,
+    "eng_name": "Osaan hyödyntää determinantin laskusääntöjä",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
+    "fin_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
+    "order": 191,
+    "eng_name": "Osaan etsiä pienen matriisin ominaisarvot ja -vektorit",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
+    "fin_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
+    "order": 192,
+    "eng_name": "Tunnen ominaisvektorin geometrisen merkityksen ja osaan selvittää kuvasta, onko vektori matriisin ominaisvektori",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
+    "fin_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
+    "order": 193,
+    "eng_name": "Osaan selvittää redusoimalla, onko matriisi kääntyvä",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
+    "fin_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
+    "order": 194,
+    "eng_name": "Osaan soveltaa matriisikertolaskua ja matriisien ominaisuuksia käytännön ongelmien mallintamiseen",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
+    "fin_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
+    "order": 195,
+    "eng_name": "Osaan käyttää käänteismatriisia matriisiyhtälöiden ratkaisemisessa",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
+    "fin_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
+    "order": 196,
+    "eng_name": "Tiedän, miten käänteismatriisi liittyy alkeisrivitoimituksiin ja osaan löytää käänteismatriisin niiden avulla, jos sellainen on olemassa",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan tutkia, onko matriisi diagonalisoituva",
+    "fin_name": "Osaan tutkia, onko matriisi diagonalisoituva",
+    "order": 197,
+    "eng_name": "Osaan tutkia, onko matriisi diagonalisoituva",
+    "category_id": 22
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
+    "fin_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
+    "order": 198,
+    "eng_name": "Osaan tutkia, ovatko kaksi vektoria yhdensuuntaiset",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
+    "fin_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
+    "order": 199,
+    "eng_name": "Tunnen suoran ja tason määritelmät vektorijoukkona ja osaan selvittää, onko annettu vektori suoran tai tason alkio",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
+    "fin_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
+    "order": 200,
+    "eng_name": "Osaan laskea avaruuden R^n vektorien pistetulon",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan laskea vektorin normin",
+    "fin_name": "Osaan laskea vektorin normin",
+    "order": 201,
+    "eng_name": "Osaan laskea vektorin normin",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
+    "fin_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
+    "order": 202,
+    "eng_name": "Osaan tarkistaa pistetulon avulla, ovatko avaruuden R^n vektorit kohtisuorassa",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
+    "fin_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
+    "order": 203,
+    "eng_name": "Osaan selvittää suoran tai tason, kun on annettu riittävä määrä siihen kuuluvia vektoreita",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan laskea projektion kaavan avulla",
+    "fin_name": "Osaan laskea projektion kaavan avulla",
+    "order": 204,
+    "eng_name": "Osaan laskea projektion kaavan avulla",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan määrittää tasovektorin projektion piirtämällä",
+    "fin_name": "Osaan määrittää tasovektorin projektion piirtämällä",
+    "order": 205,
+    "eng_name": "Osaan määrittää tasovektorin projektion piirtämällä",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
+    "fin_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
+    "order": 206,
+    "eng_name": "Osaan hyödyntää pistetulon laskusääntöjä lausekkeiden sieventämiseen",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
+    "fin_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
+    "order": 207,
+    "eng_name": "Tunnen pistetulon ja normin välisen yhteyden ja osaan laskea normin pistetulon avulla",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
+    "fin_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
+    "order": 208,
+    "eng_name": "Osaan selvittää suoran tai tason, kun sen yhtälö (eli normaalimuoto) on annettu",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan määrittää suoran tai tason normaalimuodon",
+    "fin_name": "Osaan määrittää suoran tai tason normaalimuodon",
+    "order": 209,
+    "eng_name": "Osaan määrittää suoran tai tason normaalimuodon",
+    "category_id": 23
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan syöttää annetun koodin ohjelmaan",
+    "fin_name": "Osaan syöttää annetun koodin ohjelmaan",
+    "order": 210,
+    "eng_name": "Osaan syöttää annetun koodin ohjelmaan",
+    "category_id": 24
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
+    "fin_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
+    "order": 211,
+    "eng_name": "Osaan tehdä annettuun koodiin pieniä muutoksia halutun lopputuloksen aikaansaamiseksi",
+    "category_id": 24
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
+    "fin_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
+    "order": 212,
+    "eng_name": "Tunnen lineaarialgebraan liittyvät ohjelman peruskomennot",
+    "category_id": 24
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
+    "fin_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
+    "order": 213,
+    "eng_name": "Osaan etsiä tietolähteistä tarvitsemani komennot, jos en muista tai tunne niitä",
+    "category_id": 24
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Käytän vastauksissani kurssin merkintöjä",
+    "fin_name": "Käytän vastauksissani kurssin merkintöjä",
+    "order": 214,
+    "eng_name": "Käytän vastauksissani kurssin merkintöjä",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
+    "fin_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
+    "order": 215,
+    "eng_name": "Tunnen eron määritelmän, lauseen ja esimerkin välillä",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
+    "fin_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
+    "order": 216,
+    "eng_name": "Ymmärrän, että matematiikkaa lukiessa ei voi heti ymmärtää kaikkea, vaan on usein palattava takaisin tai hypättävä vaikeiden kohtien yli",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
+    "fin_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
+    "order": 217,
+    "eng_name": "Kirjoitan vastauksiini kokonaisia ja ymmärrettäviä lauseita, joista ulkopuolinen lukijakin saa selvän",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Määrittelen todistuksissa käyttämäni muuttujat",
+    "fin_name": "Määrittelen todistuksissa käyttämäni muuttujat",
+    "order": 218,
+    "eng_name": "Määrittelen todistuksissa käyttämäni muuttujat",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
+    "fin_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
+    "order": 219,
+    "eng_name": "Osaan tarkistaa, että jokin konkreettinen objekti toteuttaa annetun määritelmän",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
+    "fin_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
+    "order": 220,
+    "eng_name": "Osaan käyttää selittävää lukutapaa määritelmien tai todistusten ymmärtämiseksi",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
+    "fin_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
+    "order": 221,
+    "eng_name": "Kirjoitan ratkaisuja, jotka sisältävät vain olennaisen, ja käytän matemaattisia symboleita vain tarvittaessa",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
+    "fin_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
+    "order": 222,
+    "eng_name": "Osaan laatia todistuksia väitteille, jotka koskevat abstrakteja tai yleisiä objekteja",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
+    "fin_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
+    "order": 223,
+    "eng_name": "Pyrin ymmärtämään todistuksia ja käytän kynää ja paperia hankalien välivaiheiden selvittämiseksi",
+    "category_id": 25
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Puhun matemaattisista aiheista toisille",
+    "fin_name": "Puhun matemaattisista aiheista toisille",
+    "order": 224,
+    "eng_name": "Puhun matemaattisista aiheista toisille",
+    "category_id": 26
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
+    "fin_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
+    "order": 225,
+    "eng_name": "Osaan ilmaista tarvitsevani apua matemaattisen ongelman ratkaisemiseen",
+    "category_id": 26
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
+    "fin_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
+    "order": 226,
+    "eng_name": "Käyn matemaattisia keskusteluja, joissa ilmaisen omia ajatuksiani ja kuuntelen toisen ideoita",
+    "category_id": 26
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
+    "fin_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
+    "order": 227,
+    "eng_name": "Käytän keskustelussa oikeita nimityksiä matemaattisille käsitteille",
+    "category_id": 26
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
+    "fin_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
+    "order": 228,
+    "eng_name": "Osaan selittää, mikä kohta matemaattisen ongelman ratkaisemisessa tuottaa minulle vaikeuksia",
+    "category_id": 26
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
+    "fin_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
+    "order": 229,
+    "eng_name": "Kykenen ylläpitämään matemaattista keskustelua, joka hyödyttää molempia osapuolia",
+    "category_id": 26
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
+    "fin_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
+    "order": 230,
+    "eng_name": "Muotoilen täsmällisiä kysymyksiä saadakseni apua matemaattisiin ongelmiin",
+    "category_id": 26
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
+    "fin_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
+    "order": 231,
+    "eng_name": "Luen tehtävistäni annetun palautteen ja korjaan tehtäviä palautteen perusteella",
+    "category_id": 27
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
+    "fin_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
+    "order": 232,
+    "eng_name": "Annan vertaispalautetta toisten opiskelijoiden töistä",
+    "category_id": 27
+  },
+  {
+    "skill_level_id": 7,
+    "course_instance_id": 3,
+    "swe_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
+    "fin_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
+    "order": 233,
+    "eng_name": "En ota saamaani palautetta henkilökohtaisesti, vaan ymmärrän, että palaute on annettu, jotta oppisin lisää",
+    "category_id": 27
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
+    "fin_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
+    "order": 234,
+    "eng_name": "Otan saamani palautteen puheeksi ohjaajien kanssa, jos en ole varma, mitä palautteen antaja on tarkoittanut",
+    "category_id": 27
+  },
+  {
+    "skill_level_id": 8,
+    "course_instance_id": 3,
+    "swe_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
+    "fin_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
+    "order": 235,
+    "eng_name": "Annan rakentavaa vertaispalautetta, joka tähtää toisen opiskelijan työn parantamiseen",
+    "category_id": 27
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
+    "fin_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
+    "order": 236,
+    "eng_name": "Osaan toimia tilanteessa, jossa saan eri lähteistä ristiriitaista palautetta",
+    "category_id": 27
+  },
+  {
+    "skill_level_id": 9,
+    "course_instance_id": 3,
+    "swe_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
+    "fin_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
+    "order": 237,
+    "eng_name": "Antaessani palautetta asetun palautteen saajan asemaan, jotta voin arvioida, millainen palaute olisi kussakin tilanteessa mahdollisimman hyödyllistä",
+    "category_id": 27
+  }
 ]

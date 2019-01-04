@@ -1,23 +1,19 @@
 const INITIAL_STATE = {
-  cut: null,
-  last_cut: null
+  draggging: null
 }
 
 const objectiveReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'OBJECTIVE_CUT':
+    case 'OBJECTIVE_DRAG_START':
       return {
         ...state,
-        cut: action.cut
+        draggging: action.cell
       }
-    case 'OBJECTIVE_MOVE':
+    case 'OBJECTIVE_DRAG_STOP':
       return {
         ...state,
-        cut: null,
-        last_cut: state.cut
+        draggging: null
       }
-    case 'COURSE_RESET':
-      return INITIAL_STATE
     default:
       return state
   }

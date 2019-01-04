@@ -67,7 +67,11 @@ export const Matrix = (props) => {
             />
           ))}
           {props.editing ? (
-            <CreateCategoryForm courseId={props.courseId} newOrder={newCategoryOrder} />
+            <CreateCategoryForm
+              courseId={props.courseId}
+              newOrder={newCategoryOrder}
+              colSpan={levels.length + 2}
+            />
           ) : (
               null
             )}
