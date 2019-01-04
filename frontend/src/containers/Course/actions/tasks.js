@@ -39,13 +39,3 @@ export const editTask = data => apiPromise(edit, data, {
 export const editTaskObjectives = data => apiPromise(editObjectives, data, {
   success: { type: 'TASK_EDIT_OBJECTIVE_MULTIPLIERS' }
 })
-
-export const moveTask = dispatch => (drag, hover) => {
-  edit({ id: drag.id, order: hover.order })
-  edit({ id: hover.id, order: drag.order })
-  dispatch({
-    type: 'TASK_MOVE',
-    drag,
-    hover
-  })
-}

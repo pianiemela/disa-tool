@@ -22,14 +22,45 @@ export const Matrix = (props) => {
   const translate = id => props.translate(`Course.matrix.Matrix.${id}`)
   const categories = props.categories.sort((a, b) => a.order - b.order)
   let newCategoryOrder = 1
-  if (categories.length > 0) {
-    newCategoryOrder = categories[categories.length - 1].order + 1
-  }
+  const categoriesNode = categories.map((category, index, categoryArray) => {
+    const slots = {
+      previous: index > 0 ? (
+        (category.order + categoryArray[index - 1].order) / 2
+      ) : category.order - 1,
+      next: index < categoryArray.length - 1 ? (
+        (category.order + categoryArray[index + 1].order) / 2
+      ) : category.order + 1
+    }
+    if (index === categoryArray.length - 1) { newCategoryOrder = slots.next }
+    return (
+      <MatrixCategory
+        key={category.id}
+        category={category}
+        courseId={props.courseId}
+        editing={props.editing}
+        activeMap={activeMap}
+        activeTaskId={activeTaskId}
+        showDetails={props.showDetails}
+        slots={slots}
+      />
+    )
+  })
   const levels = props.levels.sort((a, b) => a.order - b.order)
   let newLevelOrder = 1
-  if (levels.length > 0) {
-    newLevelOrder = levels[levels.length - 1].order + 1
-  }
+  const levelsNode = levels.map((level, index, levelArray) => {
+    const slots = {
+      previous: index > 0 ? (
+        (level.order + levelArray[index - 1].order) / 2
+      ) : level.order - 1,
+      next: index < levelArray.length - 1 ? (
+        (level.order + levelArray[index + 1].order) / 2
+      ) : level.order + 1
+    }
+    if (index === levelArray.length - 1) { newLevelOrder = slots.next }
+    return (
+      <HeaderLevel key={level.id} level={level} editing={props.editing} slots={slots} />
+    )
+  })
   return (
     <Container>
       <Table celled structured unstackable>
@@ -43,9 +74,7 @@ export const Matrix = (props) => {
             </Table.HeaderCell>
           </Table.Row>
           <Table.Row>
-            {levels.map(level => (
-              <HeaderLevel key={level.id} level={level} editing={props.editing} />
-            ))}
+            {levelsNode}
             {props.editing ? (
               <CreateLevelForm courseId={props.courseId} newOrder={newLevelOrder} />
             ) : (
@@ -55,17 +84,7 @@ export const Matrix = (props) => {
         </Table.Header>
 
         <Table.Body>
-          {categories.map(category => (
-            <MatrixCategory
-              key={category.id}
-              category={category}
-              courseId={props.courseId}
-              editing={props.editing}
-              activeMap={activeMap}
-              activeTaskId={activeTaskId}
-              showDetails={props.showDetails}
-            />
-          ))}
+          {categoriesNode}
           {props.editing ? (
             <CreateCategoryForm
               courseId={props.courseId}

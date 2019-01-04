@@ -1,5 +1,3 @@
-import moveMapper from '../utils/reduxHelpers/moveMapper'
-
 const INITIAL_STATE = {
   grades: [],
   loading: true
@@ -34,11 +32,6 @@ const gradeReducer = (state = INITIAL_STATE, action) => {
             ...action.response.edited
           }) : grade
         ))
-      }
-    case 'GRADE_MOVE':
-      return {
-        ...state,
-        grades: state.grades.map(moveMapper(action))
       }
     case 'GRADE_UPDATE_CATEGORY_GRADES_SUCCESS': {
       const { updatedCategoryGrades } = action.payload

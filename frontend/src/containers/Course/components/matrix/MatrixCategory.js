@@ -7,7 +7,7 @@ import { Table, Segment, Header } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 import MatrixLevel from './MatrixLevel'
 import DeleteForm from '../../../../utils/components/DeleteForm'
-import { removeCategory, moveCategory } from '../../actions/categories'
+import { removeCategory, editCategory } from '../../actions/categories'
 import EditCategoryForm from './EditCategoryForm'
 import dndItem from '../../../../utils/components/DnDItem'
 
@@ -43,7 +43,11 @@ export const MatrixCategory = (props) => {
     <Table.Row className="MatrixCategory">
       <Table.Cell>
         {props.editing ? (
-          <DnDItem element={props.category} mover={props.moveCategory}>
+          <DnDItem
+            element={props.category}
+            mover={props.moveCategory}
+            slots={props.slots}
+          >
             <Segment>
               {cellContent}
             </Segment>
@@ -82,7 +86,11 @@ MatrixCategory.propTypes = {
   activeTaskId: PropTypes.number,
   showDetails: PropTypes.bool,
   translate: PropTypes.func.isRequired,
-  moveCategory: PropTypes.func.isRequired
+  moveCategory: PropTypes.func.isRequired,
+  slots: PropTypes.shape({
+    previous: PropTypes.number.isRequired,
+    next: PropTypes.number.isRequired
+  }).isRequired
 }
 
 MatrixCategory.defaultProps = {
@@ -93,7 +101,7 @@ MatrixCategory.defaultProps = {
 
 const mapDispatchToProps = dispatch => ({
   removeCategory: asyncAction(removeCategory, dispatch),
-  moveCategory: moveCategory(dispatch)
+  moveCategory: asyncAction(editCategory, dispatch)
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(MatrixCategory))

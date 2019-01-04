@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 import { Segment, Header, Grid } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
-import { removeGrade, moveGrade } from '../../actions/grades'
+import { removeGrade, editGrade } from '../../actions/grades'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditGradeForm from './EditGradeForm'
 import dndItem from '../../../../utils/components/DnDItem'
@@ -17,7 +17,11 @@ const parseName = object => (object ? object.name : null)
 const Grade = (props) => {
   const translate = id => props.translate(`Course.grades.Grade.${id}`)
   return (
-    <DnDItem element={props.grade} mover={props.moveGrade}>
+    <DnDItem
+      element={props.grade}
+      mover={props.moveGrade}
+      slots={props.slots}
+    >
       <div className="Grade">
         <Segment>
           <Header>{props.grade.name}</Header>
@@ -95,12 +99,16 @@ Grade.propTypes = {
   })).isRequired,
   removeGrade: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
-  moveGrade: PropTypes.func.isRequired
+  moveGrade: PropTypes.func.isRequired,
+  slots: PropTypes.shape({
+    previous: PropTypes.number.isRequired,
+    next: PropTypes.number.isRequired
+  }).isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   removeGrade: asyncAction(removeGrade, dispatch),
-  moveGrade: moveGrade(dispatch)
+  moveGrade: asyncAction(editGrade, dispatch)
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(Grade))

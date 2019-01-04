@@ -5,13 +5,45 @@ import { withLocalize } from 'react-localize-redux'
 import { Segment, Header, Label } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
-import { removeType, moveType } from '../../actions/types'
+import { removeType, editType } from '../../actions/types'
 import { addTypeToTask, removeTypeFromTask } from '../../actions/tasks'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditTypeForm from './EditTypeForm'
-import dndItem from '../../../../utils/components/DnDItem'
+import dndItem, { defaults } from '../../../../utils/components/DnDItem'
 
-const DnDItem = dndItem('type')
+const DnDItem = dndItem('type', {
+  dropSpec: {
+    ...defaults.dropSpec,
+    drop: (props, monitor) => {
+      const drag = monitor.getItem()
+      const { slots, element } = props
+      let slot
+      if (drag.type_header_id === element.type_header_id) {
+        if (drag.order === element.order) {
+          slot = drag.order
+        } else if (drag.order > element.order) {
+          slot = slots.previous
+        } else {
+          slot = slots.next
+        }
+      } else {
+        slot = slots ? slots.previous : element.order
+      }
+      props.mover({
+        id: drag.id,
+        order: slot,
+        type_header_id: element.type_header_id
+      }, true)
+    }
+  },
+  dragSpec: {
+    ...defaults.dragSpec,
+    beginDrag: props => ({
+      ...defaults.dragSpec.beginDrag(props),
+      type_header_id: props.element.type_header_id
+    })
+  }
+})
 
 export class Type extends Component {
   toggleType = () => {
@@ -29,10 +61,20 @@ export class Type extends Component {
     const {
       activeTaskId,
       active,
-      type
+      type,
+      slots,
+      moveType,
+      headerId
     } = this.props
     return (
-      <DnDItem element={type} mover={this.props.moveType}>
+      <DnDItem
+        element={{
+          ...type,
+          type_header_id: headerId
+        }}
+        slots={slots}
+        mover={moveType}
+      >
         <Segment
           className="Type"
           style={{
@@ -84,7 +126,12 @@ Type.propTypes = {
   activeTaskId: PropTypes.number,
   toggleType: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
-  moveType: PropTypes.func.isRequired
+  moveType: PropTypes.func.isRequired,
+  slots: PropTypes.shape({
+    previous: PropTypes.number.isRequired,
+    next: PropTypes.number.isRequired
+  }).isRequired,
+  headerId: PropTypes.number.isRequired
 }
 
 Type.defaultProps = {
@@ -95,7 +142,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   ...ownProps,
   removeType: asyncAction(removeType, dispatch),
   toggleType: asyncAction(ownProps.active ? removeTypeFromTask : addTypeToTask, dispatch),
-  moveType: moveType(dispatch)(ownProps.headerId)
+  moveType: asyncAction(editType, dispatch)
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(Type))

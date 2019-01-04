@@ -1,5 +1,3 @@
-import moveMapper from '../utils/reduxHelpers/moveMapper'
-
 const INITIAL_STATE = {
   tasks: [],
   active: null,
@@ -191,18 +189,15 @@ const taskReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         tasks: state.tasks.map(task => (task.id === action.response.edited.id ? {
-          order: task.order,
+          ...task,
           ...action.response.edited,
-          max_points: Number(action.response.edited.max_points),
+          max_points: action.response.edited.max_points ? (
+            Number(action.response.edited.max_points)
+          ) : task.max_points,
           types: task.types,
           objectives: task.objectives,
           defaultMultiplier: task.defaultMultiplier
         } : task))
-      }
-    case 'TASK_MOVE':
-      return {
-        ...state,
-        tasks: state.tasks.map(moveMapper(action))
       }
     case 'TASK_EDIT_OBJECTIVE_MULTIPLIERS':
       return {

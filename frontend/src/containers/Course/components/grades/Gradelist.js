@@ -8,19 +8,27 @@ const Gradelist = (props) => {
   const levels = props.levels.sort((a, b) => a.order - b.order)
   const grades = props.grades.sort((a, b) => a.order - b.order)
   let newOrder = 1
-  if (grades.length > 0) {
-    newOrder = grades[grades.length - 1].order + 1
-  }
+  const gradesNode = grades.map((grade, index, gradesArray) => {
+    const slots = {
+      previous: index > 0 ? (grade.order + gradesArray[index - 1].order) / 2 : grade.order - 1,
+      next: index < gradesArray.length - 1 ? (
+        (grade.order + gradesArray[index + 1].order) / 2
+      ) : grade.order + 1
+    }
+    if (index === gradesArray.length - 1) { newOrder = slots.next }
+    return (
+      <Grade
+        key={grade.id}
+        grade={grade}
+        levels={levels}
+        grades={grades}
+        slots={slots}
+      />
+    )
+  })
   return (
     <div className="Gradelist">
-      {grades.map(grade => (
-        <Grade
-          key={grade.id}
-          grade={grade}
-          levels={levels}
-          grades={grades}
-        />
-      ))}
+      {gradesNode}
       <CreateGradeForm
         levels={levels}
         grades={grades}

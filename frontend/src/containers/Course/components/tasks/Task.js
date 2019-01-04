@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 import { Button, Grid, Segment, Header } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
-import { removeTask, changeActive, moveTask } from '../../actions/tasks'
+import { removeTask, changeActive, editTask } from '../../actions/tasks'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditTaskForm from './EditTaskForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
@@ -49,7 +49,11 @@ export class Task extends Component {
 
   render() {
     return (
-      <DnDItem element={this.props.task} mover={this.props.moveTask}>
+      <DnDItem
+        element={this.props.task}
+        mover={this.props.moveTask}
+        slots={this.props.slots}
+      >
         <div className="Task">
           <Segment
             textAlign="center"
@@ -108,7 +112,11 @@ Task.propTypes = {
   changeActive: PropTypes.func.isRequired,
   openModal: PropTypes.func,
   translate: PropTypes.func.isRequired,
-  moveTask: PropTypes.func.isRequired
+  moveTask: PropTypes.func.isRequired,
+  slots: PropTypes.shape({
+    previous: PropTypes.number.isRequired,
+    next: PropTypes.number.isRequired
+  }).isRequired
 }
 
 Task.defaultProps = {
@@ -124,7 +132,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   removeTask: asyncAction(removeTask, dispatch),
   changeActive: id => dispatch(changeActive(id)),
-  moveTask: moveTask(dispatch)
+  moveTask: asyncAction(editTask, dispatch)
 })
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(Task))

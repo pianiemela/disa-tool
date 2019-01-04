@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
-import { removeObjective, moveObjective, startDrag, stopDrag } from '../../actions/objectives'
+import { removeObjective, editObjective, startDrag, stopDrag } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
 import { taskDetails } from '../../../../api/objectives'
 import EditObjectiveForm from './EditObjectiveForm'
@@ -16,13 +16,29 @@ import dndItem, { defaults } from '../../../../utils/components/DnDItem'
 const DnDItem = dndItem('objective', {
   dropSpec: {
     ...defaults.dropSpec,
-    hover: (props, monitor, component) => {
+    drop: (props, monitor) => {
       const drag = monitor.getItem()
-      const hover = props.element
-      if (hover.category_id !== drag.category_id || hover.skill_level_id !== drag.skill_level_id) {
-        return
+      const { element, slots } = props
+      let slot
+      if (
+        element.category_id !== drag.category_id
+        ||
+        element.skill_level_id !== drag.skill_level_id
+      ) {
+        slot = slots ? slots.previous : element.order
+      } else if (drag.order === element.order) {
+        slot = drag.order
+      } else if (drag.order > element.order) {
+        slot = slots.previous
+      } else {
+        slot = slots.next
       }
-      defaults.dropSpec.hover(props, monitor, component)
+      props.mover({
+        id: drag.id,
+        order: slot,
+        category_id: element.category_id,
+        skill_level_id: element.skill_level_id
+      })
     }
   },
   dragSpec: {
@@ -32,8 +48,6 @@ const DnDItem = dndItem('objective', {
       return {
         id: props.element.id,
         order: props.element.order,
-        name: props.element.name,
-        task_count: props.element.task_count,
         category_id: props.element.category_id,
         skill_level_id: props.element.skill_level_id
       }
@@ -114,6 +128,7 @@ export class MatrixObjective extends Component {
           mover={this.props.moveObjective}
           startDrag={this.props.startDrag}
           stopDrag={this.props.stopDrag}
+          slots={this.props.slots}
         >
           <div className="flexContainer">
             <div className="objectiveBlock flexContainer">
@@ -233,7 +248,11 @@ MatrixObjective.propTypes = {
   startDrag: PropTypes.func.isRequired,
   stopDrag: PropTypes.func.isRequired,
   categoryId: PropTypes.number.isRequired,
-  skillLevelId: PropTypes.number.isRequired
+  skillLevelId: PropTypes.number.isRequired,
+  slots: PropTypes.shape({
+    previous: PropTypes.number.isRequired,
+    next: PropTypes.number.isRequired
+  }).isRequired
 }
 
 MatrixObjective.defaultProps = {
@@ -256,7 +275,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     asyncAction(addObjectiveToTask, dispatch)
   ),
   taskDetails,
-  moveObjective: moveObjective(dispatch),
+  moveObjective: asyncAction(editObjective, dispatch),
   startDrag: startDrag({
     category_id: ownProps.categoryId,
     skill_level_id: ownProps.skillLevelId

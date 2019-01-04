@@ -1,11 +1,11 @@
 import React from 'react'
-import { shape, bool, func } from 'prop-types'
+import { shape, bool, func, number } from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Table, Header, Segment } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
-import { removeLevel, moveLevel } from '../../actions/levels'
+import { removeLevel, editLevel } from '../../actions/levels'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditLevelForm from './EditLevelForm'
 import dndItem from '../../../../utils/components/DnDItem'
@@ -14,7 +14,7 @@ const DnDItem = dndItem('skill_level')
 
 const HeaderLevel = (props) => {
   const translate = id => props.translate(`Course.matrix.HeaderLevel.${id}`)
-  const { level, editing } = props
+  const { level, editing, moveLevel, slots } = props
   const cellContent = (
     <div className="flexContainer">
       <div className="flexGrower">
@@ -44,7 +44,11 @@ const HeaderLevel = (props) => {
   return (
     <Table.HeaderCell key={level.id} textAlign="center">
       {editing ? (
-        <DnDItem element={level} mover={props.moveLevel}>
+        <DnDItem
+          element={level}
+          mover={moveLevel}
+          slots={slots}
+        >
           <Segment>
             {cellContent}
           </Segment>
@@ -59,12 +63,16 @@ HeaderLevel.propTypes = {
   editing: bool.isRequired,
   removeLevel: func.isRequired,
   translate: func.isRequired,
-  moveLevel: func.isRequired
+  moveLevel: func.isRequired,
+  slots: shape({
+    previous: number.isRequired,
+    next: number.isRequired
+  }).isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
   removeLevel: asyncAction(removeLevel, dispatch),
-  moveLevel: moveLevel(dispatch)
+  moveLevel: asyncAction(editLevel, dispatch)
 })
 
 export default connect(null, mapDispatchToProps)(withLocalize(HeaderLevel))

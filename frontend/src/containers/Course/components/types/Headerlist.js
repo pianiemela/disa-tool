@@ -9,18 +9,28 @@ import CreateHeaderForm from './CreateHeaderForm'
 export const Headerlist = (props) => {
   const headers = props.headers.sort((a, b) => a.order - b.order)
   let newOrder = 1
-  if (headers.length > 0) {
-    newOrder = headers[headers.length - 1].order + 1
-  }
-  return (
-    <div className="Headerlist">
-      {headers.map(header => (<TypeHeader
+  const headersNode = headers.map((header, index, headersArray) => {
+    const slots = {
+      previous: index > 0 ? (header.order + headersArray[index - 1].order) / 2 : header.order - 1,
+      next: index < headersArray.length - 1 ? (
+        (header.order + headersArray[index + 1].order) / 2
+      ) : header.order + 1
+    }
+    if (index === headersArray.length - 1) { newOrder = slots.next }
+    return (
+      <TypeHeader
         key={header.id}
         header={header}
         editing={props.editing}
         courseId={props.courseId}
         activeTask={props.activeTask}
-      />))}
+        slots={slots}
+      />
+    )
+  })
+  return (
+    <div className="Headerlist">
+      {headersNode}
       {props.editing ? (
         <CreateHeaderForm courseId={props.courseId} newOrder={newOrder} />
       ) : (

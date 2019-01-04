@@ -1,7 +1,73 @@
-import moveMapper from '../utils/reduxHelpers/moveMapper'
-
 const INITIAL_STATE = {
   categories: []
+}
+
+const objectiveEdit = (state, edited) => {
+  let oldObjective
+  let oldLevel
+  const oldCategory = state.categories.find((category) => {
+    oldLevel = category.skill_levels.find((level) => {
+      oldObjective = level.objectives.find((
+        objective => objective.id === edited.id
+      ))
+      return Boolean(oldObjective)
+    })
+    return Boolean(oldLevel)
+  })
+  const newObjective = {
+    ...oldObjective,
+    name: edited.name || oldObjective.name,
+    order: edited.order || oldObjective.order
+  }
+  if (oldLevel.id === edited.skill_level_id && oldCategory.id === edited.category_id) {
+    return {
+      ...state,
+      categories: state.categories.map(category => (
+        category.id === edited.category_id ? {
+          ...category,
+          skill_levels: category.skill_levels.map(level => (
+            level.id === edited.skill_level_id ? {
+              ...level,
+              objectives: level.objectives.map(objective => (
+                objective.id === edited.id ? newObjective : objective
+              ))
+            } : level
+          ))
+        } : category
+      ))
+    }
+  }
+  return {
+    ...state,
+    categories: state.categories.map((category) => {
+      let toReturn = category
+      if (category.id === oldCategory.id) {
+        toReturn = {
+          ...toReturn,
+          skill_levels: toReturn.skill_levels.map(level => (
+            level.id === oldLevel.id ? {
+              ...level,
+              objectives: level.objectives.filter((
+                objective => objective.id !== edited.id
+              ))
+            } : level
+          ))
+        }
+      }
+      if (category.id === edited.category_id) {
+        toReturn = {
+          ...toReturn,
+          skill_levels: toReturn.skill_levels.map(level => (
+            level.id === edited.skill_level_id ? {
+              ...level,
+              objectives: [...level.objectives, newObjective]
+            } : level
+          ))
+        }
+      }
+      return toReturn
+    })
+  }
 }
 
 const categoryReducer = (state = INITIAL_STATE, action) => {
@@ -94,12 +160,17 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
             .filter(level => level.id !== action.response.deleted.id)
         }))
       }
-    case 'LEVEL_MOVE':
+    case 'LEVEL_EDIT':
       return {
         ...state,
         categories: state.categories.map(category => ({
           ...category,
-          skill_levels: category.skill_levels.map(moveMapper(action))
+          skill_levels: category.skill_levels.map(level => (
+            level.id === action.response.edited.id ? {
+              ...level,
+              order: action.response.edited.order
+            } : level
+          ))
         }))
       }
     case 'TASK_ATTACH_OBJECTIVE':
@@ -133,74 +204,17 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
         }))
       }
     case 'OBJECTIVE_EDIT':
-      return {
-        ...state,
-        categories: state.categories.map(category => (
-          category.id === action.response.edited.category_id ? ({
-            ...category,
-            skill_levels: category.skill_levels.map(level => (
-              level.id === action.response.edited.skill_level_id ? ({
-                ...level,
-                objectives: level.objectives.map(objective => (
-                  objective.id === action.response.edited.id ? ({
-                    ...objective,
-                    name: action.response.edited.name
-                  }) : objective
-                ))
-              }) : level
-            ))
-          }) : category
-        ))
-      }
+      return objectiveEdit(state, action.response.edited)
     case 'CATEGORY_EDIT':
       return {
         ...state,
         categories: state.categories.map(category => (
           category.id === action.response.edited.id ? ({
             ...category,
-            name: action.response.edited.name
+            name: action.response.edited.name || category.name,
+            order: action.response.edited.order || category.order
           }) : category
         ))
-      }
-    case 'CATEGORY_MOVE':
-      return {
-        ...state,
-        categories: state.categories.map(moveMapper(action))
-      }
-    case 'OBJECTIVE_CHANGE_CELL':
-      return {
-        ...state,
-        categories: state.categories.map(category => ({
-          ...category,
-          skill_levels: category.skill_levels.map(level => ({
-            ...level,
-            objectives: (
-              (
-                (category.id === action.response.edited.category_id)
-                &&
-                (level.id === action.response.edited.skill_level_id)
-              ) ? (
-                  [...level.objectives, {
-                    id: action.response.edited.id,
-                    name: action.local.name,
-                    task_count: action.local.task_count,
-                    order: action.response.edited.order
-                  }]
-                ) : level.objectives.filter(objective => objective.id !== action.response.edited.id)
-            )
-          }))
-        }))
-      }
-    case 'OBJECTIVE_MOVE':
-      return {
-        ...state,
-        categories: state.categories.map(category => ({
-          ...category,
-          skill_levels: category.skill_levels.map(level => ({
-            ...level,
-            objectives: level.objectives.map(moveMapper(action))
-          }))
-        }))
       }
     default:
       return state

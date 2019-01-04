@@ -103,7 +103,8 @@ const { details, edit } = editServices(
       'fin_name',
       'swe_name',
       'multiplier',
-      'order'
+      'order',
+      'type_header_id'
     ],
     valueFields: [
       'id',

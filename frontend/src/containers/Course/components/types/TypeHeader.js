@@ -5,7 +5,7 @@ import { withLocalize } from 'react-localize-redux'
 import { Segment, Header } from 'semantic-ui-react'
 
 import asyncAction from '../../../../utils/asyncAction'
-import { removeHeader, moveHeader } from '../../actions/types'
+import { removeHeader, editHeader } from '../../actions/types'
 import Typelist from './Typelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditHeaderForm from './EditHeaderForm'
@@ -17,7 +17,9 @@ export const TypeHeader = (props) => {
   const {
     header,
     activeTask,
-    editing
+    editing,
+    moveHeader,
+    slots
   } = props
   const activeMap = {}
   if (activeTask !== null) {
@@ -28,7 +30,11 @@ export const TypeHeader = (props) => {
   const translate = id => props.translate(`Course.types.TypeHeader.${id}`)
 
   return (
-    <DnDItem element={header} mover={props.moveHeader}>
+    <DnDItem
+      element={header}
+      mover={moveHeader}
+      slots={slots}
+    >
       <Segment>
         <div className="flexContainer">
           <Header className="typeHeaderHeader">{header.name}</Header>
@@ -75,7 +81,11 @@ TypeHeader.propTypes = {
     types: PropTypes.arrayOf(PropTypes.number).isRequired
   }),
   translate: PropTypes.func.isRequired,
-  moveHeader: PropTypes.func.isRequired
+  moveHeader: PropTypes.func.isRequired,
+  slots: PropTypes.shape({
+    previous: PropTypes.number.isRequired,
+    next: PropTypes.number.isRequired
+  }).isRequired
 }
 
 TypeHeader.defaultProps = {
@@ -84,7 +94,7 @@ TypeHeader.defaultProps = {
 
 const mapDispatchToProps = dispatch => ({
   removeHeader: asyncAction(removeHeader, dispatch),
-  moveHeader: moveHeader(dispatch)
+  moveHeader: asyncAction(editHeader, dispatch)
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(TypeHeader))

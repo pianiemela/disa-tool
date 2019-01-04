@@ -47,24 +47,24 @@ const dragCollect = (conn, monitor) => ({
 })
 
 const dropSpec = {
-  hover: (props, monitor, component) => {
-    if (!component) { return }
-    const dragOrder = monitor.getItem().order
-    const hoverOrder = props.element.order
-    if (dragOrder === hoverOrder) { return }
-    props.mover(
-      {
-        id: monitor.getItem().id,
-        order: dragOrder
-      },
-      {
-        id: props.element.id,
-        order: hoverOrder
-      }
-    )
-    monitor.getItem().order = hoverOrder
+  drop: (props, monitor) => {
+    const drag = monitor.getItem()
+    const { element } = props
+    let slot
+    if (drag.order === element.order) {
+      slot = drag.order
+    } else if (drag.order > element.order) {
+      slot = props.slots.previous
+    } else {
+      slot = props.slots.next
+    }
+    props.mover({
+      id: drag.id,
+      order: slot
+    }, true)
   }
 }
+
 const defineItem = (type, config = {}) => {
   const {
     target = true,
