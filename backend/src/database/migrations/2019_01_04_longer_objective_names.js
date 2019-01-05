@@ -6,7 +6,6 @@ module.exports = {
       ))
     ))
   },
-
   down: (queryInterface, Sequelize) => {
     return queryInterface.changeColumn('objective', 'fin_name', { type: Sequelize.STRING }).then(() => (
       queryInterface.changeColumn('objective', 'eng_name', { type: Sequelize.STRING }).then(() => (

@@ -8,9 +8,13 @@ const getCourseCategories = (courseInstanceId, lang) => (
     attributes: ['id', [`${lang}_name`, 'name'], 'order'],
     include: {
       model: Objective,
-      attributes: ['id', 'course_instance_id', 'skill_level_id', [`${lang}_name`, 'name']],
+      attributes: ['id', 'course_instance_id', 'skill_level_id', [`${lang}_name`, 'name'], 'order'],
       where: { course_instance_id: courseInstanceId }
-    }
+    },
+    order: [
+      ['order', 'ASC'],
+      [Objective, 'order', 'ASC']
+    ]
   })
 )
 

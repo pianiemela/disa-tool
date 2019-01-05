@@ -2,8 +2,8 @@ const { Op } = require('sequelize')
 const { Task, TaskResponse, Type, Objective, TaskObjective, TaskType, TypeHeader } = require('../database/models.js')
 const editServices = require('../utils/editServices')
 
-const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points', 'order']
-const typeAttributes = lang => ['id', [`${lang}_name`, 'name'], 'order']
+const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_description`, 'description'], 'max_points']
+const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]
 
 
 const getUserTasksForCourse = (courseId, lang, userId) => (
@@ -20,6 +20,10 @@ const getUserTasksForCourse = (courseId, lang, userId) => (
           attributes: typeAttributes(lang)
         }
       }
+    ],
+    order: [
+      [Task, 'order', 'ASC'],
+      [Type, 'order', 'ASC']
     ]
   })
 )

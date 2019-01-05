@@ -111,109 +111,119 @@ export class MatrixObjective extends Component {
   }
 
   translate = id => this.props.translate(`Course.matrix.MatrixObjective.${id}`)
-
+  
   render() {
+    const content = (
+      <div className="flexContainer">
+        <div className="objectiveBlock flexContainer">
+          {this.props.showDetails ? (
+            <Button
+              className="objectiveButton"
+              toggle
+              active={this.props.active}
+              compact
+              basic
+              fluid
+              style={{ borderRadius: '0px', cursor: this.props.activeTaskId ? undefined : 'default' }}
+              onClick={this.toggleObjective}
+            >
+              <MathJaxText content={this.props.objective.name} />
+            </Button>
+          ) : (
+            <Segment
+              className="objectiveSegment"
+              style={{ borderRadius: '0px' }}
+            >
+              <MathJaxText content={this.props.objective.name} />
+            </Segment>
+          )}
+          {this.props.showDetails ? (
+            <div>
+              <Popup
+                trigger={<Label
+                  size="large"
+                  circular
+                  content={this.props.objective.task_count}
+                  onMouseOver={this.loadDetails}
+                  onFocus={this.loadDetails}
+                  style={{
+                    color: this.props.objective.task_count === 0 ? 'red' : undefined
+                  }}
+                />}
+                content={
+                  this.state.loading ? (
+                    <Loader active inline />
+                  ) : (
+                    <div>
+                      <div>
+                        <span>{this.translate('cumulative')}</span>
+                        <Label>
+                          <strong>{this.state.cumulative_multiplier.toFixed(2)}</strong>
+                        </Label>
+                      </div>
+                      <Header>
+                        <span className="capitalize">{this.translate('tasks')}</span>
+                      </Header>
+                      <Grid>
+                        {this.state.tasks.map(task => (
+                          <Grid.Row key={task.name}>
+                            <Grid.Column width={12}>
+                              <span>{task.name}</span>
+                            </Grid.Column>
+                            <Grid.Column width={4} textAlign="left">
+                              <Label>
+                                {(Number(task.multiplier)).toFixed(2)}
+                              </Label>
+                            </Grid.Column>
+                          </Grid.Row>
+                        ))}
+                      </Grid>
+                    </div>
+                  )}
+              />
+            </div>
+          ) : (
+            null
+          )}
+        </div>
+        {this.props.editing ? (
+          <div className="removeBlock">
+            <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
+            <DeleteForm
+              style={{ margin: '5px auto 5px auto' }}
+              onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
+              prompt={[
+                this.translate('delete_prompt_1'),
+                `"${this.props.objective.name}"`
+              ]}
+              header={this.translate('delete_header')}
+            />
+          </div>
+        ) : (
+          null
+        )}
+      </div>
+    )
+    if (this.props.editing) {
+      return (
+        <div className="MatrixObjective">
+          <DnDItem
+            element={{
+              ...this.props.objective,
+              category_id: this.props.categoryId,
+              skill_level_id: this.props.skillLevelId
+            }}
+            mover={this.props.moveObjective}
+            slots={this.props.slots}
+          >
+            {content}
+          </DnDItem>
+        </div>
+      )
+    }
     return (
       <div className="MatrixObjective">
-        <DnDItem
-          element={{
-            ...this.props.objective,
-            category_id: this.props.categoryId,
-            skill_level_id: this.props.skillLevelId
-          }}
-          mover={this.props.moveObjective}
-          slots={this.props.slots}
-        >
-          <div className="flexContainer">
-            <div className="objectiveBlock flexContainer">
-              {this.props.showDetails ? (
-                <Button
-                  className="objectiveButton"
-                  toggle
-                  active={this.props.active}
-                  compact
-                  basic
-                  fluid
-                  style={{ borderRadius: '0px', cursor: this.props.activeTaskId ? undefined : 'default' }}
-                  onClick={this.toggleObjective}
-                >
-                  <MathJaxText content={this.props.objective.name} />
-                </Button>
-              ) : (
-                <Segment
-                  className="objectiveSegment"
-                  style={{ borderRadius: '0px' }}
-                >
-                  <MathJaxText content={this.props.objective.name} />
-                </Segment>
-              )}
-              {this.props.showDetails ? (
-                <div>
-                  <Popup
-                    trigger={<Label
-                      size="large"
-                      circular
-                      content={this.props.objective.task_count}
-                      onMouseOver={this.loadDetails}
-                      onFocus={this.loadDetails}
-                      style={{
-                        color: this.props.objective.task_count === 0 ? 'red' : undefined
-                      }}
-                    />}
-                    content={
-                      this.state.loading ? (
-                        <Loader active inline />
-                      ) : (
-                        <div>
-                          <div>
-                            <span>{this.translate('cumulative')}</span>
-                            <Label>
-                              <strong>{this.state.cumulative_multiplier.toFixed(2)}</strong>
-                            </Label>
-                          </div>
-                          <Header>
-                            <span className="capitalize">{this.translate('tasks')}</span>
-                          </Header>
-                          <Grid>
-                            {this.state.tasks.map(task => (
-                              <Grid.Row key={task.name}>
-                                <Grid.Column width={12}>
-                                  <span>{task.name}</span>
-                                </Grid.Column>
-                                <Grid.Column width={4} textAlign="left">
-                                  <Label>
-                                    {(Number(task.multiplier)).toFixed(2)}
-                                  </Label>
-                                </Grid.Column>
-                              </Grid.Row>
-                            ))}
-                          </Grid>
-                        </div>
-                      )}
-                  />
-                </div>
-              ) : (
-                null
-              )}
-            </div>
-            {this.props.editing ? (
-              <div className="removeBlock">
-                <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
-                <DeleteForm
-                  style={{ margin: '5px auto 5px auto' }}
-                  onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
-                  prompt={[
-                    this.translate('delete_prompt_1'),
-                    `"${this.props.objective.name}"`
-                  ]}
-                  header={this.translate('delete_header')}
-                />
-              </div>
-            ) : (
-              null
-            )}
-          </div>
-        </DnDItem>
+        {content}
       </div>
     )
   }

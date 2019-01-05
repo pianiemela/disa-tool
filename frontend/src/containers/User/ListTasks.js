@@ -2,6 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Icon, Label, List } from 'semantic-ui-react'
 
+const typeSorter = (a, b) => {
+  if (a.type_header.order === b.type_header.order) {
+    return a.order - b.order
+  }
+  return a.type_header.order - b.type_header.order
+}
 
 export const ListTasks = props => (
   <div>
@@ -13,7 +19,7 @@ export const ListTasks = props => (
             <List.Icon verticalAlign="middle" name="checkmark" color="green" /> :
             <List.Icon verticalAlign="middle" name="delete" color="red" />}
           <List.Content>
-            {task.name} {task.types.map(type => (
+            {task.name} {task.types.sort(typeSorter).map(type => (
               <Label
                 basic={!props.selectedType || type.id !== props.selectedType.id}
                 size="mini"

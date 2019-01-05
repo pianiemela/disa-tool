@@ -145,7 +145,10 @@ const getByCourse = async (id, lang) => {
         course_instance_id: id
       },
       attributes: ['id', 'course_instance_id', name]
-    }
+    },
+    order: [
+      ['order', 'ASC']
+    ]
   })
   return types.map((type) => {
     const json = type.toJSON()

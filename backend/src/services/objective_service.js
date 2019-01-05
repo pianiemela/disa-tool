@@ -69,7 +69,10 @@ const taskDetails = async (id, lang) => {
       through: {
         attributes: ['multiplier']
       }
-    }
+    },
+    order: [
+      [Task, 'order', 'ASC']
+    ]
   })).toJSON()
   result.tasks = result.tasks.map(task => ({
     ...task,

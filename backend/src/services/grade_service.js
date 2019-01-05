@@ -13,6 +13,10 @@ const getByCourse = async (id, lang) => {
         where: { course_instance_id: id }
       },
       CategoryGrade
+    ],
+    order: [
+      ['order', 'ASC'],
+      [SkillLevel, 'order', 'ASC']
     ]
   })
   return result.map(grade => ({ ...grade.toJSON(), skill_level: undefined }))
