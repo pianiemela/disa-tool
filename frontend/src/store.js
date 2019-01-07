@@ -15,7 +15,6 @@ import validation from './redux/validation'
 import listCourses from './redux/listCourses'
 import toast from './redux/toast'
 import grade from './redux/grade'
-import objective from './redux/objective'
 import error from './redux/error'
 import admin from './redux/admin'
 import selfAssesmentList from './redux/selfAssesmentList'
@@ -33,7 +32,6 @@ const reducers = combineReducers({
   listCourses,
   toast,
   grade,
-  objective,
   error,
   admin,
   validation,

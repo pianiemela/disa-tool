@@ -3,15 +3,56 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Button, Label, Popup, Header, Loader, Segment, Grid } from 'semantic-ui-react'
-import asyncAction from '../../../../utils/asyncAction'
 
-import { removeObjective } from '../../actions/objectives'
+import asyncAction from '../../../../utils/asyncAction'
+import { removeObjective, editObjective } from '../../actions/objectives'
 import { addObjectiveToTask, removeObjectiveFromTask } from '../../actions/tasks'
 import { taskDetails } from '../../../../api/objectives'
-
 import EditObjectiveForm from './EditObjectiveForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
+import dndItem, { defaults } from '../../../../utils/components/DnDItem'
+
+export const dropSpec = {
+  ...defaults.dropSpec,
+  drop: (props, monitor) => {
+    const drag = monitor.getItem()
+    const { element, slots } = props
+    let slot
+    if (
+      element.category_id !== drag.category_id
+      ||
+      element.skill_level_id !== drag.skill_level_id
+    ) {
+      slot = slots ? slots.previous : element.order
+    } else if (drag.order === element.order) {
+      slot = drag.order
+    } else if (drag.order > element.order) {
+      slot = slots.previous
+    } else {
+      slot = slots.next
+    }
+    props.mover({
+      id: drag.id,
+      order: slot,
+      category_id: element.category_id,
+      skill_level_id: element.skill_level_id
+    })
+  }
+}
+
+const DnDItem = dndItem('objective', {
+  dropSpec,
+  dragSpec: {
+    ...defaults.dragSpec,
+    beginDrag: props => ({
+      id: props.element.id,
+      order: props.element.order,
+      category_id: props.element.category_id,
+      skill_level_id: props.element.skill_level_id
+    })
+  }
+})
 
 export class MatrixObjective extends Component {
   constructor(props) {
@@ -70,11 +111,10 @@ export class MatrixObjective extends Component {
   }
 
   translate = id => this.props.translate(`Course.matrix.MatrixObjective.${id}`)
-
+  
   render() {
-    if (this.props.isCut) return <Button basic icon={{ name: 'paste' }} onClick={() => this.props.cut(null)} />
-    return (
-      <div className="MatrixObjective flexContainer">
+    const content = (
+      <div className="flexContainer">
         <div className="objectiveBlock flexContainer">
           {this.props.showDetails ? (
             <Button
@@ -91,7 +131,7 @@ export class MatrixObjective extends Component {
             </Button>
           ) : (
             <Segment
-              className={`objectiveSegment${this.props.wasCut ? ' appearAnimation' : ''}`}
+              className="objectiveSegment"
               style={{ borderRadius: '0px' }}
             >
               <MathJaxText content={this.props.objective.name} />
@@ -148,6 +188,7 @@ export class MatrixObjective extends Component {
         </div>
         {this.props.editing ? (
           <div className="removeBlock">
+            <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
             <DeleteForm
               style={{ margin: '5px auto 5px auto' }}
               onExecute={() => this.props.removeObjective({ id: this.props.objective.id })}
@@ -157,20 +198,32 @@ export class MatrixObjective extends Component {
               ]}
               header={this.translate('delete_header')}
             />
-            <Button
-              basic
-              circular
-              style={{ margin: '5px auto 5px auto' }}
-              type="button"
-              icon={{ name: 'cut' }}
-              size="mini"
-              onClick={() => this.props.cut(this.props.objective.id)}
-            />
-            <EditObjectiveForm style={{ margin: '5px auto 5px auto' }} objectiveId={this.props.objective.id} />
           </div>
         ) : (
           null
         )}
+      </div>
+    )
+    if (this.props.editing) {
+      return (
+        <div className="MatrixObjective">
+          <DnDItem
+            element={{
+              ...this.props.objective,
+              category_id: this.props.categoryId,
+              skill_level_id: this.props.skillLevelId
+            }}
+            mover={this.props.moveObjective}
+            slots={this.props.slots}
+          >
+            {content}
+          </DnDItem>
+        </div>
+      )
+    }
+    return (
+      <div className="MatrixObjective">
+        {content}
       </div>
     )
   }
@@ -190,10 +243,14 @@ MatrixObjective.propTypes = {
   taskDetails: PropTypes.func.isRequired,
   showDetails: PropTypes.bool,
   lastMultiplierUpdate: PropTypes.instanceOf(Date),
-  isCut: PropTypes.bool.isRequired,
-  wasCut: PropTypes.bool.isRequired,
-  cut: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  moveObjective: PropTypes.func.isRequired,
+  categoryId: PropTypes.number.isRequired,
+  skillLevelId: PropTypes.number.isRequired,
+  slots: PropTypes.shape({
+    previous: PropTypes.number.isRequired,
+    next: PropTypes.number.isRequired
+  }).isRequired
 }
 
 MatrixObjective.defaultProps = {
@@ -202,10 +259,8 @@ MatrixObjective.defaultProps = {
   lastMultiplierUpdate: null
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  lastMultiplierUpdate: state.task.lastMultiplierUpdate,
-  isCut: state.objective.cut === ownProps.objective.id,
-  wasCut: state.objective.last_cut === ownProps.objective.id
+const mapStateToProps = state => ({
+  lastMultiplierUpdate: state.task.lastMultiplierUpdate
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
@@ -216,7 +271,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     asyncAction(addObjectiveToTask, dispatch)
   ),
   taskDetails,
-  cut: id => dispatch({ type: 'OBJECTIVE_CUT', cut: id })
+  moveObjective: asyncAction(editObjective, dispatch)
 })
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(MatrixObjective))

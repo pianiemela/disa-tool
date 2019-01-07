@@ -3,14 +3,16 @@
     "fin_name": "1",
     "swe_name": "1",
     "needed_for_grade": 0.5,
-    "skill_level_id": 1
+    "skill_level_id": 1,
+    "order": 1.0
 },
 {
     "eng_name": "2",
     "fin_name": "2",
     "swe_name": "2",
     "needed_for_grade": 0.9,
-    "skill_level_id": 1
+    "skill_level_id": 1,
+    "order": 2.0
 },
 {
     "eng_name": "3",
@@ -18,7 +20,8 @@
     "swe_name": "3",
     "needed_for_grade": 0.5,
     "skill_level_id": 2,
-    "prerequisite": 2
+    "prerequisite": 2,
+    "order": 3.0
 },
 {
     "eng_name": "4",
@@ -26,7 +29,8 @@
     "swe_name": "4",
     "needed_for_grade": 0.8,
     "skill_level_id": 2,
-    "prerequisite": 2
+    "prerequisite": 2,
+    "order": 4.0
 },
 {
     "eng_name": "5",
@@ -34,13 +38,15 @@
     "swe_name": "5",
     "needed_for_grade": 0.5,
     "skill_level_id": 3,
-    "prerequisite": 4
+    "prerequisite": 4,
+    "order": 5.0
 },
 {
     "eng_name": "Fail",
     "fin_name": "Hyl.",
     "swe_name": "Hyljender",
     "needed_for_grade": 0,
-    "skill_level_id": 1
+    "skill_level_id": 1,
+    "order": 6.0
 }
 ]

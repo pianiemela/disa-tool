@@ -5,6 +5,8 @@ import DeleteForm from '../../../../../utils/components/DeleteForm'
 
 import { findText } from '../../../../testUtils'
 
+TypeHeader.propTypes = {}
+
 const header = {
   id: 20,
   name: 'Head',
@@ -22,6 +24,7 @@ describe('TypeHeader component', () => {
       editing={false}
       removeHeader={removeHeader}
       translate={() => ''}
+      moveHeader={() => {}}
     />)
   })
 

@@ -12,6 +12,7 @@ describe('CreateTypeForm component', () => {
       addType={mockFn}
       headerId={1}
       translate={() => ''}
+      newOrder={1}
     />)
   })
 

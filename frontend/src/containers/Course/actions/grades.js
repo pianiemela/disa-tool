@@ -1,7 +1,7 @@
 import { getByCourse, create, remove, edit } from '../../../api/grades'
 import apiPromise from '../../../utils/apiPromise'
 
-export const getGrades = data => apiPromise(getByCourse, data, { // eslint-disable-line
+export const getGrades = data => apiPromise(getByCourse, data, {
   success: { type: 'GRADE_GET_MANY' }
 })
 

@@ -2,6 +2,40 @@ const INITIAL_STATE = {
   headers: []
 }
 
+const edit = (state, edited) => {
+  const oldHeader = state.headers.find(header => header.types.find(type => type.id === edited.id))
+  if (oldHeader.id === edited.type_header_id) {
+    return {
+      ...state,
+      headers: state.headers.map(header => (
+        header.id === edited.type_header_id ? ({
+          ...header,
+          types: header.types.map(type => (type.id === edited.id ? (edited) : type))
+        }) : header
+      ))
+    }
+  }
+  return {
+    ...state,
+    headers: state.headers.map((header) => {
+      switch (header.id) {
+        case edited.type_header_id:
+          return {
+            ...header,
+            types: [...header.types, edited]
+          }
+        case oldHeader.id:
+          return {
+            ...header,
+            types: header.types.filter(type => type.id !== edited.id)
+          }
+        default:
+          return header
+      }
+    })
+  }
+}
+
 const typeReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'COURSE_GET_DATA':
@@ -10,17 +44,7 @@ const typeReducer = (state = INITIAL_STATE, action) => {
         headers: action.response.data.type_headers
       }
     case 'TYPE_EDIT':
-      return {
-        ...state,
-        headers: state.headers
-          .map(header => (header.id === action.response.edited.type_header_id ? {
-            ...header,
-            types: header.types.map(type => (type.id === action.response.edited.id ? {
-              ...action.response.edited,
-              type_header_id: undefined
-            } : type))
-          } : header))
-      }
+      return edit(state, action.response.edited)
     case 'TYPE_DELETE':
       return {
         ...state,
@@ -58,7 +82,7 @@ const typeReducer = (state = INITIAL_STATE, action) => {
         headers: state.headers.map(header => (
           header.id === action.response.edited.id ? ({
             ...header,
-            name: action.response.edited.name
+            ...action.response.edited
           }) : header
         ))
       }

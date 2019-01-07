@@ -9,7 +9,6 @@ import './grades.css'
 import { getGrades } from '../../actions/grades'
 
 import Gradelist from './Gradelist'
-import CreateGradeForm from './CreateGradeForm'
 import CategoryGradeTable from './CategoryGradeTable'
 
 class EditGradesTab extends Component {
@@ -37,10 +36,6 @@ class EditGradesTab extends Component {
           <Gradelist
             grades={grades}
             levels={levels}
-          />
-          <CreateGradeForm
-            levels={levels}
-            grades={grades}
           />
           <CategoryGradeTable
             courseId={courseId}

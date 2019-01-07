@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom'
 import { Loader } from 'semantic-ui-react'
+import { DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
+
 import asyncAction from '../../utils/asyncAction'
-
 import { getCourseData, resetCourse } from './actions/course'
-
 import EditMatrixTab from './components/matrix/EditMatrixTab'
 import EditTypesTab from './components/types/EditTypesTab'
 import EditTasksTab from './components/tasks/EditTasksTab'
@@ -77,4 +78,6 @@ const mapDispatchToProps = dispatch => ({
   resetCourse: resetCourse(dispatch)
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CoursePage))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)((
+  DragDropContext(HTML5Backend)(CoursePage)
+)))

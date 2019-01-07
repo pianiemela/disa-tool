@@ -155,13 +155,15 @@ const getTypeHeaders = (courseInstances) => {
       eng_name: 'Week',
       fin_name: 'Viikko',
       swe_name: 'Vecka',
-      course_instance_id: element.id
+      course_instance_id: element.id,
+      order: 1
     })
     typeHeaders.push({
       eng_name: 'Series',
       fin_name: 'Sarja',
       swe_name: 'Serie',
-      course_instance_id: element.id
+      course_instance_id: element.id,
+      order: 2
     })
   })
   return typeHeaders
@@ -180,7 +182,8 @@ const getTypes = (typeHeaders) => {
           swe_name: i + 1,
           fin_name: i + 1,
           multiplier: Math.round(multiplier * 100) / 100,
-          type_header_id: header.id
+          type_header_id: header.id,
+          order: i + 1
         })
         multiplier += increment
       }
@@ -193,7 +196,8 @@ const getTypes = (typeHeaders) => {
           swe_name: sarja[i],
           fin_name: sarja[i],
           multiplier: Math.round(multiplier * 100) / 100,
-          type_header_id: header.id
+          type_header_id: header.id,
+          order: i + 1
         })
         multiplier += increment
       }

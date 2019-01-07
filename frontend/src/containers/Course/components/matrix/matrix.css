@@ -1,6 +1,6 @@
 .addObjectiveButton {
   width: 150px;
-  height: 30px;
+  height: 50px;
 }
 
 .textInput {
@@ -9,6 +9,11 @@
 
 .flexContainer {
   display: flex;
+}
+
+.flexGrower {
+  flex-grow: 1;
+  width: 100%;
 }
 
 .paddedBlock {

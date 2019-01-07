@@ -5,12 +5,16 @@ const getAllCategories = () => Category.findAll()
 
 const getCourseCategories = (courseInstanceId, lang) => (
   Category.findAll({
-    attributes: ['id', [`${lang}_name`, 'name']],
+    attributes: ['id', [`${lang}_name`, 'name'], 'order'],
     include: {
       model: Objective,
-      attributes: ['id', 'course_instance_id', 'skill_level_id', [`${lang}_name`, 'name']],
+      attributes: ['id', 'course_instance_id', 'skill_level_id', [`${lang}_name`, 'name'], 'order'],
       where: { course_instance_id: courseInstanceId }
-    }
+    },
+    order: [
+      ['order', 'ASC'],
+      [Objective, 'order', 'ASC']
+    ]
   })
 )
 
@@ -20,7 +24,8 @@ const create = {
       course_instance_id: data.course_instance_id,
       eng_name: data.eng_name,
       fin_name: data.fin_name,
-      swe_name: data.swe_name
+      swe_name: data.swe_name,
+      order: data.order
     })
     const skillLevels = await SkillLevel.findAll({
       where: {
@@ -39,7 +44,8 @@ const create = {
       skill_levels: skillLevels.map(level => ({
         id: level.id,
         objectives: []
-      }))
+      })),
+      order: json.order
     }
   }
 }
@@ -85,11 +91,13 @@ const { details, edit } = editServices(
     saveFields: [
       'eng_name',
       'fin_name',
-      'swe_name'
+      'swe_name',
+      'order'
     ],
     valueFields: [
       'id',
-      ['lang_name', 'name']
+      ['lang_name', 'name'],
+      'order'
     ]
   }
 )

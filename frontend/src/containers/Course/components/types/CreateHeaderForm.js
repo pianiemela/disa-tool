@@ -16,7 +16,8 @@ export class CreateHeaderForm extends Component {
       course_instance_id: this.props.courseId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
-      swe_name: e.target.swe_name.value
+      swe_name: e.target.swe_name.value,
+      order: this.props.newOrder
     })
   }
 
@@ -46,7 +47,8 @@ export class CreateHeaderForm extends Component {
 CreateHeaderForm.propTypes = {
   addHeader: PropTypes.func.isRequired,
   courseId: PropTypes.number.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  newOrder: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

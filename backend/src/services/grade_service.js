@@ -5,7 +5,7 @@ const editServices = require('../utils/editServices.js')
 const getByCourse = async (id, lang) => {
   const name = [`${lang}_name`, 'name']
   const result = await Grade.findAll({
-    attributes: ['id', name, 'skill_level_id', 'needed_for_grade', 'prerequisite'],
+    attributes: ['id', name, 'skill_level_id', 'needed_for_grade', 'prerequisite', 'order'],
     include: [
       {
         model: SkillLevel,
@@ -13,6 +13,10 @@ const getByCourse = async (id, lang) => {
         where: { course_instance_id: id }
       },
       CategoryGrade
+    ],
+    order: [
+      ['order', 'ASC'],
+      [SkillLevel, 'order', 'ASC']
     ]
   })
   return result.map(grade => ({ ...grade.toJSON(), skill_level: undefined }))
@@ -27,7 +31,8 @@ const create = {
         swe_name: data.swe_name,
         skill_level_id: data.skill_level_id,
         needed_for_grade: data.needed_for_grade,
-        prerequisite: data.prerequisite
+        prerequisite: data.prerequisite,
+        order: data.order
       }),
       SkillLevel.findById(data.skill_level_id, {
         attributes: ['id', 'course_instance_id']
@@ -46,7 +51,8 @@ const create = {
       name: json[`${lang}_name`],
       skill_level_id: json.skill_level_id,
       needed_for_grade: json.needed_for_grade,
-      prerequisite: json.prerequisite
+      prerequisite: json.prerequisite,
+      order: json.order
     }
   }
 }
@@ -83,7 +89,8 @@ const { details, edit } = editServices(
       'swe_name',
       'skill_level_id',
       'needed_for_grade',
-      'prerequisite'
+      'prerequisite',
+      'order'
     ],
     valueFields: [
       'id',
@@ -91,7 +98,8 @@ const { details, edit } = editServices(
       'skill_level_id',
       'needed_for_grade',
       'prerequisite',
-      'category_grades'
+      'category_grades',
+      'order'
     ]
   }
 )

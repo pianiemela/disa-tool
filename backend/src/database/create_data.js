@@ -2,24 +2,21 @@ const { sequelize } = require('./connection.js')
 const categories = require('./seeds/categories.json')
 const skillLevels = require('./seeds/skill_levels.json')
 const courses = require('./seeds/courses.json')
-const courseInstances = require('./seeds/course_instances.json')
 const newObjectives = require('./seeds/objectives_new.json')
 const taskResponses = require('./seeds/task_responses.json')
 
-const { Task,
+const {
+  Task,
   TaskType,
   Category,
   Objective,
   TaskObjective,
   SkillLevel,
-  Grade,
   Course,
   CourseInstance,
   Person,
   CoursePerson,
-  SelfAssessment,
   TaskResponse,
-  AssessmentResponse,
   TypeHeader,
   Type
 } = require('./models.js')
@@ -49,9 +46,8 @@ const createPersons = persons => Person.bulkCreate(persons, { returning: true })
 const createCourseInstances = (listOfCourses, maxInstances) => {
   const instances = []
   listOfCourses.map((course) => {
-    let n = 0
     // Hardcoded linis amount to three to match the amount of objectives in objective_new.json
-    course.eng_name === 'Lineaarialgebra ja matriisilaskenta I' ? n = 3 : n = randBetween(0, maxInstances)
+    const n = course.eng_name === 'Lineaarialgebra ja matriisilaskenta I' ? 3 : randBetween(0, maxInstances)
     for (let i = 0; i < n; i += 1) {
       const semester = Math.random() >= 0.5 ? 'syksy' : 'kevät'
       const name = `${course.fin_name} ${semester} ${2018 + i}`
@@ -92,7 +88,6 @@ const run = async () => {
   const createdPersons = (await createPersons(getStudentsAndTeachers())).map(db0 => db0.toJSON())
   console.log('persons created')
   const createdCourseInstances = (await createCourseInstances(createdCourses, MAX_INSTANCES)).map(db0 => db0.toJSON())
-  // console.log(createdCourseInstances)
   console.log('course instances created')
   const createdCoursePersons = await createCoursePersons(getCoursePersons(createdPersons, createdCourseInstances))
   console.log('coursePersons created')
@@ -112,7 +107,6 @@ const run = async () => {
   console.log('type headers created')
   const createdTypes = (await createTypes(getTypes(createdTypeHeaders))).map(db0 => db0.toJSON())
   console.log('types created')
-  // console.log(createdTypes)
   await createTaskTypes(createdCourseInstances, createdTypeHeaders, createdTasks, createdTypes)
   console.log('task types created')
   console.log('ALL DONE')

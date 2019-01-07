@@ -28,21 +28,21 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
     include: [
       {
         model: Category,
-        attributes: ['id', name]
+        attributes: ['id', name, 'order']
       },
       {
         model: SkillLevel,
-        attributes: ['id', name],
+        attributes: ['id', name, 'order'],
         include: {
           model: Objective,
-          attributes: ['id', name, 'skill_level_id', 'category_id'],
-          order: [['id', 'ASC']],
+          attributes: ['id', name, 'skill_level_id', 'category_id', 'order'],
+          order: [['order', 'ASC']],
           separate: true
         }
       },
       {
         model: Task,
-        attributes: ['id', name, 'info', description, 'max_points'],
+        attributes: ['id', name, 'info', description, 'max_points', 'order'],
         include: [
           {
             model: TaskObjective,
@@ -60,20 +60,20 @@ const getCourseInstanceData = async (courseInstanceId, lang) => {
       },
       {
         model: TypeHeader,
-        attributes: ['id', name],
+        attributes: ['id', name, 'order'],
         include: {
           model: Type,
-          attributes: ['id', name, 'multiplier', 'type_header_id'],
-          order: [['id', 'ASC']],
+          attributes: ['id', name, 'multiplier', 'type_header_id', 'order'],
+          order: [['order', 'ASC']],
           separate: true
         }
       }
     ],
     order: [
-      [Category, 'id', 'ASC'],
-      [SkillLevel, 'id', 'ASC'],
-      [Task, 'id', 'ASC'],
-      [TypeHeader, 'id', 'ASC']
+      [Category, 'order', 'ASC'],
+      [SkillLevel, 'order', 'ASC'],
+      [Task, 'order', 'ASC'],
+      [TypeHeader, 'order', 'ASC']
     ]
   })).toJSON()
 
@@ -170,7 +170,7 @@ const copyCourseInstance = async (data, user, lang) => {
     include: [
       {
         model: Category,
-        attributes: ['id', ...names],
+        attributes: ['id', ...names, 'order'],
         include: {
           model: CategoryGrade,
           attributes: ['id', 'grade_id', 'category_id', 'needed_for_grade'],
@@ -183,52 +183,41 @@ const copyCourseInstance = async (data, user, lang) => {
         include: [
           {
             model: Objective,
-            attributes: ['id', ...names, 'skill_level_id', 'category_id'],
-            order: [['id', 'ASC']],
+            attributes: ['id', ...names, 'skill_level_id', 'category_id', 'order'],
             separate: true
           },
           {
             model: Grade,
-            attributes: ['id', ...names, 'needed_for_grade', 'skill_level_id', 'prerequisite'],
-            order: [['id', 'ASC']],
+            attributes: ['id', ...names, 'needed_for_grade', 'skill_level_id', 'prerequisite', 'order'],
             separate: true
           }
         ]
       },
       {
         model: Task,
-        attributes: ['id', ...names, 'info', ...descriptions, 'max_points'],
+        attributes: ['id', ...names, 'info', ...descriptions, 'max_points', 'order'],
         include: [
           {
             model: TaskObjective,
             attributes: ['task_id', 'multiplier', 'objective_id'],
-            order: [['objective_id', 'ASC']],
             separate: true
           },
           {
             model: TaskType,
             attributes: ['task_id', 'type_id'],
-            order: [['type_id', 'ASC']],
             separate: true
           }
         ]
       },
       {
         model: TypeHeader,
-        attributes: ['id', ...names],
+        attributes: ['id', ...names, 'order'],
         include: {
           model: Type,
-          attributes: ['id', ...names, 'multiplier', 'type_header_id'],
-          order: [['id', 'ASC']],
+          attributes: ['id', ...names, 'multiplier', 'type_header_id', 'order'],
           separate: true
         }
       }
-    ],
-    order: [
-      [Category, 'id', 'ASC'],
-      [SkillLevel, 'id', 'ASC'],
-      [Task, 'id', 'ASC'],
-      [TypeHeader, 'id', 'ASC']
     ]
   })).toJSON()
   let copyData = mapToBuild(data, original)
@@ -277,7 +266,8 @@ const mapToBuild = (data, original) => {
       data: original.categories.map(category => ({
         ref: category.id,
         course_instance_id: reference(CourseInstance, copy.ref),
-        ...mapNames(category)
+        ...mapNames(category),
+        order: category.order
       }))
     },
     {
@@ -285,7 +275,8 @@ const mapToBuild = (data, original) => {
       data: original.skill_levels.map(level => ({
         ref: level.id,
         course_instance_id: reference(CourseInstance, copy.ref),
-        ...mapNames(level)
+        ...mapNames(level),
+        order: level.order
       }))
     },
     {
@@ -295,7 +286,8 @@ const mapToBuild = (data, original) => {
           ref: objective.id,
           ...mapNames(objective),
           skill_level_id: reference(SkillLevel, objective.skill_level_id),
-          category_id: reference(Category, objective.category_id)
+          category_id: reference(Category, objective.category_id),
+          order: objective.order
         }))),
         []
       )
@@ -308,7 +300,8 @@ const mapToBuild = (data, original) => {
         ...mapNames(task),
         info: task.info,
         ...mapDescriptions(task),
-        max_points: task.max_points
+        max_points: task.max_points,
+        order: task.order
       }))
     },
     {
@@ -327,7 +320,8 @@ const mapToBuild = (data, original) => {
       data: original.type_headers.map(th => ({
         ref: th.id,
         course_instance_id: reference(CourseInstance, copy.ref),
-        ...mapNames(th)
+        ...mapNames(th),
+        order: th.order
       }))
     },
     {
@@ -337,7 +331,8 @@ const mapToBuild = (data, original) => {
           ref: type.id,
           multiplier: type.multiplier,
           ...mapNames(type),
-          type_header_id: reference(TypeHeader, type.type_header_id)
+          type_header_id: reference(TypeHeader, type.type_header_id),
+          order: type.order
         }))),
         []
       )
@@ -361,7 +356,8 @@ const mapToBuild = (data, original) => {
           ...mapNames(grade),
           needed_for_grade: grade.needed_for_grade,
           skill_level_id: reference(SkillLevel, grade.skill_level_id),
-          prerequisite: reference(Grade, grade.prerequisite)
+          prerequisite: reference(Grade, grade.prerequisite),
+          order: grade.order
         }))),
         []
       )
@@ -481,22 +477,22 @@ const matrix = async (id, lang) => {
     include: [
       {
         model: Category,
-        attributes: ['id', name]
+        attributes: ['id', name, 'order']
       },
       {
         model: SkillLevel,
-        attributes: ['id', name],
+        attributes: ['id', name, 'order'],
         include: {
           model: Objective,
-          attributes: ['id', 'category_id', 'skill_level_id', name],
-          order: [['id', 'ASC']],
+          attributes: ['id', 'category_id', 'skill_level_id', name, 'order'],
+          order: [['order', 'ASC']],
           separate: true
         }
       }
     ],
     order: [
-      [Category, 'id', 'ASC'],
-      [SkillLevel, 'id', 'ASC']
+      [Category, 'order', 'ASC'],
+      [SkillLevel, 'order', 'ASC']
     ]
   })
   if (!result) return null

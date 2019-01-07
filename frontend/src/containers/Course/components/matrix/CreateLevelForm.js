@@ -16,7 +16,8 @@ export class CreateLevelForm extends Component {
       course_instance_id: this.props.courseId,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
-      swe_name: e.target.swe_name.value
+      swe_name: e.target.swe_name.value,
+      order: this.props.newOrder
     })
   }
 
@@ -43,7 +44,8 @@ export class CreateLevelForm extends Component {
 CreateLevelForm.propTypes = {
   courseId: PropTypes.number.isRequired,
   addLevel: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  newOrder: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

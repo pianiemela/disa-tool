@@ -21,7 +21,8 @@ export class AddTaskForm extends Component {
       swe_description: e.target.swe_description.value,
       info: e.target.info.value,
       max_points: e.target.points.value,
-      course_instance_id: this.props.courseId
+      course_instance_id: this.props.courseId,
+      order: this.props.newOrder
     })
   }
 
@@ -67,7 +68,8 @@ export class AddTaskForm extends Component {
 AddTaskForm.propTypes = {
   courseId: PropTypes.number.isRequired,
   addTask: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  newOrder: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({

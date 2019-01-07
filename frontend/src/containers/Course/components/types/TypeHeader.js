@@ -3,54 +3,76 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Segment, Header } from 'semantic-ui-react'
+
 import asyncAction from '../../../../utils/asyncAction'
-
-import { removeHeader } from '../../actions/types'
-
+import { removeHeader, editHeader } from '../../actions/types'
 import Typelist from './Typelist'
 import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditHeaderForm from './EditHeaderForm'
+import dndItem from '../../../../utils/components/DnDItem'
+
+const DnDItem = dndItem('type_header')
 
 export const TypeHeader = (props) => {
+  const {
+    header,
+    activeTask,
+    editing,
+    moveHeader,
+    slots
+  } = props
   const activeMap = {}
-  if (props.activeTask !== null) {
-    props.activeTask.types.forEach((type) => {
+  if (activeTask !== null) {
+    activeTask.types.forEach((type) => {
       activeMap[type] = true
     })
   }
   const translate = id => props.translate(`Course.types.TypeHeader.${id}`)
-
-  return (
-    <div className="TypeHeader">
-      <Segment>
-        <div className="flexContainer">
-          <Header className="typeHeaderHeader">{props.header.name}</Header>
-          {props.editing ? (
-            <div className="flexContainer">
-              <div className="paddedBlock">
-                <EditHeaderForm headerId={props.header.id} />
-              </div>
-              <div className="paddedBlock">
-                <DeleteForm
-                  onExecute={() => props.removeHeader({ id: props.header.id })}
-                  prompt={[
-                    translate('delete_prompt_1'),
-                    `"${props.header.name}"`
-                  ]}
-                  header={translate('delete_header')}
-                />
-              </div>
+  const content = (
+    <Segment className="TypeHeader">
+      <div className="flexContainer">
+        <Header className="typeHeaderHeader">{header.name}</Header>
+        {props.editing ? (
+          <div className="flexContainer">
+            <div className="paddedBlock">
+              <EditHeaderForm headerId={header.id} />
             </div>
-          ) : null}
-        </div>
-        <Typelist
-          types={props.header.types}
-          editing={props.editing}
-          headerId={props.header.id}
-          activeTaskId={props.activeTask === null ? null : props.activeTask.id}
-          activeMap={activeMap}
-        />
-      </Segment>
+            <div className="paddedBlock">
+              <DeleteForm
+                onExecute={() => props.removeHeader({ id: header.id })}
+                prompt={[
+                  translate('delete_prompt_1'),
+                  `"${props.header.name}"`
+                ]}
+                header={translate('delete_header')}
+              />
+            </div>
+          </div>
+        ) : null}
+      </div>
+      <Typelist
+        types={header.types}
+        editing={editing}
+        headerId={header.id}
+        activeTaskId={props.activeTask === null ? null : activeTask.id}
+        activeMap={activeMap}
+      />
+    </Segment>
+  )
+  if (editing) {
+    return (
+      <DnDItem
+        element={header}
+        mover={moveHeader}
+        slots={slots}
+      >
+        {content}
+      </DnDItem>
+    )
+  }
+  return (
+    <div>
+      {content}
     </div>
   )
 }
@@ -67,7 +89,12 @@ TypeHeader.propTypes = {
     id: PropTypes.number.isRequired,
     types: PropTypes.arrayOf(PropTypes.number).isRequired
   }),
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  moveHeader: PropTypes.func.isRequired,
+  slots: PropTypes.shape({
+    previous: PropTypes.number.isRequired,
+    next: PropTypes.number.isRequired
+  }).isRequired
 }
 
 TypeHeader.defaultProps = {
@@ -75,7 +102,8 @@ TypeHeader.defaultProps = {
 }
 
 const mapDispatchToProps = dispatch => ({
-  removeHeader: asyncAction(removeHeader, dispatch)
+  removeHeader: asyncAction(removeHeader, dispatch),
+  moveHeader: asyncAction(editHeader, dispatch)
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(TypeHeader))

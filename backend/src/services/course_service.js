@@ -21,7 +21,7 @@ const assessmentAttributes = lang => [
   'active',
   'show_feedback',
   'course_instance_id']
-const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]
+const typeAttributes = lang => ['id', [`${lang}_name`, 'name'], 'order']
 const taskAttributes = lang => [
   'course_instance_id',
   'id',
@@ -78,6 +78,10 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
             attributes: typeAttributes(lang)
           }
         }
+      ],
+      order: [
+        ['order', 'ASC'],
+        [Type, 'order', 'ASC']
       ]
     },
     {
@@ -97,6 +101,10 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
         attributes: typeAttributes(lang)
       }
     }
+    ],
+    order: [
+      [TypeHeader, 'order', 'ASC'],
+      [TypeHeader, Type, 'order', 'ASC']
     ]
   })
 )

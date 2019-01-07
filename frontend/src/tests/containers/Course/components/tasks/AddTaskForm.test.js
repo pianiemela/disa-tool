@@ -12,6 +12,7 @@ describe('AddTaskForm component', () => {
       addTask={mockFn}
       courseId={1}
       translate={() => ''}
+      newOrder={1}
     />)
   })
 

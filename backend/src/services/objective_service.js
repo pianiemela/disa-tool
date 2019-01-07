@@ -9,7 +9,8 @@ const create = {
       swe_name: data.swe_name,
       course_instance_id: data.course_instance_id,
       category_id: data.category_id,
-      skill_level_id: data.skill_level_id
+      skill_level_id: data.skill_level_id,
+      order: data.order
     })
     const [category, skillLevel] = await Promise.all([
       Category.findById(data.category_id, {
@@ -32,7 +33,8 @@ const create = {
       id: json.id,
       name: json[`${lang}_name`],
       category_id: json.category_id,
-      skill_level_id: json.skill_level_id
+      skill_level_id: json.skill_level_id,
+      order: json.order
     }
   }
 }
@@ -67,7 +69,10 @@ const taskDetails = async (id, lang) => {
       through: {
         attributes: ['multiplier']
       }
-    }
+    },
+    order: [
+      [Task, 'order', 'ASC']
+    ]
   })).toJSON()
   result.tasks = result.tasks.map(task => ({
     ...task,
@@ -98,13 +103,15 @@ const { details, edit } = editServices(
       'fin_name',
       'swe_name',
       'category_id',
-      'skill_level_id'
+      'skill_level_id',
+      'order'
     ],
     valueFields: [
       'id',
       ['lang_name', 'name'],
       'category_id',
-      'skill_level_id'
+      'skill_level_id',
+      'order'
     ]
   }
 )

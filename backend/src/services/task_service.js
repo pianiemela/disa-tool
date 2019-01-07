@@ -20,6 +20,10 @@ const getUserTasksForCourse = (courseId, lang, userId) => (
           attributes: typeAttributes(lang)
         }
       }
+    ],
+    order: [
+      [Task, 'order', 'ASC'],
+      [Type, 'order', 'ASC']
     ]
   })
 )
@@ -100,7 +104,8 @@ const create = {
     fin_description: data.fin_description,
     swe_description: data.swe_description,
     info: data.info,
-    max_points: data.max_points
+    max_points: data.max_points,
+    order: data.order
   }),
   execute: instance => instance.save(),
   value: (instance, lang) => {
@@ -112,7 +117,8 @@ const create = {
       max_points: json.max_points,
       info: json.info,
       objectives: [],
-      types: []
+      types: [],
+      order: json.order
     }
   }
 }
@@ -323,14 +329,16 @@ const { details, edit } = editServices(
       'fin_description',
       'swe_description',
       'info',
-      'max_points'
+      'max_points',
+      'order'
     ],
     valueFields: [
       'id',
       ['lang_name', 'name'],
       ['lang_description', 'description'],
       'info',
-      'max_points'
+      'max_points',
+      'order'
     ]
   }
 )
