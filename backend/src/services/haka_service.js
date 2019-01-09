@@ -76,7 +76,7 @@ const signToken = async (response) => {
     studentnumber: parseStudentNumber(protoUser)
   }
   const user = await findOrCreateUser(protoUser)
-  return jwt.sign(user, config.SECRET, JWT_OPTIONS)
+  return jwt.sign({ user: user.logged_in }, config.SECRET, JWT_OPTIONS)
 }
 const responseUrl = token => applyParam(config.FRONTEND_LOGIN, 'token', token)
 

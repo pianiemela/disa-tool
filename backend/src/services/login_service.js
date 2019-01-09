@@ -3,7 +3,7 @@ const axios = require('axios')
 const https = require('https')
 const fs = require('fs')
 const { Op } = require('sequelize')
-require('dotenv').config()
+const config = require('../../conf-backend')
 
 const { Person } = require('../database/models.js')
 
@@ -79,10 +79,7 @@ const login = async (body) => {
   }
 }
 
-const signJWT = (user) => {
-  const token = jwt.sign({ user }, process.env.SECRET)
-  return token
-}
+const signJWT = user => jwt.sign({ user }, config.SECRET)
 
 module.exports = {
   login,

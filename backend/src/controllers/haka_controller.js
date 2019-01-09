@@ -18,7 +18,7 @@ const sp = samlify.ServiceProvider({
 let idp = null
 
 router.get('/', async (req, res) => {
-  const metadata = await getMetadata(req.query.entityID)
+  const metadata = await getMetadata(config.IDP_ENTITY_ID)
   idp = samlify.IdentityProvider({
     metadata,
     // isAssertionEncrypted: true,

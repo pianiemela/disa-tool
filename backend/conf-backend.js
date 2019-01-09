@@ -14,7 +14,8 @@ const {
   ENTITY_ID,
   ASSERT_ENDPOINT,
   SSO_LOGIN_URL,
-  SECRET
+  SECRET,
+  IDP_ENTITY_ID
 } = process.env
 
 module.exports = {
@@ -31,5 +32,6 @@ module.exports = {
   ASSERT_ENDPOINT,
   SSO_LOGIN_URL,
   SSO_LOGOUT_URL: SSO_LOGIN_URL,
-  SECRET
+  SECRET,
+  IDP_ENTITY_ID
 }
