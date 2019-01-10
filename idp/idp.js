@@ -36,10 +36,10 @@ runServer({
         multiValue: false
       },
       {
-        id: 'urn:oid:1.3.6.1.4.1.25178.1.2.9',
+        id: 'urn:oid:2.5.4.10',
         optional: false,
-        displayName: 'schacHomeOrganization',
-        description: 'schacHomeOrganization',
+        displayName: 'o',
+        description: 'o',
         multiValue: false
       },
       {
@@ -57,7 +57,7 @@ runServer({
       displayName: 'Teppo',
       eduPersonPrincipalName: 'teppo@yliopisto.fi',
       mail: 'teppohaka@mailinator.com',
-      schacHomeOrganization: 'yliopisto.fi',
+      o: 'University of Yliopisto',
       schacPersonalUniqueCode: 'urn:schac:personalUniqueCode:fi:yliopisto.fi:x8734'
     }
   }

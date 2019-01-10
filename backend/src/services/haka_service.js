@@ -32,6 +32,7 @@ const parseStudentNumber = user => (
 const findOrCreateUser = async (user) => {
   const person = await Person.findOne({
     where: {
+      university: user.university,
       [Op.or]: [
         { username: user.username },
         { studentnumber: user.studentnumber }
@@ -44,21 +45,23 @@ const findOrCreateUser = async (user) => {
       username: user.username,
       studentnumber: user.studentnumber,
       name: user.name,
-      role: 'STUDENT'
+      role: 'STUDENT',
+      university: user.university
     })
     const loggedIn = {
       id: created.id,
       username: created.username,
       studentnumber: created.studentnumber,
       name: created.name,
-      role: created.role
+      role: created.role,
+      university: created.university
     }
     return {
       logged_in: loggedIn,
       created: true
     }
   } if (person.name !== user.name) {
-    person.set('name', user.cn)
+    person.set('name', user.name)
     person.set('username', user.username)
     await person.save()
   }
@@ -73,7 +76,8 @@ const signToken = async (response) => {
   protoUser = {
     name: `${protoUser.displayName} ${protoUser.cn.split(' ').pop()}`,
     username: protoUser.eduPersonPrincipalName.split('@')[0],
-    studentnumber: parseStudentNumber(protoUser)
+    studentnumber: parseStudentNumber(protoUser),
+    university: protoUser.o
   }
   const user = await findOrCreateUser(protoUser)
   return jwt.sign({ user: user.logged_in }, config.SECRET, JWT_OPTIONS)
@@ -85,8 +89,8 @@ const samlResponseAttributes = {
   displayName: 'urn:oid:2.16.840.1.113730.3.1.241',
   eduPersonPrincipalName: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6',
   mail: 'urn:oid:0.9.2342.19200300.100.1.3',
-  schacHomeOrganization: 'urn:oid:1.3.6.1.4.1.25178.1.2.9',
-  schacPersonalUniqueCode: 'urn:oid:1.3.6.1.4.1.25178.1.2.14',
+  o: 'urn:oid:2.5.4.10',
+  schacPersonalUniqueCode: 'urn:oid:1.3.6.1.4.1.25178.1.2.14'
 }
 
 module.exports = {
