@@ -54,6 +54,7 @@
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
+    "browserslist": "^4.3.7",
     "caniuse-lite": "^1.0.30000928",
     "css-loader": "^0.28.11",
     "deep-freeze": "0.0.1",
