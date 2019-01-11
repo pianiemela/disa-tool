@@ -5,7 +5,7 @@ const {
   responseUrl,
   getMetadata,
   signToken
-} = require('../services/haka_service')
+} = require('../services/saml_service')
 const config = require('../../conf-backend')
 
 const sp = samlify.ServiceProvider({

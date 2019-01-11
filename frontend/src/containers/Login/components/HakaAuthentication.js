@@ -34,7 +34,7 @@ class HakaAuthentication extends PureComponent {
     return (
       <Route
         path="/login/haka"
-        render={() => <a href="/api/haka/">HAKA</a>}
+        render={() => <a href="/api/saml/">HAKA</a>}
       />
     )
   }

@@ -46,7 +46,7 @@ C8giEDbOfHenN4vBlw==</ds:X509Certificate>
 </KeyDescriptor>
 <NameIDFormat>
 urn:oasis:names:tc:SAML:2.0:nameid-format:transient</NameIDFormat>
-<AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8000/api/haka/assert" index="1" isDefault="true"/>
+<AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="http://localhost:8000/api/saml/assert" index="1" isDefault="true"/>
 <AttributeConsumingService index="1" isDefault="true">
 <ServiceName xml:lang="fi">
 DISA</ServiceName>
