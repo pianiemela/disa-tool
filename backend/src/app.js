@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const Raven = require('raven')
+const bodyParser = require('body-parser')
 const logger = require('./utils/logger')
 const routes = require('./routes.js')
 
@@ -10,6 +11,10 @@ Raven.config(process.env.SENTRY_ADDR).install()
 
 app.use(express.json({ limit: '1000kb' }))
 app.use(express.static('dist'))
+// Parse saml requests.
+app.use(bodyParser.urlencoded({
+  extended: true
+}))
 
 app.get('/ping', async (req, res) => {
   res.json({ data: 'pong' })
