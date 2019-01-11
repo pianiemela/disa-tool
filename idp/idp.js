@@ -8,13 +8,6 @@ runServer({
     user: userDefaults,
     metadata: [
       {
-        id: 'urn:oid:2.5.4.3',
-        optional: false,
-        displayName: 'cn',
-        description: 'cn',
-        multiValue: false
-      },
-      {
         id: 'urn:oid:2.16.840.1.113730.3.1.241',
         optional: false,
         displayName: 'displayName',
@@ -26,13 +19,6 @@ runServer({
         optional: false,
         displayName: 'eduPersonPrincipalName',
         description: 'eduPersonPrincipalName',
-        multiValue: false
-      },
-      {
-        id: 'urn:oid:0.9.2342.19200300.100.1.3',
-        optional: false,
-        displayName: 'mail',
-        description: 'mail',
         multiValue: false
       },
       {
@@ -53,10 +39,8 @@ runServer({
     ],
     user: {
       "urn:oid:1.3.6.1.4.1.25178.1.2.14": 'teppotest',
-      cn: 'Teppo Testikäyttäjä',
-      displayName: 'Teppo',
+      displayName: 'Teppo Testikäyttäjä',
       eduPersonPrincipalName: 'teppo@yliopisto.fi',
-      mail: 'teppohaka@mailinator.com',
       o: 'University of Yliopisto',
       schacPersonalUniqueCode: 'urn:schac:personalUniqueCode:fi:yliopisto.fi:x8734'
     }

@@ -26,9 +26,6 @@ const applyParam = (url, key, value) => {
   return `${url}${paramChar}${key}=${value}`
 }
 
-const parseStudentNumber = user => (
-  user.schacPersonalUniqueCode.split(':').pop()
-)
 const findOrCreateUser = async (user) => {
   const person = await Person.findOne({
     where: {
@@ -74,9 +71,9 @@ const signToken = async (response) => {
   const { attributes } = response.extract
   let protoUser = parseUser(attributes)
   protoUser = {
-    name: `${protoUser.displayName} ${protoUser.cn.split(' ').pop()}`,
+    name: protoUser.displayName,
     username: protoUser.eduPersonPrincipalName.split('@')[0],
-    studentnumber: parseStudentNumber(protoUser),
+    studentnumber: protoUser.schacPersonalUniqueCode.split(':').pop(),
     university: protoUser.o
   }
   const user = await findOrCreateUser(protoUser)
@@ -85,10 +82,8 @@ const signToken = async (response) => {
 const responseUrl = token => applyParam(config.FRONTEND_LOGIN, 'token', token)
 
 const samlResponseAttributes = {
-  cn: 'urn:oid:2.5.4.3',
   displayName: 'urn:oid:2.16.840.1.113730.3.1.241',
   eduPersonPrincipalName: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6',
-  mail: 'urn:oid:0.9.2342.19200300.100.1.3',
   o: 'urn:oid:2.5.4.10',
   schacPersonalUniqueCode: 'urn:oid:1.3.6.1.4.1.25178.1.2.14'
 }
