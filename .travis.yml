@@ -42,4 +42,10 @@ jobs:
       services:
         - docker
       script:
-        - ./travis-deploy.sh
+        - "([[ $TRAVIS_BRANCH =~ (^master) ]] && docker build -t toska/disa-tool:staging .) || [[ ! $TRAVIS_BRANCH =~ (^master) ]]"
+        - "([[ $TRAVIS_BRANCH =~ (^master) ]] && docker login -u $DOCKER_USER -p $DOCKER_PASS) || [[ ! $TRAVIS_BRANCH =~ (^master) ]]"
+        - "([[ $TRAVIS_BRANCH =~ (^master) ]] && docker push toska/disa-tool:staging) || [[ ! $TRAVIS_BRANCH =~ (^master) ]]"
+        - "([[ $TRAVIS_TAG =~ ([0-1].+) ]] && docker build -t toska/disa-tool:latest .) || [[ ! $TRAVIS_TAG =~ ([0-1].+) ]]"
+        - "([[ $TRAVIS_TAG =~ ([0-1].+) ]] && docker login -u $DOCKER_USER -p $DOCKER_PASS) || [[ ! $TRAVIS_TAG =~ ([0-1].+) ]]"
+        - "([[ $TRAVIS_TAG =~ ([0-1].+) ]] && docker push toska/disa-tool:latest) || [[ ! $TRAVIS_TAG =~ ([0-1].+) ]]"
+        
