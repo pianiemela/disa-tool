@@ -13,7 +13,7 @@ const selfAssesmentListReducer = (state = INITIAL_STATE, action) => {
         ...state,
         selfAssesmentId: action.selfAssesmentId,
         selfAssesmentName: action.selfAssesmentName,
-        responses: action.responses
+        responses: action.responses || []
       }
     case 'SELF_ASSESMENT_LIST_RESET':
       return INITIAL_STATE

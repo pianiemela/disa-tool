@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const samlify = require('samlify')
-const fs = require('fs')
 const {
   responseUrl,
   getMetadata,
@@ -9,10 +8,11 @@ const {
 const config = require('../../conf-backend')
 
 const sp = samlify.ServiceProvider({
-  metadata: fs.readFileSync('./samldata/metadata.xml'),
-  encPrivateKey: fs.readFileSync('./samldata/key.pem'),
-  privateKey: fs.readFileSync('./samldata/key.pem'),
-  loginNameIDFormat: 'transient'
+  metadata: config.samldata.metadata,
+  encPrivateKey: config.samldata.key,
+  privateKey: config.samldata.key,
+  loginNameIDFormat: 'transient',
+  authnRequestsSigned: true
 })
 
 let idp = null
@@ -32,7 +32,6 @@ router.get('/', async (req, res) => {
       }
     }
   })
-
   const { context } = sp.createLoginRequest(idp, 'redirect')
   return res.redirect(context)
 })

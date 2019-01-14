@@ -73,3 +73,4 @@ backend/dist/
 # ignore all possible data files
 *.bak
 *.csv
+*.pem
