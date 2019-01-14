@@ -12,7 +12,7 @@ WORKDIR /usr/src/app/backend
 
 RUN rm -r /usr/src/app/frontend
 
-RUN npm install
+RUN SAML_VALIDATOR=libxml npm install
 
 EXPOSE 8000
 
