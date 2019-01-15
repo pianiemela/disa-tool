@@ -17,7 +17,8 @@ describe('grade controller', () => {
       swe_name: 's',
       skill_level_id: 1,
       needed_for_grade: 0.2,
-      prerequisite: null
+      prerequisite: null,
+      order: 1
     }).then(() => done()).catch(done)
   })
 
@@ -40,7 +41,8 @@ describe('grade controller', () => {
       swe_name: 'sn',
       skill_level_id: 1,
       needed_for_grade: 0.5,
-      prerequisite: 1
+      prerequisite: 1,
+      order: 3
     }
     const options = {
       route: '/api/grades/create',
@@ -63,7 +65,8 @@ describe('grade controller', () => {
         created: {
           skill_level_id: data.skill_level_id,
           needed_for_grade: data.needed_for_grade,
-          prerequisite: data.prerequisite
+          prerequisite: data.prerequisite,
+          order: data.order
         }
       },
       eng: {
@@ -105,7 +108,8 @@ describe('grade controller', () => {
         swe_name: 'sn',
         skill_level_id: 1,
         needed_for_grade: 0.1,
-        prerequisite: null
+        prerequisite: null,
+        order: 1
       }).then((result) => {
         ids.grade = result.get({ plain: true }).id
         options.route = `/api/grades/${ids.grade}`
@@ -160,7 +164,7 @@ describe('grade controller', () => {
           swe_name: 's',
           skill_level_id: 1,
           needed_for_grade: 0.2,
-          prerequisite: null
+          order: 1
         }
       }
     })
@@ -173,7 +177,8 @@ describe('grade controller', () => {
       swe_name: 'new sn',
       skill_level_id: 2,
       needed_for_grade: 0.8,
-      prerequisite: 1
+      prerequisite: 1,
+      order: 4.5
     }
     const options = {
       route: '/api/grades',
@@ -193,7 +198,8 @@ describe('grade controller', () => {
         swe_name: 'sn',
         skill_level_id: 1,
         needed_for_grade: 0.2,
-        prerequisite: null
+        prerequisite: null,
+        order: 11
       }).then((result) => {
         ids.grade = result.id
         options.route = `${options.route}/${ids.grade}`
@@ -210,7 +216,8 @@ describe('grade controller', () => {
         swe_name: 'sn',
         skill_level_id: 1,
         needed_for_grade: 0.2,
-        prerequisite: null
+        prerequisite: null,
+        order: 11
       }).then((result) => {
         databaseExpectation.updated_at = result.updated_at
         done()
@@ -231,7 +238,8 @@ describe('grade controller', () => {
           id: asymmetricMatcher(actual => actual === ids.grade),
           skill_level_id: data.skill_level_id,
           needed_for_grade: data.needed_for_grade,
-          prerequisite: data.prerequisite
+          prerequisite: data.prerequisite,
+          order: data.order
         }
       },
       eng: {
