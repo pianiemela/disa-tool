@@ -1,5 +1,6 @@
 import deepFreeze from 'deep-freeze'
 import categoryReducer from '../../redux/category'
+import * as types from '../../redux/action_types'
 
 const INITIAL_STATE = {
   categories: []
@@ -524,7 +525,7 @@ describe('category reducer', () => {
 
   it('parses data from COURSE_GET_DATA.', () => {
     state = categoryReducer(state, {
-      type: 'COURSE_GET_DATA',
+      type: types.COURSE_GET_DATA,
       response: courseGetDataResponse
     })
     expect(state).toEqual({
@@ -535,7 +536,7 @@ describe('category reducer', () => {
   describe('after initializing with COURSE_GET_DATA', () => {
     beforeEach(() => {
       state = categoryReducer(state, {
-        type: 'COURSE_GET_DATA',
+        type: types.COURSE_GET_DATA,
         response: courseGetDataResponse
       })
       deepFreeze(state)
@@ -543,7 +544,7 @@ describe('category reducer', () => {
 
     it('appends an objective with OBJECTIVE_CREATE.', () => {
       state = categoryReducer(state, {
-        type: 'OBJECTIVE_CREATE',
+        type: types.OBJECTIVE_CREATE,
         response: objectiveCreateResponse
       })
       expect(state).toEqual(objectiveCreateExpectation)
@@ -551,7 +552,7 @@ describe('category reducer', () => {
 
     it('deletes an objective with OBJECTIVE_DELETE.', () => {
       state = categoryReducer(state, {
-        type: 'OBJECTIVE_DELETE',
+        type: types.OBJECTIVE_DELETE,
         response: objectiveDeleteResponse
       })
       expect(state).toEqual(objectiveDeleteExpectation)
@@ -559,7 +560,7 @@ describe('category reducer', () => {
 
     it('appends a category with CATEGORY_CREATE.', () => {
       state = categoryReducer(state, {
-        type: 'CATEGORY_CREATE',
+        type: types.CATEGORY_CREATE,
         response: categoryCreateResponse
       })
       expect(state).toEqual(categoryCreateExpectation)
@@ -567,7 +568,7 @@ describe('category reducer', () => {
 
     it('deletes a category with CATEGORY_DELETE.', () => {
       state = categoryReducer(state, {
-        type: 'CATEGORY_DELETE',
+        type: types.CATEGORY_DELETE,
         response: categoryDeleteResponse
       })
       expect(state).toEqual(categoryDeleteExpectation)
@@ -575,7 +576,7 @@ describe('category reducer', () => {
 
     it('appends a skill level with LEVEL_CREATE.', () => {
       state = categoryReducer(state, {
-        type: 'LEVEL_CREATE',
+        type: types.LEVEL_CREATE,
         response: levelCreateResponse
       })
       expect(state).toEqual(levelCreateExpectation)
@@ -583,7 +584,7 @@ describe('category reducer', () => {
 
     it('deletes a skill level with LEVEL_DELETE.', () => {
       state = categoryReducer(state, {
-        type: 'LEVEL_DELETE',
+        type: types.LEVEL_DELETE,
         response: levelDeleteResponse
       })
       expect(state).toEqual(levelDeleteExpectation)

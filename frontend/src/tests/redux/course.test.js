@@ -1,5 +1,6 @@
 import deepFreeze from 'deep-freeze'
 import courseReducer from '../../redux/course'
+import * as types from '../../redux/action_types'
 
 const INITIAL_STATE = {
   editing: false,
@@ -36,7 +37,7 @@ describe('course reducer', () => {
 
   it('parses data from COURSE_GET_DATA.', () => {
     state = courseReducer(state, {
-      type: 'COURSE_GET_DATA',
+      type: types.COURSE_GET_DATA,
       response: courseGetDataResponse
     })
     expect(state).toEqual(courseGetDataExpectation)

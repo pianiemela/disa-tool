@@ -6,21 +6,22 @@ import { postTaskResponses } from '../api/tasks'
 import { login } from '../api/login'
 import { updateCategoryGrades } from '../api/grades'
 import { saveToken, removeToken } from '../utils/utils'
+import * as types from '../redux/action_types'
 
 export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
   dispatch({
-    type: 'GET_ASSESMENT_RESPONSE_ATTEMPT',
+    type: types.GET_ASSESMENT_RESPONSE_ATTEMPT,
     payload: ''
   })
   try {
     const { data } = await getSelfAssesmentResponse(assesmentId)
     dispatch({
-      type: 'GET_ASSESMENT_RESPONSE_SUCCESS',
+      type: types.GET_ASSESMENT_RESPONSE_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'GET_ASSESMENT_RESPONSE_FAILURE',
+      type: types.GET_ASSESMENT_RESPONSE_FAILURE,
       payload: e.response
     })
   }
@@ -28,18 +29,18 @@ export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
 
 export const getUserAction = () => async (dispatch) => {
   dispatch({
-    type: 'USER_GET_ATTEMPT',
+    type: types.USER_GET_ATTEMPT,
     payload: {}
   })
   try {
     const { data } = await getUser()
     dispatch({
-      type: 'USER_GET_SUCCESS',
+      type: types.USER_GET_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'USER_GET_FAILURE',
+      type: types.USER_GET_FAILURE,
       payload: e.response
     })
   }
@@ -47,18 +48,18 @@ export const getUserAction = () => async (dispatch) => {
 
 export const getAllCoursesAction = () => async (dispatch) => {
   dispatch({
-    type: 'GET_COURSES_ATTEMPT',
+    type: types.GET_COURSES_ATTEMPT,
     payload: ''
   })
   try {
     const { data } = await getCourses()
     dispatch({
-      type: 'GET_COURSES_SUCCESS',
+      type: types.GET_COURSES_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'GET_COURSES_FAILURE',
+      type: types.GET_COURSES_FAILURE,
       payload: e.response
     })
   }
@@ -66,18 +67,18 @@ export const getAllCoursesAction = () => async (dispatch) => {
 
 export const getUserCoursesAction = () => async (dispatch) => {
   dispatch({
-    type: 'USER_GET_COURSES_ATTEMPT',
+    type: types.USER_GET_COURSES_ATTEMPT,
     payload: ''
   })
   try {
     const { data } = await getUsersCourses()
     dispatch({
-      type: 'USER_GET_COURSES_SUCCESS',
+      type: types.USER_GET_COURSES_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'USER_GET_COURSES_FAILURE',
+      type: types.USER_GET_COURSES_FAILURE,
       payload: e.response
     })
   }
@@ -85,18 +86,18 @@ export const getUserCoursesAction = () => async (dispatch) => {
 
 export const getSelfAssesmentAction = selfAssesmentId => async (dispatch) => {
   dispatch({
-    type: 'GET_SELF_ASSESMENT_ATTEMPT',
+    type: types.GET_SELF_ASSESMENT_ATTEMPT,
     payload: ''
   })
   try {
     const { data } = await getSelfAssesment(selfAssesmentId)
     dispatch({
-      type: 'GET_SELF_ASSESMENT_SUCCESS',
+      type: types.GET_SELF_ASSESMENT_SUCCESS,
       payload: data
     })
   } catch (error) {
     dispatch({
-      type: 'GET_SELF_ASSESMENT_FAILURE',
+      type: types.GET_SELF_ASSESMENT_FAILURE,
       payload: error.response
     })
   }
@@ -104,19 +105,19 @@ export const getSelfAssesmentAction = selfAssesmentId => async (dispatch) => {
 
 export const createForm = assessmentData => async (dispatch) => {
   dispatch({
-    type: 'CREATE_SELF_ASSESMENT_ATTEMPT',
+    type: types.CREATE_SELF_ASSESMENT_ATTEMPT,
     payload: ''
   })
 
   try {
     const { data } = await createSelfAssesment(assessmentData)
     dispatch({
-      type: 'CREATE_SELF_ASSESMENT_SUCCESS',
+      type: types.CREATE_SELF_ASSESMENT_SUCCESS,
       payload: data
     })
   } catch (error) {
     dispatch({
-      type: 'CREATE_SELF_ASSESMENT_FAILURE',
+      type: types.CREATE_SELF_ASSESMENT_FAILURE,
       payload: error.response
 
     })
@@ -125,19 +126,19 @@ export const createForm = assessmentData => async (dispatch) => {
 
 export const getUserSelfAssesments = user => async (dispatch) => {
   dispatch({
-    type: 'GET_ALL_USER_SELFASSESMENTS_ATTEMPT',
+    type: types.GET_ALL_USER_SELFASSESMENTS_ATTEMPT,
     payload: ''
   })
 
   try {
     const { data } = await getSelfAssesments(user)
     dispatch({
-      type: 'GET_ALL_USER_SELFASSESMENTS_SUCCESS',
+      type: types.GET_ALL_USER_SELFASSESMENTS_SUCCESS,
       payload: data
     })
   } catch (error) {
     dispatch({
-      type: 'GET_ALL_USER_SELFASSESMENTS_FALURE',
+      type: types.GET_ALL_USER_SELFASSESMENTS_FALURE,
       payload: error.response
     })
   }
@@ -147,12 +148,12 @@ export const updateSelfAssesmentAction = assessmentData => async (dispatch) => {
   try {
     const { data } = await updateSelfAssesment(assessmentData)
     dispatch({
-      type: 'SELF_ASSESMENT_UPDATE_SUCCESS',
+      type: types.SELF_ASSESMENT_UPDATE_SUCCESS,
       payload: data
     })
   } catch (error) {
     dispatch({
-      type: 'SELF_ASSESMENT_UPDATE_FAILURE',
+      type: types.SELF_ASSESMENT_UPDATE_FAILURE,
       payload: error.response
     })
   }
@@ -160,18 +161,18 @@ export const updateSelfAssesmentAction = assessmentData => async (dispatch) => {
 
 export const getCourseInstanceDataAction = courseId => async (dispatch) => {
   dispatch({
-    type: 'COURSES_GET_INSTANCE_DATA_ATTEMPT',
+    type: types.COURSES_GET_INSTANCE_DATA_ATTEMPT,
     payload: ''
   })
   try {
     const { data } = await getCourseInstanceData(courseId)
     dispatch({
-      type: 'COURSES_GET_INSTANCE_DATA_SUCCESS',
+      type: types.COURSES_GET_INSTANCE_DATA_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'COURSES_GET_INSTANCE_DATA_FAILURE',
+      type: types.COURSES_GET_INSTANCE_DATA_FAILURE,
       payload: e.response
     })
   }
@@ -179,18 +180,18 @@ export const getCourseInstanceDataAction = courseId => async (dispatch) => {
 
 export const getCourseInstanceTasksAction = instance => async (dispatch) => {
   dispatch({
-    type: 'COURSES_GET_INSTANCE_TASKS_ATTEMPT',
+    type: types.COURSES_GET_INSTANCE_TASKS_ATTEMPT,
     payload: ''
   })
   try {
     const { data } = await getCourseTasks(instance)
     dispatch({
-      type: 'COURSES_GET_INSTANCE_TASKS_SUCCESS',
+      type: types.COURSES_GET_INSTANCE_TASKS_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'COURSES_GET_INSTANCE_TASKS_FAILURE',
+      type: types.COURSES_GET_INSTANCE_TASKS_FAILURE,
       payload: e.response
     })
   }
@@ -199,18 +200,18 @@ export const getCourseInstanceTasksAction = instance => async (dispatch) => {
 
 export const toggleCourseActivityAction = courseId => async (dispatch) => {
   dispatch({
-    type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_ATTEMPT',
+    type: types.COURSE_INSTANCE_TOGGLE_ACTIVITY_ATTEMPT,
     payload: courseId
   })
   try {
     const { data } = await toggleCourseInstanceActivity(courseId)
     dispatch({
-      type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS',
+      type: types.COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE',
+      type: types.COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE,
       payload: e.response
     })
   }
@@ -218,18 +219,18 @@ export const toggleCourseActivityAction = courseId => async (dispatch) => {
 
 export const toggleAssessmentAction = (assessmentId, attribute) => async (dispatch) => {
   dispatch({
-    type: 'SELF_ASSESSMENT_TOGGLE_ATTEMPT',
+    type: types.SELF_ASSESSMENT_TOGGLE_ATTEMPT,
     payload: assessmentId
   })
   try {
     const { data } = await toggleAssessment(assessmentId, { attribute })
     dispatch({
-      type: 'SELF_ASSESSMENT_TOGGLE_SUCCESS',
+      type: types.SELF_ASSESSMENT_TOGGLE_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'SELF_ASSESSMENT_TOGGLE_FAILURE',
+      type: types.SELF_ASSESSMENT_TOGGLE_FAILURE,
       payload: e.response
     })
   }
@@ -237,18 +238,18 @@ export const toggleAssessmentAction = (assessmentId, attribute) => async (dispat
 
 export const createSelfAssessmentResponseAction = responseData => async (dispatch) => {
   dispatch({
-    type: 'ASSESMENT_RESPONSE_CREATE_ATTEMPT',
+    type: types.ASSESMENT_RESPONSE_CREATE_ATTEMPT,
     payload: ''
   })
   try {
     const { data } = await createSelfAssessmentResponse(responseData)
     dispatch({
-      type: 'ASSESMENT_RESPONSE_CREATE_SUCCESS',
+      type: types.ASSESMENT_RESPONSE_CREATE_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'ASSESMENT_RESPONSE_CREATE_FAILURE',
+      type: types.ASSESMENT_RESPONSE_CREATE_FAILURE,
       payload: e.response
     })
   }
@@ -256,19 +257,19 @@ export const createSelfAssessmentResponseAction = responseData => async (dispatc
 
 export const loginAction = userData => async (dispatch) => {
   dispatch({
-    type: 'USER_LOGIN_ATTEMPT',
+    type: types.USER_LOGIN_ATTEMPT,
     payload: userData
   })
   try {
     const { data } = await login(userData)
     saveToken(data.token)
     dispatch({
-      type: 'USER_LOGIN_SUCCESS',
+      type: types.USER_LOGIN_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'USER_LOGIN_FAILURE',
+      type: types.USER_LOGIN_FAILURE,
       payload: e.response
     })
   }
@@ -277,25 +278,25 @@ export const loginAction = userData => async (dispatch) => {
 export const logoutAction = message => (dispatch) => {
   removeToken()
   dispatch({
-    type: 'USER_LOGOUT',
+    type: types.USER_LOGOUT,
     payload: { message }
   })
 }
 
 export const postTaskResponseActions = tasks => async (dispatch) => {
   dispatch({
-    type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_ATTEMPT',
+    type: types.COURSE_INSTANCE_POST_TASK_RESPONSES_ATTEMPT,
     payload: tasks
   })
   try {
     const { data } = await postTaskResponses(tasks)
     dispatch({
-      type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_SUCCESS',
+      type: types.COURSE_INSTANCE_POST_TASK_RESPONSES_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'COURSE_INSTANCE_POST_TASK_RESPONSES_FAILURE',
+      type: types.COURSE_INSTANCE_POST_TASK_RESPONSES_FAILURE,
       payload: e.response
     })
   }
@@ -303,18 +304,18 @@ export const postTaskResponseActions = tasks => async (dispatch) => {
 
 export const updateCoursePersonsAction = coursePersons => async (dispatch) => {
   dispatch({
-    type: 'COURSE_INSTANCE_UPDATE_PERSON_ATTEMPT',
+    type: types.COURSE_INSTANCE_UPDATE_PERSON_ATTEMPT,
     payload: coursePersons
   })
   try {
     const { data } = await updateCoursePersons(coursePersons)
     dispatch({
-      type: 'COURSE_INSTANCE_UPDATE_PERSON_SUCCESS',
+      type: types.COURSE_INSTANCE_UPDATE_PERSON_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'COURSE_INSTANCE_UPDATE_PERSON_FAILURE',
+      type: types.COURSE_INSTANCE_UPDATE_PERSON_FAILURE,
       payload: e.response
     })
   }
@@ -322,18 +323,18 @@ export const updateCoursePersonsAction = coursePersons => async (dispatch) => {
 
 export const deleteCoursePersonAction = coursePerson => async (dispatch) => {
   dispatch({
-    type: 'COURSE_INSTANCE_DELETE_PERSON_ATTEMPT',
+    type: types.COURSE_INSTANCE_DELETE_PERSON_ATTEMPT,
     payload: coursePerson
   })
   try {
     const { data } = await deleteCoursePerson(coursePerson)
     dispatch({
-      type: 'COURSE_INSTANCE_DELETE_PERSON_SUCCESS',
+      type: types.COURSE_INSTANCE_DELETE_PERSON_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'COURSE_INSTANCE_DELETE_PERSON_FAILURE',
+      type: types.COURSE_INSTANCE_DELETE_PERSON_FAILURE,
       payload: e.response
     })
   }
@@ -341,25 +342,25 @@ export const deleteCoursePersonAction = coursePerson => async (dispatch) => {
 
 export const resetErrorAction = () => async (dispatch) => {
   dispatch({
-    type: 'RESET_ERROR',
+    type: types.RESET_ERROR,
     payload: ''
   })
 }
 
 export const updateCategoryGradesAction = categoryGrades => async (dispatch) => {
   dispatch({
-    type: 'GRADE_UPDATE_CATEGORY_GRADES_ATTEMPT',
+    type: types.GRADE_UPDATE_CATEGORY_GRADES_ATTEMPT,
     payload: categoryGrades
   })
   try {
     const { data } = await updateCategoryGrades(categoryGrades)
     dispatch({
-      type: 'GRADE_UPDATE_CATEGORY_GRADES_SUCCESS',
+      type: types.GRADE_UPDATE_CATEGORY_GRADES_SUCCESS,
       payload: data
     })
   } catch (e) {
     dispatch({
-      type: 'GRADE_UPDATE_CATEGORY_GRADES_FAILURE',
+      type: types.GRADE_UPDATE_CATEGORY_GRADES_FAILURE,
       payload: e.response
     })
   }

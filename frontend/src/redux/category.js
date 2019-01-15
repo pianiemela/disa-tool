@@ -1,3 +1,5 @@
+import * as types from './action_types'
+
 const INITIAL_STATE = {
   categories: []
 }
@@ -72,17 +74,17 @@ const objectiveEdit = (state, edited) => {
 
 const categoryReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'COURSE_GET_DATA':
+    case types.COURSE_GET_DATA:
       return {
         ...state,
         categories: action.response.data.categories
       }
-    case 'COURSE_GET_MATRIX':
+    case types.COURSE_GET_MATRIX:
       return {
         ...state,
         categories: action.response.data.categories
       }
-    case 'OBJECTIVE_CREATE':
+    case types.OBJECTIVE_CREATE:
       return {
         ...state,
         categories: state.categories.map((category) => {
@@ -106,7 +108,7 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           return category
         })
       }
-    case 'OBJECTIVE_DELETE':
+    case types.OBJECTIVE_DELETE:
       return {
         ...state,
         categories: state.categories.map(category => (
@@ -130,17 +132,17 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
             category
           )))
       }
-    case 'CATEGORY_CREATE':
+    case types.CATEGORY_CREATE:
       return {
         ...state,
         categories: [...state.categories, action.response.created]
       }
-    case 'CATEGORY_DELETE':
+    case types.CATEGORY_DELETE:
       return {
         ...state,
         categories: state.categories.filter(category => category.id !== action.response.deleted.id)
       }
-    case 'LEVEL_CREATE':
+    case types.LEVEL_CREATE:
       return {
         ...state,
         categories: state.categories.map(category => ({
@@ -151,7 +153,7 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           }]
         }))
       }
-    case 'LEVEL_DELETE':
+    case types.LEVEL_DELETE:
       return {
         ...state,
         categories: state.categories.map(category => ({
@@ -160,7 +162,7 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
             .filter(level => level.id !== action.response.deleted.id)
         }))
       }
-    case 'LEVEL_EDIT':
+    case types.LEVEL_EDIT:
       return {
         ...state,
         categories: state.categories.map(category => ({
@@ -173,7 +175,7 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           ))
         }))
       }
-    case 'TASK_ATTACH_OBJECTIVE':
+    case types.TASK_ATTACH_OBJECTIVE:
       return {
         ...state,
         categories: state.categories.map(category => ({
@@ -188,7 +190,7 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           }))
         }))
       }
-    case 'TASK_DETACH_OBJECTIVE':
+    case types.TASK_DETACH_OBJECTIVE:
       return {
         ...state,
         categories: state.categories.map(category => ({
@@ -203,9 +205,9 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
           }))
         }))
       }
-    case 'OBJECTIVE_EDIT':
+    case types.OBJECTIVE_EDIT:
       return objectiveEdit(state, action.response.edited)
-    case 'CATEGORY_EDIT':
+    case types.CATEGORY_EDIT:
       return {
         ...state,
         categories: state.categories.map(category => (

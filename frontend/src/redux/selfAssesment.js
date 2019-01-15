@@ -1,3 +1,4 @@
+import * as types from './action_types'
 import { initForm, initResponseForm, respond } from '../utils/reduxHelpers/selfAssesment'
 
 const INITIAL_STATE = {
@@ -21,17 +22,17 @@ const getToggleProps = (id, state) => {
 
 export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'INIT_NEW_FORM': {
+    case types.INIT_NEW_FORM: {
       const data = initForm(action.payload)
       return { ...state, createForm: data, assesmentResponse: {} }
     }
 
-    case 'GET_SELF_ASSESMENT_SUCCESS': {
+    case types.GET_SELF_ASSESMENT_SUCCESS: {
       const { data } = action.payload
       return { ...state, createForm: data, assesmentResponse: {} }
     }
 
-    case 'GET_ASSESMENT_RESPONSE_SUCCESS': {
+    case types.GET_ASSESMENT_RESPONSE_SUCCESS: {
       const { data } = action.payload
       /*
       if the asssesment response is empty,
@@ -49,7 +50,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       return { ...state, assesmentResponse: created }
     }
 
-    case 'OPEN_QUESTION_RESPONSE': {
+    case types.OPEN_QUESTION_RESPONSE: {
       const { id, value } = action.payload
       return {
         ...state,
@@ -62,19 +63,19 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
 
-    case 'GRADE_CATEGORY_RESPONSE': {
+    case types.GRADE_CATEGORY_RESPONSE: {
       return respond(state, action.payload, 'grade')
     }
 
-    case 'GRADE_OBJECTIVE_RESPONSE': {
+    case types.GRADE_OBJECTIVE_RESPONSE: {
       return respond(state, action.payload, 'grade')
     }
 
-    case 'TEXTFIELD_RESPONSE': {
+    case types.TEXTFIELD_RESPONSE: {
       return respond(state, action.payload, 'responseText')
     }
 
-    case 'TOGGLE_TEXT_FIELD': {
+    case types.TOGGLE_TEXT_FIELD: {
       const id = action.payload
       return {
         ...state,
@@ -92,7 +93,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
 
-    case 'TOGGLE_DOWN': {
+    case types.TOGGLE_DOWN: {
       const { a, b, questionModules } = getToggleProps(action.payload, state)
 
       if (a < questionModules.length - 1) {
@@ -112,7 +113,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
 
-    case 'TOGGLE_UP': {
+    case types.TOGGLE_UP: {
       const { a, b, questionModules } = getToggleProps(action.payload, state)
 
       if (a > 0) {
@@ -132,7 +133,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
 
-    case 'ADD_OPEN_QUESTION': {
+    case types.ADD_OPEN_QUESTION: {
       const { fin_name, eng_name, swe_name } = action.payload //eslint-disable-line
       const { openQuestions } = state.createForm.structure
       let data = null
@@ -162,7 +163,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
 
-    case 'REMOVE_OPEN_QUESTION': {
+    case types.REMOVE_OPEN_QUESTION: {
       const id = action.payload
       return {
         ...state,
@@ -180,7 +181,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
 
-    case 'CHANGE_TEXT_FIELD': {
+    case types.CHANGE_TEXT_FIELD: {
       const { values, type } = action.payload
       const ids = Object.keys(values)
       if (ids.length === 0) {
@@ -210,7 +211,7 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
 
-    case 'TOGGLE_FORM_PART': {
+    case types.TOGGLE_FORM_PART: {
       const { id, type } = action.payload
       const { finalGrade } = state.createForm.structure
       if (type === 'objective') {
@@ -256,12 +257,12 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
 
-    case 'CREATE_SELF_ASSESMENT_SUCCESS': {
+    case types.CREATE_SELF_ASSESMENT_SUCCESS: {
       const selfAssesments = state.userSelfAssesments.concat(action.payload.data)
       return { ...state, createForm: [], userSelfAssesments: selfAssesments }
     }
 
-    case 'CHANGE_HEADER': {
+    case types.CHANGE_HEADER: {
       const { changedHeaders, headerType } = action.payload
       const ids = Object.keys(changedHeaders)
       if (ids.length === 0) {
@@ -316,17 +317,17 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
       }
     }
 
-    case 'GET_ALL_USER_SELFASSESMENTS_SUCCESS': {
+    case types.GET_ALL_USER_SELFASSESMENTS_SUCCESS: {
       return { ...state, userSelfAssesments: action.payload.data }
     }
-    case 'SELF_ASSESMENT_UPDATE_SUCCESS': {
+    case types.SELF_ASSESMENT_UPDATE_SUCCESS: {
       const { data } = action.payload
       return {
         ...state,
         userSelfAssesments: state.userSelfAssesments.map(s => (s.id === data.id ? data : s))
       }
     }
-    case 'CLEAR_ASSESSMENT': {
+    case types.CLEAR_ASSESSMENT: {
       return { ...state, createForm: {}, assesmentResponse: {}, unsavedFormChanges: false }
     }
 

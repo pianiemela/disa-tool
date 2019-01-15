@@ -1,16 +1,24 @@
-export const instanceReducer = (state = { tasks: [], self_assessments: [], people: [] }, action) => {
+import * as types from './action_types'
+
+const INITIAL_STATE = {
+  tasks: [],
+  self_assessments: [],
+  people: []
+}
+
+export const instanceReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'COURSES_GET_INSTANCE_DATA_SUCCESS':
+    case types.COURSES_GET_INSTANCE_DATA_SUCCESS:
       return action.payload
-    case 'COURSES_GET_INSTANCE_DATA_FAILURE':
+    case types.COURSES_GET_INSTANCE_DATA_FAILURE:
       return { status: action.payload.status }
 
-    case 'COURSES_GET_INSTANCE_TASKS_SUCCESS': {
+    case types.COURSES_GET_INSTANCE_TASKS_SUCCESS: {
       const { payload } = action
       const { courseRole } = state
       return { ...payload, courseRole }
     }
-    case 'ASSESMENT_RESPONSE_CREATE_SUCCESS': {
+    case types.ASSESMENT_RESPONSE_CREATE_SUCCESS: {
       const { data } = action.payload
       const oldAssesments = [...state.self_assessments]
       const toReplace = oldAssesments.find(oA => oA.id === data.self_assessment_id)
@@ -19,12 +27,12 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [], peopl
         .map(oA => (oA.id === data.self_assessment_id ? toReplace : oA))
       return { ...state, self_assessments: newAssessments }
     }
-    case 'CREATE_SELF_ASSESMENT_SUCCESS': {
+    case types.CREATE_SELF_ASSESMENT_SUCCESS: {
       let { data } = action.payload
       data = { ...data, assessment_responses: [] }
       return { ...state, self_assessments: [...state.self_assessments, data] }
     }
-    case 'SELF_ASSESSMENT_TOGGLE_SUCCESS': {
+    case types.SELF_ASSESSMENT_TOGGLE_SUCCESS: {
       const { assessment } = action.payload
       const selfAssessments = [...state.self_assessments]
       const oldAssessment = selfAssessments.find(old => old.id === assessment.id)
@@ -33,11 +41,11 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [], peopl
       oldAssessment.show_feedback = assessment.show_feedback
       return { ...state, self_assessments: selfAssessments }
     }
-    case 'COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS':
+    case types.COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS:
       return { ...state, active: action.payload.active }
-    case 'COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE':
+    case types.COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE:
       return state
-    case 'COURSE_INSTANCE_UPDATE_PERSON_SUCCESS': {
+    case types.COURSE_INSTANCE_UPDATE_PERSON_SUCCESS: {
       const currentPeople = [...state.people]
       action.payload.updatedPeople.forEach((coursePerson) => {
         const updated = currentPeople.find(person => coursePerson.person_id === person.id)
@@ -53,7 +61,7 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [], peopl
       })
       return { ...state, people: currentPeople }
     }
-    case 'COURSE_INSTANCE_POST_TASK_RESPONSES_SUCCESS': {
+    case types.COURSE_INSTANCE_POST_TASK_RESPONSES_SUCCESS: {
       const people = [...state.people]
       const updatedTasks = action.payload.createdResponses
       updatedTasks.forEach((task) => {
@@ -69,7 +77,7 @@ export const instanceReducer = (state = { tasks: [], self_assessments: [], peopl
       })
       return { ...state, people }
     }
-    case 'COURSE_INSTANCE_DELETE_PERSON_SUCCESS': {
+    case types.COURSE_INSTANCE_DELETE_PERSON_SUCCESS: {
       const { deleted } = action.payload
       const updatedPeople = state.people.filter(person => person.id !== deleted.person_id)
       return { ...state, people: updatedPeople }

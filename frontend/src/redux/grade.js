@@ -1,3 +1,5 @@
+import * as types from './action_types'
+
 const INITIAL_STATE = {
   grades: [],
   loading: true
@@ -5,25 +7,25 @@ const INITIAL_STATE = {
 
 const gradeReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'GRADE_GET_MANY':
+    case types.GRADE_GET_MANY:
       return {
         ...state,
         grades: action.response.data,
         loading: false
       }
-    case 'COURSE_RESET':
+    case types.COURSE_RESET:
       return INITIAL_STATE
-    case 'GRADE_CREATE':
+    case types.GRADE_CREATE:
       return {
         ...state,
         grades: [...state.grades, action.response.created]
       }
-    case 'GRADE_DELETE':
+    case types.GRADE_DELETE:
       return {
         ...state,
         grades: state.grades.filter(grade => grade.id !== action.response.deleted.id)
       }
-    case 'GRADE_EDIT':
+    case types.GRADE_EDIT:
       return {
         ...state,
         grades: state.grades.map(grade => (
@@ -33,7 +35,7 @@ const gradeReducer = (state = INITIAL_STATE, action) => {
           }) : grade
         ))
       }
-    case 'GRADE_UPDATE_CATEGORY_GRADES_SUCCESS': {
+    case types.GRADE_UPDATE_CATEGORY_GRADES_SUCCESS: {
       const { updatedCategoryGrades } = action.payload
       const grades = state.grades.map((grade) => {
         const updatedValues = grade.category_grades.map(cg => (
