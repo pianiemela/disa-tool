@@ -200,7 +200,7 @@ const Person = sequelize.define('person', {
   studentnumber: { type: Sequelize.STRING },
   name: { type: Sequelize.STRING },
   role: { type: Sequelize.STRING },
-  university: { type: Sequelize.STRING, defaultValue: 'University of Helsinki' }
+  university: { type: Sequelize.STRING, defaultValue: 'helsinki.fi' }
 },
 {
   tableName: 'person',

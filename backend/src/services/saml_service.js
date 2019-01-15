@@ -89,7 +89,7 @@ const signToken = async (response) => {
     name: protoUser.displayName,
     username: protoUser.eduPersonPrincipalName.split('@')[0],
     studentnumber: protoUser.schacPersonalUniqueCode.split(':').pop(),
-    university: protoUser.o
+    university: protoUser.schacHomeOrganization
   }
   const user = await findOrCreateUser(protoUser)
   return jwt.sign({ user: user.logged_in }, config.SECRET, JWT_OPTIONS)
@@ -99,7 +99,7 @@ const responseUrl = token => applyParam(config.FRONTEND_LOGIN, 'token', token)
 const samlResponseAttributes = {
   displayName: 'urn:oid:2.16.840.1.113730.3.1.241',
   eduPersonPrincipalName: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6',
-  o: 'urn:oid:2.5.4.10',
+  schacHomeOrganization: 'urn:oid:1.3.6.1.4.1.25178.1.2.9',
   schacPersonalUniqueCode: 'urn:oid:1.3.6.1.4.1.25178.1.2.14'
 }
 
