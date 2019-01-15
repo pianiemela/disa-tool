@@ -24,7 +24,7 @@ export const init = dispatch => ({ selfAssesmentId, selfAssesmentName, responses
 })
 
 export const regenerate = dispatch => newResponses => dispatch({
-  type: 'SELF_ASSESMENT_LIST_REGERATE',
+  type: 'SELF_ASSESMENT_LIST_REGENERATE',
   newResponses
 })
 
