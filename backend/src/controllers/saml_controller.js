@@ -21,8 +21,8 @@ router.get('/', async (req, res) => {
   const metadata = await getMetadata(config.IDP_ENTITY_ID)
   idp = samlify.IdentityProvider({
     metadata,
-    // isAssertionEncrypted: true,
-    // wantMessageSigned: true,
+    isAssertionEncrypted: true,
+    wantMessageSigned: true,
     messageSigningOrder: 'encrypt-then-sign',
     signatureConfig: {
       prefix: 'ds',
