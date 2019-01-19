@@ -16,7 +16,8 @@ describe('type_controller', () => {
       eng_name: '8e',
       fin_name: '8f',
       swe_name: '8s',
-      multiplier: 1
+      multiplier: 1,
+      order: 23
     }
     const options = {
       route: '/api/types/create',
@@ -37,7 +38,8 @@ describe('type_controller', () => {
         created: {
           id: expect.any(Number),
           type_header_id: data.type_header_id,
-          multiplier: data.multiplier
+          multiplier: data.multiplier,
+          order: data.order
         }
       },
       eng: {
@@ -75,7 +77,8 @@ describe('type_controller', () => {
       course_instance_id: 1,
       eng_name: 'e',
       fin_name: 'f',
-      swe_name: 's'
+      swe_name: 's',
+      order: 20
     }
     const options = {
       route: '/api/types/headers/create',
@@ -94,7 +97,8 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         created: {
-          id: expect.any(Number)
+          id: expect.any(Number),
+          order: data.order
         }
       },
       eng: {
@@ -141,7 +145,8 @@ describe('type_controller', () => {
         type_header_id: 1,
         eng_name: 'en',
         fin_name: 'fn',
-        swe_name: 'sn'
+        swe_name: 'sn',
+        order: 1
       }).then((result) => {
         ids.type = result.get({ plain: true }).id
         options.route = `/api/types/${ids.type}`
@@ -183,7 +188,8 @@ describe('type_controller', () => {
         course_instance_id: 1,
         eng_name: 'en',
         fin_name: 'fn',
-        swe_name: 'sn'
+        swe_name: 'sn',
+        order: 1
       }).then((result) => {
         ids.type_header = result.get({ plain: true }).id
         options.route = `/api/types/headers/${ids.type_header}`
@@ -212,7 +218,8 @@ describe('type_controller', () => {
           type_header_id: ids.type_header,
           eng_name: 'ent',
           fin_name: 'fnt',
-          swe_name: 'snt'
+          swe_name: 'snt',
+          order: 1
         }).then((result) => {
           ids.type = result.get({ plain: true }).id
           done()
@@ -252,6 +259,7 @@ describe('type_controller', () => {
         expectedBody.common.data.fin_name = result.fin_name
         expectedBody.common.data.swe_name = result.swe_name
         expectedBody.common.data.multiplier = result.multiplier
+        expectedBody.common.data.order = result.order
         done()
       })
     })
@@ -270,7 +278,8 @@ describe('type_controller', () => {
       eng_name: 'new en',
       fin_name: 'new fn',
       swe_name: 'new sn',
-      multiplier: 0.7
+      multiplier: 0.7,
+      order: 4.5
     }
     const options = {
       route: '/api/types',
@@ -289,7 +298,8 @@ describe('type_controller', () => {
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
-        multiplier: 1
+        multiplier: 1,
+        order: 11
       }).then((result) => {
         ids.type = result.id
         options.route = `${options.route}/${ids.type}`
@@ -304,7 +314,8 @@ describe('type_controller', () => {
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
-        multiplier: 1
+        multiplier: 1,
+        order: 11
       }).then((result) => {
         databaseExpectation.updated_at = result.updated_at
         done()
@@ -324,7 +335,8 @@ describe('type_controller', () => {
         edited: {
           id: asymmetricMatcher(actual => actual === ids.type),
           multiplier: data.multiplier,
-          type_header_id: 1
+          type_header_id: 1,
+          order: data.order
         }
       },
       eng: {
@@ -368,7 +380,8 @@ describe('type_controller', () => {
       eng_name: 'en',
       fin_name: 'fn',
       swe_name: 'sn',
-      course_instance_id: 1
+      course_instance_id: 1,
+      order: 34
     }
     const options = {
       route: '/api/types/headers',
@@ -406,7 +419,8 @@ describe('type_controller', () => {
     const data = {
       eng_name: 'new en',
       fin_name: 'new fn',
-      swe_name: 'new sn'
+      swe_name: 'new sn',
+      order: 4.5
     }
     const options = {
       route: '/api/types/headers',
@@ -424,7 +438,8 @@ describe('type_controller', () => {
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
-        course_instance_id: 1
+        course_instance_id: 1,
+        order: 11
       }).then((result) => {
         ids.header = result.get({ plain: true }).id
         options.route = `${options.route}/${ids.header}`
@@ -438,7 +453,8 @@ describe('type_controller', () => {
         instance => instance.update({
           eng_name: 'en',
           fin_name: 'fn',
-          swe_name: 'sn'
+          swe_name: 'sn',
+          order: 11
         }).then(() => done()).catch(done)
       ).catch(done)
     })
@@ -453,7 +469,8 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.header)
+          id: asymmetricMatcher(actual => actual === ids.header),
+          order: data.order
         }
       },
       eng: {

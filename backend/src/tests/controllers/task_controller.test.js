@@ -19,7 +19,8 @@ describe('task_controller', () => {
       eng_description: 'ed',
       fin_description: 'fd',
       swe_description: 'sd',
-      info: 'test info'
+      info: 'test info',
+      order: 111
     }
     const options = {
       route: '/api/tasks/create',
@@ -39,7 +40,8 @@ describe('task_controller', () => {
         message: expect.any(String),
         created: {
           id: expect.any(Number),
-          info: data.info
+          info: data.info,
+          order: data.order
         }
       },
       eng: {
@@ -89,7 +91,8 @@ describe('task_controller', () => {
         course_instance_id: 1,
         eng_name: 'en',
         fin_name: 'fn',
-        swe_name: 'sn'
+        swe_name: 'sn',
+        order: 1
       }).then((result) => {
         ids.task = result.get({ plain: true }).id
         options.route = `/api/tasks/${ids.task}`
@@ -509,6 +512,7 @@ describe('task_controller', () => {
         expectedBody.common.data.fin_description = result.fin_description
         expectedBody.common.data.swe_description = result.swe_description
         expectedBody.common.data.info = result.info
+        expectedBody.common.data.order = result.order
         done()
       })
     })
@@ -530,7 +534,8 @@ describe('task_controller', () => {
       eng_description: 'new ed',
       fin_description: 'new fd',
       swe_description: 'new sd',
-      info: 'new i'
+      info: 'new i',
+      order: 4.5
     }
     const options = {
       route: '/api/tasks',
@@ -552,7 +557,8 @@ describe('task_controller', () => {
         eng_description: 'ed',
         fin_description: 'fd',
         swe_description: 'sd',
-        info: 'i'
+        info: 'i',
+        order: 11
       }).then((result) => {
         ids.task = result.id
         options.route = `${options.route}/${ids.task}`
@@ -570,7 +576,8 @@ describe('task_controller', () => {
         eng_description: 'ed',
         fin_description: 'fd',
         swe_description: 'sd',
-        info: 'i'
+        info: 'i',
+        order: 11
       }).then((result) => {
         databaseExpectation.updated_at = result.updated_at
         done()
@@ -589,7 +596,8 @@ describe('task_controller', () => {
         message: expect.any(String),
         edited: {
           id: asymmetricMatcher(actual => actual === ids.task),
-          info: data.info
+          info: data.info,
+          order: data.order
         }
       },
       eng: {

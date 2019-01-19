@@ -1,5 +1,6 @@
 import deepFreeze from 'deep-freeze'
 import typeReducer from '../../redux/type'
+import * as types from '../../redux/action_types'
 
 const INITIAL_STATE = {
   headers: []
@@ -263,7 +264,7 @@ describe('type reducer', () => {
 
   it('parses data from COURSE_GET_DATA', () => {
     state = typeReducer(state, {
-      type: 'COURSE_GET_DATA',
+      type: types.COURSE_GET_DATA,
       response: courseGetDataResponse
     })
     expect(state).toEqual(courseGetDataExpectation)
@@ -272,7 +273,7 @@ describe('type reducer', () => {
   describe('after initializing with COURSE_GET_DATA', () => {
     beforeEach(() => {
       state = typeReducer(state, {
-        type: 'COURSE_GET_DATA',
+        type: types.COURSE_GET_DATA,
         response: courseGetDataResponse
       })
       deepFreeze(state)
@@ -280,7 +281,7 @@ describe('type reducer', () => {
 
     it('deletes a type with TYPE_DELETE.', () => {
       state = typeReducer(state, {
-        type: 'TYPE_DELETE',
+        type: types.TYPE_DELETE,
         response: typeDeleteResponse
       })
       expect(state).toEqual(typeDeleteExpectation)
@@ -288,7 +289,7 @@ describe('type reducer', () => {
 
     it('appends a type with TYPE_CREATE.', () => {
       state = typeReducer(state, {
-        type: 'TYPE_CREATE',
+        type: types.TYPE_CREATE,
         response: typeCreateResponse
       })
       expect(state).toEqual(typeCreateExpectation)
@@ -296,7 +297,7 @@ describe('type reducer', () => {
 
     it('deletes a type header with TYPE_HEADER_DELETE.', () => {
       state = typeReducer(state, {
-        type: 'TYPE_HEADER_DELETE',
+        type: types.TYPE_HEADER_DELETE,
         response: typeHeaderDeleteResponse
       })
       expect(state).toEqual(typeHeaderDeleteExpectation)
@@ -304,7 +305,7 @@ describe('type reducer', () => {
 
     it('appends a type header with TYPE_HEADER_CREATE.', () => {
       state = typeReducer(state, {
-        type: 'TYPE_HEADER_CREATE',
+        type: types.TYPE_HEADER_CREATE,
         response: typeHeaderCreateResponse
       })
       expect(state).toEqual(typeHeaderCreateExpectation)

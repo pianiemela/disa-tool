@@ -1,3 +1,5 @@
+import * as types from './action_types'
+
 const INITIAL_STATE = {
   instances: [],
   courses: [],
@@ -7,33 +9,33 @@ const INITIAL_STATE = {
 
 const listCoursesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'COURSELIST_GET_COURSES':
+    case types.COURSELIST_GET_COURSES:
       return {
         ...state,
         courses: action.response
       }
-    case 'COURSELIST_GET_INSTANCES':
+    case types.COURSELIST_GET_INSTANCES:
       return {
         ...state,
         instances: action.response
       }
-    case 'COURSELIST_COURSE_SELECT':
+    case types.COURSELIST_COURSE_SELECT:
       return {
         ...state,
         selectedCourse: state.courses.find(course => course.id === action.id)
       }
-    case 'COURSELIST_INSTANCE_SELECT':
+    case types.COURSELIST_INSTANCE_SELECT:
       return {
         ...state,
         selectedInstance: state.instances.find(instance => instance.id === action.id)
       }
-    case 'COURSELIST_INSTANCE_CREATE':
+    case types.COURSELIST_INSTANCE_CREATE:
       return {
         ...state,
         instances: [...state.instances, action.response.created],
         selectedInstance: action.response.created
       }
-    case 'COURSELIST_INSTANCE_EDIT':
+    case types.COURSELIST_INSTANCE_EDIT:
       return {
         ...state,
         instances: state.instances.map(instance => (instance.id === action.response.edited.id ? {
@@ -45,7 +47,7 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
           name: action.response.edited.name
         } : state.selectedInstance
       }
-    case 'COURSELIST_REGISTER':
+    case types.COURSELIST_REGISTER:
       return {
         ...state,
         instances: state.instances.map((instance) => {
@@ -59,7 +61,7 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
         }),
         selectedInstance: { ...state.selectedInstance, registered: 'STUDENT' }
       }
-    case 'COURSELIST_UNREGISTER':
+    case types.COURSELIST_UNREGISTER:
       return {
         ...state,
         instances: state.instances.map((instance) => {
@@ -73,7 +75,7 @@ const listCoursesReducer = (state = INITIAL_STATE, action) => {
         }),
         selectedInstance: { ...state.selectedInstance, registered: null }
       }
-    case 'COURSE_CREATE':
+    case types.COURSE_CREATE:
       return {
         ...state,
         courses: [...state.courses, action.response.created],

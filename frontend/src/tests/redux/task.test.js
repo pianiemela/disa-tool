@@ -1,5 +1,6 @@
 import deepFreeze from 'deep-freeze'
 import taskReducer from '../../redux/task'
+import * as types from '../../redux/action_types'
 
 const INITIAL_STATE = {
   tasks: [],
@@ -638,7 +639,7 @@ describe('task reducer', () => {
 
   it('parses data from COURSE_GET_DATA', () => {
     state = taskReducer(state, {
-      type: 'COURSE_GET_DATA',
+      type: types.COURSE_GET_DATA,
       response: courseGetDataResponse
     })
     expect(state).toEqual(courseGetDataExpectation)
@@ -646,17 +647,17 @@ describe('task reducer', () => {
 
   it('changes active with CHANGE_ACTIVE.', () => {
     state = taskReducer(state, {
-      type: 'TASK_CHANGE_ACTIVE',
+      type: types.TASK_CHANGE_ACTIVE,
       id: 5
     })
     expect(state.active).toEqual(5)
     state = taskReducer(state, {
-      type: 'TASK_CHANGE_ACTIVE',
+      type: types.TASK_CHANGE_ACTIVE,
       id: 6
     })
     expect(state.active).toEqual(6)
     state = taskReducer(state, {
-      type: 'TASK_CHANGE_ACTIVE',
+      type: types.TASK_CHANGE_ACTIVE,
       id: 6
     })
     expect(state.active).toEqual(null)
@@ -665,7 +666,7 @@ describe('task reducer', () => {
   describe('after initializing with COURSE_GET_DATA', () => {
     beforeEach(() => {
       state = taskReducer(state, {
-        type: 'COURSE_GET_DATA',
+        type: types.COURSE_GET_DATA,
         response: courseGetDataResponse
       })
       deepFreeze(state)
@@ -673,7 +674,7 @@ describe('task reducer', () => {
 
     it('appends a task with TASK_CREATE.', () => {
       state = taskReducer(state, {
-        type: 'TASK_CREATE',
+        type: types.TASK_CREATE,
         response: taskCreateResponse
       })
       expect(state).toEqual(taskCreateExpectation)
@@ -681,7 +682,7 @@ describe('task reducer', () => {
 
     it('deletes a task with TASK_DELETE.', () => {
       state = taskReducer(state, {
-        type: 'TASK_DELETE',
+        type: types.TASK_DELETE,
         response: taskDeleteResponse
       })
       expect(state).toEqual(taskDeleteExpectation)
@@ -689,7 +690,7 @@ describe('task reducer', () => {
 
     it('appends an objective with TASK_ATTACH_OBJECTIVE.', () => {
       state = taskReducer(state, {
-        type: 'TASK_ATTACH_OBJECTIVE',
+        type: types.TASK_ATTACH_OBJECTIVE,
         response: taskAttachObjectiveResponse
       })
       expect(state).toEqual(taskAttachObjectiveExpectation)
@@ -697,7 +698,7 @@ describe('task reducer', () => {
 
     it('deletes an objective with TASK_DETACH_OBJECTIVE.', () => {
       state = taskReducer(state, {
-        type: 'TASK_DETACH_OBJECTIVE',
+        type: types.TASK_DETACH_OBJECTIVE,
         response: taskDetachObjectiveResponse
       })
       expect(state).toEqual(taskDetachObjectiveExpectation)
@@ -705,7 +706,7 @@ describe('task reducer', () => {
 
     it('appends a type id with TASK_ATTACH_TYPE.', () => {
       state = taskReducer(state, {
-        type: 'TASK_ATTACH_TYPE',
+        type: types.TASK_ATTACH_TYPE,
         response: taskAttachTypeResponse
       })
       expect(state).toEqual(taskAttachTypeExpectation)
@@ -713,7 +714,7 @@ describe('task reducer', () => {
 
     it('deletes a type id with TASK_DETACH_TYPE.', () => {
       state = taskReducer(state, {
-        type: 'TASK_DETACH_TYPE',
+        type: types.TASK_DETACH_TYPE,
         response: taskDetachTypeResponse
       })
       expect(state).toEqual(taskDetachTypeExpectation)
@@ -721,7 +722,7 @@ describe('task reducer', () => {
 
     it('deletes objective from all tasks with OBJECTIVE_DELETE.', () => {
       state = taskReducer(state, {
-        type: 'OBJECTIVE_DELETE',
+        type: types.OBJECTIVE_DELETE,
         response: objectiveDeleteResponse
       })
       expect(state).toEqual(objectiveDeleteExpectation)
@@ -729,7 +730,7 @@ describe('task reducer', () => {
 
     it('deletes type from all tasks with TYPE_DELETE.', () => {
       state = taskReducer(state, {
-        type: 'TYPE_DELETE',
+        type: types.TYPE_DELETE,
         response: typeDeleteResponse
       })
       expect(state).toEqual(typeDeleteExpectation)
@@ -737,7 +738,7 @@ describe('task reducer', () => {
 
     it('deletes all deleted objectives with CATEGORY_DELETE.', () => {
       state = taskReducer(state, {
-        type: 'CATEGORY_DELETE',
+        type: types.CATEGORY_DELETE,
         response: categoryDeleteResponse
       })
       expect(state).toEqual(categoryDeleteExpectation)
@@ -745,7 +746,7 @@ describe('task reducer', () => {
 
     it('deletes all deleted objectives with LEVEL_DELETE.', () => {
       state = taskReducer(state, {
-        type: 'LEVEL_DELETE',
+        type: types.LEVEL_DELETE,
         response: levelDeleteResponse
       })
       expect(state).toEqual(levelDeleteExpectation)

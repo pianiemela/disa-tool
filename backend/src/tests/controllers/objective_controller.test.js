@@ -17,7 +17,8 @@ describe('objective_controller', () => {
       skill_level_id: 1,
       eng_name: 'en',
       fin_name: 'fn',
-      swe_name: 'sn'
+      swe_name: 'sn',
+      order: 2
     }
     const options = {
       route: '/api/objectives/create',
@@ -38,7 +39,8 @@ describe('objective_controller', () => {
         created: {
           id: expect.any(Number),
           category_id: 1,
-          skill_level_id: 1
+          skill_level_id: 1,
+          order: data.order
         }
       },
       eng: {
@@ -125,7 +127,8 @@ describe('objective_controller', () => {
         skill_level_id: 1,
         eng_name: 'en',
         fin_name: 'fn',
-        swe_name: 'sn'
+        swe_name: 'sn',
+        order: 1
       }).then((result) => {
         ids.objective = result.get({ plain: true }).id
         options.route = `/api/objectives/${ids.objective}`
@@ -168,7 +171,8 @@ describe('objective_controller', () => {
         fin_name: 'fn',
         swe_name: 'sn',
         skill_level_id: 1,
-        category_id: 1
+        category_id: 1,
+        order: 4
       }).then((result) => {
         ids.objective = result.get({ plain: true }).id
         options.route = `${options.route}/${ids.objective}`
@@ -190,7 +194,8 @@ describe('objective_controller', () => {
           fin_name: 'fn',
           swe_name: 'sn',
           skill_level_id: 1,
-          category_id: 1
+          category_id: 1,
+          order: 4
         }
       }
     })
@@ -200,7 +205,8 @@ describe('objective_controller', () => {
     const data = {
       eng_name: 'new en',
       fin_name: 'new fn',
-      swe_name: 'new sn'
+      swe_name: 'new sn',
+      order: 4.5
     }
     const options = {
       route: '/api/objectives',
@@ -219,7 +225,8 @@ describe('objective_controller', () => {
         fin_name: 'fn',
         swe_name: 'sn',
         skill_level_id: 1,
-        category_id: 1
+        category_id: 1,
+        order: 11
       }).then((result) => {
         ids.objective = result.id
         options.route = `${options.route}/${ids.objective}`
@@ -234,7 +241,8 @@ describe('objective_controller', () => {
         instance => instance.update({
           eng_name: 'en',
           fin_name: 'fn',
-          swe_name: 'sn'
+          swe_name: 'sn',
+          order: 11
         }).then((result) => {
           databaseExpectation.updated_at = result.updated_at
           done()
@@ -254,7 +262,8 @@ describe('objective_controller', () => {
         edited: {
           id: asymmetricMatcher(actual => actual === ids.objective),
           skill_level_id: 1,
-          category_id: 1
+          category_id: 1,
+          order: data.order
         }
       },
       eng: {

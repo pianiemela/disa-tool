@@ -1,4 +1,6 @@
+import * as types from './action_types'
 import { checkResponseErrors } from '../utils/reduxHelpers/validation'
+
 const INITIAL_STATE = {
   responseErrors: {
     qModErrors:
@@ -16,7 +18,7 @@ const INITIAL_STATE = {
 export const validationReducer = (state = INITIAL_STATE, action) => {
 
   switch (action.type) {
-    case 'VALIDATE_RESPONSE': {
+    case types.VALIDATE_RESPONSE: {
       const {
         grade,
         fGrade,
@@ -57,7 +59,7 @@ export const validationReducer = (state = INITIAL_STATE, action) => {
       }
       return { ...INITIAL_STATE, softErrors }
     }
-    case 'CLEAR_RESPONSE_ERROR': {
+    case types.CLEAR_RESPONSE_ERROR: {
       const newE = { ...state.responseErrors }
       const { type, errorType, id, objective } = action.payload
       if (objective) {
@@ -75,10 +77,10 @@ export const validationReducer = (state = INITIAL_STATE, action) => {
       }
       return { ...state, responseErrors: newE }
     }
-    case 'CLEAR_VALIDATION': {
+    case types.CLEAR_VALIDATION: {
       return INITIAL_STATE
     }
-    case 'CLOSE_MODAL': {
+    case types.CLOSE_MODAL: {
       return { ...state, softErrors: false }
     }
     default:

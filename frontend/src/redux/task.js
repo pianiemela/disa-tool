@@ -1,3 +1,5 @@
+import * as types from './action_types'
+
 const INITIAL_STATE = {
   tasks: [],
   active: null,
@@ -146,46 +148,46 @@ const attachType = (state, action) => ({
 
 const taskReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'COURSE_GET_DATA':
+    case types.COURSE_GET_DATA:
       return {
         ...state,
         tasks: action.response.data.tasks
       }
-    case 'TASK_CHANGE_ACTIVE':
+    case types.TASK_CHANGE_ACTIVE:
       return {
         ...state,
         active: state.active === action.id ? null : action.id
       }
-    case 'TASK_CREATE':
+    case types.TASK_CREATE:
       return {
         ...state,
         tasks: [...state.tasks, action.response.created]
       }
-    case 'TASK_DELETE':
+    case types.TASK_DELETE:
       return {
         ...state,
         tasks: state.tasks.filter(task => task.id !== action.response.deleted.id)
       }
-    case 'TASK_ATTACH_OBJECTIVE':
+    case types.TASK_ATTACH_OBJECTIVE:
       return attachObjective(state, action)
-    case 'TASK_DETACH_OBJECTIVE':
+    case types.TASK_DETACH_OBJECTIVE:
       return detachOneObjective(state, action)
-    case 'TASK_ATTACH_TYPE':
+    case types.TASK_ATTACH_TYPE:
       return attachType(
         action.response.deleted ? detachOneType(state, action) : state,
         action
       )
-    case 'TASK_DETACH_TYPE':
+    case types.TASK_DETACH_TYPE:
       return detachOneType(state, action)
-    case 'OBJECTIVE_DELETE':
+    case types.OBJECTIVE_DELETE:
       return detachObjectiveFromMany(state, action, 'objectives')
-    case 'TYPE_DELETE':
+    case types.TYPE_DELETE:
       return detachTypeFromMany(state, action, 'types')
-    case 'CATEGORY_DELETE':
+    case types.CATEGORY_DELETE:
       return detachManyObjectives(state, action)
-    case 'LEVEL_DELETE':
+    case types.LEVEL_DELETE:
       return detachManyObjectives(state, action)
-    case 'TASK_EDIT':
+    case types.TASK_EDIT:
       return {
         ...state,
         tasks: state.tasks.map(task => (task.id === action.response.edited.id ? {
@@ -199,7 +201,7 @@ const taskReducer = (state = INITIAL_STATE, action) => {
           defaultMultiplier: task.defaultMultiplier
         } : task))
       }
-    case 'TASK_EDIT_OBJECTIVE_MULTIPLIERS':
+    case types.TASK_EDIT_OBJECTIVE_MULTIPLIERS:
       return {
         ...state,
         tasks: state.tasks.map(task => (task.id === action.response.edited.task_id ? {

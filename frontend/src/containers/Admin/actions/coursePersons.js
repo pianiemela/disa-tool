@@ -1,8 +1,9 @@
+import * as types from '../../../redux/action_types'
 import { changeCourseRole, deleteCP } from '../../../api/coursePersons'
 import apiPromise from '../../../utils/apiPromise'
 
 export const adminChangeCourseRole = data => apiPromise(changeCourseRole, data, {
-  success: { type: 'ADMIN_COURSE_CHANGE_ROLE' }
+  success: { type: types.ADMIN_COURSE_CHANGE_ROLE }
 })
 
 export const addPersonToCourse = data => apiPromise(
@@ -14,11 +15,11 @@ export const addPersonToCourse = data => apiPromise(
   {
     success: {
       course_instance: data.course_instance,
-      type: 'ADMIN_ADD_TO_COURSE'
+      type: types.ADMIN_ADD_TO_COURSE
     }
   }
 )
 
 export const removeCoursePerson = data => apiPromise(deleteCP, data, {
-  success: { type: 'ADMIN_DELETE_ROLE' }
+  success: { type: types.ADMIN_DELETE_ROLE }
 })

@@ -1,12 +1,14 @@
+import * as types from './action_types'
+
 const INITIAL_STATE = { redirect: false }
 
 const errorReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'COURSES_GET_INSTANCE_DATA_FAILURE':
+    case types.COURSES_GET_INSTANCE_DATA_FAILURE:
       return { ...state, redirect: true }
-    case 'GET_SELF_ASSESMENT_FAILURE':
+    case types.GET_SELF_ASSESMENT_FAILURE:
       return { ...state, redirect: true }
-    case 'RESET_ERROR':
+    case types.RESET_ERROR:
       return INITIAL_STATE
     default:
       return state

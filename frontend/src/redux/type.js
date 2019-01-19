@@ -1,3 +1,5 @@
+import * as types from './action_types'
+
 const INITIAL_STATE = {
   headers: []
 }
@@ -38,14 +40,14 @@ const edit = (state, edited) => {
 
 const typeReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'COURSE_GET_DATA':
+    case types.COURSE_GET_DATA:
       return {
         ...state,
         headers: action.response.data.type_headers
       }
-    case 'TYPE_EDIT':
+    case types.TYPE_EDIT:
       return edit(state, action.response.edited)
-    case 'TYPE_DELETE':
+    case types.TYPE_DELETE:
       return {
         ...state,
         headers: state.headers
@@ -54,7 +56,7 @@ const typeReducer = (state = INITIAL_STATE, action) => {
             types: header.types.filter(type => type.id !== action.response.deleted.id)
           } : header))
       }
-    case 'TYPE_CREATE':
+    case types.TYPE_CREATE:
       return {
         ...state,
         headers: state.headers
@@ -66,17 +68,17 @@ const typeReducer = (state = INITIAL_STATE, action) => {
             }]
           } : header))
       }
-    case 'TYPE_HEADER_CREATE':
+    case types.TYPE_HEADER_CREATE:
       return {
         ...state,
         headers: [...state.headers, action.response.created]
       }
-    case 'TYPE_HEADER_DELETE':
+    case types.TYPE_HEADER_DELETE:
       return {
         ...state,
         headers: state.headers.filter(header => header.id !== action.response.deleted.id)
       }
-    case 'TYPE_HEADER_EDIT':
+    case types.TYPE_HEADER_EDIT:
       return {
         ...state,
         headers: state.headers.map(header => (

@@ -15,7 +15,8 @@ describe('skill_level_controller', () => {
       course_instance_id: 1,
       eng_name: 'en',
       fin_name: 'fn',
-      swe_name: 'sn'
+      swe_name: 'sn',
+      order: 7
     }
     const options = {
       route: '/api/skill-levels/create',
@@ -34,7 +35,8 @@ describe('skill_level_controller', () => {
       common: {
         message: expect.any(String),
         created: {
-          id: expect.any(Number)
+          id: expect.any(Number),
+          order: data.order
         }
       },
       eng: {
@@ -81,7 +83,8 @@ describe('skill_level_controller', () => {
         course_instance_id: 1,
         eng_name: 'en',
         fin_name: 'fn',
-        swe_name: 'sn'
+        swe_name: 'sn',
+        order: 1
       }).then((result) => {
         ids.skill_level = result.get({ plain: true }).id
         options.route = `/api/skill-levels/${ids.skill_level}`
@@ -113,7 +116,8 @@ describe('skill_level_controller', () => {
           category_id: 1,
           eng_name: 'eno',
           fin_name: 'fno',
-          swe_name: 'sno'
+          swe_name: 'sno',
+          order: 1
         }).then((result) => {
           ids.objective = result.get({ plain: true }).id
           done()
@@ -136,7 +140,8 @@ describe('skill_level_controller', () => {
       eng_name: 'en',
       fin_name: 'fn',
       swe_name: 'sn',
-      course_instance_id: 1
+      course_instance_id: 1,
+      order: 11.5
     }
     const options = {
       route: '/api/skill-levels',
@@ -174,7 +179,8 @@ describe('skill_level_controller', () => {
     const data = {
       eng_name: 'new en',
       fin_name: 'new fn',
-      swe_name: 'new sn'
+      swe_name: 'new sn',
+      order: 4.5
     }
     const options = {
       route: '/api/skill-levels',
@@ -192,7 +198,8 @@ describe('skill_level_controller', () => {
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
-        course_instance_id: 1
+        course_instance_id: 1,
+        order: 11
       }).then((result) => {
         ids.level = result.id
         options.route = `${options.route}/${ids.level}`
@@ -207,7 +214,8 @@ describe('skill_level_controller', () => {
         instance => instance.update({
           eng_name: 'en',
           fin_name: 'fn',
-          swe_name: 'sn'
+          swe_name: 'sn',
+          order: 11
         }).then((result) => {
           databaseExpectation.updated_at = result.updated_at
           done()
@@ -225,7 +233,8 @@ describe('skill_level_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.level)
+          id: asymmetricMatcher(actual => actual === ids.level),
+          order: data.order
         }
       },
       eng: {

@@ -1,30 +1,32 @@
+import * as types from './action_types'
+
 const INITIAL_STATE = {
   levels: []
 }
 
 const levelReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'COURSE_GET_DATA':
+    case types.COURSE_GET_DATA:
       return {
         ...state,
         levels: action.response.data.levels
       }
-    case 'COURSE_GET_MATRIX':
+    case types.COURSE_GET_MATRIX:
       return {
         ...state,
         levels: action.response.data.levels
       }
-    case 'LEVEL_CREATE':
+    case types.LEVEL_CREATE:
       return {
         ...state,
         levels: [...state.levels, action.response.created]
       }
-    case 'LEVEL_DELETE':
+    case types.LEVEL_DELETE:
       return {
         ...state,
         levels: state.levels.filter(level => level.id !== action.response.deleted.id)
       }
-    case 'LEVEL_EDIT':
+    case types.LEVEL_EDIT:
       return {
         ...state,
         levels: state.levels.map(level => (

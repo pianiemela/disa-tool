@@ -1,15 +1,18 @@
+
+import * as types from './action_types'
+
 const INITIAL_STATE = {
   users: []
 }
 
 const adminReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'ADMIN_GET_USERS':
+    case types.ADMIN_GET_USERS:
       return {
         ...state,
         users: action.response
       }
-    case 'ADMIN_CHANGE_ROLE':
+    case types.ADMIN_CHANGE_ROLE:
       return {
         ...state,
         users: state.users.map(user => (user.id === action.response.data.id ? {
@@ -17,7 +20,7 @@ const adminReducer = (state = INITIAL_STATE, action) => {
           role: action.response.data.role
         } : user))
       }
-    case 'ADMIN_COURSE_CHANGE_ROLE':
+    case types.ADMIN_COURSE_CHANGE_ROLE:
       return {
         ...state,
         users: state.users.map(user => (user.id === action.response.data.person_id ? {
@@ -30,7 +33,7 @@ const adminReducer = (state = INITIAL_STATE, action) => {
           ))
         } : user))
       }
-    case 'ADMIN_ADD_TO_COURSE':
+    case types.ADMIN_ADD_TO_COURSE:
       return {
         ...state,
         users: state.users.map(user => (user.id === action.response.data.person_id ? {
@@ -41,7 +44,7 @@ const adminReducer = (state = INITIAL_STATE, action) => {
           }]
         } : user))
       }
-    case 'ADMIN_DELETE_ROLE':
+    case types.ADMIN_DELETE_ROLE:
       return {
         ...state,
         users: state.users.map(user => (user.id === action.response.deleted.person_id ? {
@@ -49,7 +52,7 @@ const adminReducer = (state = INITIAL_STATE, action) => {
           course_people: user.course_people.filter(cp => cp.id !== action.response.deleted.id)
         } : user))
       }
-    case 'ADMIN_RESET':
+    case types.ADMIN_RESET:
       return INITIAL_STATE
     default:
       return state
