@@ -5,11 +5,11 @@ const getAllCategories = () => Category.findAll()
 
 const getCourseCategories = (courseInstanceId, lang) => (
   Category.findAll({
+    where: { course_instance_id: courseInstanceId },
     attributes: ['id', [`${lang}_name`, 'name'], 'order'],
     include: {
       model: Objective,
-      attributes: ['id', 'course_instance_id', 'skill_level_id', [`${lang}_name`, 'name'], 'order'],
-      where: { course_instance_id: courseInstanceId }
+      attributes: ['id', 'course_instance_id', 'skill_level_id', [`${lang}_name`, 'name'], 'order']
     },
     order: [
       ['order', 'ASC'],

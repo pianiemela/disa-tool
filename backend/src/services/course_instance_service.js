@@ -179,11 +179,11 @@ const copyCourseInstance = async (data, user, lang) => {
       },
       {
         model: SkillLevel,
-        attributes: ['id', ...names],
+        attributes: ['id', ...names, 'order'],
         include: [
           {
             model: Objective,
-            attributes: ['id', ...names, 'skill_level_id', 'category_id', 'order'],
+            attributes: ['id', ...names, 'course_instance_id', 'skill_level_id', 'category_id', 'order'],
             separate: true
           },
           {
@@ -285,6 +285,7 @@ const mapToBuild = (data, original) => {
         (acc, level) => acc.concat(level.objectives.map(objective => ({
           ref: objective.id,
           ...mapNames(objective),
+          course_instance_id: reference(CourseInstance, objective.course_instance_id),
           skill_level_id: reference(SkillLevel, objective.skill_level_id),
           category_id: reference(Category, objective.category_id),
           order: objective.order
@@ -398,12 +399,11 @@ const applyRefs = (refs, row) => {
 
 const orderByCircularField = (data, field) => {
   let done = []
-  let nextNodes = [undefined]
-  const nodeMapper = row => row[field]
+  let nextNodes = [null]
   while (done.length < data.length) {
     // The filter depends on the value of nextNodes and as such must be remade every pass.
-    const next = data.filter(row => nextNodes.includes(row[field])) // eslint-disable-line no-loop-func
-    nextNodes = next.map(nodeMapper)
+    const next = data.filter(row => nextNodes.includes(row[field].ref)) // eslint-disable-line no-loop-func
+    nextNodes = next.map(row => row.ref)
     done = done.concat(next)
   }
   return done
@@ -421,7 +421,7 @@ const buildCopy = async (data) => {
     const { circular } = table
     const newTable = { ...table, requires: undefined, circular: undefined }
     if (circular) {
-      newTable.data = orderByCircularField(data, circular)
+      newTable.data = orderByCircularField(newTable.data, circular)
     }
     if (newTable.data.length !== 0) {
       refs[newTable.model.name] = {}

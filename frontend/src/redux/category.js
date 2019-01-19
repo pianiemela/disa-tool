@@ -96,8 +96,9 @@ const categoryReducer = (state = INITIAL_STATE, action) => {
                   return {
                     ...skillLevel,
                     objectives: [...skillLevel.objectives, {
-                      id: action.response.created.id,
-                      name: action.response.created.name
+                      ...action.response.created,
+                      category_id: undefined,
+                      skill_level_id: undefined
                     }]
                   }
                 }
