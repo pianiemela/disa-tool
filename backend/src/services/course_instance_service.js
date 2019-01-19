@@ -179,7 +179,7 @@ const copyCourseInstance = async (data, user, lang) => {
       },
       {
         model: SkillLevel,
-        attributes: ['id', ...names],
+        attributes: ['id', ...names, 'order'],
         include: [
           {
             model: Objective,

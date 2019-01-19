@@ -298,22 +298,6 @@ Type.addHook('afterUpdate', 'updateMultipliers', (type) => {
   })
 })
 
-const orderedModels = [
-  TypeHeader,
-  Type,
-  Task,
-  Objective,
-  Category,
-  SkillLevel,
-  Grade
-]
-orderedModels.forEach(model => model.addHook('beforeCreate', 'firstOrder', (instance) => {
-  if (!instance.dataValues.order) {
-    // eslint-disable-next-line no-param-reassign
-    instance.dataValues.order = 1
-  }
-}))
-
 Task.belongsToMany(Type, { through: TaskType })
 Type.belongsToMany(Task, { through: TaskType })
 // Redundancy here affords us flexibility in using joins or subqueries.
