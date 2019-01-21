@@ -21,8 +21,7 @@ const unsetFKConstraints = (queryInterface, Sequelize) => (modelName, columnName
       model: columnName.substring(0, columnName.length - 3),
       key: 'id'
     },
-    allowNull: true,
-    onDelete: 'set null'
+    allowNull: true
   }
 )
 

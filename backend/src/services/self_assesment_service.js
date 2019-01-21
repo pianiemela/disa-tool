@@ -167,6 +167,17 @@ const setAssessmentLanguage = async (selfAssessment, lang) => {
   return assessmentCopy
 }
 
+const deleteSelfAssesment = {
+  prepare: id => SelfAssessment.findById(id),
+  value: (instance) => {
+    const json = instance.toJSON()
+    return {
+      id: json.id,
+      course_instance_id: json.course_instance_id
+    }
+  },
+  execute: instance => instance.destroy()
+}
 
 module.exports = {
   addSelfAssesment,
@@ -176,5 +187,6 @@ module.exports = {
   updateSelfAssesment,
   getOne,
   toggleAssessment,
-  isFeedbackActive
+  isFeedbackActive,
+  delete: deleteSelfAssesment
 }

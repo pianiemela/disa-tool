@@ -13,6 +13,11 @@ const messages = {
     fin: 'Itsearviointi luotu onnistuneesti.',
     swe: ''
   },
+  delete: {
+    eng: 'Self assessment deleted succesfully.',
+    fin: 'Itsearviointi poistettu onnistuneesti.',
+    swe: ''
+  },
   update: {
     eng: 'Self assessment updated succesfully.',
     fin: 'Itsearviointi päivitetty onnistuneesti.',
@@ -126,6 +131,47 @@ router.get('/', async (req, res) => {
   return res.status(200).json({
     data
   })
+})
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const toDelete = await selfAssesmentService.delete.prepare(id)
+    if (!toDelete) {
+      res.status(404).json({
+        toast: errors.notfound.toast,
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
+    const hasPrivilege = await checkPrivilege(req, [
+      { key: 'teacher_on_course', param: toDelete.dataValues.course_instance_id }
+    ])
+    if (!hasPrivilege) {
+      res.status(403).json({
+        toast: errors.privilege.toast,
+        error: errors.privilege[req.lang]
+      })
+      return
+    }
+    const deleted = selfAssesmentService.delete.value(toDelete)
+    selfAssesmentService.delete.execute(toDelete)
+    res.status(200).json({
+      message: messages.delete[req.lang],
+      deleted
+    })
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lang]
+      })
+      logger.error(error)
+    }
+  }
 })
 
 router.put('/update/:id', async (req, res) => {
