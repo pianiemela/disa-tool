@@ -170,6 +170,7 @@ describe('objective_controller', () => {
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
+        course_instance_id: 1,
         skill_level_id: 1,
         category_id: 1,
         order: 4
@@ -193,6 +194,7 @@ describe('objective_controller', () => {
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn',
+          course_instance_id: 1,
           skill_level_id: 1,
           category_id: 1,
           order: 4
@@ -206,6 +208,8 @@ describe('objective_controller', () => {
       eng_name: 'new en',
       fin_name: 'new fn',
       swe_name: 'new sn',
+      skill_level_id: 2,
+      category_id: 2,
       order: 4.5
     }
     const options = {
@@ -224,6 +228,7 @@ describe('objective_controller', () => {
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
+        course_instance_id: 1,
         skill_level_id: 1,
         category_id: 1,
         order: 11
@@ -242,6 +247,8 @@ describe('objective_controller', () => {
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn',
+          skill_level_id: 1,
+          category_id: 1,
           order: 11
         }).then((result) => {
           databaseExpectation.updated_at = result.updated_at
@@ -261,8 +268,8 @@ describe('objective_controller', () => {
         message: expect.any(String),
         edited: {
           id: asymmetricMatcher(actual => actual === ids.objective),
-          skill_level_id: 1,
-          category_id: 1,
+          skill_level_id: data.skill_level_id,
+          category_id: data.category_id,
           order: data.order
         }
       },
@@ -288,8 +295,6 @@ describe('objective_controller', () => {
       {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.objective),
-        category_id: 1,
-        skill_level_id: 1,
         created_at: asymmetricMatcher(actual => !(
           actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
         )),

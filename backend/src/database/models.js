@@ -11,7 +11,7 @@ const Task = sequelize.define('task', {
   swe_description: { type: Sequelize.STRING(2000) },
   max_points: { type: Sequelize.DOUBLE },
   info: { type: Sequelize.STRING },
-  course_instance_id: { type: Sequelize.BIGINT },
+  course_instance_id: { type: Sequelize.BIGINT, allowNull: false },
   order: { type: Sequelize.FLOAT }
 },
 {
@@ -25,7 +25,7 @@ const TypeHeader = sequelize.define('type_header', {
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
-  course_instance_id: { type: Sequelize.BIGINT },
+  course_instance_id: { type: Sequelize.BIGINT, allowNull: false },
   order: { type: Sequelize.FLOAT }
 },
 {
@@ -40,7 +40,7 @@ const Type = sequelize.define('type', {
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
   multiplier: { type: Sequelize.DOUBLE },
-  type_header_id: { type: Sequelize.BIGINT },
+  type_header_id: { type: Sequelize.BIGINT, allowNull: false },
   order: { type: Sequelize.FLOAT }
 },
 {
@@ -51,8 +51,8 @@ const Type = sequelize.define('type', {
 
 const TaskType = sequelize.define('task_type', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
-  task_id: { type: Sequelize.BIGINT },
-  type_id: { type: Sequelize.BIGINT }
+  task_id: { type: Sequelize.BIGINT, allowNull: false },
+  type_id: { type: Sequelize.BIGINT, allowNull: false }
 },
 {
   tableName: 'task_type',
@@ -65,7 +65,7 @@ const Category = sequelize.define('category', {
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
-  course_instance_id: { type: Sequelize.BIGINT },
+  course_instance_id: { type: Sequelize.BIGINT, allowNull: false },
   order: { type: Sequelize.FLOAT }
 },
 {
@@ -79,9 +79,9 @@ const Objective = sequelize.define('objective', {
   eng_name: { type: Sequelize.TEXT },
   fin_name: { type: Sequelize.TEXT },
   swe_name: { type: Sequelize.TEXT },
-  category_id: { type: Sequelize.BIGINT },
-  course_instance_id: { type: Sequelize.BIGINT },
-  skill_level_id: { type: Sequelize.BIGINT },
+  category_id: { type: Sequelize.BIGINT, allowNull: false },
+  course_instance_id: { type: Sequelize.BIGINT, allowNull: false },
+  skill_level_id: { type: Sequelize.BIGINT, allowNull: false },
   order: { type: Sequelize.FLOAT }
 },
 {
@@ -94,8 +94,8 @@ const TaskObjective = sequelize.define('task_objective', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
   multiplier: { type: Sequelize.DOUBLE },
   modified: { type: Sequelize.BOOLEAN, defaultValue: false },
-  task_id: { type: Sequelize.BIGINT },
-  objective_id: { type: Sequelize.BIGINT }
+  task_id: { type: Sequelize.BIGINT, allowNull: false },
+  objective_id: { type: Sequelize.BIGINT, allowNull: false }
 },
 {
   tableName: 'task_objective',
@@ -108,7 +108,7 @@ const SkillLevel = sequelize.define('skill_level', {
   eng_name: { type: Sequelize.STRING },
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
-  course_instance_id: { type: Sequelize.BIGINT },
+  course_instance_id: { type: Sequelize.BIGINT, allowNull: false },
   order: { type: Sequelize.FLOAT }
 },
 {
@@ -123,7 +123,7 @@ const Grade = sequelize.define('grade', {
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
   needed_for_grade: { type: Sequelize.DOUBLE },
-  skill_level_id: { type: Sequelize.BIGINT },
+  skill_level_id: { type: Sequelize.BIGINT, allowNull: false },
   prerequisite: { type: Sequelize.BIGINT },
   order: { type: Sequelize.FLOAT }
 },
@@ -136,8 +136,8 @@ const Grade = sequelize.define('grade', {
 const CategoryGrade = sequelize.define('category_grade', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
   needed_for_grade: { type: Sequelize.DOUBLE },
-  grade_id: { type: Sequelize.BIGINT },
-  category_id: { type: Sequelize.BIGINT }
+  grade_id: { type: Sequelize.BIGINT, allowNull: false },
+  category_id: { type: Sequelize.BIGINT, allowNull: false }
 },
 {
   tableName: 'category_grade',
@@ -174,25 +174,13 @@ const CourseInstance = sequelize.define('course_instance', {
   fin_name: { type: Sequelize.STRING },
   swe_name: { type: Sequelize.STRING },
   active: { type: Sequelize.BOOLEAN },
-  course_id: { type: Sequelize.BIGINT }
+  course_id: { type: Sequelize.BIGINT, allowNull: false }
 },
 {
   tableName: 'course_instance',
   underscored: true,
   timestamps: true
 })
-
-// const CourseInstanceObjective = sequelize.define('course_instance_objective', {
-//     id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
-//     course_instance_id: { type: Sequelize.BIGINT },
-//     objective_id: { type: Sequelize.BIGINT },
-//     skill_level_id: { type: Sequelize.BIGINT }
-// },
-// {
-//     tableName: 'course_instance_objective',
-//     underscored: true,
-//     timestamps: true
-// })
 
 const Person = sequelize.define('person', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
@@ -208,21 +196,10 @@ const Person = sequelize.define('person', {
   timestamps: true
 })
 
-// const PersonRole = sequelize.define('person_role', {
-//     id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
-//     role: { type: Sequelize.STRING },
-//     person_id: { type: Sequelize.BIGINT }
-// },
-// {
-//     tableName: 'person_role',
-//     underscored: true,
-//     timestamps: true
-// })
-
 const CoursePerson = sequelize.define('course_person', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
-  course_instance_id: { type: Sequelize.BIGINT },
-  person_id: { type: Sequelize.BIGINT },
+  course_instance_id: { type: Sequelize.BIGINT, allowNull: false },
+  person_id: { type: Sequelize.BIGINT, allowNull: false },
   role: { type: Sequelize.STRING }
 },
 {
@@ -243,7 +220,7 @@ const SelfAssessment = sequelize.define('self_assessment', {
   open: { type: Sequelize.BOOLEAN },
   active: { type: Sequelize.BOOLEAN },
   show_feedback: { type: Sequelize.BOOLEAN },
-  course_instance_id: { type: Sequelize.BIGINT }
+  course_instance_id: { type: Sequelize.BIGINT, allowNull: false }
 },
 {
   tableName: 'self_assessment',
@@ -254,8 +231,8 @@ const SelfAssessment = sequelize.define('self_assessment', {
 const TaskResponse = sequelize.define('task_response', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
   points: { type: Sequelize.DOUBLE },
-  task_id: { type: Sequelize.BIGINT },
-  person_id: { type: Sequelize.BIGINT }
+  task_id: { type: Sequelize.BIGINT, allowNull: false },
+  person_id: { type: Sequelize.BIGINT, allowNull: false }
 },
 {
   tableName: 'task_response',
@@ -266,8 +243,8 @@ const TaskResponse = sequelize.define('task_response', {
 const AssessmentResponse = sequelize.define('assessment_response', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
   response: { type: Sequelize.JSON },
-  self_assessment_id: { type: Sequelize.BIGINT },
-  person_id: { type: Sequelize.BIGINT }
+  self_assessment_id: { type: Sequelize.BIGINT, allowNull: false },
+  person_id: { type: Sequelize.BIGINT, allowNull: false }
 },
 {
   tableName: 'assessment_response',
@@ -301,88 +278,75 @@ Type.addHook('afterUpdate', 'updateMultipliers', (type) => {
 Task.belongsToMany(Type, { through: TaskType })
 Type.belongsToMany(Task, { through: TaskType })
 // Redundancy here affords us flexibility in using joins or subqueries.
-Task.hasMany(TaskType, { foreignKey: 'task_id', targetKey: 'id' })
-Type.hasMany(TaskType, { foreignKey: 'type_id', targetKey: 'id' })
+Task.hasMany(TaskType, { foreignKey: 'task_id', targetKey: 'id', onDelete: 'cascade' })
+Type.hasMany(TaskType, { foreignKey: 'type_id', targetKey: 'id', onDelete: 'cascade' })
 TaskType.belongsTo(Task, { foreignKey: 'task_id', targetKey: 'id' })
 TaskType.belongsTo(Type, { foreignKey: 'type_id', targetKey: 'id' })
 
-CourseInstance.hasMany(Task, { foreignKey: 'course_instance_id', targetKey: 'id' })
-CourseInstance.hasMany(CoursePerson, { foreignKey: 'course_instance_id', targetKey: 'id' })
+CourseInstance.hasMany(Task, { foreignKey: 'course_instance_id', targetKey: 'id', onDelete: 'cascade' })
+CourseInstance.hasMany(CoursePerson, { foreignKey: 'course_instance_id', targetKey: 'id', onDelete: 'cascade' })
 CoursePerson.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 Task.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
-Category.hasMany(Objective, { foreignKey: 'category_id', targetKey: 'id' })
+Category.hasMany(Objective, { foreignKey: 'category_id', targetKey: 'id', onDelete: 'cascade' })
 Objective.belongsTo(Category, { foreignKey: 'category_id', targetKey: 'id' })
 
 Task.belongsToMany(Objective, { through: TaskObjective })
 Objective.belongsToMany(Task, { through: TaskObjective })
 // Redundancy here affords us flexibility in using joins or subqueries.
-Task.hasMany(TaskObjective, { foreignKey: 'task_id', targetKey: 'id' })
-Objective.hasMany(TaskObjective, { foreignKey: 'objective_id', targetKey: 'id' })
+Task.hasMany(TaskObjective, { foreignKey: 'task_id', targetKey: 'id', onDelete: 'cascade' })
+Objective.hasMany(TaskObjective, { foreignKey: 'objective_id', targetKey: 'id', onDelete: 'cascade' })
 TaskObjective.belongsTo(Task, { foreignKey: 'task_id', targetKey: 'id' })
 TaskObjective.belongsTo(Objective, { foreignKey: 'objective_id', targetKey: 'id' })
 
 
-SkillLevel.hasMany(Objective, { foreignKey: 'skill_level_id', targetKey: 'id' })
+SkillLevel.hasMany(Objective, { foreignKey: 'skill_level_id', targetKey: 'id', onDelete: 'cascade' })
 Objective.belongsTo(SkillLevel, { foreignKey: 'skill_level_id', targetKey: 'id' })
-CourseInstance.hasMany(Objective, { foreignKey: 'course_instance_id', targetKey: 'id' })
+CourseInstance.hasMany(Objective, { foreignKey: 'course_instance_id', targetKey: 'id', onDelete: 'cascade' })
 Objective.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
-SkillLevel.hasMany(Grade, { foreignKey: 'skill_level_id', targetKey: 'id' })
+SkillLevel.hasMany(Grade, { foreignKey: 'skill_level_id', targetKey: 'id', onDelete: 'cascade' })
 Grade.belongsTo(SkillLevel, { foreignKey: 'skill_level_id', targetKey: 'id' })
 
-Grade.hasOne(Grade, { foreignKey: 'prerequisite', targetKey: 'id' })
+Grade.hasOne(Grade, { foreignKey: 'prerequisite', targetKey: 'id', onDelete: 'set null' })
 
 CategoryGrade.belongsTo(Category, { foreignKey: 'category_id', targetKey: 'id' })
 CategoryGrade.belongsTo(Grade, { foreignKey: 'grade_id', targetKey: 'id' })
 Grade.hasMany(CategoryGrade, { foreignKey: 'grade_id', targetKey: 'id', onDelete: 'cascade', hooks: true })
 Category.hasMany(CategoryGrade, { foreignKey: 'category_id', targetKey: 'id', onDelete: 'cascade', hooks: true })
 
-// Objective.belongsToMany(SkillLevel, { through: ObjectiveSkillLevel })
-// SkillLevel.belongsToMany(Objective, { through: ObjectiveSkillLevel })
-
-Course.hasMany(CourseInstance, { foreignKey: 'course_id', targetKey: 'id' })
+Course.hasMany(CourseInstance, { foreignKey: 'course_id', targetKey: 'id', onDelete: 'cascade' })
 CourseInstance.belongsTo(Course, { foreignKey: 'course_id', targetKey: 'id' })
-
-// CourseInstance.belongsToMany(Objective, { through: CourseInstanceObjective })
-// CourseInstance.belongsToMany(SkillLevel, { through: CourseInstanceObjective })
-// Objective.belongsToMany(CourseInstance, { through: CourseInstanceObjective })
-// Objective.belongsToMany(SkillLevel, { through: CourseInstanceObjective })
-// SkillLevel.belongsToMany(CourseInstance, { through: CourseInstanceObjective })
-// SkillLevel.belongsToMany(Objective, { through: CourseInstanceObjective })
-
-// Person.hasMany(PersonRole, { foreignKey: 'person_id', targetKey: 'id' })
-// PersonRole.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
 
 Person.belongsToMany(CourseInstance, { through: CoursePerson })
 CourseInstance.belongsToMany(Person, { through: CoursePerson })
 
-CourseInstance.hasMany(SelfAssessment, { foreignKey: 'course_instance_id', targetKey: 'id' })
+CourseInstance.hasMany(SelfAssessment, { foreignKey: 'course_instance_id', targetKey: 'id', onDelete: 'cascade' })
 SelfAssessment.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
-Person.hasMany(TaskResponse, { foreignKey: 'person_id', targetKey: 'id' })
-Task.hasMany(TaskResponse, { foreignKey: 'task_id', targetKey: 'id' })
+Person.hasMany(TaskResponse, { foreignKey: 'person_id', targetKey: 'id', onDelete: 'cascade' })
+Task.hasMany(TaskResponse, { foreignKey: 'task_id', targetKey: 'id', onDelete: 'cascade' })
 TaskResponse.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
 TaskResponse.belongsTo(Task, { foreignKey: 'task_id', targetKey: 'id' })
 Person.belongsToMany(Task, { through: TaskResponse })
 Task.belongsToMany(Person, { through: TaskResponse })
 
-Person.hasMany(AssessmentResponse, { foreignKey: 'person_id', targetKey: 'id' })
-Person.hasMany(CoursePerson, { foreignKey: 'person_id', targetKey: 'id' })
-SelfAssessment.hasMany(AssessmentResponse, { foreignKey: 'self_assessment_id', targetKey: 'id' })
+Person.hasMany(AssessmentResponse, { foreignKey: 'person_id', targetKey: 'id', onDelete: 'cascade' })
+Person.hasMany(CoursePerson, { foreignKey: 'person_id', targetKey: 'id', onDelete: 'cascade' })
+SelfAssessment.hasMany(AssessmentResponse, { foreignKey: 'self_assessment_id', targetKey: 'id', onDelete: 'cascade' })
 AssessmentResponse.belongsTo(Person, { foreignKey: 'person_id', targetKey: 'id' })
 AssessmentResponse.belongsTo(SelfAssessment, { foreignKey: 'self_assessment_id', targetKey: 'id' })
 
-CourseInstance.hasMany(TypeHeader, { foreignKey: 'course_instance_id', targetKey: 'id' })
+CourseInstance.hasMany(TypeHeader, { foreignKey: 'course_instance_id', targetKey: 'id', onDelete: 'cascade' })
 TypeHeader.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
-TypeHeader.hasMany(Type, { foreignKey: 'type_header_id', targetKey: 'id' })
+TypeHeader.hasMany(Type, { foreignKey: 'type_header_id', targetKey: 'id', onDelete: 'cascade' })
 Type.belongsTo(TypeHeader, { foreignKey: 'type_header_id', targetKey: 'id' })
 
-CourseInstance.hasMany(Category, { foreignKey: 'course_instance_id', targetKey: 'id' })
+CourseInstance.hasMany(Category, { foreignKey: 'course_instance_id', targetKey: 'id', onDelete: 'cascade' })
 Category.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
-CourseInstance.hasMany(SkillLevel, { foreignKey: 'course_instance_id', targetKey: 'id' })
+CourseInstance.hasMany(SkillLevel, { foreignKey: 'course_instance_id', targetKey: 'id', onDelete: 'cascade' })
 SkillLevel.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
 module.exports = {

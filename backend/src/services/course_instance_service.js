@@ -505,7 +505,7 @@ const matrix = async (id, lang) => {
 const { details, edit } = editServices(
   CourseInstance,
   {
-    attributes: ['id', 'eng_name', 'fin_name', 'swe_name']
+    attributes: ['id', 'course_id', 'eng_name', 'fin_name', 'swe_name']
   },
   {
     saveFields: [
@@ -515,6 +515,7 @@ const { details, edit } = editServices(
     ],
     valueFields: [
       'id',
+      'course_id',
       ['lang_name', 'name']
     ]
   }
@@ -522,7 +523,6 @@ const { details, edit } = editServices(
 
 module.exports = {
   getCourseInstanceData,
-  getOne,
   create,
   matrix,
   details,
