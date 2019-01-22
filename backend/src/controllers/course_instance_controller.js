@@ -41,6 +41,13 @@ router.get('/data/:courseInstanceId', async (req, res) => {
   })
 })
 
+router.get('/:courseInstanceId', async (req, res) => {
+  const data = await courseInstanceService.getOne(req.params.courseInstanceId)
+  res.status(200).json({
+    data
+  })
+})
+
 router.post('/create', async (req, res) => {
   if (!await checkPrivilege(req, [
     {

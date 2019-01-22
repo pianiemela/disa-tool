@@ -1,4 +1,4 @@
-import { getJson, postJson, putJson } from '../utils/utils'
+import { getJson, postJson, putJson, deleteCall } from '../utils/utils'
 
 export const createSelfAssesment = data => postJson('/selfassesment/create', data)
 
@@ -17,3 +17,5 @@ export const toggleAssessment = (assessmentId, attribute) => putJson(`/selfasses
 export const getResponsesBySelfAssesment = data => getJson(`/assesmentresponse/self-assesment/${data.id}`)
 
 export const updateVerificationAndFeedback = assessmentId => putJson(`/assesmentresponse/generate-feedbacks/${assessmentId}`)
+
+export const remove = id => deleteCall(`/selfassesment/${id}`)

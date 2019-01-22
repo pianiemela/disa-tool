@@ -523,6 +523,7 @@ const { details, edit } = editServices(
 
 module.exports = {
   getCourseInstanceData,
+  getOne,
   create,
   matrix,
   details,
