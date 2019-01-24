@@ -4,7 +4,6 @@ const { checkAuth } = require('../services/auth')
 
 const courseService = require('../services/course_service')
 const personService = require('../services/person_service')
-const taskService = require('../services/task_service')
 const { errors } = require('../messages/global')
 const { checkPrivilege } = require('../services/privilege')
 

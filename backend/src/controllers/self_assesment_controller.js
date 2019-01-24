@@ -13,6 +13,11 @@ const messages = {
     fin: 'Itsearviointi luotu onnistuneesti.',
     swe: ''
   },
+  get: {
+    eng: 'Self assessment inforamtion fetched succesfully.',
+    fin: 'Itsearvioinnin tiedot haettu onnistuneesti.',
+    swe: ''
+  },
   delete: {
     eng: 'Self assessment deleted succesfully.',
     fin: 'Itsearviointi poistettu onnistuneesti.',
@@ -86,7 +91,7 @@ router.post('/create', async (req, res) => {
     const data = await selfAssesmentService.addSelfAssesment(formData, req.lang)
 
     res.status(200).json({
-      message: messages[req.lang],
+      message: messages.create[req.lang],
       data
     })
   } catch (error) {
@@ -106,8 +111,14 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const data = await selfAssesmentService.getOne(selfAssesmentId, req.lang)
-
-    return res.status(200).json({
+    if (!data) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
+    res.status(200).json({
+      message: messages.get[req.lang],
       data
     })
   } catch (error) {
@@ -122,13 +133,12 @@ router.get('/:selfAssesmentId', async (req, res) => {
       logger.error(error)
     }
   }
-  return null
 })
 
 router.get('/', async (req, res) => {
   const user = await checkAuth(req)
   const data = await selfAssesmentService.getUserSelfAssesments(user, req.lang)
-  return res.status(200).json({
+  res.status(200).json({
     data
   })
 })
@@ -229,7 +239,7 @@ router.put('/toggle/:id', async (req, res) => {
 })
 
 const destructureNamesAndInstructions = (createFormData, formInfo) => {
-  const withNamesAndInstructions = createFormData
+  const withNamesAndInstructions = { ...createFormData }
   formInfo.forEach((forminfoType) => {
     withNamesAndInstructions[forminfoType.type] = forminfoType.value
   })

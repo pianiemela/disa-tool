@@ -19,12 +19,12 @@ const assessmentAttributes = lang => [
   'course_instance_id']
 
 const addSelfAssesment = async (data, lang) => {
+  const inputData = { ...data, id: undefined }
   const name = [`${lang}_name`, 'name']
   const instructions = [`${lang}_instructions`, 'instructions']
-  const created = await SelfAssessment.create(data).then(createdSA => SelfAssessment.findById(createdSA.id, {
+  const created = await SelfAssessment.create(inputData).then(createdSA => SelfAssessment.findById(createdSA.id, {
     attributes: ['id', name, instructions, 'structure', 'open', 'active', 'show_feedback', 'course_instance_id']
   }))
-
   return created
 }
 
@@ -90,12 +90,12 @@ const getAssesmentsForCourse = (courseId, lang, userId) => (
 )
 
 const getOne = async (selfAssesmentId, lang) => {
-  const assessment = await SelfAssessment.findOne({
+  const assesment = await SelfAssessment.findOne({
     where: { id: selfAssesmentId }
   })
-
-  const assessmentValues = assessment.get({ plain: true })
-  return setAssessmentLanguage(assessmentValues, lang)
+  if (!assesment) { return null }
+  const assesmentValues = assesment.get({ plain: true })
+  return setAssessmentLanguage(assesmentValues, lang)
 }
 
 const toggleAssessment = {
