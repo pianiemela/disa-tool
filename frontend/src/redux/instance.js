@@ -89,10 +89,16 @@ export const instanceReducer = (state = INITIAL_STATE, action) => {
           assesment => assesment.id !== action.response.deleted.id
         ))
       }
+    case types.SELF_ASSESMENT_UPDATE_SUCCESS:
+      return {
+        ...state,
+        self_assessments: state.self_assessments.map((
+          assesment => (assesment.id === action.payload.data.id ? action.payload.data : assesment)
+        ))
+      }
     default:
       return state
   }
 }
 
 export default instanceReducer
-
