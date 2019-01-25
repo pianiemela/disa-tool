@@ -158,86 +158,60 @@ const testHeaders = (options) => {
  *     }
  *   }
  */
-const testBody = (options, match) => {
-  describe('returns an appropriate json object in response body', () => {
-    it('in English.', (done) => {
-      makeRequest({
-        ...options,
-        preamble: {
-          ...options.preamble,
-          query: { lang: 'eng' }
-        }
-      }).then((response) => {
-        let expected
-        try {
-          try {
-            expected = mergeRecursive(match.common, match.eng)
-          } catch (e) {
-            done(e)
-          }
-          expect(response.body).toMatchObject(expected)
-          done()
-        } catch (e) {
-          done({
-            expected,
-            received: response.body
-          })
-        }
-      }).catch(done)
-    })
-
-    it('in Finnish.', (done) => {
-      makeRequest({
-        ...options,
-        preamble: {
-          ...options.preamble,
-          query: { lang: 'fin' }
-        }
-      }).then((response) => {
-        let expected
-        try {
-          try {
-            expected = mergeRecursive(match.common, match.fin)
-          } catch (e) {
-            done(e)
-          }
-          expect(response.body).toMatchObject(expected)
-          done()
-        } catch (e) {
-          done({
-            expected,
-            received: response.body
-          })
-        }
-      }).catch(done)
-    })
-
-    it('in Swedish.', (done) => {
-      makeRequest({
-        ...options,
-        preamble: {
-          ...options.preamble,
-          query: { lang: 'swe' }
-        }
-      }).then((response) => {
-        let expected
-        try {
-          try {
-            expected = mergeRecursive(match.common, match.swe)
-          } catch (e) {
-            done(e)
-          }
-          expect(response.body).toMatchObject(expected)
-          done()
-        } catch (e) {
-          done({
-            expected,
-            received: response.body
-          })
-        }
-      }).catch(done)
-    })
+const testBody = (options, match, config = {}) => {
+  const text = {
+    describe: 'returns an appropriate json object in response body',
+    eng: 'in English.',
+    fin: 'in Finnish.',
+    swe: 'in Swedish.',
+    ...config.text
+  }
+  describe(text.describe, () => {
+    it(text.eng, checkBodyInLanguage('eng')(options, match))
+    it(text.fin, checkBodyInLanguage('fin')(options, match))
+    it(text.swe, checkBodyInLanguage('swe')(options, match))
   })
+}
+
+const checkBodyInLanguage = lang => (options, match) => (done) => {
+  makeRequest({
+    ...options,
+    preamble: {
+      ...options.preamble,
+      query: { lang }
+    }
+  }).then((response) => {
+    let expected
+    try {
+      try {
+        expected = mergeRecursive(match.common, match[lang])
+      } catch (e) {
+        done(e)
+      }
+      if (Array.isArray(response.body)) {
+        let index = 0
+        try {
+          while (index < response.body.length) {
+            expect(response.body[index]).toMatchObject(expected[index])
+            index += 1
+          }
+        } catch (e) {
+          done({
+            expected: expected[index],
+            received: response.body[index]
+          })
+        }
+      } else {
+        expect(response.body).toMatchObject(expected)
+      }
+      done()
+    } catch (e) {
+      done({
+        expected,
+        received: response.body
+      })
+    }
+  }).catch(done)
 }
 
 const timestamps = {
@@ -255,26 +229,41 @@ const timestamps = {
  *     define here where to find id in response.
  *   disallowId: boolean. If true, will add a field 'id' to request body and
  *     check that it had no effect on the response.
+ *   findBy: number, object or function that returns a number or an object.
+ *     Passed as an argument to model.findById (number) or model.findOne (object) to find the saved row.
  * }
  */
 const testDatabaseSave = (options, match, model, config = {}) => {
   const {
     disallowId = false,
     pathToId = ['body', 'created', 'id'],
-    includeTimestamps = true
+    includeTimestamps = true,
+    findBy = null,
+    text = 'saves a row into the database.'
   } = config
-  it('saves a row into the database.', (done) => {
+  it(text, (done) => {
     const reqOptions = { ...options }
     if (disallowId) reqOptions.preamble.send = { ...reqOptions.preamble.send, id: 10001 }
 
     makeRequest(reqOptions).then((response) => {
       try {
-        let id = response
-        pathToId.forEach((step) => {
-          id = id[step]
-        })
-        expect(typeof id).toEqual('number')
-        model.findById(id).then((row) => {
+        let search
+        let findFunction
+        if (findBy) {
+          search = findBy
+          if (typeof findBy === 'function') {
+            search = findBy()
+          }
+          findFunction = (typeof search === 'number' ? 'findById' : 'findOne')
+        } else {
+          findFunction = 'findById'
+          search = response
+          pathToId.forEach((step) => {
+            search = search[step]
+          })
+          expect(typeof search).toEqual('number')
+        }
+        model[findFunction](search).then((row) => {
           let json
           try {
             expect(row).toBeTruthy()
@@ -310,13 +299,16 @@ const testDatabaseSave = (options, match, model, config = {}) => {
  *       getId: function that returns id to look for.
  *     }
  *     Each object will cause test to check that the table no longer has the specified row.
+ *   findBy: number, object or function that returns a number or an object.
+ *     Passed as an argument to model.findById (number) or model.findOne (object) to find (lack of) the saved row.
  * }
  */
 const testDatabaseDestroy = (options, model, config = {}) => {
   const {
     pathToId = ['body', 'deleted', 'id'],
     delay = 0,
-    cascade = []
+    cascade = [],
+    findBy
   } = config
 
   const checkCascade = cascade.map(params => (response, cascadeStep, done) => {
@@ -331,11 +323,23 @@ const testDatabaseDestroy = (options, model, config = {}) => {
   })
 
   const checkDestruction = (response, cascadeStep, done) => {
-    let id = response
-    pathToId.forEach((step) => {
-      id = id[step]
-    })
-    model.findById(id).then((result) => {
+    let search
+    let findFunction
+    if (findBy) {
+      search = findBy
+      if (typeof findBy === 'function') {
+        search = findBy()
+      }
+      findFunction = (typeof search === 'number' ? 'findById' : 'findOne')
+    } else {
+      findFunction = 'findById'
+      search = response
+      pathToId.forEach((step) => {
+        search = search[step]
+      })
+      expect(typeof search).toEqual('number')
+    }
+    model[findFunction](search).then((result) => {
       try {
         expect(result).toEqual(null)
         checkCascade[cascadeStep](response, cascadeStep + 1, done)

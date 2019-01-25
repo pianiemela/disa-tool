@@ -6,27 +6,31 @@ const taskAttributes = lang => ['id', [`${lang}_name`, 'name'], [`${lang}_descri
 const typeAttributes = lang => ['id', [`${lang}_name`, 'name']]
 
 
-const getUserTasksForCourse = (courseId, lang, userId) => (
-  Task.findAll({
-    where: { course_instance_id: courseId },
-    attributes: taskAttributes(lang),
-    include: [
-      { model: TaskResponse, where: { person_id: userId }, required: false },
-      { model: Type,
+const getUserTasksForCourse = (courseId, lang, userId) => Task.findAll({
+  where: { course_instance_id: courseId },
+  attributes: taskAttributes(lang),
+  include: [
+    {
+      model: TaskResponse,
+      where: { person_id: userId },
+      required: false
+    },
+    {
+      model: Type,
+      attributes: typeAttributes(lang),
+      include: {
+        model: TypeHeader,
+        where: { course_instance_id: courseId },
         attributes: typeAttributes(lang),
-        include: {
-          model: TypeHeader,
-          where: { course_instance_id: courseId },
-          attributes: typeAttributes(lang)
-        }
-      }
-    ],
-    order: [
-      [Task, 'order', 'ASC'],
-      [Type, 'order', 'ASC']
-    ]
-  })
-)
+      },
+      required: false
+    }
+  ],
+  order: [
+    ['order', 'ASC'],
+    [Type, 'order', 'ASC']
+  ]
+})
 
 const validateTaskResponses = async (taskResponses, courseId) => {
   // find only tasks that are on this course
@@ -142,7 +146,21 @@ const attachObjective = {
         attributes: ['multiplier']
       }
     })
+    if (!task) {
+      return {
+        task: null,
+        objective: null,
+        instance: null
+      }
+    }
     const objective = await Objective.findById(data.objective_id)
+    if (!objective) {
+      return {
+        task,
+        objective: null,
+        instance: null
+      }
+    }
     const multiplier = task.get({ plain: true }).types.reduce((acc, curr) => acc * curr.multiplier, 1)
     const instance = TaskObjective.build({
       task_id: data.task_id,
@@ -174,10 +192,12 @@ const detachObjective = {
     },
     include: [
       {
-        model: Task
+        model: Task,
+        attributes: ['course_instance_id']
       },
       {
-        model: Objective
+        model: Objective,
+        attributes: ['course_instance_id']
       }
     ]
   }),
@@ -227,11 +247,27 @@ const updateMultipliers = async (taskType) => {
 const attachType = {
   prepare: async (data) => {
     const task = await Task.findById(data.task_id)
+    if (!task) {
+      return {
+        task: null,
+        type: null,
+        deleteInstance: null,
+        instance: null
+      }
+    }
     const type = await Type.findById(data.type_id, {
       include: {
         model: TypeHeader
       }
     })
+    if (!type) {
+      return {
+        task,
+        type: null,
+        deleteInstance: null,
+        instance: null
+      }
+    }
     const instance = TaskType.build({
       task_id: data.task_id,
       type_id: data.type_id
@@ -268,14 +304,14 @@ const attachType = {
       task_id: json.task_id,
       type_id: json.type_id
     }
-    let deleted
+    let deleted = null
     if (deleteInstance) {
       const deleteJson = deleteInstance.toJSON()
       deleted = {
         task_id: deleteJson.task_id,
         type_id: deleteJson.type_id
       }
-    } else { deleted = null }
+    }
     return {
       created,
       deleted
@@ -354,19 +390,7 @@ const editTaskObjectives = {
         },
         attributes: ['id', 'objective_id']
       }),
-      Task.findById(data.task_id, { attributes: ['id', 'course_instance_id'] }),
-      Objective.findAll({
-        where: {
-          id: { [Op.in]: objectiveIds }
-        },
-        attributes: ['id'],
-        include: {
-          model: TaskObjective,
-          where: {
-            task_id: data.task_id
-          }
-        }
-      })
+      Task.findById(data.task_id, { attributes: ['id', 'course_instance_id'] })
     ])
   },
   execute: (instances, data) => Promise.all(instances.map((instance) => {
