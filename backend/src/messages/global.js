@@ -34,6 +34,12 @@ const errors = {
     eng: '"Yllättävä virhe tapahtui." englanniksi.',
     fin: 'Yllättävä virhe tapahtui.',
     swe: '"Yllättävä virhe tapahtui." ruotsiksi.'
+  },
+  malformed: {
+    toast: false,
+    eng: 'Given input values were malformed.',
+    fin: 'Annetut syötearvot olivat epämuodostuneita.',
+    swe: '"Annetut syötearvot olivat epämuodostuneita." ruotsiksi.'
   }
 }
 

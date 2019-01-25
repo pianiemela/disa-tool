@@ -40,14 +40,18 @@ const deleteCourseperson = {
 }
 
 const updateRole = async (data) => {
-  const [found, created] = await CoursePerson.findOrCreate({
-    where: {
-      person_id: data.personId, course_instance_id: data.courseInstanceId
-    },
-    defaults: {
-      role: data.role
-    }
-  })
+  let found
+  let created
+  try {
+    [found, created] = await CoursePerson.findOrCreate({
+      where: {
+        person_id: data.personId, course_instance_id: data.courseInstanceId
+      },
+      defaults: {
+        role: data.role
+      }
+    })
+  } catch (e) { return [null, false] }
   if (!created) await found.update({ role: data.role })
   return [found, created]
 }

@@ -53,11 +53,16 @@ const mergeRecursive = (a, b) => {
   return merged
 }
 
-const testTeacherPrivilege = (options, description, codes = {}) => {
+const testTeacherPrivilege = (options, description, codes = {}, level) => {
   const {
     success = 200,
     failure = 403
   } = codes
+  const levels = [
+    'student',
+    'teacher',
+    'admin'
+  ]
   describe(description, () => {
     it('is not granted when no authorization is provided', (done) => {
       makeRequest(options).set('Authorization', '').then((response) => {
@@ -71,7 +76,7 @@ const testTeacherPrivilege = (options, description, codes = {}) => {
     })
 
     it('is not granted when invalid authorization is provided', (done) => {
-      makeRequest(options).set('Authorization', `Bearer ${tokens.student}`).then((response) => {
+      makeRequest(options).set('Authorization', `Bearer ${tokens[levels[level - 1]]}`).then((response) => {
         try {
           expect(response.status).toEqual(failure)
           done()
@@ -82,7 +87,7 @@ const testTeacherPrivilege = (options, description, codes = {}) => {
     })
 
     it('is granted when valid authorization is provided', (done) => {
-      makeRequest(options).set('Authorization', `Bearer ${tokens.teacher}`).then((response) => {
+      makeRequest(options).set('Authorization', `Bearer ${tokens[levels[level]]}`).then((response) => {
         try {
           expect(response.status).toEqual(success)
           done()
@@ -97,13 +102,22 @@ const testTeacherPrivilege = (options, description, codes = {}) => {
 const testTeacherOnCoursePrivilege = (options, codes) => testTeacherPrivilege(
   options,
   'teacher_on_course privilege',
-  codes
+  codes,
+  1
 )
 
 const testGlobalTeacherPrivilege = (options, codes) => testTeacherPrivilege(
   options,
   'global_teacher privilege',
-  codes
+  codes,
+  1
+)
+
+const testAdminPrivilege = (options, codes) => testTeacherPrivilege(
+  options,
+  'admin privilege',
+  codes,
+  2
 )
 
 const testHeaders = (options) => {
@@ -378,6 +392,7 @@ const testStatusCode = (options, code) => {
 module.exports = {
   testTeacherOnCoursePrivilege,
   testGlobalTeacherPrivilege,
+  testAdminPrivilege,
   testHeaders,
   testBody,
   testDatabaseSave,
