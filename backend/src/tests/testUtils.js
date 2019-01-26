@@ -21,9 +21,10 @@
  * }
  */
 const makeRequest = (options) => {
+  const doNotSpread = options.do_not_spread || []
   let request = server[options.method](options.route)
   Object.keys(options.preamble).forEach((method) => {
-    if (Array.isArray(options.preamble[method])) {
+    if (Array.isArray(options.preamble[method]) && !doNotSpread.includes(method)) {
       request = request[method](...options.preamble[method])
     } else {
       request = request[method](options.preamble[method])
@@ -181,13 +182,13 @@ const testBody = (options, match, config = {}) => {
     ...config.text
   }
   describe(text.describe, () => {
-    it(text.eng, checkBodyInLanguage('eng')(options, match))
-    it(text.fin, checkBodyInLanguage('fin')(options, match))
-    it(text.swe, checkBodyInLanguage('swe')(options, match))
+    it(text.eng, checkBodyInLanguage('eng')(options, match, config))
+    it(text.fin, checkBodyInLanguage('fin')(options, match, config))
+    it(text.swe, checkBodyInLanguage('swe')(options, match, config))
   })
 }
 
-const checkBodyInLanguage = lang => (options, match) => (done) => {
+const checkBodyInLanguage = lang => (options, match, config) => (done) => {
   makeRequest({
     ...options,
     preamble: {
@@ -202,7 +203,7 @@ const checkBodyInLanguage = lang => (options, match) => (done) => {
       } catch (e) {
         done(e)
       }
-      if (Array.isArray(response.body)) {
+      if (Array.isArray(response.body) && !config.do_not_spread) {
         let index = 0
         try {
           while (index < response.body.length) {
@@ -216,7 +217,8 @@ const checkBodyInLanguage = lang => (options, match) => (done) => {
           })
         }
       } else {
-        expect(response.body).toMatchObject(expected)
+        const matcher = config.matcher || 'toMatchObject'
+        expect(response.body)[matcher](expected)
       }
       done()
     } catch (e) {

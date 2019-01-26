@@ -44,12 +44,16 @@ router.post('/users', async (req, res) => {
 })
 
 router.post('/course_role', async (req, res) => {
-  const coursePersons = req.body.filter(async person => checkPrivilege(req, [{
+  const coursePersons = req.body
+  const pass = (await Promise.all(coursePersons.map(person => checkPrivilege(req, [{
     key: 'teacher_on_course',
     param: person.course_instance_id
-  }]))
+  }])))).reduce(
+    (acc, curr) => acc && curr,
+    true
+  )
   const isTeacher = await isGlobalTeacher(req)
-  if (!coursePersons || coursePersons.length === 0 || !isTeacher) {
+  if (!pass || !isTeacher) {
     res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
     return
   }
@@ -64,7 +68,7 @@ router.post('/course_role', async (req, res) => {
 router.put('/global-role', async (req, res) => {
   try {
     const bodyData = req.body
-    const hasPrivilege = checkPrivilege(req, [{
+    const hasPrivilege = await checkPrivilege(req, [{
       key: 'admin',
       param: null
     }])
@@ -76,7 +80,13 @@ router.put('/global-role', async (req, res) => {
       return
     }
     const data = await personService.updateGlobal(bodyData)
-
+    if (!data) {
+      res.status(404).json({
+        toast: errors.notfound.toast,
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
     res.status(200).json({
       message: messages.update[req.lang],
       data
