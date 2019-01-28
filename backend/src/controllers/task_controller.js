@@ -193,7 +193,10 @@ router.post('/objectives/attach', async (req, res) => {
       })
       return
     }
-    taskService.attachObjective.execute(toCreate)
+    taskService.attachObjective.execute(toCreate).catch((error) => {
+      if (error.name === 'SequelizeUniqueConstraintError') return
+      throw error
+    })
     const created = taskService.attachObjective.value(toCreate)
     res.status(200).json({
       message: messages.attachObjective[req.lang],

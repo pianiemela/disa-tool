@@ -12,4 +12,4 @@ global.tokens = {
   admin: jwt.sign({ user: { id: 423 } }, process.env.SECRET)
 }
 
-jest.setTimeout(20000)
+jest.setTimeout(100000)

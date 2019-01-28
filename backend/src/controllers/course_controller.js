@@ -34,7 +34,6 @@ router.put('/instance/:courseId/toggle', async (req, res) => {
   res.status(200).json(instance)
 })
 
-
 router.post('/instance/:courseId/tasks', async (req, res) => {
   try {
     const { instance } = req.body
