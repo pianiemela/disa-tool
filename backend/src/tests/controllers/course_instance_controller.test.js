@@ -143,6 +143,7 @@ describe('course_instance_controller', () => {
 
     beforeAll((done) => {
       CourseInstance.create({
+        course_id: 1,
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn'
@@ -164,6 +165,7 @@ describe('course_instance_controller', () => {
         message: expect.any(String),
         data: {
           id: asymmetricMatcher(actual => actual === ids.courseInstance),
+          course_id: 1,
           eng_name: 'en',
           fin_name: 'fn',
           swe_name: 'sn'
@@ -191,6 +193,7 @@ describe('course_instance_controller', () => {
 
     beforeAll((done) => {
       CourseInstance.create({
+        course_id: 1,
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn'
@@ -230,7 +233,8 @@ describe('course_instance_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.courseInstance)
+          id: asymmetricMatcher(actual => actual === ids.courseInstance),
+          course_id: 1
         }
       },
       eng: {
@@ -255,6 +259,7 @@ describe('course_instance_controller', () => {
       {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.courseInstance),
+        course_id: 1,
         created_at: asymmetricMatcher(actual => !(
           actual > databaseExpectation.created_at
           || actual < databaseExpectation.created_at

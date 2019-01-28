@@ -1,5 +1,5 @@
 const { Op } = require('sequelize')
-const { Person, CourseInstance, TaskResponse, CoursePerson } = require('../database/models.js')
+const { Person, CourseInstance, TaskResponse, CoursePerson, Task } = require('../database/models.js')
 
 const getUser = userId => Person.find({ where: { id: userId } })
 
@@ -89,12 +89,22 @@ const updateOrCreatePersonsOnCourse = async (coursePersons) => {
     builtCP.coursePerson.role = cp.role
     await builtCP.coursePerson.save()
     if (builtCP.created) {
-      const found = await Person.findById(builtCP.coursePerson.person_id, { include: [
-        { model: CourseInstance, where: { id: builtCP.coursePerson.course_instance_id } },
-        TaskResponse] })
+      const found = (await Person.findById(builtCP.coursePerson.person_id, {
+        include: [
+          { model: CourseInstance, where: { id: builtCP.coursePerson.course_instance_id } },
+          {
+            model: TaskResponse,
+            include: {
+              model: Task,
+              where: { course_instance_id: builtCP.coursePerson.course_instance_id }
+            }
+          }
+        ]
+      })).get({ plain: true })
+      found.task_responses = found.task_responses.map(tr => ({ ...tr, task: undefined }))
       newPeople.push(found)
     } else {
-      updatedPeople.push(builtCP.coursePerson)
+      updatedPeople.push(builtCP.coursePerson.get({ plain: true }))
     }
   }))
   return { newPeople, updatedPeople }
@@ -129,7 +139,7 @@ const updateGlobal = async (data) => {
       id: data.personId
     }
   })
-
+  if (!found) return null
   await found.update(
     { role: data.role }
   )

@@ -37,6 +37,7 @@ const {
 } = process.env
 
 module.exports = {
+  NODE_ENV,
   LOG_PORT,
   LOG_HOST,
   dialect: 'postgres',

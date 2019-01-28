@@ -82,10 +82,23 @@ export const instanceReducer = (state = INITIAL_STATE, action) => {
       const updatedPeople = state.people.filter(person => person.id !== deleted.person_id)
       return { ...state, people: updatedPeople }
     }
+    case types.SELF_ASSESMENT_DELETE:
+      return {
+        ...state,
+        self_assessments: state.self_assessments.filter((
+          assesment => assesment.id !== action.response.deleted.id
+        ))
+      }
+    case types.SELF_ASSESMENT_UPDATE_SUCCESS:
+      return {
+        ...state,
+        self_assessments: state.self_assessments.map((
+          assesment => (assesment.id === action.payload.data.id ? action.payload.data : assesment)
+        ))
+      }
     default:
       return state
   }
 }
 
 export default instanceReducer
-

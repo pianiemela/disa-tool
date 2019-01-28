@@ -4,7 +4,6 @@ const { checkAuth } = require('../services/auth')
 
 const courseService = require('../services/course_service')
 const personService = require('../services/person_service')
-const taskService = require('../services/task_service')
 const { errors } = require('../messages/global')
 const { checkPrivilege } = require('../services/privilege')
 
@@ -34,7 +33,6 @@ router.put('/instance/:courseId/toggle', async (req, res) => {
   const instance = await courseService.toggleActivity(courseId)
   res.status(200).json(instance)
 })
-
 
 router.post('/instance/:courseId/tasks', async (req, res) => {
   try {

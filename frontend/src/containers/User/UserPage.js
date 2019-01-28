@@ -148,7 +148,7 @@ class UserPage extends Component {
                       <Item.Content>
                         <Header as="h3">{this.t('self_assessments')}</Header>
                         <CourseSelfAssessmentsList
-                          assessments={assessments}
+                          assesments={assessments}
                           isTeacher={isTeacher}
                           toggleAssessment={this.toggleAssessment}
                         />

@@ -112,7 +112,7 @@ const getStudentsAndTeachers = () => {
     username: 'kimgjon',
     studentnumber: '012345609',
     name: 'Kimg Jon-un',
-    role: 'TEACHER'
+    role: 'ADMIN'
   })
 
   persons.push({

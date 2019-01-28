@@ -3,10 +3,26 @@ const router = require('express').Router()
 const { checkAuth } = require('../services/auth.js')
 const logger = require('../utils/logger')
 const { checkPrivilege } = require('../services/privilege.js')
-const { errors } = require('../messages/global.js')
+const { errors: baseErrors } = require('../messages/global.js')
 const taskService = require('../services/task_service.js')
 const personService = require('../services/person_service')
 const editRoutes = require('../utils/editRoutes')
+
+const errors = {
+  ...baseErrors,
+  mismatch: {
+    toast: false,
+    eng: 'Items to connect are from different course instances',
+    fin: 'Yhdistettävät tietueet ovat eri kurssi-instansseista',
+    swe: ''
+  },
+  no_objectives: {
+    toast: false,
+    eng: 'Malformed field \'objectives\', must be an Array',
+    fin: 'Epämuodostunut kenttä \'objectives\', sen on oltava Array',
+    swe: ''
+  }
+}
 
 // TODO: Move these to a common/utils file
 const messages = {
@@ -150,21 +166,37 @@ router.delete('/:id', async (req, res) => {
 router.post('/objectives/attach', async (req, res) => {
   try {
     const { task, objective, instance: toCreate } = await taskService.attachObjective.prepare(req.body)
-    const validation = task.course_instance_id === objective.course_instance_id
-      && checkPrivilege(req, [
-        {
-          key: 'teacher_on_course',
-          param: task.course_instance_id
-        }
-      ])
-    if (!validation) {
+    if (!task || !objective || !toCreate) {
+      res.status(404).json({
+        toast: errors.notfound.toast,
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
+    if (task.course_instance_id !== objective.course_instance_id) {
+      res.status(400).json({
+        toast: errors.mismatch.toast,
+        error: errors.mismatch[req.lang]
+      })
+      return
+    }
+    const hasPrivilege = await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: task.course_instance_id
+      }
+    ])
+    if (!hasPrivilege) {
       res.status(403).json({
         toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
       })
       return
     }
-    taskService.attachObjective.execute(toCreate)
+    taskService.attachObjective.execute(toCreate).catch((error) => {
+      if (error.name === 'SequelizeUniqueConstraintError') return
+      throw error
+    })
     const created = taskService.attachObjective.value(toCreate)
     res.status(200).json({
       message: messages.attachObjective[req.lang],
@@ -187,14 +219,20 @@ router.post('/objectives/attach', async (req, res) => {
 router.post('/objectives/detach', async (req, res) => {
   try {
     const toDelete = await taskService.detachObjective.prepare(req.body)
-    const validation = toDelete.dataValues.task.course_instance_id === toDelete.dataValues.objective.course_instance_id
-      && checkPrivilege(req, [
-        {
-          key: 'teacher_on_course',
-          param: toDelete.dataValues.task.course_instance_id
-        }
-      ])
-    if (!validation) {
+    if (!toDelete) {
+      res.status(404).json({
+        toast: errors.notfound.toast,
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
+    const hasPrivilege = await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: toDelete.dataValues.task.course_instance_id
+      }
+    ])
+    if (!hasPrivilege) {
       res.status(403).json({
         toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
@@ -249,14 +287,27 @@ router.post('/responses', async (req, res) => {
 router.post('/types/attach', async (req, res) => {
   try {
     const { task, type, instance: toCreate, deleteInstance: toDelete } = await taskService.attachType.prepare(req.body)
-    const validation = task.course_instance_id === type.type_header.course_instance_id
-      && checkPrivilege(req, [
-        {
-          key: 'teacher_on_course',
-          param: task.course_instance_id
-        }
-      ])
-    if (!validation) {
+    if (!task || !type) {
+      res.status(404).json({
+        toast: errors.notfound.toast,
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
+    if (task.course_instance_id !== type.type_header.course_instance_id) {
+      res.status(400).json({
+        toast: errors.mismatch.toast,
+        error: errors.mismatch[req.lang]
+      })
+      return
+    }
+    const hasPrivilege = await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: task.course_instance_id
+      }
+    ])
+    if (!hasPrivilege) {
       res.status(403).json({
         toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
@@ -265,7 +316,7 @@ router.post('/types/attach', async (req, res) => {
     }
     const newTaskType = await taskService.attachType.execute(toCreate, toDelete)
     const { created, deleted } = await taskService.attachType.value(toCreate, toDelete)
-    res.status(201).json({
+    res.status(200).json({
       message: messages.attachType[req.lang],
       created,
       deleted,
@@ -295,16 +346,13 @@ router.post('/types/detach', async (req, res) => {
       })
       return
     }
-    const validation = (
-      toDelete.dataValues.task.course_instance_id === toDelete.dataValues.type.type_header.course_instance_id
-      && checkPrivilege(req, [
-        {
-          key: 'teacher_on_course',
-          param: toDelete.dataValues.task.course_instance_id
-        }
-      ])
-    )
-    if (!validation) {
+    const hasPrivilege = await checkPrivilege(req, [
+      {
+        key: 'teacher_on_course',
+        param: toDelete.dataValues.task.course_instance_id
+      }
+    ])
+    if (!hasPrivilege) {
       res.status(403).json({
         toast: errors.privilege.toast,
         error: errors.privilege[req.lang]
@@ -339,15 +387,29 @@ editRoutes(router, {
 })
 
 router.post('/objectives/edit', async (req, res) => {
-  const [toEdit, task, objectives] = await taskService.editTaskObjectives.prepare(req.body)
-  if (objectives.length < req.body.objectives.length
-    || !await checkPrivilege(req, [
-      {
-        key: 'teacher_on_course',
-        param: task.dataValues.course_instance_id
-      }
-    ])) {
+  if (!Array.isArray(req.body.objectives)) {
+    res.status(400).json({
+      toast: errors.no_objectives.toast,
+      error: errors.no_objectives[req.lang]
+    })
+  }
+  const [toEdit, task] = await taskService.editTaskObjectives.prepare(req.body)
+  if (!task || toEdit.length < req.body.objectives.length) {
+    res.status(404).json({
+      toast: errors.notfound.toast,
+      error: errors.notfound[req.lang]
+    })
+    return
+  }
+  const hasPrivilege = await checkPrivilege(req, [
+    {
+      key: 'teacher_on_course',
+      param: task.dataValues.course_instance_id
+    }
+  ])
+  if (!hasPrivilege) {
     res.status(403).json({
+      toast: errors.privilege.toast,
       error: errors.privilege[req.lang]
     })
     return

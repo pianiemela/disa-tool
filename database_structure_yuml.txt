@@ -1,20 +1,20 @@
-[Task| -id;-eng_name;-fin_name;-swe_name;-eng_description;-fin_description;-swe_description;-max_points;-info;-course_instance_id;]
+[Task| -id;-eng_name;-fin_name;-swe_name;-eng_description;-fin_description;-swe_description;-max_points;-info;-course_instance_id;-order;]
 
-[TypeHeader| -id;-eng_name;-fin_name;swe_name;-course_instance_id]
+[TypeHeader| -id;-eng_name;-fin_name;swe_name;-course_instance_id;-order;]
 
-[Type| -id;-eng_name;-fin_name;-swe_name;-multiplier;-type_header_id;]
+[Type| -id;-eng_name;-fin_name;-swe_name;-multiplier;-type_header_id;-order;]
 
 [TaskType| -id;-task_id;-type_id;]
 
-[Category| -id;-eng_name;-fin_name;-swe_name;-course_instance_id]
+[Category| -id;-eng_name;-fin_name;-swe_name;-course_instance_id;-order;]
 
-[Objective| -id;-eng_name;-fin_name;-swe_name;-category_id;course_instance_id;skill_level_id]
+[Objective| -id;-eng_name;-fin_name;-swe_name;-category_id;course_instance_id;skill_level_id;-order;]
 
 [TaskObjective| -id;-multiplier;-modified;-task_id;-objective_id]
 
-[SkillLevel| -id;-eng_name;-fin_name;-swe_name;-course_instance_id]
+[SkillLevel| -id;-eng_name;-fin_name;-swe_name;-course_instance_id;-order;]
 
-[Grade| -id;-eng_name;-fin_name;-swe_name;-needed_for_grade;-skill_level_id;-prerequisite]
+[Grade| -id;-eng_name;-fin_name;-swe_name;-needed_for_grade;-skill_level_id;-prerequisite;-order;]
 
 [CategoryGrade| -id;-needed_for_grade;-category_id;-grade_id]
 
@@ -22,7 +22,7 @@
 
 [CourseInstance| -id;-eng_name;-fin_name;-swe_name;-active;-course_id]
 
-[Person| -id;-studentnumber;-name]
+[Person| -id;-studentnumber;-name;-university;]
 
 [PersonRole| -id;-role;-perso]
 

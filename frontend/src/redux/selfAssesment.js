@@ -330,7 +330,6 @@ export const selfAssesmentReducer = (state = INITIAL_STATE, action) => {
     case types.CLEAR_ASSESSMENT: {
       return { ...state, createForm: {}, assesmentResponse: {}, unsavedFormChanges: false }
     }
-
     default:
       return state
   }

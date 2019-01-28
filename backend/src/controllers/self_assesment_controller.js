@@ -13,6 +13,16 @@ const messages = {
     fin: 'Itsearviointi luotu onnistuneesti.',
     swe: ''
   },
+  get: {
+    eng: 'Self assessment inforamtion fetched succesfully.',
+    fin: 'Itsearvioinnin tiedot haettu onnistuneesti.',
+    swe: ''
+  },
+  delete: {
+    eng: 'Self assessment deleted succesfully.',
+    fin: 'Itsearviointi poistettu onnistuneesti.',
+    swe: ''
+  },
   update: {
     eng: 'Self assessment updated succesfully.',
     fin: 'Itsearviointi päivitetty onnistuneesti.',
@@ -81,7 +91,7 @@ router.post('/create', async (req, res) => {
     const data = await selfAssesmentService.addSelfAssesment(formData, req.lang)
 
     res.status(200).json({
-      message: messages[req.lang],
+      message: messages.create[req.lang],
       data
     })
   } catch (error) {
@@ -101,8 +111,14 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const data = await selfAssesmentService.getOne(selfAssesmentId, req.lang)
-
-    return res.status(200).json({
+    if (!data) {
+      res.status(404).json({
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
+    res.status(200).json({
+      message: messages.get[req.lang],
       data
     })
   } catch (error) {
@@ -117,15 +133,55 @@ router.get('/:selfAssesmentId', async (req, res) => {
       logger.error(error)
     }
   }
-  return null
 })
 
 router.get('/', async (req, res) => {
   const user = await checkAuth(req)
   const data = await selfAssesmentService.getUserSelfAssesments(user, req.lang)
-  return res.status(200).json({
+  res.status(200).json({
     data
   })
+})
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const toDelete = await selfAssesmentService.delete.prepare(id)
+    if (!toDelete) {
+      res.status(404).json({
+        toast: errors.notfound.toast,
+        error: errors.notfound[req.lang]
+      })
+      return
+    }
+    const hasPrivilege = await checkPrivilege(req, [
+      { key: 'teacher_on_course', param: toDelete.dataValues.course_instance_id }
+    ])
+    if (!hasPrivilege) {
+      res.status(403).json({
+        toast: errors.privilege.toast,
+        error: errors.privilege[req.lang]
+      })
+      return
+    }
+    const deleted = selfAssesmentService.delete.value(toDelete)
+    selfAssesmentService.delete.execute(toDelete)
+    res.status(200).json({
+      message: messages.delete[req.lang],
+      deleted
+    })
+  } catch (error) {
+    if (process.env.NODE_ENV === 'development') {
+      res.status(500).json({
+        error
+      })
+    } else {
+      res.status(500).json({
+        error: errors.unexpected[req.lang]
+      })
+      logger.error(error)
+    }
+  }
 })
 
 router.put('/update/:id', async (req, res) => {
@@ -183,7 +239,7 @@ router.put('/toggle/:id', async (req, res) => {
 })
 
 const destructureNamesAndInstructions = (createFormData, formInfo) => {
-  const withNamesAndInstructions = createFormData
+  const withNamesAndInstructions = { ...createFormData }
   formInfo.forEach((forminfoType) => {
     withNamesAndInstructions[forminfoType.type] = forminfoType.value
   })

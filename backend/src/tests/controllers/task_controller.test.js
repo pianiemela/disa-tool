@@ -1,3 +1,4 @@
+const { Op } = require('sequelize')
 const {
   testTeacherOnCoursePrivilege,
   testHeaders,
@@ -7,7 +8,19 @@ const {
   asymmetricMatcher,
   testStatusCode
 } = require('../testUtils')
-const { Task, TaskType, TaskObjective, TaskResponse, CoursePerson, Person } = require('../../database/models.js')
+const {
+  Task,
+  TaskType,
+  TaskObjective,
+  TaskResponse,
+  CoursePerson,
+  Person,
+  Course,
+  CourseInstance,
+  Objective,
+  TypeHeader,
+  Type
+} = require('../../database/models.js')
 
 describe('task_controller', () => {
   describe('POST /create', () => {
@@ -637,5 +650,1190 @@ describe('task_controller', () => {
         includeTimestamps: false
       }
     )
+  })
+
+  describe('GET /user/:courseId', () => {
+    const taskData = {
+      eng_name: 'te',
+      fin_name: 'tf',
+      swe_name: 'ts',
+      eng_description: 'tde',
+      fin_description: 'tdf',
+      swe_description: 'tds',
+      max_points: 3,
+      info: 'ti',
+      order: 1
+    }
+    const taskResponseData = {
+      points: 2,
+      person_id: 421
+    }
+    const typeHeaderData = {
+      eng_name: 'the',
+      fin_name: 'thf',
+      swe_name: 'ths',
+      order: 1
+    }
+    const typeData = {
+      eng_name: 'te',
+      fin_name: 'tf',
+      swe_name: 'ts',
+      multiplier: 0.4,
+      order: 1
+    }
+
+    const options = {
+      method: 'get',
+      preamble: {
+        set: ['Authorization', `Bearer ${tokens.student}`]
+      }
+    }
+
+    const ids = {}
+
+    beforeAll((done) => {
+      Course.create({
+        eng_name: 'ce',
+        fin_name: 'cf',
+        swe_name: 'cs'
+      }).then((course) => {
+        ids.course = course.id
+        CourseInstance.create({
+          course_id: course.id,
+          eng_name: 'cie',
+          fin_name: 'cif',
+          swe_name: 'cis'
+        }).then((courseInstance) => {
+          ids.courseInstance = courseInstance.id
+          options.route = `/api/tasks/user/${courseInstance.id}`
+          Promise.all([
+            Task.create({
+              ...taskData,
+              course_instance_id: courseInstance.id
+            }),
+            TypeHeader.create({
+              ...typeHeaderData,
+              course_instance_id: courseInstance.id
+            })
+          ]).then(([task, typeHeader]) => {
+            ids.task = task.id
+            ids.type_header = typeHeader.id
+            Promise.all([
+              CoursePerson.create({
+                person_id: 421,
+                course_instance_id: courseInstance.id,
+                role: 'STUDENT'
+              }),
+              TaskResponse.create({
+                ...taskResponseData,
+                task_id: task.id
+              }),
+              Type.create({
+                ...typeData,
+                type_header_id: typeHeader.id
+              })
+            ]).then(([, , type]) => {
+              ids.type = type.id
+              TaskType.create({
+                task_id: task.id,
+                type_id: type.id
+              }).then(() => done()).catch(done)
+            }).catch(done)
+          }).catch(done)
+        }).catch(done)
+      }).catch(done)
+    })
+
+    afterAll((done) => {
+      Course.destroy({
+        where: {
+          id: ids.course
+        }
+      }).then(() => done()).catch(done)
+    })
+
+    testHeaders(options)
+
+    testStatusCode(options, 200)
+
+    testBody(options, {
+      common: [{
+        id: asymmetricMatcher(actual => actual === ids.task),
+        max_points: taskData.max_points,
+        task_responses: [{
+          ...taskResponseData,
+          task_id: asymmetricMatcher(actual => actual === ids.task)
+        }]
+      }],
+      eng: [{
+        name: taskData.eng_name,
+        description: taskData.eng_description,
+        types: [{
+          id: asymmetricMatcher(actual => actual === ids.type),
+          name: typeData.eng_name,
+          type_header: {
+            id: asymmetricMatcher(actual => actual === ids.type_header),
+            name: typeHeaderData.eng_name
+          }
+        }]
+      }],
+      fin: [{
+        name: taskData.fin_name,
+        description: taskData.fin_description,
+        types: [{
+          id: asymmetricMatcher(actual => actual === ids.type),
+          name: typeData.fin_name,
+          type_header: {
+            id: asymmetricMatcher(actual => actual === ids.type_header),
+            name: typeHeaderData.fin_name
+          }
+        }]
+      }],
+      swe: [{
+        name: taskData.swe_name,
+        description: taskData.swe_description,
+        types: [{
+          id: asymmetricMatcher(actual => actual === ids.type),
+          name: typeData.swe_name,
+          type_header: {
+            id: asymmetricMatcher(actual => actual === ids.type_header),
+            name: typeHeaderData.swe_name
+          }
+        }]
+      }]
+    })
+
+    testBody(
+      { ...options, route: '/api/tasks/user/999999' },
+      {
+        common: []
+      },
+      {
+        text: {
+          describe: 'when course instance doesn\'t exist, returns an empty array in response body'
+        }
+      }
+    )
+  })
+
+  describe('POST /objectives/attach', () => {
+    const objectiveData = {
+      eng_name: 'e',
+      fin_name: 'f',
+      swe_name: 's',
+      order: 100
+    }
+    const taskData = {
+      eng_name: 'te',
+      fin_name: 'tf',
+      swe_name: 'ts',
+      eng_description: 'tde',
+      fin_description: 'tdf',
+      swe_description: 'tds',
+      max_points: 3,
+      info: 'ti',
+      order: 100
+    }
+    const data = {}
+
+    const options = {
+      method: 'post',
+      route: '/api/tasks/objectives/attach',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    const ids = {}
+
+    beforeAll((done) => {
+      Promise.all([
+        Objective.create({
+          ...objectiveData,
+          course_instance_id: 1,
+          category_id: 1,
+          skill_level_id: 1
+        }),
+        Task.create({
+          ...taskData,
+          course_instance_id: 1
+        })
+      ]).then(([objective, task]) => {
+        ids.objective = objective.id
+        ids.task = task.id
+        data.objective_id = objective.id
+        data.task_id = task.id
+        done()
+      }).catch(done)
+    })
+
+    afterAll((done) => {
+      Promise.all([
+        Objective.destroy({
+          where: {
+            id: ids.objective
+          }
+        }),
+        Task.destroy({
+          where: {
+            id: ids.task
+          }
+        })
+      ]).then(() => done()).catch(done)
+    })
+
+    afterEach((done) => {
+      TaskObjective.destroy({
+        where: {
+          task_id: ids.task,
+          objective_id: ids.objective
+        }
+      }).then(() => done()).catch(done)
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        created: {
+          task_id: asymmetricMatcher(actual => actual === data.task_id),
+          objective_id: asymmetricMatcher(actual => actual === data.objective_id)
+        }
+      }
+    })
+
+    testDatabaseSave(
+      options,
+      {
+        id: expect.any(Number),
+        task_id: asymmetricMatcher(actual => actual === data.task_id),
+        objective_id: asymmetricMatcher(actual => actual === data.objective_id),
+        multiplier: expect.any(Number),
+        modified: false
+      },
+      TaskObjective,
+      {
+        findBy: () => ({
+          where: {
+            task_id: ids.task,
+            objective_id: ids.objective
+          }
+        })
+      }
+    )
+
+    describe('responds with an error code when', () => {
+      describe('task is not found', () => {
+        const derivativeOptions = { ...options }
+        beforeAll(() => {
+          derivativeOptions.preamble = {
+            ...options.preamble,
+            send: { ...data, task_id: 999999 }
+          }
+        })
+        testStatusCode(derivativeOptions, 404)
+      })
+
+      describe('objective is not found', () => {
+        const derivativeOptions = { ...options }
+        beforeAll(() => {
+          derivativeOptions.preamble = {
+            ...options.preamble,
+            send: { ...data, objective_id: 999999 }
+          }
+        })
+        testStatusCode(derivativeOptions, 404)
+      })
+
+      describe('task and objective are from different course instances', () => {
+        const derivativeOptions = { ...options }
+        beforeAll((done) => {
+          Task.create({
+            ...taskData,
+            course_instance_id: 2
+          }).then((task) => {
+            derivativeOptions.preamble = {
+              ...options.preamble,
+              send: { ...data, task_id: task.id }
+            }
+            ids.alien_task = task.id
+            done()
+          }).catch(done)
+        })
+
+        afterAll((done) => {
+          Task.destroy({
+            where: {
+              id: ids.alien_task
+            }
+          }).then(() => done()).catch(done)
+        })
+
+        testStatusCode(derivativeOptions, 400)
+      })
+    })
+  })
+
+  describe('POST /objectives/detach', () => {
+    const objectiveData = {
+      eng_name: 'e',
+      fin_name: 'f',
+      swe_name: 's',
+      order: 100
+    }
+    const taskData = {
+      eng_name: 'te',
+      fin_name: 'tf',
+      swe_name: 'ts',
+      eng_description: 'tde',
+      fin_description: 'tdf',
+      swe_description: 'tds',
+      max_points: 3,
+      info: 'ti',
+      order: 100
+    }
+    const data = {}
+
+    const options = {
+      method: 'post',
+      route: '/api/tasks/objectives/detach',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    const ids = {}
+
+    beforeAll((done) => {
+      Promise.all([
+        Objective.create({
+          ...objectiveData,
+          course_instance_id: 1,
+          category_id: 1,
+          skill_level_id: 1
+        }),
+        Task.create({
+          ...taskData,
+          course_instance_id: 1
+        })
+      ]).then(([objective, task]) => {
+        ids.objective = objective.id
+        ids.task = task.id
+        data.objective_id = objective.id
+        data.task_id = task.id
+        done()
+      }).catch(done)
+    })
+
+    beforeEach((done) => {
+      TaskObjective.create({
+        task_id: ids.task,
+        objective_id: ids.objective,
+        multiplier: 1
+      }).then((taskObjective) => {
+        ids.taskObjective = taskObjective.id
+        done()
+      }).catch(() => done())
+    })
+
+    afterEach((done) => {
+      TaskObjective.destroy({
+        where: {
+          id: ids.taskObjective
+        }
+      }).then(() => done()).catch(done)
+    })
+
+    afterAll((done) => {
+      Promise.all([
+        Objective.destroy({
+          where: {
+            id: ids.objective
+          }
+        }),
+        Task.destroy({
+          where: {
+            id: ids.task
+          }
+        })
+      ]).then(() => done()).catch(done)
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        deleted: {
+          task_id: asymmetricMatcher(actual => actual === data.task_id),
+          objective_id: asymmetricMatcher(actual => actual === data.objective_id)
+        }
+      }
+    })
+
+    testDatabaseDestroy(
+      options,
+      TaskObjective,
+      {
+        delay: 2000,
+        findBy: () => ids.taskObjective
+      }
+    )
+
+    describe('responds with an error code when', () => {
+      describe('task is not found', () => {
+        const derivativeOptions = { ...options }
+        beforeAll(() => {
+          derivativeOptions.preamble = {
+            ...options.preamble,
+            send: { ...data, task_id: 999999 }
+          }
+        })
+        testStatusCode(derivativeOptions, 404)
+      })
+
+      describe('objective is not found', () => {
+        const derivativeOptions = { ...options }
+        beforeAll(() => {
+          derivativeOptions.preamble = {
+            ...options.preamble,
+            send: { ...data, objective_id: 999999 }
+          }
+        })
+        testStatusCode(derivativeOptions, 404)
+      })
+
+      describe('task_objective is not found', () => {
+        beforeEach((done) => {
+          TaskObjective.destroy({
+            where: {
+              task_id: ids.task,
+              objective_id: ids.objective
+            }
+          }).then(() => done()).catch(done)
+        })
+        testStatusCode(options, 404)
+      })
+    })
+  })
+
+  describe('POST /objectives/edit', () => {
+    const objectiveData = {
+      eng_name: 'e',
+      fin_name: 'f',
+      swe_name: 's',
+      order: 100
+    }
+    const taskData = {
+      eng_name: 'te',
+      fin_name: 'tf',
+      swe_name: 'ts',
+      eng_description: 'tde',
+      fin_description: 'tdf',
+      swe_description: 'tds',
+      max_points: 3,
+      info: 'ti',
+      order: 100
+    }
+    const taskObjectiveData = {
+      multiplier: 1,
+      modified: false
+    }
+    const data = {
+      objectives: [{
+        multiplier: 0.6,
+        modified: true
+      }]
+    }
+
+    const options = {
+      method: 'post',
+      route: '/api/tasks/objectives/edit',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    const ids = {}
+
+    beforeAll((done) => {
+      Promise.all([
+        Objective.create({
+          ...objectiveData,
+          course_instance_id: 1,
+          category_id: 1,
+          skill_level_id: 1
+        }),
+        Task.create({
+          ...taskData,
+          course_instance_id: 1
+        })
+      ]).then(([objective, task]) => {
+        ids.objective = objective.id
+        ids.task = task.id
+        data.objectives[0].id = objective.id
+        data.task_id = task.id
+        TaskObjective.create({
+          ...taskObjectiveData,
+          task_id: task.id,
+          objective_id: objective.id
+        }).then((taskObjective) => {
+          ids.taskObjective = taskObjective.id
+          done()
+        }).catch(done)
+      }).catch(done)
+    })
+
+    beforeEach((done) => {
+      TaskObjective.update({
+        ...taskObjectiveData
+      }, {
+        where: {
+          id: ids.taskObjective
+        }
+      }).then(() => done()).catch(() => done())
+    })
+
+    afterAll((done) => {
+      Promise.all([
+        Objective.destroy({
+          where: {
+            id: ids.objective
+          }
+        }),
+        Task.destroy({
+          where: {
+            id: ids.task
+          }
+        })
+      ]).then(() => done()).catch(done)
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        edited: {
+          task_id: asymmetricMatcher(actual => actual === ids.task),
+          task_objectives: [{
+            multiplier: data.objectives[0].multiplier,
+            modified: data.objectives[0].modified,
+            objective_id: asymmetricMatcher(actual => actual === ids.objective)
+          }]
+        }
+      }
+    })
+
+    testDatabaseSave(
+      options,
+      {
+        task_id: asymmetricMatcher(actual => actual === ids.task),
+        objective_id: asymmetricMatcher(actual => actual === ids.objective),
+        multiplier: data.objectives[0].multiplier,
+        modified: data.objectives[0].modified
+      },
+      TaskObjective,
+      {
+        findBy: () => ids.taskObjective
+      }
+    )
+  })
+
+  describe('POST /types/attach', () => {
+    const typeHeaderData = {
+      eng_name: 'the',
+      fin_name: 'thf',
+      swe_name: 'ths',
+      order: 100
+    }
+    const taskData = {
+      eng_name: 'te',
+      fin_name: 'tf',
+      swe_name: 'ts',
+      eng_description: 'tde',
+      fin_description: 'tdf',
+      swe_description: 'tds',
+      max_points: 3,
+      info: 'ti',
+      order: 100
+    }
+    const typeData = {
+      eng_name: 'tye',
+      fin_name: 'tyf',
+      swe_name: 'tys',
+      multiplier: 0.4,
+      order: 1
+    }
+    const data = {}
+
+    const options = {
+      method: 'post',
+      route: '/api/tasks/types/attach',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    const ids = {}
+
+    beforeAll((done) => {
+      Promise.all([
+        TypeHeader.create({
+          ...typeHeaderData,
+          course_instance_id: 1
+        }),
+        Task.create({
+          ...taskData,
+          course_instance_id: 1
+        })
+      ]).then(([typeHeader, task]) => {
+        ids.type_header = typeHeader.id
+        ids.task = task.id
+        data.task_id = task.id
+        Type.create({
+          ...typeData,
+          type_header_id: typeHeader.id
+        }).then((type) => {
+          ids.type = type.id
+          data.type_id = type.id
+          done()
+        }).catch(done)
+      }).catch(done)
+    })
+
+    afterAll((done) => {
+      Promise.all([
+        TypeHeader.destroy({
+          where: {
+            id: ids.type_header
+          }
+        }),
+        Task.destroy({
+          where: {
+            id: ids.task
+          }
+        })
+      ]).then(() => done()).catch(done)
+    })
+
+    afterEach((done) => {
+      TaskType.destroy({
+        where: {
+          task_id: ids.task,
+          type_id: ids.type
+        }
+      }).then(() => done()).catch(done)
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        created: {
+          task_id: asymmetricMatcher(actual => actual === ids.task),
+          type_id: asymmetricMatcher(actual => actual === ids.type)
+        },
+        deleted: null,
+        multiplier: typeData.multiplier
+      }
+    })
+
+    testDatabaseSave(
+      options,
+      {
+        id: expect.any(Number),
+        task_id: asymmetricMatcher(actual => actual === ids.task),
+        type_id: asymmetricMatcher(actual => actual === ids.type)
+      },
+      TaskType,
+      {
+        findBy: () => ({
+          where: {
+            task_id: ids.task,
+            type_id: ids.type
+          }
+        })
+      }
+    )
+
+    describe('when a task_type already exists between task and a type under the same header', () => {
+      const otherTypeData = {
+        eng_name: 'otye',
+        fin_name: 'otyf',
+        swe_name: 'otys',
+        multiplier: 0.5,
+        order: 2
+      }
+
+      beforeAll((done) => {
+        Type.create({
+          ...otherTypeData,
+          type_header_id: ids.type_header
+        }).then((type) => {
+          ids.other_type = type.id
+          done()
+        }).catch(done)
+      })
+
+      beforeEach((done) => {
+        TaskType.create({
+          task_id: ids.task,
+          type_id: ids.other_type
+        }).then(() => done()).catch(done)
+      })
+
+      afterAll((done) => {
+        Type.destroy({
+          where: {
+            id: ids.other_type
+          }
+        }).then(() => done()).catch(done)
+      })
+
+      testBody(options, {
+        common: {
+          message: expect.any(String),
+          created: {
+            task_id: asymmetricMatcher(actual => actual === ids.task),
+            type_id: asymmetricMatcher(actual => actual === ids.type)
+          },
+          deleted: {
+            task_id: asymmetricMatcher(actual => actual === ids.task),
+            type_id: asymmetricMatcher(actual => actual === ids.other_type)
+          },
+          multiplier: typeData.multiplier
+        }
+      })
+
+      testDatabaseDestroy(
+        options,
+        TaskType,
+        {
+          findBy: () => ({
+            where: {
+              task_id: ids.task,
+              type_id: ids.other_type
+            }
+          })
+        }
+      )
+    })
+
+    describe('when taskObjectives have already been established', () => {
+      const objectiveData = {
+        eng_name: 'oe',
+        fin_name: 'of',
+        swe_name: 'os',
+        course_instance_id: 1,
+        category_id: 1,
+        skill_level_id: 1,
+        order: 100
+      }
+      const taskObjectiveData = {
+        multiplier: 1
+      }
+      beforeAll((done) => {
+        Promise.all([
+          Objective.create(objectiveData),
+          Objective.create(objectiveData)
+        ]).then(([objective0, objective1]) => {
+          ids.objective = [objective0.id, objective1.id]
+          Promise.all([
+            TaskObjective.create({
+              ...taskObjectiveData,
+              task_id: ids.task,
+              objective_id: objective0.id,
+              modified: true
+            }),
+            TaskObjective.create({
+              ...taskObjectiveData,
+              task_id: ids.task,
+              objective_id: objective1.id,
+              modified: false
+            })
+          ]).then(([taskObjective0, taskObjective1]) => {
+            ids.taskObjective = [taskObjective0.id, taskObjective1.id]
+            done()
+          }).catch(done)
+        }).catch(done)
+      })
+
+      afterEach((done) => {
+        TaskObjective.update({
+          multiplier: taskObjectiveData.multiplier
+        }, {
+          where: {
+            id: {
+              [Op.in]: ids.taskObjective
+            }
+          }
+        }).then(() => done()).catch(done)
+      })
+
+      afterAll((done) => {
+        Objective.destroy({
+          where: {
+            id: {
+              [Op.in]: ids.objective
+            }
+          }
+        }).then(() => done()).catch(done)
+      })
+
+      testBody(options, {
+        common: {
+          message: expect.any(String),
+          created: {
+            task_id: asymmetricMatcher(actual => actual === ids.task),
+            type_id: asymmetricMatcher(actual => actual === ids.type)
+          },
+          deleted: null,
+          multiplier: typeData.multiplier,
+          taskObjectives: [{
+            id: asymmetricMatcher(actual => actual === ids.objective[1]),
+            multiplier: typeData.multiplier
+          }]
+        }
+      })
+
+      testDatabaseSave(
+        options,
+        {
+          multiplier: taskObjectiveData.multiplier
+        },
+        TaskObjective,
+        {
+          findBy: () => ids.taskObjective[0],
+          text: 'leaves modified multipliers untouched.'
+        }
+      )
+
+      testDatabaseSave(
+        options,
+        {
+          multiplier: typeData.multiplier
+        },
+        TaskObjective,
+        {
+          findBy: () => ids.taskObjective[1],
+          text: 'updates unmodified multipliers to reflect new value.'
+        }
+      )
+    })
+
+    describe('responds with an error code when', () => {
+      describe('task is not found', () => {
+        const derivativeOptions = { ...options }
+        beforeAll(() => {
+          derivativeOptions.preamble = {
+            ...options.preamble,
+            send: { ...data, task_id: 999999 }
+          }
+        })
+        testStatusCode(derivativeOptions, 404)
+      })
+
+      describe('type is not found', () => {
+        const derivativeOptions = { ...options }
+        beforeAll(() => {
+          derivativeOptions.preamble = {
+            ...options.preamble,
+            send: { ...data, type_id: 999999 }
+          }
+        })
+        testStatusCode(derivativeOptions, 404)
+      })
+
+      describe('task and type are from different course instances', () => {
+        const derivativeOptions = { ...options }
+        beforeAll((done) => {
+          Task.create({
+            ...taskData,
+            course_instance_id: 2
+          }).then((task) => {
+            derivativeOptions.preamble = {
+              ...options.preamble,
+              send: { ...data, task_id: task.id }
+            }
+            ids.alien_task = task.id
+            done()
+          }).catch(done)
+        })
+
+        afterAll((done) => {
+          Task.destroy({
+            where: {
+              id: ids.alien_task
+            }
+          }).then(() => done()).catch(done)
+        })
+
+        testStatusCode(derivativeOptions, 400)
+      })
+    })
+  })
+
+  describe('POST /types/detach', () => {
+    const typeHeaderData = {
+      eng_name: 'the',
+      fin_name: 'thf',
+      swe_name: 'ths',
+      order: 100
+    }
+    const taskData = {
+      eng_name: 'te',
+      fin_name: 'tf',
+      swe_name: 'ts',
+      eng_description: 'tde',
+      fin_description: 'tdf',
+      swe_description: 'tds',
+      max_points: 3,
+      info: 'ti',
+      order: 100
+    }
+    const typeData = {
+      eng_name: 'tye',
+      fin_name: 'tyf',
+      swe_name: 'tys',
+      multiplier: 0.4,
+      order: 1
+    }
+    const data = {}
+
+    const options = {
+      method: 'post',
+      route: '/api/tasks/types/detach',
+      preamble: {
+        send: data,
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    const ids = {}
+
+    beforeAll((done) => {
+      Promise.all([
+        TypeHeader.create({
+          ...typeHeaderData,
+          course_instance_id: 1
+        }),
+        Task.create({
+          ...taskData,
+          course_instance_id: 1
+        })
+      ]).then(([typeHeader, task]) => {
+        ids.type_header = typeHeader.id
+        ids.task = task.id
+        data.task_id = task.id
+        Type.create({
+          ...typeData,
+          type_header_id: typeHeader.id
+        }).then((type) => {
+          ids.type = type.id
+          data.type_id = type.id
+          done()
+        }).catch(done)
+      }).catch(done)
+    })
+
+    beforeEach((done) => {
+      TaskType.create({
+        task_id: ids.task,
+        type_id: ids.type
+      }).then((taskType) => {
+        ids.taskType = taskType.id
+        done()
+      }).catch(done)
+    })
+
+    afterEach((done) => {
+      TaskType.destroy({
+        where: {
+          id: ids.taskType
+        }
+      }).then(() => done()).catch(done)
+    })
+
+    afterAll((done) => {
+      Promise.all([
+        TypeHeader.destroy({
+          where: {
+            id: ids.type_header
+          }
+        }),
+        Task.destroy({
+          where: {
+            id: ids.task
+          }
+        })
+      ]).then(() => done()).catch(done)
+    })
+
+    testHeaders(options)
+
+    testTeacherOnCoursePrivilege(options)
+
+    testBody(options, {
+      common: {
+        message: expect.any(String),
+        multiplier: 1,
+        deleted: {
+          task_id: asymmetricMatcher(actual => actual === ids.task),
+          type_id: asymmetricMatcher(actual => actual === ids.type)
+        }
+      }
+    })
+
+    describe('when taskObjectives have already been established', () => {
+      const objectiveData = {
+        eng_name: 'oe',
+        fin_name: 'of',
+        swe_name: 'os',
+        course_instance_id: 1,
+        category_id: 1,
+        skill_level_id: 1,
+        order: 100
+      }
+      const taskObjectiveData = {
+        multiplier: typeData.multiplier
+      }
+      beforeAll((done) => {
+        Promise.all([
+          Objective.create(objectiveData),
+          Objective.create(objectiveData)
+        ]).then(([objective0, objective1]) => {
+          ids.objective = [objective0.id, objective1.id]
+          Promise.all([
+            TaskObjective.create({
+              ...taskObjectiveData,
+              task_id: ids.task,
+              objective_id: objective0.id,
+              modified: true
+            }),
+            TaskObjective.create({
+              ...taskObjectiveData,
+              task_id: ids.task,
+              objective_id: objective1.id,
+              modified: false
+            })
+          ]).then(([taskObjective0, taskObjective1]) => {
+            ids.taskObjective = [taskObjective0.id, taskObjective1.id]
+            done()
+          }).catch(done)
+        }).catch(done)
+      })
+
+      afterEach((done) => {
+        TaskObjective.update({
+          multiplier: taskObjectiveData.multiplier
+        }, {
+          where: {
+            id: {
+              [Op.in]: ids.taskObjective
+            }
+          }
+        }).then(() => done()).catch(done)
+      })
+
+      afterAll((done) => {
+        Objective.destroy({
+          where: {
+            id: {
+              [Op.in]: ids.objective
+            }
+          }
+        }).then(() => done()).catch(done)
+      })
+
+      testBody(options, {
+        common: {
+          message: expect.any(String),
+          deleted: {
+            task_id: asymmetricMatcher(actual => actual === ids.task),
+            type_id: asymmetricMatcher(actual => actual === ids.type)
+          },
+          multiplier: 1,
+          taskObjectives: [{
+            id: asymmetricMatcher(actual => actual === ids.objective[1]),
+            multiplier: 1
+          }]
+        }
+      })
+
+      testDatabaseSave(
+        options,
+        {
+          multiplier: taskObjectiveData.multiplier
+        },
+        TaskObjective,
+        {
+          findBy: () => ids.taskObjective[0],
+          text: 'leaves modified multipliers untouched.'
+        }
+      )
+
+      testDatabaseSave(
+        options,
+        {
+          multiplier: 1
+        },
+        TaskObjective,
+        {
+          findBy: () => ids.taskObjective[1],
+          text: 'updates unmodified multipliers to reflect new value.'
+        }
+      )
+    })
+
+    describe('responds with an error code when', () => {
+      describe('task is not found', () => {
+        const derivativeOptions = { ...options }
+        beforeAll(() => {
+          derivativeOptions.preamble = {
+            ...options.preamble,
+            send: { ...data, task_id: 999999 }
+          }
+        })
+        testStatusCode(derivativeOptions, 404)
+      })
+
+      describe('type is not found', () => {
+        const derivativeOptions = { ...options }
+        beforeAll(() => {
+          derivativeOptions.preamble = {
+            ...options.preamble,
+            send: { ...data, type_id: 999999 }
+          }
+        })
+        testStatusCode(derivativeOptions, 404)
+      })
+
+      describe('task_type is not found', () => {
+        beforeEach((done) => {
+          TaskType.destroy({
+            where: {
+              id: ids.taskType
+            }
+          }).then(() => done()).catch(done)
+        })
+
+        testStatusCode(options, 404)
+      })
+    })
   })
 })
