@@ -32,6 +32,7 @@ const getUserSelfAssesments = async (user, lang) => {
   const name = [`${lang}_name`, 'name']
   const instructions = [`${lang}_instructions`, 'instructions']
 
+
   const data = await SelfAssessment.findAll({
     attributes: ['id', name, instructions, 'structure', 'open', 'active', 'show_feedback', 'course_instance_id'],
     include: [
@@ -43,7 +44,10 @@ const getUserSelfAssesments = async (user, lang) => {
           {
             model: Person,
             required: true,
-            attributes: [],
+            through: {
+              attributes: ['role']
+            },
+            attributes: ['id'],
             where: {
               id: user.id
             }
@@ -52,8 +56,9 @@ const getUserSelfAssesments = async (user, lang) => {
       }
     ]
   })
-
-  return data
+  return data.filter(selfAssesment => (
+    selfAssesment.active || selfAssesment.course_instance.people[0].course_person.role === 'TEACHER'
+  ))
 }
 
 const updateSelfAssesment = async (data, lang) => {
@@ -63,8 +68,8 @@ const updateSelfAssesment = async (data, lang) => {
       swe_name: data.swe_name,
       eng_name: data.eng_name,
       fin_instructions: data.fin_instructions,
-      eng_instructions: data.swe_instructions,
-      swe_instructions: data.eng_instructions,
+      eng_instructions: data.eng_instructions,
+      swe_instructions: data.swe_instructions,
       structure: data.structure,
       open: data.open,
       active: data.active,

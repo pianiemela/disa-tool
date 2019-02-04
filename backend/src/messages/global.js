@@ -19,7 +19,7 @@ const messages = {
 const errors = {
   privilege: {
     toast: true,
-    eng: '"Pääsy estetty." englanniksi.',
+    eng: 'Access denied.',
     fin: 'Pääsy estetty.',
     swe: '"Pääsy estetty." ruotsiksi.'
   },

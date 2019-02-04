@@ -60,7 +60,7 @@ const getCoursesForPerson = (personId, lang) => (
 const getCourses = lang => Course.findAll({ attributes: courseAttributes(lang) })
 
 const getInstanceWithRelatedData = (instanceId, lang, userId) => (
-  CourseInstance.find({
+  CourseInstance.findOne({
     where: { id: instanceId },
     attributes: instanceAttributes(lang),
     include: [{
@@ -91,7 +91,8 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
     },
     {
       model: Person,
-      where: { id: userId }
+      where: { id: userId },
+      required: false
     },
     {
       model: TypeHeader,

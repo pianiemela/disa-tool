@@ -198,6 +198,13 @@ router.put('/update/:id', async (req, res) => {
       })
       return
     }
+    if (!data.id || !data.structure) {
+      res.status(400).json({
+        toast: errors.malformed.toast,
+        error: errors.malformed[req.lang]
+      })
+      return
+    }
     const { formInfo } = data.structure
     data = destructureNamesAndInstructions(data, formInfo)
     data = await selfAssesmentService.updateSelfAssesment(data, req.lang)

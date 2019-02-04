@@ -1,13 +1,134 @@
 const {
+  makeRequest,
   testHeaders,
   testStatusCode,
   testTeacherOnCoursePrivilege,
   testGlobalTeacherPrivilege,
   testBody,
   testDatabaseSave,
-  asymmetricMatcher
+  asymmetricMatcher,
+  unorderedListMatcher
 } = require('../testUtils')
-const { CourseInstance, CoursePerson } = require('../../database/models.js')
+const {
+  CourseInstance,
+  CoursePerson,
+  Category,
+  CategoryGrade,
+  SkillLevel,
+  Objective,
+  Grade,
+  Task,
+  TaskObjective,
+  TaskType,
+  TypeHeader,
+  Type
+} = require('../../database/models.js')
+
+const names = ['eng_name', 'fin_name', 'swe_name']
+const descriptions = ['eng_description', 'fin_description', 'swe_description']
+const findCopyData = id => CourseInstance.findByPk(id, {
+  attributes: ['id', ...names, 'course_id'],
+  include: [
+    {
+      model: Category,
+      attributes: ['id', ...names, 'order'],
+      include: {
+        model: CategoryGrade,
+        attributes: ['id', 'grade_id', 'category_id', 'needed_for_grade'],
+        separate: true
+      }
+    },
+    {
+      model: SkillLevel,
+      attributes: ['id', ...names, 'order'],
+      include: [
+        {
+          model: Objective,
+          attributes: ['id', ...names, 'course_instance_id', 'skill_level_id', 'category_id', 'order'],
+          separate: true
+        },
+        {
+          model: Grade,
+          attributes: ['id', ...names, 'needed_for_grade', 'skill_level_id', 'prerequisite', 'order'],
+          separate: true
+        }
+      ]
+    },
+    {
+      model: Task,
+      attributes: ['id', ...names, 'info', ...descriptions, 'max_points', 'order'],
+      include: [
+        {
+          model: TaskObjective,
+          attributes: ['task_id', 'multiplier', 'objective_id'],
+          separate: true
+        },
+        {
+          model: TaskType,
+          attributes: ['task_id', 'type_id'],
+          separate: true
+        }
+      ]
+    },
+    {
+      model: TypeHeader,
+      attributes: ['id', ...names, 'order'],
+      include: {
+        model: Type,
+        attributes: ['id', ...names, 'multiplier', 'type_header_id', 'order'],
+        separate: true
+      }
+    }
+  ]
+})
+const recursiveIdMap = parent => Object.entries(parent).reduce(
+  (acc, [key, value]) => {
+    if (key === 'id' || (key.length >= 3 && key.substring(key.length - 3, key.length) === '_id')) {
+      return {
+        ...acc,
+        [key]: expect.any(Number)
+      }
+    }
+    if (typeof value === 'object') {
+      if (!value) return acc
+      if (Array.isArray(value)) {
+        return {
+          ...acc,
+          [key]: expect.arrayContaining(value.map(element => expect.objectContaining(recursiveIdMap(element))))
+        }
+      }
+      return {
+        ...acc,
+        [key]: recursiveIdMap(value)
+      }
+    }
+    return acc
+  },
+  parent
+)
+const stripToPlain = (parent) => {
+  if (typeof parent.get === 'function') {
+    return stripToPlain(parent.get({ plain: true }))
+  }
+  return Object.entries(parent).reduce(
+    (acc, [key, value]) => {
+      if (typeof value !== 'object' || !value) {
+        return acc
+      }
+      if (Array.isArray(value)) {
+        return {
+          ...acc,
+          [key]: value.map(element => stripToPlain(element))
+        }
+      }
+      return {
+        ...acc,
+        [key]: stripToPlain(value)
+      }
+    },
+    parent
+  )
+}
 
 describe('course_instance_controller', () => {
   describe('GET /data/:courseInstanceId', () => {
@@ -129,8 +250,35 @@ describe('course_instance_controller', () => {
       }
     })
 
-    // The copy should be validated to be equal to the copied course instance.
-    // That's a gargantuan task, though, and not worth developer time.
+    it('Copy is identical', (done) => {
+      makeRequest(options).then((response) => {
+        const copyId = response.body.created.id
+        Promise.all([
+          findCopyData(data.course_instance_id),
+          findCopyData(copyId)
+        ]).then(([expected, actual]) => {
+          let matcher
+          let received
+          try {
+            matcher = {
+              ...recursiveIdMap(stripToPlain(expected)),
+              eng_name: data.eng_name,
+              fin_name: data.fin_name,
+              swe_name: data.swe_name
+            }
+            received = stripToPlain(actual)
+            expect(received).toMatchObject(matcher)
+            done()
+          } catch (e) {
+            done({
+              error: e,
+              expected: matcher,
+              received
+            })
+          }
+        }).catch(done)
+      }).catch(done)
+    })
   })
 
   describe('GET /edit/:id', () => {
