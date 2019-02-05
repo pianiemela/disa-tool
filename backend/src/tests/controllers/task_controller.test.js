@@ -19,7 +19,9 @@ const {
   CourseInstance,
   Objective,
   TypeHeader,
-  Type
+  Type,
+  SkillLevel,
+  Category
 } = require('../../database/models.js')
 
 describe('task_controller', () => {
@@ -1835,5 +1837,99 @@ describe('task_controller', () => {
         testStatusCode(options, 404)
       })
     })
+  })
+
+  describe('GET /:id/objectives', () => {
+    const taskData = {
+      course_instance_id: 1,
+      eng_name: 'en',
+      fin_name: 'fn',
+      swe_name: 'sn',
+      eng_description: 'ed',
+      fin_description: 'fd',
+      swe_description: 'sd',
+      info: 'test info',
+      order: 200
+    }
+    const skillLevelData = {
+      eng_name: 'el',
+      fin_name: 'fl',
+      swe_name: 'sl',
+      course_instance_id: 1
+    }
+    const categoryData = {
+      eng_name: 'el',
+      fin_name: 'fl',
+      swe_name: 'sl',
+      course_instance_id: 1
+    }
+    const objectiveData = {
+      eng_name: 'el',
+      fin_name: 'fl',
+      swe_name: 'sl',
+      course_instance_id: 1
+    }
+    const options = {
+      method: 'get',
+      preamble: {}
+    }
+    const ids = {}
+
+    beforeAll((done) => {
+      Promise.all([
+        Task.create(taskData),
+        SkillLevel.create(skillLevelData),
+        Category.create(categoryData)
+      ]).then(([task, skillLevel, category]) => {
+        options.route = `/api/tasks/${task.id}/objectives`
+        ids.task = task.id
+        ids.skillLevel = skillLevel.id
+        ids.category = category.id
+        const objectiveInput = {
+          ...objectiveData,
+          category_id: category.id,
+          skill_level_id: skillLevel.id
+        }
+        Promise.all([
+          Objective.create(objectiveInput),
+          Objective.create(objectiveInput)
+        ]).then((objectives) => {
+          ids.objectives = objectives.map(objective => objective.id)
+          Promise.all(objectives.map((objective, index) => TaskObjective.create({
+            task_id: task.id,
+            objective_id: objective.id,
+            modified: false,
+            multiplier: 0.4 * index
+          }))).then((taskObjectives) => {
+            ids.taskObjectives = taskObjectives.map(taskObjective => taskObjective.id)
+            done()
+          }).catch(done)
+        }).catch(done)
+      }).catch(done)
+    })
+
+    afterAll((done) => {
+      Promise.all([
+        Task.destroy({
+          where: {
+            id: ids.task
+          }
+        }),
+        SkillLevel.destroy({
+          where: {
+            id: ids.skillLevel
+          }
+        }),
+        Category.destroy({
+          where: {
+            id: ids.category
+          }
+        })
+      ]).then(() => done()).catch(done)
+    })
+
+    testHeaders(options)
+
+    testStatusCode(options, 200)
   })
 })
