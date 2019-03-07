@@ -7,12 +7,57 @@ const {
   asymmetricMatcher,
   testStatusCode
 } = require('../testUtils')
-const { Type, TypeHeader } = require('../../database/models.js')
+const { Type, TypeHeader, CourseInstance, CoursePerson } = require('../../database/models.js')
 
 describe('type_controller', () => {
+  const courseInstanceData = {
+    course_id: 1,
+    eng_name: 'en',
+    fin_name: 'fn',
+    swe_name: 'sn',
+    active: false
+  }
+  const typeHeaderData = {
+    eng_name: 'eng root',
+    fin_name: 'fin root',
+    swe_name: 'swe root',
+    order: 20
+  }
+  const ids = {}
+
+  beforeAll((done) => {
+    CourseInstance.create(courseInstanceData).then((courseInstance) => {
+      ids.courseInstance = courseInstance.id
+      Promise.all([
+        TypeHeader.create({
+          ...typeHeaderData,
+          course_instance_id: courseInstance.id
+        }),
+        CoursePerson.create({
+          role: 'TEACHER',
+          course_instance_id: courseInstance.id,
+          person_id: 424
+        }),
+        CoursePerson.create({
+          role: 'STUDENT',
+          course_instance_id: courseInstance.id,
+          person_id: 421
+        })
+      ]).then(([typeHeader]) => {
+        ids.typeHeader = typeHeader.id
+        done()
+      }).catch(done)
+    }).catch(done)
+  })
+
+  afterAll((done) => {
+    CourseInstance.destroy({
+      where: { id: ids.courseInstance }
+    }).then(() => done())
+  })
+
   describe('POST /create', () => {
     const data = {
-      type_header_id: 1,
       eng_name: '8e',
       fin_name: '8f',
       swe_name: '8s',
@@ -28,6 +73,10 @@ describe('type_controller', () => {
       }
     }
 
+    beforeAll(() => {
+      data.type_header_id = ids.typeHeader
+    })
+
     testTeacherOnCoursePrivilege(options)
 
     testHeaders(options)
@@ -37,7 +86,7 @@ describe('type_controller', () => {
         message: expect.any(String),
         created: {
           id: expect.any(Number),
-          type_header_id: data.type_header_id,
+          type_header_id: asymmetricMatcher(actual => actual === ids.typeHeader),
           multiplier: data.multiplier,
           order: data.order
         }
@@ -74,10 +123,9 @@ describe('type_controller', () => {
 
   describe('POST /headers/create', () => {
     const data = {
-      course_instance_id: 1,
-      eng_name: 'e',
-      fin_name: 'f',
-      swe_name: 's',
+      eng_name: 'eng unique name',
+      fin_name: 'fin unique name',
+      swe_name: 'swe unique name',
       order: 20
     }
     const options = {
@@ -88,6 +136,10 @@ describe('type_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
+
+    beforeAll(() => {
+      data.course_instance_id = ids.courseInstance
+    })
 
     testTeacherOnCoursePrivilege(options)
 
@@ -138,11 +190,10 @@ describe('type_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
-    const ids = {}
 
     beforeEach((done) => {
       Type.create({
-        type_header_id: 1,
+        type_header_id: ids.typeHeader,
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
@@ -165,7 +216,7 @@ describe('type_controller', () => {
         message: expect.any(String),
         deleted: {
           id: asymmetricMatcher(actual => actual === ids.type),
-          type_header_id: 1,
+          type_header_id: asymmetricMatcher(actual => actual === ids.typeHeader),
           task_ids: []
         }
       }
@@ -181,18 +232,17 @@ describe('type_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
-    const ids = {}
 
     beforeEach((done) => {
       TypeHeader.create({
-        course_instance_id: 1,
+        course_instance_id: ids.courseInstance,
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
         order: 1
       }).then((result) => {
-        ids.type_header = result.get({ plain: true }).id
-        options.route = `/api/types/headers/${ids.type_header}`
+        ids.deleteTypeHeader = result.get({ plain: true }).id
+        options.route = `/api/types/headers/${ids.deleteTypeHeader}`
         done()
       })
     })
@@ -207,7 +257,7 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         deleted: {
-          id: asymmetricMatcher(actual => actual === ids.type_header)
+          id: asymmetricMatcher(actual => actual === ids.deleteTypeHeader)
         }
       }
     })
@@ -215,13 +265,13 @@ describe('type_controller', () => {
     describe('deletion cascades and', () => {
       beforeEach((done) => {
         Type.create({
-          type_header_id: ids.type_header,
+          type_header_id: ids.deleteTypeHeader,
           eng_name: 'ent',
           fin_name: 'fnt',
           swe_name: 'snt',
           order: 1
         }).then((result) => {
-          ids.type = result.get({ plain: true }).id
+          ids.deleteHeaderType = result.get({ plain: true }).id
           done()
         })
       })
@@ -231,7 +281,7 @@ describe('type_controller', () => {
         cascade: [
           {
             model: Type,
-            getId: () => ids.type
+            getId: () => ids.deleteHeaderType
           }
         ]
       })
@@ -289,20 +339,19 @@ describe('type_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
-    const ids = {}
     const databaseExpectation = {}
 
     beforeAll((done) => {
       Type.create({
-        type_header_id: 1,
+        type_header_id: ids.typeHeader,
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
         multiplier: 1,
         order: 11
       }).then((result) => {
-        ids.type = result.id
-        options.route = `${options.route}/${ids.type}`
+        ids.editType = result.id
+        options.route = `${options.route}/${ids.editType}`
         databaseExpectation.created_at = result.created_at
         databaseExpectation.updated_at = result.updated_at
         done()
@@ -310,7 +359,7 @@ describe('type_controller', () => {
     })
 
     afterEach((done) => {
-      Type.findById(ids.type).then(instance => instance.update({
+      Type.findById(ids.editType).then(instance => instance.update({
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
@@ -333,9 +382,9 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.type),
+          id: asymmetricMatcher(actual => actual === ids.editType),
           multiplier: data.multiplier,
-          type_header_id: 1,
+          type_header_id: asymmetricMatcher(actual => actual === ids.typeHeader),
           order: data.order
         }
       },
@@ -360,8 +409,8 @@ describe('type_controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.type),
-        type_header_id: 1,
+        id: asymmetricMatcher(actual => actual === ids.editType),
+        type_header_id: asymmetricMatcher(actual => actual === ids.typeHeader),
         created_at: asymmetricMatcher(actual => !(
           actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
         )),
@@ -380,7 +429,6 @@ describe('type_controller', () => {
       eng_name: 'en',
       fin_name: 'fn',
       swe_name: 'sn',
-      course_instance_id: 1,
       order: 34
     }
     const options = {
@@ -388,12 +436,14 @@ describe('type_controller', () => {
       method: 'get',
       preamble: {}
     }
-    const ids = {}
 
     beforeAll((done) => {
-      TypeHeader.create(data).then((result) => {
-        ids.header = result.get({ plain: true }).id
-        options.route = `${options.route}/${ids.header}`
+      TypeHeader.create({
+        ...data,
+        course_instance_id: ids.courseInstance
+      }).then((result) => {
+        ids.getHeader = result.get({ plain: true }).id
+        options.route = `${options.route}/${ids.getHeader}`
         done()
       }).catch(done)
     })
@@ -409,7 +459,7 @@ describe('type_controller', () => {
         message: expect.any(String),
         data: {
           ...data,
-          id: asymmetricMatcher(actual => actual === ids.header)
+          id: asymmetricMatcher(actual => actual === ids.getHeader)
         }
       }
     })
@@ -430,7 +480,6 @@ describe('type_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
-    const ids = {}
     const databaseExpectation = {}
 
     beforeAll((done) => {
@@ -438,18 +487,18 @@ describe('type_controller', () => {
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
-        course_instance_id: 1,
+        course_instance_id: ids.courseInstance,
         order: 11
       }).then((result) => {
-        ids.header = result.get({ plain: true }).id
-        options.route = `${options.route}/${ids.header}`
+        ids.editHeader = result.get({ plain: true }).id
+        options.route = `${options.route}/${ids.editHeader}`
         databaseExpectation.created_at = result.get({ plain: true }).created_at
         done()
       }).catch(done)
     })
 
     afterEach((done) => {
-      TypeHeader.findById(ids.header).then(
+      TypeHeader.findById(ids.editHeader).then(
         instance => instance.update({
           eng_name: 'en',
           fin_name: 'fn',
@@ -469,7 +518,7 @@ describe('type_controller', () => {
       common: {
         message: expect.any(String),
         edited: {
-          id: asymmetricMatcher(actual => actual === ids.header),
+          id: asymmetricMatcher(actual => actual === ids.editHeader),
           order: data.order
         }
       },
@@ -494,8 +543,8 @@ describe('type_controller', () => {
       options,
       {
         ...data,
-        id: asymmetricMatcher(actual => actual === ids.header),
-        course_instance_id: 1,
+        id: asymmetricMatcher(actual => actual === ids.editHeader),
+        course_instance_id: asymmetricMatcher(actual => actual === ids.courseInstance),
         created_at: asymmetricMatcher(actual => !(
           actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
         )),
