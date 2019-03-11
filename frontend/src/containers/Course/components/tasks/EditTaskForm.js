@@ -97,7 +97,7 @@ export class EditTaskForm extends Component {
               loading={this.state.loading}
             >
               <p>{contentPrompt}.</p>
-              <MultilingualField field="name" fieldDisplay={label.name} values={this.state.values.name} />
+              <MultilingualField required field="name" fieldDisplay={label.name} values={this.state.values.name} />
               <MultilingualField field="description" fieldDisplay={label.description} values={this.state.values.description} />
               <Form.Field>
                 <Label>{label.info}</Label>
@@ -112,13 +112,14 @@ export class EditTaskForm extends Component {
               </Form.Field>
               <Form.Field>
                 <Label>{label.maxPoints}</Label>
-                <Input
+                <Form.Input
                   name="points"
                   type="number"
                   value={this.state.values.maxPoints}
                   onChange={e => this.setState({
                     values: { ...this.state.values, maxPoints: e.target.value }
                   })}
+                  required
                 />
               </Form.Field>
             </ModalForm>
