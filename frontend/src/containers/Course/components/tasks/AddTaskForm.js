@@ -47,7 +47,7 @@ export class AddTaskForm extends Component {
               onSubmit={this.addTaskSubmit}
             >
               <p>{contentPrompt}.</p>
-              <MultilingualField field="name" fieldDisplay={label.name} />
+              <MultilingualField required field="name" fieldDisplay={label.name} />
               <MultilingualField field="description" fieldDisplay={label.description} />
               <Form.Field>
                 <Label>{label.info}</Label>
@@ -55,7 +55,7 @@ export class AddTaskForm extends Component {
               </Form.Field>
               <Form.Field>
                 <Label>{label.maxPoints}</Label>
-                <Input name="points" type="number" />
+                <Form.Input required name="points" type="number" />
               </Form.Field>
             </ModalForm>
           </div>
