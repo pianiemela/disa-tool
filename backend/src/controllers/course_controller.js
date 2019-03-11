@@ -80,23 +80,30 @@ router.get('/instance/:courseId', async (req, res) => {
   const user = await checkAuth(req)
   const instance = await courseService.getInstanceWithRelatedData(courseId, req.lang, user.id)
   if (!instance) {
-    res.status(401).json({ error: 'You are not registered on this course' })
+    res.status(404).json({
+      toast: errors.notfound.toast,
+      error: errors.notfound[req.lang]
+    })
     return
   }
-  // if (courseRole !== 'TEACHER') {
-    const teachers = await personService.getCourseTeachers(courseId)
-    instance.dataValues.people = teachers
-  // } else {
-  //   const people = await personService.getPeopleOnCourse(courseId, instance.tasks.map(task => task.id))
-  //   instance.dataValues.people = people
-  // }
+  const hasPrivilege = await checkPrivilege(req, [
+    {
+      key: 'student_on_course',
+      param: courseId
+    }
+  ])
+  if (!hasPrivilege) {
+    res.status(403).json({
+      toast: errors.privilege.toast,
+      error: errors.privilege[req.lang]
+    })
+    return
+  }
+  const teachers = await personService.getCourseTeachers(courseId)
+  instance.dataValues.people = teachers
+
   instance.dataValues.courseRole = instance.people[0].course_person.role
 
-  // instance.tasks = instance.tasks.map(task => ({
-  //   ...task,
-  //   types: task.types.map(ttype => ({ ...ttype, name: `${ttype.type_header.name} ${ttype.name}` })
-  //   )
-  // }))
   res.status(200).json(instance)
 })
 

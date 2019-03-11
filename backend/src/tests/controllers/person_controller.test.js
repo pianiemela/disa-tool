@@ -91,6 +91,21 @@ describe('person_controller', () => {
       }).catch(done)
     })
 
+    afterAll((done) => {
+      Promise.all([
+        Person.destroy({
+          where: {
+            id: ids.person
+          }
+        }),
+        CourseInstance.destroy({
+          where: {
+            id: ids.courseInstance
+          }
+        })
+      ]).then(() => done()).catch(done)
+    })
+
     testHeaders(options)
 
     testAdminPrivilege(options)
@@ -176,7 +191,7 @@ describe('person_controller', () => {
       testBody(
         derivativeOptions,
         {
-          common: asymmetricMatcher(actual => actual.length === expectations.peopleCount)
+          common: asymmetricMatcher(actual => actual.length >= expectations.peopleCount)
         },
         {
           do_not_spread: true,

@@ -14,7 +14,7 @@ const validatePerson = role => async (param, user) => {
   if (!coursePerson) {
     return false
   }
-  return coursePerson.toJSON().role === role
+  return role.includes(coursePerson.toJSON().role)
 }
 
 const validateTeacher = async (param, user) => {
@@ -40,8 +40,8 @@ const validateAdmin = async (param, user) => {
 
 const validators = {
   logged_in: (param, user) => user !== null,
-  teacher_on_course: validatePerson('TEACHER'),
-  student_on_course: validatePerson('STUDENT'),
+  teacher_on_course: validatePerson(['TEACHER']),
+  student_on_course: validatePerson(['STUDENT', 'TEACHER']),
   global_teacher: validateTeacher,
   admin: validateAdmin
 }

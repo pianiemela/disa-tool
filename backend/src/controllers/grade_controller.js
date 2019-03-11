@@ -132,10 +132,7 @@ router.delete('/:id', async (req, res) => {
 
 router.put('/category-grades', async (req, res) => {
   const { courseId, categoryGrades } = req.body
-  if (await !onlyTeacherOnCourseHasAccess(req, res, courseId)) {
-    res.status(403).json({ error: 'You are not a teacher' })
-    return
-  }
+  if (!(await onlyTeacherOnCourseHasAccess(req, res, courseId))) return
   try {
     const filteredCategoryGrades = await gradeService.filterCategoryGradesOnCourse(courseId, categoryGrades)
     const updatedCategoryGrades = await gradeService.updateCategoryGrades(filteredCategoryGrades, categoryGrades)

@@ -43,12 +43,21 @@ const mergeRecursive = (a, b) => {
   if (!b) {
     return a
   }
+  if (Array.isArray(a) && Array.isArray(b)) {
+    return a.map((value, index) => mergeRecursive(value, b[index]))
+  }
+  if (a.mergeType === 'unorderedList' && b.mergeType === 'unorderedList') {
+    const result = unorderedListMatcher(
+      a.list.map((value, index) => mergeRecursive(value, b.list[index]))
+    )
+    return result
+  }
   const merged = { ...a }
-  Object.keys(b).forEach((key) => {
+  Object.entries(b).forEach(([key, value]) => {
     if (merged[key] !== undefined) {
-      merged[key] = mergeRecursive(merged[key], b[key])
+      merged[key] = mergeRecursive(merged[key], value)
     } else {
-      merged[key] = b[key]
+      merged[key] = value
     }
   })
   return merged
@@ -255,7 +264,8 @@ const testDatabaseSave = (options, match, model, config = {}) => {
     pathToId = ['body', 'created', 'id'],
     includeTimestamps = true,
     findBy = null,
-    text = 'saves a row into the database.'
+    text = 'saves a row into the database.',
+    delay = 0
   } = config
   it(text, (done) => {
     const reqOptions = { ...options }
@@ -279,19 +289,29 @@ const testDatabaseSave = (options, match, model, config = {}) => {
           })
           expect(typeof search).toEqual('number')
         }
-        model[findFunction](search).then((row) => {
-          let json
-          try {
-            expect(row).toBeTruthy()
-            json = row.toJSON()
-            if (disallowId) expect(json.id).not.toEqual(10001)
-            expect(json).toMatchObject(match)
-            if (includeTimestamps) expect(json).toMatchObject(timestamps)
-            done()
-          } catch (e) {
-            done(e)
-          }
-        }).catch(done)
+        setTimeout(() => {
+          model[findFunction](search).then((row) => {
+            let json
+            try {
+              expect(row).toBeTruthy()
+              json = row.toJSON()
+              if (disallowId) expect(json.id).not.toEqual(10001)
+              try {
+                expect(json).toMatchObject(match)
+              } catch (e) {
+                done({
+                  expected: match,
+                  received: json
+                })
+                return
+              }
+              if (includeTimestamps) expect(json).toMatchObject(timestamps)
+              done()
+            } catch (e) {
+              done(e)
+            }
+          }).catch(done)
+        }, delay)
       } catch (e) {
         done(e)
       }
@@ -391,7 +411,34 @@ const testStatusCode = (options, code) => {
   })
 }
 
+const unorderedListMatcher = list => ({
+  $$typeof: Symbol.for('jest.asymmetricMatcher'),
+  mergeType: 'unorderedList',
+  list,
+  asymmetricMatch: (actual) => {
+    if (!Array.isArray(actual)) return false
+    let result = true
+    list.forEach((listElement) => {
+      let matched = false
+      actual.forEach((actualElement) => {
+        try {
+          if (typeof listElement === 'object') {
+            expect(actualElement).toMatchObject(listElement)
+          } else {
+            expect(actualElement).toEqual(listElement)
+          }
+          matched = true
+        // eslint-disable-next-line no-empty
+        } catch (e) {}
+      })
+      result = result && matched
+    })
+    return result
+  }
+})
+
 module.exports = {
+  makeRequest,
   testTeacherOnCoursePrivilege,
   testGlobalTeacherPrivilege,
   testAdminPrivilege,
@@ -400,5 +447,6 @@ module.exports = {
   testDatabaseSave,
   testDatabaseDestroy,
   asymmetricMatcher,
-  testStatusCode
+  testStatusCode,
+  unorderedListMatcher
 }
