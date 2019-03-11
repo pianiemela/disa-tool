@@ -122,7 +122,8 @@ const create = {
       info: json.info,
       objectives: [],
       types: [],
-      order: json.order
+      order: json.order,
+      defaultMultiplier: 1
     }
   }
 }
