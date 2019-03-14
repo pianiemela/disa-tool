@@ -557,4 +557,80 @@ describe('type_controller', () => {
       }
     )
   })
+
+  describe('GET /course/:id', () => {
+    const typeData = [
+      {
+        eng_name: 'e',
+        fin_name: 'f',
+        swe_name: 's',
+        multiplier: 1,
+        order: 1
+      },
+      {
+        eng_name: 'e1',
+        fin_name: 'f1',
+        swe_name: 's1',
+        multiplier: 0.5,
+        order: 2
+      }
+    ]
+    const options = {
+      method: 'get',
+      route: '/api/types/course',
+      preamble: {
+        set: ['Authorization', `Bearer ${tokens.teacher}`]
+      }
+    }
+
+    beforeAll((done) => {
+      CourseInstance.create(courseInstanceData).then((courseInstance) => {
+        ids.getCourseCourseInstance = courseInstance.id
+        options.route = `${options.route}/${courseInstance.id}`
+        TypeHeader.create({
+          ...typeHeaderData,
+          course_instance_id: courseInstance.id
+        }).then((typeHeader) => {
+          ids.getCourseTypeHeader = typeHeader.id
+          Promise.all(typeData.map(data => Type.create({
+            ...data,
+            type_header_id: typeHeader.id
+          }))).then((types) => {
+            ids.getCourseTypes = types.map(type => type.id)
+            done()
+          }).catch(done)
+        }).catch(done)
+      }).catch(done)
+    })
+
+    afterAll((done) => {
+      CourseInstance.destroy({
+        where: { id: ids.getCourseCourseInstance }
+      }).then(() => done())
+    })
+
+    testHeaders(options)
+
+    testStatusCode(options, 200)
+
+    const expectedData = lang => expect.arrayContaining(typeData.map((type, index) => ({
+      id: asymmetricMatcher(actual => actual === ids.getCourseTypes[index]),
+      text: `${typeHeaderData[`${lang}_name`]} ${type[`${lang}_name`]}`
+    })))
+
+    testBody(options, {
+      common: {
+        message: expect.any(String)
+      },
+      eng: {
+        data: expectedData('eng')
+      },
+      fin: {
+        data: expectedData('fin')
+      },
+      swe: {
+        data: expectedData('swe')
+      }
+    })
+  })
 })

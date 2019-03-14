@@ -7,15 +7,59 @@ const {
   asymmetricMatcher,
   testStatusCode
 } = require('../testUtils')
-const { SkillLevel, Objective } = require('../../database/models.js')
+const { SkillLevel, Objective, CourseInstance, CoursePerson, Category } = require('../../database/models.js')
 
-describe('skill_level_controller', () => {
+describe('skill level controller', () => {
+  const courseInstanceData = {
+    course_id: 1,
+    eng_name: 'en',
+    fin_name: 'fn',
+    swe_name: 'sn',
+    active: false
+  }
+  const categoryData = {
+    eng_name: 'cen',
+    fin_name: 'cfn',
+    swe_name: 'csn',
+    order: 1
+  }
+  const superIds = {}
+
+  beforeAll((done) => {
+    CourseInstance.create(courseInstanceData).then((courseInstance) => {
+      superIds.courseInstance = courseInstance.id
+      Promise.all([
+        Category.create({
+          ...categoryData,
+          course_instance_id: courseInstance.id
+        }),
+        CoursePerson.create({
+          person_id: 421,
+          course_instance_id: courseInstance.id,
+          role: 'STUDENT'
+        }),
+        CoursePerson.create({
+          person_id: 424,
+          course_instance_id: courseInstance.id,
+          role: 'TEACHER'
+        })
+      ]).then(([category]) => {
+        superIds.category = category.id
+        done()
+      }).catch(done)
+    }).catch(done)
+  })
+  afterAll((done) => {
+    CourseInstance.destroy({
+      where: { id: superIds.courseInstance }
+    }).then(() => done()).catch(done)
+  })
+
   describe('POST /create', () => {
     const data = {
-      course_instance_id: 1,
-      eng_name: 'en',
-      fin_name: 'fn',
-      swe_name: 'sn',
+      eng_name: 'e_skill_level_unique_name',
+      fin_name: 'f_skill_level_unique_name',
+      swe_name: 's_skill_level_unique_name',
       order: 7
     }
     const options = {
@@ -26,6 +70,16 @@ describe('skill_level_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
+
+    beforeAll(() => {
+      data.course_instance_id = superIds.courseInstance
+    })
+
+    afterEach((done) => {
+      SkillLevel.destroy({
+        where: data
+      }).then(() => done()).catch()
+    })
 
     testTeacherOnCoursePrivilege(options)
 
@@ -60,6 +114,7 @@ describe('skill_level_controller', () => {
       options,
       {
         id: expect.any(Number),
+        course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
         ...data
       },
       SkillLevel,
@@ -80,7 +135,7 @@ describe('skill_level_controller', () => {
 
     beforeEach((done) => {
       SkillLevel.create({
-        course_instance_id: 1,
+        course_instance_id: superIds.courseInstance,
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
@@ -90,6 +145,12 @@ describe('skill_level_controller', () => {
         options.route = `/api/skill-levels/${ids.skill_level}`
         done()
       })
+    })
+
+    afterEach((done) => {
+      SkillLevel.destroy({
+        where: { id: ids.skill_level }
+      }).then(() => done()).catch(done)
     })
 
     testTeacherOnCoursePrivilege(options)
@@ -112,8 +173,8 @@ describe('skill_level_controller', () => {
       beforeEach((done) => {
         Objective.create({
           skill_level_id: ids.skill_level,
-          course_instance_id: 1,
-          category_id: 1,
+          course_instance_id: superIds.courseInstance,
+          category_id: superIds.category,
           eng_name: 'eno',
           fin_name: 'fno',
           swe_name: 'sno',
@@ -123,6 +184,12 @@ describe('skill_level_controller', () => {
           done()
         })
       })
+      afterEach((done) => {
+        Objective.destroy({
+          where: { id: ids.objective }
+        }).then(() => done()).catch(done)
+      })
+
       testDatabaseDestroy(options, SkillLevel, {
         delay: 2000,
         cascade: [
@@ -140,7 +207,6 @@ describe('skill_level_controller', () => {
       eng_name: 'en',
       fin_name: 'fn',
       swe_name: 'sn',
-      course_instance_id: 1,
       order: 11.5
     }
     const options = {
@@ -151,11 +217,18 @@ describe('skill_level_controller', () => {
     const ids = {}
 
     beforeAll((done) => {
+      data.course_instance_id = superIds.courseInstance
       SkillLevel.create(data).then((result) => {
         ids.level = result.get({ plain: true }).id
         options.route = `${options.route}/${ids.level}`
         done()
       }).catch(done)
+    })
+
+    afterAll((done) => {
+      SkillLevel.destroy({
+        where: { id: ids.level }
+      }).then(() => done()).catch(done)
     })
 
     testHeaders(options)
@@ -169,6 +242,7 @@ describe('skill_level_controller', () => {
         message: expect.any(String),
         data: {
           ...data,
+          course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
           id: asymmetricMatcher(actual => actual === ids.level)
         }
       }
@@ -198,7 +272,7 @@ describe('skill_level_controller', () => {
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
-        course_instance_id: 1,
+        course_instance_id: superIds.courseInstance,
         order: 11
       }).then((result) => {
         ids.level = result.id
@@ -221,6 +295,12 @@ describe('skill_level_controller', () => {
           done()
         }).catch(done)
       ).catch(done)
+    })
+
+    afterAll((done) => {
+      SkillLevel.destroy({
+        where: { id: ids.level }
+      }).then(() => done()).catch(done)
     })
 
     testHeaders(options)
@@ -259,7 +339,7 @@ describe('skill_level_controller', () => {
       {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.level),
-        course_instance_id: 1,
+        course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
         created_at: asymmetricMatcher(actual => !(
           actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
         )),

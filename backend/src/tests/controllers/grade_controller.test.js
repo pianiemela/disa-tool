@@ -94,7 +94,6 @@ describe('grade controller', () => {
       fin_name: 'fn',
       swe_name: 'sn',
       needed_for_grade: 0.5,
-      prerequisite: 1,
       order: 3
     }
     const options = {
@@ -107,6 +106,7 @@ describe('grade controller', () => {
     }
 
     beforeAll((done) => {
+      data.prerequisite = ids.grade
       SkillLevel.create({
         ...skillLevelData,
         course_instance_id: ids.courseInstance
@@ -136,7 +136,7 @@ describe('grade controller', () => {
         created: {
           skill_level_id: asymmetricMatcher(actual => actual === data.skill_level_id),
           needed_for_grade: data.needed_for_grade,
-          prerequisite: data.prerequisite,
+          prerequisite: asymmetricMatcher(actual => actual === ids.grade),
           order: data.order
         }
       },
@@ -259,7 +259,6 @@ describe('grade controller', () => {
       fin_name: 'new fn',
       swe_name: 'new sn',
       needed_for_grade: 0.8,
-      prerequisite: 1,
       order: 4.5
     }
     const options = {
@@ -273,6 +272,7 @@ describe('grade controller', () => {
     const databaseExpectation = {}
 
     beforeAll((done) => {
+      data.prerequisite = ids.grade
       Promise.all([
         Grade.create({
           eng_name: 'en',
@@ -335,7 +335,7 @@ describe('grade controller', () => {
           id: asymmetricMatcher(actual => actual === ids.toEdit),
           skill_level_id: asymmetricMatcher(actual => actual === ids.newSkillLevel),
           needed_for_grade: data.needed_for_grade,
-          prerequisite: data.prerequisite,
+          prerequisite: asymmetricMatcher(actual => actual === ids.grade),
           order: data.order
         }
       },
