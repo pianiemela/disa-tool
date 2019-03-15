@@ -53,6 +53,7 @@ export class MultilingualField extends Component {
   translate = id => this.props.translate(`utils.components.MultilingualField.${id}`)
 
   render() {
+    const { required } = this.props
     return (
       <Form.Field className="MultilingualField">
         <div style={{ display: 'flex' }}>
@@ -86,6 +87,7 @@ export class MultilingualField extends Component {
             fluid
             value={this.allValue()}
             onChange={this.changeValue('all')}
+            required={required}
           />
         ) : (
           null
@@ -99,6 +101,7 @@ export class MultilingualField extends Component {
               fluid
               value={this.state.values.eng}
               onChange={this.changeValue('eng')}
+              required={this.state.multilingual && required}
             />
           </Form.Field>
           <Form.Field>
@@ -109,6 +112,7 @@ export class MultilingualField extends Component {
               fluid
               value={this.state.values.fin}
               onChange={this.changeValue('fin')}
+              required={this.state.multilingual && required}
             />
           </Form.Field>
           <Form.Field>
@@ -119,6 +123,7 @@ export class MultilingualField extends Component {
               fluid
               value={this.state.values.swe}
               onChange={this.changeValue('swe')}
+              required={this.state.multilingual && required}
             />
           </Form.Field>
         </Segment>
@@ -135,7 +140,8 @@ MultilingualField.propTypes = {
     fin: PropTypes.string,
     swe: PropTypes.string
   }),
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  required: PropTypes.bool
 }
 
 MultilingualField.defaultProps = {
@@ -143,7 +149,8 @@ MultilingualField.defaultProps = {
     eng: '',
     fin: '',
     swe: ''
-  }
+  },
+  required: false
 }
 
 export default withLocalize(MultilingualField)
