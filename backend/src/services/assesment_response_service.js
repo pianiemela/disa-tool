@@ -50,7 +50,6 @@ const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
     return n
   }
 
-  // TODO: NOTE THAT THIS NOW ONLY BUILDS! NEED TO SAVE SEPARATELY!
   return AssessmentResponse.build({
     response: filteredData, self_assessment_id: selfAssesmentId, person_id: user.id
   })
@@ -60,17 +59,23 @@ const create = async (user, selfAssesmentId, data) => AssessmentResponse.find({
 
 // TODO: Heavy refactoring and testing
 const verifyAssessmentGrade = async (response, lang) => {
-  const courseGrades = await Grade.findAll({
-    include: [
-      { model: SkillLevel, where: { course_instance_id: response.response.course_instance_id } },
-      CategoryGrade
-    ]
-  })
-  const courseCategories = await Category.findAll({
-    where: { course_instance_id: response.response.course_instance_id },
-    include: CategoryGrade
-  })
-  const userTasks = await TaskResponse.findAll({ where: { person_id: response.person_id } })
+  const [
+    courseGrades,
+    courseCategories,
+    userTasks
+  ] = await Promise.all([
+    Grade.findAll({
+      include: [
+        { model: SkillLevel, where: { course_instance_id: response.response.course_instance_id } },
+        CategoryGrade
+      ]
+    }),
+    Category.findAll({
+      where: { course_instance_id: response.response.course_instance_id },
+      include: CategoryGrade
+    }),
+    TaskResponse.findAll({ where: { person_id: response.person_id } })
+  ])
   // go through each question field
   const earnedGrades = await Promise.all(response.response.questionModuleResponses.map(async (categoryResp) => {
     const categoryGrades = courseCategories.find(category => category.id === categoryResp.id).category_grades
@@ -92,7 +97,8 @@ const verifyAssessmentGrade = async (response, lang) => {
       response,
       category,
       userTasks,
-      lang)
+      lang
+    )
     // If any prerequisite is not met, user does not earn the grade,
     // even if points otherwise would be enough
     const gradesWithDepth = gradeQualifies.map(grade => (
