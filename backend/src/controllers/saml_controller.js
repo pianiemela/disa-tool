@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const { DOMParser, XMLSerializer } = require('xmldom')
 const samlify = require('samlify')
 const {
   responseUrl,
@@ -18,9 +19,21 @@ const sp = samlify.ServiceProvider({
 let idp = null
 
 router.get('/', async (req, res) => {
+  const { entityID } = req.query
+  console.log(entityID)
   const metadata = await getMetadata(config.IDP_ENTITY_ID)
+  const parsedMetaData = new DOMParser().parseFromString(metadata, 'text/xml')
+  const redirectMetadata = Array.prototype.find.call(
+    parsedMetaData.getElementsByTagName('EntityDescriptor'),
+    entity => Array.prototype.find.call(
+      entity.attributes,
+      attr => attr.name === 'entityID'
+    ).value === entityID
+  )
+  redirectMetadata.getElementsByTagName('IDPSSODescriptor')[0]
+    .setAttribute('WantAuthnRequestsSigned', 'true')
   idp = samlify.IdentityProvider({
-    metadata,
+    metadata: new XMLSerializer().serializeToString(redirectMetadata),
     isAssertionEncrypted: true,
     wantMessageSigned: true,
     messageSigningOrder: 'encrypt-then-sign',
