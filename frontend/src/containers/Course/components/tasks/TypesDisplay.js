@@ -6,7 +6,7 @@ import { Label } from 'semantic-ui-react'
 const SEMANTIC_GREEN = '#21ba45'
 
 const TypesDisplay = props => (
-  <div className="TypesDisplay flexContainer">
+  <span className="TypesDisplay flexContainer">
     <Label
       size="large"
       content={`${props.defaultText}: ${props.defaultMultiplier.toFixed(2)}`}
@@ -20,7 +20,7 @@ const TypesDisplay = props => (
         style={{ color: SEMANTIC_GREEN, borderColor: SEMANTIC_GREEN }}
       />
     ))}
-  </div>
+  </span>
 )
 
 const findType = (id, headers) => {

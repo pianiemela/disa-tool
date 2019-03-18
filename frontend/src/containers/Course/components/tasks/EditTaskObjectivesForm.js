@@ -12,6 +12,7 @@ import ChangeAllObjectivesMultipliers from './ChangeAllObjectivesMultipliers'
 
 class EditTaskObjectivesForm extends Component {
   state = {
+    expanded: false,
     detailed: true,
     loading: true,
     values: {
@@ -51,15 +52,14 @@ class EditTaskObjectivesForm extends Component {
         ...(this.state.detailed ? this.state.values[objective.id] : this.state.values[0]),
         id: objective.id
       })).filter(objective => objective.modified !== null)
-    })
+    }).then(this.collapse)
     this.setState({
       loading: true
     })
-    this.props.onClose()
   }
 
   loadDetails = async () => {
-    this.setState({ loading: true })
+    this.setState({ loading: true, expanded: true })
     const details = (await this.props.objectivesDetails({ id: this.props.taskId })).data.data
     this.setState({
       loading: false,
@@ -73,22 +73,26 @@ class EditTaskObjectivesForm extends Component {
     })
   }
 
+  collapse = () => {
+    if (this.state.expanded) {
+      this.setState({ expanded: false })
+    }
+  }
   translate = id => this.props.translate(`Course.tasks.EditTaskObjectivesForm.${id}`)
 
   render() {
     return (
       <div className="EditTaskObjectivesForm">
         <Modal
-          open={this.props.expanded}
+          open={this.state.expanded}
           trigger={
             <Button
               basic
               content={this.translate('edit_multipliers_button')}
-              onClick={this.props.onOpen}
             />}
           onSubmit={this.editTaskObjectivesSubmit}
-          onClose={this.props.onClose}
           onOpen={this.loadDetails}
+          onClose={this.collapse}
         >
           <Modal.Content>
             <Form onSubmit={this.editTaskObjectivesSubmit} loading={this.state.loading}>
@@ -136,7 +140,7 @@ class EditTaskObjectivesForm extends Component {
                 />
               )}
               <Button type="submit" color="green" style={{ margin: '0px 15px 0px 15px' }}>{this.translate('save')}</Button>
-              <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }} onClick={this.props.onClose}>{this.translate('cancel')}</Button>
+              <Button type="cancel" style={{ margin: '0px 15px 0px 15px' }} onClick={this.collapse}>{this.translate('cancel')}</Button>
             </Form>
           </Modal.Content>
         </Modal>
@@ -154,9 +158,6 @@ EditTaskObjectivesForm.propTypes = {
     multiplier: PropTypes.number.isRequired
   })).isRequired,
   defaultMultiplier: PropTypes.number.isRequired,
-  expanded: PropTypes.bool.isRequired,
-  onOpen: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired,
   objectivesDetails: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired
 }
@@ -182,8 +183,6 @@ const mapStateToProps = (state, ownProps) => {
     )
   return {
     taskId: ownProps.taskId,
-    expanded: ownProps.expanded,
-    onClose: ownProps.onClose,
     objectives,
     defaultMultiplier: state.task.tasks.find(task => task.id === ownProps.taskId).types
       .reduce((acc, typeId) => (

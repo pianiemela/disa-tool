@@ -20,7 +20,6 @@ let idp = null
 
 router.get('/', async (req, res) => {
   const { entityID } = req.query
-  console.log(entityID)
   const metadata = await getMetadata(config.IDP_ENTITY_ID)
   const parsedMetaData = new DOMParser().parseFromString(metadata, 'text/xml')
   const redirectMetadata = Array.prototype.find.call(
