@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Segment, Button } from 'semantic-ui-react'
+import { Button, Table } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
 import LinkExport from './LinkExport'
@@ -33,20 +33,22 @@ class LinkExportList extends Component {
         color="blue"
         content={this.translate('close')}
       />
-      <Segment>
-        <LinkExport
-          title={this.translate('registration')}
-          url={`/courses?course=${this.props.course.course_id}&instance=${this.props.course.id}`}
-        />
-        <LinkExport
-          title={this.translate('matrix')}
-          url={`/courses/matrix/${this.props.course.id}`}
-        />
-        <LinkExport
-          title={this.translate('course_page')}
-          url={`/user/course/${this.props.course.id}`}
-        />
-      </Segment>
+      <Table>
+        <Table.Body>
+          <LinkExport
+            title={this.translate('registration')}
+            url={`/courses?course=${this.props.course.course_id}&instance=${this.props.course.id}`}
+          />
+          <LinkExport
+            title={this.translate('matrix')}
+            url={`/courses/matrix/${this.props.course.id}`}
+          />
+          <LinkExport
+            title={this.translate('course_page')}
+            url={`/user/course/${this.props.course.id}`}
+          />
+        </Table.Body>
+      </Table>
     </div>
   )
 

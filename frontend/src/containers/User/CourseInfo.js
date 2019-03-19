@@ -20,10 +20,10 @@ export const CourseInfo = (props) => {
             <Conditional visible={props.isTeacher}>{
               <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>{t(course.active ? 'close_course' : 'start_course')}</Button>}
             </Conditional>
-            <Header as="h2" color={course.active ? 'green' : 'red'}>
-              <Header.Subheader style={{ display: 'inline' }}>{t('this_course_is')}</Header.Subheader>
-              {course.active ? <span><b>{t('open')}</b></span> : <span><b>{t('closed')}</b></span>}
-            </Header>
+          </Header>
+          <Header as="h2" color={course.active ? 'green' : 'red'}>
+            <Header.Subheader style={{ display: 'inline' }}>{t('this_course_is')}</Header.Subheader>
+            {course.active ? <span><b>{t('open')}</b></span> : <span><b>{t('closed')}</b></span>}
           </Header>
         </Grid.Column>
       </Grid.Row>

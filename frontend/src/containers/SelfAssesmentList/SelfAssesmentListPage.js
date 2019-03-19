@@ -3,7 +3,7 @@ import { number, string, arrayOf, shape, func } from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom'
-import { Container, Loader, Button, Icon, Segment, Header } from 'semantic-ui-react'
+import { Container, Loader, Button, Icon, Segment, Header, Table } from 'semantic-ui-react'
 
 import { getResponsesBySelfAssesment, updateVerificationAndFeedback, getSelfAssesment } from '../../api/selfassesment'
 import FeedbackPage from '../Feedback/FeedbackPage'
@@ -132,7 +132,9 @@ class SelfAssesmentListPage extends Component {
         <Container>
           <Segment.Group>
             <Segment style={{ display: 'flex' }}>
-              <LinkExport style={{ flexShrink: 1 }} title={`${this.translate('link')}: `} url={`/selfassesment/response/${this.props.selfAssesmentId}`} />
+              <Table>
+                <LinkExport style={{ flexShrink: 1 }} title={`${this.translate('link')}: `} url={`/selfassesment/response/${this.props.selfAssesmentId}`} />
+              </Table>
             </Segment>
             <Segment>
               <Header style={{ whiteSpace: 'nowrap', marginRight: '80px' }}>{this.props.selfAssesmentName}</Header>
