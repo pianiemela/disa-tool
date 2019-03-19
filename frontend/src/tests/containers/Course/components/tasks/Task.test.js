@@ -47,7 +47,7 @@ describe('Task component', () => {
   let changeActive
 
   beforeEach(() => {
-    removeTask = jest.fn()
+    removeTask = jest.fn().mockImplementation(() => Promise.resolve())
     changeActive = jest.fn()
     wrapper = shallow(<Task
       task={task}
