@@ -980,6 +980,10 @@
         "Course open",
         "Kurssi avoinna"
       ],
+      "manage_course_people_tasks": [
+        "Manage course people and tasks",
+        "Hallinnoi kurssin osallistujia ja tehtäviä"
+      ],
       "start_course": [
         "Course closed",
         "Kurssi suljettu"
@@ -1107,8 +1111,8 @@
         "piilotettu"
       ],
       "feedback_open": [
-        "feedback open",
-        "palaute auki"
+        "feedback visible",
+        "palaute näkyy"
       ],
       "feedback_closed": [
         "no feedback",

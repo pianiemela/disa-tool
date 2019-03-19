@@ -44,20 +44,11 @@ const TeacherAssesmentList = ({
             <Button.Group size="small">
               <Button
                 name="assessmentHidden"
-                content={assesment.active ? translate('visible') : translate('hidden')}
+                content={translate('hidden')}
                 size="small"
                 value={assesment.id}
                 onClick={toggleAssessment}
                 positive={!assesment.active && !assesment.open}
-              />
-              <Button.Or />
-              <Button
-                name="assessmentShown"
-                content={translate('closed')}
-                size="small"
-                value={assesment.id}
-                onClick={toggleAssessment}
-                positive={assesment.active && !assesment.open}
               />
               <Button.Or />
               <Button
@@ -67,6 +58,15 @@ const TeacherAssesmentList = ({
                 value={assesment.id}
                 onClick={toggleAssessment}
                 positive={assesment.active && assesment.open}
+              />
+              <Button.Or />
+              <Button
+                name="assessmentShown"
+                content={translate('closed')}
+                size="small"
+                value={assesment.id}
+                onClick={toggleAssessment}
+                positive={assesment.active && !assesment.open}
               />
             </Button.Group>
             <Button

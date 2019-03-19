@@ -160,29 +160,31 @@ class UserPage extends Component {
                       </Conditional>
                     </Grid.Column>
                   </Grid.Row>
-                  <Grid.Row>
-                    <Grid.Column>
-                      <Item.Content>
-                        <Header as="h3">{this.t('tasks')}</Header>
-                        <Accordion
-                          defaultActiveIndex={-1}
-                          styled
-                          fluid
-                          panels={[{
-                            key: 'ListTasks',
-                            title: this.t('open_task_list'),
-                            content: {
-                              key: 'tasks',
-                              content: <ListTasks
-                                tasks={tasks}
-                                selectedType={selectedType}
-                              />
-                            }
-                          }]}
-                        />
-                      </Item.Content>
-                    </Grid.Column>
-                  </Grid.Row>
+                  <Conditional visible={tasks.length > 0}>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Item.Content>
+                          <Header as="h3">{this.t('tasks')}</Header>
+                          <Accordion
+                            defaultActiveIndex={-1}
+                            styled
+                            fluid
+                            panels={[{
+                              key: 'ListTasks',
+                              title: this.t('open_task_list'),
+                              content: {
+                                key: 'tasks',
+                                content: <ListTasks
+                                  tasks={tasks}
+                                  selectedType={selectedType}
+                                />
+                              }
+                            }]}
+                          />
+                        </Item.Content>
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Conditional>
                 </Grid>
               </Item> :
               <Item>

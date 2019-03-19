@@ -66,7 +66,7 @@ export const CourseInfo = (props) => {
                     labelPosition="right"
                     style={{ marginBottom: '5px' }}
                   >
-                    Manage course people and tasks
+                    {t('manage_course_people_tasks')}
                     <Icon name="right arrow" />
                   </Button>
                 </Conditional>
