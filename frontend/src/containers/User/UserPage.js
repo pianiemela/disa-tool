@@ -32,7 +32,7 @@ class UserPage extends Component {
 
     await this.props.dispatchGetUserCourses()
     this.props.dispatchGetUserSelfAssesments()
-    if (courseId && !activeCourse.id && !this.state.loading) {
+    if (courseId && (!activeCourse.id || activeCourse.id !== courseId) && !this.state.loading) {
       await this.setState({ loading: true })
       this.props.dispatchGetCourseInstanceData(courseId).then(() => (
         this.setState({ loading: false })
