@@ -10,20 +10,20 @@ export const Navbar = (props) => {
     <nav className="Navbar">
       <Menu pointing>
         <Menu.Item
-          className="tasksLink"
-          as={Link}
-          to={`${props.matchUrl}/tasks`}
-          active={props.pathname.includes('tasks')}
-        >
-          <span>{translate('tasks')}</span>
-        </Menu.Item>
-        <Menu.Item
           className="matrixLink"
           as={Link}
           to={`${props.matchUrl}/matrix`}
           active={props.pathname.includes('matrix')}
         >
           <span>{translate('matrix')}</span>
+        </Menu.Item>
+        <Menu.Item
+          className="tasksLink"
+          as={Link}
+          to={`${props.matchUrl}/tasks`}
+          active={props.pathname.includes('tasks')}
+        >
+          <span>{translate('tasks')}</span>
         </Menu.Item>
         <Menu.Item
           className="typesLink"

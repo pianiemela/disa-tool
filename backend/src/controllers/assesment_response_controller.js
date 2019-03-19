@@ -14,7 +14,6 @@ const messages = {
   }
 }
 
-
 router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
@@ -120,11 +119,11 @@ router.put('/generate-feedbacks/:id', async (req, res) => {
   // req.setTimeout(300000)
   const { id } = req.params
   const response = await assessmentResponseService.getResponseById(id)
-  const courseInstanceId = await assessmentResponseService.getCourseInstanceId(response.self_assessment_id)
-  if (!courseInstanceId) {
+  if (!response) {
     res.status(404).json({ error: errors.notfound[req.lang], data: [] })
     return
   }
+  const courseInstanceId = await assessmentResponseService.getCourseInstanceId(response.self_assessment_id)
   if (!await checkPrivilege(req, [{ key: 'teacher_on_course', param: courseInstanceId }])) {
     res.status(403).json({ error: errors.privilege[req.lang] })
     return

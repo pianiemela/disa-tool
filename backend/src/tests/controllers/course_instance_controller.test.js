@@ -6,8 +6,7 @@ const {
   testGlobalTeacherPrivilege,
   testBody,
   testDatabaseSave,
-  asymmetricMatcher,
-  unorderedListMatcher
+  asymmetricMatcher
 } = require('../testUtils')
 const {
   CourseInstance,
@@ -109,29 +108,6 @@ const recursiveMatch = (expected, actual) => {
       expect(actual[key]).toEqual(value)
     }
   })
-}
-const stripToPlain = (parent) => {
-  if (typeof parent.get === 'function') {
-    return stripToPlain(parent.get({ plain: true }))
-  }
-  return Object.entries(parent).reduce(
-    (acc, [key, value]) => {
-      if (typeof value !== 'object' || !value) {
-        return acc
-      }
-      if (Array.isArray(value)) {
-        return {
-          ...acc,
-          [key]: value.map(element => stripToPlain(element))
-        }
-      }
-      return {
-        ...acc,
-        [key]: stripToPlain(value)
-      }
-    },
-    parent
-  )
 }
 
 describe('course_instance_controller', () => {
@@ -254,29 +230,31 @@ describe('course_instance_controller', () => {
       }
     })
 
-    it.skip('Copy is identical', (done) => {
+    it('Copy is identical', (done) => {
       makeRequest(options).then((response) => {
         const copyId = response.body.created.id
         Promise.all([
           findCopyData(data.course_instance_id),
           findCopyData(copyId)
         ]).then(([expected, actual]) => {
+          const expectedJSON = {
+            ...expected.toJSON(),
+            eng_name: data.eng_name,
+            fin_name: data.fin_name,
+            swe_name: data.swe_name
+          }
+          const actualJSON = actual.toJSON()
           try {
             recursiveMatch(
-              {
-                ...stripToPlain(expected),
-                eng_name: data.eng_name,
-                fin_name: data.fin_name,
-                swe_name: data.swe_name
-              },
-              stripToPlain(actual)
+              expectedJSON,
+              actualJSON
             )
             done()
           } catch (e) {
             done({
               error: e,
-              expected,
-              received: actual
+              expected: expectedJSON,
+              received: actualJSON
             })
           }
         }).catch(done)

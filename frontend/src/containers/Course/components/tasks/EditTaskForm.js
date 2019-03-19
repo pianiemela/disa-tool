@@ -11,6 +11,8 @@ import { details } from '../../../../api/tasks'
 import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 
+import './tasks.css'
+
 export class EditTaskForm extends Component {
   constructor(props) {
     super(props)

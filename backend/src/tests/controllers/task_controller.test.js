@@ -25,9 +25,102 @@ const {
 } = require('../../database/models.js')
 
 describe('task_controller', () => {
+  const superCourseInstanceData = {
+    course_id: 1,
+    eng_name: 'en',
+    fin_name: 'fn',
+    swe_name: 'sn',
+    active: false
+  }
+  const superTypeHeaderData = {
+    eng_name: 'eng root',
+    fin_name: 'fin root',
+    swe_name: 'swe root',
+    order: 20
+  }
+  const superCategoryData = {
+    eng_name: 'ec',
+    fin_name: 'fc',
+    swe_name: 'sc'
+  }
+  const superSkillLevelData = {
+    eng_name: 'el',
+    fin_name: 'fl',
+    swe_name: 'sl'
+  }
+  const superTypeData = {
+    eng_name: 'te',
+    fin_name: 'tf',
+    swe_name: 'ts',
+    multiplier: 0.4,
+    order: 1
+  }
+  const superObjectiveData = {
+    eng_name: 'oe',
+    fin_name: 'of',
+    swe_name: 'os',
+    order: 1
+  }
+  const superIds = {}
+
+  beforeAll((done) => {
+    CourseInstance.create(superCourseInstanceData).then((courseInstance) => {
+      superIds.courseInstance = courseInstance.id
+      Promise.all([
+        TypeHeader.create({
+          ...superTypeHeaderData,
+          course_instance_id: courseInstance.id
+        }),
+        Category.create({
+          ...superCategoryData,
+          course_instance_id: courseInstance.id
+        }),
+        SkillLevel.create({
+          ...superSkillLevelData,
+          course_instance_id: courseInstance.id
+        }),
+        CoursePerson.create({
+          role: 'TEACHER',
+          course_instance_id: courseInstance.id,
+          person_id: 424
+        }),
+        CoursePerson.create({
+          role: 'STUDENT',
+          course_instance_id: courseInstance.id,
+          person_id: 421
+        })
+      ]).then(([typeHeader, category, skillLevel]) => {
+        superIds.typeHeader = typeHeader.id
+        superIds.category = category.id
+        superIds.skillLevel = skillLevel.id
+        Promise.all([
+          Type.create({
+            ...superTypeData,
+            type_header_id: typeHeader.id
+          }),
+          Objective.create({
+            ...superObjectiveData,
+            category_id: category.id,
+            skill_level_id: skillLevel.id,
+            course_instance_id: courseInstance.id
+          })
+        ]).then(([type, objective]) => {
+          superIds.type = type.id
+          superIds.objective = objective.id
+          done()
+        }).catch(done)
+      }).catch(done)
+    }).catch(done)
+  })
+
+  afterAll((done) => {
+    CourseInstance.destroy({
+      where: { id: superIds.courseInstance }
+    }).then(() => done())
+  })
+
   describe('POST /create', () => {
     const data = {
-      course_instance_id: 1,
       eng_name: 'en',
       fin_name: 'fn',
       swe_name: 'sn',
@@ -45,6 +138,10 @@ describe('task_controller', () => {
         set: ['Authorization', `Bearer ${tokens.teacher}`]
       }
     }
+
+    beforeAll(() => {
+      data.course_instance_id = superIds.courseInstance
+    })
 
     testTeacherOnCoursePrivilege(options)
 
@@ -103,7 +200,7 @@ describe('task_controller', () => {
 
     beforeEach((done) => {
       Task.create({
-        course_instance_id: 1,
+        course_instance_id: superIds.courseInstance,
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
@@ -135,7 +232,7 @@ describe('task_controller', () => {
         let countdown = 2
         TaskType.create({
           task_id: ids.task,
-          type_id: 1
+          type_id: superIds.type
         }).then((result) => {
           ids.task_type = result.get({ plain: true }).id
           countdown -= 1
@@ -145,7 +242,7 @@ describe('task_controller', () => {
         })
         TaskObjective.create({
           task_id: ids.task,
-          objective_id: 1,
+          objective_id: superIds.objective,
           multiplier: 1
         }).then((result) => {
           ids.task_objective = result.get({ plain: true }).id
@@ -247,7 +344,6 @@ describe('task_controller', () => {
 
     describe('updating an existing response', () => {
       const data = {
-        courseId: 1,
         tasks: [{
           points: 1
         }]
@@ -263,8 +359,9 @@ describe('task_controller', () => {
       const databaseExpectation = {}
 
       beforeAll((done) => {
+        data.courseId = superIds.courseInstance
         Task.create({
-          course_instance_id: 1,
+          course_instance_id: superIds.courseInstance,
           eng_name: '',
           fin_name: '',
           swe_name: '',
@@ -565,7 +662,7 @@ describe('task_controller', () => {
 
     beforeAll((done) => {
       Task.create({
-        course_instance_id: 1,
+        course_instance_id: superIds.courseInstance,
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
@@ -640,7 +737,7 @@ describe('task_controller', () => {
       {
         ...data,
         id: asymmetricMatcher(actual => actual === ids.task),
-        course_instance_id: 1,
+        course_instance_id: asymmetricMatcher(actual => actual === superIds.courseInstance),
         created_at: asymmetricMatcher(actual => !(
           actual < databaseExpectation.created_at || actual > databaseExpectation.created_at
         )),
@@ -853,13 +950,13 @@ describe('task_controller', () => {
       Promise.all([
         Objective.create({
           ...objectiveData,
-          course_instance_id: 1,
-          category_id: 1,
-          skill_level_id: 1
+          course_instance_id: superIds.courseInstance,
+          category_id: superIds.category,
+          skill_level_id: superIds.skillLevel
         }),
         Task.create({
           ...taskData,
-          course_instance_id: 1
+          course_instance_id: superIds.courseInstance
         })
       ]).then(([objective, task]) => {
         ids.objective = objective.id
@@ -1015,13 +1112,13 @@ describe('task_controller', () => {
       Promise.all([
         Objective.create({
           ...objectiveData,
-          course_instance_id: 1,
-          category_id: 1,
-          skill_level_id: 1
+          course_instance_id: superIds.courseInstance,
+          category_id: superIds.category,
+          skill_level_id: superIds.skillLevel
         }),
         Task.create({
           ...taskData,
-          course_instance_id: 1
+          course_instance_id: superIds.courseInstance
         })
       ]).then(([objective, task]) => {
         ids.objective = objective.id
@@ -1170,13 +1267,13 @@ describe('task_controller', () => {
       Promise.all([
         Objective.create({
           ...objectiveData,
-          course_instance_id: 1,
-          category_id: 1,
-          skill_level_id: 1
+          course_instance_id: superIds.courseInstance,
+          category_id: superIds.category,
+          skill_level_id: superIds.skillLevel
         }),
         Task.create({
           ...taskData,
-          course_instance_id: 1
+          course_instance_id: superIds.courseInstance
         })
       ]).then(([objective, task]) => {
         ids.objective = objective.id
@@ -1294,11 +1391,11 @@ describe('task_controller', () => {
       Promise.all([
         TypeHeader.create({
           ...typeHeaderData,
-          course_instance_id: 1
+          course_instance_id: superIds.courseInstance
         }),
         Task.create({
           ...taskData,
-          course_instance_id: 1
+          course_instance_id: superIds.courseInstance
         })
       ]).then(([typeHeader, task]) => {
         ids.type_header = typeHeader.id
@@ -1437,19 +1534,19 @@ describe('task_controller', () => {
     })
 
     describe('when taskObjectives have already been established', () => {
-      const objectiveData = {
-        eng_name: 'oe',
-        fin_name: 'of',
-        swe_name: 'os',
-        course_instance_id: 1,
-        category_id: 1,
-        skill_level_id: 1,
-        order: 100
-      }
       const taskObjectiveData = {
         multiplier: 1
       }
       beforeAll((done) => {
+        const objectiveData = {
+          eng_name: 'oe',
+          fin_name: 'of',
+          swe_name: 'os',
+          course_instance_id: superIds.courseInstance,
+          category_id: superIds.category,
+          skill_level_id: superIds.skillLevel,
+          order: 100
+        }
         Promise.all([
           Objective.create(objectiveData),
           Objective.create(objectiveData)
@@ -1632,11 +1729,11 @@ describe('task_controller', () => {
       Promise.all([
         TypeHeader.create({
           ...typeHeaderData,
-          course_instance_id: 1
+          course_instance_id: superIds.courseInstance
         }),
         Task.create({
           ...taskData,
-          course_instance_id: 1
+          course_instance_id: superIds.courseInstance
         })
       ]).then(([typeHeader, task]) => {
         ids.type_header = typeHeader.id
@@ -1702,19 +1799,19 @@ describe('task_controller', () => {
     })
 
     describe('when taskObjectives have already been established', () => {
-      const objectiveData = {
-        eng_name: 'oe',
-        fin_name: 'of',
-        swe_name: 'os',
-        course_instance_id: 1,
-        category_id: 1,
-        skill_level_id: 1,
-        order: 100
-      }
       const taskObjectiveData = {
         multiplier: typeData.multiplier
       }
       beforeAll((done) => {
+        const objectiveData = {
+          eng_name: 'oe',
+          fin_name: 'of',
+          swe_name: 'os',
+          course_instance_id: superIds.courseInstance,
+          category_id: superIds.category,
+          skill_level_id: superIds.skillLevel,
+          order: 100
+        }
         Promise.all([
           Objective.create(objectiveData),
           Objective.create(objectiveData)
@@ -1841,7 +1938,6 @@ describe('task_controller', () => {
 
   describe('GET /:id/objectives', () => {
     const taskData = {
-      course_instance_id: 1,
       eng_name: 'en',
       fin_name: 'fn',
       swe_name: 'sn',
@@ -1854,20 +1950,17 @@ describe('task_controller', () => {
     const skillLevelData = {
       eng_name: 'el',
       fin_name: 'fl',
-      swe_name: 'sl',
-      course_instance_id: 1
+      swe_name: 'sl'
     }
     const categoryData = {
       eng_name: 'el',
       fin_name: 'fl',
-      swe_name: 'sl',
-      course_instance_id: 1
+      swe_name: 'sl'
     }
     const objectiveData = {
       eng_name: 'el',
       fin_name: 'fl',
-      swe_name: 'sl',
-      course_instance_id: 1
+      swe_name: 'sl'
     }
     const options = {
       method: 'get',
@@ -1876,6 +1969,10 @@ describe('task_controller', () => {
     const ids = {}
 
     beforeAll((done) => {
+      taskData.course_instance_id = superIds.courseInstance
+      skillLevelData.course_instance_id = superIds.courseInstance
+      categoryData.course_instance_id = superIds.courseInstance
+      objectiveData.course_instance_id = superIds.courseInstance
       Promise.all([
         Task.create(taskData),
         SkillLevel.create(skillLevelData),

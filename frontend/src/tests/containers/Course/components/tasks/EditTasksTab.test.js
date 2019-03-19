@@ -1,7 +1,6 @@
 import React from 'react'
 import { EditTasksTab } from '../../../../../containers/Course/components/tasks/EditTasksTab'
 import Matrix from '../../../../../containers/Course/components/matrix/Matrix'
-import Tasklist from '../../../../../containers/Course/components/tasks/Tasklist'
 import Headerlist from '../../../../../containers/Course/components/types/Headerlist'
 
 describe('EditTasksTab component', () => {
@@ -28,10 +27,6 @@ describe('EditTasksTab component', () => {
 
   it('renders Headerlist component.', () => {
     expect(wrapper.find(Headerlist).exists()).toEqual(true)
-  })
-
-  it('renders a Tasklist component.', () => {
-    expect(wrapper.find(Tasklist).exists()).toEqual(true)
   })
 
   it('calls changeActive on unmount.', () => {
