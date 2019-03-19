@@ -1125,6 +1125,10 @@
       "delete_prompt_1": [
         "Really remove self assesment",
         "Poistetaanko itsearviointi"
+      ],
+      "cannot_edit_open_assessment": [
+        "You can not edit open self assessment. Close or hide it first.",
+        "Et voi muokata avointa itsearviointia. Sulje tai piilota se ensin."
       ]
     }
   },

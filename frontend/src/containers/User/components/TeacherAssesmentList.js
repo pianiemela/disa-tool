@@ -3,10 +3,11 @@ import { arrayOf, shape, func } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Button, List } from 'semantic-ui-react'
+import { Button, List, Popup } from 'semantic-ui-react'
 import DeleteForm from '../../../utils/components/DeleteForm'
 import { removeSelfAssesment } from '../actions/selfAssesment'
 import asyncAction from '../../../utils/asyncAction'
+import Conditional from '../../../utils/components/Conditional'
 
 const TeacherAssesmentList = ({
   assesments,
@@ -29,7 +30,19 @@ const TeacherAssesmentList = ({
           <List.Content
             style={{ paddingRight: '10px', paddingLeft: '10px' }}
           >
-            <Button icon="edit" circular size="mini" basic color="blue" as={Link} to={`/selfassessment/edit/${assesment.id}`} />
+            <Conditional visible={assesment.open}>
+              <Popup
+                trigger={
+                  <div style={{ display: 'inline' }}>
+                    <Button disabled icon="edit" circular size="mini" basic color="blue" as={Link} to={`/selfassessment/edit/${assesment.id}`} />
+                  </div>
+                }
+                content={translate('cannot_edit_open_assessment')}
+              />
+            </Conditional>
+            <Conditional visible={!assesment.open}>
+              <Button icon="edit" circular size="mini" basic color="blue" as={Link} to={`/selfassessment/edit/${assesment.id}`} />
+            </Conditional>
             <DeleteForm
               onExecute={() => deleteSelfAssesment(assesment.id)}
               header={translate('delete_header')}
