@@ -10,14 +10,14 @@ import {
   getUserSelfAssesments,
   getCourseInstanceDataAction,
   toggleCourseActivityAction,
-  toggleAssessmentAction
+  toggleAssessmentAction,
+  setAssessmentStatusAction
 } from '../../actions/actions'
 import CourseSideMenu from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
 import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
 import CourseInfo from './CourseInfo'
-import TaskResponseEdit from './TaskResponseEdit'
-import ManageCoursePeople from './ManageCoursePeople'
+import Conditional from '../../utils/components/Conditional'
 
 class UserPage extends Component {
   state = {
@@ -60,11 +60,14 @@ class UserPage extends Component {
 
   toggleAssessment = (e, { value }) => {
     switch (e.target.name) {
-      case 'assessmentOpen':
-        this.props.dispatchToggleAssessment(value, 'open')
+      case 'assessmentHidden':
+        this.props.dispatchSetAssessmentStatus(value, [{ name: 'open', value: false }, { name: 'active', value: false }])
         break
-      case 'assessmentActive':
-        this.props.dispatchToggleAssessment(value, 'active')
+      case 'assessmentShown':
+        this.props.dispatchSetAssessmentStatus(value, [{ name: 'open', value: false }, { name: 'active', value: true }])
+        break
+      case 'assessmentOpen':
+        this.props.dispatchSetAssessmentStatus(value, [{ name: 'open', value: true }, { name: 'active', value: true }])
         break
       case 'feedbackOpen':
         this.props.dispatchToggleAssessment(value, 'show_feedback')
@@ -99,7 +102,7 @@ class UserPage extends Component {
         <Grid.Row>
           <Grid.Column>
             {this.props.user ? <Header as="h1">{this.t('hello')} {this.props.user.name}</Header> :
-              <p>Hello bastard</p>}
+            <p>Hello bastard</p>}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -113,7 +116,7 @@ class UserPage extends Component {
           <Grid.Column width={13}>
             {activeCourse.id ?
               <Item>
-                <Grid padded="horizontally">
+                <Grid padded="horizontally" columns="equal">
                   <CourseInfo
                     course={activeCourse}
                     toggleActivation={this.handleActivityToggle}
@@ -123,7 +126,42 @@ class UserPage extends Component {
                     isGlobalTeacher={isGlobalTeacher}
                   />
                   <Grid.Row>
-                    <Grid.Column floated="left" width={8}>
+                    <Grid.Column>
+                      <Item.Content>
+                        <Header as="h3">{this.t('self_assessments')}
+                        </Header>
+                        <CourseSelfAssessmentsList
+                          assesments={assessments}
+                          isTeacher={isTeacher}
+                          toggleAssessment={this.toggleAssessment}
+                        />
+                      </Item.Content>
+                      <Conditional visible={isTeacher}>
+                        <Button
+                          as={Link}
+                          to={`/selfassessment/create/${activeCourse.id}/category`}
+                          basic
+                          color="blue"
+                          content={this.t('create_self_assessment_category')}
+                          icon="plus"
+                          circular
+                          style={{ marginLeft: '10px' }}
+                        />
+                        <Button
+                          as={Link}
+                          to={`/selfassessment/create/${activeCourse.id}/objective`}
+                          basic
+                          color="blue"
+                          content={this.t('create_self_assessment_target')}
+                          icon="plus"
+                          circular
+                          style={{ marginLeft: '10px' }}
+                        />
+                      </Conditional>
+                    </Grid.Column>
+                  </Grid.Row>
+                  <Grid.Row>
+                    <Grid.Column>
                       <Item.Content>
                         <Header as="h3">{this.t('tasks')}</Header>
                         <Accordion
@@ -141,16 +179,6 @@ class UserPage extends Component {
                               />
                             }
                           }]}
-                        />
-                      </Item.Content>
-                    </Grid.Column>
-                    <Grid.Column floated="right" width={8}>
-                      <Item.Content>
-                        <Header as="h3">{this.t('self_assessments')}</Header>
-                        <CourseSelfAssessmentsList
-                          assesments={assessments}
-                          isTeacher={isTeacher}
-                          toggleAssessment={this.toggleAssessment}
                         />
                       </Item.Content>
                     </Grid.Column>
@@ -190,8 +218,10 @@ UserPage.propTypes = {
     }).isRequired
   }).isRequired,
   dispatchGetUserCourses: func.isRequired,
+  dispatchGetUserSelfAssesments: func.isRequired,
   dispatchToggleActivity: func.isRequired,
   dispatchToggleAssessment: func.isRequired,
+  dispatchSetAssessmentStatus: func.isRequired,
   translate: func.isRequired
 }
 
@@ -205,5 +235,6 @@ export default withLocalize(connect(mapStateToProps, {
   dispatchGetUserSelfAssesments: getUserSelfAssesments,
   dispatchGetCourseInstanceData: getCourseInstanceDataAction,
   dispatchToggleActivity: toggleCourseActivityAction,
-  dispatchToggleAssessment: toggleAssessmentAction
+  dispatchToggleAssessment: toggleAssessmentAction,
+  dispatchSetAssessmentStatus: setAssessmentStatusAction
 })(UserPage))

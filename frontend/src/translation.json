@@ -942,6 +942,14 @@
         "Look at tasks",
         "Katso tehtävälistaa"
       ],
+      "create_self_assessment_target": [
+        "Create objective based assessment",
+        "Luo tavoitepohjainen itsearviointi"
+      ],
+      "create_self_assessment_category": [
+        "Create category based assessment",
+        "Luo kategoriapohjainen itsearviointi"
+      ],
       "no_course_selected": [
         "No course selected",
         "Kurssia ei valittu"
@@ -967,12 +975,12 @@
         "Muokkaa kurssia"
       ],
       "close_course": [
-        "Close course",
-        "Sulje kurssi"
+        "Course open",
+        "Kurssi avoinna"
       ],
       "start_course": [
-        "Open course",
-        "Avaa kurssi"
+        "Course closed",
+        "Kurssi suljettu"
       ],
       "course_teachers": [
         "Course teachers",
@@ -984,8 +992,8 @@
       ],
       "Links": {
         "course_links": [
-          "Course links",
-          "Kurssin linkit"
+          "Show course links",
+          "Näytä kurssin linkit"
         ],
         "registration": [
           "Registration: ",

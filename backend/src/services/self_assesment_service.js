@@ -112,6 +112,15 @@ const toggleAssessment = {
   execute: async instance => instance.save()
 }
 
+const setAssessmentStatus = {
+  prepare: async (id, attributes) => {
+    const instance = await SelfAssessment.findById(id)
+    attributes.forEach((a) => { instance[a.name] = !!a.value })
+    return instance
+  },
+  execute: async instance => instance.save()
+}
+
 const isFeedbackActive = async (id) => {
   const assessment = await SelfAssessment.findById(id)
   return assessment.show_feedback
@@ -192,6 +201,7 @@ module.exports = {
   updateSelfAssesment,
   getOne,
   toggleAssessment,
+  setAssessmentStatus,
   isFeedbackActive,
   delete: deleteSelfAssesment
 }

@@ -41,6 +41,15 @@ export const instanceReducer = (state = INITIAL_STATE, action) => {
       oldAssessment.show_feedback = assessment.show_feedback
       return { ...state, self_assessments: selfAssessments }
     }
+    case types.SELF_ASSESSMENT_STATUS_SUCCESS: {
+      const { assessment } = action.payload
+      const selfAssessments = [...state.self_assessments]
+      const oldAssessment = selfAssessments.find(old => old.id === assessment.id)
+      oldAssessment.open = assessment.open
+      oldAssessment.active = assessment.active
+      oldAssessment.show_feedback = assessment.show_feedback
+      return { ...state, self_assessments: selfAssessments }
+    }
     case types.COURSE_INSTANCE_TOGGLE_ACTIVITY_SUCCESS:
       return { ...state, active: action.payload.active }
     case types.COURSE_INSTANCE_TOGGLE_ACTIVITY_FAILURE:

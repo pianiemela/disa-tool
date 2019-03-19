@@ -29,6 +29,7 @@ const TeacherAssesmentList = ({
           <List.Content
             style={{ paddingRight: '10px', paddingLeft: '10px' }}
           >
+            <Button icon="edit" circular size="mini" basic color="blue" as={Link} to={`/selfassessment/edit/${assesment.id}`} />
             <DeleteForm
               onExecute={() => deleteSelfAssesment(assesment.id)}
               header={translate('delete_header')}
@@ -40,34 +41,42 @@ const TeacherAssesmentList = ({
             />
           </List.Content>
           <List.Content>
-            <Button
-              name="assessmentActive"
-              color={assesment.active ? 'green' : 'red'}
-              compact
-              content={assesment.active ? translate('visible') : translate('hidden')}
-              disabled={assesment.open}
-              size="small"
-              value={assesment.id}
-              onClick={toggleAssessment}
-            />
-            <Button
-              name="assessmentOpen"
-              color={assesment.open ? 'green' : 'red'}
-              compact
-              content={assesment.open ? translate('open') : translate('closed')}
-              disabled={!assesment.active}
-              size="small"
-              value={assesment.id}
-              onClick={toggleAssessment}
-            />
+            <Button.Group size="small">
+              <Button
+                name="assessmentHidden"
+                content={assesment.active ? translate('visible') : translate('hidden')}
+                size="small"
+                value={assesment.id}
+                onClick={toggleAssessment}
+                positive={!assesment.active && !assesment.open}
+              />
+              <Button.Or />
+              <Button
+                name="assessmentShown"
+                content={translate('closed')}
+                size="small"
+                value={assesment.id}
+                onClick={toggleAssessment}
+                positive={assesment.active && !assesment.open}
+              />
+              <Button.Or />
+              <Button
+                name="assessmentOpen"
+                content={translate('open')}
+                size="small"
+                value={assesment.id}
+                onClick={toggleAssessment}
+                positive={assesment.active && assesment.open}
+              />
+            </Button.Group>
             <Button
               name="feedbackOpen"
               color={assesment.show_feedback ? 'green' : 'red'}
-              compact
               content={assesment.show_feedback ? translate('feedback_open') : translate('feedback_closed')}
               size="small"
               value={assesment.id}
               onClick={toggleAssessment}
+              style={{ marginLeft: '5px' }}
             />
           </List.Content>
         </List.Item>))}
