@@ -125,41 +125,43 @@ class UserPage extends Component {
                     isTeacher={isTeacher}
                     isGlobalTeacher={isGlobalTeacher}
                   />
-                  <Grid.Row>
-                    <Grid.Column>
-                      <Item.Content>
-                        <Header as="h3">{this.t('self_assessments')}
-                        </Header>
-                        <CourseSelfAssessmentsList
-                          assesments={assessments}
-                          isTeacher={isTeacher}
-                          toggleAssessment={this.toggleAssessment}
-                        />
-                      </Item.Content>
-                      <Conditional visible={isTeacher}>
-                        <Button
-                          as={Link}
-                          to={`/selfassessment/create/${activeCourse.id}/category`}
-                          basic
-                          color="blue"
-                          content={this.t('create_self_assessment_category')}
-                          icon="plus"
-                          circular
-                          style={{ marginLeft: '10px' }}
-                        />
-                        <Button
-                          as={Link}
-                          to={`/selfassessment/create/${activeCourse.id}/objective`}
-                          basic
-                          color="blue"
-                          content={this.t('create_self_assessment_target')}
-                          icon="plus"
-                          circular
-                          style={{ marginLeft: '10px' }}
-                        />
-                      </Conditional>
-                    </Grid.Column>
-                  </Grid.Row>
+                  <Conditional visible={isTeacher || assessments.some(a => a.active)}>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Item.Content>
+                          <Header as="h3">{this.t('self_assessments')}
+                          </Header>
+                          <CourseSelfAssessmentsList
+                            assesments={assessments}
+                            isTeacher={isTeacher}
+                            toggleAssessment={this.toggleAssessment}
+                          />
+                        </Item.Content>
+                        <Conditional visible={isTeacher}>
+                          <Button
+                            as={Link}
+                            to={`/selfassessment/create/${activeCourse.id}/category`}
+                            basic
+                            color="blue"
+                            content={this.t('create_self_assessment_category')}
+                            icon="plus"
+                            circular
+                            style={{ marginLeft: '10px' }}
+                          />
+                          <Button
+                            as={Link}
+                            to={`/selfassessment/create/${activeCourse.id}/objective`}
+                            basic
+                            color="blue"
+                            content={this.t('create_self_assessment_target')}
+                            icon="plus"
+                            circular
+                            style={{ marginLeft: '10px' }}
+                          />
+                        </Conditional>
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Conditional>
                   <Conditional visible={tasks.length > 0}>
                     <Grid.Row>
                       <Grid.Column>
