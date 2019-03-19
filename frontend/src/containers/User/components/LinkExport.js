@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Button, Popup, Grid } from 'semantic-ui-react'
+import { Button, Popup, Table } from 'semantic-ui-react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const getBaseUrl = () => {
@@ -12,33 +12,29 @@ const getBaseUrl = () => {
 const LinkExport = (props) => {
   const url = `${getBaseUrl()}${props.url}`
   return (
-    <div className="LinkExport" style={{ width: '100%' }}>
-      <Grid>
-        <Grid.Row>
-          <Grid.Column width={6}>
-            <strong>{props.title}</strong>
-          </Grid.Column>
-          <Grid.Column width={9}>
-            <span>{url}</span>
-          </Grid.Column>
-          <Grid.Column width={1}>
-            <CopyToClipboard text={url} onCopy={props.linkToast}>
-              <div>
-                <Popup
-                  trigger={
-                    <Button
-                      icon={{ name: 'copy' }}
-                      size="mini"
-                    />
-                  }
-                  content="Kopioi leikepöydälle"
+    <Table.Row>
+      <Table.Cell>
+        <strong>{props.title}</strong>
+      </Table.Cell>
+      <Table.Cell>
+        <span>{url}</span>
+      </Table.Cell>
+      <Table.Cell>
+        <CopyToClipboard text={url} onCopy={props.linkToast}>
+          <div>
+            <Popup
+              trigger={
+                <Button
+                  icon={{ name: 'copy' }}
+                  size="mini"
                 />
-              </div>
-            </CopyToClipboard>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </div>
+              }
+              content="Kopioi leikepöydälle"
+            />
+          </div>
+        </CopyToClipboard>
+      </Table.Cell>
+    </Table.Row>
   )
 }
 

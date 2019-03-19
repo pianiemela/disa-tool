@@ -1,5 +1,5 @@
 import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity, getCourseTasks } from '../api/courses'
-import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse, toggleAssessment } from '../api/selfassesment'
+import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse, toggleAssessment, setAssessmentStatus } from '../api/selfassesment'
 import { getUser, updateCoursePersons } from '../api/persons'
 import { deleteCoursePerson } from '../api/coursePersons'
 import { postTaskResponses } from '../api/tasks'
@@ -231,6 +231,25 @@ export const toggleAssessmentAction = (assessmentId, attribute) => async (dispat
   } catch (e) {
     dispatch({
       type: types.SELF_ASSESSMENT_TOGGLE_FAILURE,
+      payload: e.response
+    })
+  }
+}
+
+export const setAssessmentStatusAction = (assessmentId, attributes) => async (dispatch) => {
+  dispatch({
+    type: types.SELF_ASSESSMENT_STATUS_ATTEMPT,
+    payload: assessmentId
+  })
+  try {
+    const { data } = await setAssessmentStatus(assessmentId, { attributes })
+    dispatch({
+      type: types.SELF_ASSESSMENT_STATUS_SUCCESS,
+      payload: data
+    })
+  } catch (e) {
+    dispatch({
+      type: types.SELF_ASSESSMENT_STATUS_FAILURE,
       payload: e.response
     })
   }

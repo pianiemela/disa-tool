@@ -167,7 +167,7 @@ const taskCreateExpectation = {
       types: []
     }
   ],
-  active: null
+  active: 9
 }
 
 const taskDeleteResponse = {

@@ -2,25 +2,19 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Container, Segment } from 'semantic-ui-react'
+import { Container } from 'semantic-ui-react'
 
 import { changeActive } from '../../actions/tasks'
 
-import Tasklist from './Tasklist'
+import Task from './Task'
 import Matrix from '../matrix/Matrix'
 import Headerlist from '../types/Headerlist'
 import SelectTaskDropdown from './SelectTaskDropdown'
-import EditTaskObjectivesForm from './EditTaskObjectivesForm'
+import SingleAccordion from './SingleAccordion'
 import TypesDisplay from './TypesDisplay'
+import AddTaskForm from './AddTaskForm'
 
 export class EditTasksTab extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      editTaskObjectivesFormExpanded: false
-    }
-  }
-
   componentWillUnmount() {
     this.props.changeActive(null)
   }
@@ -29,57 +23,60 @@ export class EditTasksTab extends Component {
     this.props.changeActive(value)
   }
 
-  openEditTaskObjectivesForm = () => {
-    this.setState({
-      editTaskObjectivesFormExpanded: true
-    })
-  }
-
-  closeEditTaskObjectivesForm = () => {
-    this.setState({
-      editTaskObjectivesFormExpanded: false
-    })
-  }
-
   translate = id => this.props.translate(`Course.tasks.EditTasksTab.${id}`)
 
   render() {
     return (
       <div className="EditTasksTab">
-        <SelectTaskDropdown
-          tasks={this.props.tasks}
-          activeTask={this.props.activeTask}
-          changeActive={this.changeActive}
-        />
+        <Container style={{ display: 'flex' }}>
+          <div style={{ flexGrow: 1 }}>
+            <SelectTaskDropdown
+              tasks={this.props.tasks}
+              activeTask={this.props.activeTask}
+              changeActive={this.changeActive}
+            />
+          </div>
+          <div>
+            <AddTaskForm
+              courseId={this.props.courseId}
+              newOrder={this.props.tasks.reduce(
+                (acc, { order }) => Math.max(acc, order),
+                0
+              ) + 1}
+            />
+          </div>
+        </Container>
         {this.props.activeTask ? (
           <Container>
-            <Segment className="square">
-              <EditTaskObjectivesForm
-                taskId={this.props.activeTask.id}
-                expanded={this.state.editTaskObjectivesFormExpanded}
-                onOpen={this.openEditTaskObjectivesForm}
-                onClose={this.closeEditTaskObjectivesForm}
-              />
-              <div className="flexContainer">
-                <TypesDisplay
-                  defaultText={this.translate('default')}
-                  defaultMultiplier={this.props.activeTask.defaultMultiplier}
-                  types={this.props.activeTask.types}
-                />
-              </div>
-            </Segment>
+            <Task task={this.props.activeTask} courseId={this.props.courseId} />
           </Container>
         ) : null}
-        <Matrix editing={false} showDetails />
-        <Headerlist
-          courseId={this.props.courseId}
-          editing={false}
-        />
-        <Tasklist
-          courseId={this.props.courseId}
-          editing
-          openModal={this.openEditTaskObjectivesForm}
-        />
+        <Container>
+          <SingleAccordion
+            title={(
+              <div style={{ display: 'flex' }}>
+                <span style={{ marginRight: '20px' }}>Types</span>
+                {this.props.activeTask ? (
+                  <TypesDisplay
+                    defaultText={this.translate('default')}
+                    defaultMultiplier={this.props.activeTask.defaultMultiplier}
+                    types={this.props.activeTask.types}
+                  />
+                ) : null}
+              </div>
+            )}
+          >
+            <Headerlist
+              courseId={this.props.courseId}
+              editing={false}
+            />
+          </SingleAccordion>
+        </Container>
+        <Container>
+          <SingleAccordion title={this.translate('matrix')}>
+            <Matrix editing={false} showDetails />
+          </SingleAccordion>
+        </Container>
       </div>
     )
   }

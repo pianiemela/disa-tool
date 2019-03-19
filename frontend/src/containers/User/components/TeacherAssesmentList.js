@@ -3,10 +3,11 @@ import { arrayOf, shape, func } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Button, List } from 'semantic-ui-react'
+import { Button, List, Popup } from 'semantic-ui-react'
 import DeleteForm from '../../../utils/components/DeleteForm'
 import { removeSelfAssesment } from '../actions/selfAssesment'
 import asyncAction from '../../../utils/asyncAction'
+import Conditional from '../../../utils/components/Conditional'
 
 const TeacherAssesmentList = ({
   assesments,
@@ -29,6 +30,19 @@ const TeacherAssesmentList = ({
           <List.Content
             style={{ paddingRight: '10px', paddingLeft: '10px' }}
           >
+            <Conditional visible={assesment.open}>
+              <Popup
+                trigger={
+                  <div style={{ display: 'inline' }}>
+                    <Button disabled icon="edit" circular size="mini" basic color="blue" as={Link} to={`/selfassessment/edit/${assesment.id}`} />
+                  </div>
+                }
+                content={translate('cannot_edit_open_assessment')}
+              />
+            </Conditional>
+            <Conditional visible={!assesment.open}>
+              <Button icon="edit" circular size="mini" basic color="blue" as={Link} to={`/selfassessment/edit/${assesment.id}`} />
+            </Conditional>
             <DeleteForm
               onExecute={() => deleteSelfAssesment(assesment.id)}
               header={translate('delete_header')}
@@ -40,34 +54,42 @@ const TeacherAssesmentList = ({
             />
           </List.Content>
           <List.Content>
-            <Button
-              name="assessmentActive"
-              color={assesment.active ? 'green' : 'red'}
-              compact
-              content={assesment.active ? translate('visible') : translate('hidden')}
-              disabled={assesment.open}
-              size="small"
-              value={assesment.id}
-              onClick={toggleAssessment}
-            />
-            <Button
-              name="assessmentOpen"
-              color={assesment.open ? 'green' : 'red'}
-              compact
-              content={assesment.open ? translate('open') : translate('closed')}
-              disabled={!assesment.active}
-              size="small"
-              value={assesment.id}
-              onClick={toggleAssessment}
-            />
+            <Button.Group size="small">
+              <Button
+                name="assessmentHidden"
+                content={translate('hidden')}
+                size="small"
+                value={assesment.id}
+                onClick={toggleAssessment}
+                positive={!assesment.active && !assesment.open}
+              />
+              <Button.Or />
+              <Button
+                name="assessmentOpen"
+                content={translate('open')}
+                size="small"
+                value={assesment.id}
+                onClick={toggleAssessment}
+                positive={assesment.active && assesment.open}
+              />
+              <Button.Or />
+              <Button
+                name="assessmentShown"
+                content={translate('closed')}
+                size="small"
+                value={assesment.id}
+                onClick={toggleAssessment}
+                positive={assesment.active && !assesment.open}
+              />
+            </Button.Group>
             <Button
               name="feedbackOpen"
               color={assesment.show_feedback ? 'green' : 'red'}
-              compact
               content={assesment.show_feedback ? translate('feedback_open') : translate('feedback_closed')}
               size="small"
               value={assesment.id}
               onClick={toggleAssessment}
+              style={{ marginLeft: '5px' }}
             />
           </List.Content>
         </List.Item>))}

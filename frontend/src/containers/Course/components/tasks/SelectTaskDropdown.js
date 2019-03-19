@@ -1,20 +1,51 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Header, Dropdown, Container } from 'semantic-ui-react'
+import { Header, Dropdown } from 'semantic-ui-react'
+import { editTask } from '../../actions/tasks'
+import dndItem from '../../../../utils/components/DnDItem'
+import asyncAction from '../../../../utils/asyncAction'
+
+const DnDItem = dndItem('task')
 
 const SelectTaskDropdown = (props) => {
   const translate = id => props.translate(`Course.tasks.SelectTaskDropDown.${id}`)
 
+  const tasks = props.tasks.sort((a, b) => a.order - b.order)
+
+  const slots = tasks.map((task, index) => ({
+    previous: (
+      index > 0
+        ? (tasks[index - 1].order + task.order) / 2
+        : task.order - 1
+    ),
+    next: (
+      (index + 1) < tasks.length
+        ? (tasks[index + 1].order + task.order) / 2
+        : task.order + 1
+    )
+  }))
+
   return (
-    <Container>
+    <div>
       <Header as="h2">
         <Dropdown
           fluid
           selection
-          options={[{ key: 0, text: '', value: null }].concat(props.tasks.map(task => ({
+          options={[{ key: 0, text: '', value: null }].concat(props.tasks.map((task, index) => ({
             key: task.id,
-            text: task.name,
+            text: (
+              <DnDItem
+                element={task}
+                mover={props.moveTask}
+                slots={slots[index]}
+              >
+                <div style={{ margin: '-11px 0px -11px 0px', padding: '8px 0px 8px 0px' }}>
+                  {task.name}
+                </div>
+              </DnDItem>
+            ),
             value: task.id
           })))}
           placeholder={translate('placeholder')}
@@ -27,25 +58,31 @@ const SelectTaskDropdown = (props) => {
           className="squareBottom"
         />
       </Header>
-    </Container>
+    </div>
   )
 }
 
 SelectTaskDropdown.propTypes = {
   tasks: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
+    order: PropTypes.number.isRequired
   })).isRequired,
   activeTask: PropTypes.shape({
     id: PropTypes.number.isRequired,
     defaultMultiplier: PropTypes.number
   }),
   changeActive: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  moveTask: PropTypes.func.isRequired
 }
 
 SelectTaskDropdown.defaultProps = {
   activeTask: null
 }
 
-export default withLocalize(SelectTaskDropdown)
+const mapDispatchToProps = dispatch => ({
+  moveTask: asyncAction(editTask, dispatch)
+})
+
+export default connect(null, mapDispatchToProps)(withLocalize(SelectTaskDropdown))

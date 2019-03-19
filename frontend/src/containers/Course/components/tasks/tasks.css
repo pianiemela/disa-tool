@@ -8,12 +8,12 @@
 }
 
 .AddTaskForm {
-  margin-top: 10px;
   text-align: center;
 }
 
 .addTaskButton {
-  width: 500px;
+  width: 62px;
+  height: 62px;
 }
 
 .flexContainer {

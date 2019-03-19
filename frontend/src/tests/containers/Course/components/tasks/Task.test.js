@@ -47,16 +47,13 @@ describe('Task component', () => {
   let changeActive
 
   beforeEach(() => {
-    removeTask = jest.fn()
+    removeTask = jest.fn().mockImplementation(() => Promise.resolve())
     changeActive = jest.fn()
     wrapper = shallow(<Task
       task={task}
-      editing={false}
       removeTask={removeTask}
-      active={false}
       changeActive={changeActive}
       translate={() => ''}
-      moveTask={() => {}}
     />)
   })
 
@@ -64,92 +61,40 @@ describe('Task component', () => {
     expect(wrapper.find('.Task').exists()).toEqual(true)
   })
 
-  describe('when not editing', () => {
-    it('does not render a DeleteForm component.', () => {
-      expect(wrapper.find(DeleteForm).exists()).toEqual(false)
+  it('renders a DeleteForm component.', () => {
+    expect(wrapper.find(DeleteForm).exists()).toEqual(true)
+  })
+
+  describe('DeleteForm component', () => {
+    let deleteForm
+    beforeEach(() => {
+      deleteForm = wrapper.find(DeleteForm)
+    })
+
+    it('includes task names in prompt.', () => {
+      const prompt = deleteForm.prop('prompt')
+      expect(prompt.filter(segment => segment.includes(task.name)).length).toBeGreaterThan(0)
+    })
+
+    it('gets the removeTypeFromTask prop as part of onExecute.', () => {
+      deleteForm.prop('onExecute')()
+      expect(removeTask).toHaveBeenCalled()
     })
   })
 
-  describe('when editing', () => {
+  it('renders task info.', () => {
+    expect(findText(task.info, wrapper)).toBeGreaterThan(0)
+  })
+
+  describe('and editing', () => {
     beforeEach(() => {
       wrapper.setProps({
         editing: true
       })
     })
 
-    it('renders a DeleteForm component.', () => {
-      expect(wrapper.find(DeleteForm).exists()).toEqual(true)
-    })
-
-    describe('DeleteForm component', () => {
-      let deleteForm
-      beforeEach(() => {
-        deleteForm = wrapper.find(DeleteForm)
-      })
-
-      it('includes task names in prompt.', () => {
-        const prompt = deleteForm.prop('prompt')
-        expect(prompt.filter(segment => segment.includes(task.name)).length).toBeGreaterThan(0)
-      })
-
-      it('gets the removeTypeFromTask prop as part of onExecute.', () => {
-        deleteForm.prop('onExecute')()
-        expect(removeTask).toHaveBeenCalled()
-      })
-    })
-  })
-
-  describe('when collapsed', () => {
-    it('does not render task description.', () => {
-      expect(findText(task.description, wrapper)).toEqual(0)
-    })
-
-    it('does not render task info.', () => {
-      expect(findText(task.info, wrapper)).toEqual(0)
-    })
-  })
-
-  describe('when expanded', () => {
-    beforeEach(() => {
-      wrapper.setProps({
-        active: true
-      })
-    })
-
-    // it('renders task description.', () => {
-    //   expect(findText(task.description, wrapper)).toBeGreaterThan(0)
-    // })
-
-    it('renders task info.', () => {
-      expect(findText(task.info, wrapper)).toBeGreaterThan(0)
-    })
-
-    describe('and not editing', () => {
-      it('does not render an EditTaskForm component.', () => {
-        expect(wrapper.find(EditTaskForm).exists()).toEqual(false)
-      })
-    })
-
-    describe('and editing', () => {
-      beforeEach(() => {
-        wrapper.setProps({
-          editing: true
-        })
-      })
-
-      it('renders an EditTaskForm component.', () => {
-        expect(wrapper.find(EditTaskForm).exists()).toEqual(true)
-      })
-    })
-  })
-
-  describe('when clicked', () => {
-    beforeEach(() => {
-      wrapper.find('.taskButton').prop('onClick')()
-    })
-
-    it('calls changeActive prop with correct parameters.', () => {
-      expect(changeActive).toHaveBeenCalledWith(task.id)
+    it('renders an EditTaskForm component.', () => {
+      expect(wrapper.find(EditTaskForm).exists()).toEqual(true)
     })
   })
 })
