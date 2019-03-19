@@ -48,7 +48,7 @@ export class EditTasksTab extends Component {
         </Container>
         {this.props.activeTask ? (
           <Container>
-            <Task task={this.props.activeTask} />
+            <Task task={this.props.activeTask} courseId={this.props.courseId} />
           </Container>
         ) : null}
         <Container>

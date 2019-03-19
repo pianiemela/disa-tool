@@ -9,6 +9,7 @@ import { addTask } from '../../actions/tasks'
 
 import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
+import { getCourseInstanceDataAction } from '../../../../actions/actions'
 
 export class AddTaskForm extends Component {
   addTaskSubmit = (e) => {
@@ -23,7 +24,7 @@ export class AddTaskForm extends Component {
       max_points: e.target.points.value,
       course_instance_id: this.props.courseId,
       order: this.props.newOrder
-    })
+    }).then(() => this.props.updateCourseInfo(this.props.courseId))
   }
 
   translate = id => this.props.translate(`Course.tasks.AddTaskForm.${id}`)
@@ -68,12 +69,14 @@ export class AddTaskForm extends Component {
 AddTaskForm.propTypes = {
   courseId: PropTypes.number.isRequired,
   addTask: PropTypes.func.isRequired,
+  updateCourseInfo: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired,
   newOrder: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
-  addTask: asyncAction(addTask, dispatch)
+  addTask: asyncAction(addTask, dispatch),
+  updateCourseInfo: courseId => dispatch(getCourseInstanceDataAction(courseId))
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(AddTaskForm))

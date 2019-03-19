@@ -10,6 +10,7 @@ import DeleteForm from '../../../../utils/components/DeleteForm'
 import EditTaskForm from './EditTaskForm'
 import MathJaxText from '../../../../utils/components/MathJaxText'
 import EditTaskObjectivesForm from './EditTaskObjectivesForm'
+import { getCourseInstanceDataAction } from '../../../../actions/actions'
 
 export class Task extends Component {
   translate = id => this.props.translate(`Course.tasks.Task.${id}`)
@@ -28,7 +29,10 @@ export class Task extends Component {
             </Grid.Column>
             <Grid.Column width={1}>
               <DeleteForm
-                onExecute={() => this.props.removeTask({ id: this.props.task.id })}
+                onExecute={() => {
+                  this.props.removeTask({ id: this.props.task.id })
+                    .then(() => { this.props.updateCourseInfo(this.props.courseId) })
+                }}
                 prompt={[
                   this.translate('delete_prompt_1'),
                   `"${this.props.task.name}"`
@@ -69,12 +73,15 @@ Task.propTypes = {
     max_points: PropTypes.number.isRequired
   }).isRequired,
   removeTask: PropTypes.func.isRequired,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  courseId: PropTypes.number.isRequired,
+  updateCourseInfo: PropTypes.func.isRequired
 }
 
 // TODO: CHANGE ALL DISPATCHES TO USE SAME FORMAT/TRADITION!!
 const mapDispatchToProps = dispatch => ({
-  removeTask: asyncAction(removeTask, dispatch)
+  removeTask: asyncAction(removeTask, dispatch),
+  updateCourseInfo: courseId => dispatch(getCourseInstanceDataAction(courseId))
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(Task))
