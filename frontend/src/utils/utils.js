@@ -79,7 +79,6 @@ export const putJson = (path, data) =>
     getAuthAndParams(null)
   )
 
-
 export const deleteCall = path => axios.delete(
   `${BASE_PATH}${path}`,
   getAuthAndParams(null)

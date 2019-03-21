@@ -11,7 +11,8 @@ import {
   getCourseInstanceDataAction,
   toggleCourseActivityAction,
   toggleAssessmentAction,
-  setAssessmentStatusAction
+  setAssessmentStatusAction,
+  resetCourseInstanceAction
 } from '../../actions/actions'
 import CourseSideMenu from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
@@ -26,18 +27,37 @@ class UserPage extends Component {
     selectedType: undefined
   }
 
-  componentDidMount = async () => {
-    const { activeCourse } = this.props
-    const { courseId } = this.props.match.params
+  componentDidMount = () => {
+    const onMount = async () => {
+      const { activeCourse } = this.props
+      const { courseId } = this.props.match.params
 
-    await this.props.dispatchGetUserCourses()
-    this.props.dispatchGetUserSelfAssesments()
-    if (courseId && (!activeCourse.id || activeCourse.id !== courseId) && !this.state.loading) {
-      await this.setState({ loading: true })
-      this.props.dispatchGetCourseInstanceData(courseId).then(() => (
-        this.setState({ loading: false })
-      ))
+      await this.props.dispatchGetUserCourses()
+      this.props.dispatchGetUserSelfAssesments()
+      if (courseId && (!activeCourse.id || activeCourse.id !== courseId) && !this.state.loading) {
+        if (this.mounted) {
+          this.setState({ loading: true })
+          this.props.dispatchGetCourseInstanceData(courseId).then(() => {
+            if (this.mounted) {
+              this.setState({ loading: false })
+            }
+          })
+        }
+      }
     }
+    this.mounted = true
+    onMount()
+  }
+
+  componentWillUnmount() {
+    const { course_id: courseId, id, status } = this.props.activeCourse
+    if (this.state.cancelablePromise) {
+      this.state.cancelablePromise.cancel()
+    }
+    if (status === 403 && this.props.match.params.courseId && courseId && id) {
+      this.props.dispatchResetCourseInstance()
+    }
+    this.mounted = false
   }
 
   t = id => this.props.translate(`UserPage.common.${id}`)
@@ -83,6 +103,10 @@ class UserPage extends Component {
     const { self_assessments: assessments, tasks } = activeCourse
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
+    }
+    const { course_id: courseId, id, status } = activeCourse
+    if (status === 403 && this.props.match.params.courseId && courseId && id) {
+      return <Redirect to={`/courses?course=${courseId}&instance=${id}`} />
     }
     const isTeacher = activeCourse.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
@@ -226,6 +250,7 @@ UserPage.propTypes = {
   dispatchToggleActivity: func.isRequired,
   dispatchToggleAssessment: func.isRequired,
   dispatchSetAssessmentStatus: func.isRequired,
+  dispatchResetCourseInstance: func.isRequired,
   translate: func.isRequired
 }
 
@@ -240,5 +265,6 @@ export default withLocalize(connect(mapStateToProps, {
   dispatchGetCourseInstanceData: getCourseInstanceDataAction,
   dispatchToggleActivity: toggleCourseActivityAction,
   dispatchToggleAssessment: toggleAssessmentAction,
-  dispatchSetAssessmentStatus: setAssessmentStatusAction
+  dispatchSetAssessmentStatus: setAssessmentStatusAction,
+  dispatchResetCourseInstance: resetCourseInstanceAction
 })(UserPage))

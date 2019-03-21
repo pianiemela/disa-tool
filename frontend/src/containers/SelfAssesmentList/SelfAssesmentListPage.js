@@ -133,7 +133,9 @@ class SelfAssesmentListPage extends Component {
           <Segment.Group>
             <Segment style={{ display: 'flex' }}>
               <Table>
-                <LinkExport style={{ flexShrink: 1 }} title={`${this.translate('link')}: `} url={`/selfassesment/response/${this.props.selfAssesmentId}`} />
+                <Table.Body>
+                  <LinkExport style={{ flexShrink: 1 }} title={`${this.translate('link')}: `} url={`/selfassesment/response/${this.props.selfAssesmentId}`} />
+                </Table.Body>
               </Table>
             </Segment>
             <Segment>

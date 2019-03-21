@@ -197,6 +197,12 @@ export const getCourseInstanceTasksAction = instance => async (dispatch) => {
   }
 }
 
+export const resetCourseInstanceAction = () => async (dispatch) => {
+  dispatch({
+    type: types.COURSE_INSTANCE_RESET,
+    payload: ''
+  })
+}
 
 export const toggleCourseActivityAction = courseId => async (dispatch) => {
   dispatch({

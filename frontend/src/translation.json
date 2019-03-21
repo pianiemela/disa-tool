@@ -675,6 +675,10 @@
       "course_prompt": [
         "First, choose a course",
         "Valitse ensin kurssi"
+      ],
+      "course_select_placeholder": [
+        "choose course...",
+        "valitse kurssi..."
       ]
     }
   },
@@ -823,6 +827,10 @@
       "prompt": [
         "You have unsaved changes. Are you sure you want to exit?",
         "Sinulla on tallentamattomia muutoksia. Haluatko varmasti poistua?"
+      ],
+      "back_button": [
+        "Back to course page",
+        "Takaisin kurssisivulle"
       ]
     },
     "QuestionModules": {

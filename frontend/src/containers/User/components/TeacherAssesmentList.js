@@ -17,7 +17,7 @@ const TeacherAssesmentList = ({
 }) => {
   const translate = id => baseTranslate(`UserPage.TeacherAssesmentList.${id}`)
   return (
-    <List selection size="big">
+    <List selection divided size="big">
       {assesments.map(assesment => (
         <List.Item key={assesment.id} style={{ display: 'flex' }}>
           <List.Content
