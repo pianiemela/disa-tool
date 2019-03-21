@@ -14,6 +14,7 @@ const RegisterForm = (props) => {
   if (props.user.id) {
     return (
       <Button
+        fluid
         className="RegisterForm"
         onClick={() => props.registerAction({ course_instance_id: props.instanceId })}
         inverted
@@ -25,6 +26,7 @@ const RegisterForm = (props) => {
   }
   return (
     <Button
+      fluid
       as={Link}
       to={`/courses/register?course=${props.courseId}&instance=${props.instanceId}`}
       className="RegisterForm"

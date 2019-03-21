@@ -675,6 +675,10 @@
       "course_prompt": [
         "First, choose a course",
         "Valitse ensin kurssi"
+      ],
+      "course_select_placeholder": [
+        "choose course...",
+        "valitse kurssi..."
       ]
     }
   },
