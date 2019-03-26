@@ -3,11 +3,17 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Header, Dropdown } from 'semantic-ui-react'
+import _ from 'lodash'
 import { editTask } from '../../actions/tasks'
 import dndItem from '../../../../utils/components/DnDItem'
 import asyncAction from '../../../../utils/asyncAction'
 
 const DnDItem = dndItem('task')
+
+const searchFilter = (options, query) => {
+  const re = new RegExp(_.escapeRegExp(query), 'i')
+  return options.filter(opt => re.test(opt.searchlabel))
+}
 
 const SelectTaskDropdown = (props) => {
   const translate = id => props.translate(`Course.tasks.SelectTaskDropDown.${id}`)
@@ -35,6 +41,7 @@ const SelectTaskDropdown = (props) => {
           selection
           options={[{ key: 0, text: '', value: null }].concat(props.tasks.map((task, index) => ({
             key: task.id,
+            searchlabel: task.name,
             text: (
               <DnDItem
                 element={task}
@@ -50,7 +57,7 @@ const SelectTaskDropdown = (props) => {
           })))}
           placeholder={translate('placeholder')}
           scrolling
-          search
+          search={searchFilter}
           selectOnBlur={false}
           value={props.activeTask ? props.activeTask.id : null}
           onChange={props.changeActive}
