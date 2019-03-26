@@ -34,7 +34,7 @@ const SelfAssessmentForm = (props) => {
       <SelfAssessmentSection
         name={structure.questionModuleName}
         formData={structure.questionModules}
-        edit={edit ? !preview : false}
+        edit={edit && !preview}
         changedProp={dummyPropToEnsureChange}
         QuestionModule={questionModule}
         courseInstanceId={formData.course_instance_id}
@@ -47,7 +47,7 @@ const SelfAssessmentForm = (props) => {
         <SelfAssessmentSection
           name={structure.openQuestions.name}
           formData={structure.openQuestions.questions}
-          edit={edit ? !preview : false}
+          edit={edit && !preview}
           changedProp={dummyPropToEnsureChange}
           QuestionModule={OpenQuestionModule}
           question
@@ -63,7 +63,7 @@ const SelfAssessmentForm = (props) => {
           headers={grade}
           headerType="grade"
           formData={[structure.finalGrade]}
-          edit={edit ? !preview : false}
+          edit={edit && !preview}
           QuestionModule={finalGradeModule}
           final
           courseInstanceId={formData.course_instance_id}

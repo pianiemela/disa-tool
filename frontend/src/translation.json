@@ -1191,5 +1191,35 @@
         ]
       }
     }
+  },
+  "NewSelfAssessmentForm": {
+    "common": {
+      "delete": [
+        "Delete",
+        "Poista"
+      ],
+      "text_field_on": [
+        "Text Field Enabled",
+        "Tekstikenttä käytössä"
+      ],
+      "text_field_off": [
+        "Text Field Disabled",
+        "Tekstikenttä poissa käytöstä"
+      ],
+      "prompt": [
+        "Question prompt",
+        "Kysymyksen asettelu"
+      ]
+    },
+    "FinalGradeQuestion": {
+      "card_header": [
+        "Final Grade",
+        "Loppuarvosana"
+      ],
+      "add": [
+        "Add",
+        "Lisää"
+      ]
+    }
   }
 }

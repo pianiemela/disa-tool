@@ -456,6 +456,345 @@ Type.addHook('afterUpdate', 'updateMultipliers', (type) => {
   })
 })
 
+const SelfAssessmentForm = sequelize.define(
+  'self_assessment_form',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    eng_name: { type: Sequelize.STRING, allowNull: false },
+    fin_name: { type: Sequelize.STRING, allowNull: false },
+    swe_name: { type: Sequelize.STRING, allowNull: false },
+    eng_instructions: { type: Sequelize.TEXT, allowNull: false },
+    fin_instructions: { type: Sequelize.TEXT, allowNull: false },
+    swe_instructions: { type: Sequelize.TEXT, allowNull: false },
+    open: { type: Sequelize.BOOLEAN },
+    active: { type: Sequelize.BOOLEAN },
+    show_feedback: { type: Sequelize.BOOLEAN },
+    type: {
+      type: Sequelize.ENUM,
+      allowNull: false,
+      values: ['CATEGORIES', 'OBJECTIVES']
+    },
+    course_instance_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: CourseInstance,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    }
+  },
+  {
+    tableName: 'self_assessment_form',
+    underscored: true,
+    timestamps: true
+  }
+)
+
+const FinalGradeQuestion = sequelize.define(
+  'final_grade_question',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    self_assessment_form_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: true,
+      references: {
+        model: SelfAssessmentForm,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    eng_prompt: { type: Sequelize.TEXT, allowNull: false },
+    fin_prompt: { type: Sequelize.TEXT, allowNull: false },
+    swe_prompt: { type: Sequelize.TEXT, allowNull: false },
+    text_field: { type: Sequelize.BOOLEAN, allowNull: false }
+  },
+  {
+    tableName: 'final_grade_question',
+    underscored: true,
+    timestamps: true
+  }
+)
+
+const OpenQuestion = sequelize.define(
+  'open_question',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    self_assessment_form_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: SelfAssessmentForm,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    eng_prompt: { type: Sequelize.TEXT, allowNull: false },
+    fin_prompt: { type: Sequelize.TEXT, allowNull: false },
+    swe_prompt: { type: Sequelize.TEXT, allowNull: false },
+    order: { type: Sequelize.FLOAT }
+  },
+  {
+    tableName: 'open_question',
+    underscored: true,
+    timestamps: true
+  }
+)
+
+const CategoryQuestion = sequelize.define(
+  'category_question',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    self_assessment_form_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: SelfAssessmentForm,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    category_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: Category,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    text_field: { type: Sequelize.BOOLEAN, allowNull: false },
+    order: { type: Sequelize.FLOAT }
+  },
+  {
+    tableName: 'category_question',
+    underscored: true,
+    timestamps: true
+  }
+)
+
+const ObjectiveQuestion = sequelize.define(
+  'objective_question',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    self_assessment_form_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: SelfAssessmentForm,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    objective_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: Objective,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    order: { type: Sequelize.FLOAT }
+  },
+  {
+    tableName: 'objective_question',
+    underscored: true,
+    timestamps: true
+  }
+)
+
+const Response = sequelize.define(
+  'response',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    person_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: Person,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    self_assessment_form_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: SelfAssessmentForm,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    }
+  },
+  {
+    tableName: 'response',
+    underscored: true,
+    timestamps: true
+  }
+)
+
+const FinalGradeResponse = sequelize.define(
+  'final_grade_response',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    response_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: Response,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    final_grade_question_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: FinalGradeQuestion,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    grade_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: Grade,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    text: { type: Sequelize.TEXT }
+  },
+  {
+    tableName: 'final_grade_response',
+    underscored: true,
+    timestamps: true
+  }
+)
+
+const OpenResponse = sequelize.define(
+  'open_response',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    response_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: Response,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    open_question_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: OpenQuestion,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    text: { type: Sequelize.TEXT, allowNull: false }
+  },
+  {
+    tableName: 'open_response',
+    underscored: true,
+    timestamps: true
+  }
+)
+
+const CategoryResponse = sequelize.define(
+  'category_response',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    response_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: Response,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    category_question_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: CategoryQuestion,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    grade_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: Grade,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    text: { type: Sequelize.TEXT }
+  },
+  {
+    tableName: 'category_response',
+    underscored: true,
+    timestamps: true
+  }
+)
+
+const ObjectiveResponse = sequelize.define(
+  'objective_response',
+  {
+    id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
+    response_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: Response,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    objective_question_id: {
+      type: Sequelize.BIGINT,
+      allowNull: false,
+      unique: false,
+      references: {
+        model: ObjectiveQuestion,
+        key: 'id'
+      },
+      onDelete: 'CASCADE'
+    },
+    response: { type: Sequelize.INTEGER, allowNull: false }
+  },
+  {
+    tableName: 'objective_response',
+    underscored: true,
+    timestamps: true
+  }
+)
+
 Task.belongsToMany(Type, { through: TaskType })
 Type.belongsToMany(Task, { through: TaskType })
 // Redundancy here affords us flexibility in using joins or subqueries.
@@ -524,6 +863,15 @@ Category.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey
 CourseInstance.hasMany(SkillLevel, { foreignKey: 'course_instance_id', targetKey: 'id' })
 SkillLevel.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
+SelfAssessmentForm.hasMany(OpenQuestion)
+SelfAssessmentForm.hasMany(CategoryQuestion)
+SelfAssessmentForm.hasMany(ObjectiveQuestion)
+SelfAssessmentForm.hasOne(FinalGradeQuestion)
+OpenQuestion.belongsTo(SelfAssessmentForm)
+CategoryQuestion.belongsTo(SelfAssessmentForm)
+ObjectiveQuestion.belongsTo(SelfAssessmentForm)
+FinalGradeQuestion.belongsTo(SelfAssessmentForm)
+
 module.exports = {
   Task,
   TypeHeader,
@@ -541,5 +889,14 @@ module.exports = {
   CoursePerson,
   SelfAssessment,
   TaskResponse,
-  AssessmentResponse
+  AssessmentResponse,
+  SelfAssessmentForm,
+  FinalGradeQuestion,
+  OpenQuestion,
+  CategoryQuestion,
+  ObjectiveQuestion,
+  FinalGradeResponse,
+  OpenResponse,
+  CategoryResponse,
+  ObjectiveResponse
 }

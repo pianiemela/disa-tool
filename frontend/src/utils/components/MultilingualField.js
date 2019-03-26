@@ -7,7 +7,10 @@ export class MultilingualField extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      multilingual: false,
+      multilingual: (
+        this.props.values.eng !== this.props.values.fin
+        || this.props.values.fin !== this.props.values.swe
+      ),
       values: this.props.values
     }
   }
@@ -23,22 +26,20 @@ export class MultilingualField extends Component {
     }
   }
 
-  changeValue = key => (key === 'all' ? (
-    e => this.setState({
-      values: {
-        eng: e.target.value,
-        fin: e.target.value,
-        swe: e.target.value
-      }
-    })
-  ) : (
-    e => this.setState({
-      values: {
-        ...this.state.values,
-        [key]: e.target.value
-      }
-    })
-  ))
+  changeValue = key => e => this.setState({
+    values: (
+      key === 'all'
+        ? {
+          eng: e.target.value,
+          fin: e.target.value,
+          swe: e.target.value
+        }
+        : {
+          ...this.state.values,
+          [key]: e.target.value
+        }
+    )
+  }, () => this.props.onChange(this.state.values))
 
   allValue = () => {
     if (this.state.values.eng !== '') {
@@ -141,7 +142,8 @@ MultilingualField.propTypes = {
     swe: PropTypes.string
   }),
   translate: PropTypes.func.isRequired,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  onChange: PropTypes.func
 }
 
 MultilingualField.defaultProps = {
@@ -150,7 +152,8 @@ MultilingualField.defaultProps = {
     fin: '',
     swe: ''
   },
-  required: false
+  required: false,
+  onChange: () => null
 }
 
 export default withLocalize(MultilingualField)

@@ -18,6 +18,7 @@ import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
 import CourseInfo from './CourseInfo'
 import TaskResponseEdit from './TaskResponseEdit'
 import ManageCoursePeople from './ManageCoursePeople'
+import SelfAssessmentFormCreateForm from '../NewSelfAssessmentForm/components/AddForm/SelfAssessmentFormCreateForm'
 
 class UserPage extends Component {
   state = {
@@ -151,6 +152,9 @@ class UserPage extends Component {
                           assesments={assessments}
                           isTeacher={isTeacher}
                           toggleAssessment={this.toggleAssessment}
+                        />
+                        <SelfAssessmentFormCreateForm
+                          courseInstanceId={this.props.activeCourse.id}
                         />
                       </Item.Content>
                     </Grid.Column>

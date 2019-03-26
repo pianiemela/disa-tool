@@ -14,6 +14,8 @@ const assesmentResponse = require('./controllers/assesment_response_controller.j
 const coursePersons = require('./controllers/course_person_controller.js')
 const grades = require('./controllers/grade_controller.js')
 const saml = require('./controllers/saml_controller.js')
+const selfAssessmentForm = require('./controllers/self_assesment_form_controller')
+const questionModule = require('./controllers/question_module_controller')
 
 const validateLang = require('./middleware/lang.js')
 const auth = require('./middleware/token_auth.js')
@@ -48,6 +50,8 @@ module.exports = (app) => {
   app.use(`${BASE_URL}/objectives`, objectives)
   app.use(`${BASE_URL}/assesmentresponse`, assesmentResponse)
   app.use(`${BASE_URL}/selfassesment`, selfAssesment)
+  app.use(`${BASE_URL}/self-assessment-form`, selfAssessmentForm)
+  app.use(BASE_URL, questionModule)
   app.use(`${BASE_URL}/login`, login)
   app.use(`${BASE_URL}/saml`, saml)
   app.use(`${BASE_URL}/types`, types)

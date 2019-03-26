@@ -1,8 +1,6 @@
 import { getJson, postJson, deleteCall, putJson } from '../utils/utils'
 
-export const getCategoriesForCourse = courseId => getJson(`/categories/${courseId}`)
-
-export const getCourseData = id => getJson('/categories', { courseInstanceId: id })
+export const getCategoriesForCourse = id => getJson('/categories', { courseInstanceId: id })
 
 export const create = data => postJson('/categories/create', data)
 
