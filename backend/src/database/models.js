@@ -786,7 +786,7 @@ const ObjectiveResponse = sequelize.define(
       },
       onDelete: 'CASCADE'
     },
-    response: { type: Sequelize.INTEGER, allowNull: false }
+    answer: { type: Sequelize.INTEGER, allowNull: false }
   },
   {
     tableName: 'objective_response',
@@ -872,6 +872,16 @@ CategoryQuestion.belongsTo(SelfAssessmentForm)
 ObjectiveQuestion.belongsTo(SelfAssessmentForm)
 FinalGradeQuestion.belongsTo(SelfAssessmentForm)
 
+Response.belongsTo(SelfAssessmentForm)
+Response.hasMany(CategoryResponse)
+Response.hasMany(ObjectiveResponse)
+Response.hasMany(OpenResponse)
+Response.hasOne(FinalGradeResponse)
+CategoryResponse.belongsTo(Response)
+ObjectiveResponse.belongsTo(Response)
+OpenResponse.belongsTo(Response)
+FinalGradeResponse.belongsTo(Response)
+
 module.exports = {
   Task,
   TypeHeader,
@@ -895,6 +905,7 @@ module.exports = {
   OpenQuestion,
   CategoryQuestion,
   ObjectiveQuestion,
+  Response,
   FinalGradeResponse,
   OpenResponse,
   CategoryResponse,

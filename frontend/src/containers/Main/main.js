@@ -21,6 +21,7 @@ import SelfAssesmentListPage from '../SelfAssesmentList/SelfAssesmentListPage'
 import RegisterRedirect from '../CourseList/components/RegisterRedirect'
 import CourseTasksPage from '../Course/CourseTasksPage'
 import NewSelfAssessmentFormPage from '../NewSelfAssessmentForm/NewSelfAssessmentFormPage'
+import SelfAssessmentFormResponsePage from '../NewSelfAssessmentForm/SelfAssessmentFormResponsePage'
 
 class MathJaxProvider extends MathJax.Provider {
   hasNodes = true
@@ -72,8 +73,18 @@ class Main extends PureComponent {
     <Route exact path="/courses/register" component={RegisterRedirect} key={keygen.user()} />,
     <Route
       exact
-      path="/self-assessment-form/edit/:id"
-      render={({ match }) => <NewSelfAssessmentFormPage selfAssessmentFormId={Number(match.params.id)} />}
+      path="/self-assessment-form/:id/edit/"
+      render={({ match }) => (
+        <NewSelfAssessmentFormPage selfAssessmentFormId={Number(match.params.id)} />
+      )}
+      key={keygen.user()}
+    />,
+    <Route
+      exact
+      path="/self-assessment-form/:id/response/"
+      render={({ match }) => (
+        <SelfAssessmentFormResponsePage selfAssessmentFormId={Number(match.params.id)} />
+      )}
       key={keygen.user()}
     />,
     <Route component={HomePage} key={keygen.user()} />
