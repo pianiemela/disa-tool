@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { shape, number, func, string } from 'prop-types'
 import { Card, Header, Button } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
@@ -7,6 +7,7 @@ import {
   deleteOpenQuestion
 } from '../../actions/openQuestion'
 import MultilingualField from '../../../../utils/components/MultilingualField'
+import useSave from '../../../../utils/hooks/useSave'
 
 const OpenQuestion = ({
   question,
@@ -14,24 +15,22 @@ const OpenQuestion = ({
   dispatchQuestions
 }) => {
   const translate = id => baseTranslate(`NewSelfAssessmentForm.OpenQuestion.OpenQuestion.${id}`)
-  const [prompt, setPrompt] = useState({
-    eng: question.eng_prompt,
-    fin: question.fin_prompt,
-    swe: question.swe_prompt
+  const saveChanges = useSave((edited) => {
+    editOpenQuestion(question.id, edited)
   })
 
-  const saveChanges = () => {
+  const onPromptChange = ({ eng, fin, swe }) => {
     const edited = {
       ...question,
-      eng_prompt: prompt.eng,
-      fin_prompt: prompt.fin,
-      swe_prompt: prompt.swe
+      eng_prompt: eng,
+      fin_prompt: fin,
+      swe_prompt: swe
     }
     dispatchQuestions({
       type: 'UPDATE',
       edited
     })
-    editOpenQuestion(question.id, edited)
+    saveChanges(edited)
   }
   const removeQuestion = () => {
     dispatchQuestions({
@@ -54,17 +53,15 @@ const OpenQuestion = ({
           {translate('delete')}
         </Button>
         <MultilingualField
-          values={prompt}
+          values={{
+            eng: question.eng_prompt || '',
+            fin: question.fin_prompt || '',
+            swe: question.swe_prompt || ''
+          }}
           field="prompt"
           fieldDisplay={translate('prompt')}
-          onChange={setPrompt}
+          onChange={onPromptChange}
         />
-        <Button
-          type="button"
-          onClick={saveChanges}
-        >
-          {translate('save')}
-        </Button>
       </Card.Content>
     </Card>
   )

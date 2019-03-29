@@ -91,7 +91,7 @@ const responseModuleCRUD = (router, {
       })
       return
     }
-    if (instance.response.person_id !== req.user.id) {
+    if (!instance || instance.response.person_id !== req.user.id) {
       res.status(403).json({
         toast: errors.privilege.toast,
         error: errors.privilege[req.lang]

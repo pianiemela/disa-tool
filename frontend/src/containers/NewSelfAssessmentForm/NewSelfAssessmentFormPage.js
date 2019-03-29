@@ -6,7 +6,7 @@ import FormInfo from './components/FormInfo/FormInfo'
 import CategoryQuestionList from './components/CategoryQuestion/CategoryQuestionList'
 import ObjectiveQuestionList from './components/ObjectiveQuestion/ObjectiveQuestionList'
 import OpenQuestionList from './components/OpenQuestion/OpenQuestionList'
-import { getSelfAssessmentForm, editSelfAssessmentForm } from './actions/selfAssessmentForm'
+import { getSelfAssessmentForm } from './actions/selfAssessmentForm'
 
 const NewSelfAssessmentFormPage = ({
   selfAssessmentFormId
@@ -28,15 +28,14 @@ const NewSelfAssessmentFormPage = ({
   if (loading) return <div>Loading...</div>
   if (!selfAssessmentForm) return <div />
 
-  const submit = (event) => {
-    event.preventDefault()
-    editSelfAssessmentForm(selfAssessmentForm).then(() => {
+  const submit = () => {
+    setTimeout(() => {
       setRedirect('/')
-    })
+    }, 2000)
   }
 
   return (
-    <Form onSubmit={submit}>
+    <Form>
       <Container>
         <FormInfo
           selfAssessmentForm={selfAssessmentForm}
@@ -59,7 +58,7 @@ const NewSelfAssessmentFormPage = ({
         <FinalGradeQuestion
           selfAssessmentFormId={selfAssessmentFormId}
         />
-        <Button type="submit">translate: Save</Button>
+        <Button type="button" onClick={submit}>translate: Save</Button>
       </Container>
     </Form>
   )

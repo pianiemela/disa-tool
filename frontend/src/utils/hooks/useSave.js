@@ -12,18 +12,20 @@ const useSave = (
   callback,
   delay
 ) => {
-  const [trigger, setTrigger] = useState(0)
+  const [args, setArgs] = useState([0])
   useEffect(() => {
-    if (!trigger) return () => undefined
+    if (!args[0]) return () => undefined
     const timeout = setTimeout(
       () => {
-        if (callback) callback()
+        if (callback) callback(...args.slice(1))
       },
       typeof delay === 'number' ? delay : 2000
     )
     return () => clearTimeout(timeout)
-  }, [trigger])
-  return () => setTrigger(trigger + 1)
+  }, [args])
+  return (...newArgs) => {
+    setArgs([args[0] + 1, ...newArgs])
+  }
 }
 
 export default useSave

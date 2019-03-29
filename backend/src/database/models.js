@@ -863,6 +863,8 @@ Category.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey
 CourseInstance.hasMany(SkillLevel, { foreignKey: 'course_instance_id', targetKey: 'id' })
 SkillLevel.belongsTo(CourseInstance, { foreignKey: 'course_instance_id', targetKey: 'id' })
 
+SelfAssessmentForm.belongsTo(CourseInstance)
+CourseInstance.hasMany(SelfAssessmentForm)
 SelfAssessmentForm.hasMany(OpenQuestion)
 SelfAssessmentForm.hasMany(CategoryQuestion)
 SelfAssessmentForm.hasMany(ObjectiveQuestion)
@@ -873,14 +875,24 @@ ObjectiveQuestion.belongsTo(SelfAssessmentForm)
 FinalGradeQuestion.belongsTo(SelfAssessmentForm)
 
 Response.belongsTo(SelfAssessmentForm)
+Response.belongsTo(Person)
+Person.hasMany(Response)
 Response.hasMany(CategoryResponse)
 Response.hasMany(ObjectiveResponse)
 Response.hasMany(OpenResponse)
 Response.hasOne(FinalGradeResponse)
 CategoryResponse.belongsTo(Response)
+CategoryResponse.belongsTo(CategoryQuestion)
+CategoryQuestion.hasMany(CategoryResponse)
 ObjectiveResponse.belongsTo(Response)
+ObjectiveResponse.belongsTo(ObjectiveQuestion)
+ObjectiveQuestion.hasMany(ObjectiveResponse)
 OpenResponse.belongsTo(Response)
+OpenResponse.belongsTo(OpenQuestion)
+OpenQuestion.hasMany(OpenResponse)
 FinalGradeResponse.belongsTo(Response)
+FinalGradeResponse.belongsTo(FinalGradeQuestion)
+FinalGradeQuestion.hasMany(FinalGradeResponse)
 
 module.exports = {
   Task,

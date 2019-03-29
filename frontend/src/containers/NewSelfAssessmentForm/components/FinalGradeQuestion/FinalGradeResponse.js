@@ -50,6 +50,16 @@ const FinalGradeResponse = ({
     })
   }, [responseId])
 
+  useEffect(() => {
+    const newResponseId = responseId || null
+    const newQuestionId = question ? question.id : null
+    setResponse({
+      ...response,
+      response_id: newResponseId,
+      final_grade_question_id: newQuestionId
+    })
+  }, [responseId, question])
+
   if (!question) return null
 
   const onGradeIdChange = (e, { value }) => {

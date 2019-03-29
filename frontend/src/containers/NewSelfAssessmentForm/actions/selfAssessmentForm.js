@@ -10,7 +10,7 @@ export const getSelfAssessmentForm = async (id) => {
   return response.data
 }
 
-export const editSelfAssessmentForm = async (selfAssessmentForm) => {
-  const response = await update(selfAssessmentForm.id, selfAssessmentForm)
+export const editSelfAssessmentForm = async (id, data) => {
+  const response = await update(id, data)
   return response.data
 }

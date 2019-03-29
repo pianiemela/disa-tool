@@ -9,8 +9,7 @@ import {
   deleteFinalGradeQuestion
 } from '../../actions/finalGradeQuestion'
 import MultilingualField from '../../../../utils/components/MultilingualField'
-
-const INITIAL_PROMPT = { eng: '', fin: '', swe: '' }
+import useSave from '../../../../utils/hooks/useSave'
 
 const FinalGradeQuestion = ({
   translate: baseTranslate,
@@ -18,28 +17,30 @@ const FinalGradeQuestion = ({
 }) => {
   const translate = id => baseTranslate(`NewSelfAssessmentForm.FinalGradeQuestion.${id}`)
   const [question, setQuestion] = useState('loading')
-  const [prompt, setPrompt] = useState(question ? question.prompt : INITIAL_PROMPT)
+  const saveChanges = useSave(() => {
+    if (!question || !question.id) return
+    editFinalGradeQuestion(question.id, question)
+  })
 
   useEffect(() => {
     getFinalGradeQuestion(selfAssessmentFormId).then(({ data }) => {
       setQuestion(data)
-      setPrompt(data ? {
-        eng: data.eng_prompt,
-        fin: data.fin_prompt,
-        swe: data.swe_prompt
-      } : INITIAL_PROMPT)
     })
   }, [])
   const addQuestion = () => {
-    createFinalGradeQuestion({
-      self_assessment_form_id: selfAssessmentFormId,
-      eng_prompt: prompt.eng,
-      fin_prompt: prompt.fin,
-      swe_prompt: prompt.swe,
-      text_field: false
-    }).then(({ created }) => {
-      // TODO: optimism
-      setQuestion(created)
+    const newQuestion = {
+      text_field: false,
+      eng_prompt: '',
+      fin_prompt: '',
+      swe_prompt: '',
+      self_assessment_form_id: selfAssessmentFormId
+    }
+    setQuestion(newQuestion)
+    createFinalGradeQuestion(newQuestion).then(({ created }) => {
+      setQuestion({
+        ...question,
+        id: created.id
+      })
     })
   }
   const removeQuestion = () => {
@@ -52,17 +53,17 @@ const FinalGradeQuestion = ({
       text_field: !question.text_field
     }
     setQuestion(edited)
-    editFinalGradeQuestion(question.id, edited)
+    saveChanges()
   }
-  const saveChanges = () => {
+  const onPromptChange = ({ eng, fin, swe }) => {
     const edited = {
       ...question,
-      eng_prompt: prompt.eng,
-      fin_prompt: prompt.fin,
-      swe_prompt: prompt.swe
+      eng_prompt: eng,
+      fin_prompt: fin,
+      swe_prompt: swe
     }
     setQuestion(edited)
-    editFinalGradeQuestion(question.id, edited)
+    saveChanges()
   }
 
   if (question === 'loading') {
@@ -92,17 +93,15 @@ const FinalGradeQuestion = ({
             {translate('delete')}
           </Button>
           <MultilingualField
-            values={prompt}
+            values={{
+              eng: question.eng_prompt || '',
+              fin: question.fin_prompt || '',
+              swe: question.swe_prompt || ''
+            }}
             field="prompt"
             fieldDisplay={translate('prompt')}
-            onChange={setPrompt}
+            onChange={onPromptChange}
           />
-          <Button
-            type="button"
-            onClick={saveChanges}
-          >
-            {translate('save')}
-          </Button>
           <div
             style={{
               position: 'relative'
@@ -140,11 +139,6 @@ const FinalGradeQuestion = ({
         </Card.Content>
       ) : (
         <Card.Content>
-          <MultilingualField
-            field="prompt"
-            fieldDisplay={translate('prompt')}
-            onChange={setPrompt}
-          />
           <Button
             type="button"
             onClick={addQuestion}
