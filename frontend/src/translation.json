@@ -675,6 +675,10 @@
       "course_prompt": [
         "First, choose a course",
         "Valitse ensin kurssi"
+      ],
+      "course_select_placeholder": [
+        "choose course...",
+        "valitse kurssi..."
       ]
     }
   },
@@ -823,6 +827,10 @@
       "prompt": [
         "You have unsaved changes. Are you sure you want to exit?",
         "Sinulla on tallentamattomia muutoksia. Haluatko varmasti poistua?"
+      ],
+      "back_button": [
+        "Back to course page",
+        "Takaisin kurssisivulle"
       ]
     },
     "QuestionModules": {
@@ -944,6 +952,14 @@
         "Look at tasks",
         "Katso tehtävälistaa"
       ],
+      "create_self_assessment_target": [
+        "Create objective based assessment",
+        "Luo tavoitepohjainen itsearviointi"
+      ],
+      "create_self_assessment_category": [
+        "Create category based assessment",
+        "Luo kategoriapohjainen itsearviointi"
+      ],
       "no_course_selected": [
         "No course selected",
         "Kurssia ei valittu"
@@ -969,12 +985,16 @@
         "Muokkaa kurssia"
       ],
       "close_course": [
-        "Close course",
-        "Sulje kurssi"
+        "Course open",
+        "Kurssi avoinna"
+      ],
+      "manage_course_people_tasks": [
+        "Manage course people and tasks",
+        "Hallinnoi kurssin osallistujia ja tehtäviä"
       ],
       "start_course": [
-        "Open course",
-        "Avaa kurssi"
+        "Course closed",
+        "Kurssi suljettu"
       ],
       "course_teachers": [
         "Course teachers",
@@ -986,8 +1006,8 @@
       ],
       "Links": {
         "course_links": [
-          "Course links",
-          "Kurssin linkit"
+          "Show course links",
+          "Näytä kurssin linkit"
         ],
         "registration": [
           "Registration: ",
@@ -1099,8 +1119,8 @@
         "piilotettu"
       ],
       "feedback_open": [
-        "feedback open",
-        "palaute auki"
+        "feedback visible",
+        "palaute näkyy"
       ],
       "feedback_closed": [
         "no feedback",
@@ -1113,6 +1133,10 @@
       "delete_prompt_1": [
         "Really remove self assesment",
         "Poistetaanko itsearviointi"
+      ],
+      "cannot_edit_open_assessment": [
+        "You can not edit open self assessment. Close or hide it first.",
+        "Et voi muokata avointa itsearviointia. Sulje tai piilota se ensin."
       ]
     }
   },

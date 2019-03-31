@@ -11,12 +11,19 @@ export const instanceReducer = (state = INITIAL_STATE, action) => {
     case types.COURSES_GET_INSTANCE_DATA_SUCCESS:
       return action.payload
     case types.COURSES_GET_INSTANCE_DATA_FAILURE:
-      return { status: action.payload.status }
+      return {
+        status: action.payload.status,
+        course_id: action.payload.data.course_id,
+        id: action.payload.data.id
+      }
 
     case types.COURSES_GET_INSTANCE_TASKS_SUCCESS: {
       const { payload } = action
       const { courseRole } = state
       return { ...payload, courseRole }
+    }
+    case types.COURSE_INSTANCE_RESET: {
+      return { ...INITIAL_STATE }
     }
     case types.ASSESMENT_RESPONSE_CREATE_SUCCESS: {
       const { data } = action.payload
@@ -33,6 +40,15 @@ export const instanceReducer = (state = INITIAL_STATE, action) => {
       return { ...state, self_assessments: [...state.self_assessments, data] }
     }
     case types.SELF_ASSESSMENT_TOGGLE_SUCCESS: {
+      const { assessment } = action.payload
+      const selfAssessments = [...state.self_assessments]
+      const oldAssessment = selfAssessments.find(old => old.id === assessment.id)
+      oldAssessment.open = assessment.open
+      oldAssessment.active = assessment.active
+      oldAssessment.show_feedback = assessment.show_feedback
+      return { ...state, self_assessments: selfAssessments }
+    }
+    case types.SELF_ASSESSMENT_STATUS_SUCCESS: {
       const { assessment } = action.payload
       const selfAssessments = [...state.self_assessments]
       const oldAssessment = selfAssessments.find(old => old.id === assessment.id)

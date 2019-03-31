@@ -19,7 +19,9 @@ const {
   TypeHeader,
   Type,
   TaskType,
-  FinalGradeResponse
+  FinalGradeResponse,
+  CoursePerson,
+  OpenResponse
 } = require('../database/models')
 
 const create = {
@@ -174,13 +176,18 @@ const edit = {
   value: instance => instance.get()
 }
 
-const feedbackSelfAssessmentForm = id => SelfAssessmentForm.findByPk(id, {
-  attributes: ['id', 'course_instance_id'],
+const feedbackSelfAssessmentForm = (id, lang) => SelfAssessmentForm.findByPk(id, {
+  attributes: ['id', 'type', 'course_instance_id'],
   include: [
     {
       separate: true,
       model: CategoryQuestion,
       attributes: ['id', 'category_id', 'self_assessment_form_id']
+    },
+    {
+      separate: true,
+      model: OpenQuestion,
+      attributes: ['id', [`${lang}_prompt`, 'prompt'], 'self_assessment_form_id']
     },
     {
       model: CourseInstance,
@@ -189,7 +196,7 @@ const feedbackSelfAssessmentForm = id => SelfAssessmentForm.findByPk(id, {
         {
           separate: true,
           model: Category,
-          attributes: ['id', 'course_instance_id'],
+          attributes: ['id', [`${lang}_name`, 'name'], 'course_instance_id'],
           include: {
             model: CategoryGrade,
             attributes: ['needed_for_grade', 'grade_id']
@@ -239,6 +246,11 @@ const feedbackSelfAssessmentForm = id => SelfAssessmentForm.findByPk(id, {
 const feedbackParseSelfAssessmentForm = (selfAssessmentForm) => {
   const parsedGrades = getGradesWithDepth(selfAssessmentForm.course_instance.skill_levels)
 
+  const parsedCategoryQuestionMap = selfAssessmentForm.category_questions.reduce(
+    (acc, cq) => ({ ...acc, [cq.category_id]: cq.id }),
+    {}
+  )
+
   const typeMultiplierMap = selfAssessmentForm.course_instance.type_headers.reduce(
     (acc, typeHeader) => ({
       ...acc,
@@ -267,24 +279,27 @@ const feedbackParseSelfAssessmentForm = (selfAssessmentForm) => {
     {}
   )
 
-  const parsedCategories = selfAssessmentForm.course_instance.categories.map((category) => {
-    const categoryGradeMap = category.category_grades.reduce(
-      (acc, cg) => ({
-        ...acc,
-        [cg.grade_id]: cg.needed_for_grade
-      }),
-      {}
-    )
-    return {
-      id: category.id,
-      grades: parsedGrades.map(grade => ({
-        id: grade.id,
-        depth: grade.depth,
-        skillLevelId: grade.skillLevelId,
-        neededForGrade: categoryGradeMap[grade.id]
-      }))
-    }
-  })
+  const parsedCategories = selfAssessmentForm.course_instance.categories
+    .filter(category => parsedCategoryQuestionMap[category.id])
+    .map((category) => {
+      const categoryGradeMap = category.category_grades.reduce(
+        (acc, cg) => ({
+          ...acc,
+          [cg.grade_id]: cg.needed_for_grade
+        }),
+        {}
+      )
+      return {
+        id: category.id,
+        name: category.name,
+        grades: parsedGrades.map(grade => ({
+          id: grade.id,
+          depth: grade.depth,
+          skillLevelId: grade.skillLevelId,
+          neededForGrade: categoryGradeMap[grade.id]
+        }))
+      }
+    })
 
   const parsedSkillLevels = selfAssessmentForm.course_instance.skill_levels.map((level) => {
     return {
@@ -331,35 +346,68 @@ const feedbackParseSelfAssessmentForm = (selfAssessmentForm) => {
     }
   })
 
+  const parsedOpenQuestions = selfAssessmentForm.open_questions
+
   return {
     parsedGrades,
     parsedCategories,
-    parsedSkillLevels
+    parsedSkillLevels,
+    parsedOpenQuestions,
+    parsedCategoryQuestionMap
   }
 }
-const feedbackParseStudent = ({ parsedGrades }) => (response) => {
+const feedbackParseStudent = ({
+  parsedGrades,
+  parsedCategoryQuestionMap,
+  parsedCategories,
+  parsedOpenQuestions
+}) => (response) => {
   const finalGrade = (
     response.final_grade_response
       ? parsedGrades.find(grade => grade.id === response.final_grade_response.grade_id)
       : null
   )
+  const openResponseTextMap = response.open_responses.reduce(
+    (acc, openResponse) => ({
+      ...acc,
+      [openResponse.open_question_id]: openResponse.text
+    }),
+    {}
+  )
+  const categoryResponseMap = response.category_responses.reduce(
+    (acc, categoryResponse) => ({
+      ...acc,
+      [categoryResponse.category_question_id]: {
+        text: categoryResponse.text,
+        grade_id: categoryResponse.grade_id
+      }
+    }),
+    {}
+  )
   return {
     id: response.person.id,
     studentnumber: response.person.studentnumber,
     name: response.person.name,
-    responseGrades: response.category_responses.reduce(
-      (acc, categoryResponse) => {
+    responseGrades: parsedCategories.reduce(
+      (acc, category) => {
+        const categoryResponse = categoryResponseMap[parsedCategoryQuestionMap[category.id]]
         const responseGrade = parsedGrades.find(grade => grade.id === categoryResponse.grade_id)
         return {
           ...acc,
-          [categoryResponse.category_question.category_id]: {
+          [category.id]: {
             id: responseGrade.id,
-            depth: responseGrade.depth
+            depth: responseGrade.depth,
+            text: categoryResponse.text
           }
         }
       },
       {}
     ),
+    openResponses: parsedOpenQuestions.map(openQuestion => ({
+      id: openQuestion.id,
+      prompt: openQuestion.prompt,
+      text: openResponseTextMap[openQuestion.id] || null
+    })),
     taskResponses: response.person.task_responses.reduce(
       (acc, taskResponse) => ({
         ...acc,
@@ -371,7 +419,8 @@ const feedbackParseStudent = ({ parsedGrades }) => (response) => {
       finalGrade
         ? {
           id: finalGrade.id,
-          depth: finalGrade.depth
+          depth: finalGrade.depth,
+          text: response.final_grade_response.text
         }
         : null
     )
@@ -379,7 +428,7 @@ const feedbackParseStudent = ({ parsedGrades }) => (response) => {
 }
 
 const feedback = {
-  prepare: async (id) => {
+  prepare: async (id, lang) => {
     const [responses, selfAssessmentForm] = await Promise.all([
       Response.findAll({
         where: {
@@ -389,7 +438,7 @@ const feedback = {
         include: [
           {
             model: Person,
-            attributes: ['studentnumber', 'name'],
+            attributes: ['id', 'studentnumber', 'name'],
             include: {
               model: TaskResponse,
               attributes: ['task_id', 'points']
@@ -398,20 +447,21 @@ const feedback = {
           {
             separate: true,
             model: CategoryResponse,
-            attributes: ['grade_id', 'response_id'],
-            include: {
-              model: CategoryQuestion,
-              attributes: ['category_id']
-            }
+            attributes: ['grade_id', 'response_id', 'text', 'category_question_id'],
+          },
+          {
+            separate: true,
+            model: OpenResponse,
+            attributes: ['response_id', 'text', 'open_question_id']
           },
           {
             model: FinalGradeResponse,
             required: false,
-            attributes: ['grade_id']
+            attributes: ['grade_id', 'text']
           }
         ]
       }),
-      feedbackSelfAssessmentForm(id)
+      feedbackSelfAssessmentForm(id, lang)
     ])
     // If you come across this code in a wonderful future where Sequelize isn't riddled with bugs
     // you can replace toJSON here with options.raw in the queries.
@@ -422,6 +472,14 @@ const feedback = {
     ]
   },
   value: (responses, selfAssessmentForm) => {
+    if (selfAssessmentForm.type === 'OBJECTIVES') {
+      return responses.map(response => ({
+        id: response.person.id,
+        studentnumber: response.person.studentnumber,
+        name: response.person.name
+      }))
+    }
+
     const parsedSelfAssessmentForm = feedbackParseSelfAssessmentForm(selfAssessmentForm)
 
     const parsedStudents = responses.map(feedbackParseStudent(parsedSelfAssessmentForm))
@@ -434,9 +492,11 @@ const feedback = {
       name: student.name,
       categories: parsedCategories.map(category => ({
         id: category.id,
+        name: category.name,
         responseGrade: student.responseGrades[category.id],
         feedbackGrade: getBestGrade(category, parsedSkillLevels, student.taskResponses)
       })),
+      openResponses: student.openResponses,
       finalGrade: (
         student.finalGradeResponse
           ? {
@@ -567,7 +627,7 @@ const getGradesWithDepth = (levels) => {
 }
 
 const individualFeedback = {
-  prepare: async (id, userId) => {
+  prepare: async (id, userId, lang) => {
     const [response, selfAssessmentForm] = await Promise.all([
       Response.findOne({
         where: {
@@ -580,7 +640,7 @@ const individualFeedback = {
             where: {
               id: userId
             },
-            attributes: ['studentnumber', 'name'],
+            attributes: ['id', 'studentnumber', 'name'],
             include: {
               model: TaskResponse,
               attributes: ['task_id', 'points']
@@ -589,20 +649,21 @@ const individualFeedback = {
           {
             separate: true,
             model: CategoryResponse,
-            attributes: ['grade_id', 'response_id'],
-            include: {
-              model: CategoryQuestion,
-              attributes: ['category_id']
-            }
+            attributes: ['grade_id', 'response_id', 'text', 'category_question_id'],
+          },
+          {
+            separate: true,
+            model: OpenResponse,
+            attributes: ['response_id', 'text', 'open_question_id']
           },
           {
             model: FinalGradeResponse,
             required: false,
-            attributes: ['grade_id']
+            attributes: ['grade_id', 'text']
           }
         ]
       }),
-      feedbackSelfAssessmentForm(id)
+      feedbackSelfAssessmentForm(id, lang)
     ])
     return [
       response.toJSON(),
@@ -610,6 +671,13 @@ const individualFeedback = {
     ]
   },
   value: (response, selfAssessmentForm) => {
+    if (selfAssessmentForm.type === 'OBJECTIVES') {
+      return {
+        id: response.person.id,
+        studentnumber: response.person.studentnumber,
+        name: response.person.name
+      }
+    }
     const parsedSelfAssessmentForm = feedbackParseSelfAssessmentForm(selfAssessmentForm)
 
     const parsedStudent = feedbackParseStudent(parsedSelfAssessmentForm)(response)
@@ -622,10 +690,12 @@ const individualFeedback = {
       name: parsedStudent.name,
       categories: parsedCategories.map(category => ({
         id: category.id,
+        name: category.name,
         responseGrade: parsedStudent.responseGrades[category.id],
         feedbackGrade: getBestGrade(category, parsedSkillLevels, parsedStudent.taskResponses),
         progress: getCategoryProgress(category, parsedSkillLevels, parsedStudent.taskResponses)
       })),
+      openResponses: parsedStudent.openResponses,
       finalGrade: (
         parsedStudent.finalGradeResponse
           ? {
@@ -705,6 +775,30 @@ const getFinalGradeProgress = (skillLevels, taskResponses, grades) => {
   return grades.map(progressMapper(levelCompletions))
 }
 
+const getByCourse = async (id, user) => {
+  const [selfAssessmentForms, coursePerson] = await Promise.all([
+    SelfAssessmentForm.findAll({
+      where: {
+        course_instance_id: id
+      },
+      attributes: {
+        exclude: ['created_at', 'updated_at']
+      }
+    }),
+    CoursePerson.findOne({
+      where: {
+        course_instance_id: id,
+        person_id: user.id
+      },
+      attributes: ['role']
+    })
+  ])
+  if (!coursePerson || coursePerson.role !== 'TEACHER') {
+    return selfAssessmentForms.filter(selfAssessmentForm => selfAssessmentForm.active)
+  }
+  return selfAssessmentForms
+}
+
 module.exports = {
   create,
   delete: deleteService,
@@ -712,5 +806,6 @@ module.exports = {
   getData,
   edit,
   feedback,
-  individualFeedback
+  individualFeedback,
+  getByCourse
 }

@@ -1,4 +1,5 @@
-import { postJson } from '../utils/utils'
+import { postJson, getJson } from '../utils/utils'
 
-// eslint-disable-next-line import/prefer-default-export
 export const create = data => postJson('/responses/create', data)
+
+export const getMine = id => getJson(`/responses/self-assessment-form/${id}/me`)

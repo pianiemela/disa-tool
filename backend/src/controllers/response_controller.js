@@ -52,7 +52,7 @@ router.post('/create', async (req, res) => {
 
 router.get('/self-assessment-form/:id/me', async (req, res) => {
   const { id } = req.params
-  const data = await responseService.findOne(id, req.user)
+  const data = await responseService.getOne(id, req.user)
   if (!data) {
     res.status(404).json({
       toast: errors.notfound.toast,

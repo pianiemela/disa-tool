@@ -1,7 +1,11 @@
-import { create } from '../../../api/response'
+import { create, getMine } from '../../../api/response'
 
-// eslint-disable-next-line import/prefer-default-export
 export const createResponse = async (data) => {
   const response = await create(data)
+  return response.data
+}
+
+export const getResponse = async (id) => {
+  const response = await getMine(id)
   return response.data
 }

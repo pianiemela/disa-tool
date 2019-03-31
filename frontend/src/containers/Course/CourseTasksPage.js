@@ -19,7 +19,8 @@ export class CourseTasksPage extends Component {
     const { course } = this.props
     const instanceHasData = course.people.length !== 0
     await this.setState({ loading: true })
-    // If for some reason the redux instance is not set, fetch the course data first, before getting the tasks
+    // If for some reason the redux instance is not set,
+    // fetch the course data first, before getting the tasks
     // and set it to redux state
     if (!instanceHasData) {
       const { courseId } = this.props.location.state
@@ -102,7 +103,8 @@ CourseTasksPage.propTypes = {
     state: PropTypes.shape({
       course: PropTypes.shape({
         id: PropTypes.number.isRequired
-      })
+      }),
+      courseId: PropTypes.number.isRequired
     })
   }).isRequired,
   course: PropTypes.shape({

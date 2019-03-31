@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Redirect, Link } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { shape, string, arrayOf, func, number } from 'prop-types'
-import { Accordion, Dimmer, Header, Grid, Item, Loader, Button } from 'semantic-ui-react'
+import { Accordion, Dimmer, Header, Grid, Item, Loader } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
 import {
@@ -10,15 +10,16 @@ import {
   getUserSelfAssesments,
   getCourseInstanceDataAction,
   toggleCourseActivityAction,
-  toggleAssessmentAction
+  toggleAssessmentAction,
+  setAssessmentStatusAction,
+  resetCourseInstanceAction
 } from '../../actions/actions'
 import CourseSideMenu from './CourseSideMenu'
 import { ListTasks } from './ListTasks'
-import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
+import SelfAssessmentFormList from '../NewSelfAssessmentForm/components/List/SelfAssessmentFormList'
 import CourseInfo from './CourseInfo'
-import TaskResponseEdit from './TaskResponseEdit'
-import ManageCoursePeople from './ManageCoursePeople'
 import SelfAssessmentFormCreateForm from '../NewSelfAssessmentForm/components/AddForm/SelfAssessmentFormCreateForm'
+import Conditional from '../../utils/components/Conditional'
 
 class UserPage extends Component {
   state = {
@@ -27,18 +28,37 @@ class UserPage extends Component {
     selectedType: undefined
   }
 
-  componentDidMount = async () => {
-    const { activeCourse } = this.props
-    const { courseId } = this.props.match.params
+  componentDidMount = () => {
+    const onMount = async () => {
+      const { activeCourse } = this.props
+      const { courseId } = this.props.match.params
 
-    await this.props.dispatchGetUserCourses()
-    this.props.dispatchGetUserSelfAssesments()
-    if (courseId && !activeCourse.id && !this.state.loading) {
-      await this.setState({ loading: true })
-      this.props.dispatchGetCourseInstanceData(courseId).then(() => (
-        this.setState({ loading: false })
-      ))
+      await this.props.dispatchGetUserCourses()
+      this.props.dispatchGetUserSelfAssesments()
+      if (courseId && (!activeCourse.id || activeCourse.id !== courseId) && !this.state.loading) {
+        if (this.mounted) {
+          this.setState({ loading: true })
+          this.props.dispatchGetCourseInstanceData(courseId).then(() => {
+            if (this.mounted) {
+              this.setState({ loading: false })
+            }
+          })
+        }
+      }
     }
+    this.mounted = true
+    onMount()
+  }
+
+  componentWillUnmount() {
+    const { course_id: courseId, id, status } = this.props.activeCourse
+    if (this.state.cancelablePromise) {
+      this.state.cancelablePromise.cancel()
+    }
+    if (status === 403 && this.props.match.params.courseId && courseId && id) {
+      this.props.dispatchResetCourseInstance()
+    }
+    this.mounted = false
   }
 
   t = id => this.props.translate(`UserPage.common.${id}`)
@@ -61,11 +81,14 @@ class UserPage extends Component {
 
   toggleAssessment = (e, { value }) => {
     switch (e.target.name) {
-      case 'assessmentOpen':
-        this.props.dispatchToggleAssessment(value, 'open')
+      case 'assessmentHidden':
+        this.props.dispatchSetAssessmentStatus(value, [{ name: 'open', value: false }, { name: 'active', value: false }])
         break
-      case 'assessmentActive':
-        this.props.dispatchToggleAssessment(value, 'active')
+      case 'assessmentShown':
+        this.props.dispatchSetAssessmentStatus(value, [{ name: 'open', value: false }, { name: 'active', value: true }])
+        break
+      case 'assessmentOpen':
+        this.props.dispatchSetAssessmentStatus(value, [{ name: 'open', value: true }, { name: 'active', value: true }])
         break
       case 'feedbackOpen':
         this.props.dispatchToggleAssessment(value, 'show_feedback')
@@ -81,6 +104,10 @@ class UserPage extends Component {
     const { self_assessments: assessments, tasks } = activeCourse
     if (!this.props.match.params.courseId && activeCourse.id) {
       return <Redirect to={`/user/course/${activeCourse.id}`} />
+    }
+    const { course_id: courseId, id, status } = activeCourse
+    if (status === 403 && this.props.match.params.courseId && courseId && id) {
+      return <Redirect to={`/courses?course=${courseId}&instance=${id}`} />
     }
     const isTeacher = activeCourse.courseRole === 'TEACHER'
     const isGlobalTeacher = user.role === 'TEACHER' || user.role === 'ADMIN'
@@ -99,8 +126,7 @@ class UserPage extends Component {
         </Dimmer>
         <Grid.Row>
           <Grid.Column>
-            {this.props.user ? <Header as="h1">{this.t('hello')} {this.props.user.name}</Header> :
-              <p>Hello bastard</p>}
+            {this.props.user ? <Header as="h1">{this.t('hello')} {this.props.user.name}</Header> : null}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -114,7 +140,7 @@ class UserPage extends Component {
           <Grid.Column width={13}>
             {activeCourse.id ?
               <Item>
-                <Grid padded="horizontally">
+                <Grid padded="horizontally" columns="equal">
                   <CourseInfo
                     course={activeCourse}
                     toggleActivation={this.handleActivityToggle}
@@ -124,41 +150,48 @@ class UserPage extends Component {
                     isGlobalTeacher={isGlobalTeacher}
                   />
                   <Grid.Row>
-                    <Grid.Column floated="left" width={8}>
-                      <Item.Content>
-                        <Header as="h3">{this.t('tasks')}</Header>
-                        <Accordion
-                          defaultActiveIndex={-1}
-                          styled
-                          fluid
-                          panels={[{
-                            key: 'ListTasks',
-                            title: this.t('open_task_list'),
-                            content: {
-                              key: 'tasks',
-                              content: <ListTasks
-                                tasks={tasks}
-                                selectedType={selectedType}
-                              />
-                            }
-                          }]}
-                        />
-                      </Item.Content>
-                    </Grid.Column>
-                    <Grid.Column floated="right" width={8}>
-                      <Item.Content>
-                        <Header as="h3">{this.t('self_assessments')}</Header>
-                        <CourseSelfAssessmentsList
-                          assesments={assessments}
-                          isTeacher={isTeacher}
-                          toggleAssessment={this.toggleAssessment}
+                    <Grid.Column>
+                      <SelfAssessmentFormList
+                        isTeacher={isTeacher}
+                        courseInstanceId={activeCourse.id}
+                      />
+                      <Conditional visible={isTeacher}>
+                        <SelfAssessmentFormCreateForm
+                          courseInstanceId={activeCourse.id}
+                          type="CATEGORIES"
                         />
                         <SelfAssessmentFormCreateForm
-                          courseInstanceId={this.props.activeCourse.id}
+                          courseInstanceId={activeCourse.id}
+                          type="OBJECTIVES"
                         />
-                      </Item.Content>
+                      </Conditional>
                     </Grid.Column>
                   </Grid.Row>
+                  <Conditional visible={tasks.length > 0}>
+                    <Grid.Row>
+                      <Grid.Column>
+                        <Item.Content>
+                          <Header as="h3">{this.t('tasks')}</Header>
+                          <Accordion
+                            defaultActiveIndex={-1}
+                            styled
+                            fluid
+                            panels={[{
+                              key: 'ListTasks',
+                              title: this.t('open_task_list'),
+                              content: {
+                                key: 'tasks',
+                                content: <ListTasks
+                                  tasks={tasks}
+                                  selectedType={selectedType}
+                                />
+                              }
+                            }]}
+                          />
+                        </Item.Content>
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Conditional>
                 </Grid>
               </Item> :
               <Item>
@@ -194,8 +227,11 @@ UserPage.propTypes = {
     }).isRequired
   }).isRequired,
   dispatchGetUserCourses: func.isRequired,
+  dispatchGetUserSelfAssesments: func.isRequired,
   dispatchToggleActivity: func.isRequired,
   dispatchToggleAssessment: func.isRequired,
+  dispatchSetAssessmentStatus: func.isRequired,
+  dispatchResetCourseInstance: func.isRequired,
   translate: func.isRequired
 }
 
@@ -209,5 +245,7 @@ export default withLocalize(connect(mapStateToProps, {
   dispatchGetUserSelfAssesments: getUserSelfAssesments,
   dispatchGetCourseInstanceData: getCourseInstanceDataAction,
   dispatchToggleActivity: toggleCourseActivityAction,
-  dispatchToggleAssessment: toggleAssessmentAction
+  dispatchToggleAssessment: toggleAssessmentAction,
+  dispatchSetAssessmentStatus: setAssessmentStatusAction,
+  dispatchResetCourseInstance: resetCourseInstanceAction
 })(UserPage))

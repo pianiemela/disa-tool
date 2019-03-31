@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { number } from 'prop-types'
-import { Button, Form, Container } from 'semantic-ui-react'
+import { number, func } from 'prop-types'
+import { Button, Container, Loader } from 'semantic-ui-react'
+import { Redirect } from 'react-router-dom'
+import { withLocalize } from 'react-localize-redux'
 import FinalGradeResponse from './components/FinalGradeQuestion/FinalGradeResponse'
 import ResponseFormInfo from './components/FormInfo/ResponseFormInfo'
 import CategoryResponseList from './components/CategoryQuestion/CategoryResponseList'
@@ -11,8 +13,10 @@ import { createResponse } from './actions/response'
 import { getGrades } from './actions/grade'
 
 const SelfAssessmentFormResponsePage = ({
-  selfAssessmentFormId
+  selfAssessmentFormId,
+  translate: baseTranslate
 }) => {
+  const translate = id => baseTranslate(`NewSelfAssesmentForm.SelfAssessmentFormResponsePage.${id}`)
   const [redirect, setRedirect] = useState(null)
   const [selfAssessmentForm, setSelfAssessmentForm] = useState(null)
   const [response, setResponse] = useState({ id: null })
@@ -32,50 +36,48 @@ const SelfAssessmentFormResponsePage = ({
     })
   }, [])
 
-  if (redirect) return <div>Redirect</div>
-  if (!selfAssessmentForm) return <div>Loading...</div>
+  if (redirect) return <Redirect to={redirect} />
+  if (!selfAssessmentForm) return <Loader active inline />
 
-  const submit = (event) => {
-    event.preventDefault()
-    setRedirect('/')
+  const submit = () => {
+    setRedirect(`/user/course/${selfAssessmentForm.course_instance_id}`)
   }
 
   return (
-    <Form onSubmit={submit}>
-      <Container>
-        <ResponseFormInfo
-          selfAssessmentForm={selfAssessmentForm}
-        />
-        {selfAssessmentForm.type === 'CATEGORIES' ? (
-          <CategoryResponseList
-            selfAssessmentFormId={selfAssessmentFormId}
-            courseInstanceId={selfAssessmentForm.course_instance_id}
-            responseId={response.id}
-            grades={grades}
-          />
-        ) : (
-          <ObjectiveResponseList
-            selfAssessmentFormId={selfAssessmentFormId}
-            courseInstanceId={selfAssessmentForm.course_instance_id}
-          />
-        )}
-        <OpenResponseList
+    <Container>
+      <ResponseFormInfo
+        selfAssessmentForm={selfAssessmentForm}
+      />
+      {selfAssessmentForm.type === 'CATEGORIES' ? (
+        <CategoryResponseList
           selfAssessmentFormId={selfAssessmentFormId}
-          responseId={response.id}
-        />
-        <FinalGradeResponse
-          selfAssessmentFormId={selfAssessmentFormId}
+          courseInstanceId={selfAssessmentForm.course_instance_id}
           responseId={response.id}
           grades={grades}
         />
-        <Button type="submit">translate: Save</Button>
-      </Container>
-    </Form>
+      ) : (
+        <ObjectiveResponseList
+          selfAssessmentFormId={selfAssessmentFormId}
+          courseInstanceId={selfAssessmentForm.course_instance_id}
+        />
+      )}
+      <OpenResponseList
+        selfAssessmentFormId={selfAssessmentFormId}
+        responseId={response.id}
+      />
+      <FinalGradeResponse
+        selfAssessmentFormId={selfAssessmentFormId}
+        responseId={response.id}
+        grades={grades}
+      />
+      <Button type="button" onClick={submit}>{translate('save')}</Button>
+    </Container>
   )
 }
 
 SelfAssessmentFormResponsePage.propTypes = {
-  selfAssessmentFormId: number.isRequired
+  selfAssessmentFormId: number.isRequired,
+  translate: func.isRequired
 }
 
-export default SelfAssessmentFormResponsePage
+export default withLocalize(SelfAssessmentFormResponsePage)

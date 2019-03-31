@@ -64,7 +64,7 @@ router.delete('/:id', async (req, res) => {
 
 router.get('/:id/feedback', async (req, res) => {
   const { id } = req.params
-  const [responses, selfAssessmentForm] = await selfAssessmentFormService.feedback.prepare(id)
+  const [responses, selfAssessmentForm] = await selfAssessmentFormService.feedback.prepare(id, req.lang)
   await onlyTeacherOnCourseHasAccess(req, res, selfAssessmentForm.course_instance_id)
   const data = selfAssessmentFormService.feedback.value(responses, selfAssessmentForm)
   res.status(200).json({
@@ -75,11 +75,20 @@ router.get('/:id/feedback', async (req, res) => {
 
 router.get('/:id/feedback/:userId', async (req, res) => {
   const { id, userId } = req.params
-  const [response, selfAssessmentForm] = await selfAssessmentFormService.individualFeedback.prepare(id, userId)
+  const [response, selfAssessmentForm] = await selfAssessmentFormService.individualFeedback.prepare(id, userId, req.lang)
   if (Number(userId) !== req.user.id) {
     await onlyTeacherOnCourseHasAccess(req, res, selfAssessmentForm.course_instance_id)
   }
   const data = selfAssessmentFormService.individualFeedback.value(response, selfAssessmentForm)
+  res.status(200).json({
+    message: '',
+    data
+  })
+})
+
+router.get('/course-instance/:id', async (req, res) => {
+  const { id } = req.params
+  const data = await selfAssessmentFormService.getByCourse(id, req.user)
   res.status(200).json({
     message: '',
     data

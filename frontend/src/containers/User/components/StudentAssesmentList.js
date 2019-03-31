@@ -7,7 +7,7 @@ import { Label, List } from 'semantic-ui-react'
 const StudentAssesmentList = ({ assesments, translate: baseTranslate }) => {
   const translate = id => baseTranslate(`UserPage.StudentAssesmentList.${id}`)
   return (
-    <List selection size="big">
+    <List selection divided size="big">
       {assesments.map(assesment => (
         !assesment.active ? undefined : (
           <List.Item key={assesment.id} style={{ display: 'flex' }}>

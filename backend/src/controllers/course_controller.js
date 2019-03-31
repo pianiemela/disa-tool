@@ -94,8 +94,8 @@ router.get('/instance/:courseId', async (req, res) => {
   ])
   if (!hasPrivilege) {
     res.status(403).json({
-      toast: errors.privilege.toast,
-      error: errors.privilege[req.lang]
+      course_id: instance.course_id,
+      id: instance.id
     })
     return
   }

@@ -245,6 +245,30 @@ router.put('/toggle/:id', async (req, res) => {
   })
 })
 
+router.put('/state/:id', async (req, res) => {
+  const { id } = req.params
+  const { attributes } = req.body
+  const instance = await selfAssesmentService.setAssessmentStatus.prepare(id, attributes)
+  const assessment = instance.toJSON()
+  const hasPrivilege = await checkPrivilege(req, [
+    {
+      key: 'teacher_on_course',
+      param: assessment.course_instance_id
+    }
+  ])
+  if (!hasPrivilege) {
+    res.status(403).json({
+      toast: errors.privilege.toast,
+      error: errors.privilege[req.lang]
+    })
+    return
+  }
+  selfAssesmentService.toggleAssessment.execute(instance)
+  res.status(200).json({
+    assessment
+  })
+})
+
 const destructureNamesAndInstructions = (createFormData, formInfo) => {
   const withNamesAndInstructions = { ...createFormData }
   formInfo.forEach((forminfoType) => {

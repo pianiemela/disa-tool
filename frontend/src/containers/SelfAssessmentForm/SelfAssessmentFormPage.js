@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Prompt } from 'react-router'
-import { Button, Loader, Container, Modal } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { Button, Loader, Container, Modal, Header, Segment } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import FeedbackPage from '../Feedback/FeedbackPage'
@@ -156,7 +157,20 @@ export class SelfAssessmentFormPage extends React.Component {
     return (
       <div>
         <Container className="SelfAssessmentFormPage">
-          <h2 style={{ textAlign: 'center' }}>{displayCoursename}</h2>
+          <Segment>
+            <Header as="h1" textAlign="center">
+              <Button
+                as={Link}
+                to={`/user/course/${this.props.courseInstance.id}`}
+                basic
+                floated="left"
+                color="blue"
+                icon="backward"
+                content={translate('back_button')}
+              />
+              {displayCoursename}
+            </Header>
+          </Segment>
 
           <AssessmentMessage
             preview={this.state.preview}
@@ -327,7 +341,11 @@ SelfAssessmentFormPage.propTypes = {
   dispatchValidation: PropTypes.func.isRequired,
   formErrors: PropTypes.bool,
   match: PropTypes.shape({
-    params: PropTypes.shape({}).isRequired
+    params: PropTypes.shape({
+      courseInstanceId: PropTypes.string,
+      type: PropTypes.string,
+      selfAssessmentId: PropTypes.string
+    }).isRequired
   }).isRequired,
   assessmentResponse: PropTypes.shape({
     existingAnswer: PropTypes.bool
@@ -339,7 +357,8 @@ SelfAssessmentFormPage.propTypes = {
   translate: PropTypes.func.isRequired,
   softErrors: PropTypes.bool,
   responseErrors: PropTypes.shape(),
-  unsavedChanges: PropTypes.bool.isRequired
+  unsavedChanges: PropTypes.bool.isRequired,
+  courseInstance: PropTypes.shape({ id: PropTypes.number }).isRequired
 }
 
 export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(SelfAssessmentFormPage))
