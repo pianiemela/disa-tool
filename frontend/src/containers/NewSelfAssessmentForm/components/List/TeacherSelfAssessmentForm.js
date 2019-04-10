@@ -1,12 +1,14 @@
 import React from 'react'
 import { shape, func, number, string, bool } from 'prop-types'
-import { List, Button, Popup } from 'semantic-ui-react'
+import { List, Button, Popup, Table } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withLocalize } from 'react-localize-redux'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 import { getLanguage } from '../../../../utils/utils'
 import Conditional from '../../../../utils/components/Conditional'
 import { editSelfAssessmentForm, deleteSelfAssessmentForm } from '../../actions/selfAssessmentForm'
 import DeleteForm from '../../../../utils/components/DeleteForm'
+import { getBaseUrl } from '../../../User/components/LinkExport'
 
 const TeacherSelfAssessmentForm = ({
   selfAssessmentForm,
@@ -15,6 +17,7 @@ const TeacherSelfAssessmentForm = ({
 }) => {
   const translate = id => baseTranslate(`NewSelfAssessmentForm.List.TeacherSelfAssessmentForm.${id}`)
   const lang = getLanguage()
+  const responseUrl = `${getBaseUrl()}/self-assessment-form/${selfAssessmentForm.id}/response`
 
   const saveEdit = (edited) => {
     dispatchSelfAssessmentForms({
@@ -57,7 +60,7 @@ const TeacherSelfAssessmentForm = ({
     <List.Item style={{ display: 'flex' }}>
       <List.Content
         as={Link}
-        to={`/selfassessment/list/${selfAssessmentForm.id}`}
+        to={`/self-assessment-form/${selfAssessmentForm.id}/review`}
         style={{ flexGrow: 1 }}
       >
         {selfAssessmentForm[`${lang}_name`]}
@@ -66,6 +69,49 @@ const TeacherSelfAssessmentForm = ({
         style={{ paddingRight: '10px', paddingLeft: '10px' }}
       >
         <Conditional visible={selfAssessmentForm.open}>
+          <Popup
+            on="click"
+            trigger={
+              <div style={{ display: 'inline' }}>
+                <Button
+                  icon="linkify"
+                  circular
+                  size="mini"
+                  basic
+                  color="grey"
+                />
+              </div>
+            }
+            content={
+              <Table>
+                <Table.Body>
+                  <Table.Row>
+                    <Table.Cell>
+                      <strong>{translate('self_assessment_form_response_page')}</strong>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <span style={{ flexGrow: 1 }}>{responseUrl}</span>
+                    </Table.Cell>
+                    <Table.Cell>
+                      <CopyToClipboard text={responseUrl}>
+                        <div>
+                          <Popup
+                            trigger={
+                              <Button
+                                icon={{ name: 'copy' }}
+                                size="mini"
+                              />
+                            }
+                            content={translate('copy_to_clipboard')}
+                          />
+                        </div>
+                      </CopyToClipboard>
+                    </Table.Cell>
+                  </Table.Row>
+                </Table.Body>
+              </Table>
+            }
+          />
           <Popup
             trigger={
               <div style={{ display: 'inline' }}>

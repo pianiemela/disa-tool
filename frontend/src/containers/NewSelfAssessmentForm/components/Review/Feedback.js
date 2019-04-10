@@ -15,7 +15,7 @@ const Feedback = ({
 
   const toggleExpanded = () => setExpanded(!expanded)
   const findGradeName = (gradeReview) => {
-    if (!gradeReview) return '-'
+    if (!gradeReview || !gradeReview.id) return '-'
     const grade = grades[gradeReview.id]
     if (!grade) return '-'
     return grade.name
@@ -35,6 +35,7 @@ const Feedback = ({
       <Accordion.Content active={expanded}>
         <Button
           as={Link}
+          target="_blank"
           to={`/self-assessment-form/${selfAssessmentFormId}/feedback/${student.id}`}
           basic
         >
@@ -106,7 +107,7 @@ Feedback.propTypes = {
         depth: number.isRequired
       }),
       feedbackGrade: shape({
-        id: number.isRequired,
+        id: number,
         depth: number.isRequired
       }).isRequired
     }).isRequired),

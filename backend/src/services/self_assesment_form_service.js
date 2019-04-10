@@ -21,7 +21,8 @@ const {
   TaskType,
   FinalGradeResponse,
   CoursePerson,
-  OpenResponse
+  OpenResponse,
+  ObjectiveResponse
 } = require('../database/models')
 
 const create = {
@@ -186,6 +187,11 @@ const feedbackSelfAssessmentForm = (id, lang) => SelfAssessmentForm.findByPk(id,
     },
     {
       separate: true,
+      model: ObjectiveQuestion,
+      attributes: ['id', 'objective_id', 'self_assessment_form_id']
+    },
+    {
+      separate: true,
       model: OpenQuestion,
       attributes: ['id', [`${lang}_prompt`, 'prompt'], 'self_assessment_form_id']
     },
@@ -227,7 +233,7 @@ const feedbackSelfAssessmentForm = (id, lang) => SelfAssessmentForm.findByPk(id,
           include: [
             {
               model: Objective,
-              attributes: ['id', 'category_id'],
+              attributes: ['id', [`${lang}_name`, 'name'], 'category_id'],
               include: {
                 model: TaskObjective,
                 attributes: ['task_id', 'multiplier']
@@ -348,19 +354,78 @@ const feedbackParseSelfAssessmentForm = (selfAssessmentForm) => {
 
   const parsedOpenQuestions = selfAssessmentForm.open_questions
 
+  const objectiveMap = {}
+  if (selfAssessmentForm.objective_questions.length > 0) {
+    selfAssessmentForm.course_instance.skill_levels.forEach(({ objectives }) => objectives.forEach((objective) => {
+      objectiveMap[objective.id] = objective
+    }))
+  }
+  const parsedObjectiveQuestionMap = selfAssessmentForm.objective_questions.reduce(
+    (acc, objectiveQuestion) => ({
+      ...acc,
+      [objectiveQuestion.id]: {
+        objectiveId: objectiveMap[objectiveQuestion.objective_id].id,
+        objectiveOrder: objectiveMap[objectiveQuestion.objective_id].order,
+        objectiveName: objectiveMap[objectiveQuestion.objective_id].name
+      }
+    }),
+    {}
+  )
+
   return {
+    taskMap,
     parsedGrades,
     parsedCategories,
     parsedSkillLevels,
     parsedOpenQuestions,
-    parsedCategoryQuestionMap
+    parsedCategoryQuestionMap,
+    parsedObjectiveQuestionMap
   }
 }
+
+const feedbackParseObjectives = (selfAssessmentForm, { taskMap }) => {
+  const categoryMap = selfAssessmentForm.course_instance.categories.reduce(
+    (acc, category) => ({
+      ...acc,
+      [category.id]: []
+    }),
+    {}
+  )
+  selfAssessmentForm.course_instance.skill_levels.reduce(
+    (acc, { objectives }) => acc.concat(objectives),
+    []
+  ).forEach((objective) => {
+    let maxPoints = 0
+    const tasks = objective.task_objectives.map((taskObjective) => {
+      const task = taskMap[taskObjective.task_id]
+      const multiplier = (
+        typeof taskObjective.multiplier === 'number'
+          ? taskObjective.multiplier
+          : task.multiplier
+      )
+      maxPoints += multiplier * task.max_points
+      return {
+        ...task,
+        multiplier
+      }
+    })
+    categoryMap[objective.category_id].push({
+      id: objective.id,
+      name: objective.name,
+      tasks,
+      maxPoints
+    })
+  })
+
+  return categoryMap
+}
+
 const feedbackParseStudent = ({
   parsedGrades,
   parsedCategoryQuestionMap,
   parsedCategories,
-  parsedOpenQuestions
+  parsedOpenQuestions,
+  parsedObjectiveQuestionMap
 }) => (response) => {
   const finalGrade = (
     response.final_grade_response
@@ -391,6 +456,7 @@ const feedbackParseStudent = ({
     responseGrades: parsedCategories.reduce(
       (acc, category) => {
         const categoryResponse = categoryResponseMap[parsedCategoryQuestionMap[category.id]]
+        if (!categoryResponse) return acc
         const responseGrade = parsedGrades.find(grade => grade.id === categoryResponse.grade_id)
         return {
           ...acc,
@@ -415,6 +481,17 @@ const feedbackParseStudent = ({
       }),
       {}
     ),
+    objectiveResponses: response.objective_responses.map(objectiveResponse => ({
+      objectiveId: parsedObjectiveQuestionMap[objectiveResponse.objective_question_id].objectiveId,
+      objectiveOrder: parsedObjectiveQuestionMap[objectiveResponse.objective_question_id].objectiveOrder,
+      objectiveName: parsedObjectiveQuestionMap[objectiveResponse.objective_question_id].objectiveName,
+      answer: objectiveResponse.answer
+    })).sort((a, b) => {
+      if (a.objectiveOrder === b.objectiveOrder) {
+        return a.objectiveId - b.objectiveId
+      }
+      return a.objectiveOrder - b.objectiveOrder
+    }),
     finalGradeResponse: (
       finalGrade
         ? {
@@ -447,7 +524,12 @@ const feedback = {
           {
             separate: true,
             model: CategoryResponse,
-            attributes: ['grade_id', 'response_id', 'text', 'category_question_id'],
+            attributes: ['grade_id', 'response_id', 'text', 'category_question_id']
+          },
+          {
+            separate: true,
+            model: ObjectiveResponse,
+            attributes: ['response_id', 'answer', 'objective_question_id']
           },
           {
             separate: true,
@@ -472,14 +554,6 @@ const feedback = {
     ]
   },
   value: (responses, selfAssessmentForm) => {
-    if (selfAssessmentForm.type === 'OBJECTIVES') {
-      return responses.map(response => ({
-        id: response.person.id,
-        studentnumber: response.person.studentnumber,
-        name: response.person.name
-      }))
-    }
-
     const parsedSelfAssessmentForm = feedbackParseSelfAssessmentForm(selfAssessmentForm)
 
     const parsedStudents = responses.map(feedbackParseStudent(parsedSelfAssessmentForm))
@@ -496,6 +570,7 @@ const feedback = {
         responseGrade: student.responseGrades[category.id],
         feedbackGrade: getBestGrade(category, parsedSkillLevels, student.taskResponses)
       })),
+      objectiveResponses: student.objectiveResponses,
       openResponses: student.openResponses,
       finalGrade: (
         student.finalGradeResponse
@@ -575,7 +650,7 @@ const getBestGrade = (category, skillLevels, taskResponses) => {
     }),
     {}
   )
-  return category.grades.reduce(
+  const bestGrade = category.grades.reduce(
     (acc, grade) => {
       if (acc) return acc
       const level = levelCompletions[grade.skillLevelId]
@@ -593,6 +668,10 @@ const getBestGrade = (category, skillLevels, taskResponses) => {
     },
     null
   )
+  return bestGrade || {
+    id: null,
+    depth: 0
+  }
 }
 
 
@@ -653,6 +732,11 @@ const individualFeedback = {
           },
           {
             separate: true,
+            model: ObjectiveResponse,
+            attributes: ['response_id', 'answer', 'objective_question_id']
+          },
+          {
+            separate: true,
             model: OpenResponse,
             attributes: ['response_id', 'text', 'open_question_id']
           },
@@ -671,14 +755,8 @@ const individualFeedback = {
     ]
   },
   value: (response, selfAssessmentForm) => {
-    if (selfAssessmentForm.type === 'OBJECTIVES') {
-      return {
-        id: response.person.id,
-        studentnumber: response.person.studentnumber,
-        name: response.person.name
-      }
-    }
     const parsedSelfAssessmentForm = feedbackParseSelfAssessmentForm(selfAssessmentForm)
+    const categoryMapOfObjectives = feedbackParseObjectives(selfAssessmentForm, parsedSelfAssessmentForm)
 
     const parsedStudent = feedbackParseStudent(parsedSelfAssessmentForm)(response)
 
@@ -693,8 +771,9 @@ const individualFeedback = {
         name: category.name,
         responseGrade: parsedStudent.responseGrades[category.id],
         feedbackGrade: getBestGrade(category, parsedSkillLevels, parsedStudent.taskResponses),
-        progress: getCategoryProgress(category, parsedSkillLevels, parsedStudent.taskResponses)
+        progress: getCategoryProgress(categoryMapOfObjectives[category.id], parsedStudent.taskResponses)
       })),
+      objectiveResponses: parsedStudent.objectiveResponses,
       openResponses: parsedStudent.openResponses,
       finalGrade: (
         parsedStudent.finalGradeResponse
@@ -725,26 +804,20 @@ const progressMapper = levelCompletions => (grade) => {
   }
 }
 
-const getCategoryProgress = (category, skillLevels, taskResponses) => {
-  const levelCompletions = skillLevels.reduce(
-    (acc, level) => ({
-      ...acc,
-      [level.id]: {
-        maxPoints: level.categories[category.id].maxPoints,
-        points: level.categories[category.id].taskObjectives.reduce(
-          (acc2, taskObjective) => acc2 + (
-            taskObjective.multiplier * (
-              taskResponses[taskObjective.task_id] || 0
-            )
-          ),
-          0
-        )
-      }
-    }),
-    {}
+const getCategoryProgress = (objectives, taskResponses) => objectives.map(objective => ({
+  id: objective.id,
+  name: objective.name,
+  progress: (
+    objective.maxPoints === 0
+      ? 1
+      : (objective.tasks.reduce(
+        (acc, task) => acc + task.multiplier * (
+          taskResponses[task.id] || 0
+        ),
+        0
+      )) / objective.maxPoints
   )
-  return category.grades.map(progressMapper(levelCompletions))
-}
+}))
 
 const getFinalGradeProgress = (skillLevels, taskResponses, grades) => {
   const levelCompletions = skillLevels.reduce(

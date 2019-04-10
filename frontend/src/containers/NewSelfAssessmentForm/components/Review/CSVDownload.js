@@ -3,7 +3,6 @@ import { arrayOf, string, func, number, shape, objectOf } from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import { Button } from 'semantic-ui-react'
 import { CSVLink } from 'react-csv'
-import { objectiveGrades } from '../../../SelfAssessmentForm/utils'
 
 const replaceQuotesAndLineBreaks = str => (
   typeof str === 'string' ? (
@@ -14,27 +13,23 @@ const replaceQuotesAndLineBreaks = str => (
 const formatToCsv = (students, grades) => {
   const formatted = students.map((student) => {
     const findGradeName = (gradeReview) => {
-      if (!gradeReview) return '-'
+      if (!gradeReview || !gradeReview.id) return '-'
       const grade = grades[gradeReview.id]
       if (!grade) return '-'
       return grade.name
     }
     const questionResponses = (
-      student.categories ? (
-        student.categories.map(category => ({
-          [`${category.name}_text`]: (
-            category.responseGrade ? (
-              replaceQuotesAndLineBreaks(category.responseGrade.text)
-            ) : ''
-          ),
-          [`${category.name}_grade`]: findGradeName(category.responseGrade),
-          [`${category.name}_calculated_grade`]: findGradeName(category.feedbackGrade)
-        }))
-      ) : (
-        student.objectives.map(objective => ({
-          [objective.name]: objectiveGrades()[objective.answer]
-        }))
-      )
+      student.categories.map(category => ({
+        [`${category.name}_text`]: (
+          category.responseGrade ? (
+            replaceQuotesAndLineBreaks(category.responseGrade.text)
+          ) : ''
+        ),
+        [`${category.name}_grade`]: findGradeName(category.responseGrade),
+        [`${category.name}_calculated_grade`]: findGradeName(category.feedbackGrade)
+      })).concat(student.objectiveResponses.map(objectiveResponse => ({
+        [objectiveResponse.objectiveName]: objectiveResponse.answer
+      })))
     )
     const openResponses = student.openResponses.map((response, index) => (
       { [`open_question_${index + 1}_text`]: replaceQuotesAndLineBreaks(response.text) }
@@ -77,6 +72,7 @@ const CSVDownload = ({
       onClick={prepare}
       basic
       color="green"
+      disabled={!students}
       content={translate('download_csv')}
       filename={`${filePrefix}_responses.csv`}
       data={data}
@@ -96,7 +92,7 @@ CSVDownload.propTypes = {
         depth: number.isRequired
       }),
       feedbackGrade: shape({
-        id: number.isRequired,
+        id: number,
         depth: number.isRequired
       }).isRequired
     }).isRequired),
@@ -110,7 +106,7 @@ CSVDownload.propTypes = {
         depth: number.isRequired
       }).isRequired
     })
-  }).isRequired).isRequired,
+  }).isRequired),
   grades: objectOf(shape({
     name: string.isRequired
   })).isRequired,
@@ -119,7 +115,8 @@ CSVDownload.propTypes = {
 }
 
 CSVDownload.defaultProps = {
-  filePrefix: ''
+  filePrefix: '',
+  students: null
 }
 
 export default withLocalize(CSVDownload)

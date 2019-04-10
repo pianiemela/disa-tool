@@ -11,7 +11,7 @@ const SelfAssessmentFormReviewPage = ({
   selfAssessmentFormId
 }) => {
   const lang = getLanguage()
-  const [students, setStudents] = useState([])
+  const [students, setStudents] = useState(null)
   const [selfAssessmentForm, setSelfAssessmentForm] = useState(null)
   const [grades, setGrades] = useState({})
 
@@ -56,14 +56,16 @@ const SelfAssessmentFormReviewPage = ({
           />
         </Card.Content>
       </Card>
-      {students.map(student => (
-        <Feedback
-          key={student.id}
-          selfAssessmentFormId={selfAssessmentFormId}
-          student={student}
-          grades={grades}
-        />
-      ))}
+      {students ? (
+        students.map(student => (
+          <Feedback
+            key={student.id}
+            selfAssessmentFormId={selfAssessmentFormId}
+            student={student}
+            grades={grades}
+          />
+        ))
+      ) : <Loader active inline />}
     </Container>
   )
 }

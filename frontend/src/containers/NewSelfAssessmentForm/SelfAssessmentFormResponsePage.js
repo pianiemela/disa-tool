@@ -59,6 +59,7 @@ const SelfAssessmentFormResponsePage = ({
         <ObjectiveResponseList
           selfAssessmentFormId={selfAssessmentFormId}
           courseInstanceId={selfAssessmentForm.course_instance_id}
+          responseId={response.id}
         />
       )}
       <OpenResponseList

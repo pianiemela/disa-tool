@@ -25,6 +25,11 @@ const messages = {
     eng: '"Oppimistavoite muokattu onnistuneesti." englanniksi.',
     fin: 'Oppimistavoite muokattu onnistuneesti.',
     swe: '"Oppimistavoite muokattu onnistuneesti." ruotsiksi.'
+  },
+  getByCourse: {
+    eng: 'Course objectives fetched successfully.',
+    fin: 'Kurssin oppimistavoitteet haettu onnistuneesti.',
+    swe: ''
   }
 }
 
@@ -97,6 +102,15 @@ router.get('/tasks/:id', async (req, res) => {
   const data = await objectiveService.taskDetails(req.params.id, req.lang)
   res.status(200).json({
     message: messages.details[req.lang],
+    data
+  })
+})
+
+router.get('/course/:id', async (req, res) => {
+  const instances = await objectiveService.getByCourseInstance.execute(Number(req.params.id), req.lang)
+  const data = objectiveService.getByCourseInstance.value(instances)
+  res.status(200).json({
+    message: messages.getByCourse[req.lang],
     data
   })
 })

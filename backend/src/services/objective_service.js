@@ -127,11 +127,62 @@ const getObjectivesBySkillCourseCategory = (skillLevelId, courseInstanceId, cate
   })
 )
 
+const getByCourseInstance = {
+  execute: (id, lang) => Promise.all([
+    Category.findAll({
+      where: {
+        course_instance_id: id
+      },
+      attributes: ['id', [`${lang}_name`, 'name'], 'order'],
+      include: {
+        model: Objective,
+        attributes: ['id', [`${lang}_name`, 'name'], 'skill_level_id', 'order']
+      }
+    }),
+    SkillLevel.findAll({
+      where: {
+        course_instance_id: id
+      },
+      attributes: ['id', 'order']
+    })
+  ]),
+  value: ([categories, skillLevels]) => {
+    const skillLevelOrderMap = skillLevels.reduce(
+      (acc, level) => ({
+        ...acc,
+        [level.id]: level.order
+      }),
+      {}
+    )
+    const protoResult = categories.reduce(
+      (acc, category) => acc.concat(category.objectives.map(objective => ({
+        ...objective.toJSON(),
+        categoryOrder: category.order,
+        skillLevelOrder: skillLevelOrderMap[objective.skill_level_id]
+      }))),
+      []
+    )
+    return protoResult.sort((a, b) => {
+      if (a.categoryOrder !== b.categoryOrder) {
+        return a.categoryOrder - b.categoryOrder
+      }
+      if (a.skillLevelOrder !== b.skillLevelOrder) {
+        return a.skillLevelOrder - b.skillLevelOrder
+      }
+      return a.order - b.order
+    }).map(objective => ({
+      id: objective.id,
+      name: objective.name
+    }))
+  }
+}
+
 module.exports = {
   create,
   delete: deleteObjective,
   taskDetails,
   details,
   edit,
-  getObjectivesBySkillCourseCategory
+  getObjectivesBySkillCourseCategory,
+  getByCourseInstance
 }

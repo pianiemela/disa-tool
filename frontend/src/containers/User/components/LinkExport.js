@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Button, Popup, Table } from 'semantic-ui-react'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 
-const getBaseUrl = () => {
+export const getBaseUrl = () => {
   if (window === undefined) return ''
   return `${window.location.protocol}//${window.location.host}`
 }

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { number } from 'prop-types'
-import { Button, Form, Container } from 'semantic-ui-react'
+import { number, func } from 'prop-types'
+import { Button, Form, Container, Loader } from 'semantic-ui-react'
+import { withLocalize } from 'react-localize-redux'
+import { Redirect } from 'react-router-dom'
 import FinalGradeQuestion from './components/FinalGradeQuestion/FinalGradeQuestion'
 import FormInfo from './components/FormInfo/FormInfo'
 import CategoryQuestionList from './components/CategoryQuestion/CategoryQuestionList'
@@ -9,8 +11,10 @@ import OpenQuestionList from './components/OpenQuestion/OpenQuestionList'
 import { getSelfAssessmentForm } from './actions/selfAssessmentForm'
 
 const NewSelfAssessmentFormPage = ({
-  selfAssessmentFormId
+  selfAssessmentFormId,
+  translate: baseTranslate
 }) => {
+  const translate = id => baseTranslate(`NewSelfAssessmentForm.NewSelfAssessmentFormPage.${id}`)
   const [loading, setLoading] = useState(false)
   const [redirect, setRedirect] = useState(null)
   const [selfAssessmentForm, setSelfAssessmentForm] = useState(null)
@@ -24,13 +28,13 @@ const NewSelfAssessmentFormPage = ({
     })
   })
 
-  if (redirect) return <div>Redirect</div>
-  if (loading) return <div>Loading...</div>
+  if (redirect) return <Redirect to={redirect} />
+  if (loading) return <Loader active />
   if (!selfAssessmentForm) return <div />
 
   const submit = () => {
     setTimeout(() => {
-      setRedirect('/')
+      setRedirect(`/user/course/${selfAssessmentForm.courseInstanceId}`)
     }, 2000)
   }
 
@@ -58,14 +62,21 @@ const NewSelfAssessmentFormPage = ({
         <FinalGradeQuestion
           selfAssessmentFormId={selfAssessmentFormId}
         />
-        <Button type="button" onClick={submit}>translate: Save</Button>
+        <Button
+          type="button"
+          onClick={submit}
+          disabled={!selfAssessmentForm}
+        >
+          {translate('save')}
+        </Button>
       </Container>
     </Form>
   )
 }
 
 NewSelfAssessmentFormPage.propTypes = {
-  selfAssessmentFormId: number.isRequired
+  selfAssessmentFormId: number.isRequired,
+  translate: func.isRequired
 }
 
-export default NewSelfAssessmentFormPage
+export default withLocalize(NewSelfAssessmentFormPage)
