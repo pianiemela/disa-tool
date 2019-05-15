@@ -49,7 +49,7 @@ DB_PORT=5321
 ```
 
 Create the database with the following one-liner (make sure the docker container is running):
-`docker exec disa_db psql -U postgres -c "CREATE DATABASE disa_db"`
+`docker exec disa_db psql -U postgres -c "CREATE DATABASE disa_db"` or try `docker exec disa_db psql --username=disa --dbname=disa_db -c "CREATE DATABASE disa_db"`
 
 In the backend folder, run `node src/database/create_data.js`. You can also use a database dump. If you use a dump, run the anonymiser script with `node src/database/anonymise_data.js`.
 
