@@ -74,5 +74,6 @@ Frontend tests should work without further configuration. Simply run `npm test`.
 
 Add the following line to backend .env: `TEST_DB_NAME=disa_test_db`
 
-Then create the test DB: `NODE_ENV=test npx sequelize-cli db:create --config conf-backend.js`
+Then create the test DB in /backend: `NODE_ENV=test npx sequelize-cli db:create --config conf-backend.js`
+
 Now you can run `npm test` to run backend tests.
