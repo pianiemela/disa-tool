@@ -1,5 +1,20 @@
-import { getUsersCourses, getCourses, getCourseInstanceData, toggleCourseInstanceActivity, getCourseTasks } from '../api/courses'
-import { getSelfAssesment, createSelfAssesment, getSelfAssesments, updateSelfAssesment, getSelfAssesmentResponse, createSelfAssessmentResponse, toggleAssessment, setAssessmentStatus } from '../api/selfassesment'
+import {
+  getUsersCourses,
+  getCourses,
+  getCourseInstanceData,
+  toggleCourseInstanceActivity,
+  getCourseTasks
+} from '../api/courses'
+import {
+  getSelfAssesment,
+  createSelfAssesment,
+  getSelfAssesments,
+  updateSelfAssesment,
+  getSelfAssesmentResponse,
+  createSelfAssessmentResponse,
+  toggleAssessment,
+  setAssessmentStatus
+} from '../api/selfassesment'
 import { getUser, updateCoursePersons } from '../api/persons'
 import { deleteCoursePerson } from '../api/coursePersons'
 import { postTaskResponses } from '../api/tasks'
@@ -119,7 +134,6 @@ export const createForm = assessmentData => async (dispatch) => {
     dispatch({
       type: types.CREATE_SELF_ASSESMENT_FAILURE,
       payload: error.response
-
     })
   }
 }
@@ -309,10 +323,10 @@ export const logoutAction = message => (dispatch) => {
 }
 
 export const postTaskResponseActions = tasks => async (dispatch) => {
-  dispatch({
-    type: types.COURSE_INSTANCE_POST_TASK_RESPONSES_ATTEMPT,
-    payload: tasks
-  })
+  // dispatch({
+  //   type: types.COURSE_INSTANCE_POST_TASK_RESPONSES_ATTEMPT,
+  //   payload: tasks
+  // })
   try {
     const { data } = await postTaskResponses(tasks)
     dispatch({

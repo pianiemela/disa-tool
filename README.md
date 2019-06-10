@@ -3,10 +3,12 @@
 DISA-tool is a web application designed to help the usage of digital self-assessment forms.
 
 ## Setting up
+
 Clone the repository.
 
 Set up the database in a docker container.
 Make a `docker-compose.yml` file as follows:
+
 ```
 version: '3'
 
@@ -23,11 +25,13 @@ services:
       - ./disa_pgdata:/var/lib/postgresql/data
     container_name: disa_db
 ```
+
 Start the container with command `docker-compose up -d`
 
 In folders frontend, backend and kurki, run `npm install` in separate terminal windows or separate tabs.
 
-In the backend folder, create a file called `.env` and add there these lines 
+In the backend folder, create a file called `.env` and add there these lines
+
 ```
 DB_NAME=disa_db
 DB_USER=disa
@@ -39,7 +43,8 @@ SECRET=<your own personal super secret>
 NODE_ENV=development
 ```
 
-Create a `.env` also in the kurki-folder, but only add the database parameters there: 
+Create a `.env` also in the kurki-folder, but only add the database parameters there:
+
 ```
 DB_NAME=disa_db
 DB_USER=disa
@@ -69,4 +74,5 @@ Frontend tests should work without further configuration. Simply run `npm test`.
 
 Add the following line to backend .env: `TEST_DB_NAME=disa_test_db`
 
+Then create the test DB: `NODE_ENV=test npx sequelize-cli db:create --config conf-backend.js`
 Now you can run `npm test` to run backend tests.
