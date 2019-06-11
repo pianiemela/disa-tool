@@ -265,7 +265,7 @@ const testDatabaseSave = (options, match, model, config = {}) => {
     includeTimestamps = true,
     findBy = null,
     text = 'saves a row into the database.',
-    delay = 0
+    delay = 100
   } = config
   it(text, (done) => {
     const reqOptions = { ...options }
