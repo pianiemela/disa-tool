@@ -323,10 +323,10 @@ export const logoutAction = message => (dispatch) => {
 }
 
 export const postTaskResponseActions = tasks => async (dispatch) => {
-  // dispatch({
-  //   type: types.COURSE_INSTANCE_POST_TASK_RESPONSES_ATTEMPT,
-  //   payload: tasks
-  // })
+  dispatch({
+    type: types.COURSE_INSTANCE_POST_TASK_RESPONSES_ATTEMPT,
+    payload: tasks
+  })
   try {
     const { data } = await postTaskResponses(tasks)
     dispatch({
@@ -334,6 +334,7 @@ export const postTaskResponseActions = tasks => async (dispatch) => {
       payload: data
     })
   } catch (e) {
+    console.log(e)
     dispatch({
       type: types.COURSE_INSTANCE_POST_TASK_RESPONSES_FAILURE,
       payload: e.response
