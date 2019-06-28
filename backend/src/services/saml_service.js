@@ -1,32 +1,17 @@
 const jwt = require('jsonwebtoken')
 const axios = require('axios')
 const { Op } = require('sequelize')
-const { parseString, Builder } = require('xml2js')
 const { Person } = require('../database/models')
 const config = require('../../conf-backend')
-
-const builder = new Builder()
 
 const JWT_OPTIONS = {
   expiresIn: '24h'
 }
 
-const getMetadata = entityId => new Promise((resolve) => {
-  axios.get(entityId).then((response) => {
-    parseString(response.data, (error, result) => {
-      let parsed = result
-      if (result.EntitiesDescriptor) {
-        parsed = {
-          EntityDescriptor: result.EntitiesDescriptor.EntityDescriptor.find((
-            descriptor => descriptor.IDPSSODescriptor
-          ))
-        }
-      }
-      const built = builder.buildObject(parsed)
-      resolve(built)
-    })
-  })
-})
+const getMetadata = async (entityId) => {
+  const response = await axios.get(entityId)
+  return response.data
+}
 
 const parseUser = attributes => Object.keys(samlResponseAttributes).reduce(
   (acc, curr) => ({

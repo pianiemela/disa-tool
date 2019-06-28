@@ -31,10 +31,12 @@ class HakaAuthentication extends PureComponent {
     if (this.state.redirect) {
       return <Redirect to={this.state.redirect} />
     }
+    // const url = process.env.MODE === 'development' ? 'http://localhost:7000' : `${process.env.SERVICE_PROVIDER_URL}?entityID=${process.env.ENTITY_ID}&return=${process.env.LOGIN_URL}`
+    const url = 'https://haka.funet.fi/shibboleth/WAYF?entityID=https://disa.cs.helsinki.fi&return=http://localhost:8080/api/saml'
     return (
       <Route
         path="/login/haka"
-        render={() => <a href="/api/saml/">HAKA</a>}
+        render={() => <a href={url}>HAKA</a>}
       />
     )
   }
