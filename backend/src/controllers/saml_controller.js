@@ -21,16 +21,20 @@ let idp = null
 router.get('/', async (req, res) => {
   try {
     const { entityID } = req.query
-    const metadata = await getMetadata(config.IDP_ENTITY_ID)
+    const metadata = await getMetadata(
+      'https://haka.funet.fi/metadata/haka-metadata.xml'
+    )
     const parsedMetaData = new DOMParser().parseFromString(metadata, 'text/xml')
     const redirectMetadata = Array.prototype.find.call(
       parsedMetaData.getElementsByTagName('EntityDescriptor'),
-      entity => Array.prototype.find.call(
-        entity.attributes,
-        attr => attr.name === 'entityID'
-      ).value === entityID
+      (entity) =>
+        Array.prototype.find.call(
+          entity.attributes,
+          (attr) => attr.name === 'entityID'
+        ).value === entityID
     )
-    redirectMetadata.getElementsByTagName('IDPSSODescriptor')[0]
+    redirectMetadata
+      .getElementsByTagName('IDPSSODescriptor')[0]
       .setAttribute('WantAuthnRequestsSigned', 'true')
     idp = samlify.IdentityProvider({
       metadata: new XMLSerializer().serializeToString(redirectMetadata),
@@ -62,7 +66,6 @@ router.post('/assert', async (req, res) => {
       return
     }
     res.redirect(responseUrl(token))
-
   } catch (error) {
     console.log(error)
   }
