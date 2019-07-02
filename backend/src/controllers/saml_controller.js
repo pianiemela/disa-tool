@@ -12,8 +12,7 @@ const sp = samlify.ServiceProvider({
   metadata: config.samldata.metadata,
   encPrivateKey: config.samldata.key,
   privateKey: config.samldata.key,
-  loginNameIDFormat: 'transient',
-  authnRequestsSigned: true
+  loginNameIDFormat: 'transient'
 })
 
 let idp = null
