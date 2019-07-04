@@ -57,7 +57,6 @@ router.post('/shibboleth', async (req, res) => {
   const loginresult = await shibbolethlogin({ displayname, employeenumber, schacpersonaluniquecode, uid })
   const token = signJWT(loginresult.logged_in)
   res.status(200).json({
-    message: loginresult.created ? messages.create[req.lang] : messages.login[req.lang],
     logged_in: loginresult.logged_in,
     token
   })
