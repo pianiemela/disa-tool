@@ -6,7 +6,7 @@ import { Container, Form, Label, Input, Button, Segment } from 'semantic-ui-reac
 import { Redirect } from 'react-router'
 import './form.css'
 
-import { loginAction } from '../../../../actions/actions'
+import { loginAction, shibbolethLoginAction } from '../../../../actions/actions'
 
 
 export class LoginForm extends Component {
@@ -64,6 +64,11 @@ export class LoginForm extends Component {
                 {this.props.translate('Login.LoginForm.login_button')}
               </Button>
             </Form>}
+          <Button
+            onClick={this.props.shibbolethLoginAction}
+          >
+            shib login
+          </Button>
         </Segment>
       </Container>
     )
@@ -73,6 +78,7 @@ export class LoginForm extends Component {
 LoginForm.propTypes = {
   user: shape({ id: number }),
   loginAction: func.isRequired,
+  shibbolethLoginAction: func.isRequired,
   redirectTo: string,
   translate: func.isRequired
 }
@@ -86,4 +92,4 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-export default withLocalize(connect(mapStateToProps, { loginAction })(LoginForm))
+export default withLocalize(connect(mapStateToProps, { loginAction, shibbolethLoginAction })(LoginForm))
