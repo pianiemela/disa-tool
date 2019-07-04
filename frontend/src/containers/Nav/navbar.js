@@ -61,7 +61,7 @@ class Nav extends Component {
 
   logout = async () => {
     const returnUrl = window.location.origin
-    const response = await axios.delete('/logout', { data: { returnUrl } })
+    const response = await axios.delete('/api/login/shibboleth/logout', { data: { returnUrl } })
     removeToken()
     window.location = response.data.logoutUrl
   }
