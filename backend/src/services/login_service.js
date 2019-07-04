@@ -79,9 +79,48 @@ const login = async (body) => {
   }
 }
 
+const shibbolethlogin = async ({ displayname, schacpersonaluniquecode, uid }) => { // , employeenumber
+  const studentnumber = schacpersonaluniquecode && schacpersonaluniquecode.length !== 0
+    ? schacpersonaluniquecode.split(':')[6]
+    : null
+  const person = await Person.findOne({
+    where: {
+      [Op.or]: [
+        { username: uid },
+        { studentnumber }
+      ]
+    },
+    attributes: ['id', 'username', 'name', 'studentnumber', 'role']
+  })
+  if (!person) {
+    const created = await Person.create({
+      username: uid,
+      studentnumber,
+      name: displayname,
+      role: 'STUDENT'
+    })
+    const loggedIn = {
+      id: created.id,
+      username: created.username,
+      studentnumber: created.studentnumber,
+      name: created.name,
+      role: created.role
+    }
+    return {
+      logged_in: loggedIn,
+      created: true
+    }
+  }
+  return {
+    logged_in: person.toJSON(),
+    created: false
+  }
+}
+
 const signJWT = user => jwt.sign({ user }, config.SECRET)
 
 module.exports = {
+  shibbolethlogin,
   login,
   signJWT
 }

@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { login, signJWT } = require('../services/login_service.js')
+const { login, signJWT, shibbolethlogin } = require('../services/login_service.js')
 
 const messages = {
   create: {
@@ -53,24 +53,14 @@ router.post('', async (req, res) => {
 
 router.post('/shibboleth', async (req, res) => {
   console.log(req.headers)
-  // TODO: log user in
-  res.redirect('/')
-  // try {
-  //   const { uid } = req.headers
-  //   if (req.headers['shib-session-id'] && uid) {
-  //     const fullName = req.headers.displayname
-  //     const { mail } = req.headers
-  //     res.status(200).json({ token })
-  //   } else {
-  //     res.status(401).json({
-  //       message: `Not enough headers login, uid: ${req.headers.uid}
-  //       session-id ${req.headers['shib-session-id']}`
-  //     }).end()
-  //   }
-  // } catch (err) {
-  //   console.log(err)
-  //   res.status(401).json({ message: 'problem with login', err })
-  // }
+  const { displayname, employeenumber, schacpersonaluniquecode, uid } = req.headers
+  const loginresult = await shibbolethlogin({ displayname, employeenumber, schacpersonaluniquecode, uid })
+  const token = signJWT(loginresult.logged_in)
+  res.status(200).json({
+    message: loginresult.created ? messages.create[req.lang] : messages.login[req.lang],
+    logged_in: loginresult.logged_in,
+    token
+  })
 })
 
 router.delete('/shibboleth/logout', (req, res) => {
