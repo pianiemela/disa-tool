@@ -4,9 +4,10 @@ import { connect } from 'react-redux'
 import { Menu, Dropdown } from 'semantic-ui-react'
 import { func, shape, number } from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
+import axios from 'axios'
 
 import { logoutAction } from '../../actions/actions'
-import { getLanguage, saveLanguage } from '../../utils/utils'
+import { getLanguage, saveLanguage, removeToken } from '../../utils/utils'
 
 const languageOptions = [
   { key: 'fin', value: 'fin', text: 'Suomi' },
@@ -57,6 +58,13 @@ class Nav extends Component {
   }
 
   translate = id => this.props.translate(`Nav.navbar.${id}`)
+
+  logout = async () => {
+    const returnUrl = window.location.origin
+    const response = await axios.delete('/logout', { data: { returnUrl } })
+    removeToken()
+    window.location = response.data.logoutUrl
+  }
 
   render() {
     const { activeItem, language } = this.state
@@ -115,11 +123,9 @@ class Nav extends Component {
             }
             {this.props.user.id ?
               <Menu.Item
-                as={Link}
-                to="/login"
                 name="logout"
                 active={activeItem === 'logout'}
-                onClick={this.handleClick}
+                onClick={this.logout}
               >
                 {this.translate('logout')}
               </Menu.Item> :
