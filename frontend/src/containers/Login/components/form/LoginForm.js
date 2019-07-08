@@ -8,7 +8,6 @@ import './form.css'
 
 import { loginAction } from '../../../../actions/actions'
 
-
 export class LoginForm extends Component {
   state = {
     emptyFields: {

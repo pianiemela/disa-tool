@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { login, signJWT } = require('../services/login_service.js')
+const { login, signJWT, shibbolethlogin } = require('../services/login_service.js')
 
 const messages = {
   create: {
@@ -49,6 +49,30 @@ router.post('', async (req, res) => {
     logged_in: result.logged_in,
     token
   })
+})
+
+router.post('/shibboleth', async (req, res) => {
+  console.log(req.headers)
+  const { displayname, employeenumber, schacpersonaluniquecode, uid } = req.headers
+  const loginresult = await shibbolethlogin({ displayname, employeenumber, schacpersonaluniquecode, uid })
+  const token = signJWT(loginresult.logged_in)
+  res.status(200).json({
+    logged_in: loginresult.logged_in,
+    token
+  })
+})
+
+router.delete('/shibboleth/logout', (req, res) => {
+  try {
+    const logoutUrl = req.headers.shib_logout_url
+    const { returnUrl } = req.body
+    if (logoutUrl) {
+      return res.status(200).send({ logoutUrl: `${logoutUrl}?return=${returnUrl}` }).end()
+    }
+    res.status(200).send({ logoutUrl: returnUrl }).end()
+  } catch (err) {
+    res.status(500).json({ error: `Error with logout: ${err}` })
+  }
 })
 
 module.exports = router

@@ -38,7 +38,7 @@ class HakaAuthentication extends PureComponent {
     const url =
       process.env.MODE === 'development'
         ? 'https://haka.funet.fi/shibboleth/WAYF?entityID=https://disa.cs.helsinki.fi&return=http://localhost:8080/api/saml'
-        : `https://haka.funet.fi/shibboleth/WAYF?entityID=https://disa.cs.helsinki.fi&return=http://disa.vs.helsinki.fi/api/saml`
+        : `https://haka.funet.fi/shibboleth/WAYF?entityID=https://disa.cs.helsinki.fi&return=http://disa.cs.helsinki.fi/api/saml`
     // const url = 'https://haka.funet.fi/shibboleth/WAYF?entityID=https://disa.cs.helsinki.fi&return=http://localhost:8080/api/saml'
     return <Route path="/login/haka" render={() => <a href={url}>HAKA</a>} />
   }

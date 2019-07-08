@@ -8,4 +8,8 @@ export const login = data => axios.post(`${BASE_PATH}/login`, data, {
   }
 })
 
-export default login
+export const shibbolethlogin = () => axios.post(`${BASE_PATH}/login/shibboleth`, {}, {
+  headers: {
+    credentials: 'same-origin'
+  }
+})
