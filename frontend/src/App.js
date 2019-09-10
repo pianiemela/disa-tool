@@ -12,7 +12,7 @@ import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
 class App extends Component {
   componentDidMount() {
     this.props.getUserAction()
-    this.props.shibbolethLoginAction()
+    if (process.env.NODE_ENV === 'development') this.props.shibbolethLoginAction()
   }
 
   render() {
