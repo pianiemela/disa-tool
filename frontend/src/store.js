@@ -47,8 +47,9 @@ const rootReducer = (state, action) => {
   return reducers(state, action)
 }
 
-const store = process.env.NODE_ENV === 'development' ?
-  createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk))) :
-  createStore(rootReducer, applyMiddleware(thunk))
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
+)
 
 export default store
