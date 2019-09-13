@@ -31,7 +31,7 @@ export const initForm = (payload) => {
       id: 6,
       prefix: 'Swe',
       header: 'Anvisning',
-      value: 'Ohjeet itsearvioon ruotsiksi',
+      value: 'Instruktioner för självbedömning',
       type: 'swe_instructions'
     }
   )
@@ -79,7 +79,7 @@ export const initForm = (payload) => {
     {
       id: 3,
       prefix: 'Swe:',
-      value: 'Låta en final grad till själv',
+      value: 'Ge dig själv ett slutvitsord för kursen',
       type: 'swe_name'
     }
   )
@@ -127,19 +127,19 @@ export const initForm = (payload) => {
   structure.headers.questionHeaders = [
     { id: 1, prefix: 'Fin:', value: 'Kysymykset', type: 'fin_name' },
     { id: 2, prefix: 'Eng:', value: 'Questions', type: 'eng_name' },
-    { id: 3, prefix: 'Swe:', value: 'Ruotsiksi sama', type: 'swe_name' }
+    { id: 3, prefix: 'Swe:', value: 'Frågor', type: 'swe_name' }
   ]
 
   data.structure.headers.openQ = [
     { id: 3, prefix: 'Fin:', value: 'Avoimet kysymykset', type: 'fin_name' },
     { id: 4, prefix: 'Eng:', value: 'Open questions', type: 'eng_name' },
-    { id: 5, prefix: 'Swe:', value: 'Öppnä jotain', type: 'swe_name' }
+    { id: 5, prefix: 'Swe:', value: 'Öppna frågor', type: 'swe_name' }
   ]
 
   data.structure.headers.grade = [
     { id: 6, prefix: 'Fin:', value: 'Loppuarvio', type: 'fin_name' },
     { id: 7, prefix: 'Eng:', value: 'Final grade', type: 'eng_name' },
-    { id: 8, prefix: 'Swe:', value: 'Final grääd', type: 'swe_name' }
+    { id: 8, prefix: 'Swe:', value: 'Slutvitsord', type: 'swe_name' }
   ]
   data.structure.finalGrade.header = data.structure.headers.grade.find(
     (h) => h.type === name
