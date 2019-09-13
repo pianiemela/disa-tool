@@ -46,7 +46,7 @@ const ResponseTable = (props) => {
         <Table.Row>
           <Table.HeaderCell>selected</Table.HeaderCell>
           <Table.HeaderCell sorted={index === 0 ? direction : null} onClick={() => onSort(0)}>
-            studentnumber
+            student number
           </Table.HeaderCell>
           <Table.HeaderCell sorted={index === 1 ? direction : null} onClick={() => onSort(1)}>
             student name

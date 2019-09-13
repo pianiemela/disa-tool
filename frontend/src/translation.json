@@ -605,7 +605,7 @@
     },
     "ResponseList": {
       "Filter" : [
-        "Filter by name or studentnumber",
+        "Filter by name or student number",
         "Rajaa nimen tai opiskelijanumeron avulla"
       ]
     },
