@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { number, string, arrayOf, shape, func } from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Link, Switch, Route, Redirect, withRouter } from 'react-router-dom'
+import { Link, Switch, Route, withRouter } from 'react-router-dom'
 import { Container, Loader, Button, Icon, Segment, Header, Table } from 'semantic-ui-react'
 
 import { getResponsesBySelfAssesment, updateVerificationAndFeedback, getSelfAssesment } from '../../api/selfassesment'
@@ -97,9 +97,11 @@ class SelfAssesmentListPage extends Component {
     )
   }
 
-  renderResponse = () => {
-    const { activeResponse, selfAssesmentId } = this.props
-    if (activeResponse === null) return <Redirect to={`/selfassessment/list/${selfAssesmentId}`} />
+  renderResponse = (props) => {
+    const { activeResponse, selfAssesmentId, responses } = this.props
+    const paramId = Number(props.match.params.id)
+    const foundActiveResponse = activeResponse || responses.find(e => e.id === paramId)
+    if (foundActiveResponse == null) return <Loader active />
     const backButton = (
       <Button as={Link} to={`/selfassessment/list/${selfAssesmentId}`} basic>
         <Icon name="angle double left" />
@@ -111,11 +113,11 @@ class SelfAssesmentListPage extends Component {
         <Container textAlign="center">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
             {backButton}
-            <h2 style={{ flexGrow: 1 }}>{activeResponse.person.name}</h2>
+            <h2 style={{ flexGrow: 1 }}>{foundActiveResponse.person.name}</h2>
           </div>
         </Container>
         <FeedbackPage
-          assessmentResponse={activeResponse.response}
+          assessmentResponse={foundActiveResponse.response}
           teacher
         />
         <Container>
