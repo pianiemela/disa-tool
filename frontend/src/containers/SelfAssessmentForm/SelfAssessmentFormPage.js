@@ -2,7 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Redirect, Prompt } from 'react-router'
 import { Link } from 'react-router-dom'
-import { Button, Loader, Container, Modal, Header, Segment } from 'semantic-ui-react'
+import {
+  Button,
+  Loader,
+  Container,
+  Modal,
+  Header,
+  Segment
+} from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import FeedbackPage from '../Feedback/FeedbackPage'
@@ -46,7 +53,6 @@ export class SelfAssessmentFormPage extends React.Component {
     if (this.props.edit) {
       if (this.props.new) {
         // Get assessment type and course instance id from params
-
 
         // Fetch the required data for self assessment
         // courseData includes all objectives and categories related to course
@@ -145,7 +151,10 @@ export class SelfAssessmentFormPage extends React.Component {
     const { existingAnswer } = assessmentResponse
     const { displayCoursename } = formData.structure
     const { preview, grades } = this.state
-    const translate = translateId => this.props.translate(`SelfAssessmentForm.SelfAssessmentFormPage.${translateId}`)
+    const translate = (translateId) =>
+      this.props.translate(
+        `SelfAssessmentForm.SelfAssessmentFormPage.${translateId}`
+      )
 
     if (!edit) {
       submitFunction = this.handleResponse
@@ -187,7 +196,9 @@ export class SelfAssessmentFormPage extends React.Component {
               <p>{translate('modalContent2')}?</p>
             </Modal.Content>
             <Modal.Actions>
-              <Button onClick={() => this.close()} negative>{translate('modalButton2')}</Button>
+              <Button onClick={() => this.close()} negative>
+                {translate('modalButton2')}
+              </Button>
               <Button
                 onClick={this.handleResponse}
                 positive
@@ -199,14 +210,24 @@ export class SelfAssessmentFormPage extends React.Component {
             </Modal.Actions>
           </Modal>
 
-
-          {edit &&
-            <Button
-              color="green"
-              onClick={this.togglePreview}
-            >{this.state.preview ? translate('editButton') : translate('previewButton')}
+          {edit && (
+            <Button color="teal" onClick={this.togglePreview}>
+              {this.state.preview
+                ? translate('editButton')
+                : translate('previewButton')}
             </Button>
-          }
+          )}
+          {this.state.preview || (!formData.open && !edit) ? null : (
+            <Button
+              positive
+              style={{ marginBottom: '25px' }}
+              onClick={submitFunction}
+            >
+              {!this.props.edit || this.props.new
+                ? translate('saveButton')
+                : translate('updateButton')}
+            </Button>
+          )}
 
           <SelfAssessmentForm
             edit={edit}
@@ -217,99 +238,106 @@ export class SelfAssessmentFormPage extends React.Component {
             existingAnswer={assessmentResponse}
           />
 
-          {this.state.preview || (!formData.open && !edit) ?
-            null
-            :
+          {edit && (
+            <Button color="teal" onClick={this.togglePreview}>
+              {this.state.preview
+                ? translate('editButton')
+                : translate('previewButton')}
+            </Button>
+          )}
+          {this.state.preview || (!formData.open && !edit) ? null : (
             <Button
               positive
               style={{ marginBottom: '25px' }}
               onClick={submitFunction}
             >
-              {!this.props.edit || this.props.new ? translate('saveButton') : translate('updateButton')}
+              {!this.props.edit || this.props.new
+                ? translate('saveButton')
+                : translate('updateButton')}
             </Button>
-          }
+          )}
         </Container>
       </div>
     )
   }
 
-
   render() {
-    if (this.state.redirect || this.props.error ||
-      ((this.props.new || this.props.edit) && this.props.notTeacher)) {
+    if (
+      this.state.redirect ||
+      this.props.error ||
+      ((this.props.new || this.props.edit) && this.props.notTeacher)
+    ) {
       return <Redirect to="/user" />
     }
 
-    if (this.props.assessmentResponse.existingAnswer && !this.props.formData.open) {
+    if (
+      this.props.assessmentResponse.existingAnswer &&
+      !this.props.formData.open
+    ) {
       return (
         <FeedbackPage
           assessmentResponse={this.props.assessmentResponse}
           assessmentInfo={this.props.formData}
-        />)
+        />
+      )
     }
 
     return (
       <div>
         <Prompt
           when={this.props.unsavedChanges}
-          message={this.props.translate('SelfAssessmentForm.SelfAssessmentFormPage.prompt')}
+          message={this.props.translate(
+            'SelfAssessmentForm.SelfAssessmentFormPage.prompt'
+          )}
         />
 
-        {
-          Object.keys(this.props.formData).length > 0
-            && (Object.keys(this.props.assessmentResponse).length > 0 || this.props.edit)
-            && this.props.role ?
-            this.renderForm()
-            :
-            <Loader active>Loading</Loader>
-        }
+        {Object.keys(this.props.formData).length > 0 &&
+        (Object.keys(this.props.assessmentResponse).length > 0 ||
+          this.props.edit) &&
+        this.props.role ? (
+          this.renderForm()
+        ) : (
+          <Loader active>Loading</Loader>
+        )}
       </div>
     )
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   formData: state.selfAssesment.createForm,
   courseInstance: state.instance,
   assessmentResponse: state.selfAssesment.assesmentResponse,
   role: state.instance.courseRole,
   error: state.error.redirect,
-  notTeacher: state.instance.courseRole && state.instance.courseRole !== 'TEACHER',
+  notTeacher:
+    state.instance.courseRole && state.instance.courseRole !== 'TEACHER',
   responseErrors: state.validation.responseErrors,
   softErrors: state.validation.softErrors,
   formErrors: state.validation.formErrors,
   unsavedChanges: state.selfAssesment.unsavedFormChanges
 })
 
-const mapDispatchToProps = dispatch => ({
-  dispatchCreateFormAction: data =>
-    dispatch(createForm(data)),
-  dispatchUpdateSelfAssessmentAction: data =>
+const mapDispatchToProps = (dispatch) => ({
+  dispatchCreateFormAction: (data) => dispatch(createForm(data)),
+  dispatchUpdateSelfAssessmentAction: (data) =>
     dispatch(updateSelfAssesmentAction(data)),
-  dispatchGetSelfAssessmentAction: selfAssessmentId =>
+  dispatchGetSelfAssessmentAction: (selfAssessmentId) =>
     dispatch(getSelfAssesmentAction(selfAssessmentId)),
-  dispatchInitNewFormAction: data =>
-    dispatch(initNewFormAction(data)),
-  dispatchEditFormAction: data =>
-    dispatch(editFormAction(data)),
-  dispatchGetAssessmentResponseAction: selfAssessmentId =>
+  dispatchInitNewFormAction: (data) => dispatch(initNewFormAction(data)),
+  dispatchEditFormAction: (data) => dispatch(editFormAction(data)),
+  dispatchGetAssessmentResponseAction: (selfAssessmentId) =>
     dispatch(getAssesmentResponseAction(selfAssessmentId)),
   dispatchCreateSelfAssessmentResponseAction: (data, finalGradeHeaders) =>
     dispatch(createSelfAssessmentResponseAction(data, finalGradeHeaders)),
-  dispatchToast: data =>
-    dispatch(data),
-  dispatchGetCourseInstanceData: courseId =>
+  dispatchToast: (data) => dispatch(data),
+  dispatchGetCourseInstanceData: (courseId) =>
     dispatch(getCourseInstanceDataAction(courseId)),
-  dispatchClearError: () =>
-    dispatch(resetErrorAction()),
-  dispatchValidation: data =>
-    dispatch(validationAction(data)),
-  dispatchClearValidation: () =>
-    dispatch(clearValidationAction()),
-  dispatchCloseModalAction: () =>
-    dispatch(closeModalAction()),
-  dispatchClearAssessmentAction: () =>
-    dispatch(clearAssessmentAction())
+  dispatchClearError: () => dispatch(resetErrorAction()),
+  dispatchValidation: (data) => dispatch(validationAction(data)),
+  dispatchClearValidation: () => dispatch(clearValidationAction()),
+  dispatchCloseModalAction: () => dispatch(closeModalAction()),
+  dispatchClearAssessmentAction: () => dispatch(clearAssessmentAction())
 })
 
 SelfAssessmentFormPage.defaultProps = {
@@ -321,7 +349,6 @@ SelfAssessmentFormPage.defaultProps = {
   responseErrors: {},
   formErrors: false
 }
-
 
 SelfAssessmentFormPage.propTypes = {
   formData: PropTypes.shape(),
@@ -361,4 +388,9 @@ SelfAssessmentFormPage.propTypes = {
   courseInstance: PropTypes.shape({ id: PropTypes.number }).isRequired
 }
 
-export default withLocalize(connect(mapStateToProps, mapDispatchToProps)(SelfAssessmentFormPage))
+export default withLocalize(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(SelfAssessmentFormPage)
+)
