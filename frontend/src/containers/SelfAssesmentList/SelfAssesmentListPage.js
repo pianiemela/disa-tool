@@ -77,7 +77,6 @@ class SelfAssesmentListPage extends Component {
     return (
       <Container>
         { updating ? this.renderUpdating() : undefined }
-        <SelectionButtons />
         {this.state.loading ? (
           <Loader active />
         ) : (

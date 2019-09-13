@@ -3,12 +3,13 @@ import { arrayOf, shape, func } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { withLocalize } from 'react-localize-redux'
 import { Label, List } from 'semantic-ui-react'
+import { orderBy } from 'lodash'
 
 const StudentAssesmentList = ({ assesments, translate: baseTranslate }) => {
   const translate = id => baseTranslate(`UserPage.StudentAssesmentList.${id}`)
   return (
     <List selection divided size="big">
-      {assesments.map(assesment => (
+      {orderBy(assesments, 'name').map(assesment => (
         !assesment.active ? undefined : (
           <List.Item key={assesment.id} style={{ display: 'flex' }}>
             <List.Content

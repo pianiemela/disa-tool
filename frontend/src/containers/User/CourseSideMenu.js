@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Header, Menu } from 'semantic-ui-react'
 import { arrayOf, shape, func } from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
+import { orderBy } from 'lodash'
 
 const renderCourseMenuItem = (course, activeCourse, handleChange) => (
   <Menu.Item
@@ -21,8 +22,9 @@ const renderCourseMenuItem = (course, activeCourse, handleChange) => (
 
 const CourseSideMenu = ({ courses, activeCourse, handleChange, translate }) => {
   const t = id => translate(`UserPage.CourseSideMenu.${id}`)
-  const activeCourses = courses.filter(course => course.active)
-  const closedCourses = courses.filter(course => !course.active)
+  const coursesSorted = orderBy(courses, 'name')
+  const activeCourses = coursesSorted.filter(course => course.active)
+  const closedCourses = coursesSorted.filter(course => !course.active)
   return (
     <Menu fluid vertical tabular>
       <Menu.Item>
