@@ -18,12 +18,12 @@ class Header extends React.Component {
   toggleEdit = () => {
     const { changedHeaders } = this.state
     const { headerType } = this.props
-    this.props.dispatchChange ?  //eslint-disable-line
-      this.props.dispatchChange(changedHeaders) :
-      this.props.dispatchHeaderChange({
-        changedHeaders,
-        headerType
-      })
+    this.props.dispatchChange //eslint-disable-line
+      ? this.props.dispatchChange(changedHeaders)
+      : this.props.dispatchHeaderChange({
+          changedHeaders,
+          headerType
+        })
     this.setState({ editHeaders: !this.state.editHeaders })
   }
 
@@ -34,46 +34,43 @@ class Header extends React.Component {
   }
 
   render() {
-    const translate = id => this.props.translate(`SelfAssessmentForm.Header.${id}`)
+    const translate = (id) =>
+      this.props.translate(`SelfAssessmentForm.Header.${id}`)
     const { name, edit, headers, style, editButton } = this.props
     const { editHeaders } = this.state
 
-    const header = editButton ?
-      (
-        <div>
-          {name}
-          {edit &&
-            <Button
-              className="editHeadersButton"
-              onClick={this.toggleEdit}
-              style={{ marginLeft: '10px' }}
-            >
-              {editHeaders ? translate('buttonShow') : translate('buttonEdit')}
-            </Button>
-          }
-        </div>)
-      :
+    const header = editButton ? (
+      <div>
+        {name}
+        {edit && (
+          <Button
+            className="editHeadersButton"
+            onClick={this.toggleEdit}
+            style={{ marginLeft: '10px' }}
+          >
+            {editHeaders ? translate('buttonSave') : translate('buttonEdit')}
+          </Button>
+        )}
+      </div>
+    ) : (
       name
+    )
 
-
-    const headerEditForm = editHeaders &&
-      (
-        <div style={{
+    const headerEditForm = editHeaders && (
+      <div
+        style={{
           marginBottom: '10px'
         }}
-        >
-          <Form>
-            <MultiLangInput
-              headers={headers}
-              handleChange={this.changeHeader}
-            />
-          </Form>
-        </div>
-      )
+      >
+        <Form>
+          <MultiLangInput headers={headers} handleChange={this.changeHeader} />
+        </Form>
+      </div>
+    )
 
     return (
       <div>
-        <h3 style={this.props.style ? style : null} className="cardHead" >
+        <h3 style={this.props.style ? style : null} className="cardHead">
           {header}
         </h3>
         {headerEditForm}
@@ -82,10 +79,8 @@ class Header extends React.Component {
   }
 }
 
-
-const mapDispatchToProps = dispatch => ({
-  dispatchHeaderChange: data =>
-    dispatch(changeHeaderAction(data))
+const mapDispatchToProps = (dispatch) => ({
+  dispatchHeaderChange: (data) => dispatch(changeHeaderAction(data))
 })
 
 Header.defaultProps = {
@@ -94,7 +89,6 @@ Header.defaultProps = {
   style: null,
   editButton: false,
   headers: []
-
 }
 
 Header.propTypes = {
@@ -109,5 +103,9 @@ Header.propTypes = {
   editButton: PropTypes.bool
 }
 
-export default withLocalize(connect(null, mapDispatchToProps)(Header))
-
+export default withLocalize(
+  connect(
+    null,
+    mapDispatchToProps
+  )(Header)
+)
