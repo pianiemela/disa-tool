@@ -25,7 +25,7 @@ const create = {
 
 const deleteLevel = {
   prepare: async (id) => {
-    const instance = await SkillLevel.findById(id, {
+    const instance = await SkillLevel.findByPk(id, {
       include: {
         model: Objective,
         attributes: ['id'],

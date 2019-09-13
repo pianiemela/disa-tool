@@ -390,7 +390,7 @@ describe('task_controller', () => {
         }).catch(done)
       })
       afterEach((done) => {
-        TaskResponse.findById(data.tasks[0].responseId).then((result) => {
+        TaskResponse.findByPk(data.tasks[0].responseId).then((result) => {
           result.update({
             points: 0
           }).then(() => done()).catch(done)
@@ -616,7 +616,7 @@ describe('task_controller', () => {
     }
 
     beforeAll((done) => {
-      Task.findById(1).then((result) => {
+      Task.findByPk(1).then((result) => {
         expectedBody.common.data.eng_name = result.eng_name
         expectedBody.common.data.fin_name = result.fin_name
         expectedBody.common.data.swe_name = result.swe_name
@@ -681,7 +681,7 @@ describe('task_controller', () => {
     })
 
     afterEach((done) => {
-      Task.findById(ids.task).then(instance => instance.update({
+      Task.findByPk(ids.task).then(instance => instance.update({
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',

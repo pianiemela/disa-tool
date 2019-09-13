@@ -284,7 +284,7 @@ describe('skill level controller', () => {
     })
 
     afterEach((done) => {
-      SkillLevel.findById(ids.level).then(
+      SkillLevel.findByPk(ids.level).then(
         instance => instance.update({
           eng_name: 'en',
           fin_name: 'fn',

@@ -299,7 +299,7 @@ describe('grade controller', () => {
     })
 
     afterEach((done) => {
-      Grade.findById(ids.toEdit).then(instance => instance.update({
+      Grade.findByPk(ids.toEdit).then(instance => instance.update({
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',

@@ -51,7 +51,7 @@ const create = {
 }
 
 const deleteCategory = {
-  prepare: id => Category.findById(id, {
+  prepare: id => Category.findByPk(id, {
     include: {
       model: Objective,
       attributes: ['id'],

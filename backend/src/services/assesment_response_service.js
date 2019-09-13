@@ -372,7 +372,7 @@ const amountsForCategory = (category) => {
 
 const getCourseInstanceId = async (id, responses = []) => {
   if (responses.length > 0) return responses[0].dataValues.self_assessment.course_instance_id
-  const selfAssessment = await SelfAssessment.findById(id, {
+  const selfAssessment = await SelfAssessment.findByPk(id, {
     attributes: ['id', 'course_instance_id']
   })
   if (!selfAssessment) return null
@@ -446,7 +446,7 @@ const getGradesAndHeader = async (data, lang, grades) => {
   return response
 }
 
-const getResponseById = id => AssessmentResponse.findById(id, {
+const getResponseById = id => AssessmentResponse.findByPk(id, {
   attributes: ['id', 'response', 'person_id', 'self_assessment_id', 'updated_at'],
   include: [
     {

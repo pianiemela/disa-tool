@@ -11,7 +11,7 @@ const create = {
       multiplier: data.multiplier,
       order: data.order
     })
-    const header = await TypeHeader.findById(data.type_header_id)
+    const header = await TypeHeader.findByPk(data.type_header_id)
     return {
       instance,
       header: header.toJSON()
@@ -31,7 +31,7 @@ const create = {
 }
 
 const deleteType = {
-  prepare: id => Type.findById(id, {
+  prepare: id => Type.findByPk(id, {
     include: [
       {
         model: TaskType,
@@ -76,7 +76,7 @@ const createHeader = {
 }
 
 const deleteHeader = {
-  prepare: id => TypeHeader.findById(id),
+  prepare: id => TypeHeader.findByPk(id),
   value: (instance) => {
     const json = instance.toJSON()
     return {

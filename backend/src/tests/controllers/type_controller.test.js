@@ -304,7 +304,7 @@ describe('type_controller', () => {
     }
 
     beforeAll((done) => {
-      Type.findById(1).then((result) => {
+      Type.findByPk(1).then((result) => {
         expectedBody.common.data.eng_name = result.eng_name
         expectedBody.common.data.fin_name = result.fin_name
         expectedBody.common.data.swe_name = result.swe_name
@@ -359,7 +359,7 @@ describe('type_controller', () => {
     })
 
     afterEach((done) => {
-      Type.findById(ids.editType).then(instance => instance.update({
+      Type.findByPk(ids.editType).then(instance => instance.update({
         eng_name: 'en',
         fin_name: 'fn',
         swe_name: 'sn',
@@ -498,7 +498,7 @@ describe('type_controller', () => {
     })
 
     afterEach((done) => {
-      TypeHeader.findById(ids.editHeader).then(
+      TypeHeader.findByPk(ids.editHeader).then(
         instance => instance.update({
           eng_name: 'en',
           fin_name: 'fn',

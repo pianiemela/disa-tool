@@ -89,7 +89,7 @@ const updateOrCreatePersonsOnCourse = async (coursePersons) => {
     builtCP.coursePerson.role = cp.role
     await builtCP.coursePerson.save()
     if (builtCP.created) {
-      const found = (await Person.findById(builtCP.coursePerson.person_id, {
+      const found = (await Person.findByPk(builtCP.coursePerson.person_id, {
         include: [
           { model: CourseInstance, where: { id: builtCP.coursePerson.course_instance_id } },
           {

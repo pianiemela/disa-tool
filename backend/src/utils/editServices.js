@@ -14,7 +14,7 @@
  *
  * @return {function} details function to be used by editRoutes.
  */
-const details = (model, config) => id => model.findById(id, {
+const details = (model, config) => id => model.findByPk(id, {
   attributes: config.attributes || { exclude: ['created_at', 'updated_at'] },
   include: config.include || undefined
 })
@@ -64,7 +64,7 @@ const reduceFields = (data, fields, lang = 'fin') => {
  * @return {Object} object with fields 'prepare', 'execute', 'value' to be used by editRoutes.
  */
 const edit = (model, config) => ({
-  prepare: id => model.findById(id, {
+  prepare: id => model.findByPk(id, {
     attributes: config.attributes || { exclude: ['created_at', 'updated_at'] },
     include: config.include || undefined
   }),

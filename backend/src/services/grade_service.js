@@ -34,7 +34,7 @@ const create = {
         prerequisite: data.prerequisite,
         order: data.order
       }),
-      SkillLevel.findById(data.skill_level_id, {
+      SkillLevel.findByPk(data.skill_level_id, {
         attributes: ['id', 'course_instance_id']
       })
     ])
@@ -58,7 +58,7 @@ const create = {
 }
 
 const deleteGrade = {
-  prepare: id => Grade.findById(id, {
+  prepare: id => Grade.findByPk(id, {
     attributes: ['id', 'skill_level_id'],
     include: {
       model: SkillLevel,
