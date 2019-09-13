@@ -603,6 +603,12 @@
         "Ei-valitut itsearviot"
       ]
     },
+    "ResponseList": {
+      "Filter" : [
+        "Filter by name or studentnumber",
+        "Rajaa nimen tai opiskelijanumeron avulla"
+      ]
+    },
     "SelectionButtons": {
       "select": ["select all", "valitse kaikki"],
       "deselect": ["remove selections", "poista valinnat"]

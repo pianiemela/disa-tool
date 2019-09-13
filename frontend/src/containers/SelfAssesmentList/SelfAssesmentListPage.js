@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { number, string, arrayOf, shape, func } from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
@@ -76,11 +76,11 @@ class SelfAssesmentListPage extends Component {
     const notSelected = responses.filter(r => !selectedResponses.find(sr => sr === r))
     return (
       <Container>
-        { updating ? this.renderUpdating() : undefined }
+        { updating ? this.renderUpdating() : null }
         {this.state.loading ? (
           <Loader active />
         ) : (
-          <div>
+          <Fragment>
             <ResponseList
               header={this.translate('selected_header')}
               subheader={`${selectedResponses.length} / ${responses.length}`}
@@ -91,7 +91,7 @@ class SelfAssesmentListPage extends Component {
               header={this.translate('non-selected_header')}
               responses={notSelected}
             />
-          </div>
+          </Fragment>
         )}
       </Container>
     )

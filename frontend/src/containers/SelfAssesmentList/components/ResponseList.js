@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
-import { arrayOf, string, number, bool } from 'prop-types'
-import { Header, Pagination, Container } from 'semantic-ui-react'
+import { arrayOf, string, number, bool, func } from 'prop-types'
+import { Header, Pagination, Segment, Form } from 'semantic-ui-react'
+import { withLocalize } from 'react-localize-redux'
 import _ from 'lodash'
 import ResponseTable, { calculateDifference } from './ResponseTable'
 import { responseProp } from '../propTypes'
@@ -13,13 +14,18 @@ class ResponseList extends PureComponent {
       sorted: {
         headerindex: 0,
         asc: true
-      }
+      },
+      searched: ''
     }
   }
 
   handlePaginationChange = (e, { activePage }) => (
     this.setState({ activePage })
   )
+
+  handleOnSearch = (_, { value }) => {
+    this.setState({ searched: value, activePage: 1 })
+  }
 
   handleOnSort = (headerindex) => {
     const { headerindex: prevheaderindex, asc } = this.state.sorted
@@ -28,34 +34,42 @@ class ResponseList extends PureComponent {
 
   render() {
     const { responses, responsesOnPage, selected } = this.props
-    const { activePage, sorted } = this.state
+    const { activePage, sorted, searched } = this.state
+    const searchedLower = searched.toLowerCase()
+    const responsesFiltered = searchedLower.length === 0 ? responses : responses.filter(
+      e =>
+        e.person && ((e.person.studentnumber && e.person.studentnumber.toLowerCase().includes(searchedLower)) ||
+        (e.person.name && e.person.name.toLowerCase().includes(searchedLower)))
+    )
     let sortedResponses
     switch (sorted.headerindex) {
       case 0:
-        sortedResponses = _.orderBy(responses, 'person.studentnumber', sorted.asc ? 'asc' : 'desc')
+        sortedResponses = _.orderBy(responsesFiltered, 'person.studentnumber', sorted.asc ? 'asc' : 'desc')
         break
       case 1:
-        sortedResponses = _.orderBy(responses, 'person.name', sorted.asc ? 'asc' : 'desc')
+        sortedResponses = _.orderBy(responsesFiltered, 'person.name', sorted.asc ? 'asc' : 'desc')
         break
       case 2:
-        sortedResponses = _.orderBy(responses, (o) => {
+        sortedResponses = _.orderBy(responsesFiltered, (o) => {
           const diff = calculateDifference(o)
           return diff ? [diff.mean, diff.sd] : [0]
         }, sorted.asc ? 'asc' : 'desc')
         break
       case 3:
-        sortedResponses = _.orderBy(responses, 'updated_at', sorted.asc ? 'asc' : 'desc')
+        sortedResponses = _.orderBy(responsesFiltered, 'updated_at', sorted.asc ? 'asc' : 'desc')
         break
       default:
-        sortedResponses = responses
+        sortedResponses = responsesFiltered
         break
     }
+    const totalPages = Math.ceil(responsesFiltered.length / responsesOnPage)
+    const activePageReal = Math.min(activePage, totalPages)
     const displayed = sortedResponses.slice(
-      (activePage - 1) * responsesOnPage,
-      activePage * responsesOnPage
+      (activePageReal - 1) * responsesOnPage,
+      activePageReal * responsesOnPage
     )
     return (
-      <Container style={{ marginTop: '10px' }}>
+      <Segment>
         <Header as="h2">
           {this.props.header}
           {this.props.subheader ? (
@@ -64,6 +78,11 @@ class ResponseList extends PureComponent {
             </Header.Subheader>
           ) : null}
         </Header>
+        <Form>
+          <Form.Field>
+            <Form.Input placeholder={this.props.translate('SelfAssessmentList.ResponseList.Filter')} onChange={this.handleOnSearch} />
+          </Form.Field>
+        </Form>
         <ResponseTable
           responses={displayed}
           selected={selected}
@@ -71,11 +90,11 @@ class ResponseList extends PureComponent {
           sortedHeader={sorted}
         />
         <Pagination
-          activePage={activePage}
+          activePage={activePageReal}
           onPageChange={this.handlePaginationChange}
-          totalPages={Math.ceil(responses.length / responsesOnPage)}
+          totalPages={totalPages}
         />
-      </Container>
+      </Segment>
     )
   }
 }
@@ -85,6 +104,7 @@ ResponseList.propTypes = {
   header: string.isRequired,
   subheader: string,
   responsesOnPage: number,
+  translate: func.isRequired,
   selected: bool
 }
 
@@ -94,4 +114,4 @@ ResponseList.defaultProps = {
   selected: false
 }
 
-export default ResponseList
+export default withLocalize(ResponseList)
