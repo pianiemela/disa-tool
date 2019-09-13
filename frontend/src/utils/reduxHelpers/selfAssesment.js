@@ -8,15 +8,32 @@ export const initForm = (payload) => {
   const formInfo = []
 
   formInfo.push(
-    { id: 1, prefix: 'Fin', value: 'Finnish display', type: 'fin_name' },
-    { id: 2, prefix: 'Eng', value: 'English Display', type: 'eng_name' },
-    { id: 3, prefix: 'Swe', value: 'Swedish Display', type: 'swe_name' }
+    { id: 1, prefix: 'Fin', value: 'Itsearviointilomake', type: 'fin_name' },
+    { id: 2, prefix: 'Eng', value: 'Self-assessment form', type: 'eng_name' },
+    { id: 3, prefix: 'Swe', value: 'Formen självbedömning', type: 'swe_name' }
   )
   formInfo.push(
-    { id: 4, prefix: 'Fin', header: 'Ohjeita', value: 'Ohjeet itsearvioon', type: 'fin_instructions' },
-    { id: 5, prefix: 'Eng', header: 'Instructions', value: 'Instructions for self assessment', type: 'eng_instructions' },
-    { id: 6, prefix: 'Swe', header: 'anvisning', value: 'Ohjeet itsearvioon ruotsiksi', type: 'swe_instructions' },
-
+    {
+      id: 4,
+      prefix: 'Fin',
+      header: 'Ohjeita',
+      value: 'Ohjeet itsearvioon',
+      type: 'fin_instructions'
+    },
+    {
+      id: 5,
+      prefix: 'Eng',
+      header: 'Instructions',
+      value: 'Instructions for self assessment',
+      type: 'eng_instructions'
+    },
+    {
+      id: 6,
+      prefix: 'Swe',
+      header: 'Anvisning',
+      value: 'Ohjeet itsearvioon ruotsiksi',
+      type: 'swe_instructions'
+    }
   )
 
   data.open = false
