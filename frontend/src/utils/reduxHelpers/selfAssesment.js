@@ -8,9 +8,9 @@ export const initForm = (payload) => {
   const formInfo = []
 
   formInfo.push(
-    { id: 1, prefix: 'Fin', value: 'Itsearviointilomake', type: 'fin_name' },
-    { id: 2, prefix: 'Eng', value: 'Self-assessment form', type: 'eng_name' },
-    { id: 3, prefix: 'Swe', value: 'Formen självbedömning', type: 'swe_name' }
+    { id: 1, prefix: 'Fin', value: 'Itsearviointitehtävä', type: 'fin_name' },
+    { id: 2, prefix: 'Eng', value: 'Self-assessment task', type: 'eng_name' },
+    { id: 3, prefix: 'Swe', value: 'Självbedömning', type: 'swe_name' }
   )
   formInfo.push(
     {

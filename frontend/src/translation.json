@@ -427,10 +427,10 @@
       ],
       "modalButton1": ["Save", "Tallenna"],
       "modalButton2": ["Cancel", "Peru"],
-      "editButton": ["Edit", "Muokkaa"],
+      "editButton": ["Edit", "Takaisin"],
       "previewButton": ["Preview", "Esikatsele"],
       "saveButton": ["Save", "Tallenna"],
-      "updateButton": ["Update", "Päivitä"],
+      "updateButton": ["Save changes", "Tallenna muutokset"],
       "prompt": [
         "You have unsaved changes. Are you sure you want to exit?",
         "Sinulla on tallentamattomia muutoksia. Haluatko varmasti poistua?"
@@ -482,11 +482,11 @@
       "questionDisplay": ["Question", "Kysymys"]
     },
     "Header": {
-      "buttonSave": ["Save", "Tallenna"],
+      "buttonSave": ["Save", "Aseta"],
       "buttonEdit": ["Edit", "Muokkaa"]
     },
     "Sections": {
-      "buttonSave": ["Save", "Tallenna"],
+      "buttonSave": ["Save", "Aseta"],
       "buttonEdit": ["Edit", "Muokkaa"]
     }
   },
