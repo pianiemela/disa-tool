@@ -1,4 +1,6 @@
-{
+/* eslint-disable quotes */
+/* eslint-disable quote-props */
+export default {
   "common": {
     "save": ["Save", "Tallenna"],
     "name": ["name", "nimi"],
@@ -604,7 +606,7 @@
       ]
     },
     "ResponseList": {
-      "Filter" : [
+      "Filter": [
         "Filter by name or student number",
         "Rajaa nimen tai opiskelijanumeron avulla"
       ]
