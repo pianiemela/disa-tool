@@ -18,6 +18,7 @@ class LocalizeWrapper extends PureComponent {
       ],
       translation,
       options: {
+        renderInnerHtml: true,
         renderToStaticMarkup,
         onMissingTranslation: this.missingTranslationHandler
       }
