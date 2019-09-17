@@ -68,7 +68,7 @@ class EditGradeForm extends Component {
 
   render() {
     const label = {
-      name: this.translate('name'),
+      name: this.translate('grade'),
       skill_level: this.translate('skill_level'),
       needed_for_grade: this.translate('needed_for_grade'),
       prerequisite: this.translate('prerequisite')
