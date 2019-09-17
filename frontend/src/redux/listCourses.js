@@ -1,6 +1,7 @@
 import * as types from './action_types'
 
 const INITIAL_STATE = {
+  templateInstances: [],
   instances: [],
   courses: [],
   selectedCourse: null,
