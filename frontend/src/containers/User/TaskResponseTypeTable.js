@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
-import { Button, Table, Segment } from 'semantic-ui-react'
-
-
+import { Button, Table } from 'semantic-ui-react'
 
 class TaskResponseTypeTable extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selected: 'Viikko'
+      selected: props.typeHeaders && props.typeHeaders[0] ? props.typeHeaders[0].id : 1
     }
   }
 
@@ -22,7 +20,7 @@ class TaskResponseTypeTable extends Component {
 
   showTasks = (e) => {
     const { value } = e.target
-    this.setState({ selected: value })
+    this.setState({ selected: Number(value) })
   }
 
   render() {
@@ -46,8 +44,8 @@ class TaskResponseTypeTable extends Component {
               <Button
                 key={header.id}
                 onClick={this.showTasks}
-                value={header.name}
-                color={selected === header.name ? 'grey' : null}
+                value={header.id}
+                color={selected === header.id ? 'grey' : null}
               >
                 {header.name}
               </Button>))}
@@ -59,7 +57,7 @@ class TaskResponseTypeTable extends Component {
               {/* {updatedHeaders.map(header => <Table.HeaderCell key={header.id} colSpan={`${header.types.length}`}>{header.name}</Table.HeaderCell>)} */}
             </Table.Row>
             <Table.Row>
-              {updatedHeaders.filter(upH => upH.name === selected).map(header => header.types.map(type => <Table.HeaderCell key={type.id}><Button onClick={selectType} type={type} color={type.updated ? 'red' : 'grey'}>{type.name}</Button></Table.HeaderCell>))}
+              {updatedHeaders.filter(upH => upH.id === selected).map(header => header.types.map(type => <Table.HeaderCell key={type.id}><Button onClick={selectType} type={type} color={type.updated ? 'red' : 'grey'}>{type.name}</Button></Table.HeaderCell>))}
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -68,7 +66,7 @@ class TaskResponseTypeTable extends Component {
                 <Table.Cell>
                   {person.studentnumber} - {person.name}
                 </Table.Cell>
-                {updatedHeaders.filter(upH => upH.name === selected).map(header => header.types.map(type => (
+                {updatedHeaders.filter(upH => upH.id === selected).map(header => header.types.map(type => (
                   <Table.Cell key={type.id}>
                     {person.task_responses && person.task_responses.filter(response =>
                       this.getTasksForType(tasks, type.id).find(t => t.id === response.task_id))
