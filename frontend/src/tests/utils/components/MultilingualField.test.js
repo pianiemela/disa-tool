@@ -1,6 +1,6 @@
 import React from 'react'
 import { Form, Input, Label, Segment } from 'semantic-ui-react'
-import MultilingualField from '../../../utils/components/MultilingualField'
+import { MultilingualField } from '../../../utils/components/MultilingualField'
 import { findText } from '../../testUtils'
 
 describe('MultilingualField component', () => {
