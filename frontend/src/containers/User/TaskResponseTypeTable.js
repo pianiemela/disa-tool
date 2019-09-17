@@ -47,7 +47,7 @@ class TaskResponseTypeTable extends Component {
                 key={header.id}
                 onClick={this.showTasks}
                 value={header.name}
-                color={selected === header.name && 'grey'}
+                color={selected === header.name ? 'grey' : null}
               >
                 {header.name}
               </Button>))}
