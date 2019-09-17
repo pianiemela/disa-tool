@@ -582,9 +582,9 @@ export default {
       "hidden": ["hidden", "piilotettu"],
       "feedback_open": ["feedback visible", "palaute näkyy"],
       "feedback_closed": ["no feedback", "ei palautetta"],
-      "delete_header": ["Remove self assesment", "Poista itsearviointi"],
+      "delete_header": ["Remove self assessment", "Poista itsearviointi"],
       "delete_prompt_1": [
-        "Really remove self assesment",
+        "Really remove self assessment",
         "Poistetaanko itsearviointi"
       ],
       "cannot_edit_open_assessment": [
@@ -602,9 +602,9 @@ export default {
       "final_grade": ["Final Grade", "Loppuarvosana"],
       "link": ["Link to assessment form", "Linkki vastauslomakkeeseen"],
       "generate_feedback": ["Regenerate feedbacks", "Luo palautteet uudestaan"],
-      "selected_header": ["Selected self assesments", "Valitut itsearviot"],
+      "selected_header": ["Selected self assessments", "Valitut itsearviot"],
       "non-selected_header": [
-        "Non-selected self assesments",
+        "Non-selected self assessments",
         "Ei-valitut itsearviot"
       ]
     },
