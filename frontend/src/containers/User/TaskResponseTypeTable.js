@@ -70,7 +70,7 @@ class TaskResponseTypeTable extends Component {
                 </Table.Cell>
                 {updatedHeaders.filter(upH => upH.name === selected).map(header => header.types.map(type => (
                   <Table.Cell key={type.id}>
-                    {person.task_responses.filter(response =>
+                    {person.task_responses && person.task_responses.filter(response =>
                       this.getTasksForType(tasks, type.id).find(t => t.id === response.task_id))
                       .length} / {this.getTasksForType(tasks, type.id).length}
                   </Table.Cell>
