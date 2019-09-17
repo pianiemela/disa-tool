@@ -9,6 +9,11 @@ const INITIAL_STATE = {
 
 const listCoursesReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case types.COURSELIST_GET_TEMPLATE_INSTANCES:
+      return {
+        ...state,
+        templateInstances: action.response
+      }
     case types.COURSELIST_GET_COURSES:
       return {
         ...state,

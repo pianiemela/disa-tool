@@ -26,6 +26,15 @@ export const getInstancesOfCourse = courseId => new Promise((resolve) => {
   })
 })
 
+export const getTemplateInstances = templateCourseId => new Promise((resolve) => {
+  getByCourse(templateCourseId).then((response) => {
+    resolve({
+      type: types.COURSELIST_GET_TEMPLATE_INSTANCES,
+      response: response.data
+    })
+  })
+})
+
 export const editInstance = data => apiPromise(edit, data, {
   success: { type: types.COURSELIST_INSTANCE_EDIT }
 })

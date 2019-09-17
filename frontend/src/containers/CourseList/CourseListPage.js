@@ -10,7 +10,7 @@ import asyncAction from '../../utils/asyncAction'
 import parseQueryParams from '../../utils/parseQueryParams'
 
 import { getAllCourses, selectCourse } from './actions/courses'
-import { getInstancesOfCourse, selectInstance } from './actions/courseInstances'
+import { getInstancesOfCourse, selectInstance, getTemplateInstances } from './actions/courseInstances'
 
 import CreateInstanceForm from './components/CreateInstanceForm'
 import RegisterForm from './components/RegisterForm'
@@ -20,6 +20,12 @@ import Conditional from '../../utils/components/Conditional'
 class CourseListPage extends Component {
   componentDidMount = async () => {
     await this.props.getAllCourses()
+    const templateCourse = this.props.courses.find(e => ['KURSSIPOHJAT', 'COURSE TEMPLATES', 'KURSMALL'].includes(e.name))
+    
+    if (templateCourse != null) {
+      await this.props.getTemplateInstances(templateCourse.id)      
+    }
+
     if (this.props.location.query_params.course) {
       this.props.selectCourse(Number(this.props.location.query_params.course))
       await this.props.getInstancesOfCourse(Number(this.props.location.query_params.course))
@@ -178,6 +184,7 @@ CourseListPage.propTypes = {
   })).isRequired,
   getAllCourses: PropTypes.func.isRequired,
   getInstancesOfCourse: PropTypes.func.isRequired,
+  getTemplateInstances: PropTypes.func.isRequired,
   selectedCourse: PropTypes.shape({
     id: PropTypes.number.isRequired
   }),
@@ -217,6 +224,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => ({
   getAllCourses: asyncAction(getAllCourses, dispatch),
   getInstancesOfCourse: asyncAction(getInstancesOfCourse, dispatch),
+  getTemplateInstances: asyncAction(getTemplateInstances, dispatch),
   selectCourse: selectCourse(dispatch),
   selectInstance: selectInstance(dispatch)
 })
