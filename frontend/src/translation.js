@@ -3,8 +3,7 @@
 export default {
   "common": {
     "save": ["Save", "Tallenna"],
-    "name": ["name", "nimi"],
-    "skill_level": ["skill level", "taitotaso"],
+    "name": ["Name", "Nimi"],
     "skill_levels": ["skill levels", "taitotasot"],
     "category": ["category", "osio"],
     "objective": ["objective", "oppimistavoite"],
@@ -158,8 +157,10 @@ export default {
     },
     "grades": {
       "common": {
-        "needed_for_grade": ["required completion", "vaadittu suoritus"],
-        "prerequisite": ["prerequisite", "esivaatimus"]
+        "grade": ["Grade", "Arvosana"],
+        "skill_level": ["Skill level", "Arvosanaa vastaava taitotaso"],
+        "needed_for_grade": ["Required completion level", "Vaadittu suoritustaso"],
+        "prerequisite": ["Prerequisite grade for earning this grade", "Vaadittu alempi arvosanasuoritus"]
       },
       "CategoryGradeTable": {
         "header": ["Edit grades by category", "Muokkaa arvosanoja osioittain"],
@@ -174,19 +175,19 @@ export default {
       },
       "EditGradesTab": {
         "header": [
-          "Edit course grading criteria here",
-          "Muokkaa tässä kurssin arvosanarajoja"
+          "Create and modify the grading criteria",
+          "Lisää ja muokkaa kurssin arvosanoja"
         ],
         "subheader": [
-          "You can define the grades of your course in the upper list. The 'required completion' fields in the list refer to the requirements of the final grade of the course. In the lower table you can edit grading criteria by category. If you do, remember to press the Save button when you're done.",
-          "Ylemmässä listassa voit määritellä kurssilla olevat arvosanat, listassa olevat 'vaadittu suoritus'-luvut viittaavat loppuarvosanan vaadittuun suoritusosuuteen. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja. Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
+          "Here you'll define the grades for the course. The 'required completion' fields in the list refer to the requirements of the final grade of the course. In the lower table you can edit grading criteria by category. If you do, remember to press the Save button when you're done.",
+          "Tähän määritellään kurssin arvosanat. Jotta oppilas saa vähintään kyseisen arvosanan, täytyy hänen olla suorittanut määritelty prosenttimäärä arvosanaan liittyvistä tehtävistä, sekä kaikki vaaditut alemmat arvosanasuoritukset. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja. Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
         ]
       },
       "Grade": {
         "delete_header": ["Delete grade", "Poista arvosana"],
         "delete_prompt_1": [
-          "Really remove grade",
-          "Poistetaanko arvosteluperuste"
+          "Are you sure you want to remove the grade",
+          "Poistetaanko arvosana"
         ]
       }
     },

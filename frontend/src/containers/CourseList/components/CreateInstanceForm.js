@@ -49,7 +49,7 @@ export class CreateInstanceForm extends Component {
               value={this.state.instance_to_copy}
               onChange={(e, { value }) => this.setState({ instance_to_copy: value })}
               options={
-                this.props.instances.map(instance => ({
+                [...this.props.instances, ...this.props.templateInstances].map(instance => ({
                   key: instance.id,
                   value: instance.id,
                   text: instance.name
@@ -79,7 +79,8 @@ CreateInstanceForm.propTypes = {
 }
 
 const mapStateToProps = state => ({
-  instances: state.listCourses.instances
+  instances: state.listCourses.instances,
+  templateInstances: state.listCourses.templateInstances
 })
 
 const mapDispatchToProps = dispatch => ({
