@@ -340,7 +340,7 @@ describe('course_instance_controller', () => {
     })
 
     afterEach((done) => {
-      CourseInstance.findById(ids.courseInstance).then((ci) => {
+      CourseInstance.findByPk(ids.courseInstance).then((ci) => {
         ci.update({
           eng_name: 'en',
           fin_name: 'fn',

@@ -34,7 +34,7 @@ app.post('/login', async (req, res) => {
     "error": "wrong credentials"
   }
   if (req.body.password === "password") {
-    const user = await Person.findById(req.body.username)
+    const user = await Person.findByPk(req.body.username)
     if (user) {
       const name = user.name.split(' ')
       res.json({

@@ -210,7 +210,7 @@ describe('category_controller', () => {
     })
 
     afterEach((done) => {
-      Category.findById(ids.category).then(
+      Category.findByPk(ids.category).then(
         instance => instance.update({
           eng_name: 'en',
           fin_name: 'fn',

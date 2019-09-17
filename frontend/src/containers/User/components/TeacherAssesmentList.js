@@ -3,6 +3,7 @@ import { arrayOf, shape, func } from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
+import { orderBy } from 'lodash'
 import { Button, List, Popup } from 'semantic-ui-react'
 import DeleteForm from '../../../utils/components/DeleteForm'
 import { removeSelfAssesment } from '../actions/selfAssesment'
@@ -18,7 +19,7 @@ const TeacherAssesmentList = ({
   const translate = id => baseTranslate(`UserPage.TeacherAssesmentList.${id}`)
   return (
     <List selection divided size="big">
-      {assesments.map(assesment => (
+      {orderBy(assesments, 'name').map(assesment => (
         <List.Item key={assesment.id} style={{ display: 'flex' }}>
           <List.Content
             as={Link}

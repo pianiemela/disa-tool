@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import { renderToStaticMarkup } from 'react-dom/server'
 
-import translation from '../../translation.json'
+import translation from '../../translation'
 import { getLanguage } from '../../utils/utils'
 
 class LocalizeWrapper extends PureComponent {
@@ -18,6 +18,7 @@ class LocalizeWrapper extends PureComponent {
       ],
       translation,
       options: {
+        renderInnerHtml: true,
         renderToStaticMarkup,
         onMissingTranslation: this.missingTranslationHandler
       }

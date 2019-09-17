@@ -255,7 +255,7 @@ const timestamps = {
  *   disallowId: boolean. If true, will add a field 'id' to request body and
  *     check that it had no effect on the response.
  *   findBy: number, object or function that returns a number or an object.
- *     Passed as an argument to model.findById (number) or model.findOne (object) to find the saved row.
+ *     Passed as an argument to model.findByPk (number) or model.findOne (object) to find the saved row.
  * }
  */
 const testDatabaseSave = (options, match, model, config = {}) => {
@@ -280,9 +280,9 @@ const testDatabaseSave = (options, match, model, config = {}) => {
           if (typeof findBy === 'function') {
             search = findBy()
           }
-          findFunction = (typeof search === 'number' ? 'findById' : 'findOne')
+          findFunction = (typeof search === 'number' ? 'findByPk' : 'findOne')
         } else {
-          findFunction = 'findById'
+          findFunction = 'findByPk'
           search = response
           pathToId.forEach((step) => {
             search = search[step]
@@ -336,7 +336,7 @@ const testDatabaseSave = (options, match, model, config = {}) => {
  *     }
  *     Each object will cause test to check that the table no longer has the specified row.
  *   findBy: number, object or function that returns a number or an object.
- *     Passed as an argument to model.findById (number) or model.findOne (object) to find (lack of) the saved row.
+ *     Passed as an argument to model.findByPk (number) or model.findOne (object) to find (lack of) the saved row.
  * }
  */
 const testDatabaseDestroy = (options, model, config = {}) => {
@@ -348,7 +348,7 @@ const testDatabaseDestroy = (options, model, config = {}) => {
   } = config
 
   const checkCascade = cascade.map(params => (response, cascadeStep, done) => {
-    params.model.findById(params.getId()).then((result) => {
+    params.model.findByPk(params.getId()).then((result) => {
       try {
         expect(result).toEqual(null)
         checkCascade[cascadeStep](response, cascadeStep + 1)
@@ -366,9 +366,9 @@ const testDatabaseDestroy = (options, model, config = {}) => {
       if (typeof findBy === 'function') {
         search = findBy()
       }
-      findFunction = (typeof search === 'number' ? 'findById' : 'findOne')
+      findFunction = (typeof search === 'number' ? 'findByPk' : 'findOne')
     } else {
-      findFunction = 'findById'
+      findFunction = 'findByPk'
       search = response
       pathToId.forEach((step) => {
         search = search[step]

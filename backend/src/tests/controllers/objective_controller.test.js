@@ -242,7 +242,7 @@ describe('objective_controller', () => {
     })
 
     afterEach((done) => {
-      Objective.findById(ids.objective).then(
+      Objective.findByPk(ids.objective).then(
         instance => instance.update({
           eng_name: 'en',
           fin_name: 'fn',

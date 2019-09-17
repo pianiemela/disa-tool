@@ -472,7 +472,7 @@ const create = {
 
 const matrix = async (id, lang) => {
   const name = [`${lang}_name`, 'name']
-  let result = await CourseInstance.findById(id, {
+  let result = await CourseInstance.findByPk(id, {
     attributes: ['id', name],
     include: [
       {

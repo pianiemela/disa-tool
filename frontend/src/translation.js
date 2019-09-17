@@ -1,4 +1,6 @@
-{
+/* eslint-disable quotes */
+/* eslint-disable quote-props */
+export default {
   "common": {
     "save": ["Save", "Tallenna"],
     "name": ["name", "nimi"],
@@ -601,6 +603,12 @@
       "non-selected_header": [
         "Non-selected self assesments",
         "Ei-valitut itsearviot"
+      ]
+    },
+    "ResponseList": {
+      "Filter": [
+        "Filter by name or student number",
+        "Rajaa nimen tai opiskelijanumeron avulla"
       ]
     },
     "SelectionButtons": {

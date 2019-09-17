@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
+import { orderBy } from 'lodash'
 import { Button, Header, List, Grid, Dropdown, Icon, Message } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
@@ -43,8 +44,8 @@ class CourseListPage extends Component {
   translate = id => this.props.translate(`CourseList.CourseListPage.${id}`)
 
   render() {
-    const courseOptions = this.props.courses.map(course =>
-      ({ key: course.id, text: course.name, value: course.id }))
+    const courseOptions = orderBy(this.props.courses.map(course =>
+      ({ key: course.id, text: course.name, value: course.id })), 'text')
     return (
       <Grid padded="vertically">
         <Grid.Row>

@@ -13,10 +13,10 @@ const create = {
       order: data.order
     })
     const [category, skillLevel] = await Promise.all([
-      Category.findById(data.category_id, {
+      Category.findByPk(data.category_id, {
         attributes: ['course_instance_id']
       }),
-      SkillLevel.findById(data.skill_level_id, {
+      SkillLevel.findByPk(data.skill_level_id, {
         attributes: ['course_instance_id']
       })
     ])
@@ -40,7 +40,7 @@ const create = {
 }
 
 const deleteObjective = {
-  prepare: id => Objective.findById(id, {
+  prepare: id => Objective.findByPk(id, {
     include: {
       model: TaskObjective,
       attributes: ['task_id']
@@ -60,7 +60,7 @@ const deleteObjective = {
 
 const taskDetails = async (id, lang) => {
   const name = [`${lang}_name`, 'name']
-  const result = (await Objective.findById(id, {
+  const result = (await Objective.findByPk(id, {
     attributes: ['id', name],
     include: {
       required: false,

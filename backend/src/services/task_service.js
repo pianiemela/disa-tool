@@ -129,7 +129,7 @@ const create = {
 }
 
 const deleteTask = {
-  prepare: async id => Task.findById(id),
+  prepare: async id => Task.findByPk(id),
   value: (instance) => {
     const json = instance.toJSON()
     return {
@@ -141,7 +141,7 @@ const deleteTask = {
 
 const attachObjective = {
   prepare: async (data) => {
-    const task = await Task.findById(data.task_id, {
+    const task = await Task.findByPk(data.task_id, {
       include: {
         model: Type,
         attributes: ['multiplier']
@@ -154,7 +154,7 @@ const attachObjective = {
         instance: null
       }
     }
-    const objective = await Objective.findById(data.objective_id)
+    const objective = await Objective.findByPk(data.objective_id)
     if (!objective) {
       return {
         task,
@@ -247,7 +247,7 @@ const updateMultipliers = async (taskType) => {
 
 const attachType = {
   prepare: async (data) => {
-    const task = await Task.findById(data.task_id)
+    const task = await Task.findByPk(data.task_id)
     if (!task) {
       return {
         task: null,
@@ -256,7 +256,7 @@ const attachType = {
         instance: null
       }
     }
-    const type = await Type.findById(data.type_id, {
+    const type = await Type.findByPk(data.type_id, {
       include: {
         model: TypeHeader
       }
@@ -391,7 +391,7 @@ const editTaskObjectives = {
         },
         attributes: ['id', 'objective_id']
       }),
-      Task.findById(data.task_id, { attributes: ['id', 'course_instance_id'] })
+      Task.findByPk(data.task_id, { attributes: ['id', 'course_instance_id'] })
     ])
   },
   execute: (instances, data) => Promise.all(instances.map((instance) => {

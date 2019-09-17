@@ -111,7 +111,7 @@ const getInstanceWithRelatedData = (instanceId, lang, userId) => (
 )
 
 const toggleActivity = async (id) => {
-  const instance = await CourseInstance.findById(id)
+  const instance = await CourseInstance.findByPk(id)
   return CourseInstance.update({ active: !instance.active }, { where: { id }, returning: true })
     .then(res => res[1][0])
 }

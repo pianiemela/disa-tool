@@ -54,7 +54,7 @@ const genResp = assessmentId => ({
     }, {
       id: 3,
       prefix: 'Swe:',
-      value: 'Låta en final grad till själv',
+      value: 'Ge dig själv ett slutvitsord för kursen',
       type: 'swe_name'
     }]
   },
@@ -71,7 +71,7 @@ const genResp = assessmentId => ({
   }, {
     id: 8,
     prefix: 'Swe:',
-    value: 'Final grääd',
+    value: 'Slutvitsord',
     type: 'swe_name'
   }]
 })

@@ -196,7 +196,7 @@ describe('self_assesment_controller', () => {
             {
               id: 3,
               prefix: 'Swe:',
-              value: 'Låta en final grad till själv',
+              value: 'Ge dig själv ett slutvitsord för kursen',
               type: 'swe_name'
             }
           ],
@@ -223,7 +223,7 @@ describe('self_assesment_controller', () => {
             {
               id: 3,
               prefix: 'Swe:',
-              value: 'Ruotsiksi sama',
+              value: 'Frågor',
               type: 'swe_name'
             }
           ],
@@ -243,7 +243,7 @@ describe('self_assesment_controller', () => {
             {
               id: 5,
               prefix: 'Swe:',
-              value: 'Öppnä jotain',
+              value: 'Öppna frågor',
               type: 'swe_name'
             }
           ],
@@ -263,7 +263,7 @@ describe('self_assesment_controller', () => {
             {
               id: 8,
               prefix: 'Swe:',
-              value: 'Final grääd',
+              value: 'Slutvitsord',
               type: 'swe_name'
             }
           ]

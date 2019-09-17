@@ -22,7 +22,7 @@ const addSelfAssesment = async (data, lang) => {
   const inputData = { ...data, id: undefined }
   const name = [`${lang}_name`, 'name']
   const instructions = [`${lang}_instructions`, 'instructions']
-  const created = await SelfAssessment.create(inputData).then(createdSA => SelfAssessment.findById(createdSA.id, {
+  const created = await SelfAssessment.create(inputData).then(createdSA => SelfAssessment.findByPk(createdSA.id, {
     attributes: ['id', name, instructions, 'structure', 'open', 'active', 'show_feedback', 'course_instance_id']
   }))
   return created
@@ -79,7 +79,7 @@ const updateSelfAssesment = async (data, lang) => {
       where: { id: data.id }
     }
   )
-  const updated = await SelfAssessment.findById(data.id, {
+  const updated = await SelfAssessment.findByPk(data.id, {
     attributes:
       assessmentAttributes(lang)
   })
@@ -105,7 +105,7 @@ const getOne = async (selfAssesmentId, lang) => {
 
 const toggleAssessment = {
   prepare: async (id, attribute) => {
-    const instance = await SelfAssessment.findById(id)
+    const instance = await SelfAssessment.findByPk(id)
     instance[attribute] = !instance[attribute]
     return instance
   },
@@ -114,7 +114,7 @@ const toggleAssessment = {
 
 const setAssessmentStatus = {
   prepare: async (id, attributes) => {
-    const instance = await SelfAssessment.findById(id)
+    const instance = await SelfAssessment.findByPk(id)
     attributes.forEach((a) => { instance[a.name] = !!a.value })
     return instance
   },
@@ -122,12 +122,12 @@ const setAssessmentStatus = {
 }
 
 const isFeedbackActive = async (id) => {
-  const assessment = await SelfAssessment.findById(id)
+  const assessment = await SelfAssessment.findByPk(id)
   return assessment.show_feedback
 }
 
 const getAssessmentType = id => (
-  SelfAssessment.findById(id).then(res => res.structure.type)
+  SelfAssessment.findByPk(id).then(res => res.structure.type)
 )
 
 const setAssessmentLanguage = async (selfAssessment, lang) => {
@@ -182,7 +182,7 @@ const setAssessmentLanguage = async (selfAssessment, lang) => {
 }
 
 const deleteSelfAssesment = {
-  prepare: id => SelfAssessment.findById(id),
+  prepare: id => SelfAssessment.findByPk(id),
   value: (instance) => {
     const json = instance.toJSON()
     return {
