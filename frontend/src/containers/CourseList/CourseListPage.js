@@ -21,9 +21,9 @@ class CourseListPage extends Component {
   componentDidMount = async () => {
     await this.props.getAllCourses()
     const templateCourse = this.props.courses.find(e => ['KURSSIPOHJAT', 'COURSE TEMPLATES', 'KURSMALL'].includes(e.name))
-    
+
     if (templateCourse != null) {
-      await this.props.getTemplateInstances(templateCourse.id)      
+      await this.props.getTemplateInstances(templateCourse.id)
     }
 
     if (this.props.location.query_params.course) {
