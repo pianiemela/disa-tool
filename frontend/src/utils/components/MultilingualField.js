@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import { Form, Segment, Label, Input, Button } from 'semantic-ui-react'
 
-export class MultilingualField extends Component {
+class MultilingualField extends Component {
   constructor(props) {
     super(props)
     this.state = {
