@@ -14,6 +14,8 @@ export default {
     "closed": ["closed", "suljettu"],
     "course_matrix": ["Course-objective matrix", "Kurssin tavoitematriisi"]
   },
+  "InfoBox": {
+  },
   "Nav": {
     "navbar": {
       "logout": ["Log out", "Kirjaudu ulos"],
