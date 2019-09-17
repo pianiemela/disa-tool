@@ -77,9 +77,10 @@ class SelfAssesmentCSVDownload extends PureComponent {
 
   render() {
     const { data } = this.state
-    const { filePrefix } = this.props
+    const { filePrefix, responses } = this.props
     return (
       <Button
+        disabled={responses.length === 0}
         as={CSVLink}
         onClick={this.prepare}
         basic

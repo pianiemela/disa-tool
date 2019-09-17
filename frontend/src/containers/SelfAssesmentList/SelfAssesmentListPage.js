@@ -9,8 +9,6 @@ import { getResponsesBySelfAssesment, updateVerificationAndFeedback, getSelfAsse
 import FeedbackPage from '../Feedback/FeedbackPage'
 import LinkExport from '../User/components/LinkExport'
 import ResponseList from './components/ResponseList'
-import SelectionButtons from './components/SelectionButtons'
-import SelfAssesmentCSVDownload from './components/SelfAssesmentCSVDownload'
 import { init, regenerate, reset } from './actions/selfAssesmentList'
 import { responseProp } from './propTypes'
 
@@ -75,7 +73,7 @@ class SelfAssesmentListPage extends Component {
     const { responses, selectedResponses } = this.props
     const notSelected = responses.filter(r => !selectedResponses.find(sr => sr === r))
     return (
-      <Container>
+      <Fragment>
         { updating ? this.renderUpdating() : null }
         {this.state.loading ? (
           <Loader active />
@@ -86,6 +84,7 @@ class SelfAssesmentListPage extends Component {
               subheader={`${selectedResponses.length} / ${responses.length}`}
               responses={selectedResponses}
               selected
+              regenarateFeedback={this.regenarateFeedback}
             />
             <ResponseList
               header={this.translate('non-selected_header')}
@@ -93,7 +92,7 @@ class SelfAssesmentListPage extends Component {
             />
           </Fragment>
         )}
-      </Container>
+      </Fragment>
     )
   }
 
@@ -141,20 +140,13 @@ class SelfAssesmentListPage extends Component {
             </Segment>
             <Segment>
               <Header style={{ whiteSpace: 'nowrap', marginRight: '80px' }}>{this.props.selfAssesmentName}</Header>
-              <Button
-                basic
-                color="blue"
-                content={this.translate('generate_feedback')}
-                onClick={this.regenarateFeedback}
-              />
-              <SelfAssesmentCSVDownload />
             </Segment>
           </Segment.Group>
+          <Switch>
+            <Route exact path={`/selfassessment/list/${this.props.selfAssesmentId}`} render={this.renderList} />
+            <Route exact path={`/selfassessment/list/${this.props.selfAssesmentId}/:id`} render={this.renderResponse} />
+          </Switch>
         </Container>
-        <Switch>
-          <Route exact path={`/selfassessment/list/${this.props.selfAssesmentId}`} render={this.renderList} />
-          <Route exact path={`/selfassessment/list/${this.props.selfAssesmentId}/:id`} render={this.renderResponse} />
-        </Switch>
       </div>
     )
   }

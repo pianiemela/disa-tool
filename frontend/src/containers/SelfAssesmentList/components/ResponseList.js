@@ -1,10 +1,12 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { arrayOf, string, number, bool, func } from 'prop-types'
-import { Header, Pagination, Segment, Form } from 'semantic-ui-react'
+import { Header, Pagination, Segment, Form, Button, Message } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 import _ from 'lodash'
 import ResponseTable, { calculateDifference } from './ResponseTable'
 import { responseProp } from '../propTypes'
+import { DeselectAllButton, SelectAllButton } from './SelectionButtons'
+import SelfAssesmentCSVDownload from './SelfAssesmentCSVDownload'
 
 class ResponseList extends PureComponent {
   constructor(props) {
@@ -33,7 +35,7 @@ class ResponseList extends PureComponent {
   }
 
   render() {
-    const { responses, responsesOnPage, selected } = this.props
+    const { responses, responsesOnPage, selected, regenarateFeedback, translate } = this.props
     const { activePage, sorted, searched } = this.state
     const searchedLower = searched.toLowerCase()
     const responsesFiltered = searchedLower.length === 0 ? responses : responses.filter(
@@ -79,21 +81,48 @@ class ResponseList extends PureComponent {
           ) : null}
         </Header>
         <Form>
-          <Form.Field>
-            <Form.Input placeholder={this.props.translate('SelfAssessmentList.ResponseList.Filter')} onChange={this.handleOnSearch} />
-          </Form.Field>
+          <Form.Group>
+            <Form.Field>
+              {selected ?
+                <Fragment>
+                  <DeselectAllButton />
+                  {regenarateFeedback && <Button
+                    disabled={responses.length === 0}
+                    basic
+                    color="blue"
+                    content={translate('SelfAssessmentList.SelfAssessmentListPage.generate_feedback')}
+                    onClick={regenarateFeedback}
+                  />}
+                  <SelfAssesmentCSVDownload />
+                </Fragment>
+                :
+                <SelectAllButton />
+              }
+            </Form.Field>
+          </Form.Group>
         </Form>
-        <ResponseTable
-          responses={displayed}
-          selected={selected}
-          onSort={this.handleOnSort}
-          sortedHeader={sorted}
-        />
-        <Pagination
-          activePage={activePageReal}
-          onPageChange={this.handlePaginationChange}
-          totalPages={totalPages}
-        />
+        {selected && responses.length === 0 ?
+          <Message warning content={translate('SelfAssessmentList.ResponseList.SelectWarning')} />
+          :
+          <Fragment>
+            <Form>
+              <Form.Field>
+                <Form.Input placeholder={translate('SelfAssessmentList.ResponseList.Filter')} onChange={this.handleOnSearch} />
+              </Form.Field>
+            </Form>
+            <ResponseTable
+              responses={displayed}
+              selected={selected}
+              onSort={this.handleOnSort}
+              sortedHeader={sorted}
+            />
+            <Pagination
+              activePage={activePageReal}
+              onPageChange={this.handlePaginationChange}
+              totalPages={totalPages}
+            />
+          </Fragment>
+        }
       </Segment>
     )
   }
@@ -105,13 +134,15 @@ ResponseList.propTypes = {
   subheader: string,
   responsesOnPage: number,
   translate: func.isRequired,
-  selected: bool
+  selected: bool,
+  regenarateFeedback: func
 }
 
 ResponseList.defaultProps = {
   subheader: null,
   responsesOnPage: 20,
-  selected: false
+  selected: false,
+  regenarateFeedback: null
 }
 
 export default withLocalize(ResponseList)

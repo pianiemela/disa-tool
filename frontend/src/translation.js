@@ -612,7 +612,8 @@ export default {
       "Filter": [
         "Filter by name or student number",
         "Rajaa nimen tai opiskelijanumeron avulla"
-      ]
+      ],
+      "SelectWarning": ["Select students first", "Valitse ensin opiskelijoita"]
     },
     "SelectionButtons": {
       "select": ["select all", "valitse kaikki"],
