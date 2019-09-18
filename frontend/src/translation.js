@@ -14,6 +14,8 @@ export default {
     "closed": ["closed", "suljettu"],
     "course_matrix": ["Course-objective matrix", "Kurssin tavoitematriisi"]
   },
+  "InfoBox": {
+  },
   "Nav": {
     "navbar": {
       "logout": ["Log out", "Kirjaudu ulos"],
@@ -91,12 +93,12 @@ export default {
       ],
       "student_header": ["For students", "Opiskelijalle"],
       "student_info": [
-        "When logged in you'll be able to register to courses. When registered, you can view your task performance and submit course self assessments.",
+        "When logged in you'll be able to register to courses. When registered, you can view your task performance and submit course self-asseessments.",
         "Kirjautuneena pääset rekisteröitymään kursseille. Kun olet rekisteröitynyt, pääset katselemaan tehtäväsuorituksiasi ja vastaamaan kurssin itsearviointeihin."
       ],
       "teacher_header": ["For teachers", "Opettajalle"],
       "teacher_info": [
-        "If you wish to use the tool on your course, please ask an administrator to add you as a teacher. Afterwards, you can create objectives and tasks for your course. You can also inspect the progress of your students and give them self assessments to fill out.",
+        "If you wish to use the tool on your course, please ask an administrator to add you as a teacher. Afterwards, you can create objectives and tasks for your course. You can also inspect the progress of your students and give them self-asseessments to fill out.",
         "Jos haluat käyttää työkalua kurssillasi, pyydä pääkäyttäjää lisäämään sinut opettajaksi. Tämän jälkeen voit luoda kurssillesi tavoitteita ja tehtäviä. Voit myös tarkkailla opiskelijoiden edistymistä ja teettää heillä itsearviointeja."
       ],
       "background_header": ["Background", "Taustaa"],
@@ -105,7 +107,7 @@ export default {
         "DISA-työkalu on saanut alkunsa matematiikan ja tilastotieteen laitoksella tehtävästä "
       ],
       "background_link_1": [
-        "a study on self assessments",
+        "a study on self-asseessments",
         "itsearviointitutkimuksesta"
       ],
       "background_link_1_href": [
@@ -113,7 +115,7 @@ export default {
         "https://tuhat.helsinki.fi/portal/fi/projects/digital-selfassessm(384b2b6c-1992-48cd-aa60-0e9169c2efe9).html"
       ],
       "background_info_1_2": [
-        " conducted by the mathematics and statistics faculty. The study found that both learning objective matrices and self assessment exercises have positive effects on the learning strategies and motivation of students as well as their view of their own abilities.",
+        " conducted by the mathematics and statistics faculty. The study found that both learning objective matrices and self-asseessment exercises have positive effects on the learning strategies and motivation of students as well as their view of their own abilities.",
         ". Tutkimuksessa on havaittu, että osaamistavoitematriiseilla sekä itsearviointiharjoituksilla on myönteistä vaikutusta opiskelijoiden oppimisstrategioihin, motivaatioon ja käsitykseen omasta osaamisestaan."
       ],
       "background_info_2_1": [
@@ -349,17 +351,17 @@ export default {
   "SelfAssessment": {
     "SelfAssessmentList": {
       "header": [
-        "Self assessments of the selected course - click to edit",
+        "Self-asseessments of the selected course - click to edit",
         "Valitun kurssin itsearviot - klikkaa muokataksesi"
       ]
     },
     "AssessmentButtons": {
       "categoryButton": [
-        "Category based self assessment",
+        "Category based self-asseessment",
         "Itsearvio kategorioiden pohjalta"
       ],
       "objectiveButton": [
-        "Objective based self assessment",
+        "Objective based self-asseessment",
         "Itsearvio tavoitteiden pohjalta"
       ]
     }
@@ -412,7 +414,7 @@ export default {
         "Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan"
       ],
       "notOpenMessage": [
-        "The self assessment is not open for answering yet.",
+        "The self-asseessment is not open for answering yet.",
         "Itsearviota ei ole vielä avattu vastattavaksi"
       ],
       "existingResponse": [
@@ -497,7 +499,7 @@ export default {
     "common": {
       "hello": ["Hello", "Hei"],
       "tasks": ["Tasks", "Tehtävät"],
-      "self_assessments": ["Self-assessments", "Itsearvioinnit"],
+      "self_assessments": ["Self-asseessments", "Itsearvioinnit"],
       "open_task_list": ["Look at tasks", "Katso tehtävälistaa"],
       "create_self_assessment_target": [
         "Create objective based assessment",
@@ -515,7 +517,7 @@ export default {
     },
     "CourseInfo": {
       "edit_self_assessments": [
-        "Edit self-assessments",
+        "Edit self-asseessments",
         "Muokkaa itsearviointeja"
       ],
       "edit_course": ["Edit course", "Muokkaa kurssia"],
@@ -580,13 +582,13 @@ export default {
       "hidden": ["hidden", "piilotettu"],
       "feedback_open": ["feedback visible", "palaute näkyy"],
       "feedback_closed": ["no feedback", "ei palautetta"],
-      "delete_header": ["Remove self assesment", "Poista itsearviointi"],
+      "delete_header": ["Remove self-asseessment", "Poista itsearviointi"],
       "delete_prompt_1": [
-        "Really remove self assesment",
+        "Really remove self-asseessment",
         "Poistetaanko itsearviointi"
       ],
       "cannot_edit_open_assessment": [
-        "You can not edit open self assessment. Close or hide it first.",
+        "You can not edit open self-asseessment. Close or hide it first.",
         "Et voi muokata avointa itsearviointia. Sulje tai piilota se ensin."
       ]
     }
@@ -595,14 +597,14 @@ export default {
     "SelfAssessmentListPage": {
       "back": ["Back", "Takaisin"],
       "inspect": ["Inspect", "Tarkastele"],
-      "self_assessment": ["Self Assessment", "Itsearvio"],
+      "self_assessment": ["Self-asseessment", "Itsearvio"],
       "machine_review": ["Machine Review", "Konearvio"],
       "final_grade": ["Final Grade", "Loppuarvosana"],
       "link": ["Link to assessment form", "Linkki vastauslomakkeeseen"],
       "generate_feedback": ["Regenerate feedbacks", "Luo palautteet uudestaan"],
-      "selected_header": ["Selected self assesments", "Valitut itsearviot"],
+      "selected_header": ["Selected self-asseessments", "Valitut itsearviot"],
       "non-selected_header": [
-        "Non-selected self assesments",
+        "Non-selected self-asseessments",
         "Ei-valitut itsearviot"
       ]
     },
@@ -610,7 +612,8 @@ export default {
       "Filter": [
         "Filter by name or student number",
         "Rajaa nimen tai opiskelijanumeron avulla"
-      ]
+      ],
+      "SelectWarning": ["Select students first", "Valitse ensin opiskelijoita"]
     },
     "SelectionButtons": {
       "select": ["select all", "valitse kaikki"],

@@ -113,7 +113,7 @@ CourseTasksPage.propTypes = {
   user: PropTypes.shape({
     id: PropTypes.number,
     username: PropTypes.string,
-    studentnumber: PropTypes.number,
+    studentnumber: PropTypes.string,
     role: PropTypes.string
   }).isRequired,
   getCourseInstanceDataAction: PropTypes.func.isRequired,
