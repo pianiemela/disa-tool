@@ -1,7 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const webpack = require('webpack')
 
@@ -10,7 +9,8 @@ module.exports = {
   mode: 'production',
   entry: ['babel-polyfill', './src/index.js'],
   output: {
-    filename: '[name].bundle.js',
+    filename: '[name]-[hash].bundle.js',
+    chunkFilename: '[name]-[id]-[hash].bundle.js',
     path: path.join(__dirname, '../../backend/dist'),
     publicPath: '/'
   },
@@ -19,10 +19,6 @@ module.exports = {
       chunks: 'all'
     },
     minimizer: [
-      new UglifyJsPlugin({
-        cache: true,
-        parallel: true
-      }),
       new OptimizeCSSAssetsPlugin({})
     ]
   },
@@ -54,8 +50,8 @@ module.exports = {
       template: './src/index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[name]-[id].css'
+      filename: '[name]-[hash].css',
+      chunkFilename: '[name]-[id]-[hash].css'
     }),
     new webpack.DefinePlugin({
       CONFIG: {

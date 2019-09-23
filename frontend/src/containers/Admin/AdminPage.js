@@ -9,6 +9,10 @@ import { adminGetUsers, adminChangeGlobalRole } from './actions/persons'
 import { adminChangeCourseRole, removeCoursePerson } from './actions/coursePersons'
 import RoleList from './components/RoleList'
 
+const chaosMonkey = () => {
+  throw new Error('Ooh aah, error!')
+}
+
 class AdminPage extends React.Component {
   constructor(props) {
     super(props)
@@ -140,6 +144,7 @@ class AdminPage extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
+        <Button content="Do not press!" color="red" onClick={chaosMonkey} />
       </Container>
     )
   }
