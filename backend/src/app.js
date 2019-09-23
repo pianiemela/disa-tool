@@ -7,7 +7,9 @@ const routes = require('./routes.js')
 
 const app = express()
 
-Sentry.config(process.env.SENTRY_ADDR).install()
+Sentry.init({
+  dsn: process.env.SENTRY_ADDR
+})
 
 app.use(express.json({ limit: '1000kb' }))
 app.use(express.static('dist'))
