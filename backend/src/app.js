@@ -1,13 +1,13 @@
 const express = require('express')
 const path = require('path')
-const Raven = require('raven')
+const Sentry = require('@sentry/node')
 const bodyParser = require('body-parser')
 const logger = require('./utils/logger')
 const routes = require('./routes.js')
 
 const app = express()
 
-Raven.config(process.env.SENTRY_ADDR).install()
+Sentry.config(process.env.SENTRY_ADDR).install()
 
 app.use(express.json({ limit: '1000kb' }))
 app.use(express.static('dist'))
@@ -26,7 +26,7 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist', 'index.html'))
 })
 
-app.use(Raven.errorHandler())
+app.use(Sentry.errorHandler())
 
 app.use((err, req, res, next) => {
   logger.error('Request error', {
