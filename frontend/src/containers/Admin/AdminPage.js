@@ -9,10 +9,6 @@ import { adminGetUsers, adminChangeGlobalRole } from './actions/persons'
 import { adminChangeCourseRole, removeCoursePerson } from './actions/coursePersons'
 import RoleList from './components/RoleList'
 
-const chaosMonkey = () => {
-  throw new Error('Ooh aah, error!')
-}
-
 class AdminPage extends React.Component {
   constructor(props) {
     super(props)
@@ -20,8 +16,13 @@ class AdminPage extends React.Component {
       getAll: false,
       loading: false,
       activeIndex: -1,
-      activePage: 1
+      activePage: 1,
+      crash: false
     }
+  }
+
+  chaosMonkey = () => {
+    this.setState({ crash: true })
   }
 
   handleSubmit = async (event) => {
@@ -77,6 +78,7 @@ class AdminPage extends React.Component {
   translate = id => this.props.translate(`Admin.AdminPage.${id}`)
 
   render() {
+    if (this.state.crash) throw new Error('Ooh aah, error')
     const { activeIndex, activePage } = this.state
     return (
       <Container style={{ paddingTop: '100px' }} >
@@ -144,7 +146,7 @@ class AdminPage extends React.Component {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-        <Button content="Do not press!" color="red" onClick={chaosMonkey} />
+        <Button content="Do not press!" color="red" onClick={this.chaosMonkey} />
       </Container>
     )
   }
