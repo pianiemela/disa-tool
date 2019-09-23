@@ -5,11 +5,14 @@ const bodyParser = require('body-parser')
 const logger = require('./utils/logger')
 const routes = require('./routes.js')
 
-const app = express()
-
 Sentry.init({
   dsn: process.env.SENTRY_ADDR
 })
+
+const app = express()
+
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler())
 
 app.use(express.json({ limit: '1000kb' }))
 app.use(express.static('dist'))
@@ -28,7 +31,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../dist', 'index.html'))
 })
 
-app.use(Sentry.errorHandler())
+// The error handler must be before any other error middleware
+app.use(Sentry.Handlers.errorHandler())
 
 app.use((err, req, res, next) => {
   logger.error('Request error', {
