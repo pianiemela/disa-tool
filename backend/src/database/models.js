@@ -278,7 +278,7 @@ const CategoryGrade = sequelize.define('category_grade', {
     allowNull: false,
     unique: false,
     references: {
-      model: Category,
+      model: Grade,
       key: 'id'
     },
     onDelete: 'CASCADE'
