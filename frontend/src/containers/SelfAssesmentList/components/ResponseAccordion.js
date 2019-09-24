@@ -94,8 +94,12 @@ class ResponseAccordion extends PureComponent {
                       <Table.Cell textAlign="center">{response.response.finalGradeResponse.grade_name}</Table.Cell>
                       {response.response.verification ?
                         <Table.Cell textAlign="center">
-                          {response.response.verification.overallVerification.minGrade}–
-                          {response.response.verification.overallVerification.maxGrade}
+                          {
+                            response.response.verification.overallVerification.minGrade === response.response.verification.overallVerification.maxGrade ?
+                                response.response.verification.overallVerification.minGrade
+                              :
+                                `${response.response.verification.overallVerification.minGrade}-${response.response.verification.overallVerification.maxGrade}`
+                          }
                         </Table.Cell> : <Table.Cell>-</Table.Cell> }
                     </Table.Row>
                   </Table.Body>
