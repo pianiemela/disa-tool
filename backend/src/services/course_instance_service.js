@@ -425,12 +425,16 @@ const buildCopy = async (data) => {
     }
     if (newTable.data.length !== 0) {
       refs[newTable.model.name] = {}
-      newTable.instances = newTable.data.map(row => newTable.model.build(applyRefs(refs, row)))
-      newTable.instances = await Promise.all(newTable.instances.map(instance => instance.save()))
-      newTable.instances.forEach((instance, index) => {
-        const { ref } = newTable.data[index]
+      newTable.instances = []
+      // eslint-disable-next-line no-restricted-syntax
+      for (const row of newTable.data) {
+        let instance = newTable.model.build(applyRefs(refs, row))
+        // eslint-disable-next-line no-await-in-loop
+        instance = await instance.save()
+        const { ref } = row
         if (ref) { refs[newTable.model.name][ref] = instance.dataValues.id }
-      })
+        newTable.instances.push(instance)
+      }
     } else {
       newTable.instances = []
     }
