@@ -440,7 +440,8 @@ export default {
         "You have unsaved changes. Are you sure you want to exit?",
         "Sinulla on tallentamattomia muutoksia. Haluatko varmasti poistua?"
       ],
-      "back_button": ["Back to course page", "Takaisin kurssisivulle"]
+      "back_button": ["Back to course page", "Takaisin kurssisivulle"],
+      "defineMatrixFirstError": ["Define course-objective matrix first", "Määritä kurssin tavoitematriisi ensin"]
     },
     "QuestionModules": {
       "CategoryQuestionModule": {
