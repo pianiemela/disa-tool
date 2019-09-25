@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { Accordion, Button, Table, Icon } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 import { responseProp } from '../propTypes'
-import { activateResponse } from '../actions/selfAssesmentList'
 
 const findVerificationGrade = (verification, categoryName) => {
   const category = verification.categoryVerifications.find(c => c.categoryName === categoryName)
@@ -19,7 +18,7 @@ class ResponseAccordion extends PureComponent {
   translate = id => this.props.translate(`SelfAssessmentList.SelfAssessmentListPage.${id}`)
 
   render() {
-    const { response, selfAssesmentId, dispatchActivateResponse } = this.props
+    const { response, selfAssesmentId } = this.props
     return (
       <Accordion
         styled
@@ -32,8 +31,8 @@ class ResponseAccordion extends PureComponent {
               <Button
                 as={Link}
                 to={`/selfassessment/list/${selfAssesmentId}/${response.id}`}
+                target="_blank"
                 basic
-                onClick={dispatchActivateResponse(response)}
               >
                 <span>{this.translate('inspect')}</span>
                 <Icon name="angle double right" />
@@ -116,16 +115,11 @@ class ResponseAccordion extends PureComponent {
 ResponseAccordion.propTypes = {
   response: responseProp.isRequired,
   selfAssesmentId: number.isRequired,
-  translate: func.isRequired,
-  dispatchActivateResponse: func.isRequired
+  translate: func.isRequired
 }
 
 const mapStateToProps = state => ({
   selfAssesmentId: state.selfAssesmentList.selfAssesmentId
 })
 
-const mapDispatchToProps = dispatch => ({
-  dispatchActivateResponse: response => () => activateResponse(dispatch)(response)
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(withLocalize(ResponseAccordion))
+export default connect(mapStateToProps)(withLocalize(ResponseAccordion))
