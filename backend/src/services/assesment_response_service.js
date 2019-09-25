@@ -131,9 +131,10 @@ const verifyAssessmentGrade = async (response, lang) => {
       evaluateCategory
     }
   }))
-  const meanDepth = earnedGrades
+  const meanDepth = Number(earnedGrades
     .filter(c => c.evaluateCategory)
     .reduce((acc, cur) => acc + (cur.earnedGrade.depth / earnedGrades.filter(e => e.evaluateCategory).length), 0)
+    .toFixed(1))
   const minGrade = courseGrades
     .find(g => g.id === earnedGrades[0].gradeQualifies
       .find(c => c.depth === Math.floor(meanDepth)).gradeId)[`${lang}_name`]
