@@ -82,8 +82,18 @@ export class SelfAssessmentFormPage extends React.Component {
       await this.props.dispatchGetCourseInstanceData(id)
     }
     // Fetch the grades for the course
-    const grades = await gradeOptions(this.props.formData.course_instance_id)
-    this.setState({ grades })
+    if (this.props.formData) {
+      const grades = await gradeOptions(this.props.formData.course_instance_id)
+      this.setState({ grades })
+    } else {
+      this.props.dispatchToast({
+        type: '',
+        payload: {
+          toast: this.props.translate('SelfAssessmentForm.SelfAssessmentFormPage.defineMatrixFirstError'),
+          type: 'error'
+        }
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -262,6 +272,7 @@ export class SelfAssessmentFormPage extends React.Component {
   }
 
   render() {
+    const { courseInstanceId } = this.props.match.params
     if (
       this.state.redirect ||
       this.props.error ||
@@ -282,6 +293,16 @@ export class SelfAssessmentFormPage extends React.Component {
       )
     }
 
+    const renderContent = () => {
+      if (!this.props.formData) {
+        return <Redirect to={`/user/course/${courseInstanceId}`} />
+      }
+      if (Object.keys(this.props.formData).length > 0 && (Object.keys(this.props.assessmentResponse).length > 0 || this.props.edit) && this.props.role) {
+        return this.renderForm()
+      }
+      return <Loader active>Loading</Loader>
+    }
+
     return (
       <div>
         <Prompt
@@ -290,15 +311,7 @@ export class SelfAssessmentFormPage extends React.Component {
             'SelfAssessmentForm.SelfAssessmentFormPage.prompt'
           )}
         />
-
-        {Object.keys(this.props.formData).length > 0 &&
-        (Object.keys(this.props.assessmentResponse).length > 0 ||
-          this.props.edit) &&
-        this.props.role ? (
-          this.renderForm()
-        ) : (
-          <Loader active>Loading</Loader>
-        )}
+        {renderContent()}
       </div>
     )
   }
