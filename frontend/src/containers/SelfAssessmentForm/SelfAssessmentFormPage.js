@@ -81,8 +81,9 @@ export class SelfAssessmentFormPage extends React.Component {
       const id = courseInstanceId || this.props.formData.course_instance_id
       await this.props.dispatchGetCourseInstanceData(id)
     }
-    // Fetch the grades for the course
+
     if (this.props.formData) {
+      // Fetch the grades for the course
       const grades = await gradeOptions(this.props.formData.course_instance_id)
       this.setState({ grades })
     } else {
