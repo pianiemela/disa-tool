@@ -97,7 +97,7 @@ class SelfAssesmentListPage extends Component {
   }
 
   renderResponse = (props) => {
-    const { activeResponse, selfAssesmentId, responses } = this.props
+    const { activeResponse, selfAssesmentId, responses, selectedResponses } = this.props
     const paramId = Number(props.match.params.id)
     const foundActiveResponse = activeResponse || responses.find(e => e.id === paramId)
     if (foundActiveResponse == null) return <Loader active />

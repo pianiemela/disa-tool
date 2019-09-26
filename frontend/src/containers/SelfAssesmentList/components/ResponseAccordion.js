@@ -44,7 +44,7 @@ class ResponseAccordion extends PureComponent {
                       <Table.HeaderCell style={{ textTransform: 'capitalize' }}>{this.translate('category')}</Table.HeaderCell>
                       <Table.HeaderCell textAlign="center">{this.translate('self_assessment')}</Table.HeaderCell>
                       <Table.HeaderCell textAlign="center">{this.translate('machine_review')}</Table.HeaderCell>
-                      <Table.HeaderCell textAlign="center">difference</Table.HeaderCell>
+                      <Table.HeaderCell textAlign="center">{this.translate('difference')}</Table.HeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>

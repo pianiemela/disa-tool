@@ -367,13 +367,16 @@ export default {
     }
   },
   "FeedbackPage": {
+    "common": {
+      "selfAssessedGrade": ["Self Assessed grade", "Itsearvioitu arvosana"],
+      "machineGrade" : ["Machine Review", "Konearvio"]
+    },
     "CategoryFeedback": {
       "message": [
         "You've already responded to this assessment. You can see your responses below",
         "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
       ],
       "general_feedback": ["General feedback", "Yleinen palaute"],
-      "grade": ["Assessed grade", "Itsearvioitu arvosana"],
       "explanation": ["explanation", "perustelut"],
       "feedback": ["Feedback", "Palaute"]
     },
@@ -403,7 +406,6 @@ export default {
       "header": ["Open questions", "Avoimet kysymykset"],
       "response": ["Response", "Vastaus"],
       "grade": ["Grade", "Arvosana"],
-      "assessedGrade": ["Assessed grade", "Itsearvioitu arvosana"],
       "explanation": ["explanation", "perustelut"]
     }
   },
@@ -600,6 +602,7 @@ export default {
       "inspect": ["Inspect", "Tarkastele"],
       "self_assessment": ["Self-asseessment", "Itsearvio"],
       "machine_review": ["Machine Review", "Konearvio"],
+      "difference": ["Difference", "Erotus"],
       "final_grade": ["Final Grade", "Loppuarvosana"],
       "link": ["Link to assessment form", "Linkki vastauslomakkeeseen"],
       "generate_feedback": ["Regenerate feedbacks", "Luo palautteet uudestaan"],
