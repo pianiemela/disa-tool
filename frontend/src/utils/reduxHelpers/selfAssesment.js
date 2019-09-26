@@ -57,7 +57,7 @@ export const initForm = (payload) => {
   structure.formInfo = formInfo
   structure.openQuestions = {}
   structure.openQuestions.questions = []
-  if (courseData) return null
+  if (courseData.length === 0) return null
   const id =
     parseInt(courseData.reduce((c, d) => (c.id > d.id ? c : d)).id, 10) + 1
   structure.openQuestions.incrementId = id + 1
