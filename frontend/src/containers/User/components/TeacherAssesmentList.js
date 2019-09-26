@@ -31,6 +31,7 @@ const TeacherAssesmentList = ({
           <List.Content
             style={{ paddingRight: '10px', paddingLeft: '10px' }}
           >
+            <Button icon="eye" circular size="mini" basic color="teal" as={Link} to={`/selfassessment/preview/${assesment.id}`} />
             <Conditional visible={assesment.open}>
               <Popup
                 trigger={

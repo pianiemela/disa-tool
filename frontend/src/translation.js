@@ -411,6 +411,10 @@ export default {
   },
   "SelfAssessmentForm": {
     "SelfAssessmentFormPage": {
+      "reviewMessage": [
+        "You're now reviewing the assessment. To edit it, first open it in the edit mode.",
+        "Olet tarkistustilassa. Muokataksesi itsearviolomaketta, avaa se ensin muokkaustilassa."
+      ],
       "previewMessage": [
         "You're now in preview mode. To save the assessment, return to the edit mode",
         "Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan"
@@ -583,6 +587,7 @@ export default {
       "open": ["open", "avoin"],
       "visible": ["visible", "näkyvissä"],
       "hidden": ["hidden", "piilotettu"],
+      "preview": ["preview", "esikatsele"],
       "feedback_open": ["feedback visible", "palaute näkyy"],
       "feedback_closed": ["no feedback", "ei palautetta"],
       "delete_header": ["Remove self-asseessment", "Poista itsearviointi"],
