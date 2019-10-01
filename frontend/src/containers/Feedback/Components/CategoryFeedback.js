@@ -3,8 +3,15 @@ import PropTypes from 'prop-types'
 import { Accordion, Card, Icon, Progress } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
+const findVerificationGrade = (verification, categoryName) => {
+  const category = verification.categoryVerifications.find(c => c.categoryName === categoryName)
+  if (!category) {
+    return null
+  }
+  return category.earnedGrade.name
+}
 export const CategoryFeedback = (props) => {
-  const { questionModuleResponses, feedback } = props
+  const { questionModuleResponses, feedback, verification } = props
   const translate = id => props.translate(`FeedbackPage.CategoryFeedback.${id}`)
   return (
     <div>
@@ -33,7 +40,8 @@ export const CategoryFeedback = (props) => {
               </Card.Header>
               <Card.Description textAlign="center">
                 <h4>
-                  {translate('grade')}: {questionModule.grade_name || questionModule.grade}
+                  {translate('selfAssessedGrade')}: {questionModule.grade_name || questionModule.grade}<br />
+                  {translate('machineGrade')}: {findVerificationGrade(verification, questionModule.name)}
                 </h4>
                 {questionModule.textFieldOn ?
                   <div>

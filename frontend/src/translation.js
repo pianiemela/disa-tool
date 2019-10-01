@@ -367,13 +367,16 @@ export default {
     }
   },
   "FeedbackPage": {
+    "common": {
+      "selfAssessedGrade": ["Self Assessed grade", "Itsearvioitu arvosana"],
+      "machineGrade" : ["Machine Review", "Konearvio"]
+    },
     "CategoryFeedback": {
       "message": [
         "You've already responded to this assessment. You can see your responses below",
         "Olet jo vastannut tähän itsearviointiin. Voit tarkastella vastauksiasi alla."
       ],
       "general_feedback": ["General feedback", "Yleinen palaute"],
-      "grade": ["Assessed grade", "Itsearvioitu arvosana"],
       "explanation": ["explanation", "perustelut"],
       "feedback": ["Feedback", "Palaute"]
     },
@@ -403,12 +406,15 @@ export default {
       "header": ["Open questions", "Avoimet kysymykset"],
       "response": ["Response", "Vastaus"],
       "grade": ["Grade", "Arvosana"],
-      "assessedGrade": ["Assessed grade", "Itsearvioitu arvosana"],
       "explanation": ["explanation", "perustelut"]
     }
   },
   "SelfAssessmentForm": {
     "SelfAssessmentFormPage": {
+      "reviewMessage": [
+        "You're now reviewing the assessment. To edit it, first open it in the edit mode.",
+        "Olet tarkistustilassa. Muokataksesi itsearviolomaketta, avaa se ensin muokkaustilassa."
+      ],
       "previewMessage": [
         "You're now in preview mode. To save the assessment, return to the edit mode",
         "Olet nyt esikatselutilassa, tallentaaksesi itsearvion palaa muokkaustilaan"
@@ -581,6 +587,7 @@ export default {
       "open": ["open", "avoin"],
       "visible": ["visible", "näkyvissä"],
       "hidden": ["hidden", "piilotettu"],
+      "preview": ["preview", "esikatsele"],
       "feedback_open": ["feedback visible", "palaute näkyy"],
       "feedback_closed": ["no feedback", "ei palautetta"],
       "delete_header": ["Remove self-asseessment", "Poista itsearviointi"],
@@ -600,6 +607,7 @@ export default {
       "inspect": ["Inspect", "Tarkastele"],
       "self_assessment": ["Self-asseessment", "Itsearvio"],
       "machine_review": ["Machine Review", "Konearvio"],
+      "difference": ["Difference", "Erotus"],
       "final_grade": ["Final Grade", "Loppuarvosana"],
       "link": ["Link to assessment form", "Linkki vastauslomakkeeseen"],
       "generate_feedback": ["Regenerate feedbacks", "Luo palautteet uudestaan"],

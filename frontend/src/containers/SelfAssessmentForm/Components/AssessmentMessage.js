@@ -4,6 +4,9 @@ import PropTypes from 'prop-types'
 
 const AssessmentMessage = (props) => {
   const { preview, open, edit, existingAnswer, translate } = props
+  if(preview && !edit){
+    return <Message style={{ textAlign: 'center' }} color="green">{translate('reviewMessage')}</Message>
+  }
   if (preview) {
     return <Message style={{ textAlign: 'center' }} color="green">{translate('previewMessage')}</Message>
   }

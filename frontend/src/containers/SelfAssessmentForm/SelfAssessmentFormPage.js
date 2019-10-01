@@ -43,7 +43,7 @@ export class SelfAssessmentFormPage extends React.Component {
     super(props)
     this.state = {
       redirect: false,
-      preview: false,
+      preview: this.props.preview,
       grades: []
     }
   }
