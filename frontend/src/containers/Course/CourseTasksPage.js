@@ -5,6 +5,8 @@ import { Grid, Dimmer, Loader } from 'semantic-ui-react'
 import CourseHeader from '../Course/components/header/CourseHeader'
 import ManageCoursePeople from '../User/ManageCoursePeople'
 import TaskResponseEdit from '../User/TaskResponseEdit'
+import InfoBox from '../../utils/components/InfoBox'
+
 import { getCourseInstanceTasksAction, getCourseInstanceDataAction } from '../../actions/actions'
 
 export class CourseTasksPage extends Component {
@@ -52,9 +54,16 @@ export class CourseTasksPage extends Component {
           :
           <Grid container>
             <Grid.Row>
-              <CourseHeader
-                instance={course}
-              />
+              <Grid.Column>
+                <CourseHeader
+                  instance={course}
+                />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column>
+                <InfoBox translationid="TasksAndPeople" buttonProps={{ floated: 'right' }} />
+              </Grid.Column>
             </Grid.Row>
             {isGlobalTeacher &&
               <Grid.Row>

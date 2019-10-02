@@ -19,6 +19,7 @@ import { ListTasks } from './ListTasks'
 import CourseSelfAssessmentsList from './CourseSelfAssessmentsList'
 import CourseInfo from './CourseInfo'
 import Conditional from '../../utils/components/Conditional'
+import InfoBox from '../../utils/components/InfoBox'
 
 class UserPage extends Component {
   state = {
@@ -125,8 +126,7 @@ class UserPage extends Component {
         </Dimmer>
         <Grid.Row>
           <Grid.Column>
-            {this.props.user ? <Header as="h1">{this.t('hello')} {this.props.user.name}</Header> :
-            <p>Hello bastard</p>}
+            {<Header as="h1">{this.t('hello')} {this.props.user && this.props.user.name}</Header>}
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
@@ -153,7 +153,9 @@ class UserPage extends Component {
                     <Grid.Row>
                       <Grid.Column>
                         <Item.Content>
-                          <Header as="h3">{this.t('self_assessments')}
+                          <InfoBox translationid="UserPageSelfAssessments" buttonProps={{ floated: 'right' }} />
+                          <Header as="h2">
+                            {this.t('self_assessments')}
                           </Header>
                           <CourseSelfAssessmentsList
                             assesments={assessments}
@@ -190,7 +192,8 @@ class UserPage extends Component {
                     <Grid.Row>
                       <Grid.Column>
                         <Item.Content>
-                          <Header as="h3">{this.t('tasks')}</Header>
+                          <InfoBox translationid="UserPageTasks" buttonProps={{ floated: 'right' }} />
+                          <Header as="h2">{this.t('tasks')}</Header>
                           <Accordion
                             defaultActiveIndex={-1}
                             styled

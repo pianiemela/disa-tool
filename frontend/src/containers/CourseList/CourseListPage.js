@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { Link } from 'react-router-dom'
 import { orderBy } from 'lodash'
-import { Button, Header, List, Grid, Dropdown, Icon, Message } from 'semantic-ui-react'
+import { Button, Header, List, Grid, Dropdown, Icon, Message, Form } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
 import parseQueryParams from '../../utils/parseQueryParams'
@@ -16,6 +16,7 @@ import CreateInstanceForm from './components/CreateInstanceForm'
 import RegisterForm from './components/RegisterForm'
 import EditInstanceForm from './components/EditInstanceForm'
 import Conditional from '../../utils/components/Conditional'
+import InfoBox from '../../utils/components/InfoBox'
 
 class CourseListPage extends Component {
   componentDidMount = async () => {
@@ -56,37 +57,6 @@ class CourseListPage extends Component {
       <Grid padded="vertically">
         <Grid.Row>
           <Grid.Column width={4}>
-          </Grid.Column>
-          <Grid.Column width={8}>
-            <Dropdown
-              search
-              fluid
-              selection
-              value={this.props.selectedCourse ? this.props.selectedCourse.id : undefined}
-              options={courseOptions}
-              onChange={this.handleChange}
-              placeholder={this.translate('course_select_placeholder')}
-            />
-          </Grid.Column>
-          <Conditional visible={this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN'}>
-            <Grid.Column width={2}>
-              <Button
-                as={Link}
-                to="courses/create"
-                labelPosition="left"
-                color="green"
-                fluid
-                icon
-                basic
-              >
-                {this.translate('create_trigger')}
-                <Icon name="add" color="green" />
-              </Button>
-            </Grid.Column>
-          </Conditional>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column width={4}>
             <List selection>
               {this.props.user && (this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN') && this.props.selectedCourse ?
                 (
@@ -109,6 +79,36 @@ class CourseListPage extends Component {
             </List>
           </Grid.Column>
           <Grid.Column width={8}>
+            <Form>
+              <Form.Group inline>
+                <Dropdown
+                  fluid
+                  search
+                  selection
+                  value={this.props.selectedCourse ? this.props.selectedCourse.id : undefined}
+                  options={courseOptions}
+                  onChange={this.handleChange}
+                  placeholder={this.translate('course_select_placeholder')}
+                  selectOnBlur={false}
+                  selectOnNavigation={false}
+                />
+                <Conditional visible={this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN'}>
+                  <Button
+                    style={{ marginLeft: '10px' }}
+                    as={Link}
+                    to="courses/create"
+                    labelPosition="left"
+                    color="green"
+                    icon
+                    basic
+                  >
+                    {this.translate('create_trigger')}
+                    <Icon name="add" color="green" />
+                  </Button>
+                </Conditional>
+                <InfoBox translationid="CoursesPage" buttonProps={{ floated: 'right' }} />
+              </Form.Group>
+            </Form>
             {this.props.selectedCourse ?
               <div>
                 {this.props.selectedInstance ?

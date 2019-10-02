@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Container } from 'semantic-ui-react'
+import { Container, Segment } from 'semantic-ui-react'
 
 import { changeActive } from '../../actions/tasks'
 
@@ -13,6 +13,7 @@ import SelectTaskDropdown from './SelectTaskDropdown'
 import SingleAccordion from './SingleAccordion'
 import TypesDisplay from './TypesDisplay'
 import AddTaskForm from './AddTaskForm'
+import InfoBox from '../../../../utils/components/InfoBox'
 
 export class EditTasksTab extends Component {
   componentWillUnmount() {
@@ -28,6 +29,11 @@ export class EditTasksTab extends Component {
   render() {
     return (
       <div className="EditTasksTab">
+        <Container>
+          <Segment clearing basic>
+            <InfoBox translationid="EditTasksPage" buttonProps={{ floated: 'right' }} />
+          </Segment>
+        </Container>
         <Container style={{ display: 'flex' }}>
           <div style={{ flexGrow: 1 }}>
             <SelectTaskDropdown
