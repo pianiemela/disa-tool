@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Container, Loader, Header } from 'semantic-ui-react'
+import { Container, Segment, Loader, Header } from 'semantic-ui-react'
 import asyncAction from '../../../../utils/asyncAction'
 import './grades.css'
 
@@ -10,6 +10,7 @@ import { getGrades } from '../../actions/grades'
 
 import Gradelist from './Gradelist'
 import CategoryGradeTable from './CategoryGradeTable'
+import InfoBox from '../../../../utils/components/InfoBox'
 
 class EditGradesTab extends Component {
   componentDidMount() {
@@ -28,15 +29,17 @@ class EditGradesTab extends Component {
     return (
       <div className="EditGradesTab">
         <Container>
-          <Header
-            as="h1"
-            content={this.translate('header')}
-            subheader={this.translate('subheader')}
-          />
-          <Gradelist
-            grades={grades}
-            levels={levels}
-          />
+          <Segment>
+            <InfoBox translationid="EditGradesPage" buttonProps={{ floated: 'right' }} />
+            <Header
+              as="h1"
+              content={this.translate('header')}
+            />
+            <Gradelist
+              grades={grades}
+              levels={levels}
+            />
+          </Segment>
           <CategoryGradeTable
             courseId={courseId}
             grades={grades}

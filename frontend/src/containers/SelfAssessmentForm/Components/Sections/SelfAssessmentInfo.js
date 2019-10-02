@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown'
 
 import Header from '../Header'
 import { changeTextField } from '../../actions/selfAssesment'
+import InfoBox from '../../../../utils/components/InfoBox'
 
 class SelfAssessmentInfo extends React.Component {
   constructor(props) {
@@ -61,6 +62,7 @@ class SelfAssessmentInfo extends React.Component {
         <Form.Field>
           <Card centered fluid>
             <Card.Content>
+              {edit && <InfoBox translationid="SelfAssessmentInstructionsEdit" buttonProps={{ floated: 'right' }} />}
               <Card.Header style={{ textAlign: 'center' }}>
                 {formData.instructions.header}
                 {edit && (

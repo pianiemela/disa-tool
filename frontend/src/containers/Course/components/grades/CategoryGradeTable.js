@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
 import { arrayOf, func, number, shape } from 'prop-types'
-import { Button, Container, Header, Table, Input } from 'semantic-ui-react'
+import { Button, Container, Segment, Header, Table, Input } from 'semantic-ui-react'
 
 import { updateCategoryGradesAction } from '../../../../actions/actions'
+import InfoBox from '../../../../utils/components/InfoBox'
 
 export class CategoryGradeTable extends Component {
   state = {
@@ -83,42 +84,47 @@ export class CategoryGradeTable extends Component {
   render() {
     return (
       <Container>
-        <Header as="h3" content={this.translate('header')} />
-        <Table definition>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>{this.translate('header_cell')}</Table.HeaderCell>
-              {this.props.grades.map(grade => (
-                <Table.HeaderCell key={grade.id}>
-                  {grade.name}
-                </Table.HeaderCell>
-                  ))}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {this.props.categories.map(category => (
-              <Table.Row key={category.id}>
-                <Table.Cell>{category.name}</Table.Cell>
+        <Segment>
+          <InfoBox translationid="EditCategoryGradesPage" buttonProps={{ floated: 'right' }} />
+          <Header as="h3" content={this.translate('header')} />
+          <Button color="green" content={this.translate('save')} onClick={this.submitChanges} />
+          <Button color="red" content={this.translate('cancel_button')} onClick={this.cancelChanges} />
+          <Table definition>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>{this.translate('header_cell')}</Table.HeaderCell>
                 {this.props.grades.map(grade => (
-                  <Table.Cell key={this.findName(category.id, grade)}>
-                    <Input
-                      type="number"
-                      max="1"
-                      min="0"
-                      name={this.findName(category.id, grade)}
-                      placeholder="0"
-                      step="0.05"
-                      value={this.findValue(category.id, grade)}
-                      onChange={this.changeValue}
-                    />
-                  </Table.Cell>
-                  ))}
+                  <Table.HeaderCell key={grade.id}>
+                    {grade.name}
+                  </Table.HeaderCell>
+                    ))}
               </Table.Row>
-                ))}
-          </Table.Body>
-        </Table>
-        <Button color="green" content={this.translate('save')} onClick={this.submitChanges} />
-        <Button color="red" content={this.translate('cancel_button')} onClick={this.cancelChanges} />
+            </Table.Header>
+            <Table.Body>
+              {this.props.categories.map(category => (
+                <Table.Row key={category.id}>
+                  <Table.Cell>{category.name}</Table.Cell>
+                  {this.props.grades.map(grade => (
+                    <Table.Cell key={this.findName(category.id, grade)}>
+                      <Input
+                        type="number"
+                        max="1"
+                        min="0"
+                        name={this.findName(category.id, grade)}
+                        placeholder="0"
+                        step="0.05"
+                        value={this.findValue(category.id, grade)}
+                        onChange={this.changeValue}
+                      />
+                    </Table.Cell>
+                    ))}
+                </Table.Row>
+                  ))}
+            </Table.Body>
+          </Table>
+          <Button color="green" content={this.translate('save')} onClick={this.submitChanges} />
+          <Button color="red" content={this.translate('cancel_button')} onClick={this.cancelChanges} />
+        </Segment>
       </Container>
     )
   }

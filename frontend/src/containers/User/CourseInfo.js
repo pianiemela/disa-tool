@@ -6,6 +6,7 @@ import { withLocalize } from 'react-localize-redux'
 
 import LinkExportList from './components/LinkExportList'
 import Conditional from '../../utils/components/Conditional'
+import InfoBox from '../../utils/components/InfoBox'
 
 export const CourseInfo = (props) => {
   const t = id => props.translate(`UserPage.CourseInfo.${id}`)
@@ -15,12 +16,13 @@ export const CourseInfo = (props) => {
     <Fragment>
       <Grid.Row>
         <Grid.Column>
-          <Header as="h1">
+          <Header as="h1" floated="left">
             {course.name}
-            <Conditional visible={props.isTeacher}>{
-              <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>{t(course.active ? 'close_course' : 'start_course')}</Button>}
-            </Conditional>
           </Header>
+          <Conditional visible={props.isTeacher}>{
+            <Button floated="right" color={course.active ? 'green' : 'red'} onClick={props.toggleActivation}>{t(course.active ? 'close_course' : 'start_course')}</Button>}
+          </Conditional>
+          <InfoBox translationid="UserPage" buttonProps={{ floated: 'right' }} />
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>

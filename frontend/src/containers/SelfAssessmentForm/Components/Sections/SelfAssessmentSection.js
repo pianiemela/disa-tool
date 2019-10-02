@@ -3,6 +3,7 @@ import { Card } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import AddOpenQuestion from '../addOpenQuestion'
 import Header from '../Header'
+import InfoBox from '../../../../utils/components/InfoBox'
 
 const SelfAssessmentSection = (props) => {
   const { final,
@@ -16,7 +17,8 @@ const SelfAssessmentSection = (props) => {
     grades,
     name,
     headers,
-    existingAnswer
+    existingAnswer,
+    infoBoxTranslationId
   } = props
   const { responseText, grade } = errors
   const questions = (
@@ -55,6 +57,7 @@ const SelfAssessmentSection = (props) => {
     <div>
       <Card fluid color="red" className="formCard">
         <Card.Content>
+          {infoBoxTranslationId && <InfoBox translationid={infoBoxTranslationId} buttonProps={{ floated: 'right' }} />}
           <Header
             editButton={final}
             name={final ? formData[0].header : name}
@@ -81,7 +84,8 @@ SelfAssessmentSection.defaultProps = {
   clearError: null,
   grades: null,
   name: '',
-  headers: []
+  headers: [],
+  infoBoxTranslationId: null
 }
 
 SelfAssessmentSection.propTypes = {
@@ -103,7 +107,8 @@ SelfAssessmentSection.propTypes = {
   courseInstanceId: PropTypes.number,
   grades: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string,
-  headers: PropTypes.arrayOf(PropTypes.shape())
+  headers: PropTypes.arrayOf(PropTypes.shape()),
+  infoBoxTranslationId: PropTypes.string
 }
 
 export default SelfAssessmentSection

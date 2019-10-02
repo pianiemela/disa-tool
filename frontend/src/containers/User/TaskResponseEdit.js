@@ -7,6 +7,7 @@ import UploadResponsesPage from '../TaskResponses/UploadResponsesPage'
 import { postTaskResponseActions } from '../../actions/actions'
 import TaskResponseTypeTable from './TaskResponseTypeTable'
 import TaskResponseEditTable from './TaskResponseEditTable'
+import InfoBox from '../../utils/components/InfoBox'
 
 class TaskResponseEdit extends Component {
   state = {
@@ -117,6 +118,7 @@ class TaskResponseEdit extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
+            <InfoBox translationid="TasksInspect" buttonProps={{ floated: 'right' }} />
             <div>
               {!selectedType ?
                 <TaskResponseTypeTable
