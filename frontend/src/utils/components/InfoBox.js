@@ -5,22 +5,33 @@ import ReactMarkdown from 'react-markdown/with-html'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-const InfoBox = ({ translationid, buttonProps, popupProps, translate, user}) => {
+const InfoBox = ({ translationid, buttonProps, popupProps, translate, translateFunc, user }) => {
+  // modals cannot use translate, so they must pass translate as translateFunc prop to InfoBox
+  const translationFunction = translateFunc || translate
+
   const isTeacher = user.role === 'TEACHER'
   const isAdmin = user.role === 'ADMIN'
   const isStudent = !isTeacher && !isAdmin
 
   const translateidStudent = `InfoBox.${translationid}.Student`
   const translateidTeacher = `InfoBox.${translationid}.Teacher`
-  let text = translate(
-    isStudent ? translateidStudent : translateidTeacher,
+  const textStudent = translationFunction(
+    translateidStudent,
     null,
     { renderInnerHtml: false }
   )
-  const noText = text.match('missing translation')
+  const textTeacher = translationFunction(
+    translateidTeacher,
+    null,
+    { renderInnerHtml: false }
+  )
 
-  if (!isAdmin && noText) return null
-  if (isAdmin) text = `<span style="color: gray;">${translateidStudent}<br />${translateidTeacher}</span><br /><br />${text}`
+  let text = isStudent ? textStudent : textTeacher
+
+  if (!isAdmin && textStudent.match('missing translation')) return null
+  if (isAdmin) {
+    text = `<span style="color: gray;">${translateidStudent}</span><br />${textStudent}<br /><br /><span style="color: gray;">${translateidTeacher}</span><br />${textTeacher}`
+  }
 
   return (
     <Popup
@@ -45,13 +56,15 @@ InfoBox.propTypes = {
   }),
   user: PropTypes.shape({
     role: PropTypes.string
-  }).isRequired
+  }).isRequired,
+  translateFunc: PropTypes.func
 }
 
 InfoBox.defaultProps = {
   buttonProps: {},
   popupProps: {},
-  course: {}
+  course: {},
+  translateFunc: null
 }
 
 const mapStatetoProps = state => ({
