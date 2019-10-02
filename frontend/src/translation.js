@@ -1,3 +1,5 @@
+/* eslint-disable comma-dangle */
+/* eslint-disable max-len */
 /* eslint-disable quotes */
 /* eslint-disable quote-props */
 export default {
@@ -14,13 +16,63 @@ export default {
     "closed": ["closed", "suljettu"],
     "course_matrix": ["Course-objective matrix", "Kurssin tavoitematriisi"]
   },
+  /*
+    InfoBox translations:
+    Student cannot see infobox if there is no translation for Student.
+    Teacher cannot see infobox if there is no translation for Teacher.
+    Admin can always see infobox and will see the translation ID used for student and
+    teacher and their translations.
+
+    The translation ID can be for example InfoBox.UserPage.Student
+    Different parts of the ID are separated with a dot.
+    The first part is used by all infoboxes.
+    The second part is an unique string used to identify the translation.
+    The third part is either Student or Teacher and signals to who can see the translation.
+
+    The translation can contain simple HTML <i><b><br> and **markdown**.
+    You can create multiline translations by using `backticks`.
+    You can leave Teacher or Student translation out completely and the infobox will not show to users.
+
+    Here is an example of the translation structure:
+    "InfoBox": {
+      "UniqueString": {
+        "Teacher": [
+          "English translation for teachers.",
+          "Suomenkielinen käännös opettajille."
+        ],
+        "Student": [
+          "English translation for students.",
+          "Suomenkielinen käännös opiskelijoille."
+        ]
+      },
+      "AnotherUniqueString": {
+        "Teacher": [
+          `
+Example of a multiline text.
+This text is NOT on a new line.
+<br />
+This text IS on a new line.
+
+This is a new paragraph.
+
+This is **bold**, <b>so is this</b>.
+
+This is *italic*, <i>so is this</i>.
+
+When using backticks you can also use "quotes" and 'hyphens' in the text.
+          `,
+          `Esimerkki **markdown** ja <i>HTML</i>`,
+        ],
+      },
+    },
+    */
   "InfoBox": {
     "EditGradesPage": {
       "Teacher": [
         "Here you'll define the grades for the course. The 'required completion' fields in the list refer to the requirements of the final grade of the course. In the lower table you can edit grading criteria by category. If you do, remember to press the Save button when you're done.",
         "Tähän määritellään kurssin arvosanat. Jotta oppilas saa vähintään kyseisen arvosanan, täytyy hänen olla suorittanut määritelty prosenttimäärä arvosanaan liittyvistä tehtävistä, sekä kaikki vaaditut alemmat arvosanasuoritukset. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja. Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
       ]
-    }
+    },
   },
   "Nav": {
     "navbar": {
@@ -371,7 +423,7 @@ export default {
   "FeedbackPage": {
     "common": {
       "selfAssessedGrade": ["Self Assessed grade", "Itsearvioitu arvosana"],
-      "machineGrade" : ["Machine Review", "Konearvio"]
+      "machineGrade": ["Machine Review", "Konearvio"]
     },
     "CategoryFeedback": {
       "message": [
