@@ -308,8 +308,8 @@ export default {
   },
   "CreateCourse": {
     "CreateCoursePage": {
-      "header": ["Create a new course", "Luo uusi kurssi"],
-      "create": ["Create", "Luo"]
+      "createCourse": ["Create a new course", "Luo uusi kurssi"],
+      "create": ["Create", "Luo"],
     }
   },
   "CourseList": {
@@ -329,6 +329,12 @@ export default {
     "EditInstanceForm": {
       "header": ["Edit course instance", "Muokkaa kurssi-instanssia"],
       "prompt_1": ["Edit course instance", "Muokkaa kurssi-instanssia"]
+    },
+    "EditCourseForm": {
+      "rename_trigger": ["Rename the course", "Vaihda kurssin nimeä"],
+      "renameCourse": ["Rename this course", "Vaihda kurssin nimeä"],
+      "rename": ["Rename", "Vaihda nimi"]
+
     },
     "RegisterForm": {
       "unregister": ["Undo registration", "Peru rekisteröityminen"],

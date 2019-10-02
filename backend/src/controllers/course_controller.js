@@ -9,8 +9,13 @@ const { checkPrivilege } = require('../services/privilege')
 
 const messages = {
   create: {
-    eng: '"Kurssi luotu onnistuneesti." englanniksi.',
+    eng: 'New course has been created.',
     fin: 'Kurssi luotu onnistuneesti.',
+    swe: '"Kurssi luotu onnistuneesti." ruotsiksi.'
+  },
+  rename: {
+    eng: 'Course has been renamed',
+    fin: 'Kurssin nimi on nyt vaihdettu.',
     swe: '"Kurssi luotu onnistuneesti." ruotsiksi.'
   }
 }

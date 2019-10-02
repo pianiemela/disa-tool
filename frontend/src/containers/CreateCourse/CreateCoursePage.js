@@ -40,7 +40,7 @@ export class CreateCoursePage extends Component {
     return (
       <div className="CreateCoursePage">
         <Segment className="formContainer" basic padded>
-          <Header>{this.translate('header')}</Header>
+          <Header>{this.translate('createCourse')}</Header>
           <Form onSubmit={this.createCourseSubmit}>
             <MultilingualField field="name" fieldDisplay={label.name} />
             <Button type="submit" color="green">{this.translate('create')}</Button>
