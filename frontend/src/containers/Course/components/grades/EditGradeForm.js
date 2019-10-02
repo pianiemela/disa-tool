@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
@@ -10,6 +10,7 @@ import { editGrade } from '../../actions/grades'
 
 import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
+import InfoBox from '../../../../utils/components/InfoBox'
 
 class EditGradeForm extends Component {
   constructor(props) {
@@ -76,7 +77,7 @@ class EditGradeForm extends Component {
     return (
       <div className="EditGradeForm">
         <ModalForm
-          header={this.translate('header')}
+          header={<Fragment>{this.translate('header')}<InfoBox translateFunc={this.props.translate} translationid="EditGradeModal" buttonProps={{ floated: 'right' }} /></Fragment>}
           trigger={<Button basic circular icon={{ name: 'edit' }} size="small" onClick={this.loadDetails} />}
           actions={saveActions(this.translate)}
           onSubmit={this.editGradeSubmit}
