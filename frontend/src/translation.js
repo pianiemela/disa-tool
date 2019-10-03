@@ -385,9 +385,9 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
       "prompt_1": ["Edit course instance", "Muokkaa kurssi-instanssia"]
     },
     "EditCourseForm": {
-      "rename_trigger": ["Rename the course", "Vaihda kurssin nimeä"],
+      "rename_trigger": ["Rename", "Vaihda nimeä"],
       "renameCourse": ["Rename this course", "Vaihda kurssin nimeä"],
-      "rename": ["Rename", "Vaihda nimi"]
+      "rename": ["Rename the course", "Kurssin uudelleennimeys"]
 
     },
     "RegisterForm": {

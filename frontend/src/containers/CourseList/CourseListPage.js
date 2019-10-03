@@ -106,9 +106,9 @@ class CourseListPage extends Component {
                     {this.translate('create_trigger')}
                     <Icon name="add" color="green" />
                   </Button>
-                </Conditional>
                 <Conditional visible={this.props.user && (this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN') && !!this.props.selectedCourse}>
                   <EditCourseForm course_id={this.props.selectedCourse ? this.props.selectedCourse.id : undefined} />
+                </Conditional>
                 </Conditional>
                 <InfoBox translationid="CoursesPage" buttonProps={{ floated: 'right' }} />
               </Form.Group>
