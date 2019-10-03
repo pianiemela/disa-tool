@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
@@ -9,6 +9,7 @@ import { addHeader } from '../../actions/types'
 
 import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
+import InfoBox from '../../../../utils/components/InfoBox'
 
 export class CreateHeaderForm extends Component {
   addHeaderSubmit = (e) => {
@@ -31,7 +32,7 @@ export class CreateHeaderForm extends Component {
     return (
       <div className="CreateHeaderForm">
         <ModalForm
-          header={this.translate('header')}
+          header={<Fragment>{this.translate('header')}<InfoBox translateFunc={this.props.translate} translationid="AddTypeHeaderModal" buttonProps={{ floated: 'right' }} /></Fragment>}
           trigger={<Button basic onClick={this.expand} className="addHeaderButton" icon={{ name: 'add' }} />}
           actions={saveActions(this.translate)}
           onSubmit={this.addHeaderSubmit}

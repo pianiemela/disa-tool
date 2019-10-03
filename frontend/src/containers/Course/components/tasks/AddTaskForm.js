@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
@@ -10,6 +10,7 @@ import { addTask } from '../../actions/tasks'
 import ModalForm, { saveActions } from '../../../../utils/components/ModalForm'
 import MultilingualField from '../../../../utils/components/MultilingualField'
 import { getCourseInstanceDataAction } from '../../../../actions/actions'
+import InfoBox from '../../../../utils/components/InfoBox'
 
 export class AddTaskForm extends Component {
   addTaskSubmit = (e) => {
@@ -42,7 +43,7 @@ export class AddTaskForm extends Component {
         <Grid.Column>
           <div className="AddTaskForm">
             <ModalForm
-              header={this.translate('header')}
+              header={<Fragment>{this.translate('header')}<InfoBox translateFunc={this.props.translate} translationid="AddTaskModal" buttonProps={{ floated: 'right' }} /></Fragment>}
               trigger={<Button basic className="addTaskButton" icon={{ name: 'add' }} />}
               actions={saveActions(this.translate)}
               onSubmit={this.addTaskSubmit}

@@ -74,7 +74,7 @@ class ManageCoursePeople extends Component {
     const { activeIndex } = this.state
     const { people } = this.props
     return (
-      <Accordion styled>
+      <Accordion styled fluid>
         <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleAccordion}>
           <Icon name="dropdown" />
           {this.t('manage_course_people')}

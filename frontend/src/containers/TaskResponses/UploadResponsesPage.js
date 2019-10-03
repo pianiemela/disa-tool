@@ -7,6 +7,7 @@ import { getByCourse } from '../../api/types'
 import PointMapping from './PointMapping'
 import CsvTable from './CsvTable'
 import CsvTaskMapping from './CsvTaskMapping'
+import InfoBox from '../../utils/components/InfoBox'
 
 export class UploadResponsesPage extends Component {
   state = {
@@ -150,7 +151,7 @@ export class UploadResponsesPage extends Component {
       <Grid container>
         <Grid.Row>
           <Grid.Column>
-            <h3>Valitse ladattava csv-tiedosto</h3>
+            <h3>Valitse ladattava csv-tiedosto<InfoBox translationid="TaskCSVUpload" buttonProps={{ floated: 'right' }} /></h3>
             <Input name="fileInput" type="file" accept=".csv" onChange={this.loadFile} />
             <Button basic color="red" content="tyhjennä valinta" onClick={this.clearAll} />
           </Grid.Column>

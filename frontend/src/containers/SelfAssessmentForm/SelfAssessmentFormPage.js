@@ -361,7 +361,8 @@ SelfAssessmentFormPage.defaultProps = {
   notTeacher: undefined,
   softErrors: false,
   responseErrors: {},
-  formErrors: false
+  formErrors: false,
+  preview: false
 }
 
 SelfAssessmentFormPage.propTypes = {
@@ -399,7 +400,8 @@ SelfAssessmentFormPage.propTypes = {
   softErrors: PropTypes.bool,
   responseErrors: PropTypes.shape(),
   unsavedChanges: PropTypes.bool.isRequired,
-  courseInstance: PropTypes.shape({ id: PropTypes.number }).isRequired
+  courseInstance: PropTypes.shape({ id: PropTypes.number }).isRequired,
+  preview: PropTypes.bool
 }
 
 export default withLocalize(

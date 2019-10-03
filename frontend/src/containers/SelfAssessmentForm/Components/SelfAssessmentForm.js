@@ -32,6 +32,7 @@ const SelfAssessmentForm = (props) => {
       />
 
       <SelfAssessmentSection
+        infoBoxTranslationId={editMode ? 'SelfAssessmentQuestionsEdit' : null}
         name={structure.questionModuleName}
         formData={structure.questionModules}
         edit={edit ? !preview : false}
@@ -45,6 +46,7 @@ const SelfAssessmentForm = (props) => {
 
       {structure.openQuestions.questions.length > 0 || editMode ?
         <SelfAssessmentSection
+          infoBoxTranslationId={editMode ? 'SelfAssessmentOpenQuestionsEdit' : null}
           name={structure.openQuestions.name}
           formData={structure.openQuestions.questions}
           edit={edit ? !preview : false}
@@ -60,6 +62,7 @@ const SelfAssessmentForm = (props) => {
 
       {structure.finalGrade.includedInAssesment || editMode ?
         <SelfAssessmentSection
+          infoBoxTranslationId={editMode ? 'SelfAssessmentFinalGradeEdit' : null}
           headers={grade}
           headerType="grade"
           formData={[structure.finalGrade]}
