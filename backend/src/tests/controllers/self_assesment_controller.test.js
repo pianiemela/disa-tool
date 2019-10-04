@@ -211,7 +211,7 @@ describe('self_assesment_controller', () => {
             {
               id: 1,
               prefix: 'Fin:',
-              value: 'Kysymykset',
+              value: 'Kurssin osa-alueet',
               type: 'fin_name'
             },
             {
