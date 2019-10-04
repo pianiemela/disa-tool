@@ -80,7 +80,9 @@ export class EditTasksTab extends Component {
         </Container>
         <Container>
           <SingleAccordion title={this.translate('matrix')}>
-            <Matrix editing={false} showDetails />
+            <div style={{ overflowX: 'auto' }}>
+              <Matrix editing={false} showDetails />
+            </div>
           </SingleAccordion>
         </Container>
       </div>

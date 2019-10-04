@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withLocalize } from 'react-localize-redux'
-import { Table, Container } from 'semantic-ui-react'
+import { Table } from 'semantic-ui-react'
 
 import './matrix.css'
 import MatrixCategory from './MatrixCategory'
@@ -62,41 +62,39 @@ export const Matrix = (props) => {
     )
   })
   return (
-    <Container>
-      <Table celled structured unstackable>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell rowSpan={2}>
-              <span className="capitalize">{translate('category')}</span>
-            </Table.HeaderCell>
-            <Table.HeaderCell colSpan={levels.length + props.editing} textAlign="center">
-              <span className="capitalize">{translate('skill_levels')}</span>
-            </Table.HeaderCell>
-          </Table.Row>
-          <Table.Row>
-            {levelsNode}
-            {props.editing ? (
-              <CreateLevelForm courseId={props.courseId} newOrder={newLevelOrder} />
-            ) : (
-                null
-              )}
-          </Table.Row>
-        </Table.Header>
-
-        <Table.Body>
-          {categoriesNode}
+    <Table celled structured unstackable style={{ margin: 'auto' }}>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell rowSpan={2}>
+            <span className="capitalize">{translate('category')}</span>
+          </Table.HeaderCell>
+          <Table.HeaderCell colSpan={levels.length + props.editing} textAlign="center">
+            <span className="capitalize">{translate('skill_levels')}</span>
+          </Table.HeaderCell>
+        </Table.Row>
+        <Table.Row>
+          {levelsNode}
           {props.editing ? (
-            <CreateCategoryForm
-              courseId={props.courseId}
-              newOrder={newCategoryOrder}
-              colSpan={levels.length + 2}
-            />
+            <CreateLevelForm courseId={props.courseId} newOrder={newLevelOrder} />
           ) : (
               null
             )}
-        </Table.Body>
-      </Table>
-    </Container>
+        </Table.Row>
+      </Table.Header>
+
+      <Table.Body>
+        {categoriesNode}
+        {props.editing ? (
+          <CreateCategoryForm
+            courseId={props.courseId}
+            newOrder={newCategoryOrder}
+            colSpan={levels.length + 2}
+          />
+        ) : (
+            null
+          )}
+      </Table.Body>
+    </Table>
   )
 }
 

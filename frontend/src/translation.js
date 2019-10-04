@@ -251,8 +251,8 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
       "HeaderLevel": {
         "delete_header": ["Delete skill level", "Poista oppimistaso"],
         "delete_prompt_1": [
-          "Really remove skill level",
-          "Poistetaanko taitotaso"
+          "Warning! Deleting a skill level will also delete grades attached to it. Really remove skill level",
+          "Varoitus! Taitotason poistaminen poistaa myös siihen liitetyt arvosanat. Poistetaanko taitotaso"
         ]
       },
       "MatrixCategory": {
@@ -579,7 +579,7 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
       "add_student": ["Add student to course", "Lisää opiskelija kurssille"],
       "search_student": [
         "Search people outside of course",
-        "Etsiä kurssin ulkopuolisia henkilöitä"
+        "Etsi kurssin ulkopuolisia henkilöitä"
       ],
       "teacher": ["Teacher", "Opettaja"],
       "student": ["Student", "Opiskelija"],
