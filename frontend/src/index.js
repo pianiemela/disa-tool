@@ -11,7 +11,6 @@ import store from './store'
 
 const IS_PRODUCTION = process.env.NODE_ENV === 'production'
 
-
 try {
   if (IS_PRODUCTION) {
     Sentry.init({ dsn: 'https://3936f4ca15844c059959d21c01d5e401@toska.cs.helsinki.fi/7' }) // eslint-disable-line

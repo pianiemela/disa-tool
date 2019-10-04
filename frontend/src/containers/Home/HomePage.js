@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import { Grid, Header } from 'semantic-ui-react'
 
-import LoginForm from '../Login/components/form/LoginForm'
-
 export const HomePage = (props) => {
   const translate = id => props.translate(`Home.HomePage.${id}`)
 
@@ -20,15 +18,7 @@ export const HomePage = (props) => {
         </Grid.Column>
       </Grid.Row>
       <Grid.Row>
-        <Grid.Column width={5}>
-          {translate('log_in_prompt')}:
-          <LoginForm />
-        </Grid.Column>
-      </Grid.Row>
-      <Grid.Row>
         <Grid.Column>
-          <p>{translate('anon_info')}</p>
-
           <Header as="h2" content={translate('student_header')} />
           <p>{translate('student_info')}</p>
 
