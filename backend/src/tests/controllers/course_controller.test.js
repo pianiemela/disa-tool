@@ -36,7 +36,7 @@ describe('course_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -116,7 +116,7 @@ describe('course_controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -129,7 +129,7 @@ describe('course_controller', () => {
         CoursePerson.create({
           role: 'TEACHER',
           course_instance_id: courseInstance.id,
-          person_id: 424
+          person_id: 360
         }).then(() => done()).catch(done)
       }).catch(done)
     })
@@ -185,11 +185,11 @@ describe('course_controller', () => {
       course_id: 1
     }
     const coursePersonData = {
-      person_id: 421,
+      person_id: 370,
       role: 'STUDENT'
     }
     const teacherData = {
-      person_id: 424,
+      person_id: 360,
       role: 'TEACHER'
     }
     const taskData = {
@@ -222,7 +222,7 @@ describe('course_controller', () => {
       structure: {}
     }
     const taskResponseData = {
-      person_id: 421,
+      person_id: 370,
       points: 3
     }
     const typeData = {
@@ -233,13 +233,13 @@ describe('course_controller', () => {
       order: 1
     }
     const assesmentResponseData = {
-      person_id: 421,
+      person_id: 370,
       response: {}
     }
     const options = {
       method: 'get',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.student}`]
+        set: ['uid', 'jemisa']
       }
     }
 
@@ -355,7 +355,7 @@ describe('course_controller', () => {
           }]
         }],
         people: [{
-          id: 424
+          id: 360
         }],
         type_headers: [{
           id: asymmetricMatcher(actual => actual === ids.typeHeader),
@@ -410,7 +410,7 @@ describe('course_controller', () => {
     })
   })
 
-  describe('GET /user', () => {
+  describe.only('GET /user', () => {
     const courseInstanceData = [
       {
         eng_name: 'en',
@@ -428,6 +428,7 @@ describe('course_controller', () => {
       }
     ]
     const personData = {
+      username: 'plizkillme',
       name: 'pn',
       studentnumber: '011111111',
       role: 'STUDENT',
@@ -449,8 +450,7 @@ describe('course_controller', () => {
         Person.create(personData),
         ...courseInstanceData.map(data => CourseInstance.create(data))
       ]).then(([person, ...courseInstances]) => {
-        const token = jwt.sign({ user: { id: person.id } }, SECRET)
-        options.preamble.set = ['Authorization', `Bearer ${token}`]
+        options.preamble.set = ['uid', 'plizkillme']
         ids.person = person.id
         ids.courseInstance = courseInstances.map(courseInstance => courseInstance.id)
         Promise.all((
@@ -541,7 +541,7 @@ describe('course_controller', () => {
     const options = {
       method: 'get',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.student}`]
+        set: ['uid', 'jemisa']
       }
     }
 
@@ -563,7 +563,7 @@ describe('course_controller', () => {
             courseInstances.push(courseInstance1)
             ids.courseInstances = courseInstances.map(courseInstance => courseInstance.id)
             CoursePerson.create({
-              person_id: 421,
+              person_id: 370,
               course_instance_id: courseInstances[0].id,
               role: 'STUDENT'
             }).then(() => done()).catch(done)

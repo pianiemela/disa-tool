@@ -3,7 +3,6 @@ const logger = require('../utils/logger')
 const { errors } = require('../messages/global.js')
 const { checkPrivilege } = require('../services/privilege')
 
-const { checkAuth } = require('../services/auth.js')
 
 const selfAssesmentService = require('../services/self_assesment_service.js')
 
@@ -136,7 +135,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
 })
 
 router.get('/', async (req, res) => {
-  const user = await checkAuth(req)
+  const { user } = req
   const data = await selfAssesmentService.getUserSelfAssesments(user, req.lang)
   res.status(200).json({
     data
@@ -187,7 +186,6 @@ router.delete('/:id', async (req, res) => {
 router.put('/update/:id', async (req, res) => {
   try {
     let data = req.body
-    checkAuth(req)
     const hasPrivilege = await checkPrivilege(req, [
       { key: 'teacher_on_course', param: data.course_instance_id }
     ])

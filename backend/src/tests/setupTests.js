@@ -5,6 +5,9 @@ require('dotenv').config()
 
 global.server = supertest(app)
 
-global.tokens = {}
-
+global.tokens = {
+  student: 'jemisa',
+  teacher: 'mikkoti',
+  admin: 'kimjon'
+}
 jest.setTimeout(100000)

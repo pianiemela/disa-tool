@@ -77,7 +77,7 @@ const getStudentsAndTeachers = () => {
     const studentnumber = '0' + number.toString()
     persons.push({
       studentnumber,
-      username: faker.internet.userName(),
+      username: i === 370 ? 'jemisa' : faker.internet.userName(),
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       role: 'STUDENT'
     })
@@ -87,7 +87,7 @@ const getStudentsAndTeachers = () => {
     const studentnumber = '0' + number.toString()
     persons.push({
       studentnumber,
-      username: faker.internet.userName(),
+      username: i === 360 ? 'mikkoti' : faker.internet.userName(),
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       role: 'TEACHER'
     })
@@ -128,7 +128,7 @@ const getStudentsAndTeachers = () => {
 const getCoursePersons = (persons) => {
   const coursePersons = []
   // harcode linis for kurki test users
-  const testerteacherId = 424
+  const testerteacherId = 360
   for (let i = 420; i < persons.length; i++) {
     const element = persons[i]
     coursePersons.push({

@@ -5,15 +5,15 @@ describe('auth service', () => {
     it('returns correct user when token is provided.', () => {
       const req = {
         headers: {
-          authorization: `Bearer ${tokens.student}`
+          uid: 'jemisa'
         }
       }
       expect(checkAuth(req)).toMatchObject({
-        id: 421
+        id: 370
       })
-      req.headers.authorization = `Bearer ${tokens.teacher}`
+      req.headers.uid = 'mikkoti'
       expect(checkAuth(req)).toMatchObject({
-        id: 424
+        id: 360
       })
     })
 
@@ -27,7 +27,7 @@ describe('auth service', () => {
     it('returns null when malformed authorization is provided.', () => {
       const req = {
         headers: {
-          authorization: tokens.student
+          uid: 'jemisa'
         }
       }
       expect(checkAuth(req)).toEqual(null)

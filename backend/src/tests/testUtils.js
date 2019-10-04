@@ -86,7 +86,7 @@ const testTeacherPrivilege = (options, description, codes = {}, level) => {
     })
 
     it('is not granted when invalid authorization is provided', (done) => {
-      makeRequest(options).set('Authorization', `Bearer ${tokens[levels[level - 1]]}`).then((response) => {
+      makeRequest(options).set('uid', '').then((response) => {
         try {
           expect(response.status).toEqual(failure)
           done()
@@ -97,7 +97,7 @@ const testTeacherPrivilege = (options, description, codes = {}, level) => {
     })
 
     it('is granted when valid authorization is provided', (done) => {
-      makeRequest(options).set('Authorization', `Bearer ${tokens[levels[level]]}`).then((response) => {
+      makeRequest(options).set('uid', tokens[levels[level]]).then((response) => {
         try {
           expect(response.status).toEqual(success)
           done()

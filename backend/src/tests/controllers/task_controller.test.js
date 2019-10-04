@@ -82,12 +82,12 @@ describe('task_controller', () => {
         CoursePerson.create({
           role: 'TEACHER',
           course_instance_id: courseInstance.id,
-          person_id: 424
+          person_id: 360
         }),
         CoursePerson.create({
           role: 'STUDENT',
           course_instance_id: courseInstance.id,
-          person_id: 421
+          person_id: 370
         })
       ]).then(([typeHeader, category, skillLevel]) => {
         superIds.typeHeader = typeHeader.id
@@ -135,7 +135,7 @@ describe('task_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -193,7 +193,7 @@ describe('task_controller', () => {
     const options = {
       method: 'delete',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const ids = {}
@@ -280,7 +280,7 @@ describe('task_controller', () => {
         method: 'post',
         preamble: {
           send: data,
-          set: ['Authorization', `Bearer ${tokens.teacher}`]
+          set: ['uid', 'mikkoti']
         }
       }
       // instead of database calls you could use hard coded person 422 and task 1.
@@ -353,7 +353,7 @@ describe('task_controller', () => {
         method: 'post',
         preamble: {
           send: data,
-          set: ['Authorization', `Bearer ${tokens.teacher}`]
+          set: ['uid', 'mikkoti']
         }
       }
       const databaseExpectation = {}
@@ -447,7 +447,7 @@ describe('task_controller', () => {
         method: 'post',
         preamble: {
           send: data,
-          set: ['Authorization', `Bearer ${tokens.teacher}`]
+          set: ['uid', 'mikkoti']
         }
       }
       // instead of database calls you could use hard coded person 422 and task 1.
@@ -519,7 +519,7 @@ describe('task_controller', () => {
         route: '/api/tasks/responses',
         method: 'post',
         preamble: {
-          set: ['Authorization', `Bearer ${tokens.teacher}`]
+          set: ['uid', 'mikkoti']
         }
       }
 
@@ -528,7 +528,7 @@ describe('task_controller', () => {
           ...baseData,
           tasks: [{
             ...baseData.tasks[0],
-            personId: 421,
+            personId: 370,
             taskId: 999999
           }]
         }
@@ -553,7 +553,7 @@ describe('task_controller', () => {
           ...baseData,
           tasks: [{
             ...baseData.tasks[0],
-            personId: 421
+            personId: 370
           }]
         }
         const options = {
@@ -573,7 +573,7 @@ describe('task_controller', () => {
             data.tasks[0].taskId = result.get({ plain: true }).id
             CoursePerson.create({
               course_instance_id: 2,
-              person_id: 424,
+              person_id: 360,
               role: 'TEACHER'
             }).then(() => done()).catch(done)
           }).catch(done)
@@ -583,7 +583,7 @@ describe('task_controller', () => {
           CoursePerson.destroy({
             where: {
               course_instance_id: 2,
-              person_id: 424,
+              person_id: 360,
               role: 'TEACHER'
             }
           }).then(() => done()).catch(done)
@@ -654,7 +654,7 @@ describe('task_controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const ids = {}
@@ -765,7 +765,7 @@ describe('task_controller', () => {
     }
     const taskResponseData = {
       points: 2,
-      person_id: 421
+      person_id: 370
     }
     const typeHeaderData = {
       eng_name: 'the',
@@ -784,7 +784,7 @@ describe('task_controller', () => {
     const options = {
       method: 'get',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.student}`]
+        set: ['uid', 'jemisa']
       }
     }
 
@@ -819,7 +819,7 @@ describe('task_controller', () => {
             ids.type_header = typeHeader.id
             Promise.all([
               CoursePerson.create({
-                person_id: 421,
+                person_id: 370,
                 course_instance_id: courseInstance.id,
                 role: 'STUDENT'
               }),
@@ -940,7 +940,7 @@ describe('task_controller', () => {
       route: '/api/tasks/objectives/attach',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -1102,7 +1102,7 @@ describe('task_controller', () => {
       route: '/api/tasks/objectives/detach',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -1257,7 +1257,7 @@ describe('task_controller', () => {
       route: '/api/tasks/objectives/edit',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -1381,7 +1381,7 @@ describe('task_controller', () => {
       route: '/api/tasks/types/attach',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -1719,7 +1719,7 @@ describe('task_controller', () => {
       route: '/api/tasks/types/detach',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 

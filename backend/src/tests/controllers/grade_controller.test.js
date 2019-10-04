@@ -38,7 +38,7 @@ describe('grade controller', () => {
       ids.courseInstance = courseInstance.id
       Promise.all([
         CoursePerson.create({
-          person_id: 424,
+          person_id: 360,
           course_instance_id: courseInstance.id,
           role: 'TEACHER'
         }),
@@ -101,7 +101,7 @@ describe('grade controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -167,7 +167,7 @@ describe('grade controller', () => {
     const options = {
       method: 'delete',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -266,7 +266,7 @@ describe('grade controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const databaseExpectation = {}
@@ -417,7 +417,7 @@ describe('grade controller', () => {
       method: 'put',
       route: '/api/grades/category-grades',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`],
+        set: ['uid', 'mikkoti'],
         send: data
       }
     }
@@ -436,7 +436,7 @@ describe('grade controller', () => {
             course_instance_id: catCourseInstance.id
           }),
           CoursePerson.create({
-            person_id: 424,
+            person_id: 360,
             course_instance_id: catCourseInstance.id,
             role: 'TEACHER'
           })

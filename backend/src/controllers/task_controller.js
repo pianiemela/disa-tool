@@ -1,6 +1,5 @@
 const router = require('express').Router()
 
-const { checkAuth } = require('../services/auth.js')
 const logger = require('../utils/logger')
 const { checkPrivilege } = require('../services/privilege.js')
 const { errors: baseErrors } = require('../messages/global.js')
@@ -81,7 +80,7 @@ const messages = {
 // TODO: Refactor privilege things to take less space
 
 router.get('/user/:courseId', async (req, res) => {
-  const user = await checkAuth(req)
+  const { user } = req
   const { courseId } = req.params
   const instances = await taskService.getUserTasksForCourse(courseId, req.lang, user.id)
   res.status(200).json(instances)
