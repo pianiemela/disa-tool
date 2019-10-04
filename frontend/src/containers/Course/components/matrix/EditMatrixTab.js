@@ -12,7 +12,11 @@ const EditMatrixTab = props => (
         <InfoBox translationid="EditMatrixPage" buttonProps={{ floated: 'right' }} />
       </Segment>
     </Container>
-    <Matrix courseId={props.courseId} editing />
+    <Segment basic style={{ overflowX: 'auto' }}>
+      <div style={{ overflow: 'overlay' }}>
+        <Matrix courseId={props.courseId} editing />
+      </div>
+    </Segment>
   </div>
 )
 

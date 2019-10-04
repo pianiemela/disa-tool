@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Loader, Button } from 'semantic-ui-react'
+import { Loader, Button, Container, Segment } from 'semantic-ui-react'
 import asyncAction from '../../utils/asyncAction'
 
 import { getMatrix, resetCourse } from './actions/course'
@@ -34,7 +34,13 @@ class MatrixPage extends Component {
         <Conditional visible={this.props.isTeacher}>
           <Button as={Link} to={`/course/${this.props.courseId}/matrix`} fluid style={{ marginBottom: '10px' }}>Edit matrix</Button>
         </Conditional>
-        <Matrix courseId={this.props.courseId} editing={false} categoryId={this.props.categoryId} />
+        <Container>
+          <Segment style={{ overflowX: 'auto', padding: 'none' }}>
+            <div style={{ overflow: 'overlay' }}>
+              <Matrix courseId={this.props.courseId} editing={false} categoryId={this.props.categoryId} />
+            </div>
+          </Segment>
+        </Container>
       </div>
     )
   }
