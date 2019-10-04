@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Menu, Dropdown } from 'semantic-ui-react'
+import { Menu, Dropdown, Input } from 'semantic-ui-react'
 import { func, shape, number } from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 import axios from 'axios'
 
 import { logoutAction } from '../../actions/actions'
-import { getLanguage, saveLanguage, removeToken } from '../../utils/utils'
+import { getLanguage, saveLanguage } from '../../utils/utils'
 
 const languageOptions = [
   { key: 'fin', value: 'fin', text: 'Suomi' },
@@ -61,9 +61,12 @@ class Nav extends Component {
 
   logout = async () => {
     const returnUrl = window.location.origin
-    const response = await axios.delete('/api/login/shibboleth/logout', { data: { returnUrl } })
-    removeToken()
+    const response = await axios.delete('/api/logout/shibboleth', { data: { returnUrl } })
     window.location = response.data.logoutUrl
+  }
+
+  handleFakeUser = ({ target }) => {
+    window.localStorage.setItem('fakeShibbo', target.value)
   }
 
   render() {
@@ -121,27 +124,23 @@ class Nav extends Component {
               :
               null
             }
-            {this.props.user.id ?
-              <Menu.Item
-                name="logout"
-                active={activeItem === 'logout'}
-                onClick={this.logout}
-              >
-                {this.translate('logout')}
-              </Menu.Item> :
-              <Menu.Item
-                as={Link}
-                to="/login"
-                name="login"
-                active={activeItem === 'login'}
-                onClick={this.handleClick}
-              >
-                {this.translate('login')}
-              </Menu.Item>
-            }
+            <Menu.Item
+              name="logout"
+              active={activeItem === 'logout'}
+              onClick={this.logout}
+            >
+              {this.translate('logout')}
+            </Menu.Item> :
+            {process.env.NODE_ENV === 'development' ?
+              <Menu.Item >
+                <Input
+                  defaultValue={window.localStorage.getItem('fakeShibbo')}
+                  onChange={this.handleFakeUser}
+                />
+              </Menu.Item> : null}
           </Menu.Menu>
         </Menu>
-      </nav>
+      </nav >
     )
   }
 }

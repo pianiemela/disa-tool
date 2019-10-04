@@ -7,7 +7,6 @@ import MathJax from 'react-mathjax'
 import 'react-toastify/dist/ReactToastify.css'
 
 import HomePage from '../Home/HomePage'
-import LoginPage from '../Login/LoginPage'
 import MatrixPage from '../Course/MatrixPage'
 import CoursePage from '../Course/CoursePage'
 import SelfAssessmentPage from '../SelfAssessment/SelfAssessmentPage'
@@ -76,13 +75,8 @@ class Main extends PureComponent {
   anonymousRoutes = [
     <Route path="/courses/matrix/:id" component={MatrixPage} key={keygen.anonymous()} />,
     <Route exact path="/courses" component={CourseListPage} key={keygen.anonymous()} />,
-    <Route path="/login" component={LoginPage} key={keygen.anonymous()} />,
     <Route exact path="/" component={HomePage} key={keygen.anonymous()} />
   ]
-
-  anonymousFallback = <Route
-    render={({ location }) => <LoginPage redirectTo={location.pathname} />}
-  />
 
   render() {
     return (
@@ -95,7 +89,7 @@ class Main extends PureComponent {
         <MathJaxProvider>
           <Switch>
             {this.anonymousRoutes}
-            {this.props.user.role ? this.userRoutes : this.anonymousFallback}
+            {this.userRoutes}
           </Switch>
         </MathJaxProvider>
       </main>

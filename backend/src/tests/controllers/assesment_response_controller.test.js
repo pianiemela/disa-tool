@@ -1,5 +1,4 @@
 const { Op } = require('sequelize')
-const jwt = require('jsonwebtoken')
 const {
   testTeacherOnCoursePrivilege,
   testHeaders,

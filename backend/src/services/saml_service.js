@@ -1,4 +1,3 @@
-const jwt = require('jsonwebtoken')
 const axios = require('axios')
 const { Op } = require('sequelize')
 const { Person } = require('../database/models')

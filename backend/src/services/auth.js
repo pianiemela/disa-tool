@@ -1,24 +1,39 @@
-const jwt = require('jsonwebtoken')
-const logger = require('../utils/logger')
+const { Op } = require('sequelize')
+const { Person } = require('../database/models.js')
 
-const checkAuth = (req) => {
+/**
+ * Todo: middleware
+ */
+const checkAuth = async (req) => {
+  const { uid, schacpersonaluniquecode, displayname } = req.headers
+
+  const studentnumber = schacpersonaluniquecode && schacpersonaluniquecode.length !== 0
+    ? schacpersonaluniquecode.split(':')[6]
+    : null
+
   try {
-    const { authorization } = req.headers
-    let token
-    if (!authorization) {
-      return null
+    const person = await Person.findOne({
+      where: { username: uid },
+      attributes: ['id', 'username', 'name', 'studentnumber', 'role']
+    })
+
+    if (!person) {
+      const created = await Person.create({
+        username: uid,
+        studentnumber,
+        name: displayname,
+        role: 'STUDENT'
+      })
+      const loggedIn = {
+        id: created.id,
+        username: created.username,
+        studentnumber: created.studentnumber,
+        name: created.name,
+        role: created.role
+      }
+      return loggedIn
     }
-    if (authorization.substring(0, 7) === 'Bearer ') {
-      token = authorization.split(' ')[1] // eslint-disable-line
-    } else {
-      return null
-    }
-    if (!jwt.verify(token, process.env.SECRET)) {
-      logger.error('NOT AUTHED')
-      return null
-    }
-    const { user } = jwt.decode(token)
-    return user
+    return person.toJSON()
   } catch (e) {
     return null
   }

@@ -18,9 +18,7 @@ import {
 import { getUser, updateCoursePersons } from '../api/persons'
 import { deleteCoursePerson } from '../api/coursePersons'
 import { postTaskResponses } from '../api/tasks'
-import { login, shibbolethlogin } from '../api/login'
 import { updateCategoryGrades } from '../api/grades'
-import { saveToken, removeToken } from '../utils/utils'
 import * as types from '../redux/action_types'
 
 export const getAssesmentResponseAction = assesmentId => async (dispatch) => {
@@ -294,48 +292,7 @@ export const createSelfAssessmentResponseAction = responseData => async (dispatc
   }
 }
 
-export const loginAction = userData => async (dispatch) => {
-  dispatch({
-    type: types.USER_LOGIN_ATTEMPT,
-    payload: userData
-  })
-  try {
-    const { data } = await login(userData)
-    saveToken(data.token)
-    dispatch({
-      type: types.USER_LOGIN_SUCCESS,
-      payload: data
-    })
-  } catch (e) {
-    dispatch({
-      type: types.USER_LOGIN_FAILURE,
-      payload: e.response
-    })
-  }
-}
-
-export const shibbolethLoginAction = () => async (dispatch) => {
-  dispatch({
-    type: types.USER_LOGIN_ATTEMPT,
-    payload: {}
-  })
-  try {
-    const { data } = await shibbolethlogin()
-    saveToken(data.token)
-    dispatch({
-      type: types.USER_LOGIN_SUCCESS,
-      payload: data
-    })
-  } catch (e) {
-    dispatch({
-      type: types.USER_LOGIN_FAILURE,
-      payload: e.response
-    })
-  }
-}
-
 export const logoutAction = message => (dispatch) => {
-  removeToken()
   dispatch({
     type: types.USER_LOGOUT,
     payload: { message }
