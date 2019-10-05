@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Prompt } from 'react-router'
-import { Accordion, Button, Grid } from 'semantic-ui-react'
+import { Accordion, Button, Grid, Segment } from 'semantic-ui-react'
 
 import UploadResponsesPage from '../TaskResponses/UploadResponsesPage'
 import { postTaskResponseActions } from '../../actions/actions'
@@ -118,8 +118,18 @@ class TaskResponseEdit extends Component {
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <InfoBox translationid="TasksInspect" buttonProps={{ floated: 'right' }} />
-            <div>
+            <Segment>
+              <InfoBox translationid="TasksInspect" buttonProps={{ floated: 'right' }} />
+              <Button
+                color="green"
+                content="Tallenna muutokset"
+                onClick={this.submitTaskUpdates}
+              />
+              <Button
+                color="red"
+                content="Peru kaikki muutokset"
+                onClick={() => this.setState({ updatedTasks: [] })}
+              />
               {!selectedType ?
                 <TaskResponseTypeTable
                   typeHeaders={activeCourse.type_headers}
@@ -148,7 +158,7 @@ class TaskResponseEdit extends Component {
                 content="Peru kaikki muutokset"
                 onClick={() => this.setState({ updatedTasks: [] })}
               />
-            </div>
+            </Segment>
           </Grid.Column>
         </Grid.Row>
       </Grid>

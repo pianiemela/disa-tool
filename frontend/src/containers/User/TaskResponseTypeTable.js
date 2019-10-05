@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Table } from 'semantic-ui-react'
+import { Button, Table, Segment } from 'semantic-ui-react'
 
 class TaskResponseTypeTable extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class TaskResponseTypeTable extends Component {
           }))
       })) : []
     return (
-      <div>
+      <Segment basic style={{ overflowX: 'auto', padding: 0 }}>
         <div style={{ display: 'inline' }}>
           {updatedHeaders.map(header =>
             (
@@ -77,7 +77,7 @@ class TaskResponseTypeTable extends Component {
             ))}
           </Table.Body>
         </Table>
-      </div>
+      </Segment>
     )
   }
 }
