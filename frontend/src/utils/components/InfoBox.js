@@ -37,8 +37,9 @@ const InfoBox = ({
 
   let text = isStudent ? textStudent : textTeacher
 
-  if (!isAdmin && textStudent.match('missing translation')) return null
-  if (isAdmin) {
+  if (!isAdmin) {
+    if (text.match('missing translation')) return null
+  } else {
     text = `<span style="color: gray;">${translateidStudent}</span><br />${textStudent}<br /><br /><span style="color: gray;">${translateidTeacher}</span><br />${textTeacher}`
   }
 
