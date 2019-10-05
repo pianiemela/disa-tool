@@ -153,7 +153,7 @@ class UserPage extends Component {
                     <Grid.Row>
                       <Grid.Column>
                         <Item.Content>
-                          <InfoBox translationid="UserPageSelfAssessments" buttonProps={{ floated: 'right' }} />
+                          <InfoBox translationid="UserPageSelfAssessments" buttonProps={{ floated: 'right' }} useCourseRole />
                           <Header as="h2">
                             {this.t('self_assessments')}
                           </Header>
@@ -192,7 +192,7 @@ class UserPage extends Component {
                     <Grid.Row>
                       <Grid.Column>
                         <Item.Content>
-                          <InfoBox translationid="UserPageTasks" buttonProps={{ floated: 'right' }} />
+                          <InfoBox translationid="UserPageTasks" buttonProps={{ floated: 'right' }} useCourseRole />
                           <Header as="h2">{this.t('tasks')}</Header>
                           <Accordion
                             defaultActiveIndex={-1}
