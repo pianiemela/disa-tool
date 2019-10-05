@@ -24,8 +24,6 @@ const InfoBox = ({
   const isAdmin = user.role === 'ADMIN'
   const isStudent = !isTeacher && !isAdmin
 
-  console.log(translationid, courseInstance.courseRole)
-
   const translateidStudent = `InfoBox.${translationid}.Student`
   const translateidTeacher = `InfoBox.${translationid}.Teacher`
   const textStudent = translationFunction(translateidStudent, null, {
