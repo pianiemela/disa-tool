@@ -94,7 +94,7 @@ class TaskResponseEdit extends Component {
     const { activeCourse, tasks, students } = this.props
     const { selectedType, updatedTasks, popUp } = this.state
     return (
-      <Grid style={{ overflowX: 'scroll' }}>
+      <Grid style={{ overflowX: 'auto' }}>
         <Prompt when={updatedTasks.length > 0} message="Sinulla on tallentamattomia muutoksia" />
         <Grid.Row>
           <Grid.Column>
