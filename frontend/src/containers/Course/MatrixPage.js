@@ -35,8 +35,8 @@ class MatrixPage extends Component {
           <Button as={Link} to={`/course/${this.props.courseId}/matrix`} fluid style={{ marginBottom: '10px' }}>Edit matrix</Button>
         </Conditional>
         <Container>
-          <Segment style={{ overflowX: 'auto', padding: 'none' }}>
-            <div style={{ overflow: 'overlay' }}>
+          <Segment style={{ overflowX: 'auto', padding: 0 }}>
+            <div style={{ padding: '1em' }}>
               <Matrix courseId={this.props.courseId} editing={false} categoryId={this.props.categoryId} />
             </div>
           </Segment>

@@ -29,7 +29,7 @@ class CsvTable extends Component {
         </Accordion.Title>
         <Accordion.Content active={activeIndex === 0}>
           <Grid.Row>
-            <Grid.Column style={{ overflowX: 'scroll' }}>
+            <Grid.Column style={{ overflowX: 'auto' }}>
               <Table>
                 <Table.Header>
                   <Table.Row>
