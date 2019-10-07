@@ -74,28 +74,18 @@ const testTeacherPrivilege = (options, description, codes = {}, level) => {
     'admin'
   ]
   describe(description, () => {
-    it('is not granted when no authorization is provided', (done) => {
-      makeRequest(options).set('Authorization', '').then((response) => {
-        try {
-          expect(response.status).toEqual(failure)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      }).catch(done)
-    })
-
-    it('is not granted when invalid authorization is provided', (done) => {
-      makeRequest(options).set('uid', '').then((response) => {
-        try {
-          expect(response.status).toEqual(failure)
-          done()
-        } catch (e) {
-          done(e)
-        }
-      }).catch(done)
-    })
-
+    if (levels[level] !== 'student') {
+      it('is not granted when invalid authorization is provided', (done) => {
+        makeRequest(options).set('uid', tokens[levels[level - 1]]).then((response) => {
+          try {
+            expect(response.status).toEqual(failure)
+            done()
+          } catch (e) {
+            done(e)
+          }
+        }).catch(done)
+      })
+    }
     it('is granted when valid authorization is provided', (done) => {
       makeRequest(options).set('uid', tokens[levels[level]]).then((response) => {
         try {
@@ -428,8 +418,8 @@ const unorderedListMatcher = list => ({
             expect(actualElement).toEqual(listElement)
           }
           matched = true
-        // eslint-disable-next-line no-empty
-        } catch (e) {}
+          // eslint-disable-next-line no-empty
+        } catch (e) { }
       })
       result = result && matched
     })

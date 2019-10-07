@@ -36,7 +36,7 @@ describe('type_controller', () => {
         CoursePerson.create({
           role: 'TEACHER',
           course_instance_id: courseInstance.id,
-          person_id: 360
+          person_id: 410
         }),
         CoursePerson.create({
           role: 'STUDENT',

@@ -175,7 +175,7 @@ describe('category_controller', () => {
     })
   })
 
-  describe('PUT /:id', () => {
+  describe.only('PUT /:id', () => {
     const data = {
       eng_name: 'new en',
       fin_name: 'new fn',

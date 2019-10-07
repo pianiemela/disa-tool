@@ -107,11 +107,8 @@ router.get('/instance/:courseId', async (req, res) => {
 })
 
 router.get('/user', async (req, res) => {
-  console.log('IS HTIS HIT 12')
   const { user } = req
-  console.log(user)
   const instances = await courseService.getCoursesForPerson(user.id, req.lang)
-  console.log(instances)
   res.status(200).json(instances)
 })
 

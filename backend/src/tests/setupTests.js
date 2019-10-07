@@ -8,6 +8,6 @@ global.server = supertest(app)
 global.tokens = {
   student: 'jemisa',
   teacher: 'mikkoti',
-  admin: 'kimjon'
+  admin: 'kimgjon'
 }
 jest.setTimeout(100000)

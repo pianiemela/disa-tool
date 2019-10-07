@@ -82,7 +82,7 @@ describe('task_controller', () => {
         CoursePerson.create({
           role: 'TEACHER',
           course_instance_id: courseInstance.id,
-          person_id: 360
+          person_id: 410
         }),
         CoursePerson.create({
           role: 'STUDENT',
@@ -573,7 +573,7 @@ describe('task_controller', () => {
             data.tasks[0].taskId = result.get({ plain: true }).id
             CoursePerson.create({
               course_instance_id: 2,
-              person_id: 360,
+              person_id: 410,
               role: 'TEACHER'
             }).then(() => done()).catch(done)
           }).catch(done)
@@ -583,7 +583,7 @@ describe('task_controller', () => {
           CoursePerson.destroy({
             where: {
               course_instance_id: 2,
-              person_id: 360,
+              person_id: 410,
               role: 'TEACHER'
             }
           }).then(() => done()).catch(done)

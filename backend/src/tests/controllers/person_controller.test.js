@@ -62,7 +62,7 @@ describe('person_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['uid', 'kimjon']
+        set: ['uid', 'kimgjon']
       }
     }
 
@@ -275,7 +275,7 @@ describe('person_controller', () => {
           }),
           CoursePerson.create({
             course_instance_id: courseInstance.id,
-            person_id: 360,
+            person_id: 410,
             role: 'TEACHER'
           }),
           Task.create({
@@ -468,7 +468,7 @@ describe('person_controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['uid', 'kimjon']
+        set: ['uid', 'kimgjon']
       }
     }
 

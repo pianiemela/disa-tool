@@ -38,7 +38,7 @@ describe('grade controller', () => {
       ids.courseInstance = courseInstance.id
       Promise.all([
         CoursePerson.create({
-          person_id: 360,
+          person_id: 410,
           course_instance_id: courseInstance.id,
           role: 'TEACHER'
         }),
@@ -436,7 +436,7 @@ describe('grade controller', () => {
             course_instance_id: catCourseInstance.id
           }),
           CoursePerson.create({
-            person_id: 360,
+            person_id: 410,
             course_instance_id: catCourseInstance.id,
             role: 'TEACHER'
           })

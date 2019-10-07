@@ -131,7 +131,7 @@ describe('course_person_controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['uid', 'kimjon']
+        set: ['uid', 'kimgjon']
       }
     }
 

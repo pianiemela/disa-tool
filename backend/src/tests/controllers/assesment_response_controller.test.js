@@ -141,7 +141,7 @@ describe('assesment response controller', () => {
         }),
         CoursePerson.create({
           course_instance_id: courseInstance.id,
-          person_id: 360,
+          person_id: 410,
           role: 'TEACHER'
         })
       ]).then(([selfAssesment, skillLevel, category, task]) => {

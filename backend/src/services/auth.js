@@ -1,4 +1,3 @@
-const { Op } = require('sequelize')
 const { Person } = require('../database/models.js')
 
 /**
@@ -6,6 +5,7 @@ const { Person } = require('../database/models.js')
  */
 const checkAuth = async (req) => {
   const { uid, schacpersonaluniquecode, displayname } = req.headers
+  if (!uid) return null
 
   const studentnumber = schacpersonaluniquecode && schacpersonaluniquecode.length !== 0
     ? schacpersonaluniquecode.split(':')[6]

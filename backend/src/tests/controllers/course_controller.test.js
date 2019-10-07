@@ -22,7 +22,6 @@ const {
   TaskType,
   Person
 } = require('../../database/models.js')
-const { SECRET } = require('../../../conf-backend')
 
 describe('course_controller', () => {
   describe('POST /create', () => {
@@ -129,7 +128,7 @@ describe('course_controller', () => {
         CoursePerson.create({
           role: 'TEACHER',
           course_instance_id: courseInstance.id,
-          person_id: 360
+          person_id: 410
         }).then(() => done()).catch(done)
       }).catch(done)
     })
@@ -189,7 +188,7 @@ describe('course_controller', () => {
       role: 'STUDENT'
     }
     const teacherData = {
-      person_id: 360,
+      person_id: 410,
       role: 'TEACHER'
     }
     const taskData = {
@@ -355,7 +354,7 @@ describe('course_controller', () => {
           }]
         }],
         people: [{
-          id: 360
+          id: 410
         }],
         type_headers: [{
           id: asymmetricMatcher(actual => actual === ids.typeHeader),
@@ -410,7 +409,7 @@ describe('course_controller', () => {
     })
   })
 
-  describe.only('GET /user', () => {
+  describe('GET /user', () => {
     const courseInstanceData = [
       {
         eng_name: 'en',
