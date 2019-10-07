@@ -302,8 +302,8 @@ const CategoryGrade = sequelize.define('category_grade', {
 
 const Person = sequelize.define('person', {
   id: { primaryKey: true, type: Sequelize.BIGINT, autoIncrement: true },
-  username: { type: Sequelize.STRING },
-  studentnumber: { type: Sequelize.STRING },
+  username: { type: Sequelize.STRING, unique: true },
+  studentnumber: { type: Sequelize.STRING, unique: true, allowNull: true },
   name: { type: Sequelize.STRING },
   role: { type: Sequelize.STRING },
   university: { type: Sequelize.STRING, defaultValue: 'helsinki.fi' }
