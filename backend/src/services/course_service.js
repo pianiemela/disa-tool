@@ -10,6 +10,17 @@ const {
   TypeHeader
 } = require('../database/models.js')
 
+const getCourse = courseId => Course.findOne({ where: { id: courseId } })
+
+const editCourse = async ({ id, eng_name, fin_name, swe_name }) => {
+  const response = await Course.update({
+    eng_name: eng_name, fin_name: fin_name, swe_name: swe_name},
+    {returning: true, where: {id: id}
+  })
+
+  return response[1]
+}
+
 const instanceAttributes = lang => ['id', 'course_id', [`${lang}_name`, 'name'], 'active']
 const courseAttributes = lang => ['id', [`${lang}_name`, 'name']]
 const assessmentAttributes = lang => [
@@ -136,6 +147,8 @@ module.exports = {
   getCourseInstancesOfCourse,
   getCoursesForPerson,
   getCourses,
+  getCourse,
+  editCourse,
   getInstanceWithRelatedData,
   create,
   toggleActivity

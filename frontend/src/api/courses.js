@@ -16,4 +16,6 @@ export const getCourseInstance = id => getJson(`/course-instances/${id}`)
 
 export const toggleCourseInstanceActivity = id => putJson(`/courses/instance/${id}/toggle`, null)
 
-export const details = data => getJson(`/courses/edit/${data.id}`)
+export const editCourse = data => putJson(`/courses/details/${data.id}`, data)
+
+export const getCourse = data => getJson(`/courses/details/${data.id}`)

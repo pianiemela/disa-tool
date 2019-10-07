@@ -5,8 +5,8 @@ import { withLocalize } from 'react-localize-redux'
 import { Button, Icon } from 'semantic-ui-react'
 import asyncAction from '../../../utils/asyncAction'
 
-import { details } from '../../../api/courses'
-import { editCourse } from '../actions/courses'
+import { getCourse } from '../../../api/courses'
+import { editCourse, getAllCourses } from '../actions/courses'
 
 import ModalForm, { saveActions } from '../../../utils/components/ModalForm'
 import MultilingualField from '../../../utils/components/MultilingualField'
@@ -27,13 +27,14 @@ export class EditCourseForm extends Component {
     }
   }
 
-  editCourseSubmit = (e) => {
-    this.props.editCourse({
+  editCourseSubmit = async (e) => {
+    await this.props.editCourse({
       id: this.props.course_id,
       eng_name: e.target.eng_name.value,
       fin_name: e.target.fin_name.value,
       swe_name: e.target.swe_name.value
     })
+    this.props.getAllCourses()
     this.setState({
       triggered: false,
       loading: true
@@ -43,15 +44,17 @@ export class EditCourseForm extends Component {
   loadDetails = async () => {
     if (this.state.triggered) return
     this.setState({ triggered: true })
-    const courseDetails = (await details({
-      id: this.props.course_id
-    })).data.data
+    const courseDetails = await getCourse({
+        id: this.props.course_id
+      })
+    const courseData = courseDetails.data
+    const { eng_name, fin_name, swe_name } = courseData
     this.setState({
       values: {
         name: {
-          eng: courseDetails.eng_name,
-          fin: courseDetails.fin_name,
-          swe: courseDetails.swe_name
+          eng: eng_name,
+          fin: fin_name,
+          swe: swe_name
         }
       },
       loading: false
@@ -67,15 +70,14 @@ export class EditCourseForm extends Component {
         <ModalForm
           header={this.translate('rename')}
           trigger={<Button
+            style={{margin: "10px"}}
             type="button"
-            labelPosition="left"
             color="teal"
             fluid
-            icon
             basic
+            compact
           >
             {this.translate('rename_trigger')}
-            <Icon name="tag" color="teal" />
           </Button>}
           onSubmit={this.editCourseSubmit}
           actions={saveActions(this.translate)}
@@ -92,12 +94,13 @@ export class EditCourseForm extends Component {
 
 EditCourseForm.propTypes = {
   course_id: PropTypes.number.isRequired,
-  editInstance: PropTypes.func.isRequired,
+  editCourse: PropTypes.func.isRequired,
   translate: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
-  editInstance: asyncAction(editCourse, dispatch)
+  getAllCourses: asyncAction(getAllCourses, dispatch),
+  editCourse: asyncAction(editCourse, dispatch)
 })
 
 export default withLocalize(connect(null, mapDispatchToProps)(EditCourseForm))

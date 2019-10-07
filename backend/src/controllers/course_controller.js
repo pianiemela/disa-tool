@@ -124,6 +124,28 @@ router.get('/:courseId', async (req, res) => {
   res.status(200).json(instances)
 })
 
+router.get('/details/:courseId', async (req, res) => {
+  const { courseId } = req.params
+  const course = await courseService.getCourse(Number(courseId), req.user, req.lang)
+  res.status(200).json(course)
+})
+
+router.put('/details/:courseId', async (req, res) => {
+  const { courseId } = req.params
+  const { eng_name, fin_name, swe_name } = req.body
+  const isTeacher = await checkPrivilege(req, [{
+    key: 'teacher_on_course',
+    param: courseId
+  }])
+  
+  if (!isTeacher) {
+    res.status(403).json({ toast: errors.privilege.toast, error: errors.privilege[req.lang] })
+    return
+  }
+  const updatedCourse = await courseService.editCourse({id: courseId, eng_name, fin_name, swe_name})
+  res.status(200).json(updatedCourse)
+})
+
 router.post('/create', async (req, res) => {
   try {
     if (!await checkPrivilege(req, [
@@ -158,5 +180,7 @@ router.post('/create', async (req, res) => {
     }
   }
 })
+
+
 
 module.exports = router
