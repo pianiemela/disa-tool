@@ -58,7 +58,7 @@ describe('self_assesment_controller', () => {
       route: '/api/selfassesment/create',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -360,7 +360,7 @@ describe('self_assesment_controller', () => {
     const options = {
       method: 'delete',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const ids = {}
@@ -450,6 +450,7 @@ describe('self_assesment_controller', () => {
       }
     ]
     const personData = {
+      username: 'plzkillme3',
       name: 'na',
       studentnumber: '00',
       university: 'helsinki.fi',
@@ -471,7 +472,7 @@ describe('self_assesment_controller', () => {
         CourseInstance.create(courseInstanceData)
       ]).then(([person, ...courseInstances]) => {
         ids.person = person.id
-        options.preamble.set = ['Authorization', `Bearer ${jwt.sign({ user: { id: person.id } }, SECRET)}`]
+        options.preamble.set = ['uid', 'plzkillme3']
         ids.courseInstances = courseInstances.map(courseInstance => courseInstance.id)
         Promise.all([
           ...courseInstances.map(courseInstance => CoursePerson.create({
@@ -592,7 +593,7 @@ describe('self_assesment_controller', () => {
     const options = {
       method: 'put',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`],
+        set: ['uid', 'mikkoti'],
         send: data
       }
     }
@@ -700,7 +701,7 @@ describe('self_assesment_controller', () => {
     const options = data.map(dataElement => ({
       method: 'put',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`],
+        set: ['uid', 'mikkoti'],
         send: dataElement
       }
     }))

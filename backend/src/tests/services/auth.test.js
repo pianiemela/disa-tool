@@ -2,35 +2,26 @@ const { checkAuth } = require('../../services/auth.js')
 
 describe('auth service', () => {
   describe('checkAuth function', () => {
-    it('returns correct user when token is provided.', () => {
+    it('returns correct user when token is provided.', async () => {
       const req = {
         headers: {
-          authorization: `Bearer ${tokens.student}`
+          uid: 'jemisa'
         }
       }
-      expect(checkAuth(req)).toMatchObject({
-        id: 421
+      expect(await checkAuth(req)).toMatchObject({
+        id: 370
       })
-      req.headers.authorization = `Bearer ${tokens.teacher}`
-      expect(checkAuth(req)).toMatchObject({
-        id: 424
+      req.headers.uid = 'mikkoti'
+      expect(await checkAuth(req)).toMatchObject({
+        id: 410
       })
     })
 
-    it('returns null when no authorization is provided.', () => {
+    it('returns null when no authorization is provided.', async () => {
       const req = {
         headers: {}
       }
-      expect(checkAuth(req)).toEqual(null)
-    })
-
-    it('returns null when malformed authorization is provided.', () => {
-      const req = {
-        headers: {
-          authorization: tokens.student
-        }
-      }
-      expect(checkAuth(req)).toEqual(null)
+      expect(await checkAuth(req)).toEqual(null)
     })
   })
 })

@@ -6,7 +6,7 @@
     "scripts": {
         "db:migrate": "sequelize db:migrate --migrations-path src/database/migrations --config conf-backend.js",
         "db:rollback": "sequelize db:migrate:undo --migrations-path src/database/migrations --config conf-backend.js",
-        "test": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest --coverage --collectCoverageFrom=src/**/*.{js,jsx}",
+        "test": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest",
         "test-ci": "NODE_ENV=test node src/database/create_data.js; NODE_ENV=test jest --forceExit",
         "lint": "eslint --ext .js src || true",
         "lint-fix": "eslint --fix --ext .js src || true",

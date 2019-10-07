@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const logger = require('../utils/logger')
-const { checkAuth } = require('../services/auth')
 const { checkPrivilege, isTeacherOnCourse } = require('../services/privilege')
 const assessmentResponseService = require('../services/assesment_response_service')
 const selfAssessmentService = require('../services/self_assesment_service')
@@ -17,8 +16,11 @@ const messages = {
 router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
-    const user = await checkAuth(req)
+    const { user } = req
+    console.log({ selfAssesmentId })
+    console.log(user)
     const data = await assessmentResponseService.getOne(user, selfAssesmentId, req.lang)
+    console.log(data)
     if (!data) {
       res.status(200).json({
         data: {}
@@ -48,7 +50,7 @@ router.get('/:selfAssesmentId', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     const data = req.body
-    const user = await checkAuth(req)
+    const { user } = req
     const hasPrivilege = await checkPrivilege(req,
       [
         {

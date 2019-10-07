@@ -36,12 +36,12 @@ describe('type_controller', () => {
         CoursePerson.create({
           role: 'TEACHER',
           course_instance_id: courseInstance.id,
-          person_id: 424
+          person_id: 410
         }),
         CoursePerson.create({
           role: 'STUDENT',
           course_instance_id: courseInstance.id,
-          person_id: 421
+          person_id: 370
         })
       ]).then(([typeHeader]) => {
         ids.typeHeader = typeHeader.id
@@ -69,7 +69,7 @@ describe('type_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -133,7 +133,7 @@ describe('type_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -187,7 +187,7 @@ describe('type_controller', () => {
     const options = {
       method: 'delete',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -229,7 +229,7 @@ describe('type_controller', () => {
     const options = {
       method: 'delete',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -336,7 +336,7 @@ describe('type_controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const databaseExpectation = {}
@@ -477,7 +477,7 @@ describe('type_controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const databaseExpectation = {}
@@ -579,7 +579,7 @@ describe('type_controller', () => {
       method: 'get',
       route: '/api/types/course',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
