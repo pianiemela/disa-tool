@@ -21,7 +21,7 @@ describe('course_person_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.student}`]
+        set: ['uid', 'jemisa']
       }
     }
 
@@ -29,7 +29,7 @@ describe('course_person_controller', () => {
       CoursePerson.destroy({
         where: {
           course_instance_id: data.course_instance_id,
-          person_id: 421
+          person_id: 370
         }
       }).then(() => done())
     })
@@ -43,7 +43,7 @@ describe('course_person_controller', () => {
         message: expect.any(String),
         created: {
           course_instance_id: data.course_instance_id,
-          person_id: 421,
+          person_id: 370,
           role: 'STUDENT'
         }
       }
@@ -54,7 +54,7 @@ describe('course_person_controller', () => {
       {
         ...data,
         id: expect.any(Number),
-        person_id: 421,
+        person_id: 370,
         role: 'STUDENT'
       },
       CoursePerson
@@ -70,14 +70,14 @@ describe('course_person_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.student}`]
+        set: ['uid', 'jemisa']
       }
     }
 
     beforeEach((done) => {
       CoursePerson.create({
         course_instance_id: data.course_instance_id,
-        person_id: 421,
+        person_id: 370,
         role: 'STUDENT'
       }).then(() => done()).catch(done)
     })
@@ -86,7 +86,7 @@ describe('course_person_controller', () => {
       CoursePerson.destroy({
         where: {
           course_instance_id: data.course_instance_id,
-          person_id: 421
+          person_id: 370
         }
       }).then(() => done()).catch(done)
     })
@@ -101,7 +101,7 @@ describe('course_person_controller', () => {
         deleted: {
           id: expect.any(Number),
           course_instance_id: data.course_instance_id,
-          person_id: 421,
+          person_id: 370,
           role: 'STUDENT'
         }
       }
@@ -131,7 +131,7 @@ describe('course_person_controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.admin}`]
+        set: ['uid', 'kimgjon']
       }
     }
 
@@ -300,7 +300,7 @@ describe('course_person_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 

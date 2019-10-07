@@ -34,12 +34,12 @@ describe('skill level controller', () => {
           course_instance_id: courseInstance.id
         }),
         CoursePerson.create({
-          person_id: 421,
+          person_id: 370,
           course_instance_id: courseInstance.id,
           role: 'STUDENT'
         }),
         CoursePerson.create({
-          person_id: 424,
+          person_id: 410,
           course_instance_id: courseInstance.id,
           role: 'TEACHER'
         })
@@ -67,7 +67,7 @@ describe('skill level controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -128,7 +128,7 @@ describe('skill level controller', () => {
     const options = {
       method: 'delete',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const ids = {}
@@ -261,7 +261,7 @@ describe('skill level controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const ids = {}

@@ -81,7 +81,6 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
         "You have logged out successfully",
         "Olet kirjautunut ulos"
       ],
-      "login": ["Log in", "Kirjaudu sisään"],
       "admin": ["Admin", "Admin"],
       "courses": ["Courses", "Kurssit"],
       "user": ["Personal page", "Oma sivu"],
@@ -116,23 +115,6 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
       ]
     }
   },
-  "Login": {
-    "LoginForm": {
-      "already_logged_in": [
-        "You are already logged in",
-        "Olet jo kirjautunut sisään"
-      ],
-      "username": ["username", "käyttäjänimi"],
-      "password": ["password", "salasana"],
-      "login_button": ["Log in", "Kirjaudu sisään"]
-    },
-    "LoginPage": {
-      "login": [
-        "Log in with your University of Helsinki credentials",
-        "Kirjaudu sisään Helsingin yliopiston tunnuksilla"
-      ]
-    }
-  },
   "Home": {
     "HomePage": {
       "header1": ["Welcome to the DISA-tool", "Tervetuloa DISA-työkaluun"],
@@ -141,14 +123,6 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
         "DISA-työkalun avulla opettajat ja opiskelijat voivat luoda ja tarkastella kurssin osaamistavoitteita sekä arvioida ja seurata näiden tavoitteiden toteutumista. Sovellus on vasta työn alla ja kokeilukäytössä, joten vikoja voi tulla vastaan. Näistä voi ilmoittaa kurssien opettajille tai suoraan"
       ],
       "developers": ["the developers", "kehittäjille"],
-      "log_in_prompt": [
-        "Log in using your University of Helsinki credentials",
-        "Kirjaudu sisään Helsingin yliopiston tunnuksilla"
-      ],
-      "anon_info": [
-        "Without logging in you can still browse courses and inspect their learning objectives.",
-        "Kirjautumattomana voit selata kursseja ja tarkastella niiden osaamistavoitteita."
-      ],
       "student_header": ["For students", "Opiskelijalle"],
       "student_info": [
         "When logged in you'll be able to register to courses. When registered, you can view your task performance and submit course self-asseessments.",
@@ -277,8 +251,8 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
       "HeaderLevel": {
         "delete_header": ["Delete skill level", "Poista oppimistaso"],
         "delete_prompt_1": [
-          "Really remove skill level",
-          "Poistetaanko taitotaso"
+          "Warning! Deleting a skill level will also delete grades attached to it. Really remove skill level",
+          "Varoitus! Taitotason poistaminen poistaa myös siihen liitetyt arvosanat. Poistetaanko taitotaso"
         ]
       },
       "MatrixCategory": {
@@ -611,7 +585,7 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
       "add_student": ["Add student to course", "Lisää opiskelija kurssille"],
       "search_student": [
         "Search people outside of course",
-        "Etsiä kurssin ulkopuolisia henkilöitä"
+        "Etsi kurssin ulkopuolisia henkilöitä"
       ],
       "teacher": ["Teacher", "Opettaja"],
       "student": ["Student", "Opiskelija"],

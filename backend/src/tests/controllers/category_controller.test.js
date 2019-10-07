@@ -23,7 +23,7 @@ describe('category_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 
@@ -73,7 +73,7 @@ describe('category_controller', () => {
     const options = {
       method: 'delete',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const ids = {}
@@ -175,7 +175,7 @@ describe('category_controller', () => {
     })
   })
 
-  describe('PUT /:id', () => {
+  describe.only('PUT /:id', () => {
     const data = {
       eng_name: 'new en',
       fin_name: 'new fn',
@@ -187,7 +187,7 @@ describe('category_controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
     const ids = {}

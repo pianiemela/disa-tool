@@ -17,7 +17,7 @@ describe('person_controller', () => {
       route: '/api/persons/user',
       method: 'get',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.student}`]
+        set: ['uid', 'jemisa']
       }
     }
 
@@ -27,7 +27,7 @@ describe('person_controller', () => {
 
     testBody(options, {
       common: {
-        id: 421
+        id: 370
       }
     })
 
@@ -62,7 +62,7 @@ describe('person_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.admin}`]
+        set: ['uid', 'kimgjon']
       }
     }
 
@@ -245,7 +245,7 @@ describe('person_controller', () => {
       method: 'post',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       },
       do_not_spread: ['send']
     }
@@ -275,7 +275,7 @@ describe('person_controller', () => {
           }),
           CoursePerson.create({
             course_instance_id: courseInstance.id,
-            person_id: 424,
+            person_id: 410,
             role: 'TEACHER'
           }),
           Task.create({
@@ -468,7 +468,7 @@ describe('person_controller', () => {
       method: 'put',
       preamble: {
         send: data,
-        set: ['Authorization', `Bearer ${tokens.admin}`]
+        set: ['uid', 'kimgjon']
       }
     }
 
@@ -562,7 +562,7 @@ describe('person_controller', () => {
       method: 'get',
       preamble: {
         query,
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 

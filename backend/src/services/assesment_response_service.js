@@ -17,12 +17,13 @@ const logger = require('../utils/logger')
 
 
 const getOne = async (user, selfAssesmentId, lang) => {
+  console.log('Stuff:', user.id, selfAssesmentId)
   const found = await AssessmentResponse.find({
     where: { person_id: user.id, self_assessment_id: selfAssesmentId }
   })
-  if (!found) {
-    return found
-  }
+  console.log(found)
+  if (!found) return null
+
   const foundData = found.get({ plain: true })
   const grades = await gradeService.getByCourse(foundData.response.course_instance_id, lang)
   const filteredResponse = await getGradesAndHeader(foundData, lang, grades)
