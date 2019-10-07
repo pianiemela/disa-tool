@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { LocalizeProvider } from 'react-localize-redux'
 import * as Sentry from '@sentry/browser'
 
-import { getUserAction, shibbolethLoginAction } from './actions/actions'
+import { getUserAction } from './actions/actions'
 import Nav from './containers/Nav/navbar'
 import Main from './containers/Main/main'
 import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
@@ -13,7 +13,6 @@ import LocalizeWrapper from './containers/Localize/LocalizeWrapper'
 class App extends Component {
   componentDidMount() {
     this.props.getUserAction()
-    if (process.env.NODE_ENV !== 'development') this.props.shibbolethLoginAction()
   }
 
   componentDidCatch(err) {
@@ -38,9 +37,8 @@ class App extends Component {
 App.propTypes = {
   user: PropTypes.shape({ name: PropTypes.string, id: PropTypes.number }).isRequired,
   getUserAction: PropTypes.func.isRequired,
-  shibbolethLoginAction: PropTypes.func.isRequired
 }
 
 const mapStateToProps = ({ user }) => ({ user })
 
-export default withRouter(connect(mapStateToProps, { shibbolethLoginAction, getUserAction })(App))
+export default withRouter(connect(mapStateToProps, { getUserAction })(App))

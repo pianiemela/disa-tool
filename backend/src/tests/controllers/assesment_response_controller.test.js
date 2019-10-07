@@ -1,5 +1,4 @@
 const { Op } = require('sequelize')
-const jwt = require('jsonwebtoken')
 const {
   testTeacherOnCoursePrivilege,
   testHeaders,
@@ -23,7 +22,6 @@ const {
   TaskResponse,
   CategoryGrade
 } = require('../../database/models.js')
-const { SECRET } = require('../../../conf-backend')
 
 const courseInstanceData = {
   course_id: 1,
@@ -138,12 +136,12 @@ describe('assesment response controller', () => {
         }),
         CoursePerson.create({
           course_instance_id: courseInstance.id,
-          person_id: 421,
+          person_id: 370,
           role: 'STUDENT'
         }),
         CoursePerson.create({
           course_instance_id: courseInstance.id,
-          person_id: 424,
+          person_id: 410,
           role: 'TEACHER'
         })
       ]).then(([selfAssesment, skillLevel, category, task]) => {
@@ -159,7 +157,7 @@ describe('assesment response controller', () => {
           }),
           TaskResponse.create({
             taskResponseData,
-            person_id: 421,
+            person_id: 370,
             task_id: task.id
           }),
           ...gradeData.map(data => Grade.create({
@@ -197,7 +195,7 @@ describe('assesment response controller', () => {
                   }
                 ]
               },
-              person_id: 421,
+              person_id: 370,
               self_assessment_id: selfAssesment.id
             }),
             TaskObjective.create({
@@ -231,8 +229,9 @@ describe('assesment response controller', () => {
     const options = {
       method: 'get',
       route: '/api/assesmentresponse',
+      uid: 'jemisa',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.student}`]
+        set: ['uid', 'jemisa']
       }
     }
 
@@ -248,7 +247,7 @@ describe('assesment response controller', () => {
       common: {
         data: {
           id: asymmetricMatcher(actual => actual === ids.assesmentResponse),
-          person_id: 421,
+          person_id: 370,
           self_assessment_id: asymmetricMatcher(actual => actual === ids.selfAssesment),
           response: {
             finalGradeResponse: {
@@ -301,6 +300,7 @@ describe('assesment response controller', () => {
 
   describe('POST /', () => {
     const personData = {
+      username: 'plzkillme2',
       name: 'pn',
       studentnumber: '011111111',
       role: 'STUDENT',
@@ -330,8 +330,7 @@ describe('assesment response controller', () => {
       data.assessmentId = ids.selfAssesment
       Person.create(personData).then((person) => {
         ids.createPerson = person.id
-        const token = jwt.sign({ user: { id: person.id } }, SECRET)
-        options.preamble.set = ['Authorization', `Bearer ${token}`]
+        options.preamble.set = ['uid', 'plzkillme2']
         CoursePerson.create({
           role: 'STUDENT',
           course_instance_id: ids.courseInstance,
@@ -365,7 +364,7 @@ describe('assesment response controller', () => {
       ...options,
       preamble: {
         ...options.preamble,
-        set: ['Authorization', `Bearer ${jwt.sign({ user: { id: 100 } }, process.env.SECRET)}`]
+        set: ['uid', 1]
       }
     }, 403)
 
@@ -506,7 +505,7 @@ describe('assesment response controller', () => {
       method: 'put',
       route: '/api/assesmentresponse/generate-feedbacks',
       preamble: {
-        set: ['Authorization', `Bearer ${tokens.teacher}`]
+        set: ['uid', 'mikkoti']
       }
     }
 

@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const logger = require('../utils/logger')
-const { checkAuth } = require('../services/auth')
 
 const courseService = require('../services/course_service')
 const personService = require('../services/person_service')
@@ -77,7 +76,7 @@ router.post('/instance/:courseId/tasks', async (req, res) => {
 
 router.get('/instance/:courseId', async (req, res) => {
   const { courseId } = req.params
-  const user = await checkAuth(req)
+  const { user } = req
   const instance = await courseService.getInstanceWithRelatedData(courseId, req.lang, user.id)
   if (!instance) {
     res.status(404).json({
@@ -108,7 +107,7 @@ router.get('/instance/:courseId', async (req, res) => {
 })
 
 router.get('/user', async (req, res) => {
-  const user = await checkAuth(req)
+  const { user } = req
   const instances = await courseService.getCoursesForPerson(user.id, req.lang)
   res.status(200).json(instances)
 })
