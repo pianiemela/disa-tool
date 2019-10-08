@@ -16,12 +16,5 @@ describe('auth service', () => {
         id: 410
       })
     })
-
-    it('returns null when no authorization is provided.', async () => {
-      const req = {
-        headers: {}
-      }
-      expect(await checkAuth(req)).toEqual(null)
-    })
   })
 })

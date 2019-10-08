@@ -30,10 +30,6 @@ describe('person_controller', () => {
         id: 370
       }
     })
-
-    const derivativeOptions = { ...options, preamble: {} }
-
-    testStatusCode(derivativeOptions, 204)
   })
 
   describe('POST /users', () => {
