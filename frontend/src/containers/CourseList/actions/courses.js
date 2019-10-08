@@ -1,5 +1,6 @@
 import * as types from '../../../redux/action_types'
-import { getCourses } from '../../../api/courses'
+import { getCourses, editCourse as edit } from '../../../api/courses'
+import apiPromise from '../../../utils/apiPromise';
 
 export const selectCourse = dispatch => id => dispatch({
   type: types.COURSELIST_COURSE_SELECT,
@@ -13,4 +14,8 @@ export const getAllCourses = () => new Promise((resolve) => {
       response: response.data
     })
   })
+})
+
+export const editCourse = data => apiPromise(edit, data, {
+  success: { type: types.COURSE_EDIT}
 })

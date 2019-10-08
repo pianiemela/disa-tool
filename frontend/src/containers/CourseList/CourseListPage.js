@@ -15,6 +15,7 @@ import { getInstancesOfCourse, selectInstance, getTemplateInstances } from './ac
 import CreateInstanceForm from './components/CreateInstanceForm'
 import RegisterForm from './components/RegisterForm'
 import EditInstanceForm from './components/EditInstanceForm'
+import EditCourseForm from './components/EditCourseForm'
 import Conditional from '../../utils/components/Conditional'
 import InfoBox from '../../utils/components/InfoBox'
 
@@ -105,6 +106,9 @@ class CourseListPage extends Component {
                     {this.translate('create_trigger')}
                     <Icon name="add" color="green" />
                   </Button>
+                <Conditional visible={this.props.user && (this.props.user.role === 'TEACHER' || this.props.user.role === 'ADMIN') && !!this.props.selectedCourse}>
+                  <EditCourseForm course_id={this.props.selectedCourse ? this.props.selectedCourse.id : undefined} />
+                </Conditional>
                 </Conditional>
                 <InfoBox translationid="CoursesPage" buttonProps={{ floated: 'right' }} />
               </Form.Group>
