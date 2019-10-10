@@ -6,11 +6,7 @@ const { errors, messages } = require('../messages/global.js')
 const personService = require('../services/person_service')
 
 router.get('/user', async (req, res) => {
-  if (req.user) {
-    res.status(200).json(req.user)
-  } else {
-    res.status(204).end()
-  }
+  res.status(200).json(req.user)
 })
 
 router.post('/users', async (req, res) => {

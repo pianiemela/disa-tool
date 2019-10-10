@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10
+    ports:
+      - '5321:5432'
+    environment:
+      - POSTGRES_USER=disa
+      - POSTGRES_PASSWORD=dev
+      - POSTGRES_DB=disa_db
+    volumes:
+      - ./disa_pgdata:/var/lib/postgresql/data
+    container_name: disa_db

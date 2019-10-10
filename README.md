@@ -41,6 +41,7 @@ DB_PORT=5321
 KURKI_URL=http://localhost:3002
 SECRET=<your own personal super secret>
 NODE_ENV=development
+TEST_DB_NAME=disa_test_db
 ```
 
 Create a `.env` also in the kurki-folder, but only add the database parameters there:
@@ -71,8 +72,6 @@ Now you should have the project up and running.
 Frontend tests should work without further configuration. Simply run `npm test`.
 
 ### Backend
-
-Add the following line to backend .env: `TEST_DB_NAME=disa_test_db`
 
 Then create the test DB in /backend: `NODE_ENV=test npx sequelize-cli db:create --config conf-backend.js`
 

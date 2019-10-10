@@ -17,15 +17,9 @@ router.get('/:selfAssesmentId', async (req, res) => {
   try {
     const { selfAssesmentId } = req.params
     const { user } = req
-    console.log({ selfAssesmentId })
-    console.log(user)
     const data = await assessmentResponseService.getOne(user, selfAssesmentId, req.lang)
-    console.log(data)
     if (!data) {
-      res.status(200).json({
-        data: {}
-      })
-      return
+      return res.status(200).json({ data: {} })
     }
     // TODO: Maybe further refactor these checks to one helper.
     // only send verification data to teacher
