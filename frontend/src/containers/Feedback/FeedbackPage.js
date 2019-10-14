@@ -6,7 +6,7 @@ import QuestionAndGradeFeedback from './Components/QuestionAndGradeFeedback'
 import CategoryFeedback from './Components/CategoryFeedback'
 
 const FeedbackPage = (props) => {
-  
+
   const { assessmentResponse } = props
   const {
     assessmentType,
@@ -14,11 +14,10 @@ const FeedbackPage = (props) => {
     feedback,
     openQuestionResponses,
     finalGradeResponse,
-    verification,
+    verification
   } = assessmentResponse
-  const { overallVerification } = verification
   const objectives = {}
-  
+
 
   if (assessmentResponse.assessmentType === 'objectives') {
     assessmentResponse.questionModuleResponses.forEach((asr) => {
@@ -41,12 +40,12 @@ const FeedbackPage = (props) => {
           feedback={feedback}
           teacher={props.teacher}
           verification={verification}
-          />
+        />
         }
       <QuestionAndGradeFeedback
         openQuestionResponses={openQuestionResponses}
         finalGradeResponse={finalGradeResponse}
-        overallVerification={overallVerification}
+        overallVerification={verification ? verification.overallVerification : null}
       />
     </Container>
   )
