@@ -133,7 +133,7 @@ router.put('/details/:courseId', async (req, res) => {
   const { courseId } = req.params
   const { eng_name, fin_name, swe_name } = req.body
   const isTeacher = await checkPrivilege(req, [{
-    key: 'teacher_on_course',
+    key: 'global_teacher',
     param: courseId
   }])
   
