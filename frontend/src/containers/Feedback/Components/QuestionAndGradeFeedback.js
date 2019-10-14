@@ -6,7 +6,7 @@ import { withLocalize } from 'react-localize-redux'
 export const QuestionAndGradeFeedback = (props) => {
   const { openQuestionResponses, finalGradeResponse, overallVerification } = props
   const translate = id => props.translate(`FeedbackPage.QuestionAndGradeFeedback.${id}`)
-  
+
   return (
     <div style={{ marginTop: '50px' }}>
       {openQuestionResponses.length > 0 ?
@@ -66,13 +66,15 @@ export const QuestionAndGradeFeedback = (props) => {
 
 QuestionAndGradeFeedback.defaultProps = {
   openQuestionResponses: [],
-  finalGradeResponse: {}
+  finalGradeResponse: {},
+  overallVerification: {}
 }
 
 QuestionAndGradeFeedback.propTypes = {
   openQuestionResponses: PropTypes.arrayOf(PropTypes.shape()),
   finalGradeResponse: PropTypes.shape(),
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  overallVerification: PropTypes.shape({})
 }
 
 export default withLocalize(QuestionAndGradeFeedback)

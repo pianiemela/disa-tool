@@ -4,10 +4,10 @@ import { Accordion, Card, Icon, Progress } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
 
 const findVerificationGrade = (verification, categoryName) => {
+  if (!verification) return null
+  if (!verification.categoryVerifications) return null
   const category = verification.categoryVerifications.find(c => c.categoryName === categoryName)
-  if (!category) {
-    return null
-  }
+  if (!category) return null
   return category.earnedGrade.name
 }
 export const CategoryFeedback = (props) => {
@@ -105,14 +105,16 @@ export const CategoryFeedback = (props) => {
 CategoryFeedback.defaultProps = {
   questionModuleResponses: [],
   feedback: null,
-  teacher: false
+  teacher: false,
+  verification: {}
 }
 
 CategoryFeedback.propTypes = {
   questionModuleResponses: PropTypes.arrayOf(PropTypes.shape()),
   feedback: PropTypes.shape(),
   teacher: PropTypes.bool,
-  translate: PropTypes.func.isRequired
+  translate: PropTypes.func.isRequired,
+  verification: PropTypes.shape({})
 }
 
 export default withLocalize(CategoryFeedback)
