@@ -35,7 +35,7 @@ export default {
 
     Here is an example of the translation structure:
     "InfoBox": {
-      "UniqueString": {
+      "UserPage": {
         "Teacher": [
           "English translation for teachers.",
           "Suomenkielinen käännös opettajille."
