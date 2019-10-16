@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Card } from 'semantic-ui-react'
 import PropTypes from 'prop-types'
 import { withLocalize } from 'react-localize-redux'
 
 export const QuestionAndGradeFeedback = (props) => {
-  const { openQuestionResponses, finalGradeResponse, overallVerification } = props
+  const { openQuestionResponses, finalGradeResponse, overallVerification, teacher } = props
   const translate = id => props.translate(`FeedbackPage.QuestionAndGradeFeedback.${id}`)
 
   return (
@@ -43,8 +43,13 @@ export const QuestionAndGradeFeedback = (props) => {
                 </Card.Header>
                 <Card.Description textAlign="center">
                   <h4>
-                    {translate('selfAssessedGrade')}: {finalGradeResponse.grade_name || finalGradeResponse.grade}<br />
-                    {translate('machineGrade')}: {overallVerification.minGrade} - {overallVerification.maxGrade}
+                    {translate('selfAssessedGrade')}: {finalGradeResponse.grade_name || finalGradeResponse.grade}
+                    {teacher && (
+                      <Fragment>
+                        <br />
+                        {translate('machineGrade')}: {overallVerification.minGrade} - {overallVerification.maxGrade}
+                      </Fragment>
+                    )}
                   </h4>
                   {finalGradeResponse.responseText.length > 0 ?
                     <div>
@@ -67,14 +72,16 @@ export const QuestionAndGradeFeedback = (props) => {
 QuestionAndGradeFeedback.defaultProps = {
   openQuestionResponses: [],
   finalGradeResponse: {},
-  overallVerification: {}
+  overallVerification: {},
+  teacher: false
 }
 
 QuestionAndGradeFeedback.propTypes = {
   openQuestionResponses: PropTypes.arrayOf(PropTypes.shape()),
   finalGradeResponse: PropTypes.shape(),
   translate: PropTypes.func.isRequired,
-  overallVerification: PropTypes.shape({})
+  overallVerification: PropTypes.shape({}),
+  teacher: PropTypes.bool
 }
 
 export default withLocalize(QuestionAndGradeFeedback)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Accordion, Card, Icon, Progress } from 'semantic-ui-react'
 import { withLocalize } from 'react-localize-redux'
@@ -40,8 +40,13 @@ export const CategoryFeedback = (props) => {
               </Card.Header>
               <Card.Description textAlign="center">
                 <h4>
-                  {translate('selfAssessedGrade')}: {questionModule.grade_name || questionModule.grade}<br />
-                  {translate('machineGrade')}: {findVerificationGrade(verification, questionModule.name)}
+                  {translate('selfAssessedGrade')}: {questionModule.grade_name || questionModule.grade}
+                  {props.teacher && (
+                    <Fragment>
+                      <br />
+                      {translate('machineGrade')}: {findVerificationGrade(verification, questionModule.name)}
+                    </Fragment>
+                  )}
                 </h4>
                 {questionModule.textFieldOn ?
                   <div>

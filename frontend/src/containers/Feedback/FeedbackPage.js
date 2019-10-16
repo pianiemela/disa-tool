@@ -46,6 +46,7 @@ const FeedbackPage = (props) => {
         openQuestionResponses={openQuestionResponses}
         finalGradeResponse={finalGradeResponse}
         overallVerification={verification ? verification.overallVerification : null}
+        teacher={props.teacher}
       />
     </Container>
   )
