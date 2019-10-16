@@ -127,7 +127,7 @@ export const initForm = (payload) => {
 
   structure.headers.questionHeaders = [
     { id: 1, prefix: 'Fin:', value: 'Kurssin osa-alueet', type: 'fin_name' },
-    { id: 2, prefix: 'Eng:', value: 'Questions', type: 'eng_name' },
+    { id: 2, prefix: 'Eng:', value: 'Course topics', type: 'eng_name' },
     { id: 3, prefix: 'Swe:', value: 'Frågor', type: 'swe_name' }
   ]
 
