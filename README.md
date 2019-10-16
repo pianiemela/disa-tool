@@ -2,6 +2,15 @@
 
 DISA-tool is a web application designed to help the usage of digital self-assessment forms.
 
+## Adding translations
+1) After logging in to Github, open [Translation file](https://github.com/UniversityOfHelsinkiCS/disa-tool/blob/master/frontend/src/translation.js).
+2) Open edit mode by clicking the pen icon in the top-right corner of the file display.
+3) Find InfoBox part, also see more detailed editing instructions inside the file.
+4) Make changes to the file.
+5) Below the file, add an explanation for the "Commit", i.e. the changes. E.g. 'Add instructions for the UserPage'
+6) Click the green Commit changes button at the bottom of the page.
+7) Done! Inform toska that changes have been made so they can be pushed live.
+
 ## Setting up
 
 Clone the repository.
