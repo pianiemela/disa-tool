@@ -73,6 +73,12 @@ When using backticks you can also use "quotes" and 'hyphens' in the text.
         "Tähän määritellään kurssin arvosanat. Jotta oppilas saa vähintään kyseisen arvosanan, täytyy hänen olla suorittanut määritelty prosenttimäärä arvosanaan liittyvistä tehtävistä, sekä kaikki vaaditut alemmat arvosanasuoritukset. Alemmassa taulukossa voit muokata osiokohtaisia arvosanarajoja. Jos muokkaat osiokohtaisia rajoja, muista painaa Tallenna -nappia muokkauksien jälkeen."
       ]
     },
+    "CoursesPage": {
+      "Teacher": [
+        "Here you can add a course",
+        "Tästä voit lisätä kurssin"
+      ]
+    }
   },
   "Nav": {
     "navbar": {
