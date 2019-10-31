@@ -44,7 +44,7 @@ export const QuestionAndGradeFeedback = (props) => {
                 <Card.Description textAlign="center">
                   <h4>
                     {translate('selfAssessedGrade')}: {finalGradeResponse.grade_name || finalGradeResponse.grade}
-                    {teacher && (
+                    {teacher && overallVerification && (
                       <Fragment>
                         <br />
                         {translate('machineGrade')}: {overallVerification.minGrade} - {overallVerification.maxGrade}
@@ -72,7 +72,7 @@ export const QuestionAndGradeFeedback = (props) => {
 QuestionAndGradeFeedback.defaultProps = {
   openQuestionResponses: [],
   finalGradeResponse: {},
-  overallVerification: {},
+  overallVerification: null,
   teacher: false
 }
 
