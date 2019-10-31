@@ -41,7 +41,7 @@ export const CategoryFeedback = (props) => {
               <Card.Description textAlign="center">
                 <h4>
                   {translate('selfAssessedGrade')}: {questionModule.grade_name || questionModule.grade}
-                  {props.teacher && (
+                  {props.teacher && verification && (
                     <Fragment>
                       <br />
                       {translate('machineGrade')}: {findVerificationGrade(verification, questionModule.name)}
@@ -111,7 +111,7 @@ CategoryFeedback.defaultProps = {
   questionModuleResponses: [],
   feedback: null,
   teacher: false,
-  verification: {}
+  verification: null
 }
 
 CategoryFeedback.propTypes = {
