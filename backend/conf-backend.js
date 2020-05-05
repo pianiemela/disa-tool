@@ -26,8 +26,11 @@ const {
   DB_PASS,
   DB_HOST,
   DB_PORT,
+  LOG_HOSTNAME,
   LOG_PORT,
   LOG_HOST,
+  LOG_PROTOCOL,
+  LOG_PATH,
   FRONTEND_LOGIN,
   ENTITY_ID,
   ASSERT_ENDPOINT,
@@ -38,8 +41,11 @@ const {
 
 module.exports = {
   NODE_ENV,
+  LOG_HOSTNAME,
   LOG_PORT,
   LOG_HOST,
+  LOG_PROTOCOL,
+  LOG_PATH,
   dialect: 'postgres',
   username: DB_USER,
   password: DB_PASS,
