@@ -28,7 +28,7 @@
         "pg-hstore": "^2.3.3",
         "saml2-js": "^2.0.3",
         "samlify": "^2.5.0-rc2",
-        "sequelize": "^4.44.3",
+        "sequelize": "^5.15.1",
         "sequelize-cli": "^4.1.1",
         "unfuck-utf8-headers-middleware": "^1.0.1",
         "winston": "^3.2.1",
