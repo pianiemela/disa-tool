@@ -1,0 +1,61 @@
+version: '3.4'
+ 
+services:
+  disa:
+    image: toska/disa-tool:latest
+    restart: unless-stopped
+    ports:
+     - "8000:8000"
+    environment:
+     - DB_NAME=disa_db
+     - DB_USER=postgres
+     - DB_PASS=xxx
+     - DB_HOST=db
+     - DB_PORT=5432
+     - SECRET=xxx
+     - SENTRY_ADDR=xxx
+     - LOG_HOST=graylog-ingest.toska.cs.helsinki.fi
+     - LOG_PORT=9502
+     - LOG_PATH=xxx
+     - ENTITY_ID=https://disa.cs.helsinki.fi
+     - FRONTEND_LOGIN=https://disa.cs.helsinki.fi/login
+     - ASSERT_ENDPOINT=https://disa.cs.helsinki.fi/api/saml/assert
+     - SSO_LOGIN_URL=https://disa.cs.helsinki.fi/login
+     - IDP_ENTITY_ID=https://haka.funet.fi/metadata/haka-metadata.xml
+    volumes:
+     - ./samldata:/usr/src/app/backend/samldata
+    container_name: disa
+    depends_on:
+     - db
+  db:
+    image: postgres:10
+    restart: unless-stopped
+    ports:
+     - "5432:5432"
+    environment:
+     - POSTGRES_USER=postgres
+     - POSTGRES_PASSWORD=xxx
+     - POSTGRES_DB=disa_db
+    volumes:
+     - ./disa_pgdata:/var/lib/postgresql/data
+    container_name: db
+ 
+  shibboleth:
+    image: villevaltonen/shibboleth-sp
+    restart: unless-stopped
+    ports:
+      - "8081:443"
+    volumes:
+      - ./shibboleth/shibboleth2.xml:/etc/shibboleth/shibboleth2.xml
+      - ./shibboleth/attribute-map.xml:/etc/shibboleth/attribute-map.xml
+      - ./shibboleth/shib.conf:/etc/httpd/conf.d/shib.conf
+      - ./shibboleth/ssl.conf:/etc/httpd/conf.d/ssl.conf
+      - ./shibboleth/certs:/etc/pki/tls/certs
+      - ./shibboleth/sign-login.helsinki.fi.crt:/etc/shibboleth/sign-login.helsinki.fi.crt
+      - ./shibboleth/httpd.conf:/etc/httpd/conf/httpd.conf
+    container_name: shibboleth
+ 
+networks:
+  default:
+    external:
+      name: disacshelsinkifi_default
