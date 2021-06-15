@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   db:
     image: postgres:10
     ports:
@@ -12,3 +13,32 @@ services:
     volumes:
       - ./disa_pgdata:/var/lib/postgresql/data
     container_name: disa_db
+    networks:
+      - disa_app
+
+  back:
+    build: './backend'
+    ports:
+      - '8000:8000'
+    container_name: disa_back
+    depends_on: 
+      - 'db'
+    networks:
+      - disa_app
+
+  front: 
+    build: './frontend'
+    network_mode: 'host'
+    container_name: disa_front
+    depends_on:
+      - 'back'
+      - 'db'
+
+networks:
+  disa_app:
+    driver: bridge
+
+
+
+
+
